@@ -66,10 +66,12 @@ namespace SDF::UILayer {
 
         // Fill out a document spec with the gathered information for this document.
         SDocumentSpec documentSpec;
+        documentSpec.documentWidthPx = m_newDocumentDimensionCalc.getCurrentPixelWidth();
         documentSpec.documentWidth = m_newDocumentDimensionCalc.getWidthInCurrentUnits();
         documentSpec.widthUnit = m_newDocumentDimensionCalc.getWidthUnit();
 
-        documentSpec.documentHeight = m_newDocumentDimensionCalc.getHeightInCurrentUnits();;
+        documentSpec.documentHeightPx = m_newDocumentDimensionCalc.getCurrentPixelHeight();
+        documentSpec.documentHeight = m_newDocumentDimensionCalc.getHeightInCurrentUnits();
         documentSpec.heightUnit = m_newDocumentDimensionCalc.getHeightUnit();
 
         documentSpec.documentResolution = m_newDocumentDimensionCalc.getResolutionInCurrentUnits();

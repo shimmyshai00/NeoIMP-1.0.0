@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CApplication.cpp
- * PURPOSE: Implementation of the CApplication class.
+ * FILE:    CQtUILayer.cpp
+ * PURPOSE: Implementation of the Qt-based UI layer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,42 +21,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Impl/Qt/CApplication.hpp>
+#include <Impl/Qt/CQtUILayer.hpp>
 #include <SDF/ModelLayer/Iface/IModelLayer.hpp>
 
 namespace SDF::UILayer {
   namespace Impl {
     namespace Qt {
-      CApplication::CApplication(int argc, char *argv[])
-      : m_argc(argc),
-        m_argv(argv),
-        m_q(std::make_unique<QApplication>(m_argc, m_argv)),
-        m_mainWindow(std::make_unique<Windows::CMainWindow>()),
-        m_isStarted(false)
-      {
-        SDF::ModelLayer::Iface::IModelLayer::getInstance()->injectDocumentModel(m_mainWindow.get());
+      CQtUILayer::CQtUILayer() {
+
       }
 
-      CApplication::~CApplication() {
-        assert(m_mainWindow);
-        assert(m_q);
-
-        m_mainWindow.release();
-        m_q.release(); // must be destroyed BEFORE m_argc and m_argv
+      void CQtUILayer::prepareApplication(int argc, char *argv[]) {
+        m_application = std::make_unique<CApplication>(argc, argv);
+        SDF::ModelLayer::Iface::IModelLayer::getInstance()->injectDocumentModel(m_application.get());
       }
 
-      int CApplication::start() {
-        assert(m_mainWindow);
-        assert(m_q);
+      int CQtUILayer::runMainLoop() {
+        assert(m_application);
 
-        if(!m_isStarted) {
-          m_isStarted = true;
-          m_mainWindow->show();
-          return m_q->exec();
-        } else {
-          return -1;
-        }
+        return m_application->start();
       }
+    }
+  }
+
+  namespace Iface {
+    // Singleton access.
+    IUILayer *IUILayer::getInstance() {
+      static std::unique_ptr<Impl::Qt::CQtUILayer> instance(std::make_unique<Impl::Qt::CQtUILayer>());
+      return instance.get();
     }
   }
 }
