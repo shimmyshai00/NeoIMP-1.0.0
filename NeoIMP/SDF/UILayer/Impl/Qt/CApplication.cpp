@@ -22,20 +22,22 @@
  */
 
 #include <Impl/Qt/CApplication.hpp>
-#include <SDF/ModelLayer/Iface/IModelLayer.hpp>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt {
+#include <Impl/Qt/Windows/CMainWindow.hpp>
+#include <SDF/ModelLayer/include/IModelLayer.hpp>
+
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt {
       CApplication::CApplication(int argc, char *argv[])
-      : m_documentModel(nullptr),
-        m_argc(argc),
+      : m_argc(argc),
         m_argv(argv),
         m_q(std::make_unique<QApplication>(m_argc, m_argv)),
         m_mainWindow(std::make_unique<Windows::CMainWindow>()),
         m_isStarted(false)
-      {
-      }
+        {
+          SDF::ModelLayer::IModelLayer::getInstance()->injectDocumentModel(*m_mainWindow);
+        }
 
       CApplication::~CApplication() {
         assert(m_mainWindow);
@@ -45,14 +47,7 @@ namespace SDF::UILayer {
         m_q.release(); // must be destroyed BEFORE m_argc and m_argv
       }
 
-      void CApplication::injectWith(SDF::ModelLayer::Iface::IDocumentModel *documentModel) {
-        m_documentModel = documentModel;
-        m_documentModel->injectDocumentService(m_mainWindow.get());
-        m_documentModel->injectDocumentMeasurementsService(m_mainWindow.get());
-      }
-
       int CApplication::start() {
-        assert(m_documentModel != nullptr);
         assert(m_mainWindow);
         assert(m_q);
 

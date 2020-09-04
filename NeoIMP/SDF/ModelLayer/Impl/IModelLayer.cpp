@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IModelLayer.cpp
- * PURPOSE: Singleton method to get the concrete model layer object.
+ * PURPOSE: Singleton implementation for the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Iface/IModelLayer.hpp>
+#include <IModelLayer.hpp>
+
 #include <Impl/CModelLayer.hpp>
-#include <memory>
 
 namespace SDF::ModelLayer {
-  namespace Iface {
-    // Singleton access.
-    IModelLayer *IModelLayer::getInstance() {
-      static std::unique_ptr<Impl::CModelLayer> inst(std::make_unique<Impl::CModelLayer>());
-      return inst.get();
-    }
+  IModelLayer *IModelLayer::getInstance() {
+    static std::unique_ptr<Impl::CModelLayer> inst(new Impl::CModelLayer);
+    return inst.get();
   }
 }

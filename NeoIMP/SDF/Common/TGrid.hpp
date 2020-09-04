@@ -26,23 +26,25 @@
 
 #include <vector>
 
-namespace SDF::Common {
-  template<class T>
-  class TGrid {
-  public:
-    TGrid(int width, int height);
+namespace SDF {
+  namespace Common {
+    template<class T>
+    class TGrid {
+    public:
+      TGrid(int width, int height);
 
-    int getWidth() const;
-    int getHeight() const;
+      int getWidth() const;
+      int getHeight() const;
 
-    T &operator()(int x, int y);
-    const T &operator()(int x, int y) const;
-  private:
-    int m_width;
-    int m_height;
+      T &operator()(int x, int y);
+      const T &operator()(int x, int y) const;
+    private:
+      int m_width;
+      int m_height;
 
-    std::vector<T> m_elements;
-  };
+      std::vector<T> m_elements;
+    };
+  }
 }
 
 #include "SDF/Common/TGrid.tpp"

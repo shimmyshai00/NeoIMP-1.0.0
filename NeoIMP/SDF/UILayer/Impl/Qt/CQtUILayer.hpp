@@ -24,13 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Iface/IUILayer.hpp>
-#include <CApplication.hpp>
+#include <IUILayer.hpp>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt {
-      class CQtUILayer : public Iface::IUILayer {
+#include <memory>
+
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt {
+      class CApplication;
+
+      class CQtUILayer : public IUILayer {
       public:
         CQtUILayer();
 

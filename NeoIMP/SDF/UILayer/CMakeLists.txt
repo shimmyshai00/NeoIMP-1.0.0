@@ -1,8 +1,12 @@
-add_library(UILayer "")
-target_include_directories(UILayer PUBLIC Iface)
-target_include_directories(UILayer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR})
+add_library(UILayer STATIC
+  Impl/Qt/Resources/Icons.qrc
+  Impl/Qt/Dialogs/CNewDocumentDimensionCalc.cpp
+  Impl/Qt/Dialogs/CNewDocumentDialog.cpp
+  Impl/Qt/Windows/CMainWindow.cpp
+  Impl/Qt/CApplication.cpp
+  Impl/Qt/CQtUILayer.cpp
+  Impl/Qt/IUILayer.cpp)
 
-add_subdirectory(Iface)
-add_subdirectory(Impl)
-
-target_link_libraries(UILayer PRIVATE ModelLayer)
+target_include_directories(UILayer PRIVATE ${CMAKE_SOURCE_DIR} .)
+target_include_directories(UILayer PUBLIC include)
+target_link_libraries(UILayer ModelLayer Qt5::Widgets)

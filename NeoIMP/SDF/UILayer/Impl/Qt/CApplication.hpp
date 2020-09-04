@@ -24,16 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Iface/IDocumentModelDependency.hpp>
-#include <SDF/ModelLayer/Iface/IDocumentModel.hpp>
-#include <Impl/Qt/Windows/CMainWindow.hpp>
 #include <QApplication>
 #include <memory>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt {
-      class CApplication : public SDF::ModelLayer::Iface::IDocumentModelDependency {
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt {
+      namespace Windows {
+        class CMainWindow;
+      }
+
+      class CApplication {
       public:
         CApplication(int argc, char *argv[]);
         CApplication(const CApplication &) = delete;
@@ -43,12 +44,8 @@ namespace SDF::UILayer {
         CApplication &operator=(const CApplication &) = delete;
         CApplication &operator=(CApplication &&) = delete;
 
-        void injectWith(SDF::ModelLayer::Iface::IDocumentModel *documentModel);
-
         int start();
       private:
-        SDF::ModelLayer::Iface::IDocumentModel *m_documentModel;
-
         // ugly, but to appease QT ...
         int m_argc;
         char **m_argv;

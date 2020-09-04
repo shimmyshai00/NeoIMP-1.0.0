@@ -22,36 +22,39 @@
  */
 
 #include <SDF/Common/TGrid.hpp>
+
 #include <cassert>
 
-namespace SDF::Common {
-  template<class T>
-  TGrid<T>::TGrid(int width, int height)
-  : m_width(width),
-    m_height(height),
-    m_elements(width*height)
-    {
+namespace SDF {
+  namespace Common {
+    template<class T>
+    TGrid<T>::TGrid(int width, int height)
+    : m_width(width),
+      m_height(height),
+      m_elements(width*height)
+      {
+      }
+
+    template<class T>
+    int TGrid<T>::getWidth() const {
+      return m_width;
     }
 
-  template<class T>
-  int TGrid<T>::getWidth() const {
-    return m_width;
-  }
+    template<class T>
+    int TGrid<T>::getHeight() const {
+      return m_height;
+    }
 
-  template<class T>
-  int TGrid<T>::getHeight() const {
-    return m_height;
-  }
+    template<class T>
+    T &TGrid<T>::operator()(int x, int y) {
+      assert(((0 <= x) && (x < m_width)) && ((0 <= y) && (y < m_height)));
+      return m_elements[m_height*y + x];
+    }
 
-  template<class T>
-  T &TGrid<T>::operator()(int x, int y) {
-    assert(((0 <= x) && (x < m_width)) && ((0 <= y) && (y < m_height)));
-    return m_elements[m_height*y + x];
-  }
-
-  template<class T>
-  const T &TGrid<T>::operator()(int x, int y) const {
-    assert(((0 <= x) && (x < m_width)) && ((0 <= y) && (y < m_height)));
-    return m_elements[m_height*y + x];
+    template<class T>
+    const T &TGrid<T>::operator()(int x, int y) const {
+      assert(((0 <= x) && (x < m_width)) && ((0 <= y) && (y < m_height)));
+      return m_elements[m_height*y + x];
+    }
   }
 }

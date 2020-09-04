@@ -25,6 +25,8 @@
  */
 
 #include <SDF/SafeString.hpp>
+
+#include <exception>
 #include <cstdarg>
 
 namespace SDF {
@@ -44,7 +46,7 @@ namespace SDF {
 				return whatString.get();
 			}
 		private:
-			SafeString whatString;
+			SDF::SafeString whatString;
 	};
 }
 

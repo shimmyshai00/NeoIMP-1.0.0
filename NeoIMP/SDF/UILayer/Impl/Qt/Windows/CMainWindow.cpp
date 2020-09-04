@@ -8,19 +8,20 @@
  */
 
 #include <Impl/Qt/Windows/CMainWindow.hpp>
-#include <Impl/Qt/Dialogs/CNewDocumentDialog.hpp>
 #include <ui_MainWindow.h>
+
+#include <SDF/ModelLayer/DocumentModel/include/IDocumentModel.hpp>
+#include <Impl/Qt/Dialogs/CNewDocumentDialog.hpp>
 
 #include <iostream>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt::Windows {
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt::Windows {
       CMainWindow::CMainWindow(QWidget *parent)
-        : QMainWindow(parent),
-          m_ui(new Ui::MainWindow),
-          m_documentService(nullptr),
-          m_documentMeasurementsService(nullptr)
+      : QMainWindow(parent),
+        m_ui(new Ui::MainWindow),
+        m_documentModel(nullptr)
         {
           m_ui->setupUi(this);
         }
@@ -29,29 +30,17 @@ namespace SDF::UILayer {
         delete m_ui;
       }
 
-      void CMainWindow::injectWith(SDF::ModelLayer::Iface::IDocumentService *documentService) {
-        m_documentService = documentService;
+      void CMainWindow::injectWith(ModelLayer::DocumentModel::IDocumentModel *documentModel) {
+        m_documentModel = documentModel;
       }
 
-      void CMainWindow::injectWith(SDF::ModelLayer::Iface::IDocumentMeasurementsService *service) {
-        m_documentMeasurementsService = service;
-      }
-
-      // Private members.
+      // Private member.
       void CMainWindow::on_action_New_triggered() {
-        using namespace SDF::ModelLayer::Iface;
+        assert(m_documentModel != nullptr);
 
-        assert(m_documentService != nullptr);
-        assert(m_documentMeasurementsService != nullptr);
-
-        Dialogs::CNewDocumentDialog dialog(this);
-        dialog.injectWith(m_documentMeasurementsService);
-        dialog.exec();
-
-        if(dialog.result() == QDialog::Accepted) {
-          DocumentHandle handle(m_documentService->createDocument(dialog.getDocumentSpec()));
-          m_openDocumentHandles.push_back(handle);
-        }
+        Dialogs::CNewDocumentDialog newDocumentDialog;
+        m_documentModel->injectDocumentMeasurementsService(newDocumentDialog);
+        newDocumentDialog.exec();
       }
     }
   }

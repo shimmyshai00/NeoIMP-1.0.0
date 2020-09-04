@@ -13,12 +13,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-include_directories(${CMAKE_PROJECT_DIR})
+include_directories(${PROJECT_SOURCE_DIR})
+
+add_executable(neoimp neoimp.cpp)
 
 add_subdirectory(SDF)
 
-add_executable(neoimp
-  neoimp.cpp
-)
-
-target_link_libraries(neoimp LINK_PUBLIC SDF)
+target_link_libraries(neoimp SDF)

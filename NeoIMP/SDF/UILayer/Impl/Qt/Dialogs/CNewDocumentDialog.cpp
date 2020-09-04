@@ -24,18 +24,20 @@
 #include <Impl/Qt/Dialogs/CNewDocumentDialog.hpp>
 #include <ui_NewDocumentDialog.h>
 
-#include <SDF/ModelLayer/Iface/Param/SDocumentSpec.hpp>
+#include <Impl/Qt/Dialogs/CNewDocumentDimensionCalc.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/SDocumentSpec.hpp>
+
 #include <cassert>
 #include <iostream>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt::Dialogs {
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt::Dialogs {
       CNewDocumentDialog::CNewDocumentDialog(QWidget *parent)
         : QDialog(parent),
           m_ui(new Ui::NewDocumentDialog),
-          m_colorModel(SDF::ModelLayer::Iface::Param::COLOR_MODEL_RGB),
-          m_bitDepth(SDF::ModelLayer::Iface::Param::BIT_DEPTH_8)
+          m_colorModel(SDF::ModelLayer::DocumentModel::Spec::COLOR_MODEL_RGB),
+          m_bitDepth(SDF::ModelLayer::DocumentModel::Spec::BIT_DEPTH_8)
         {
           m_ui->setupUi(this);
         }
@@ -44,7 +46,8 @@ namespace SDF::UILayer {
         delete m_ui;
       }
 
-      void CNewDocumentDialog::injectWith(SDF::ModelLayer::Iface::IDocumentMeasurementsService *measurementsService) {
+      void CNewDocumentDialog::injectWith(
+        ModelLayer::DocumentModel::Services::IDocumentMeasurementsService *measurementsService) {
         assert(measurementsService != nullptr);
 
         m_newDocumentDimensionCalc.injectWith(measurementsService);
@@ -61,8 +64,8 @@ namespace SDF::UILayer {
         syncToInternalState(true);
       }
 
-      SDF::ModelLayer::Iface::Param::SDocumentSpec CNewDocumentDialog::getDocumentSpec() const {
-        using namespace SDF::ModelLayer::Iface::Param;
+      SDF::ModelLayer::DocumentModel::Spec::SDocumentSpec CNewDocumentDialog::getDocumentSpec() const {
+        using SDF::ModelLayer::DocumentModel::Spec::SDocumentSpec;
 
         // Fill out a document spec with the gathered information for this document.
         SDocumentSpec documentSpec;
@@ -93,7 +96,7 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::widthUnitChanged() {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit;
 
         m_newDocumentDimensionCalc.updateWidthUnit(
           static_cast<EDimensionUnit>(m_ui->imageWidthUnitBox->currentData().toInt()));
@@ -101,7 +104,7 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::heightUnitChanged() {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit;
 
         m_newDocumentDimensionCalc.updateHeightUnit(
           static_cast<EDimensionUnit>(m_ui->imageHeightUnitBox->currentData().toInt()));
@@ -113,7 +116,7 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::resolutionUnitChanged() {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using SDF::ModelLayer::DocumentModel::Spec::EResolutionUnit;
 
         m_newDocumentDimensionCalc.updateResolutionUnit(
           static_cast<EResolutionUnit>(m_ui->imageResolutionUnitBox->currentData().toInt()));
@@ -121,19 +124,20 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::colorModelChanged() {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using SDF::ModelLayer::DocumentModel::Spec::EColorModel;
 
         m_colorModel = static_cast<EColorModel>(m_ui->colorModelBox->currentData().toInt());
       }
 
       void CNewDocumentDialog::bitDepthChanged() {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using SDF::ModelLayer::DocumentModel::Spec::EBitDepth;
 
         m_bitDepth = static_cast<EBitDepth>(m_ui->bitDepthBox->currentData().toInt());
       }
 
       void CNewDocumentDialog::populateComboBoxWithDimensionUnits(QComboBox *comboBox) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(comboBox != nullptr);
 
         // Note: items should be in the same order as they appear in the EDimensionUnit enum.
@@ -146,7 +150,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::populateComboBoxWithResolutionUnits(QComboBox *comboBox) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(comboBox != nullptr);
 
         comboBox->addItem("per in", QVariant(UNIT_PIXELS_PER_INCH));
@@ -155,7 +160,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::populateComboBoxWithColorModels(QComboBox *comboBox) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(comboBox != nullptr);
 
         comboBox->addItem("RGB", QVariant(COLOR_MODEL_RGB));
@@ -163,7 +169,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::populateComboBoxWithBitDepths(QComboBox *comboBox) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(comboBox != nullptr);
 
         comboBox->addItem("8", QVariant(BIT_DEPTH_8));
@@ -173,7 +180,7 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDialog::syncToInternalState(bool syncComboBoxes) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
 
         if(m_newDocumentDimensionCalc.getWidthUnit() == UNIT_PIXEL) {
           m_ui->imageWidthEdit->setText(QString::number(m_newDocumentDimensionCalc.getCurrentPixelWidth()));

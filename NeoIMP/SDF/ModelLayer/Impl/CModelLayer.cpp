@@ -21,17 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <CModelLayer.hpp>
+#include <Impl/CModelLayer.hpp>
 
-namespace SDF::ModelLayer {
-  namespace Impl {
-    CModelLayer::CModelLayer()
-    : m_documentModel(DocumentModel::Iface::IDocumentModel::create()) {
+#include <DocumentModel/include/IDocumentModel.hpp>
+#include <DocumentModel/include/IDocumentModelDependency.hpp>
 
-    }
+namespace SDF::ModelLayer::Impl {
+  CModelLayer::CModelLayer()
+  : m_documentModel(DocumentModel::IDocumentModel::create())
+  {
+  }
 
-    void CModelLayer::injectDocumentModel(Iface::IDocumentModelDependency *dep) {
-      dep->injectWith(m_documentModel.get());
-    }
+  void CModelLayer::injectDocumentModel(DocumentModel::IDocumentModelDependency &dep) {
+    dep.injectWith(m_documentModel.get());
   }
 }

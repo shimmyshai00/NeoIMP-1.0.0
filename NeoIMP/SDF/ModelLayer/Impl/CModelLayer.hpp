@@ -24,22 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Iface/IModelLayer.hpp>
-#include <Iface/IDocumentModelDependency.hpp>
-#include <Impl/DocumentModel/Iface/IDocumentModel.hpp>
+#include <IModelLayer.hpp>
+#include <DocumentModel/include/IDocumentModel.hpp>
+
 #include <memory>
 
-namespace SDF::ModelLayer {
-  namespace Impl {
-    class CModelLayer : public Iface::IModelLayer {
-    public:
-      CModelLayer();
+namespace SDF::ModelLayer::Impl {
+  class CModelLayer : public SDF::ModelLayer::IModelLayer {
+  public:
+    CModelLayer();
 
-      void injectDocumentModel(Iface::IDocumentModelDependency *dep);
-    private:
-      std::unique_ptr<DocumentModel::Iface::IDocumentModel> m_documentModel;
-    };
-  }
+    void injectDocumentModel(DocumentModel::IDocumentModelDependency &dep);
+  private:
+    std::unique_ptr<DocumentModel::IDocumentModel> m_documentModel;
+  };
 }
 
 #endif

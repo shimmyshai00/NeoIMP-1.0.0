@@ -20,9 +20,9 @@
  * PURPOSE: The main program entry point.
  */
 
-#include <SDF/UILayer/Iface/IUILayer.hpp>
+#include <SDF/UILayer/include/IUILayer.hpp>
 
 int main(int argc, char **argv) {
-  SDF::UILayer::Iface::IUILayer::getInstance()->prepareApplication(argc, argv);
-  return SDF::UILayer::Iface::IUILayer::getInstance()->runMainLoop();
+  SDF::UILayer::IUILayer::getInstance()->prepareApplication(argc, argv);
+  return SDF::UILayer::IUILayer::getInstance()->runMainLoop();
 }

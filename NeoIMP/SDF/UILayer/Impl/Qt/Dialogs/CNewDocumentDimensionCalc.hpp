@@ -25,19 +25,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Iface/IDocumentMeasurementsServiceDependency.hpp>
-#include <SDF/ModelLayer/Iface/IDocumentMeasurementsService.hpp>
-#include <SDF/ModelLayer/Iface/Param/EDimensionUnit.hpp>
-#include <SDF/ModelLayer/Iface/Param/EResolutionUnit.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentMeasurementsServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentMeasurementsService.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/EDimensionUnit.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/EResolutionUnit.hpp>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt::Dialogs {
-      class CNewDocumentDimensionCalc : public SDF::ModelLayer::Iface::IDocumentMeasurementsServiceDependency {
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt::Dialogs {
+      class CNewDocumentDimensionCalc : public ModelLayer::DocumentModel::Services::IDocumentMeasurementsServiceDependency {
       public: // NB: enforce pixel/unit-value separation throughout program? (i.e. separate dimensionalities)
         CNewDocumentDimensionCalc();
 
-        void injectWith(SDF::ModelLayer::Iface::IDocumentMeasurementsService *measurementsService);
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentMeasurementsService *measurementsService);
 
         int getCurrentPixelWidth() const;
         int getCurrentPixelHeight() const;
@@ -51,9 +51,9 @@ namespace SDF::UILayer {
         float getHeightInCurrentUnits() const;
         float getResolutionInCurrentUnits() const;
 
-        SDF::ModelLayer::Iface::Param::EDimensionUnit getWidthUnit() const;
-        SDF::ModelLayer::Iface::Param::EDimensionUnit getHeightUnit() const;
-        SDF::ModelLayer::Iface::Param::EResolutionUnit getResolutionUnit() const;
+        ModelLayer::DocumentModel::Spec::EDimensionUnit getWidthUnit() const;
+        ModelLayer::DocumentModel::Spec::EDimensionUnit getHeightUnit() const;
+        ModelLayer::DocumentModel::Spec::EResolutionUnit getResolutionUnit() const;
 
         void updatePixelWidth(int newPixelWidth);
         void updatePixelHeight(int newPixelHeight);
@@ -67,11 +67,11 @@ namespace SDF::UILayer {
         void updateHeightInCurrentUnits(float newUnitHeight);
         void updateResolutionInCurrentUnits(float newUnitResolution);
 
-        void updateWidthUnit(SDF::ModelLayer::Iface::Param::EDimensionUnit newWidthUnit);
-        void updateHeightUnit(SDF::ModelLayer::Iface::Param::EDimensionUnit newHeightUnit);
-        void updateResolutionUnit(SDF::ModelLayer::Iface::Param::EResolutionUnit newResolutionUnit);
+        void updateWidthUnit(ModelLayer::DocumentModel::Spec::EDimensionUnit newWidthUnit);
+        void updateHeightUnit(ModelLayer::DocumentModel::Spec::EDimensionUnit newHeightUnit);
+        void updateResolutionUnit(ModelLayer::DocumentModel::Spec::EResolutionUnit newResolutionUnit);
       private:
-        SDF::ModelLayer::Iface::IDocumentMeasurementsService *m_documentMeasurementsService;
+        ModelLayer::DocumentModel::Services::IDocumentMeasurementsService *m_documentMeasurementsService;
 
         int m_currentPixelWidth;
         int m_currentPixelHeight;
@@ -81,9 +81,9 @@ namespace SDF::UILayer {
 
         int m_currentPpi;
 
-        SDF::ModelLayer::Iface::Param::EDimensionUnit m_widthUnit;
-        SDF::ModelLayer::Iface::Param::EDimensionUnit m_heightUnit;
-        SDF::ModelLayer::Iface::Param::EResolutionUnit m_resolutionUnit;
+        ModelLayer::DocumentModel::Spec::EDimensionUnit m_widthUnit;
+        ModelLayer::DocumentModel::Spec::EDimensionUnit m_heightUnit;
+        ModelLayer::DocumentModel::Spec::EResolutionUnit m_resolutionUnit;
       };
     }
   }

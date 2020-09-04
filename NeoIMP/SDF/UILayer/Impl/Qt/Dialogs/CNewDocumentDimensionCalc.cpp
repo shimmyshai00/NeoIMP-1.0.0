@@ -22,13 +22,14 @@
  */
 
 #include <Impl/Qt/Dialogs/CNewDocumentDimensionCalc.hpp>
+
 #include <cassert>
 #include <cmath>
 #include <iostream>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt::Dialogs {
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt::Dialogs {
       CNewDocumentDimensionCalc::CNewDocumentDimensionCalc()
       : m_documentMeasurementsService(nullptr),
         m_currentPixelWidth(720),
@@ -36,14 +37,14 @@ namespace SDF::UILayer {
         m_currentInchWidth(6.00f),
         m_currentInchHeight(4.00f),
         m_currentPpi(120),
-        m_widthUnit(SDF::ModelLayer::Iface::Param::UNIT_PIXEL),
-        m_heightUnit(SDF::ModelLayer::Iface::Param::UNIT_PIXEL),
-        m_resolutionUnit(SDF::ModelLayer::Iface::Param::UNIT_PIXELS_PER_INCH)
+        m_widthUnit(ModelLayer::DocumentModel::Spec::UNIT_PIXEL),
+        m_heightUnit(ModelLayer::DocumentModel::Spec::UNIT_PIXEL),
+        m_resolutionUnit(ModelLayer::DocumentModel::Spec::UNIT_PIXELS_PER_INCH)
         {
         }
 
       void CNewDocumentDimensionCalc::injectWith(
-        SDF::ModelLayer::Iface::IDocumentMeasurementsService *measurementsService) {
+        ModelLayer::DocumentModel::Services::IDocumentMeasurementsService *measurementsService) {
         assert(measurementsService != nullptr);
 
         m_documentMeasurementsService = measurementsService;
@@ -80,7 +81,8 @@ namespace SDF::UILayer {
       }
 
       float CNewDocumentDimensionCalc::getWidthInCurrentUnits() const {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         if(m_widthUnit != UNIT_PIXEL) {
@@ -91,7 +93,8 @@ namespace SDF::UILayer {
       }
 
       float CNewDocumentDimensionCalc::getHeightInCurrentUnits() const {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         if(m_heightUnit != UNIT_PIXEL) {
@@ -102,26 +105,27 @@ namespace SDF::UILayer {
       }
 
       float CNewDocumentDimensionCalc::getResolutionInCurrentUnits() const {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         return m_documentMeasurementsService->convertResolutionUnits(m_currentPpi, UNIT_PIXELS_PER_INCH,
           m_resolutionUnit);
       }
 
-      SDF::ModelLayer::Iface::Param::EDimensionUnit CNewDocumentDimensionCalc::getWidthUnit() const {
+      SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit CNewDocumentDimensionCalc::getWidthUnit() const {
         assert(m_documentMeasurementsService != nullptr);
 
         return m_widthUnit;
       }
 
-      SDF::ModelLayer::Iface::Param::EDimensionUnit CNewDocumentDimensionCalc::getHeightUnit() const {
+      SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit CNewDocumentDimensionCalc::getHeightUnit() const {
         assert(m_documentMeasurementsService != nullptr);
 
         return m_heightUnit;
       }
 
-      SDF::ModelLayer::Iface::Param::EResolutionUnit CNewDocumentDimensionCalc::getResolutionUnit() const {
+      SDF::ModelLayer::DocumentModel::Spec::EResolutionUnit CNewDocumentDimensionCalc::getResolutionUnit() const {
         assert(m_documentMeasurementsService != nullptr);
 
         return m_resolutionUnit;
@@ -184,7 +188,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDimensionCalc::updateWidthInCurrentUnits(float newUnitWidth) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         if(m_widthUnit != UNIT_PIXEL) {
@@ -199,7 +204,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDimensionCalc::updateHeightInCurrentUnits(float newUnitHeight) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         if(m_heightUnit != UNIT_PIXEL) {
@@ -215,7 +221,8 @@ namespace SDF::UILayer {
       }
 
       void CNewDocumentDimensionCalc::updateResolutionInCurrentUnits(float newUnitResolution) {
-        using namespace SDF::ModelLayer::Iface::Param;
+        using namespace SDF::ModelLayer::DocumentModel::Spec;
+
         assert(m_documentMeasurementsService != nullptr);
 
         if(newUnitResolution >= 0.0f) {
@@ -226,24 +233,24 @@ namespace SDF::UILayer {
         }
       }
 
-      void CNewDocumentDimensionCalc::updateWidthUnit(SDF::ModelLayer::Iface::Param::EDimensionUnit newWidthUnit) {
+      void CNewDocumentDimensionCalc::updateWidthUnit(SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit newWidthUnit) {
         assert(m_documentMeasurementsService != nullptr);
 
         m_widthUnit = newWidthUnit;
       }
 
-      void CNewDocumentDimensionCalc::updateHeightUnit(SDF::ModelLayer::Iface::Param::EDimensionUnit newHeightUnit) {
+      void CNewDocumentDimensionCalc::updateHeightUnit(SDF::ModelLayer::DocumentModel::Spec::EDimensionUnit newHeightUnit) {
         assert(m_documentMeasurementsService != nullptr);
 
         m_heightUnit = newHeightUnit;
       }
 
       void CNewDocumentDimensionCalc::updateResolutionUnit(
-        SDF::ModelLayer::Iface::Param::EResolutionUnit newResolutionUnit) {
-        assert(m_documentMeasurementsService != nullptr);
+        SDF::ModelLayer::DocumentModel::Spec::EResolutionUnit newResolutionUnit) {
+          assert(m_documentMeasurementsService != nullptr);
 
-        m_resolutionUnit = newResolutionUnit;
-      }
+          m_resolutionUnit = newResolutionUnit;
+        }
     }
   }
 }

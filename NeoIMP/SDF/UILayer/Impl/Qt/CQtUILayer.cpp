@@ -22,18 +22,18 @@
  */
 
 #include <Impl/Qt/CQtUILayer.hpp>
-#include <SDF/ModelLayer/Iface/IModelLayer.hpp>
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt {
+#include <Impl/Qt/CApplication.hpp>
+
+namespace SDF {
+  namespace UILayer {
+    namespace Impl::Qt {
       CQtUILayer::CQtUILayer() {
 
       }
 
       void CQtUILayer::prepareApplication(int argc, char *argv[]) {
         m_application = std::make_unique<CApplication>(argc, argv);
-        SDF::ModelLayer::Iface::IModelLayer::getInstance()->injectDocumentModel(m_application.get());
       }
 
       int CQtUILayer::runMainLoop() {
@@ -41,14 +41,6 @@ namespace SDF::UILayer {
 
         return m_application->start();
       }
-    }
-  }
-
-  namespace Iface {
-    // Singleton access.
-    IUILayer *IUILayer::getInstance() {
-      static std::unique_ptr<Impl::Qt::CQtUILayer> instance(std::make_unique<Impl::Qt::CQtUILayer>());
-      return instance.get();
     }
   }
 }

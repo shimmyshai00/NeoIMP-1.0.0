@@ -24,32 +24,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <Impl/Qt/Dialogs/CNewDocumentDimensionCalc.hpp>
+
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentMeasurementsServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/EColorModel.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/EBitDepth.hpp>
+
 #include <QDialog>
 #include <QComboBox>
-
-#include <SDF/ModelLayer/Iface/IDocumentServiceDependency.hpp>
-#include <SDF/ModelLayer/Iface/IDocumentMeasurementsServiceDependency.hpp>
-#include <SDF/ModelLayer/Iface/Param/SDocumentSpec.hpp>
-
-#include <Impl/Qt/Dialogs/CNewDocumentDimensionCalc.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer {
-  namespace Impl {
-    namespace Qt::Dialogs {
+namespace SDF {
+  namespace ModelLayer {
+    namespace DocumentModel {
+      namespace Spec {
+        struct SDocumentSpec;
+      }
+    }
+  }
+
+  namespace UILayer {
+    namespace Impl::Qt::Dialogs {
       class CNewDocumentDialog : public QDialog,
-      public SDF::ModelLayer::Iface::IDocumentMeasurementsServiceDependency {
+      public ModelLayer::DocumentModel::Services::IDocumentMeasurementsServiceDependency {
         Q_OBJECT
       public:
         CNewDocumentDialog(QWidget *parent = nullptr);
         ~CNewDocumentDialog();
 
-        void injectWith(SDF::ModelLayer::Iface::IDocumentMeasurementsService *measurementsService);
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentMeasurementsService *measurementsService);
 
-        SDF::ModelLayer::Iface::Param::SDocumentSpec getDocumentSpec() const;
+        ModelLayer::DocumentModel::Spec::SDocumentSpec getDocumentSpec() const;
       private slots:
         void widthChanged();
         void heightChanged();
@@ -63,8 +71,8 @@ namespace SDF::UILayer {
         Ui::NewDocumentDialog *m_ui;
 
         CNewDocumentDimensionCalc m_newDocumentDimensionCalc;
-        SDF::ModelLayer::Iface::Param::EColorModel m_colorModel;
-        SDF::ModelLayer::Iface::Param::EBitDepth m_bitDepth;
+        ModelLayer::DocumentModel::Spec::EColorModel m_colorModel;
+        ModelLayer::DocumentModel::Spec::EBitDepth m_bitDepth;
 
         void populateComboBoxWithDimensionUnits(QComboBox *comboBox);
         void populateComboBoxWithResolutionUnits(QComboBox *comboBox);
