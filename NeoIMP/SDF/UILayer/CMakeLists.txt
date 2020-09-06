@@ -1,5 +1,6 @@
 add_library(UILayer STATIC
   Impl/Qt/Resources/Icons.qrc
+  Impl/Qt/CustomWidgets/CRuler.cpp
   Impl/Qt/CustomWidgets/CImageEditor.cpp
   Impl/Qt/Dialogs/CNewDocumentDimensionCalc.cpp
   Impl/Qt/Dialogs/CNewDocumentDialog.cpp

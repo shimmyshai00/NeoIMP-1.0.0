@@ -23,12 +23,27 @@
 
 #include <Impl/Qt/CustomWidgets/CImageEditor.hpp>
 
+#include <Impl/Qt/CustomWidgets/CRuler.hpp>
+#include <iostream>
+
 namespace SDF {
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets {
-      CImageEditor::CImageEditor(QWidget *parent, int initialWidthPx, int initialHeightPx)
-      : QWidget(parent)
+      CImageEditor::CImageEditor(QWidget *parent, int initialImgWidthPx, int initialImgHeightPx)
+      : QWidget(parent),
+        m_topRuler(nullptr),
+        m_leftRuler(nullptr),
+        m_imageWidthPx(initialImgWidthPx),
+        m_imageHeightPx(initialImgHeightPx),
+        m_viewCenterX(m_imageWidthPx / 2),
+        m_viewCenterY(m_imageHeightPx / 2)
       {
+        m_topRuler = new CRuler(this, CRuler::SnapAtTop);
+        m_leftRuler = new CRuler(this, CRuler::SnapAtLeft);
+      }
+
+      void CImageEditor::paintEvent(QPaintEvent *event) {
+
       }
     }
   }

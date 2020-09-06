@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
-#define SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
+#ifndef SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CRULER_HPP
+#define SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CRULER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CImageEditor.hpp
- * PURPOSE: The Qt-based image editor widget.
+ * FILE:    CRuler.hpp
+ * PURPOSE: The Qt-based ruler widget, which is part of the image editor.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -29,27 +29,33 @@
 namespace SDF {
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets {
-      class CRuler;
-      
-      class CImageEditor : public QWidget {
+      class CRuler : public QWidget {
         Q_OBJECT
       public:
-        CImageEditor(QWidget *parent = nullptr, int initialImgWidthPx = 640, int initialImgHeightPx = 480);
-        ~CImageEditor() {}
+        CRuler(QWidget *parent = nullptr, int snapPos = SnapAtTop, int rulerThickness = 25);
+        ~CRuler() {}
+
+        QSize sizeHint() const;
+      public:
+        static constexpr int SnapAtTop = 0x0;
+        static constexpr int SnapAtLeft = 0x1;
+        static constexpr int SnapAtRight = 0x2;
+        static constexpr int SnapAtBottom = 0x3;
       private:
-        CRuler *m_topRuler;
-        CRuler *m_leftRuler;
+        int m_snapPos;
+        int m_rulerThickness;
 
-        int m_imageWidthPx;
-        int m_imageHeightPx;
+        int m_unitIntervalPixels;
+        int m_numMinorTicks;
 
-        int m_viewCenterX;
-        int m_viewCenterY;
+        int m_viewCenterCoordinate;
 
         void paintEvent(QPaintEvent *event);
+      private:
+        void drawWidget(QPainter &qp);
+        void paintMajorTick(QPainter &qp, int coord);
       };
     }
   }
 }
-
 #endif
