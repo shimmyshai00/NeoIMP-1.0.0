@@ -52,8 +52,8 @@ namespace SDF {
             }
 
         DocumentHandle CDocumentService::createDocument(Spec::SDocumentSpec documentSpec) {
-          using namespace SDF::ModelLayer::DocumentModel::Impl::DomainObjects;
-          using namespace SDF::ModelLayer::DocumentModel::Spec;
+          using namespace Impl::DomainObjects;
+          using namespace Spec;
 
           std::unique_ptr<CDocument> doc;
           Metrics::Resolution::Quantity resolution(Metrics::Resolution::fromSpec(documentSpec.documentResolution,
@@ -63,20 +63,25 @@ namespace SDF {
             doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, documentSpec.documentHeightPx, resolution,
               documentSpec.colorModel, documentSpec.bitDepth);
           } else if((documentSpec.widthUnit == UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
-            Metrics::Length::Quantity height(Metrics::Length::fromSpec(documentSpec.documentHeight, documentSpec.heightUnit));
+            Metrics::Length::Quantity height(Metrics::Length::fromSpec(
+              documentSpec.documentHeight, documentSpec.heightUnit));
 
             doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, height, resolution,
               documentSpec.colorModel, documentSpec.bitDepth);
           } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit == UNIT_PIXEL)) {
-            Metrics::Length::Quantity width(Metrics::Length::fromSpec(documentSpec.documentWidth, documentSpec.widthUnit));
+            Metrics::Length::Quantity width(Metrics::Length::fromSpec(
+              documentSpec.documentWidth, documentSpec.widthUnit));
 
             doc = std::make_unique<CDocument>(width, documentSpec.documentHeightPx, resolution,
               documentSpec.colorModel, documentSpec.bitDepth);
           } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
-            Metrics::Length::Quantity width(Metrics::Length::fromSpec(documentSpec.documentWidth, documentSpec.widthUnit));
-            Metrics::Length::Quantity height(Metrics::Length::fromSpec(documentSpec.documentHeight, documentSpec.heightUnit));
+            Metrics::Length::Quantity width(Metrics::Length::fromSpec(
+              documentSpec.documentWidth, documentSpec.widthUnit));
+            Metrics::Length::Quantity height(Metrics::Length::fromSpec(
+              documentSpec.documentHeight, documentSpec.heightUnit));
 
-            doc = std::make_unique<CDocument>(width, height, resolution, documentSpec.colorModel, documentSpec.bitDepth);
+            doc = std::make_unique<CDocument>(width, height, resolution,
+              documentSpec.colorModel, documentSpec.bitDepth);
           }
 
           m_documentRepository->addDocument(m_nextHandle, std::move(doc));

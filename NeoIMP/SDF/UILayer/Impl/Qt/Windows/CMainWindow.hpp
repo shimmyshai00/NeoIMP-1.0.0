@@ -21,6 +21,10 @@ QT_END_NAMESPACE
 namespace SDF {
   namespace ModelLayer {
     namespace DocumentModel {
+      namespace Spec {
+        struct SDocumentSpec;
+      }
+      
       class IDocumentModel;
     }
   }
@@ -39,6 +43,8 @@ namespace SDF {
       private:
         Ui::MainWindow *m_ui;
         ModelLayer::DocumentModel::IDocumentModel *m_documentModel;
+
+        void addDocument(std::string fileName, ModelLayer::DocumentModel::Spec::SDocumentSpec spec);
       };
     }
   }

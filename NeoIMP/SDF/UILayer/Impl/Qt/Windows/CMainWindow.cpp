@@ -11,7 +11,10 @@
 #include <ui_MainWindow.h>
 
 #include <SDF/ModelLayer/DocumentModel/include/IDocumentModel.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Spec/SDocumentSpec.hpp>
+
 #include <Impl/Qt/Dialogs/CNewDocumentDialog.hpp>
+#include <Impl/Qt/CustomWidgets/CImageEditor.hpp>
 
 #include <iostream>
 
@@ -41,6 +44,14 @@ namespace SDF {
         Dialogs::CNewDocumentDialog newDocumentDialog;
         m_documentModel->injectDocumentMeasurementsService(newDocumentDialog);
         newDocumentDialog.exec();
+
+        addDocument("Untitled 1", ModelLayer::DocumentModel::Spec::SDocumentSpec());
+      }
+
+      // Private members.
+      void CMainWindow::addDocument(std::string fileName, ModelLayer::DocumentModel::Spec::SDocumentSpec spec) {
+        int newTabIdx(m_ui->tabWidget->addTab(new CustomWidgets::CImageEditor, QString(fileName.c_str())));
+        m_ui->tabWidget->setCurrentIndex(newTabIdx);
       }
     }
   }
