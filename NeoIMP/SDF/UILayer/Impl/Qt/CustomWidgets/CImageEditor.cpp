@@ -24,6 +24,8 @@
 #include <Impl/Qt/CustomWidgets/CImageEditor.hpp>
 
 #include <Impl/Qt/CustomWidgets/CRuler.hpp>
+
+#include <QListView>
 #include <iostream>
 
 namespace SDF {
@@ -38,12 +40,21 @@ namespace SDF {
         m_viewCenterX(m_imageWidthPx / 2),
         m_viewCenterY(m_imageHeightPx / 2)
       {
-        m_topRuler = new CRuler(this, CRuler::SnapAtTop);
-        m_leftRuler = new CRuler(this, CRuler::SnapAtLeft);
+        m_gridLayout = new QGridLayout(this);
+        m_topRuler = new CRuler(this, CRuler::HorizontalOrientation, 20);
+        m_leftRuler = new CRuler(this, CRuler::VerticalOrientation, 20);
+
+        m_gridLayout->addWidget(m_topRuler, 0, 1);
+        m_gridLayout->addWidget(m_leftRuler, 1, 0);
+
+        // placeholder for until we get the actual image display in
+        QListView *list = new QListView(this);
+
+        m_gridLayout->addWidget(list, 1, 1);
       }
 
       void CImageEditor::paintEvent(QPaintEvent *event) {
-
+        //std::cout << "Painting" << std::endl;
       }
     }
   }

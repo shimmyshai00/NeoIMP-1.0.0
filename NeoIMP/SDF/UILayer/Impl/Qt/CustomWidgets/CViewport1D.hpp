@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
-#define SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
+#ifndef SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CVIEWPORT1D_HPP
+#define SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CVIEWPORT1D_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CImageEditor.hpp
- * PURPOSE: The Qt-based image editor widget.
+ * FILE:    CViewport1D.hpp
+ * PURPOSE: A coordinate calculator for a 1-dimensional viewport. Used for the ruler.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
-#include <QGridLayout>
-
 namespace SDF {
   namespace UILayer {
-    namespace Impl::Qt::CustomWidgets {
-      class CRuler;
-
-      class CImageEditor : public QWidget {
-        Q_OBJECT
+    namespace Impl::Qt::CustomWidgets::Detail {
+      class CViewport1D {
       public:
-        CImageEditor(QWidget *parent = nullptr, int initialImgWidthPx = 640, int initialImgHeightPx = 480);
-        ~CImageEditor() {}
-      private:
-        QGridLayout *m_gridLayout;
+        CViewport1D(float viewportCenterPos, float viewportSize, float viewportMagnification);
+        ~CViewport1D() {}
 
-        CRuler *m_topRuler;
-        CRuler *m_leftRuler;
+        float getViewportLeftInImageSpace() const;
+        float getViewportRightInImageSpace() const;
 
-        int m_imageWidthPx;
-        int m_imageHeightPx;
-
-        int m_viewCenterX;
-        int m_viewCenterY;
-
-        void paintEvent(QPaintEvent *event);
+        float getViewportCoordOfImageSpacePoint(float imageSpaceCoord) const;
+        float getImageSpaceCoordOfViewportPoint(float viewportCoord) const;
+      private :
+        float m_leftImagePos;
+        float m_rightImagePos;
+        float m_viewportSize;
       };
     }
   }
 }
-
 #endif

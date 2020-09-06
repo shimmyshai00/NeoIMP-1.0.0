@@ -32,30 +32,33 @@ namespace SDF {
       class CRuler : public QWidget {
         Q_OBJECT
       public:
-        CRuler(QWidget *parent = nullptr, int snapPos = SnapAtTop, int rulerThickness = 25);
+        CRuler(QWidget *parent = nullptr, int orientation = HorizontalOrientation, int rulerThickness = 25);
         ~CRuler() {}
 
         QSize sizeHint() const;
       public:
-        static constexpr int SnapAtTop = 0x0;
-        static constexpr int SnapAtLeft = 0x1;
-        static constexpr int SnapAtRight = 0x2;
-        static constexpr int SnapAtBottom = 0x3;
+        static constexpr int HorizontalOrientation = 0x0;
+        static constexpr int VerticalOrientation = 0x1;
       private:
-        int m_snapPos;
+        int m_orientation;
         int m_rulerThickness;
 
-        int m_unitIntervalPixels;
-        int m_numMinorTicks;
+        int m_minorTickIntervalScreenPixels;
+        int m_majorTickEvery;
 
-        int m_viewCenterCoordinate;
+        float m_viewCenterInImageSpace;
+        float m_magnificationFactor;
 
         void paintEvent(QPaintEvent *event);
       private:
         void drawWidget(QPainter &qp);
-        void paintMajorTick(QPainter &qp, int coord);
+
+        int getWidgetScreenLength();
+        void paintTickAtScreenPos(QPainter &qp, int screenCoord, int tickSize);
+        void paintTickLabelAtScreenPos(QPainter &qp, int screenCoord, int tickSize, const QString &label);
       };
     }
   }
 }
+
 #endif
