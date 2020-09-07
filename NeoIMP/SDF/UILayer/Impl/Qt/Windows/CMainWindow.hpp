@@ -10,9 +10,15 @@
  * PURPOSE: The Qt main program window.
  */
 
+#include <Error/IErrorReporter.hpp>
+
 #include <SDF/ModelLayer/DocumentModel/include/IDocumentModelDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentImageDataServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/DocumentHandle.hpp>
 
 #include <QMainWindow>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,27 +30,47 @@ namespace SDF {
       namespace Spec {
         struct SDocumentSpec;
       }
-      
+
+      namespace Services {
+        class IDocumentService;
+        class IDocumentImageDataService;
+      }
+
       class IDocumentModel;
     }
   }
 
   namespace UILayer {
+    namespace Error {
+      class IErrorReporter;
+    }
+
     namespace Impl::Qt::Windows {
-      class CMainWindow : public QMainWindow, public ModelLayer::DocumentModel::IDocumentModelDependency {
+      class CMainWindow : public QMainWindow, public ModelLayer::DocumentModel::IDocumentModelDependency,
+      private ModelLayer::DocumentModel::Services::IDocumentServiceDependency,
+      private ModelLayer::DocumentModel::Services::IDocumentImageDataServiceDependency {
         Q_OBJECT
       public:
-        CMainWindow(QWidget *parent = nullptr);
+        CMainWindow(QWidget *parent = nullptr, UILayer::Error::IErrorReporter *errorReporter = nullptr);
         ~CMainWindow();
 
         void injectWith(ModelLayer::DocumentModel::IDocumentModel *documentModel);
+      private:
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentService *service);
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentImageDataService *service);
       private slots:
         void on_action_New_triggered();
       private:
         Ui::MainWindow *m_ui;
-        ModelLayer::DocumentModel::IDocumentModel *m_documentModel;
 
-        void addDocument(std::string fileName, ModelLayer::DocumentModel::Spec::SDocumentSpec spec);
+        UILayer::Error::IErrorReporter *m_errorReporter;
+
+        ModelLayer::DocumentModel::IDocumentModel *m_documentModel;
+        ModelLayer::DocumentModel::Services::IDocumentService *m_documentService;
+        ModelLayer::DocumentModel::Services::IDocumentImageDataService *m_documentImageDataService;
+
+        QString makeDocumentInfoString(QString fileName, ModelLayer::DocumentModel::DocumentHandle handle);
+        void addNewDocument(ModelLayer::DocumentModel::Spec::SDocumentSpec spec);
       };
     }
   }

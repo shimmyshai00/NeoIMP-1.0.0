@@ -32,6 +32,7 @@ namespace SDF::ModelLayer::DocumentModel::Services {
   class IDocumentServiceDependency;
   class IDocumentModelInformationServiceDependency;
   class IDocumentMeasurementsServiceDependency;
+  class IDocumentImageDataServiceDependency;
 }
 
 namespace SDF::ModelLayer::DocumentModel::Impl {
@@ -43,6 +44,7 @@ namespace SDF::ModelLayer::DocumentModel::Impl {
     class CDocumentService;
     class CDocumentModelInformationService;
     class CDocumentMeasurementsService;
+    class CDocumentImageDataService;
   }
 
   class CDocumentModel : public IDocumentModel {
@@ -53,11 +55,13 @@ namespace SDF::ModelLayer::DocumentModel::Impl {
     void injectDocumentModelInformationService(
       DocumentModel::Services::IDocumentModelInformationServiceDependency &dep);
     void injectDocumentMeasurementsService(DocumentModel::Services::IDocumentMeasurementsServiceDependency &dep);
+    void injectDocumentImageDataService(DocumentModel::Services::IDocumentImageDataServiceDependency &dep);
   private:
     std::unique_ptr<DomainObjects::CDocumentRepository> m_documentRepository;
     std::unique_ptr<Services::CDocumentService> m_documentService;
     std::unique_ptr<Services::CDocumentModelInformationService> m_documentModelInformationService;
     std::unique_ptr<Services::CDocumentMeasurementsService> m_documentMeasurementsService;
+    std::unique_ptr<Services::CDocumentImageDataService> m_documentImageDataService;
   };
 }
 

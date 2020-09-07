@@ -9,6 +9,7 @@ add_library(UILayer STATIC
   Impl/Qt/Dialogs/NewDocumentDialog.ui
   Impl/Qt/Windows/CMainWindow.cpp
   Impl/Qt/Windows/MainWindow.ui
+  Impl/Qt/Error/CErrorReporter.cpp
   Impl/Qt/CApplication.cpp
   Impl/Qt/CQtUILayer.cpp
   Impl/Qt/IUILayer.cpp)

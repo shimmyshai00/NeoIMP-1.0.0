@@ -26,6 +26,7 @@
 #include <Services/IDocumentServiceDependency.hpp>
 #include <Services/IDocumentModelInformationServiceDependency.hpp>
 #include <Services/IDocumentMeasurementsServiceDependency.hpp>
+#include <Services/IDocumentImageDataServiceDependency.hpp>
 
 #include <Impl/DomainObjects/CDocument.hpp>
 #include <Impl/DomainObjects/CDocumentRepository.hpp>
@@ -33,13 +34,15 @@
 #include <Impl/Services/CDocumentService.hpp>
 #include <Impl/Services/CDocumentModelInformationService.hpp>
 #include <Impl/Services/CDocumentMeasurementsService.hpp>
+#include <Impl/Services/CDocumentImageDataService.hpp>
 
 namespace SDF::ModelLayer::DocumentModel::Impl {
   CDocumentModel::CDocumentModel()
   : m_documentRepository(new DomainObjects::CDocumentRepository()),
     m_documentService(new Services::CDocumentService(m_documentRepository.get())),
     m_documentModelInformationService(new Services::CDocumentModelInformationService),
-    m_documentMeasurementsService(new Services::CDocumentMeasurementsService)
+    m_documentMeasurementsService(new Services::CDocumentMeasurementsService),
+    m_documentImageDataService(new Services::CDocumentImageDataService(m_documentRepository.get()))
     {
     }
 
@@ -55,5 +58,10 @@ namespace SDF::ModelLayer::DocumentModel::Impl {
   void CDocumentModel::injectDocumentMeasurementsService(
     DocumentModel::Services::IDocumentMeasurementsServiceDependency &dep) {
       dep.injectWith(m_documentMeasurementsService.get());
+  }
+
+  void CDocumentModel::injectDocumentImageDataService(
+    DocumentModel::Services::IDocumentImageDataServiceDependency &dep) {
+      dep.injectWith(m_documentImageDataService.get());
   }
 }

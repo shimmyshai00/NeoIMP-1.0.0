@@ -7,6 +7,7 @@ add_library(DocumentModel STATIC
   Impl/Services/CDocumentService.cpp
   Impl/Services/CDocumentModelInformationService.cpp
   Impl/Services/CDocumentMeasurementsService.cpp
+  Impl/Services/CDocumentImageDataService.cpp
   Impl/CDocumentModel.cpp
   Impl/IDocumentModel.cpp)
 

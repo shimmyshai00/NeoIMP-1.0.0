@@ -26,14 +26,17 @@
 #include <Impl/Qt/Windows/CMainWindow.hpp>
 #include <SDF/ModelLayer/include/IModelLayer.hpp>
 
+#include <Impl/Qt/Error/CErrorReporter.hpp>
+
 namespace SDF {
   namespace UILayer {
     namespace Impl::Qt {
       CApplication::CApplication(int argc, char *argv[])
       : m_argc(argc),
         m_argv(argv),
+        m_errorReporter(std::make_unique<Error::CErrorReporter>()),
         m_q(std::make_unique<QApplication>(m_argc, m_argv)),
-        m_mainWindow(std::make_unique<Windows::CMainWindow>()),
+        m_mainWindow(std::make_unique<Windows::CMainWindow>(nullptr, m_errorReporter.get())),
         m_isStarted(false)
         {
           SDF::ModelLayer::IModelLayer::getInstance()->injectDocumentModel(*m_mainWindow);

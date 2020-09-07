@@ -55,37 +55,44 @@ namespace SDF {
           using namespace Impl::DomainObjects;
           using namespace Spec;
 
-          std::unique_ptr<CDocument> doc;
-          Metrics::Resolution::Quantity resolution(Metrics::Resolution::fromSpec(documentSpec.documentResolution,
-            documentSpec.resolutionUnit));
+          try {
+            std::unique_ptr<CDocument> doc;
+            Metrics::Resolution::Quantity resolution(Metrics::Resolution::fromSpec(documentSpec.documentResolution,
+              documentSpec.resolutionUnit));
 
-          if((documentSpec.widthUnit == UNIT_PIXEL) && (documentSpec.heightUnit == UNIT_PIXEL)) {
-            doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, documentSpec.documentHeightPx, resolution,
-              documentSpec.colorModel, documentSpec.bitDepth);
-          } else if((documentSpec.widthUnit == UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
-            Metrics::Length::Quantity height(Metrics::Length::fromSpec(
-              documentSpec.documentHeight, documentSpec.heightUnit));
+            if((documentSpec.widthUnit == UNIT_PIXEL) && (documentSpec.heightUnit == UNIT_PIXEL)) {
+              doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, documentSpec.documentHeightPx, resolution,
+                documentSpec.colorModel, documentSpec.bitDepth);
+            } else if((documentSpec.widthUnit == UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
+              Metrics::Length::Quantity height(Metrics::Length::fromSpec(
+                documentSpec.documentHeight, documentSpec.heightUnit));
 
-            doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, height, resolution,
-              documentSpec.colorModel, documentSpec.bitDepth);
-          } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit == UNIT_PIXEL)) {
-            Metrics::Length::Quantity width(Metrics::Length::fromSpec(
-              documentSpec.documentWidth, documentSpec.widthUnit));
+              doc = std::make_unique<CDocument>(documentSpec.documentWidthPx, height, resolution,
+                documentSpec.colorModel, documentSpec.bitDepth);
+            } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit == UNIT_PIXEL)) {
+              Metrics::Length::Quantity width(Metrics::Length::fromSpec(
+                documentSpec.documentWidth, documentSpec.widthUnit));
 
-            doc = std::make_unique<CDocument>(width, documentSpec.documentHeightPx, resolution,
-              documentSpec.colorModel, documentSpec.bitDepth);
-          } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
-            Metrics::Length::Quantity width(Metrics::Length::fromSpec(
-              documentSpec.documentWidth, documentSpec.widthUnit));
-            Metrics::Length::Quantity height(Metrics::Length::fromSpec(
-              documentSpec.documentHeight, documentSpec.heightUnit));
+              doc = std::make_unique<CDocument>(width, documentSpec.documentHeightPx, resolution,
+                documentSpec.colorModel, documentSpec.bitDepth);
+            } else if((documentSpec.widthUnit != UNIT_PIXEL) && (documentSpec.heightUnit != UNIT_PIXEL)) {
+              Metrics::Length::Quantity width(Metrics::Length::fromSpec(
+                documentSpec.documentWidth, documentSpec.widthUnit));
+              Metrics::Length::Quantity height(Metrics::Length::fromSpec(
+                documentSpec.documentHeight, documentSpec.heightUnit));
 
-            doc = std::make_unique<CDocument>(width, height, resolution,
-              documentSpec.colorModel, documentSpec.bitDepth);
+              doc = std::make_unique<CDocument>(width, height, resolution,
+                documentSpec.colorModel, documentSpec.bitDepth);
+            }
+
+            m_documentRepository->addDocument(m_nextHandle, std::move(doc));
+            return m_nextHandle++;
+          } catch(CDocument::BadDocumentSizeException &e) {
+            throw BadDocumentSizeException(documentSpec.documentWidthPx, documentSpec.documentHeightPx);
+          } catch(CDocument::DocumentSizeTooBigException &e) {
+            throw DocumentSizeTooBigException(documentSpec.documentWidthPx, documentSpec.documentHeightPx,
+              CDocument::c_maxDocumentWidthPx, CDocument::c_maxDocumentHeightPx);
           }
-
-          m_documentRepository->addDocument(m_nextHandle, std::move(doc));
-          return m_nextHandle++;
         }
 
         DocumentHandle CDocumentService::loadDocument(std::string fileName, Spec::EFileFormat fileFormat) {

@@ -34,6 +34,10 @@ namespace SDF {
         class CMainWindow;
       }
 
+      namespace Error {
+        class CErrorReporter;
+      }
+
       class CApplication {
       public:
         CApplication(int argc, char *argv[]);
@@ -49,6 +53,8 @@ namespace SDF {
         // ugly, but to appease QT ...
         int m_argc;
         char **m_argv;
+
+        std::unique_ptr<Error::CErrorReporter> m_errorReporter;
 
         std::unique_ptr<QApplication> m_q; // need to take care of the lifetime of this ...
         std::unique_ptr<Windows::CMainWindow> m_mainWindow; // here, too!
