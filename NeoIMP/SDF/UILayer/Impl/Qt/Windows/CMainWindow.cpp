@@ -29,7 +29,8 @@ namespace SDF {
         m_errorReporter(errorReporter),
         m_documentModel(nullptr),
         m_documentService(nullptr),
-        m_documentImageDataService(nullptr)
+        m_documentImageDataService(nullptr),
+        m_newDocumentCounter(1)
         {
           m_ui->setupUi(this);
         }
@@ -68,16 +69,6 @@ namespace SDF {
       }
 
       // Private members.
-      QString CMainWindow::makeDocumentInfoString(QString fileName, ModelLayer::DocumentModel::DocumentHandle handle)
-      {
-        assert(m_documentImageDataService != nullptr);
-
-        int widthPx(m_documentImageDataService->getImageWidthInPixels(handle));
-        int heightPx(m_documentImageDataService->getImageHeightInPixels(handle));
-
-        return fileName + " (" + QString::number(widthPx) + " px × " + QString::number(heightPx) + " px)";
-      }
-
       void CMainWindow::addNewDocument(ModelLayer::DocumentModel::Spec::SDocumentSpec spec) {
         using namespace ModelLayer::DocumentModel;
 
@@ -88,10 +79,11 @@ namespace SDF {
           // Call the model methods to create the new document.
           DocumentHandle handle(m_documentService->createDocument(spec));
 
-          int newTabIdx(m_ui->tabWidget->addTab(new CustomWidgets::CImageEditor,
-            makeDocumentInfoString(QString("Untitled 1"), handle)));
-
-          m_ui->tabWidget->setCurrentIndex(newTabIdx);
+          // Put it into the window.
+          std::string newDocumentFileName("Untitled " + std::to_string(m_newDocumentCounter++));
+          m_openDocuments.push_back(std::make_unique<CDocument>(newDocumentFileName, handle));
+          m_openDocuments.back()->injectWith(m_documentImageDataService);
+          m_openDocuments.back()->addTabTo(m_ui->tabWidget);
         } catch(Services::IDocumentService::DocumentSizeTooBigException &e) {
           if(m_errorReporter != nullptr) m_errorReporter->reportError(e.what());
         } catch(Services::IDocumentService::BadDocumentSizeException &e) {
@@ -99,14 +91,6 @@ namespace SDF {
         } catch(Services::IDocumentService::BadDocumentResolutionException &e) {
           if(m_errorReporter != nullptr) m_errorReporter->reportError(e.what());
         }
-      }
-    }
-
-    namespace Impl::Qt::Windows {
-      // Helper functions.
-      QString makeDocumentInfoString(QString fileName, int widthPx, int heightPx)
-      {
-        return fileName + " (" + QString::number(widthPx) + " px × " + QString::number(heightPx) + " px)";
       }
     }
   }

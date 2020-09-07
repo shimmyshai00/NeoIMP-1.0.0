@@ -25,6 +25,10 @@
  */
 
 #include <SDF/Exception.hpp>
+
+#include <Spec/EColorModel.hpp>
+#include <Spec/EBitDepth.hpp>
+
 #include <DocumentHandle.hpp>
 
 namespace SDF {
@@ -37,6 +41,9 @@ namespace SDF {
 
           virtual int getImageWidthInPixels(DocumentHandle handle) const = 0;
           virtual int getImageHeightInPixels(DocumentHandle handle) const = 0;
+
+          virtual Spec::EColorModel getDocumentColorModel(DocumentHandle handle) const = 0;
+          virtual Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const = 0;
         public:
           struct InvalidDocumentHandleException : public SDF::Exception {
             InvalidDocumentHandleException(DocumentHandle handle)

@@ -66,6 +66,30 @@ namespace SDF {
             throw InvalidDocumentHandleException(handle);
           }
         }
+
+        Spec::EColorModel CDocumentImageDataService::getDocumentColorModel(DocumentHandle handle) const {
+          using namespace DomainObjects;
+
+          assert(m_documentRepository != nullptr);
+
+          try {
+            return m_documentRepository->accessDocument(handle).getDocumentColorModel();
+          } catch(CDocumentRepository::DocumentNotFoundException &e) {
+            throw InvalidDocumentHandleException(handle);
+          }
+        }
+
+        Spec::EBitDepth CDocumentImageDataService::getDocumentBitDepth(DocumentHandle handle) const {
+          using namespace DomainObjects;
+
+          assert(m_documentRepository != nullptr);
+
+          try {
+            return m_documentRepository->accessDocument(handle).getDocumentBitDepth();
+          } catch(CDocumentRepository::DocumentNotFoundException &e) {
+            throw InvalidDocumentHandleException(handle);
+          }
+        }
       }
     }
   }

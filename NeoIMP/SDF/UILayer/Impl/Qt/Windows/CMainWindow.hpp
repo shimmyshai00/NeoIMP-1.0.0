@@ -17,8 +17,12 @@
 #include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentImageDataServiceDependency.hpp>
 #include <SDF/ModelLayer/DocumentModel/include/DocumentHandle.hpp>
 
+#include <Impl/Qt/Windows/CDocument.hpp>
+
 #include <QMainWindow>
 #include <QString>
+
+#include <memory>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,6 +50,8 @@ namespace SDF {
     }
 
     namespace Impl::Qt::Windows {
+      class CDocument;
+
       class CMainWindow : public QMainWindow, public ModelLayer::DocumentModel::IDocumentModelDependency,
       private ModelLayer::DocumentModel::Services::IDocumentServiceDependency,
       private ModelLayer::DocumentModel::Services::IDocumentImageDataServiceDependency {
@@ -69,7 +75,9 @@ namespace SDF {
         ModelLayer::DocumentModel::Services::IDocumentService *m_documentService;
         ModelLayer::DocumentModel::Services::IDocumentImageDataService *m_documentImageDataService;
 
-        QString makeDocumentInfoString(QString fileName, ModelLayer::DocumentModel::DocumentHandle handle);
+        int m_newDocumentCounter;
+        std::vector<std::unique_ptr<CDocument>> m_openDocuments;
+
         void addNewDocument(ModelLayer::DocumentModel::Spec::SDocumentSpec spec);
       };
     }

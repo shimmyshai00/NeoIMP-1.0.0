@@ -40,10 +40,13 @@ namespace SDF {
 
           int getImageWidthInPixels(DocumentHandle handle) const;
           int getImageHeightInPixels(DocumentHandle handle) const;
+
+          Spec::EColorModel getDocumentColorModel(DocumentHandle handle) const;
+          Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const;
         public:
           struct NullRepositoryException : public SDF::Exception {
             NullRepositoryException()
-            : Exception("Tried to pass a null document repository pointer to document iamge data service")
+            : Exception("Tried to pass a null document repository pointer to document image data service")
             {
             }
           };

@@ -7,6 +7,7 @@ add_library(UILayer STATIC
   Impl/Qt/Dialogs/CNewDocumentDimensionCalc.cpp
   Impl/Qt/Dialogs/CNewDocumentDialog.cpp
   Impl/Qt/Dialogs/NewDocumentDialog.ui
+  Impl/Qt/Windows/CDocument.cpp
   Impl/Qt/Windows/CMainWindow.cpp
   Impl/Qt/Windows/MainWindow.ui
   Impl/Qt/Error/CErrorReporter.cpp
