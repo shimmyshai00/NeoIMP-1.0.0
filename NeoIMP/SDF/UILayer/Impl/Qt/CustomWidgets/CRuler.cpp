@@ -99,32 +99,29 @@ namespace SDF {
         int majorTickSize(m_rulerThickness);
         int minorTickSize(m_rulerThickness / 3);
 
-        int rulerScreenLength(getWidgetScreenLength());
-
+        float rulerScreenLength(getWidgetScreenLength());
+        float screenCenter(rulerScreenLength / 2.0f);
         Detail::CViewport1D rulerViewport(m_viewCenterInImageSpace, rulerScreenLength, m_magnificationFactor);
 
-        // The idea now is to consider the ticks as a grid overlain in image space, with the viewport providing a
-        // window on that grid, and its origin at the space's origin. Since the distance between ticks is defined on
-        // the viewport, and not on image space, we have to find the size of each tick interval in image space.
-        float minorTickStepInImageSpace((0.0f + m_minorTickIntervalScreenPixels) / m_magnificationFactor);
+        // Now find the coordinates of the image origin in viewport space.
+        float imageOriginViewportCoord(rulerViewport.getViewportCoordOfImageSpacePoint(0.0f));
 
-        // Now figure out where the viewport left and right are in units of ticks.
+        // Find the number of ticks from the image origin to the viewport's boundaries.
         int viewportLeftTicks(
-          rulerViewport.getImageSpaceCoordOfViewportPoint(0.0f) / minorTickStepInImageSpace);
+          (rulerViewport.getViewportLeftInImageSpace() - imageOriginViewportCoord) / m_minorTickIntervalScreenPixels);
         int viewportRightTicks(
-          rulerViewport.getImageSpaceCoordOfViewportPoint(rulerScreenLength) / minorTickStepInImageSpace);
+          (rulerViewport.getViewportRightInImageSpace() - imageOriginViewportCoord) / m_minorTickIntervalScreenPixels);
 
         // Now draw these ticks.
-        for(int tickNum(viewportLeftTicks); tickNum < viewportRightTicks; ++tickNum) {
-          float tickImageSpaceCoord((0.0f + tickNum) * minorTickStepInImageSpace);
-          int tickViewportCoord(rulerViewport.getViewportCoordOfImageSpacePoint(tickImageSpaceCoord));
-          if((tickViewportCoord >= 0) && (tickViewportCoord < rulerScreenLength)) {
+        for(int tickNum(viewportLeftTicks); tickNum <= viewportRightTicks; ++tickNum) {
+          int tickScreenCoord(screenCenter + ((0.0f + tickNum) * m_minorTickIntervalScreenPixels));
+          if((tickScreenCoord >= 0) && (tickScreenCoord < rulerScreenLength)) {
             if((tickNum % m_majorTickEvery) == 0) {
-              paintTickAtScreenPos(qp, tickViewportCoord, majorTickSize);
-              paintTickLabelAtScreenPos(qp, tickViewportCoord, majorTickSize,
-                QString::number(static_cast<int>(floor(tickImageSpaceCoord + 0.5f))));
+              paintTickAtScreenPos(qp, tickScreenCoord, majorTickSize);
+              paintTickLabelAtScreenPos(qp, tickScreenCoord, majorTickSize, QString::number(
+                rulerViewport.getImageSpaceCoordOfViewportPoint(tickNum * m_minorTickIntervalScreenPixels)));
             } else {
-              paintTickAtScreenPos(qp, tickViewportCoord, minorTickSize);
+              paintTickAtScreenPos(qp, tickScreenCoord, minorTickSize);
             }
           }
         }

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
-#define SDF_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEEDITOR_HPP
+#ifndef SDF_MODELLAYER_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEDISPLAY_HPP
+#define SDF_MODELLAYER_UILAYER_IMPL_QT_CUSTOMWIDGETS_CIMAGEDISPLAY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CImageEditor.hpp
- * PURPOSE: The Qt-based image editor widget.
+ * FILE:    CImageDisplay.hpp
+ * PURPOSE: The Qt-based image display widget: another part of the image editor.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,32 +25,16 @@
  */
 
 #include <QWidget>
-#include <QGridLayout>
 
 namespace SDF {
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets {
-      class CRuler;
-      class CImageDisplay;
-
-      class CImageEditor : public QWidget {
+      class CImageDisplay : public QWidget {
         Q_OBJECT
       public:
-        CImageEditor(QWidget *parent = nullptr, int initialImgWidthPx = 640, int initialImgHeightPx = 480);
-        ~CImageEditor() {}
+        CImageDisplay(QWidget *parent = nullptr);
+        ~CImageDisplay() {}
       private:
-        QGridLayout *m_gridLayout;
-
-        CRuler *m_topRuler;
-        CRuler *m_leftRuler;
-        CImageDisplay *m_imageDisplay;
-
-        int m_imageWidthPx;
-        int m_imageHeightPx;
-
-        int m_viewCenterX;
-        int m_viewCenterY;
-
         void paintEvent(QPaintEvent *event);
       };
     }

@@ -27,26 +27,26 @@ namespace SDF {
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets::Detail {
       CViewport1D::CViewport1D(float viewportCenterPos, float viewportSize, float viewportMagnification)
-      : m_leftImagePos(viewportCenterPos - ((viewportSize / 2.0f) / viewportMagnification)),
-        m_rightImagePos(viewportCenterPos + ((viewportSize / 2.0f) / viewportMagnification)),
-        m_viewportSize(viewportSize)
+      : m_center(viewportCenterPos),
+        m_viewportSize(viewportSize),
+        m_viewportMagnification(viewportMagnification)
         {
         }
 
       float CViewport1D::getViewportLeftInImageSpace() const {
-        return m_leftImagePos;
+        return m_center - ((m_viewportSize / 2.0) / m_viewportMagnification);
       }
 
       float CViewport1D::getViewportRightInImageSpace() const {
-        return m_rightImagePos;
+        return m_center + ((m_viewportSize / 2.0) / m_viewportMagnification);
       }
 
       float CViewport1D::getViewportCoordOfImageSpacePoint(float imageSpaceCoord) const {
-        return ((imageSpaceCoord - m_leftImagePos) / (m_rightImagePos - m_leftImagePos)) * m_viewportSize;
+        return (imageSpaceCoord - m_center) * m_viewportMagnification;
       }
 
       float CViewport1D::getImageSpaceCoordOfViewportPoint(float viewportCoord) const {
-        return m_leftImagePos + ((viewportCoord / m_viewportSize) * (m_rightImagePos - m_leftImagePos));
+        return (viewportCoord / m_viewportMagnification) + m_center;
       }
     }
   }

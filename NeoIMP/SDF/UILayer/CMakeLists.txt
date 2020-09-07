@@ -1,6 +1,8 @@
 add_library(UILayer STATIC
   Impl/Qt/CustomWidgets/CViewport1D.cpp
+  Impl/Qt/CustomWidgets/CViewport2D.cpp
   Impl/Qt/CustomWidgets/CRuler.cpp
+  Impl/Qt/CustomWidgets/CImageDisplay.cpp
   Impl/Qt/CustomWidgets/CImageEditor.cpp
   Impl/Qt/Dialogs/CNewDocumentDimensionCalc.cpp
   Impl/Qt/Dialogs/CNewDocumentDialog.cpp

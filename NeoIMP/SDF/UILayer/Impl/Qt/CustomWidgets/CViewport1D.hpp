@@ -37,10 +37,10 @@ namespace SDF {
 
         float getViewportCoordOfImageSpacePoint(float imageSpaceCoord) const;
         float getImageSpaceCoordOfViewportPoint(float viewportCoord) const;
-      private :
-        float m_leftImagePos;
-        float m_rightImagePos;
+      private:
+        float m_center;
         float m_viewportSize;
+        float m_viewportMagnification;
       };
     }
   }
