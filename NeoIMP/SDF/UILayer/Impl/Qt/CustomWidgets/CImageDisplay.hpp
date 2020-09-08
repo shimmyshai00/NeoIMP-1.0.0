@@ -26,16 +26,41 @@
 
 #include <QWidget>
 
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentImageDataServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/DocumentHandle.hpp>
+
 namespace SDF {
+  namespace ModelLayer {
+    namespace DocumentModel {
+      namespace Services {
+        class IDocumentImageDataService;
+      }
+    }
+  }
+
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets {
-      class CImageDisplay : public QWidget {
+      class CImageDisplay : public QWidget,
+      public ModelLayer::DocumentModel::Services::IDocumentImageDataServiceDependency {
         Q_OBJECT
       public:
         CImageDisplay(QWidget *parent = nullptr);
         ~CImageDisplay() {}
+
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentImageDataService *service);
+
+        void setActiveDocument(ModelLayer::DocumentModel::DocumentHandle handle);
       private:
+        ModelLayer::DocumentModel::Services::IDocumentImageDataService *m_documentImageDataService;
+        ModelLayer::DocumentModel::DocumentHandle m_documentHandle;
+
+        float m_viewCenterX;
+        float m_viewCenterY;
+        float m_magnificationFactor;
+
         void paintEvent(QPaintEvent *event);
+      private:
+        void drawWidget(QPainter &qp);
       };
     }
   }

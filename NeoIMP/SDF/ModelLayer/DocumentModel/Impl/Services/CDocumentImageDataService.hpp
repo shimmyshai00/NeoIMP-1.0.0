@@ -29,6 +29,10 @@
 namespace SDF {
   namespace ModelLayer {
     namespace DocumentModel {
+      namespace Services {
+        class IPixelVisitor;
+      }
+
       namespace Impl::DomainObjects {
         class CDocumentRepository;
       }
@@ -43,6 +47,10 @@ namespace SDF {
 
           Spec::EColorModel getDocumentColorModel(DocumentHandle handle) const;
           Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const;
+
+          int getNumLayersInDocument(DocumentHandle handle) const;
+          void visitLayerPixel(DocumentHandle handle, int layerNum, int x, int y,
+            DocumentModel::Services::IPixelVisitor &vis);
         public:
           struct NullRepositoryException : public SDF::Exception {
             NullRepositoryException()

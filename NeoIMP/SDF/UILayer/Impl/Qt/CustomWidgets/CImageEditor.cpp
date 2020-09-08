@@ -21,6 +21,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentImageDataService.hpp>
+
 #include <Impl/Qt/CustomWidgets/CImageEditor.hpp>
 
 #include <Impl/Qt/CustomWidgets/CRuler.hpp>
@@ -34,6 +36,8 @@ namespace SDF {
     namespace Impl::Qt::CustomWidgets {
       CImageEditor::CImageEditor(QWidget *parent, int initialImgWidthPx, int initialImgHeightPx)
       : QWidget(parent),
+        m_documentImageDataService(nullptr),
+        m_documentHandle(-1), // nb: make special constant?
         m_topRuler(nullptr),
         m_leftRuler(nullptr),
         m_imageWidthPx(initialImgWidthPx),
@@ -54,6 +58,16 @@ namespace SDF {
 
       void CImageEditor::paintEvent(QPaintEvent *event) {
         //std::cout << "Painting" << std::endl;
+      }
+
+      void CImageEditor::injectWith(ModelLayer::DocumentModel::Services::IDocumentImageDataService *service) {
+        m_documentImageDataService = service;
+        m_imageDisplay->injectWith(service);
+      }
+
+      void CImageEditor::setActiveDocument(ModelLayer::DocumentModel::DocumentHandle handle) {
+        m_documentHandle = handle;
+        m_imageDisplay->setActiveDocument(handle);
       }
     }
   }

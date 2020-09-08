@@ -24,21 +24,39 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/ModelLayer/DocumentModel/include/Services/IDocumentImageDataServiceDependency.hpp>
+#include <SDF/ModelLayer/DocumentModel/include/DocumentHandle.hpp>
+
 #include <QWidget>
 #include <QGridLayout>
 
 namespace SDF {
+  namespace ModelLayer {
+    namespace DocumentModel {
+      namespace Services {
+        class IDocumentImageDataService;
+      }
+    }
+  }
+
   namespace UILayer {
     namespace Impl::Qt::CustomWidgets {
       class CRuler;
       class CImageDisplay;
 
-      class CImageEditor : public QWidget {
+      class CImageEditor : public QWidget,
+      public ModelLayer::DocumentModel::Services::IDocumentImageDataServiceDependency {
         Q_OBJECT
       public:
         CImageEditor(QWidget *parent = nullptr, int initialImgWidthPx = 640, int initialImgHeightPx = 480);
         ~CImageEditor() {}
+
+        void injectWith(ModelLayer::DocumentModel::Services::IDocumentImageDataService *service);
+        void setActiveDocument(ModelLayer::DocumentModel::DocumentHandle handle);
       private:
+        ModelLayer::DocumentModel::Services::IDocumentImageDataService *m_documentImageDataService;
+        ModelLayer::DocumentModel::DocumentHandle m_documentHandle;
+
         QGridLayout *m_gridLayout;
 
         CRuler *m_topRuler;

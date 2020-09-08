@@ -22,11 +22,44 @@
  */
 
 #include <Impl/Services/CDocumentImageDataService.hpp>
+#include <Services/IPixelVisitor.hpp>
 
+#include <Impl/DomainObjects/Pixel/IRGBPixel.hpp>
+#include <Impl/DomainObjects/Pixel/ICMYKPixel.hpp>
+#include <Impl/DomainObjects/Pixel/IPixelVisitor.hpp>
 #include <Impl/DomainObjects/CDocumentRepository.hpp>
 #include <Impl/DomainObjects/CDocument.hpp>
 
 #include <cassert>
+
+namespace SDF {
+  namespace ModelLayer {
+    namespace DocumentModel {
+      namespace Impl::Services {
+        // Helper visitation object.
+        class CApplyReadOnlyPixelVisitor : public DomainObjects::Pixel::IPixelVisitor {
+        public:
+          CApplyReadOnlyPixelVisitor(DocumentModel::Services::IPixelVisitor *vis)
+          : m_readOnlyVisitor(vis)
+          {
+          }
+
+          void visit(DomainObjects::Pixel::IRGBPixel &pixel) {
+            m_readOnlyVisitor->readOnlyVisitRGB(pixel.getAlpha(), pixel.getR(), pixel.getG(), pixel.getB(),
+              pixel.getChannelMax());
+          }
+
+          void visit(DomainObjects::Pixel::ICMYKPixel &pixel) {
+            m_readOnlyVisitor->readOnlyVisitCMYK(pixel.getAlpha(),
+              pixel.getC(), pixel.getM(), pixel.getY(), pixel.getK(), pixel.getChannelMax());
+          }
+        private:
+          DocumentModel::Services::IPixelVisitor *m_readOnlyVisitor;
+        };
+      }
+    }
+  }
+}
 
 namespace SDF {
   namespace ModelLayer {
@@ -90,6 +123,36 @@ namespace SDF {
             throw InvalidDocumentHandleException(handle);
           }
         }
+
+        int CDocumentImageDataService::getNumLayersInDocument(DocumentHandle handle) const {
+          using namespace DomainObjects;
+
+          assert(m_documentRepository != nullptr);
+
+          try {
+            return m_documentRepository->accessDocument(handle).getNumLayers();
+          } catch(CDocumentRepository::DocumentNotFoundException &e) {
+            throw InvalidDocumentHandleException(handle);
+          }
+        }
+
+        void CDocumentImageDataService::visitLayerPixel(DocumentHandle handle, int layerNum, int x, int y,
+          DocumentModel::Services::IPixelVisitor &vis) {
+            using namespace DomainObjects;
+
+            assert(m_documentRepository != nullptr);
+
+            try {
+              CApplyReadOnlyPixelVisitor applyReadOnlyVis(&vis);
+              m_documentRepository->accessDocument(handle).visitPixel(layerNum, x, y, applyReadOnlyVis);
+            } catch(CDocumentRepository::DocumentNotFoundException &e) {
+              throw InvalidDocumentHandleException(handle);
+            } catch(CDocument::LayerNotFoundException &e) {
+              throw NonexistentLayerException(layerNum);
+            } catch(CDocument::OutOfBoundsException &e) {
+              throw OutOfBoundsException(x, y);
+            }
+          }
       }
     }
   }

@@ -35,6 +35,8 @@ namespace SDF {
   namespace ModelLayer {
     namespace DocumentModel {
       namespace Services {
+        class IPixelVisitor;
+
         class IDocumentImageDataService {
         public:
           virtual ~IDocumentImageDataService() {}
@@ -44,10 +46,27 @@ namespace SDF {
 
           virtual Spec::EColorModel getDocumentColorModel(DocumentHandle handle) const = 0;
           virtual Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const = 0;
+
+          virtual int getNumLayersInDocument(DocumentHandle handle) const = 0;
+          virtual void visitLayerPixel(DocumentHandle handle, int layerNum, int x, int y, IPixelVisitor &vis) = 0;
         public:
           struct InvalidDocumentHandleException : public SDF::Exception {
             InvalidDocumentHandleException(DocumentHandle handle)
             : Exception("Tried to access a document handle that doesn't seem to reference a presently-loaded document. This is likely a bug.")
+            {
+            }
+          };
+
+          struct NonexistentLayerException : public SDF::Exception {
+            NonexistentLayerException(int layerNum)
+            : Exception("Tried to access a document layer that does not appear to exist. This is likely a bug.")
+            {
+            }
+          };
+
+          struct OutOfBoundsException : public SDF::Exception {
+            OutOfBoundsException(int x, int y)
+            : Exception("Tried to access a pixel at a coordinate that was out of bounds. This is likely a bug.")
             {
             }
           };

@@ -64,7 +64,11 @@ namespace SDF {
       int CDocument::addTabTo(QTabWidget *tabWidget) const {
         assert(m_documentImageDataService != nullptr);
 
-        int newTabIdx(tabWidget->addTab(new CustomWidgets::CImageEditor, getDocumentTabTitleString()));
+        CustomWidgets::CImageEditor *imageEditor(new CustomWidgets::CImageEditor);
+        imageEditor->injectWith(m_documentImageDataService);
+        imageEditor->setActiveDocument(m_documentHandle);
+
+        int newTabIdx(tabWidget->addTab(imageEditor, getDocumentTabTitleString()));
         tabWidget->setCurrentIndex(newTabIdx);
 
         return newTabIdx;
