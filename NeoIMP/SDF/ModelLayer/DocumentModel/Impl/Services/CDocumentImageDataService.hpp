@@ -49,8 +49,10 @@ namespace SDF {
           Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const;
 
           int getNumLayersInDocument(DocumentHandle handle) const;
-          void visitLayerPixel(DocumentHandle handle, int layerNum, int x, int y,
-            DocumentModel::Services::IPixelVisitor &vis);
+
+          void getLayerPixel(DocumentHandle handle, int layerNum, int x, int y, IPixelReceiver &rec);
+          void getLayerRegion(DocumentHandle handle, int layerNum, int x1, int y1, int x2, int y2,
+            IRegionReceiver &rec);
         public:
           struct NullRepositoryException : public SDF::Exception {
             NullRepositoryException()

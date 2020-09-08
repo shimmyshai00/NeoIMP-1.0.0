@@ -48,7 +48,10 @@ namespace SDF {
           virtual Spec::EBitDepth getDocumentBitDepth(DocumentHandle handle) const = 0;
 
           virtual int getNumLayersInDocument(DocumentHandle handle) const = 0;
-          virtual void visitLayerPixel(DocumentHandle handle, int layerNum, int x, int y, IPixelVisitor &vis) = 0;
+
+          virtual void getLayerPixel(DocumentHandle handle, int layerNum, int x, int y, IPixelReceiver &rec) = 0;
+          virtual void getLayerRegion(DocumentHandle handle, int layerNum, int x1, int y1, int x2, int y2,
+            IRegionReceiver &rec) = 0;
         public:
           struct InvalidDocumentHandleException : public SDF::Exception {
             InvalidDocumentHandleException(DocumentHandle handle)
@@ -67,6 +70,13 @@ namespace SDF {
           struct OutOfBoundsException : public SDF::Exception {
             OutOfBoundsException(int x, int y)
             : Exception("Tried to access a pixel at a coordinate that was out of bounds. This is likely a bug.")
+            {
+            }
+          };
+
+          struct RegionOutOfBoundsException : public SDF::Exception {
+            RegionOutOfBoundsException(int x1, int y1, int x2, y2)
+            : Exception("Tried to access a region that went out of bounds. This is likely a bug.")
             {
             }
           };

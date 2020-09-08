@@ -37,24 +37,37 @@ namespace SDF {
     namespace DocumentModel {
       namespace Impl::Services {
         // Helper visitation object.
-        class CApplyReadOnlyPixelVisitor : public DomainObjects::Pixel::IPixelVisitor {
+        class CReadPixelVisitor : public DomainObjects::Pixel::IPixelVisitor {
         public:
-          CApplyReadOnlyPixelVisitor(DocumentModel::Services::IPixelVisitor *vis)
-          : m_readOnlyVisitor(vis)
+          CReadPixelVisitor(DocumentModel::Services::IPixelReceiver *pixelReceiver)
+          : m_pixelReceiver(pixelReceiver)
           {
           }
 
           void visit(DomainObjects::Pixel::IRGBPixel &pixel) {
-            m_readOnlyVisitor->readOnlyVisitRGB(pixel.getAlpha(), pixel.getR(), pixel.getG(), pixel.getB(),
-              pixel.getChannelMax());
+            DocumentModel::Services::Transfer::SRGBPixel px;
+
+            px.alpha = pixel.getAlpha() * (65535 / pixel.getChannelMax());
+            px.r = pixel.getR() * (65535 / pixel.getChannelMax());
+            px.g = pixel.getG() * (65535 / pixel.getChannelMax());
+            px.b = pixel.getB() * (65535 / pixel.getChannelMax());
+
+            m_pixelReceiver->receivePixelData(px);
           }
 
           void visit(DomainObjects::Pixel::ICMYKPixel &pixel) {
-            m_readOnlyVisitor->readOnlyVisitCMYK(pixel.getAlpha(),
-              pixel.getC(), pixel.getM(), pixel.getY(), pixel.getK(), pixel.getChannelMax());
+            DocumentModel::Services::Transfer::SCMYKPixel px;
+
+            px.alpha = pixel.getAlpha() * (65535 / pixel.getChannelMax());
+            px.c = pixel.getC() * (65535 / pixel.getChannelMax());
+            px.m = pixel.getM() * (65535 / pixel.getChannelMax());
+            px.y = pixel.getY() * (65535 / pixel.getChannelMax());
+            px.k = pixel.getK() * (65535 / pixel.getChannelMax());
+
+            m_pixelReceiver->receivePixelData(px);
           }
         private:
-          DocumentModel::Services::IPixelVisitor *m_readOnlyVisitor;
+          DocumentModel::Services::IPixelReceiver *m_pixelReceiver;
         };
       }
     }
@@ -153,6 +166,31 @@ namespace SDF {
               throw OutOfBoundsException(x, y);
             }
           }
+
+        void CDocumentImageDataService::getLayerPixel(DocumentHandle handle, int layerNum, int x, int y,
+          IPixelReceiver &rec)
+        {
+          using namespace DomainObjects;
+
+          assert(m_documentRepository != nullptr);
+
+          try {
+            CReadPixelVisitor readPixelVisitor(&rec);
+            m_documentRepository->accessDocument(handle).visitPixel(layerNum, x, y, readPixelVisitor);
+          } catch(CDocumentRepository::DocumentNotFoundException &e) {
+            throw InvalidDocumentHandleException(handle);
+          } catch(CDocument::LayerNotFoundException &e) {
+            throw NonexistentLayerException(layerNum);
+          } catch(CDocument::OutOfBoundsException &e) {
+            throw OutOfBoundsException(x, y);
+          }
+        }
+
+        void CDocumentImageDataService::getLayerRegion(DocumentHandle handle, int layerNum, int x, int y,
+          IRegionReceiver &rec)
+        {
+
+        }
       }
     }
   }

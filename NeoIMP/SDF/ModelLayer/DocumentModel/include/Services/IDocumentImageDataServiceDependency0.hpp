@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOCUMENTMODEL_SERVICES_IPIXELVISITOR_HPP
-#define SDF_MODELLAYER_DOCUMENTMODEL_SERVICES_IPIXELVISITOR_HPP
+#ifndef SDF_MODELLAYER_DOCUMENTMODEL_SERVICES_IDOCUMENTIMAGEDATASERVICEDEPENDENCY_HPP
+#define SDF_MODELLAYER_DOCUMENTMODEL_SERVICES_IDOCUMENTIMAGEDATASERVICEDEPENDENCY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPixelVisitor.hpp
- * PURPOSE: A read-only external visitation interface for image pixels.
+ * FILE:    IDocumentImageDataServiceDependency.hpp
+ * PURPOSE: Interface for objects which depend on the document image data service.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,13 @@ namespace SDF {
   namespace ModelLayer {
     namespace DocumentModel {
       namespace Services {
-        class IPixelVisitor {
-        public:
-          virtual ~IPixelVisitor() {}
+        class IDocumentImageDataService;
 
-          virtual void readOnlyVisitRGB(int a, int r, int g, int b, int max) = 0;
-          virtual void readOnlyVisitCMYK(int a, int c, int m, int y, int k, int max) = 0;
+        class IDocumentImageDataServiceDependency {
+        public:
+          virtual ~IDocumentImageDataServiceDependency() {}
+
+          virtual void injectWith(IDocumentImageDataService *service) = 0;
         };
       }
     }
