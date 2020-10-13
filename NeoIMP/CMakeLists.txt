@@ -15,8 +15,6 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_executable(neoimp neoimp.cpp)
-
 add_subdirectory(SDF)
-
+add_executable(neoimp Main.cpp)
 target_link_libraries(neoimp SDF)
