@@ -25,15 +25,18 @@
  */
 
 #include <QDialog>
-#include <Metrics/CImageDimension.hpp>
-#include <Color/EColorModel.hpp>
-#include <Color/EBitDepth.hpp>
+
+#include <SDF/Layers/UILayer/Metrics/CImageDimension.hpp>
+#include <SDF/Layers/UILayer/Color/EColorModel.hpp>
+#include <SDF/Layers/UILayer/Color/EBitDepth.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
 namespace SDF::Layers::UILayer::Qt::View {
+  class INewDocumentController;
+  
   class CNewDocumentDialog : public QDialog {
     Q_OBJECT
   public:

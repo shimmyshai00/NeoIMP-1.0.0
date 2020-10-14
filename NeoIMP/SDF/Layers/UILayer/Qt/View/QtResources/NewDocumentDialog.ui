@@ -52,38 +52,7 @@
        <widget class="QLineEdit" name="imageWidthEdit"/>
       </item>
       <item>
-       <widget class="QComboBox" name="imageWidthUnitBox">
-        <item>
-         <property name="text">
-          <string>px</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>pt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>pica</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>in</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="imageWidthUnitBox"/>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
@@ -96,38 +65,7 @@
        <widget class="QLineEdit" name="imageHeightEdit"/>
       </item>
       <item>
-       <widget class="QComboBox" name="imageHeightUnitBox">
-        <item>
-         <property name="text">
-          <string>px</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>pt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>pica</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>in</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="imageHeightUnitBox"/>
       </item>
      </layout>
     </item>
@@ -168,23 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="imageResolutionUnitBox">
-        <item>
-         <property name="text">
-          <string>per in</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>per cm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>per mm</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="imageResolutionUnitBox"/>
       </item>
       <item>
        <spacer name="horizontalSpacer">
@@ -211,18 +133,7 @@
     <item row="4" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="QComboBox" name="colorModelBox">
-        <item>
-         <property name="text">
-          <string>RGB</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>CMYK</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="colorModelBox"/>
       </item>
       <item>
        <widget class="QLabel" name="label_6">
@@ -235,28 +146,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="bitDepthBox">
-        <item>
-         <property name="text">
-          <string>8</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>10</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>12</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>16</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="bitDepthBox"/>
       </item>
       <item>
        <widget class="QLabel" name="label_7">

@@ -24,10 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Metrics/ELengthUnit.hpp>
-#include <Metrics/EResolutionUnit.hpp>
-#include <Color/EColorModel.hpp>
-#include <Color/EBitDepth.hpp>
+#include <SDF/Layers/UILayer/Metrics/ELengthUnit.hpp>
+#include <SDF/Layers/UILayer/Metrics/EResolutionUnit.hpp>
+#include <SDF/Layers/UILayer/Color/EColorModel.hpp>
+#include <SDF/Layers/UILayer/Color/EBitDepth.hpp>
 
 namespace SDF::Layers::UILayer::Qt::View {
   class INewDocumentController {
@@ -41,7 +41,7 @@ namespace SDF::Layers::UILayer::Qt::View {
       Color::EColorModel colorModel,
       Color::EBitDepth bitDepth
     );
-  }
+  };
 }
 
 #endif

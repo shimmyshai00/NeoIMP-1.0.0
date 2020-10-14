@@ -24,10 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ELengthUnit.hpp>
-#include <EResolutionUnit.hpp>
+#include <SDF/Layers/UILayer/Metrics/ELengthUnit.hpp>
+#include <SDF/Layers/UILayer/Metrics/EResolutionUnit.hpp>
 
-namespace SDF::UILayer::Metrics {
+namespace SDF::Layers::UILayer::Metrics {
   static const char *g_lengthUnitSymbols[MAX_LENGTH_UNIT] = {
     "px",
     "pt",

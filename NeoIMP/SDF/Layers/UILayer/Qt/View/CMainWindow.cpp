@@ -23,7 +23,7 @@
 
 #include <CMainWindow.hpp>
 
-#include "QtResources/ui_MainWindow.h"
+#include <QtResources/ui_MainWindow.h>
 #include <CNewDocumentDialog.hpp>
 
 namespace SDF::Layers::UILayer::Qt::View {

@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <View/INewDocumentController.hpp>
+#include <SDF/Layers/UILayer/Qt/View/INewDocumentController.hpp>
 
 namespace SDF::Layers::UILayer::Qt::Controller {
   class CNewDocumentController : public View::INewDocumentController {
@@ -39,7 +39,7 @@ namespace SDF::Layers::UILayer::Qt::Controller {
       Color::EColorModel colorModel,
       Color::EBitDepth bitDepth
     );
-  }
+  };
 }
 
 #endif

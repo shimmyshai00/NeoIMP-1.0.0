@@ -42,7 +42,7 @@ namespace SDF::Layers::UILayer::Metrics {
       return pixels;
     } else {
       // First, convert to inches using the ppi value. Then convert to the desired units.
-      return ((pixels / resolutionPpi) * 100.0f) * g_lengthConversionFactors[lengthUnit];
+      return ((pixels / resolutionPpi) / 100.0f) * g_lengthConversionFactors[lengthUnit];
     }
   }
 

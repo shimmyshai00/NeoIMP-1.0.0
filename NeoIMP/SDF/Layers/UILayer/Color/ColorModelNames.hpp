@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Layers/UILayer/Color/EColorModel.hpp>
+
 namespace SDF::Layers::UILayer::Color {
   static const char *g_colorModelNames[MAX_COLOR_MODEL] = {
     "RGB",

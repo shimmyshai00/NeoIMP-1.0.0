@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Layers/UILayer/Metrics/ELengthUnit.hpp>
+#include <SDF/Layers/UILayer/Metrics/EResolutionUnit.hpp>
+
 namespace SDF::Layers::UILayer::Metrics {
   // Length unit conversion factors. All factors are given in units per 100 inches.
   static float g_lengthConversionFactors[MAX_LENGTH_UNIT] = {

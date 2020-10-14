@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Layers/UILayer/Metrics/EColorModel.hpp>
+#include <SDF/Layers/UILayer/Metrics/EBitDepth.hpp>
+
 namespace SDF::Layers::UILayer::Entity {
   struct SDocumentSpec {
     std::string documentFileName;
