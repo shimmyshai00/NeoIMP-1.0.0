@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_METRICS_DIMENSION_HPP
+#define SDF_UILAYER_METRICS_DIMENSION_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CQtApplication.cpp
- * PURPOSE: Implementation of the CQtApplication class.
+ * FILE:    Dimension.hpp
+ * PURPOSE: A base class for measurable quantity dimensions.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <CQtApplication.hpp>
-#include <View/CMainWindow.hpp>
-
-#include <QApplication>
-
-namespace SDF::Layers::UILayer::Qt {
-  CQtApplication::CQtApplication() {}
-
-  int CQtApplication::execute(int argc, char **argv) {
-    QApplication q(argc, argv);
-    View::CMainWindow mainWindow;
-
-    mainWindow.show();
-    
-    return q.exec();
-  }
+namespace SDF::UILayer::Metrics {
+  class Dimension {};
 }
+
+#endif

@@ -1,12 +1,13 @@
 #ifndef SDF_IAPPLICATION_HPP
 #define SDF_IAPPLICATION_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IApplication.hpp
- * PURPOSE: Definition of the interface for the top-level application objects.
+ * PURPOSE: The interface for the top-level application object. This is also the public interface for the SDF module
+ *          and so the whole program, to be called by main(). The implementation of this interface depends on the UI
+ *          layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,11 +28,9 @@
 namespace SDF {
   class IApplication {
   public:
-    virtual ~IApplication() {}
+    virtual ~IApplication() = default;
 
-    virtual int execute(int argc, char **argv) = 0;
-  public:
-    static IApplication *getInstance();
+    virtual int exec(int argc, char **argv) = 0;
   };
 }
 

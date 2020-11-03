@@ -22,7 +22,10 @@
  */
 
 #include <SDF/IApplication.hpp>
+#include <SDF/UILayer/Qt/QtApplication.hpp>
+#include <memory>
 
 int main(int argc, char **argv) {
-  return SDF::IApplication::getInstance()->execute(argc, argv);
+  std::unique_ptr<SDF::IApplication> application(new SDF::UILayer::Qt::QtApplication());
+  return application->exec(argc, argv);
 }

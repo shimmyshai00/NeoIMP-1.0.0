@@ -1,12 +1,11 @@
-#ifndef SDF_LAYERS_UILAYER_QT_CQTAPPLICATION_HPP
-#define SDF_LAYERS_UILAYER_QT_CQTAPPLICATION_HPP
-
+#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CQtApplication.hpp
- * PURPOSE: Definition of the Qt-based application class.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: The Qt object corresponding to the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +23,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
+#include <QMainWindow>
+#include <memory>
 
-namespace SDF::Layers::UILayer::Qt {
-  class CQtApplication : public IApplication {
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+namespace SDF::UILayer::Qt::View {
+  class MainWindow : public QMainWindow {
+    Q_OBJECT
   public:
-    CQtApplication();
-    ~CQtApplication() {}
-
-    int execute(int argc, char **argv);
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+  private:
+    std::unique_ptr<Ui::MainWindow> m_ui;
   };
 }
 

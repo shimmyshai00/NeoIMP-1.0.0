@@ -1,12 +1,12 @@
-#ifndef SDF_LAYERS_UILAYER_MODELINTERFACE_ENTITY_SDOCUMENTSPEC_HPP
-#define SDF_LAYERS_UILAYER_MODELINTERFACE_ENTITY_SDOCUMENTSPEC_HPP
+#ifndef SDF_UILAYER_METRICS_UNIT_HPP
+#define SDF_UILAYER_METRICS_UNIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    SDocumentSpec.hpp
- * PURPOSE: Definition of a structure to specify the parameters of a document to be created in the model layer.
+ * FILE:    Unit.hpp
+ * PURPOSE: A template for defining units of a quantity of some dimension.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Layers/UILayer/Metrics/EColorModel.hpp>
-#include <SDF/Layers/UILayer/Metrics/EBitDepth.hpp>
+namespace SDF::UILayer::Metrics {
+  template<class D>
+  class Unit {
+  public:
+    Unit(float numBaseUnits) :
+    m_numBaseUnits(numBaseUnits) {}
 
-namespace SDF::Layers::UILayer::Entity {
-  struct SDocumentSpec {
-    std::string documentFileName;
+    ~Unit() {}
 
-    int documentWidth;
-    int documentHeight;
-    int documentResolution; // in pixels per inch (PPI)
+    // Synthesize a multiplicative conversion factor for this unit and another unit of this same dimensional quantity.
+    float getConversionTo(const Unit<D> toUnit) const {
+      return(toUnit.m_numBaseUnits / m_numBaseUnits);
+    }
+  private:
+    // The size of this unit as a number of arbitrary base units for this quantity.
+    float m_numBaseUnits;
+  };
 
-    EColorModel colorModel;
-    EBitDepth bitDepth;
+  template<class D>
+  class BaseUnit : public Unit<D> {
+  public:
+    BaseUnit() :
+    Unit(1.0f) {}
+
+    ~BaseUnit() {}
   };
 }
 

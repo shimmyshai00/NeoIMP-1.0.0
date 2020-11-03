@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_VIEW_INEWDOCUMENTCONTROLLER_HPP
+#define SDF_UILAYER_QT_VIEW_INEWDOCUMENTCONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Provider method for the singleton application instance for this UI implementation.
+ * FILE:    INewDocumentController.hpp
+ * PURPOSE: Interface for the controller used by the new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <IApplication.hpp>
-#include <Layers/UILayer/Qt/CQtApplication.hpp>
+namespace SDF::UILayer::Qt::View {
+  class INewDocumentController {
+  public:
+    virtual ~INewDocumentController() = default;
 
-#include <memory>
-
-namespace SDF {
-  IApplication *IApplication::getInstance() {
-    static std::unique_ptr<IApplication> instance(new Layers::UILayer::Qt::CQtApplication());
-    return instance.get();
-  }
+    virtual void createNewDocument();
+  };
 }
+
+#endif

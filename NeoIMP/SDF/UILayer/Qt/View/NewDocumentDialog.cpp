@@ -1,12 +1,9 @@
-#ifndef SDF_LAYERS_UILAYER_COLOR_COLORMODELNAMES_HPP
-#define SDF_LAYERS_UILAYER_COLOR_COLORMODELNAMES_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorModelNames.hpp
- * PURPOSE: Definition of names for the available color models.
+ * FILE:    NewDocumentDialog.cpp
+ * PURPOSE: Implementation of the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,14 +20,3 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
-#include <SDF/Layers/UILayer/Color/EColorModel.hpp>
-
-namespace SDF::Layers::UILayer::Color {
-  static const char *g_colorModelNames[MAX_COLOR_MODEL] = {
-    "RGB",
-    "CMYK"
-  };
-}
-
-#endif

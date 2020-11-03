@@ -1,9 +1,11 @@
+#ifndef SDF_UILAYER_QTAPPLICATION_HPP
+#define SDF_UILAYER_QTAPPLICATION_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CNewDocumentController.cpp
- * PURPOSE: Implementation of the CNewDocumentController class.
+ * FILE:    QtApplication.hpp
+ * PURPOSE: Application implementation for the Qt widget system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +23,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <CNewDocumentController.hpp>
+#include <SDF/IApplication.hpp>
 
-namespace SDF::Layers::UILayer::Qt::Controller {
-  CNewDocumentController::CNewDocumentController() {
+namespace SDF::UILayer::Qt {
+  class QtApplication : public IApplication {
+  public:
+    QtApplication();
+    ~QtApplication() {}
 
-  }
-
-  void CNewDocumentController::createNewDocument(
-    float documentWidth, Metrics::ELengthUnit widthUnit,
-    float documentHeight, Metrics::ELengthUnit heightUnit,
-    float documentResolution, Metrics::EResolutionUnit resolutionUnit,
-    Color::EColorModel colorModel,
-    Color::EBitDepth bitDepth
-  ) {
-
-  }
+    int exec(int argc, char **argv);
+  };
 }
+
+#endif

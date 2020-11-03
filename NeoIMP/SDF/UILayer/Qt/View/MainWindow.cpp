@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CMainWindow.hpp
- * PURPOSE: Implementation of the CMainWindow class.
+ * FILE:    MainWindow.cpp
+ * PURPOSE: Implementation of the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,26 +21,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <CMainWindow.hpp>
+#include <MainWindow.hpp>
+#include "QtResources/ui_MainWindow.h"
 
-#include <QtResources/ui_MainWindow.h>
-#include <CNewDocumentDialog.hpp>
-
-namespace SDF::Layers::UILayer::Qt::View {
-  CMainWindow::CMainWindow(QWidget *parent) :
+namespace SDF::UILayer::Qt::View {
+  MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   m_ui(new Ui::MainWindow)
   {
     m_ui->setupUi(this);
   }
 
-  CMainWindow::~CMainWindow() {
-    delete m_ui;
-  }
-
-  // Private member.
-  void CMainWindow::on_action_New_triggered() {
-    CNewDocumentDialog newDocumentDialog;
-    newDocumentDialog.exec();
+  MainWindow::~MainWindow() {
   }
 }

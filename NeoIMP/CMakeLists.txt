@@ -17,4 +17,4 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 add_subdirectory(SDF)
 add_executable(neoimp Main.cpp)
-target_link_libraries(neoimp SDF)
+target_link_libraries(neoimp SDF fruit)
