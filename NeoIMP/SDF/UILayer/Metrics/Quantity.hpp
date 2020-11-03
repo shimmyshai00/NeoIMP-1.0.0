@@ -6,8 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Quantity.hpp
- * PURPOSE: A class representing quantities with a given physical dimension. This is a simplistic unit framework that
- *          only supports quantities that are powers of a single base dimension.
+ * PURPOSE: A class representing measurable quantities with units and measure dimensions.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,67 +24,71 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/Metrics/Unit.hpp>
+
 namespace SDF::UILayer::Metrics {
-  template<class D, int Exp>
+  // The available dimensions are length and angle.
+  template<int L, int A>
   class Quantity {
   public:
     Quantity() :
-    m_val(0) {}
+    m_val(0.0f),
+    m_unit(1.0f) {}
 
-    Quantity(float val, const Unit<D> inUnit) :
-    m_val(val * inUnit.getConversionTo(BaseUnit<D>())) {}
+    Quantity(float val, const Unit<L, A> inUnit) :
+    m_val(val),
+    m_unit(inUnit) {}
 
     ~Quantity() {}
 
-    float inUnitsOf(const Unit<D> unit) {
-      return m_val * inUnit.getConversionTo(BaseUnit<D>());
+    float inUnitsOf(const Unit<L, A> unit) {
+      return m_val * m_unit.getConversionTo(unit);
     }
-    
-    Quantity<D, Exp> &operator+=(const Quantity<D, Exp> &rhs) {
+
+    Quantity<L, A> &operator+=(const Quantity<L, A> &rhs) {
       m_val += rhs.m_val;
       return *this;
     }
 
-    Quantity<D, Exp> &operator-=(const Quantity<D, Exp> &rhs) {
+    Quantity<L, A> &operator-=(const Quantity<L, A> &rhs) {
       m_val -= rhs.m_val;
       return *this;
     }
 
     // Non-member operators.
-    template<class D, int Exp>
-    friend bool operator==(const Quantity<D, Exp> &lhs, const Quantity<D, Exp> &rhs) {
+    template<int L, int A>
+    friend bool operator==(const Quantity<L, A> &lhs, const Quantity<L, A> &rhs) {
       return lhs.m_val == rhs.m_val;
     }
 
-    template<class D, int Exp>
-    friend bool operator!=(const Quantity<D, Exp> &lhs, const Quantity<D, Exp> &rhs) {
+    template<int L, int A>
+    friend bool operator!=(const Quantity<L, A> &lhs, const Quantity<L, A> &rhs) {
       return !(lhs == rhs);
     }
 
-    template<class D, int Exp>
-    friend Quantity<D, Exp> operator+(const Quantity<D, Exp> &lhs, const Quantity<D, Exp> &rhs) {
-      return Quantity<D, Exp>(lhs) += rhs;
+    template<int L, int A>
+    friend Quantity<L, A> operator+(const Quantity<L, A> &q1, const Quantity<L, A> &q2) {
+      return Quantity<L, A>(q1) += q2;
     }
 
-    template<class D, int Exp>
-    friend Quantity<D, Exp> operator-(const Quantity<D, Exp> &lhs, const Quantity<D, Exp> &rhs) {
-      return Quantity<D, Exp>(lhs) -= rhs;
+    template<int L, int A>
+    friend Quantity<L, A> operator-(const Quantity<L, A> &q1, const Quantity<L, A> &q2) {
+      return Quantity<L, A>(q1) -= q2;
     }
 
-    template<class D, int ExpL, int ExpR>
-    friend Quantity<D, ExpL + ExpR> operator*(const Quantity<D, ExpL> &lhs, const Quantity<D, ExpR> &rhs) {
-      Quantity<D, ExpL, ExpR> rv;
-      rv.m_val = lhs.m_val * rhs.m_val;
+    template<int L1, int A1, int L2, int A2>
+    friend Quantity<L1 + L2, A1 + A2> operator*(const Quantity<L1, A1> &q1, const Quantity<L2, A2> &q2) {
+      return Quantity<L1 + L2, A1 + A2>(q1.m_val*q2.m_val, q1.m_unit*q2.m_unit);
     }
 
-    template<class D, int ExpL, int ExpR>
-    friend Quantity<D, ExpL - ExpR> operator/(const Quantity<D, ExpL> &lhs, const Quantity<D, ExpR> &rhs) {
-      Quantity<D, ExpL, ExpR> rv;
-      rv.m_val = lhs.m_val / rhs.m_val;
+    template<int L1, int A1, int L2, int A2>
+    friend Quantity<L, AL - ExpR> operator/(const Quantity<L, AL> &q1, const Quantity<L, AR> &q2) {
+      return Quantity<L1 - L2, A1 - A2>(q1.m_val/q2.m_val, q1.m_unit/q2.m_unit);
     }
   private:
-    // The size of the quantity in base units.
+    // The size of the quantity in the given units.
     float m_val;
+    Unit<L, A> m_unit;
   };
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_METRICS_DIMENSION_HPP
-#define SDF_UILAYER_METRICS_DIMENSION_HPP
+#ifndef SDF_UILAYER_METRICS_LENGTH_UNITS_UNITS_HPP
+#define SDF_UILAYER_METRICS_LENGTH_UNITS_UNITS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Dimension.hpp
- * PURPOSE: A base class for measurable quantity dimensions.
+ * FILE:    Units.hpp
+ * PURPOSE: Definitions of the units for length quantities.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Metrics {
-  class Dimension {};
-}
+#include <SDF/UILayer/Metrics/Unit.hpp>
+
+namespace SDF::UILayer::Metrics::Length::Units {
+  // Unit enumeration.
+  enum {
+    LENGTH_UNIT_MILLIMETER,
+    LENGTH_UNIT_POINT,
+    LENGTH_UNIT_PICA,
+    LENGTH_UNIT_CENTIMETER,
+    LENGTH_UNIT_INCH,
+    LENGTH_UNIT_MAX
+  };
+
+  // Unit definitions. We take the arbitrary base units to be millimeters.
+  typedef Unit<1, 0> LengthUnit;
+  static const LengthUnit Millimeter = LengthUnit(1.0f);
+  static const LengthUnit Point = LengthUnit(0.3527778f);
+  static const LengthUnit Pica = LengthUnit(4.233333f);
+  static const LengthUnit Centimeter = LengthUnit(10.0f);
+  static const LengthUnit Inch = LengthUnit(25.4f);
+};
 
 #endif
