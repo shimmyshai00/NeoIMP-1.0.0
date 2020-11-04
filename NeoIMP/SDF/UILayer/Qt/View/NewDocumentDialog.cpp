@@ -20,3 +20,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
+#include <NewDocumentDialog.hpp>
+#include "QtResources/ui_NewDocumentDialog.h"
+
+namespace SDF::UILayer::Qt::View {
+  NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
+  QDialog(parent),
+  m_ui(new Ui::NewDocumentDialog) {
+    m_ui->setupUi(this);
+  }
+
+  NewDocumentDialog::~NewDocumentDialog() {
+    delete m_ui;
+  }
+}

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.cpp
- * PURPOSE: Implementation of the MainWindow class.
+ * FILE:    UnitQuantityInput.cpp
+ * PURPOSE: Implementation of the UnitQuantityInput class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindow.hpp>
-#include "QtResources/ui_MainWindow.h"
+#include <UnitQuantityInput.hpp>
 
-#include <NewDocumentDialog.hpp>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QComboBox>
 
-namespace SDF::UILayer::Qt::View {
-  MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
-  {
-    m_ui->setupUi(this);
-  }
-
-  MainWindow::~MainWindow() {
-  }
-
-  // Private member.
-  void MainWindow::on_action_New_triggered() {
-    NewDocumentDialog newDocumentDialog;
-    newDocumentDialog.exec();
+namespace SDF::UILayer::Qt::View::CustomWidgets {
+  UnitQuantityInput::UnitQuantityInput(QWidget *parent, ::Qt::WindowFlags f) :
+  QWidget(parent, f),
+  m_layout(new QHBoxLayout(this)),
+  m_numberInput(new QLineEdit(this)),
+  m_unitSelection(new QComboBox(this)) {
+    m_layout->setMargin(0);
+    
+    m_layout->addWidget(m_numberInput);
+    m_layout->addWidget(m_unitSelection);
   }
 }

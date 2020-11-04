@@ -36,6 +36,8 @@ namespace SDF::UILayer::Qt::View {
   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+  private slots:
+    void on_action_New_triggered();
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
   };

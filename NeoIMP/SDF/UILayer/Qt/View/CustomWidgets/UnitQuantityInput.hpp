@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_VIEW_WIDGETS_UNITQUANTITYINPUT_HPP
+#define SDF_UILAYER_QT_VIEW_WIDGETS_UNITQUANTITYINPUT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.cpp
- * PURPOSE: Implementation of the MainWindow class.
+ * FILE:    UnitQuantityInput.hpp
+ * PURPOSE: Implementation of a custom Qt UI widget for inputting unitful quantities (like lengths).
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,25 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindow.hpp>
-#include "QtResources/ui_MainWindow.h"
+#include <QWidget>
 
-#include <NewDocumentDialog.hpp>
+class QHBoxLayout;
+class QLineEdit;
+class QComboBox;
 
-namespace SDF::UILayer::Qt::View {
-  MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
-  {
-    m_ui->setupUi(this);
-  }
-
-  MainWindow::~MainWindow() {
-  }
-
-  // Private member.
-  void MainWindow::on_action_New_triggered() {
-    NewDocumentDialog newDocumentDialog;
-    newDocumentDialog.exec();
-  }
+namespace SDF::UILayer::Qt::View::CustomWidgets {
+  class UnitQuantityInput : public QWidget {
+    Q_OBJECT
+  public:
+    UnitQuantityInput(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
+    ~UnitQuantityInput() {}
+  signals:
+  private:
+    // The sub-widgets comprising this widget.
+    QHBoxLayout *m_layout;
+    QLineEdit *m_numberInput;
+    QComboBox *m_unitSelection;
+  };
 }
+
+#endif
