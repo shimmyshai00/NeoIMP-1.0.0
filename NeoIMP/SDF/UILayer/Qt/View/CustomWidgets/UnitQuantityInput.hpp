@@ -31,17 +31,34 @@ class QLineEdit;
 class QComboBox;
 
 namespace SDF::UILayer::Qt::View::CustomWidgets {
+  enum QuantityType {
+    QUANTITY_LENGTH,
+    QUANTITY_RESOLUTION
+  };
+
   class UnitQuantityInput : public QWidget {
     Q_OBJECT
   public:
     UnitQuantityInput(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
     ~UnitQuantityInput() {}
+
+    QuantityType quantityType();
+    void setQuantityType(QuantityType quantityType);
+
+    float resolutionPpi();
+    void setResolutionPpi(float ppi);
   signals:
   private:
     // The sub-widgets comprising this widget.
     QHBoxLayout *m_layout;
     QLineEdit *m_numberInput;
     QComboBox *m_unitSelection;
+
+    // The type of quantity we want to permit entry of.
+    QuantityType m_quantityType;
+
+    // The resolution used to convert between length and pixels, in pixels-per-inch (PPI).
+    float m_resolutionPpi;
   };
 }
 
