@@ -44,6 +44,33 @@ namespace SDF::UILayer::Metrics::Length::Units {
   static const LengthUnit Pica = LengthUnit(4.233333f);
   static const LengthUnit Centimeter = LengthUnit(10.0f);
   static const LengthUnit Inch = LengthUnit(25.4f);
+
+  // Unit names. NOTE: this may need to be revised later and put in a central database to support alternative languages.
+  static const std::string names[LENGTH_UNIT_MAX] = {
+    "millimeters",
+    "points",
+    "picas",
+    "centimeters",
+    "inches"
+  };
+
+  // Unit symbols.
+  static const std::string symbols[LENGTH_UNIT_MAX] = {
+    "mm",
+    "pt",
+    "pica",
+    "cm",
+    "in"
+  };
+
+  // Units in an indexable list.
+  static const LengthUnit units[LENGTH_UNIT_MAX] = {
+    Millimeter,
+    Point,
+    Pica,
+    Centimeter,
+    Inch
+  };
 };
 
 #endif

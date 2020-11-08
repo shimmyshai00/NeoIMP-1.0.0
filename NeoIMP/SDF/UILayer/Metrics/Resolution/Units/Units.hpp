@@ -31,7 +31,8 @@ namespace SDF::UILayer::Metrics::Resolution::Units {
   enum {
     RESOLUTION_UNIT_PPI,
     RESOLUTION_UNIT_PPCM,
-    RESOLUTION_UNIT_PPMM
+    RESOLUTION_UNIT_PPMM,
+    RESOLUTION_UNIT_MAX
   };
 
   // Unit definitions. We take the arbitrary base units to be pixels per inch (PPI).
@@ -39,6 +40,27 @@ namespace SDF::UILayer::Metrics::Resolution::Units {
   static const ResolutionUnit PixelsPerInch = ResolutionUnit(1.0f);
   static const ResolutionUnit PixelsPerCentimeter = ResolutionUnit(2.54f);
   static const ResolutionUnit PixelsPerMillimeter = ResolutionUnit(25.4f);
+
+  // Unit names. NOTE: this may need to be revised later and put in a central database to support alternative languages.
+  static const std::string names[RESOLUTION_UNIT_MAX] = {
+    "pixels per inch",
+    "pixels per centimeter",
+    "pixels per millimeter"
+  };
+
+  // Unit symbols.
+  static const std::string symbols[RESOLUTION_UNIT_MAX] = {
+    "ppi",
+    "px/cm",
+    "px/mm",
+  };
+
+  // Units in an indexable list.
+  static const ResolutionUnit units[RESOLUTION_UNIT_MAX] = {
+    PixelsPerInch,
+    PixelsPerCentimeter,
+    PixelsPerMillimeter
+  };
 };
 
 #endif

@@ -24,11 +24,16 @@
 #include <NewDocumentDialog.hpp>
 #include "QtResources/ui_NewDocumentDialog.h"
 
+#include <CustomWidgets/UnitQuantityInput.hpp>
+
 namespace SDF::UILayer::Qt::View {
   NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
   QDialog(parent),
   m_ui(new Ui::NewDocumentDialog) {
+    using namespace SDF::UILayer::Qt::View::CustomWidgets;
+    
     m_ui->setupUi(this);
+    m_ui->imageResolutionInput->setQuantityType(QUANTITY_RESOLUTION);
   }
 
   NewDocumentDialog::~NewDocumentDialog() {

@@ -45,44 +45,44 @@ namespace SDF::UILayer::Metrics {
       return m_val * m_unit.getConversionTo(unit);
     }
 
+    Quantity<L, A> convertUnits(const Unit<L, A> toUnit) const {
+      return Quantity<L, A>(m_val * m_unit.getConversionTo(toUnit), toUnit);
+    }
+
     Quantity<L, A> &operator+=(const Quantity<L, A> &rhs) {
-      m_val += rhs.m_val;
+      m_val += rhs.convertUnits(m_unit).m_val;
       return *this;
     }
 
     Quantity<L, A> &operator-=(const Quantity<L, A> &rhs) {
-      m_val -= rhs.m_val;
+      m_val -= rhs.convertUnits(m_unit).m_val;
       return *this;
     }
 
     // Non-member operators.
-    template<int L, int A>
     friend bool operator==(const Quantity<L, A> &lhs, const Quantity<L, A> &rhs) {
-      return lhs.m_val == rhs.m_val;
+      return lhs.m_val == rhs.convertUnits(lhs.m_unit).m_val;
     }
 
-    template<int L, int A>
     friend bool operator!=(const Quantity<L, A> &lhs, const Quantity<L, A> &rhs) {
       return !(lhs == rhs);
     }
 
-    template<int L, int A>
     friend Quantity<L, A> operator+(const Quantity<L, A> &q1, const Quantity<L, A> &q2) {
       return Quantity<L, A>(q1) += q2;
     }
 
-    template<int L, int A>
     friend Quantity<L, A> operator-(const Quantity<L, A> &q1, const Quantity<L, A> &q2) {
       return Quantity<L, A>(q1) -= q2;
     }
 
-    template<int L1, int A1, int L2, int A2>
+    template<int L2, int A2>
     friend Quantity<L1 + L2, A1 + A2> operator*(const Quantity<L1, A1> &q1, const Quantity<L2, A2> &q2) {
       return Quantity<L1 + L2, A1 + A2>(q1.m_val*q2.m_val, q1.m_unit*q2.m_unit);
     }
 
-    template<int L1, int A1, int L2, int A2>
-    friend Quantity<L, AL - ExpR> operator/(const Quantity<L, AL> &q1, const Quantity<L, AR> &q2) {
+    template<int L2, int A2>
+    friend Quantity<L1 - L2, A1 - A2> operator/(const Quantity<L1, A1> &q1, const Quantity<L2, A2> &q2) {
       return Quantity<L1 - L2, A1 - A2>(q1.m_val/q2.m_val, q1.m_unit/q2.m_unit);
     }
   private:

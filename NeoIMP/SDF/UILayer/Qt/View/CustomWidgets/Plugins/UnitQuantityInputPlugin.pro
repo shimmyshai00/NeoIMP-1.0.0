@@ -7,4 +7,4 @@ QT += widgets uiplugin
 
 target.path = $$[QT_INSTALL_PLUGINS]/designer
 INSTALLS += target
-INCLUDEPATH += ../
+INCLUDEPATH += ../ ../../../../../../

@@ -26,12 +26,17 @@
 
 #include <QWidget>
 
+#include <SDF/UILayer/Metrics/Dimensionless/Quantity.hpp>
+#include <SDF/UILayer/Metrics/Length/Quantity.hpp>
+#include <SDF/UILayer/Metrics/Resolution/Quantity.hpp>
+
 class QHBoxLayout;
 class QLineEdit;
 class QComboBox;
 
 namespace SDF::UILayer::Qt::View::CustomWidgets {
   enum QuantityType {
+    QUANTITY_PIXELS,
     QUANTITY_LENGTH,
     QUANTITY_RESOLUTION
   };
@@ -42,11 +47,15 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     UnitQuantityInput(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
     ~UnitQuantityInput() {}
 
-    QuantityType quantityType();
+    QuantityType quantityType() const;
     void setQuantityType(QuantityType quantityType);
 
-    float resolutionPpi();
-    void setResolutionPpi(float ppi);
+    Metrics::Resolution::Quantity resolution() const;
+    void setResolution(Metrics::Resolution::Quantity resolution);
+
+    Metrics::Dimensionless::Quantity pixelsQuantity() const;
+    Metrics::Length::Quantity lengthQuantity() const;
+    Metrics::Resolution::Quantity resolutionQuantity() const;
   signals:
   private:
     // The sub-widgets comprising this widget.
@@ -57,8 +66,18 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     // The type of quantity we want to permit entry of.
     QuantityType m_quantityType;
 
-    // The resolution used to convert between length and pixels, in pixels-per-inch (PPI).
-    float m_resolutionPpi;
+    // The resolution used to convert between length and pixels.
+    Metrics::Resolution::Quantity m_resolution;
+
+    // The entered quantity.
+    Metrics::Dimensionless::Quantity m_pixelsQuantity;
+    Metrics::Length::Quantity m_lengthQuantity;
+    Metrics::Resolution::Quantity m_resolutionQuantity;
+
+    // Private member functions.
+    void updateUnitSelectionBox();
+    void updateQuantityAfterAmountChange();
+    void updateDisplayedAmountAfterUnitChange();
   };
 }
 

@@ -42,18 +42,18 @@ namespace SDF::UILayer::Metrics {
 
     // Unit combination operators.
     template<int P>
-    friend Unit<L1 * P, A1 * P> pow(const Unit<L1, A1> &u) {
-      return Unit<L1 * P, A1 * P>(pow(u.m_numBaseUnits, P);
+    friend Unit<L * P, A * P> pow(const Unit<L, A> &u) {
+      return Unit<L * P, A * P>(pow(u.m_numBaseUnits, P));
     }
 
-    template<int L1, int A1, int L2, int A2>
-    friend Unit<L1 + L2, A1 + A2> operator*(const Unit<L1, A1> &u1, const Unit<L2, A2> &u2) {
-      return Unit<L1 + L2, A1 + A2>(u1.m_numBaseUnits * u2.m_numBaseUnits);
+    template<int L2, int A2>
+    friend Unit<L + L2, A + A2> operator*(const Unit<L, A> &u1, const Unit<L2, A2> &u2) {
+      return Unit<L + L2, A + A2>(u1.m_numBaseUnits * u2.m_numBaseUnits);
     }
 
-    template<int L1, int A1, int L2, int A2>
-    friend Unit<L1 - L2, A1 - A2> operator/(const Unit<L1, A1> &u1, const Unit<L2, A2> &u2) {
-      return Unit<L1 - L2, A1 - A2>(u1.m_numBaseUnits / u2.m_numBaseUnits);
+    template<int L2, int A2>
+    friend Unit<L - L2, A - A2> operator/(const Unit<L, A> &u1, const Unit<L2, A2> &u2) {
+      return Unit<L - L2, A - A2>(u1.m_numBaseUnits / u2.m_numBaseUnits);
     }
   private:
     // The size of this unit as a number of arbitrary base units for this quantity.

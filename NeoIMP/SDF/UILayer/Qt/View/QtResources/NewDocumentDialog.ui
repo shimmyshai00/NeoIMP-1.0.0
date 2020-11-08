@@ -87,18 +87,18 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="unitQuantityInput"/>
+      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageWidthInput"/>
      </item>
      <item row="1" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="unitQuantityInput_2"/>
+      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageHeightInput"/>
      </item>
      <item row="2" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="unitQuantityInput_3"/>
+      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageResolutionInput"/>
      </item>
      <item row="4" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QComboBox" name="comboBox"/>
+        <widget class="QComboBox" name="colorModelComboBox"/>
        </item>
        <item>
         <widget class="QLabel" name="label_5">
@@ -114,7 +114,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_2"/>
+        <widget class="QComboBox" name="bitsPerChannelComboBox"/>
        </item>
        <item>
         <widget class="QLabel" name="label_6">
@@ -158,7 +158,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_3"/>
+      <widget class="QComboBox" name="presetComboBox"/>
      </item>
     </layout>
    </widget>
