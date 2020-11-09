@@ -54,9 +54,19 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     void setResolution(Metrics::Resolution::Quantity resolution);
 
     Metrics::Dimensionless::Quantity pixelsQuantity() const;
+    void setPixelsQuantity(Metrics::Dimensionless::Quantity pixels);
+
     Metrics::Length::Quantity lengthQuantity() const;
+    void setLengthQuantity(Metrics::Length::Quantity length);
+
     Metrics::Resolution::Quantity resolutionQuantity() const;
+    void setResolutionQuantity(Metrics::Resolution::Quantity resolution);
   signals:
+    void pixelsQuantityEdited(Metrics::Dimensionless::Quantity newPixels);
+    void lengthQuantityEdited(Metrics::Length::Quantity newLength);
+    void resolutionQuantityEdited(Metrics::Resolution::Quantity newResolution);
+  public slots:
+    void setResolutionSlot(Metrics::Resolution::Quantity resolution);
   private:
     // The sub-widgets comprising this widget.
     QHBoxLayout *m_layout;

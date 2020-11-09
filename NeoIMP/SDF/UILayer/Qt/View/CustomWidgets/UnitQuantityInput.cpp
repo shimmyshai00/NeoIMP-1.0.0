@@ -49,7 +49,28 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     m_layout->addWidget(m_numberInput);
     m_layout->addWidget(m_unitSelection);
 
+    connect(m_numberInput, QOverload<const QString &>::of(&QLineEdit::textEdited), this, [=](const QString &str) {
+      updateQuantityAfterAmountChange();
+
+      switch(m_quantityType) {
+        case QUANTITY_PIXELS:
+          emit pixelsQuantityEdited(m_pixelsQuantity);
+          break;
+        case QUANTITY_LENGTH:
+          emit lengthQuantityEdited(m_lengthQuantity);
+          break;
+        case QUANTITY_RESOLUTION:
+          emit resolutionQuantityEdited(m_resolutionQuantity);
+          break;
+      }
+    });
+
+    connect(m_unitSelection, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index) {
+      updateDisplayedAmountAfterUnitChange();
+    });
+
     updateUnitSelectionBox();
+    updateDisplayedAmountAfterUnitChange();
   }
 
   QuantityType UnitQuantityInput::quantityType() const {
@@ -60,6 +81,7 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     m_quantityType = quantityType;
 
     updateUnitSelectionBox();
+    updateDisplayedAmountAfterUnitChange();
   }
 
   Metrics::Resolution::Quantity UnitQuantityInput::resolution() const {
@@ -68,9 +90,57 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
 
   void UnitQuantityInput::setResolution(Metrics::Resolution::Quantity resolution) {
     m_resolution = resolution;
-    m_lengthQuantity = m_pixelsQuantity * m_resolution;
+    if(m_quantityType != QUANTITY_PIXELS) {
+      m_lengthQuantity = m_pixelsQuantity / m_resolution;
+    } else {
+      int unitSelIndex(m_unitSelection->currentIndex());
+      int unitIndex(m_unitSelection->itemData(unitSelIndex).toInt());
+
+      if(unitIndex != -1) {
+        // special handling depending on whether pixels are selected as unit or not
+        m_pixelsQuantity = m_lengthQuantity * m_resolution;
+      } else {
+        m_lengthQuantity = m_pixelsQuantity / m_resolution;
+      }
+    }
 
     updateDisplayedAmountAfterUnitChange();
+  }
+
+  Metrics::Dimensionless::Quantity UnitQuantityInput::pixelsQuantity() const {
+    return m_pixelsQuantity;
+  }
+
+  void UnitQuantityInput::setPixelsQuantity(Metrics::Dimensionless::Quantity pixels) {
+    m_pixelsQuantity = pixels;
+    m_lengthQuantity = m_pixelsQuantity / m_resolution;
+
+    updateDisplayedAmountAfterUnitChange();
+  }
+
+  Metrics::Length::Quantity UnitQuantityInput::lengthQuantity() const {
+    return m_lengthQuantity;
+  }
+
+  void UnitQuantityInput::setLengthQuantity(Metrics::Length::Quantity length) {
+    m_lengthQuantity = length;
+    m_pixelsQuantity = m_lengthQuantity * m_resolution;
+
+    updateDisplayedAmountAfterUnitChange();
+  }
+
+  Metrics::Resolution::Quantity UnitQuantityInput::resolutionQuantity() const {
+    return m_resolutionQuantity;
+  }
+
+  void UnitQuantityInput::setResolutionQuantity(Metrics::Resolution::Quantity resolution) {
+    m_resolutionQuantity = resolution;
+
+    updateDisplayedAmountAfterUnitChange();
+  }
+
+  void UnitQuantityInput::setResolutionSlot(Metrics::Resolution::Quantity resolution) {
+    setResolution(resolution);
   }
 
   // Private members.
@@ -101,23 +171,24 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     bool ok(false);
     float inputVal(m_numberInput->text().toFloat(&ok));
     int unitSelIndex(m_unitSelection->currentIndex());
-    int unitIndex(m_unitSelection->itemData(unitSelIdx).toInt());
+    int unitIndex(m_unitSelection->itemData(unitSelIndex).toInt());
 
     if(ok) {
       switch(m_quantityType) {
         case QUANTITY_PIXELS:
           if(unitIndex == -1) { // Length units need separate treatment
-            m_pixelsQuantity = Metrics::Dimensionless::Quantity(inputVal, Metrics::Dimensionless::One);
+            m_pixelsQuantity = Metrics::Dimensionless::Quantity(inputVal, Metrics::Dimensionless::Units::One);
+            m_lengthQuantity = m_pixelsQuantity / m_resolution;
           } else {
-            m_lengthQuantity = Metrics::Length::Quantity(inputVal, Metrics::Length::Units::units[unitSel-1]);
+            m_lengthQuantity = Metrics::Length::Quantity(inputVal, Metrics::Length::Units::units[unitIndex]);
             m_pixelsQuantity = m_lengthQuantity * m_resolution;
           }
           break;
         case QUANTITY_LENGTH:
-          m_lengthQuantity = Metrics::Length::Quantity(inputVal, Metrics::Length::Units::units[unitSel-1]);
+          m_lengthQuantity = Metrics::Length::Quantity(inputVal, Metrics::Length::Units::units[unitIndex]);
           break;
         case QUANTITY_RESOLUTION:
-          m_resolutionQuantity = Metrics::Resolution::Quantity(inputVal, Metrics::Resolution::Units[unitSel]);
+          m_resolutionQuantity = Metrics::Resolution::Quantity(inputVal, Metrics::Resolution::Units::units[unitIndex]);
           break;
       }
     }
@@ -125,29 +196,29 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
 
   void UnitQuantityInput::updateDisplayedAmountAfterUnitChange() {
     int unitSelIndex(m_unitSelection->currentIndex());
-    int unitIndex(m_unitSelection->itemData(unitSelIdx).toInt());
+    int unitIndex(m_unitSelection->itemData(unitSelIndex).toInt());
 
     switch(m_quantityType) {
       case QUANTITY_PIXELS:
         if(unitIndex == -1) {
           m_numberInput->setText(
-            QString::number(0.0 + m_pixelsQuantity->inUnitsOf(Metrics::Dimensionless::Units::One))
+            QString::number(0.0 + m_pixelsQuantity.inUnitsOf(Metrics::Dimensionless::Units::One))
           );
         } else {
           m_numberInput->setText(
-            QString::number(0.0 + m_lengthQuantity->inUnitsOf(Metrics::Length::Units::units[unitIndex]))
+            QString::number(0.0 + m_lengthQuantity.inUnitsOf(Metrics::Length::Units::units[unitIndex]))
           );
         }
 
         break;
       case QUANTITY_LENGTH:
         m_numberInput->setText(
-          QString::number(0.0 + m_lengthQuantity->inUnitsOf(Metrics::Length::Units::units[unitIndex]))
+          QString::number(0.0 + m_lengthQuantity.inUnitsOf(Metrics::Length::Units::units[unitIndex]))
         );
         break;
       case QUANTITY_RESOLUTION:
         m_numberInput->setText(
-          QString::number(0.0 + m_resolutionQuantity->inUnitsOf(Metrics::Resolution::Units::units[unitIndex]))
+          QString::number(0.0 + m_resolutionQuantity.inUnitsOf(Metrics::Resolution::Units::units[unitIndex]))
         );
         break;
       default:

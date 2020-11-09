@@ -35,30 +35,34 @@ namespace SDF::UILayer::Metrics {
 
     ~Unit() {}
 
+    float getNumBaseUnits() const {
+      return m_numBaseUnits;
+    }
+
     // Synthesize a multiplicative conversion factor for this unit and another unit of this same dimensional quantity.
     float getConversionTo(const Unit<L, A> toUnit) const {
       return(toUnit.m_numBaseUnits / m_numBaseUnits);
-    }
-
-    // Unit combination operators.
-    template<int P>
-    friend Unit<L * P, A * P> pow(const Unit<L, A> &u) {
-      return Unit<L * P, A * P>(pow(u.m_numBaseUnits, P));
-    }
-
-    template<int L2, int A2>
-    friend Unit<L + L2, A + A2> operator*(const Unit<L, A> &u1, const Unit<L2, A2> &u2) {
-      return Unit<L + L2, A + A2>(u1.m_numBaseUnits * u2.m_numBaseUnits);
-    }
-
-    template<int L2, int A2>
-    friend Unit<L - L2, A - A2> operator/(const Unit<L, A> &u1, const Unit<L2, A2> &u2) {
-      return Unit<L - L2, A - A2>(u1.m_numBaseUnits / u2.m_numBaseUnits);
     }
   private:
     // The size of this unit as a number of arbitrary base units for this quantity.
     float m_numBaseUnits;
   };
+
+  // Non-member operators.
+  template<int L, int A, int Exp>
+  static Unit<L + Exp, A + Exp> pow(const Unit<L, A> &u) {
+    return Unit<L + Exp, A + Exp>(pow(u.getNumBaseUnits(), Exp));
+  }
+
+  template<int L1, int A1, int L2, int A2>
+  static Unit<L1 + L2, A1 + A2> operator*(const Unit<L1, A1> &u1, const Unit<L2, A2> &u2) {
+    return Unit<L1 + L2, A1 + A2>(u1.getNumBaseUnits() * u2.getNumBaseUnits());
+  }
+
+  template<int L1, int A1, int L2, int A2>
+  static Unit<L1 - L2, A1 - A2> operator/(const Unit<L1, A1> &u1, const Unit<L2, A2> &u2) {
+    return Unit<L1 - L2, A1 - A2>(u1.getNumBaseUnits() / u2.getNumBaseUnits());
+  }
 }
 
 #endif
