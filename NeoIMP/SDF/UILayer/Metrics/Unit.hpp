@@ -41,7 +41,7 @@ namespace SDF::UILayer::Metrics {
 
     // Synthesize a multiplicative conversion factor for this unit and another unit of this same dimensional quantity.
     float getConversionTo(const Unit<L, A> toUnit) const {
-      return(toUnit.m_numBaseUnits / m_numBaseUnits);
+      return(m_numBaseUnits / toUnit.m_numBaseUnits);
     }
   private:
     // The size of this unit as a number of arbitrary base units for this quantity.

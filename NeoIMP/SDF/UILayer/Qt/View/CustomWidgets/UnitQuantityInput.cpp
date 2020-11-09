@@ -36,6 +36,8 @@
 #include <QComboBox>
 #include <QString>
 
+#include <iostream>
+
 namespace SDF::UILayer::Qt::View::CustomWidgets {
   UnitQuantityInput::UnitQuantityInput(QWidget *parent, ::Qt::WindowFlags f) :
   QWidget(parent, f),
@@ -154,7 +156,7 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
         // "fall thru" to add the remaining length units.
       case QUANTITY_LENGTH:
         for(int i(0); i < Metrics::Length::Units::LENGTH_UNIT_MAX;++i) {
-          m_unitSelection->addItem(QString(Metrics::Length::Units::symbols[i].c_str()), i+1);
+          m_unitSelection->addItem(QString(Metrics::Length::Units::symbols[i].c_str()), i);
         }
 
         break;
@@ -172,6 +174,8 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
     float inputVal(m_numberInput->text().toFloat(&ok));
     int unitSelIndex(m_unitSelection->currentIndex());
     int unitIndex(m_unitSelection->itemData(unitSelIndex).toInt());
+
+    std::cout << unitSelIndex << " " << unitIndex << std::endl;
 
     if(ok) {
       switch(m_quantityType) {
@@ -197,6 +201,8 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
   void UnitQuantityInput::updateDisplayedAmountAfterUnitChange() {
     int unitSelIndex(m_unitSelection->currentIndex());
     int unitIndex(m_unitSelection->itemData(unitSelIndex).toInt());
+
+        std::cerr << unitSelIndex << " " << unitIndex << std::endl;
 
     switch(m_quantityType) {
       case QUANTITY_PIXELS:

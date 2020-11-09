@@ -35,11 +35,12 @@ namespace SDF::UILayer::Metrics::Resolution::Units {
     RESOLUTION_UNIT_MAX
   };
 
-  // Unit definitions. We take the arbitrary base units to be pixels per inch (PPI).
+  // Unit definitions. We take the arbitrary base units to be pixels per millimeter (px/mm), for coherence with the
+  // length units.
   typedef Unit<-1, 0> ResolutionUnit;
-  static const ResolutionUnit PixelsPerInch = ResolutionUnit(1.0f);
-  static const ResolutionUnit PixelsPerCentimeter = ResolutionUnit(2.54f);
-  static const ResolutionUnit PixelsPerMillimeter = ResolutionUnit(25.4f);
+  static const ResolutionUnit PixelsPerInch = ResolutionUnit(1.0f / 25.4f);
+  static const ResolutionUnit PixelsPerCentimeter = ResolutionUnit(1.0f / 10.0f);
+  static const ResolutionUnit PixelsPerMillimeter = ResolutionUnit(1.0f / 1.0f);
 
   // Unit names. NOTE: this may need to be revised later and put in a central database to support alternative languages.
   static const std::string names[RESOLUTION_UNIT_MAX] = {
