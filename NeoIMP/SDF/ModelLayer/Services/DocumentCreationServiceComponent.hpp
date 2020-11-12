@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICE_HPP
-#define SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICE_HPP
+#ifndef SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICECOMPONENT_HPP
+#define SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICECOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentCreationService.hpp
- * PURPOSE: Implementation of a service to create new documents.
+ * FILE:    DocumentCreationServiceComponent.hpp
+ * PURPOSE: Definition of the DI component for the document creation service.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +25,10 @@
  */
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
-#include <SDF/ModelLayer/Handle.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
-
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Services {
-  class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
-  public:
-    INJECT(DocumentCreationService());
-    ~DocumentCreationService() {}
-
-    ModelLayer::Handle createDocument(
-      int widthInPixels, int heightInPixels, float resolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel,
-      ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    );
-  };
+  fruit::Component<UILayer::AbstractModel::IDocumentCreationService> getDocumentCreationServiceComponent();
 }
 
 #endif

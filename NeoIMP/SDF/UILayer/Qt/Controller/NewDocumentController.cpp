@@ -27,12 +27,13 @@
 #include <IDocumentView.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
-  NewDocumentController::NewDocumentController(
-    AbstractModel::IDocumentCreationService *documentCreationService,
-    IDocumentView *documentView
-  ) :
+  NewDocumentController::NewDocumentController(AbstractModel::IDocumentCreationService *documentCreationService) :
   m_documentCreationService(documentCreationService),
-  m_documentView(documentView) {
+  m_documentView(nullptr) {
+  }
+
+  void NewDocumentController::attachDocumentView(IDocumentView *documentView) {
+    m_documentView = documentView;
   }
 
   void NewDocumentController::createNewDocument(
@@ -45,6 +46,8 @@ namespace SDF::UILayer::Qt::Controller {
       colorModel, bitDepth
     ));
 
-    m_documentView->showDocument(handle);
+    if(m_documentView != nullptr) {
+      m_documentView->showDocument(handle);
+    }
   }
 }

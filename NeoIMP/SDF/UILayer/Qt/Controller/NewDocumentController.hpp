@@ -37,10 +37,8 @@ namespace SDF::UILayer::Qt::Controller {
 
   class NewDocumentController : public View::INewDocumentController {
   public:
-    NewDocumentController(
-      AbstractModel::IDocumentCreationService *documentCreationService,
-      IDocumentView *documentView
-    );
+    INJECT(NewDocumentController(AbstractModel::IDocumentCreationService *documentCreationService));
+    void attachDocumentView(IDocumentView *documentView);
 
     void createNewDocument(
       float imageWidthPixels, float imageHeightPixels, float imageResolutionPpi,
