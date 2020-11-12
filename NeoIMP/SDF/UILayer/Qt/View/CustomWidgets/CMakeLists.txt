@@ -1,2 +1,5 @@
-add_library(CustomWidgets UnitQuantityInput.cpp)
-target_link_libraries(CustomWidgets Qt5::Widgets)
+target_include_directories(Qt PUBLIC .)
+target_sources(Qt PUBLIC
+  UnitQuantityInput.cpp
+  DocumentTabView.cpp
+)

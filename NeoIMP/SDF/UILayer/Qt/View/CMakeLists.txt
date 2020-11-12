@@ -1,6 +1,9 @@
-add_library(View MainWindow.cpp
-  NewDocumentDialog.cpp)
+target_include_directories(Qt PUBLIC .)
 
 add_subdirectory(QtResources)
 add_subdirectory(CustomWidgets)
-target_link_libraries(View QtResources CustomWidgets Qt5::Widgets)
+
+target_sources(Qt PUBLIC
+  NewDocumentDialog.cpp
+  MainWindow.cpp
+)

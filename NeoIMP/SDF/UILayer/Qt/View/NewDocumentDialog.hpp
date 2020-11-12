@@ -37,8 +37,10 @@ namespace SDF::UILayer::Qt::View {
   class NewDocumentDialog : public QDialog {
     Q_OBJECT
   public:
-    NewDocumentDialog(QWidget *parent = nullptr);
+    NewDocumentDialog(QWidget *parent = nullptr, INewDocumentController *controller = nullptr);
     ~NewDocumentDialog();
+
+    void submit();
   private slots:
   /*
     void widthChanged();
@@ -52,6 +54,7 @@ namespace SDF::UILayer::Qt::View {
   */
   private:
     Ui::NewDocumentDialog *m_ui;
+    INewDocumentController *m_controller;
   };
 }
 

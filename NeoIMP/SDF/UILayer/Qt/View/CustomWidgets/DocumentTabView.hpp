@@ -1,11 +1,13 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_HPP
-#define SDF_UILAYER_QTAPPLICATION_HPP
+#ifndef SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_DOCUMENTTABVIEW_HPP
+#define SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_DOCUMENTTABVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    DocumentTabView.hpp
+ * PURPOSE: An implementation of a derived widget from the Qt tab view that serves as the "top level" for document
+ *          display.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,16 +25,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
-#include <fruit/fruit.h>
+#include <SDF/UILayer/Qt/Controller/IDocumentView.hpp>
+#include <SDF/ModelLayer/Handle.hpp>
 
-namespace SDF::UILayer::Qt {
-  class QtApplication : public IApplication {
+#include <QTabWidget>
+#include <QWidget>
+
+namespace SDF::UILayer::Qt::View::CustomWidgets {
+  class DocumentTabView : public QTabWidget, public Controller::IDocumentView {
+    Q_OBJECT
   public:
-    INJECT(QtApplication());
-    ~QtApplication() {}
+    DocumentTabView(QWidget *parent = nullptr);
+    ~DocumentTabView() {}
 
-    int exec(int argc, char **argv);
+    void showDocument(ModelLayer::Handle documentHandle);
   };
 }
 

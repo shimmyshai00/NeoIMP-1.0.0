@@ -1,11 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_HPP
-#define SDF_UILAYER_QTAPPLICATION_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_COLOR_BITDEPTHS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_COLOR_BITDEPTHS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    BitDepths.hpp
+ * PURPOSE: Enumeration of the available per-channel bit depths.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,16 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
-#include <fruit/fruit.h>
-
-namespace SDF::UILayer::Qt {
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication());
-    ~QtApplication() {}
-
-    int exec(int argc, char **argv);
+namespace SDF::ModelLayer::DomainObjects::Color {
+  enum BitDepth {
+    BIT_DEPTH_8,
+    BIT_DEPTH_10,
+    BIT_DEPTH_12,
+    BIT_DEPTH_16,
+    BIT_DEPTH_MAX
   };
 }
 

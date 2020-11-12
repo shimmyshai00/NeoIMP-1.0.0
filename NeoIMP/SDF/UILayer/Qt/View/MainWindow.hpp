@@ -31,15 +31,19 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 namespace SDF::UILayer::Qt::View {
+  class INewDocumentController;
+  
   class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, INewDocumentController *NewDocumentController = nullptr);
     ~MainWindow();
   private slots:
     void on_action_New_triggered();
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
+    std::unique_ptr<QDialog> m_newDocumentDialog;
+    INewDocumentController *m_newDocumentController;
   };
 }
 

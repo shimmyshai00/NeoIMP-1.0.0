@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_INEWDOCUMENTCONTROLLER_HPP
-#define SDF_UILAYER_QT_VIEW_INEWDOCUMENTCONTROLLER_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
+#define SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentController.hpp
- * PURPOSE: Interface for the controller used by the new-document view.
+ * FILE:    NewDocumentController.hpp
+ * PURPOSE: Implementation of the new-document controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,17 +26,30 @@
 
 #include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
 #include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
+#include <SDF/UILayer/Qt/View/INewDocumentController.hpp>
 
-namespace SDF::UILayer::Qt::View {
-  class INewDocumentController {
+namespace SDF::UILayer::AbstractModel {
+  class IDocumentCreationService;
+}
+
+namespace SDF::UILayer::Qt::Controller {
+  class IDocumentView;
+
+  class NewDocumentController : public View::INewDocumentController {
   public:
-    virtual ~INewDocumentController() = default;
-
-    virtual void createNewDocument(
-      float imageWidthPixels, float imageHeightPixels, float imageResolutionPpi,
-      SDF::ModelLayer::DomainObjects::Color::ColorModel colorModel,
-      SDF::ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    NewDocumentController(
+      AbstractModel::IDocumentCreationService *documentCreationService,
+      IDocumentView *documentView
     );
+
+    void createNewDocument(
+      float imageWidthPixels, float imageHeightPixels, float imageResolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel,
+      ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    );
+  private:
+    AbstractModel::IDocumentCreationService *m_documentCreationService;
+    IDocumentView *m_documentView;
   };
 }
 

@@ -25,13 +25,20 @@
 #include "QtResources/ui_MainWindow.h"
 
 #include <NewDocumentDialog.hpp>
+#include <INewDocumentController.hpp>
 
 namespace SDF::UILayer::Qt::View {
-  MainWindow::MainWindow(QWidget *parent) :
+  MainWindow::MainWindow(QWidget *parent, INewDocumentController *newDocumentController) :
   QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
+  m_ui(new Ui::MainWindow),
+  m_newDocumentDialog(new NewDocumentDialog(nullptr, newDocumentController))
   {
     m_ui->setupUi(this);
+    connect(m_newDocumentDialog(m_newDocumentDialog.get(), &QDialog::finished, this, [=](int result) {
+      if(result == QDialog::Accepted) {
+        m_newDocumentDialog->submit();
+      }
+    });
   }
 
   MainWindow::~MainWindow() {
@@ -39,7 +46,6 @@ namespace SDF::UILayer::Qt::View {
 
   // Private member.
   void MainWindow::on_action_New_triggered() {
-    NewDocumentDialog newDocumentDialog;
-    newDocumentDialog.exec();
+    m_newDocumentDialog->open();
   }
 }

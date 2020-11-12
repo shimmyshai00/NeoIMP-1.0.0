@@ -1,6 +1,7 @@
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-add_library(QtResources MainWindow.qrc
+target_include_directories(Qt PUBLIC .)
+target_sources(Qt PUBLIC
+  MainWindow.qrc
   Icons.qrc
   MainWindow.ui
-  NewDocumentDialog.ui)
+  NewDocumentDialog.ui
+)

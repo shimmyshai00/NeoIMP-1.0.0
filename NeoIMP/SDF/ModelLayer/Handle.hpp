@@ -1,11 +1,13 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_HPP
-#define SDF_UILAYER_QTAPPLICATION_HPP
+#ifndef SDF_MODELLAYER_HANDLE_HPP
+#define SDF_MODELLAYER_HANDLE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    Handle.hpp
+ * PURPOSE: Definition of a type for opaque handles used to reference model layer objects. All communication with model
+ *          layer objects should be through handles passed to model services.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,17 +25,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
-#include <fruit/fruit.h>
-
-namespace SDF::UILayer::Qt {
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication());
-    ~QtApplication() {}
-
-    int exec(int argc, char **argv);
-  };
+namespace SDF::ModelLayer {
+  typedef long Handle;
 }
 
 #endif

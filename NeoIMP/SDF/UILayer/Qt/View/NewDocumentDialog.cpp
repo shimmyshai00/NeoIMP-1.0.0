@@ -23,19 +23,23 @@
 
 #include <NewDocumentDialog.hpp>
 #include "QtResources/ui_NewDocumentDialog.h"
+#include <QString>
 
 #include <CustomWidgets/UnitQuantityInput.hpp>
 
 #include <SDF/UILayer/Metrics/Dimensionless/Quantity.hpp>
 #include <SDF/UILayer/Metrics/Dimensionless/Units/Units.hpp>
-
 #include <SDF/UILayer/Metrics/Resolution/Quantity.hpp>
 #include <SDF/UILayer/Metrics/Resolution/Units/Units.hpp>
 
+#include <SDF/UILayer/Color/ColorModels.hpp>
+#include <SDF/UILayer/Color/BitDepths.hpp>
+
 namespace SDF::UILayer::Qt::View {
-  NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
+  NewDocumentDialog::NewDocumentDialog(QWidget *parent, INewDocumentController *controller) :
   QDialog(parent),
-  m_ui(new Ui::NewDocumentDialog) {
+  m_ui(new Ui::NewDocumentDialog),
+  m_controller(controller) {
     using namespace SDF::UILayer::Qt::View::CustomWidgets;
 
     m_ui->setupUi(this);
@@ -46,6 +50,14 @@ namespace SDF::UILayer::Qt::View {
     m_ui->imageHeightInput->setPixelsQuantity(720.0 * Metrics::Dimensionless::Units::One);
     m_ui->imageResolutionInput->setQuantityType(QUANTITY_RESOLUTION);
     m_ui->imageResolutionInput->setResolutionQuantity(120.0 * Metrics::Resolution::Units::PixelsPerInch);
+
+    for(int i(0); i < ModelLayer::DomainObjects::Color::COLOR_MODEL_MAX; ++i) {
+      m_ui->colorModelComboBox->addItem(QString(Color::colorModelNames[i].c_str()), i);
+    }
+
+    for(int i(0); i < ModelLayer::DomainObjects::Color::BIT_DEPTH_MAX; ++i) {
+      m_ui->bitsPerChannelComboBox->addItem(QString(Color::bitDepthNames[i].c_str()), i);
+    }
 
     connect(
       m_ui->imageResolutionInput, &UnitQuantityInput::resolutionQuantityEdited,
@@ -60,5 +72,18 @@ namespace SDF::UILayer::Qt::View {
 
   NewDocumentDialog::~NewDocumentDialog() {
     delete m_ui;
+  }
+
+  void submit() {
+    // Submit the gathered information to the model layer via the controller.
+    if(m_controller != nullptr) {
+      m_controller->createNewDocument(
+        m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
+        m_ui->imageHeightInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
+        m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Dimensionless::Units::PixelsPerInch),
+        static_cast<ModelLayer::DomainObjects::Color::ColorModel>(m_ui->colorModelComboBox->currentData().toInt()),
+        static_cast<ModelLayer::DomainObjects::Color::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt())
+      );
+    }
   }
 }

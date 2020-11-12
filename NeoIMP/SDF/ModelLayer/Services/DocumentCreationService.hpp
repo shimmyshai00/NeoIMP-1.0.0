@@ -1,11 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_HPP
-#define SDF_UILAYER_QTAPPLICATION_HPP
+#ifndef SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_DOCUMENTCREATIONSERVICE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    DocumentCreationService.hpp
+ * PURPOSE: Implementation of a service to create new documents.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,16 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
-#include <fruit/fruit.h>
+#include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+#include <SDF/ModelLayer/Handle.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
 
-namespace SDF::UILayer::Qt {
-  class QtApplication : public IApplication {
+namespace SDF::ModelLayer::Services {
+  class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
   public:
-    INJECT(QtApplication());
-    ~QtApplication() {}
+    DocumentCreationService();
+    ~DocumentCreationService() {}
 
-    int exec(int argc, char **argv);
+    ModelLayer::Handle createDocument(
+      int widthInPixels, int heightInPixels, float resolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel,
+      ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    );
   };
 }
 
