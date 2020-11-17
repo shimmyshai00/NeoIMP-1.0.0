@@ -24,15 +24,27 @@
 #include <DocumentCreationService.hpp>
 
 namespace SDF::ModelLayer::Services {
-  DocumentCreationService::DocumentCreationService() {
-  }
+  class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
+  public:
+    INJECT(DocumentCreationService()) {
+    }
 
-  ModelLayer::Handle DocumentCreationService::createDocument(
-    int widthInPixels, int heightInPixels, float resolutionPpi,
-    ModelLayer::DomainObjects::Color::ColorModel colorModel,
-    ModelLayer::DomainObjects::Color::BitDepth bitDepth
-  ) {
-    // TBA
-    return 0;
+    ~DocumentCreationService() {}
+
+    ModelLayer::Handle createDocument(
+      int widthInPixels, int heightInPixels, float resolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel,
+      ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    ) {
+      // TBA
+      return 0;
+    }
+  };
+}
+
+namespace SDF::ModelLayer::Services {
+  fruit::Component<UILayer::AbstractModel::IDocumentCreationService> getDocumentCreationServiceComponent() {
+    return fruit::createComponent()
+      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>();
   }
 }

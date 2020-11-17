@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_VIEWCONTROLLER_INEWDOCUMENTCONTROLLER_HPP
+#define SDF_UILAYER_QT_VIEWCONTROLLER_INEWDOCUMENTCONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentTabView.cpp
- * PURPOSE: Implementation of the DocumentTabView class.
+ * FILE:    INewDocumentController.hpp
+ * PURPOSE: Interface for the controller used by the new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <DocumentTabView.hpp>
-#include <QLabel>
+#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
-  DocumentTabView::DocumentTabView(QWidget *parent) :
-  QTabWidget(parent) {
-  }
+namespace SDF::UILayer::Qt::Controller {
+  class INewDocumentView;
 
-  void DocumentTabView::showDocument(ModelLayer::Handle documentHandle) {
-    QLabel *dummy(new QLabel("TBA"));
-    addTab(dummy, "Untitled (TBA)");
-  }
+  class INewDocumentController {
+  public:
+    virtual ~INewDocumentController() = default;
+
+    virtual std::unique_ptr<INewDocumentView> newDocument() = 0;
+  };
 }
+
+#endif

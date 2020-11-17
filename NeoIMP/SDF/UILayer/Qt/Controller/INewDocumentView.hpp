@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
+#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentControllerComponent.hpp
- * PURPOSE: Implementation of the DI component for the new-document controller.
+ * FILE:    INewDocumentView.hpp
+ * PURPOSE: An interface for a view for getting user information to create a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,13 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <NewDocumentControllerComponent.hpp>
-#include <NewDocumentController.hpp>
+#include <SDF/ModelLayer/Handle.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<fruit::Required<AbstractModel::IDocumentCreationService>, View::INewDocumentController>
-  getNewDocumentControllerComponent() {
-    return fruit::createComponent()
-      .bind<View::INewDocumentController, NewDocumentController>();
-  }
+  class INewDocumentView {
+  public:
+    virtual ~INewDocumentView() = default;
+
+    virtual void showDocument(ModelLayer::Handle documentHandle) = 0;
+  };
 }
+
+#endif

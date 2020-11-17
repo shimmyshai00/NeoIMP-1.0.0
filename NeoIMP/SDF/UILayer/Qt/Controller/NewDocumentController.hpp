@@ -24,31 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
-#include <SDF/UILayer/Qt/View/INewDocumentController.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+#include <SDF/UILayer/Qt/Controller/INewDocumentController.hpp>
 
-namespace SDF::UILayer::AbstractModel {
-  class IDocumentCreationService;
-}
+#include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::Controller {
-  class IDocumentView;
-
-  class NewDocumentController : public View::INewDocumentController {
-  public:
-    INJECT(NewDocumentController(AbstractModel::IDocumentCreationService *documentCreationService));
-    void attachDocumentView(IDocumentView *documentView);
-
-    void createNewDocument(
-      float imageWidthPixels, float imageHeightPixels, float imageResolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel,
-      ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    );
-  private:
-    AbstractModel::IDocumentCreationService *m_documentCreationService;
-    IDocumentView *m_documentView;
-  };
+  fruit::Component<fruit::Required<AbstractModel::IDocumentCreationService>, Controller::INewDocumentController>
+  getNewDocumentControllerComponent();
 }
 
 #endif

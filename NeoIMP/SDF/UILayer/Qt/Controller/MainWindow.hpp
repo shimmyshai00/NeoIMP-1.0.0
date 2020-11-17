@@ -1,13 +1,11 @@
-#ifndef SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_DOCUMENTTABVIEW_HPP
-#define SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_DOCUMENTTABVIEW_HPP
-
+#ifndef SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
+#define SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentTabView.hpp
- * PURPOSE: An implementation of a derived widget from the Qt tab view that serves as the "top level" for document
- *          display.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: The Qt object corresponding to the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,20 +23,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/IDocumentView.hpp>
-#include <SDF/ModelLayer/Handle.hpp>
+#include <QMainWindow>
+#include <memory>
 
-#include <QTabWidget>
-#include <QWidget>
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
-  class DocumentTabView : public QTabWidget, public Controller::IDocumentView {
+namespace SDF::UILayer::Qt::ViewController {
+  class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
-    DocumentTabView(QWidget *parent = nullptr);
-    ~DocumentTabView() {}
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
     void showDocument(ModelLayer::Handle documentHandle);
+  private slots:
+    void on_action_New_triggered();
+  private:
+    std::unique_ptr<Ui::MainWindow> m_ui;
+    std::unique_ptr<QDialog> m_newDocumentDialog;
+    INewDocumentController *m_newDocumentController;
   };
 }
 

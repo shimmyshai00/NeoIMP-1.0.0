@@ -25,24 +25,10 @@
  */
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
-#include <SDF/ModelLayer/Handle.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
-
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Services {
-  class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
-  public:
-    INJECT(DocumentCreationService());
-    ~DocumentCreationService() {}
-
-    ModelLayer::Handle createDocument(
-      int widthInPixels, int heightInPixels, float resolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel,
-      ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    );
-  };
+  fruit::Component<UILayer::AbstractModel::IDocumentCreationService> getDocumentCreationServiceComponent();
 }
 
 #endif
