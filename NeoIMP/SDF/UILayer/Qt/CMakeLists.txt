@@ -1,12 +1,10 @@
-add_library(Qt)
-target_include_directories(Qt PUBLIC .)
+target_include_directories(neoimp PUBLIC .)
 
 add_subdirectory(Controller)
 add_subdirectory(View)
 
-target_sources(Qt PUBLIC
+target_sources(neoimp PUBLIC
   QtApplication.cpp
-  QtApplicationComponent.cpp
 )
 
-target_link_libraries(Qt Qt5::Widgets)
+target_link_libraries(neoimp Qt5::Widgets)

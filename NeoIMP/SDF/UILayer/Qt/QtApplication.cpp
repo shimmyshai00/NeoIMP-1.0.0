@@ -24,16 +24,36 @@
 #include <QtApplication.hpp>
 #include <QApplication>
 
-#include <View/MainWindow.hpp>
+#include <Controller/IApplicationController.hpp>
+#include <Controller/ApplicationController.hpp>
+
+#include <View/IApplicationView.hpp>
 
 namespace SDF::UILayer::Qt {
-  QtApplication::QtApplication() {
-  }
+  class QtApplication : public IApplication {
+  public:
+    INJECT(QtApplication(Controller::IApplicationController *applicationController)) :
+    m_applicationController(applicationController) {}
 
-  int QtApplication::exec(int argc, char **argv) {
-    QApplication q(argc, argv);
-    View::MainWindow mainWindow;
-    mainWindow.show();
-    return q.exec();
+    ~QtApplication() {}
+
+    int exec(int argc, char **argv) {
+      QApplication q(argc, argv);
+
+      View::IApplicationView *appView(m_applicationController->startApplication());
+      appView->getQWidget()->show();
+
+      return q.exec();
+    }
+  private:
+    Controller::IApplicationController *m_applicationController;
+  };
+}
+
+namespace SDF::UILayer::Qt {
+  fruit::Component<IApplication> getApplicationComponent() {
+    return fruit::createComponent()
+      .install(Controller::getApplicationControllerComponent)
+      .bind<IApplication, QtApplication>();
   }
 }

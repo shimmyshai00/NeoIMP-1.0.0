@@ -1,4 +1,4 @@
-target_include_directories(ModelLayer PUBLIC .)
-target_sources(ModelLayer PUBLIC
+target_include_directories(neoimp PUBLIC .)
+target_sources(neoimp PUBLIC
   DocumentCreationService.cpp
 )

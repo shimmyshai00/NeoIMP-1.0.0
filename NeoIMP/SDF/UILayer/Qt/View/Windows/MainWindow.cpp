@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
-#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentView.hpp
- * PURPOSE: An interface for a view for getting user information to create a new document.
+ * FILE:    MainWindow.cpp
+ * PURPOSE: Implementation of the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +21,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Handle.hpp>
+#include <MainWindow.hpp>
+#include "../QtResources/ui_MainWindow.h"
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentView {
-  public:
-    virtual ~INewDocumentView() = default;
+namespace SDF::UILayer::Qt::View::Windows {
+  MainWindow::MainWindow(QWidget *parent) :
+  QMainWindow(parent),
+  m_ui(new Ui::MainWindow)
+  {
+    m_ui->setupUi(this);
+  }
 
-    virtual void showDocument(ModelLayer::Handle documentHandle) = 0;
-  };
+  MainWindow::~MainWindow() {
+  }
+
+  // Private member.
+  void MainWindow::on_action_New_triggered() {
+
+  }
 }
-
-#endif

@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentController.hpp
- * PURPOSE: The concrete new-document controller class.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: Implementation of the ApplicationController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +21,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/INewDocumentController.hpp>
-#include <fruit/fruit.h>
+#include <ApplicationController.hpp>
+#include <View/MainWindowApplicationView.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<INewDocumentController> getNewDocumentControllerComponent();
+  class ApplicationController : public IApplicationController {
+  public:
+    INJECT(ApplicationController()) :
+    m_applicationViewInjector(View::getMainWindowApplicationViewComponent) {}
+
+    ~ApplicationController() {}
+
+    View::IApplicationView *startApplication() const {
+      return m_applicationViewInjector.get<View::IApplicationView *>();
+    }
+  private:
+    mutable fruit::Injector<View::IApplicationView> m_applicationViewInjector;
+  };
 }
 
-#endif
+namespace SDF::UILayer::Qt::Controller {
+  fruit::Component<IApplicationController> getApplicationControllerComponent() {
+    return fruit::createComponent()
+      .bind<IApplicationController, ApplicationController>();
+  }
+}

@@ -27,13 +27,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt {
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication());
-    ~QtApplication() {}
-
-    int exec(int argc, char **argv);
-  };
+  fruit::Component<IApplication> getApplicationComponent();
 }
 
 #endif

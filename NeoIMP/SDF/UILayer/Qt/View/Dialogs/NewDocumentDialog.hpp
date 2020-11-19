@@ -1,11 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    NewDocumentDialog.hpp
+ * PURPOSE: Definition of the dialog class for creating a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,27 +24,36 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QMainWindow>
-#include <memory>
+#include <QDialog>
+
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer::Qt::ViewController {
-  class MainWindow : public QMainWindow {
+namespace SDF::UILayer::Qt::View::Dialogs {
+  class INewDocumentController;
+
+  class NewDocumentDialog : public QDialog {
     Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    NewDocumentDialog(QWidget *parent = nullptr, INewDocumentController *controller = nullptr);
+    ~NewDocumentDialog();
 
-    void showDocument(ModelLayer::Handle documentHandle);
+    void submitToController(INewDocumentController *controller);
   private slots:
-    void on_action_New_triggered();
+  /*
+    void widthChanged();
+    void heightChanged();
+    void widthUnitChanged();
+    void heightUnitChanged();
+    void resolutionChanged();
+    void resolutionUnitChanged();
+    void colorModelChanged();
+    void bitDepthChanged();
+  */
   private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
-    std::unique_ptr<QDialog> m_newDocumentDialog;
-    INewDocumentController *m_newDocumentController;
+    Ui::NewDocumentDialog *m_ui;
   };
 }
 

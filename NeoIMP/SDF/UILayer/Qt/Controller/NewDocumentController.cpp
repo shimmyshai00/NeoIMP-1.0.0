@@ -22,46 +22,26 @@
  */
 
 #include <NewDocumentController.hpp>
-
-#include <IDocumentView.hpp>
 #include <INewDocumentController.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
   class NewDocumentController : public INewDocumentController {
-  public:
-    INJECT(NewDocumentController(AbstractModel::IDocumentCreationService *documentCreationService)) :
-    m_documentCreationService(documentCreationService),
-    m_documentView(nullptr) {
-    }
+    INJECT(NewDocumentController()) {}
+    ~NewDocumentController() {}
 
-    void setDocumentView(IDocumentView *documentView) {
-      m_documentView = documentView;
-    }
-
-    void createNewDocument(
-      float imageWidthPixels, float imageHeightPixels, float imageResolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel,
-      ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    View::IDocumentView *createNewDocument(
+      int documentWidthPixels, int documentHeightPixels, float documentResolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
     ) {
-      ModelLayer::Handle handle(m_documentCreationService->createDocument(
-        imageWidthPixels, imageHeightPixels, imageResolutionPpi,
-        colorModel, bitDepth
-      ));
-
-      if(m_documentView != nullptr) {
-        m_documentView->showDocument(handle);
-      }
+      // TBA
+      return nullptr;
     }
-  private:
-    AbstractModel::IDocumentCreationService *m_documentCreationService;
-    IDocumentView *m_documentView;
   };
 }
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<fruit::Required<AbstractModel::IDocumentCreationService>, Controller::INewDocumentController>
-  getNewDocumentControllerComponent() {
+  fruit::Component<INewDocumentController> getNewDocumentControllerComponent() {
     return fruit::createComponent()
-      .bind<View::INewDocumentController, NewDocumentController>();
+      .bind<INewDocumentController, NewDocumentController>()
   }
 }

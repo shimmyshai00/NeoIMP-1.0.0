@@ -1,9 +1,9 @@
-target_include_directories(Qt PUBLIC .)
+target_include_directories(neoimp PUBLIC .)
 
 add_subdirectory(QtResources)
 add_subdirectory(CustomWidgets)
+add_subdirectory(Windows)
 
-target_sources(Qt PUBLIC
-  NewDocumentDialog.cpp
-  MainWindow.cpp
+target_sources(neoimp PUBLIC
+  MainWindowApplicationView.cpp
 )

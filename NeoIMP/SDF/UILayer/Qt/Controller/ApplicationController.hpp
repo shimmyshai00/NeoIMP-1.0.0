@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#define SDF_UILAYER_QT_CONTROLLER_APPLICATIONCONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationComponent.hpp
- * PURPOSE: Definition of the DI component for the application.
+ * FILE:    ApplicationController.hpp
+ * PURPOSE: The concrete application controller class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationComponent.hpp>
-#include <UILayer/Qt/QtApplicationComponent.hpp>
+#include <SDF/UILayer/Qt/Controller/IApplicationController.hpp>
+#include <fruit/fruit.h>
 
-namespace SDF {
-  fruit::Component<IApplication> getApplicationComponent() {
-    return UILayer::Qt::getApplicationComponent();
-  }
+namespace SDF::UILayer::Qt::Controller {
+  fruit::Component<IApplicationController> getApplicationControllerComponent();
 }
+
+#endif

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
-#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+#ifndef SDF_UILAYER_QT_VIEW_APPLICATIONVIEW_HPP
+#define SDF_UILAYER_QT_VIEW_APPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialog.hpp
- * PURPOSE: Definition of the dialog class for creating a new document.
+ * FILE:    MainWindowApplicationView.hpp
+ * PURPOSE: The MVC view to wrap the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,38 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QDialog>
-
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class NewDocumentDialog; }
-QT_END_NAMESPACE
+#include <SDF/UILayer/Qt/View/IApplicationView.hpp>
+#include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::View {
-  class INewDocumentController;
-
-  class NewDocumentDialog : public QDialog {
-    Q_OBJECT
-  public:
-    NewDocumentDialog(QWidget *parent = nullptr, INewDocumentController *controller = nullptr);
-    ~NewDocumentDialog();
-
-    void submit();
-  private slots:
-  /*
-    void widthChanged();
-    void heightChanged();
-    void widthUnitChanged();
-    void heightUnitChanged();
-    void resolutionChanged();
-    void resolutionUnitChanged();
-    void colorModelChanged();
-    void bitDepthChanged();
-  */
-  private:
-    Ui::NewDocumentDialog *m_ui;
-    INewDocumentController *m_controller;
-  };
+  fruit::Component<IApplicationView> getMainWindowApplicationViewComponent();
 }
 
 #endif

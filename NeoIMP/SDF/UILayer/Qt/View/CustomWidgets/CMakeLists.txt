@@ -1,5 +1,4 @@
-target_include_directories(Qt PUBLIC .)
-target_sources(Qt PUBLIC
+target_include_directories(neoimp PUBLIC .)
+target_sources(neoimp PUBLIC
   UnitQuantityInput.cpp
-  DocumentTabView.cpp
 )
