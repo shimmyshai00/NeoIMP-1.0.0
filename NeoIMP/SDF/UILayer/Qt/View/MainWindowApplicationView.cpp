@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindowController.cpp
- * PURPOSE: The concrete MVC main window controller.
+ * FILE:    MainWindowApplicationView.cpp
+ * PURPOSE: Implementation of the MainWindowApplicationView class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,19 +21,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindowController.hpp>
+#include <MainWindowApplicationView.hpp>
 
-namespace SDF::UILayer::Qt::Controller {
-  class MainWindowController : public IMainWindowController {
+#include <IApplicationView.hpp>
+#include <Windows/MainWindow.hpp>
+
+namespace SDF::UILayer::Qt::View {
+  class MainWindowApplicationView : public IApplicationView {
   public:
-    INJECT(MainWindowController()) {}
-    ~MainWindowController() {}
+    INJECT(MainWindowApplicationView()) :
+    m_mainWindow(nullptr) {}
+
+    ~MainWindowApplicationView() {}
+
+    QWidget *getWidget() {
+      return &m_mainWindow;
+    }
+  private:
+    Windows::MainWindow m_mainWindow;
   };
 }
 
-namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<IMainWindowController> getMainWindowControllerComponent() {
+namespace SDF::UILayer::Qt::View {
+  fruit::Component<IApplicationView> getMainWindowApplicationViewComponent() {
     return fruit::createComponent()
-      .bind<IMainWindowController, MainWindowController>();
+      .bind<IApplicationView, MainWindowApplicationView>();
   }
 }

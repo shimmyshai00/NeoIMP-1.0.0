@@ -23,27 +23,21 @@
 
 #include <ApplicationController.hpp>
 
-#include <IMainWindowController.hpp>
-#include <MainWindowController.hpp>
-
-#include <View/Windows/MainWindow.hpp>
+#include <IApplicationView.hpp>
+#include <View/MainWindowApplicationView.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
   class ApplicationController : public IApplicationController {
   public:
-    INJECT(ApplicationController(IMainWindowController *mainWindowController)) :
-    m_mainWindowController(mainWindowController) {}
-
+    INJECT(ApplicationController(IApplicationView *applicationView)) :
+    m_applicationView(applicationView) {}
     ~ApplicationController() {}
 
-    View::Windows::MainWindow *createMainWindow() {
-      View::Windows::MainWindow *mainWindow(new View::Windows::MainWindow);
-      mainWindow->setController(m_mainWindowController);
-
-      return mainWindow;
+    virtual IApplicationView *startApplication() {
+      return m_applicationView;
     }
   private:
-    IMainWindowController *m_mainWindowController;
+    IApplicationView *m_applicationView;
   };
 }
 
@@ -51,6 +45,6 @@ namespace SDF::UILayer::Qt::Controller {
   fruit::Component<IApplicationController> getApplicationControllerComponent() {
     return fruit::createComponent()
       .bind<IApplicationController, ApplicationController>()
-      .install(getMainWindowControllerComponent);
+      .install(View::getMainWindowApplicationViewComponent);
   }
 }

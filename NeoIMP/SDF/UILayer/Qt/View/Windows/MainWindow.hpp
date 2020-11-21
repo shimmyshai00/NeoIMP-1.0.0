@@ -30,21 +30,16 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer::Qt::Controller {
-  class IMainWindowController;
-}
-
 namespace SDF::UILayer::Qt::View::Windows {
   class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr, Controller::IMainWindowController *controller);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
   private slots:
     void on_action_New_triggered();
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
-    Controller::IMainWindowController *m_controller;
   };
 }
 

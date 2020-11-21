@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_VIEW_IQTMVCVIEW_HPP
+#define SDF_UILAYER_QT_VIEW_IQTMVCVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.cpp
- * PURPOSE: Implementation of the MainWindow class.
+ * FILE:    IQtMVCView.hpp
+ * PURPOSE: A general interface for Qt-based MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,22 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindow.hpp>
-#include "../QtResources/ui_MainWindow.h"
+#include <QWidget>
 
-namespace SDF::UILayer::Qt::View::Windows {
-  MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
-  {
-    m_ui->setupUi(this);
-  }
-
-  MainWindow::~MainWindow() {
-  }
-
-  // Private member.
-  void MainWindow::on_action_New_triggered() {
-
-  }
+namespace SDF::UILayer::Qt::View {
+  class IQtMVCView {
+  public:
+    virtual ~IQtMVCView() = default;
+    virtual QWidget *getWidget() = 0;
+  };
 }
+
+#endif

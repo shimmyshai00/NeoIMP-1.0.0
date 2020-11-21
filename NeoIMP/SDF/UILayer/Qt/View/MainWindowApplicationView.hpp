@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_MAINWINDOWCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_MAINWINDOWCONTROLLER_HPP
+#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOWAPPLICATIONVIEW_HPP
+#define SDF_UILAYER_QT_VIEW_MAINWINDOWAPPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindowController.hpp
- * PURPOSE: The concrete MVC main window controller.
+ * FILE:    MainWindowApplicationView.hpp
+ * PURPOSE: The MVC view object wrapping the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/IMainWindowController.hpp>
+#include <SDF/UILayer/Qt/IApplicationView.hpp>
 #include <fruit/fruit.h>
 
-namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<IMainWindowController> getMainWindowControllerComponent();
+namespace SDF::UILayer::Qt::View {
+  fruit::Component<IApplicationView> getMainWindowApplicationViewComponent();
 }
 
 #endif

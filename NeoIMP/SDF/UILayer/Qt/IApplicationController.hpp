@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_IAPPLICATIONCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_IAPPLICATIONCONTROLLER_HPP
+#ifndef SDF_UILAYER_QT_IAPPLICATIONCONTROLLER_HPP
+#define SDF_UILAYER_QT_IAPPLICATIONCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IApplicationController.hpp
- * PURPOSE: The MVC controller interface associated with the main window.
+ * PURPOSE: The MVC controller interface for the top-level application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Qt::View::Windows {
-  class MainWindow;
-}
-
-namespace SDF::UILayer::Qt::Controller {
+namespace SDF::UILayer::Qt {
+  class IApplicationView;
+  
   class IApplicationController {
   public:
     virtual ~IApplicationController() = default;
-    virtual View::Windows::MainWindow *createMainWindow() = 0;
+    virtual IApplicationView *startApplication() = 0;
   };
 }
 
