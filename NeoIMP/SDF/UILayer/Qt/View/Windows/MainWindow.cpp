@@ -24,10 +24,13 @@
 #include <MainWindow.hpp>
 #include "../QtResources/ui_MainWindow.h"
 
+#include <Controller/IMainWindowController.hpp>
+
 namespace SDF::UILayer::Qt::View::Windows {
-  MainWindow::MainWindow(QWidget *parent) :
+  MainWindow::MainWindow(QWidget *parent, Controller::IMainWindowController *controller) :
   QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
+  m_ui(new Ui::MainWindow),
+  m_controller(controller)
   {
     m_ui->setupUi(this);
   }

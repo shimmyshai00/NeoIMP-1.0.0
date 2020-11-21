@@ -1,5 +1,5 @@
-#ifndef SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEWCONTROLLER_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_QT_VIEW_WINDOWS_MAINWINDOW_HPP
+#define SDF_UILAYER_QT_VIEW_WINDOWS_MAINWINDOW_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
@@ -30,16 +30,21 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+namespace SDF::UILayer::Qt::Controller {
+  class IMainWindowController;
+}
+
 namespace SDF::UILayer::Qt::View::Windows {
   class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, Controller::IMainWindowController *controller);
     ~MainWindow();
   private slots:
     void on_action_New_triggered();
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
+    Controller::IMainWindowController *m_controller;
   };
 }
 

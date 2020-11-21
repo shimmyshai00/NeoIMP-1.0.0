@@ -27,7 +27,7 @@
 #include <Controller/IApplicationController.hpp>
 #include <Controller/ApplicationController.hpp>
 
-#include <View/IApplicationView.hpp>
+#include <View/Windows/MainWindow.hpp>
 
 namespace SDF::UILayer::Qt {
   class QtApplication : public IApplication {
@@ -40,8 +40,8 @@ namespace SDF::UILayer::Qt {
     int exec(int argc, char **argv) {
       QApplication q(argc, argv);
 
-      View::IApplicationView *appView(m_applicationController->startApplication());
-      appView->getQWidget()->show();
+      View::Windows::MainWindow *mainWindow(m_applicationController->createMainWindow());
+      mainWindow->show();
 
       return q.exec();
     }
@@ -53,7 +53,7 @@ namespace SDF::UILayer::Qt {
 namespace SDF::UILayer::Qt {
   fruit::Component<IApplication> getApplicationComponent() {
     return fruit::createComponent()
-      .install(Controller::getApplicationControllerComponent)
-      .bind<IApplication, QtApplication>();
+      .bind<IApplication, QtApplication>()
+      .install(Controller::getApplicationControllerComponent);
   }
 }

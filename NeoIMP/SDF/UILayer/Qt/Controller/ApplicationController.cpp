@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.cpp
- * PURPOSE: Implementation of the ApplicationController class.
+ * PURPOSE: The concrete MVC application controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,35 @@
  */
 
 #include <ApplicationController.hpp>
-#include <View/MainWindowApplicationView.hpp>
+
+#include <IMainWindowController.hpp>
+#include <MainWindowController.hpp>
+
+#include <View/Windows/MainWindow.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
   class ApplicationController : public IApplicationController {
   public:
-    INJECT(ApplicationController()) :
-    m_applicationViewInjector(View::getMainWindowApplicationViewComponent) {}
+    INJECT(ApplicationController(IMainWindowController *mainWindowController)) :
+    m_mainWindowController(mainWindowController) {}
 
     ~ApplicationController() {}
 
-    View::IApplicationView *startApplication() const {
-      return m_applicationViewInjector.get<View::IApplicationView *>();
+    View::Windows::MainWindow *createMainWindow() {
+      View::Windows::MainWindow *mainWindow(new View::Windows::MainWindow);
+      mainWindow->setController(m_mainWindowController);
+
+      return mainWindow;
     }
   private:
-    mutable fruit::Injector<View::IApplicationView> m_applicationViewInjector;
+    IMainWindowController *m_mainWindowController;
   };
 }
 
 namespace SDF::UILayer::Qt::Controller {
   fruit::Component<IApplicationController> getApplicationControllerComponent() {
     return fruit::createComponent()
-      .bind<IApplicationController, ApplicationController>();
+      .bind<IApplicationController, ApplicationController>()
+      .install(getMainWindowControllerComponent);
   }
 }

@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IApplicationController.hpp
- * PURPOSE: The interface for the application MVC controller.
+ * PURPOSE: The MVC controller interface associated with the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-namespace SDF::UILayer::Qt::View {
-  class IApplicationView;
+namespace SDF::UILayer::Qt::View::Windows {
+  class MainWindow;
 }
 
 namespace SDF::UILayer::Qt::Controller {
   class IApplicationController {
   public:
     virtual ~IApplicationController() = default;
-    virtual View::IApplicationView *startApplication() const = 0;
+    virtual View::Windows::MainWindow *createMainWindow() = 0;
   };
 }
 

@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.hpp
- * PURPOSE: The concrete application controller class.
+ * PURPOSE: The concrete MVC application controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
