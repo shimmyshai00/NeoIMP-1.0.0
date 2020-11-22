@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/INewDocumentController.hpp>
+#include <SDF/UILayer/Qt/View/Windows/INewDocumentController.hpp>
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<INewDocumentController> getNewDocumentControllerComponent();
+  fruit::Component<View::Windows::INewDocumentController> getNewDocumentControllerComponent();
 }
 
 #endif

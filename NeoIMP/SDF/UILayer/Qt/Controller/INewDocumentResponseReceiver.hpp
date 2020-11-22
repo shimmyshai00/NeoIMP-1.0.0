@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTRESPONSERECEIVER_HPP
+#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTRESPONSERECEIVER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentController.cpp
- * PURPOSE: Implementation of the NewDocumentController class.
+ * FILE:    INewDocumentResponseReceiver.hpp
+ * PURPOSE: An interface to receive a response from the user with parameters for creating a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,42 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <NewDocumentController.hpp>
-
-#include <INewDocumentResponseReceiver.hpp>
-#include <INewDocumentView.hpp>
-#include <View/NewDocumentDialogView.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
-  class NewDocumentController : public View::Windows::INewDocumentController, public INewDocumentResponseReceiver {
+  class INewDocumentResponseReceiver {
   public:
-    INJECT(NewDocumentController(INewDocumentView *newDocumentView))
-    : m_newDocumentView(newDocumentView) {
-      m_newDocumentView->setResponseReceiver(this);
-    }
-
-    ~NewDocumentController() {}
-
-    View::IQtMVCView *proposeCreateNewDocument() {
-      return m_newDocumentView;
-    }
-
-    void createNewDocument(
+    virtual ~INewDocumentResponseReceiver() = default;
+    virtual void createNewDocument(
       int documentWidthPixels, int documentHeightPixels, float documentResolutionPpi,
       ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    ) {
-      // TBA
-      return;
-    }
-  private:
-    INewDocumentView *m_newDocumentView;
+    ) = 0;
   };
 }
 
-namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<View::Windows::INewDocumentController> getNewDocumentControllerComponent() {
-    return fruit::createComponent()
-      .bind<View::Windows::INewDocumentController, NewDocumentController>()
-      .install(View::getNewDocumentDialogViewComponent);
-  }
-}
+#endif

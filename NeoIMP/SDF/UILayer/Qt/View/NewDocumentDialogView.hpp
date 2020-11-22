@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTCONTROLLER_HPP
+#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOGVIEW_HPP
+#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOGVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentController.hpp
- * PURPOSE: The interface for the new-document MVC controller.
+ * FILE:    NewDocumentDialogView.hpp
+ * PURPOSE: An MVC view object that requests information from the user to create a new document using a dialog box.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentController {
-  public:
-    virtual ~INewDocumentController() = default;
-    virtual View::IDocumentView *createNewDocument(
-      int documentWidthPixels, int documentHeightPixels, float documentResolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    );
-  }
+#include <SDF/UILayer/Qt/Controller/INewDocumentView.hpp>
+#include <fruit/fruit.h>
+
+namespace SDF::UILayer::Qt::View {
+  fruit::Component<Controller::INewDocumentView> getNewDocumentDialogViewComponent();
 }
 
 #endif

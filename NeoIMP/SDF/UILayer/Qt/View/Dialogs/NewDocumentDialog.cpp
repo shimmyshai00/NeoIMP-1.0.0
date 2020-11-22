@@ -22,7 +22,7 @@
  */
 
 #include <NewDocumentDialog.hpp>
-#include "QtResources/ui_NewDocumentDialog.h"
+#include "../QtResources/ui_NewDocumentDialog.h"
 #include <QString>
 
 #include <CustomWidgets/UnitQuantityInput.hpp>
@@ -35,11 +35,10 @@
 #include <SDF/UILayer/Color/ColorModels.hpp>
 #include <SDF/UILayer/Color/BitDepths.hpp>
 
-namespace SDF::UILayer::Qt::View {
-  NewDocumentDialog::NewDocumentDialog(QWidget *parent, INewDocumentController *controller) :
+namespace SDF::UILayer::Qt::View::Dialogs {
+  NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
   QDialog(parent),
-  m_ui(new Ui::NewDocumentDialog),
-  m_controller(controller) {
+  m_ui(new Ui::NewDocumentDialog) {
     using namespace SDF::UILayer::Qt::View::CustomWidgets;
 
     m_ui->setupUi(this);
@@ -74,6 +73,7 @@ namespace SDF::UILayer::Qt::View {
     delete m_ui;
   }
 
+  /*
   void submit() {
     // Submit the gathered information to the model layer via the controller.
     if(m_controller != nullptr) {
@@ -86,4 +86,5 @@ namespace SDF::UILayer::Qt::View {
       );
     }
   }
+  */
 }
