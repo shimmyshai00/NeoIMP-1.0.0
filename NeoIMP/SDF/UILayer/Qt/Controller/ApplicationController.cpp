@@ -27,16 +27,20 @@
 #include <View/ApplicationView.hpp>
 #include <View/IApplicationController.hpp>
 
+#include <INewDocumentController.hpp>
+#include <NewDocumentController.hpp>
+
 #include <iostream>
 
 namespace SDF::UILayer::Qt::Controller {
   class ApplicationController : public IApplicationController, public View::IApplicationController {
   public:
-    INJECT(ApplicationController(IApplicationView *applicationView)) :
-    m_applicationView(applicationView) {
+    INJECT(ApplicationController(IApplicationView *applicationView, INewDocumentController *newDocumentController)) :
+    m_applicationView(applicationView),
+    m_newDocumentController(newDocumentController) {
       m_applicationView->registerController(this);
     }
-    
+
     ~ApplicationController() {}
 
     void showMainWindow() {
@@ -44,11 +48,11 @@ namespace SDF::UILayer::Qt::Controller {
     }
 
     void newDocument() {
-      // TBA
-      std::cout << "New document requested" << std::endl;
+      m_newDocumentController->startNewDocumentRequest();
     }
   private:
     IApplicationView *m_applicationView;
+    INewDocumentController *m_newDocumentController;
   };
 }
 
@@ -56,6 +60,7 @@ namespace SDF::UILayer::Qt::Controller {
   fruit::Component<IApplicationController> getApplicationControllerComponent() {
     return fruit::createComponent()
       .bind<IApplicationController, ApplicationController>()
-      .install(View::getApplicationViewComponent);
+      .install(View::getApplicationViewComponent)
+      .install(Controller::getNewDocumentControllerComponent);
   }
 }

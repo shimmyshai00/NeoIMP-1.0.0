@@ -35,6 +35,8 @@
 #include <SDF/UILayer/Color/ColorModels.hpp>
 #include <SDF/UILayer/Color/BitDepths.hpp>
 
+#include <Controller/INewDocumentParameterReceiver.hpp>
+
 namespace SDF::UILayer::Qt::View::Dialogs {
   NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
   QDialog(parent),
@@ -73,18 +75,16 @@ namespace SDF::UILayer::Qt::View::Dialogs {
     delete m_ui;
   }
 
-  /*
-  void submit() {
+  void NewDocumentDialog::submit(Controller::INewDocumentParameterReceiver *recv) {
     // Submit the gathered information to the model layer via the controller.
-    if(m_controller != nullptr) {
-      m_controller->createNewDocument(
+    if(recv != nullptr) {
+      recv->receiveNewDocumentSpecification(
         m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
         m_ui->imageHeightInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
-        m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Dimensionless::Units::PixelsPerInch),
+        m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Resolution::Units::PixelsPerInch),
         static_cast<ModelLayer::DomainObjects::Color::ColorModel>(m_ui->colorModelComboBox->currentData().toInt()),
         static_cast<ModelLayer::DomainObjects::Color::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt())
       );
     }
   }
-  */
 }

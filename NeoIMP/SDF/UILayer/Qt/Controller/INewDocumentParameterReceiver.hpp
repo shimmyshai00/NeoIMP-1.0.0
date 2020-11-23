@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
-#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTPARAMETERRECEIVER_HPP
+#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTPARAMETERRECEIVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialog.hpp
- * PURPOSE: Definition of the dialog class for creating a new document.
+ * FILE:    INewDocumentParameterReceiver.hpp
+ * PURPOSE: The interface for receiving parameters specifying a new document to be created.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,37 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QDialog>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class NewDocumentDialog; }
-QT_END_NAMESPACE
+#include <ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <ModelLayer/DomainObjects/Color/BitDepths.hpp>
 
 namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentParameterReceiver;
-}
-
-namespace SDF::UILayer::Qt::View::Dialogs {
-  class NewDocumentDialog : public QDialog {
-    Q_OBJECT
+  class INewDocumentParameterReceiver {
   public:
-    NewDocumentDialog(QWidget *parent = nullptr);
-    ~NewDocumentDialog();
+    virtual ~INewDocumentParameterReceiver() = default;
 
-    void submit(Controller::INewDocumentParameterReceiver *recv);
-  private slots:
-  /*
-    void widthChanged();
-    void heightChanged();
-    void widthUnitChanged();
-    void heightUnitChanged();
-    void resolutionChanged();
-    void resolutionUnitChanged();
-    void colorModelChanged();
-    void bitDepthChanged();
-  */
-  private:
-    Ui::NewDocumentDialog *m_ui;
+    virtual void receiveNewDocumentSpecification(
+      int documentWidthPx, int documentHeightPx, float resolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    ) = 0;
   };
 }
 
