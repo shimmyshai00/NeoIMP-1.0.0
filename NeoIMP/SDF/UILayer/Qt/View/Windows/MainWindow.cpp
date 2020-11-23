@@ -24,14 +24,11 @@
 #include <MainWindow.hpp>
 #include "../QtResources/ui_MainWindow.h"
 
-#include <INewDocumentController.hpp>
-#include <IQtMVCView.hpp>
-
 namespace SDF::UILayer::Qt::View::Windows {
-  MainWindow::MainWindow(QWidget *parent, INewDocumentController *newDocumentController) :
+  MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   m_ui(new Ui::MainWindow),
-  m_newDocumentController(newDocumentController)
+  m_applicationController(nullptr)
   {
     m_ui->setupUi(this);
   }
@@ -39,10 +36,14 @@ namespace SDF::UILayer::Qt::View::Windows {
   MainWindow::~MainWindow() {
   }
 
+  void MainWindow::registerApplicationController(IApplicationController *applicationController) {
+    m_applicationController = applicationController;
+  }
+
   // Private member.
   void MainWindow::on_action_New_triggered() {
-    if(m_newDocumentController != nullptr) {
-      m_newDocumentController->proposeCreateNewDocument()->getWidget()->show();
+    if(m_applicationController != nullptr) {
+      m_applicationController->newDocument();
     }
   }
 }

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialogView.cpp
- * PURPOSE: Implementation of the NewDocumentDialogView class.
+ * FILE:    ApplicationView.cpp
+ * PURPOSE: Implementation of the ApplicationView class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,39 +21,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <NewDocumentDialogView.hpp>
+#include <ApplicationView.hpp>
 
-#include <Controller/INewDocumentResponseReceiver.hpp>
-#include <Controller/INewDocumentView.hpp>
-#include <View/IQtMVCView.hpp>
-
-#include <Dialogs/NewDocumentDialog.hpp>
+#include <Windows/MainWindow.hpp>
+#include <Controller/IApplicationView.hpp>
+#include <IApplicationController.hpp>
 
 namespace SDF::UILayer::Qt::View {
-  class NewDocumentDialogView : public Controller::INewDocumentView {
+  class ApplicationView : public Controller::IApplicationView {
   public:
-    INJECT(NewDocumentDialogView()) :
-    m_responseReceiver(nullptr),
-    m_newDocumentDialog(nullptr) {}
+    INJECT(ApplicationView()) {}
+    ~ApplicationView() {}
 
-    ~NewDocumentDialogView() {}
-
-    void setResponseReceiver(Controller::INewDocumentResponseReceiver *responseReceiver) {
-      m_responseReceiver = responseReceiver;
+    void registerController(IApplicationController *applicationController) {
+      m_applicationController = applicationController;
+      m_mainWindow.registerApplicationController(applicationController);
     }
 
-    QWidget *getWidget() {
-      return &m_newDocumentDialog;
+    void showMainWindow() {
+      m_mainWindow.show();
     }
   private:
-    Controller::INewDocumentResponseReceiver *m_responseReceiver;
-    Dialogs::NewDocumentDialog m_newDocumentDialog;
+    IApplicationController *m_applicationController;
+    Windows::MainWindow m_mainWindow;
   };
 }
 
 namespace SDF::UILayer::Qt::View {
-  fruit::Component<Controller::INewDocumentView> getNewDocumentDialogViewComponent() {
+  fruit::Component<Controller::IApplicationView> getApplicationViewComponent() {
     return fruit::createComponent()
-      .bind<Controller::INewDocumentView, NewDocumentDialogView>();
+      .bind<Controller::IApplicationView, ApplicationView>();
   }
 }

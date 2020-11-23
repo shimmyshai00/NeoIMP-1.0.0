@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOGVIEW_HPP
-#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOGVIEW_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_IAPPLICATIONVIEW_HPP
+#define SDF_UILAYER_QT_CONTROLLER_IAPPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialogView.hpp
- * PURPOSE: An MVC view object that requests information from the user to create a new document using a dialog box.
+ * FILE:    IApplicationView.hpp
+ * PURPOSE: The interface for the application MVC view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/INewDocumentView.hpp>
-#include <fruit/fruit.h>
-
 namespace SDF::UILayer::Qt::View {
-  fruit::Component<Controller::INewDocumentView> getNewDocumentDialogViewComponent();
+  class IApplicationController;
+}
+
+namespace SDF::UILayer::Qt::Controller {
+  class IApplicationView {
+  public:
+    virtual ~IApplicationView() = default;
+
+    virtual void registerController(View::IApplicationController *applicationController) = 0;
+    virtual void showMainWindow() = 0;
+  };
 }
 
 #endif

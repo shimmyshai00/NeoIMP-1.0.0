@@ -23,26 +23,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/Qt/Controller/IApplicationView.hpp>
+#include <SDF/UILayer/Qt/View/IApplicationController.hpp>
+
 #include <QMainWindow>
 #include <memory>
+
+#include <fruit/fruit.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+// class declaration must be in separate header to appease QT
 namespace SDF::UILayer::Qt::View::Windows {
-  class INewDocumentController;
-  
   class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr, INewDocumentController *newDocumentController = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void registerApplicationController(IApplicationController *applicationController);
   private slots:
     void on_action_New_triggered();
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
-    INewDocumentController *m_newDocumentController;
+    IApplicationController *m_applicationController;
   };
 }
 

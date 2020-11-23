@@ -6,6 +6,5 @@ add_subdirectory(Windows)
 add_subdirectory(Dialogs)
 
 target_sources(neoimp PUBLIC
-  MainWindowApplicationView.cpp
-  NewDocumentDialogView.cpp
+  ApplicationView.cpp
 )

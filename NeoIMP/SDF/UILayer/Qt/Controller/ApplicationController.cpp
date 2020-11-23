@@ -24,17 +24,28 @@
 #include <ApplicationController.hpp>
 
 #include <IApplicationView.hpp>
-#include <View/MainWindowApplicationView.hpp>
+#include <View/ApplicationView.hpp>
+#include <View/IApplicationController.hpp>
+
+#include <iostream>
 
 namespace SDF::UILayer::Qt::Controller {
-  class ApplicationController : public IApplicationController {
+  class ApplicationController : public IApplicationController, public View::IApplicationController {
   public:
     INJECT(ApplicationController(IApplicationView *applicationView)) :
-    m_applicationView(applicationView) {}
+    m_applicationView(applicationView) {
+      m_applicationView->registerController(this);
+    }
+    
     ~ApplicationController() {}
 
-    virtual IApplicationView *startApplication() {
-      return m_applicationView;
+    void showMainWindow() {
+      m_applicationView->showMainWindow();
+    }
+
+    void newDocument() {
+      // TBA
+      std::cout << "New document requested" << std::endl;
     }
   private:
     IApplicationView *m_applicationView;
@@ -45,6 +56,6 @@ namespace SDF::UILayer::Qt::Controller {
   fruit::Component<IApplicationController> getApplicationControllerComponent() {
     return fruit::createComponent()
       .bind<IApplicationController, ApplicationController>()
-      .install(View::getMainWindowApplicationViewComponent);
+      .install(View::getApplicationViewComponent);
   }
 }

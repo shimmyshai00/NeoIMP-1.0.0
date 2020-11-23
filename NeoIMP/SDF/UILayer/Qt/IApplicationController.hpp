@@ -25,12 +25,10 @@
  */
 
 namespace SDF::UILayer::Qt {
-  class IApplicationView;
-  
   class IApplicationController {
   public:
     virtual ~IApplicationController() = default;
-    virtual IApplicationView *startApplication() = 0;
+    virtual void showMainWindow() = 0;
   };
 }
 

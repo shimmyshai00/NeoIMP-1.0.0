@@ -25,8 +25,6 @@
 #include <QApplication>
 
 #include <IApplicationController.hpp>
-#include <IApplicationView.hpp>
-
 #include <Controller/ApplicationController.hpp>
 
 namespace SDF::UILayer::Qt {
@@ -41,12 +39,13 @@ namespace SDF::UILayer::Qt {
       QApplication q(argc, argv);
 
       IApplicationController *controller(m_applicationControllerInjector.get<IApplicationController *>());
-      IApplicationView *view(controller->startApplication());
-      view->getWidget()->show();
+      controller->showMainWindow();
 
       return q.exec();
     }
   private:
+    // This roundabout need for an injector is to appease QT because we cannot construct any Qt objects until after the
+    // QAppplication object is initialized.
     fruit::Injector<IApplicationController> m_applicationControllerInjector;
   };
 }
