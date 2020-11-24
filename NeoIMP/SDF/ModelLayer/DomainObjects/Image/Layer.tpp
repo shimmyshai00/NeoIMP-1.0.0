@@ -24,15 +24,43 @@
 #include <SDF/ModelLayer/DomainObjects/Image/Layer.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Image {
-  Layer::Layer(int width, int height);
-  Layer::~Layer();
+  template<class PixelType, class AlphaType>
+  Layer::Layer(int width, int height) :
+  m_width(width),
+  m_height(height),
+  m_alphaChannel(width, height),
+  m_imageRaster(with, height) {}
 
-  int Layer::getWidth() const;
-  int Layer::getHeight() const;
+  template<class PixelType, class AlphaType>
+  Layer::~Layer() {}
 
-  AlphaType Layer::getAlphaAt(Coord<int> pos) const;
-  PixelType Layer::getPixelAt(Coord<int> pos) const;
+  template<class PixelType, class AlphaType>
+  int Layer::getWidth() const {
+    return m_width;
+  }
 
-  void Layer::setAlphaAt(Coord<int> pos, PixelType newValue);
-  void Layer::setPixelAt(Coord<int> pos, PixelType newValue);
+  template<class PixelType, class AlphaType>
+  int Layer::getHeight() const {
+    return m_height;
+  }
+
+  template<class PixelType, class AlphaType>
+  AlphaType Layer::getAlphaAt(Coord<int> pos) const {
+    return m_alphaChannel(pos);
+  }
+
+  template<class PixelType, class AlphaType>
+  PixelType Layer::getPixelAt(Coord<int> pos) const {
+    return m_imageRaster(pos);
+  }
+
+  template<class PixelType, class AlphaType>
+  void Layer::setAlphaAt(Coord<int> pos, PixelType newValue) {
+    m_alphaChannel(pos) = newValue;
+  }
+
+  template<class PixelType, class AlphaType>
+  void Layer::setPixelAt(Coord<int> pos, PixelType newValue) {
+    m_imageRaster(pos) = newValue;
+  }
 }
