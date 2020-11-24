@@ -24,42 +24,42 @@
 #include <SDF/ModelLayer/DomainObjects/Color/RGBColor.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Color {
-  template<class StorageType, StorageType channelMaxVal>
+  template<class ChannelType>
   RGBColor::RGBColor() : m_r(0), m_g(0), m_b(0) {}
 
-  template<class StorageType, StorageType channelMaxVal>
-  RGBColor::RGBColor(StorageType r, StorageType g, StorageType b) : m_r(r), m_g(g), m_b(b) {}
+  template<class ChannelType>
+  RGBColor::RGBColor(ChannelType r, ChannelType g, ChannelType b) : m_r(r), m_g(g), m_b(b) {}
 
-  template<class StorageType, StorageType channelMaxVal>
+  template<class ChannelType>
   RGBColor::~RGBColor() {}
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType RGBColor::getR() const {
+  template<class ChannelType>
+  ChannelType RGBColor::getR() const {
     return m_r.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType RGBColor::getG() const {
+  template<class ChannelType>
+  ChannelType RGBColor::getG() const {
     return m_g.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType RGBColor::getB() const {
+  template<class ChannelType>
+  ChannelType RGBColor::getB() const {
     return m_b.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void RGBColor::setR(StorageType r) {
+  template<class ChannelType>
+  void RGBColor::setR(ChannelType r) {
     m_r.setValue(r);
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void RGBColor::setG(StorageType g) {
+  template<class ChannelType>
+  void RGBColor::setG(ChannelType g) {
     m_g.setValue(g);
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void RGBColor::setB(StorageType b) {
+  template<class ChannelType>
+  void RGBColor::setB(ChannelType b) {
     m_b.setValue(b);
   }
 }

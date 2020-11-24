@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_LAYER_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_LAYER_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_IMAGE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_IMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Layer.hpp
- * PURPOSE: Definition of the image layer template.
+ * FILE:    Image.hpp
+ * PURPOSE: Definition of the full image template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Domainobjects/Image/Raster.hpp>
+#include <SDF/ModelLayer/Domainobjects/Image/Layer.hpp>
 #include <SDF/ModelLayer/DomainObjects/Image/Coord.hpp>
+
+#include <vector>
 
 namespace SDF::ModelLayer::DomainObjects::Image {
   template<class PixelType, class AlphaType>
-  class Layer {
+  class Image {
   public:
-    Layer(int width, int height);
-    ~Layer();
+    Image(int width, int height, float ppi);
+    ~Image();
 
     int getWidth() const;
     int getHeight() const;
+    float getPpi() const;
 
-    AlphaType getAlphaAt(Coord<int> pos) const;
-    PixelType getPixelAt(Coord<int> pos) const;
+    int getNumLayers() const;
+    int getLayerWidth(int layerNum) const;
+    int getLayerHeight(int layerNum) const;
 
-    void setAlphaAt(Coord<int> pos, PixelType newValue);
-    void setPixelAt(Coord<int> pos, PixelType newValue);
+    AlphaType getAlphaAt(int layerNum, Coord<int> pos) const;
+    PixelType getPixelAt(int layerNum, Coord<int> pos) const;
+
+    void setAlphaAt(int layerNum, Coord<int> pos, PixelType newValue);
+    void setPixelAt(int layerNum, Coord<int> pos, PixelType newValue);
   private:
     int m_width;
     int m_height;
+    float m_ppi;
 
-    Raster<AlphaType> m_alphaChannel;
-    Raster<PixelType> m_imageRaster;
+    std::vector<Layer<PixelType, AlphaType>> m_layers;
   };
 }
 
-#include "SDF/ModelLayer/DomainObjects/Image/Layer.tpp"
+#include "SDF/ModelLayer/DomainObjects/Image/Image.tpp"
 
 #endif

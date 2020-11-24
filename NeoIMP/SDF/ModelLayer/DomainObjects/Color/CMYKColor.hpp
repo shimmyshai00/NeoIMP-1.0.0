@@ -25,27 +25,27 @@
  */
 
 namespace SDF::ModelLayer::DomainObjects::Color {
-  template<class StorageType, StorageType channelMaxVal>
+  template<class ChannelType>
   class CMYKColor {
   public:
     CMYKColor();
-    CMYKColor(StorageType c, StorageType m, StorageType y, StorageType k);
+    CMYKColor(ChannelType c, ChannelType m, ChannelType y, ChannelType k);
     ~CMYKColor();
 
-    StorageType getC() const;
-    StorageType getM() const;
-    StorageType getY() const;
-    StorageType getK() const;
+    ChannelType getC() const;
+    ChannelType getM() const;
+    ChannelType getY() const;
+    ChannelType getK() const;
 
-    void setC(StorageType c);
-    void setM(StorageType m);
-    void setY(StorageType y);
-    void setK(StorageType k);
+    void setC(ChannelType c);
+    void setM(ChannelType m);
+    void setY(ChannelType y);
+    void setK(ChannelType k);
   private:
-    ColorChannel<StorageType, channelMaxVal> m_c;
-    ColorChannel<StorageType, channelMaxVal> m_m;
-    ColorChannel<StorageType, channelMaxVal> m_y;
-    ColorChannel<StorageType, channelMaxVal> m_k;
+    ChannelType m_c;
+    ChannelType m_m;
+    ChannelType m_y;
+    ChannelType m_k;
   };
 }
 

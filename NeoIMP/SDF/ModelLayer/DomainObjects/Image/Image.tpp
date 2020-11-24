@@ -1,12 +1,9 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_COLOR_RGBCOLOR_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_COLOR_RGBCOLOR_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGBColor.hpp
- * PURPOSE: Definition of the RGB color format template.
+ * FILE:    Image.tpp
+ * PURPOSE: Implementation of the full image template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +21,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer::DomainObjects::Color {
-  template<class ChannelType>
-  class RGBColor {
-  public:
-    RGBColor();
-    RGBColor(ChannelType r, ChannelType g, ChannelType b);
-    ~RGBColor();
+#include <SDF/ModelLayer/DomainObjects/Image/Image.hpp>
 
-    ChannelType getR() const;
-    ChannelType getG() const;
-    ChannelType getB() const;
+namespace SDF::ModelLayer::DomainObjects::Image {
+  Image::Image(int width, int height, float ppi);
+  Image::~Image();
 
-    void setR(ChannelType r);
-    void setG(ChannelType g);
-    void setB(ChannelType b);
-  private:
-    ChannelType m_r;
-    ChannelType m_g;
-    ChannelType m_b;
-  };
+  int Image::getWidth() const;
+  int Image::getHeight() const;
+  float Image::getPpi() const;
+
+  int Image::getNumLayers() const;
+  int Image::getLayerWidth(int layerNum) const;
+  int Image::getLayerHeight(int layerNum) const;
+
+  AlphaType Image::getAlphaAt(int layerNum, Coord<int> pos) const;
+  PixelType Image::getPixelAt(int layerNum, Coord<int> pos) const;
+
+  void Image::setAlphaAt(int layerNum, Coord<int> pos, PixelType newValue);
+  void Image::setPixelAt(int layerNum, Coord<int> pos, PixelType newValue);
 }
-
-#include "SDF/ModelLayer/DomainObjects/Color/RGBColor.tpp"
-
-#endif

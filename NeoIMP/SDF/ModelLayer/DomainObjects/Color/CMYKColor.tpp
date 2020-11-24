@@ -24,52 +24,52 @@
 #include <SDF/ModelLayer/DomainObjects/Color/CMYKColor.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Color {
-  template<class StorageType, StorageType channelMaxVal>
+  template<class ChannelType>
   CMYKColor::CMYKColor() : m_c(0), m_m(0), m_y(0), m_k(channelMaxVal) {}
 
-  template<class StorageType, StorageType channelMaxVal>
-  CMYKColor::CMYKColor(StorageType c, StorageType m, StorageType y, StorageType k) : m_c(c), m_m(m), m_y(y), m_k(k) {}
+  template<class ChannelType>
+  CMYKColor::CMYKColor(ChannelType c, ChannelType m, ChannelType y, ChannelType k) : m_c(c), m_m(m), m_y(y), m_k(k) {}
 
-  template<class StorageType, StorageType channelMaxVal>
+  template<class ChannelType>
   CMYKColor::~CMYKColor() {}
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType CMYKColor::getC() const {
+  template<class ChannelType>
+  ChannelType CMYKColor::getC() const {
     return m_c.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType CMYKColor::getM() const {
+  template<class ChannelType>
+  ChannelType CMYKColor::getM() const {
     return m_m.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType CMYKColor::getY() const {
+  template<class ChannelType>
+  ChannelType CMYKColor::getY() const {
     return m_y.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  StorageType CMYKColor::getK() const {
+  template<class ChannelType>
+  ChannelType CMYKColor::getK() const {
     return m_k.getValue();
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void CMYKColor::setC(StorageType c) {
+  template<class ChannelType>
+  void CMYKColor::setC(ChannelType c) {
     m_c.setValue(c);
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void CMYKColor::setM(StorageType m) {
+  template<class ChannelType>
+  void CMYKColor::setM(ChannelType m) {
     m_m.setValue(m);
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void CMYKColor::setY(StorageType y) {
+  template<class ChannelType>
+  void CMYKColor::setY(ChannelType y) {
     m_y.setValue(y);
   }
 
-  template<class StorageType, StorageType channelMaxVal>
-  void CMYKColor::setK(StorageType k) {
+  template<class ChannelType>
+  void CMYKColor::setK(ChannelType k) {
     m_k.setValue(k);
   }
 }

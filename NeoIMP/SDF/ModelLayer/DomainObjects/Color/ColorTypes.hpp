@@ -34,15 +34,15 @@ namespace SDF::ModelLayer::DomainObjects::Color {
   typedef ColorChannel<unsigned short, 4095> Channel12;
   typedef ColorChannel<unsigned short, 65535> Channel16;
 
-  typedef RGBColor<unsigned char, 255> ColorRGB24;
-  typedef RGBColor<unsigned short, 1023> ColorRGB30;
-  typedef RGBColor<unsigned short, 4095> ColorRGB36;
-  typedef RGBColor<unsigned short, 65535> ColorRGB48;
+  typedef RGBColor<Channel8> ColorRGB24;
+  typedef RGBColor<Channel10> ColorRGB30;
+  typedef RGBColor<Channel12> ColorRGB36;
+  typedef RGBColor<Channel16> ColorRGB48;
 
-  typedef CMYKColor<unsigned char, 255> ColorCMYK32;
-  typedef CMYKColor<unsigned short, 1023> ColorCMYK40;
-  typedef CMYKColor<unsigned short, 4095> ColorCMYK48;
-  typedef CMYKColor<unsigned short, 65535> ColorCMYK64;
+  typedef CMYKColor<Channel8> ColorCMYK32;
+  typedef CMYKColor<Channel10> ColorCMYK40;
+  typedef CMYKColor<Channel12> ColorCMYK48;
+  typedef CMYKColor<Channel16> ColorCMYK64;
 }
 
 #endif

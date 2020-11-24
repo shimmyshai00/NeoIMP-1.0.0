@@ -24,12 +24,11 @@
 #include <SDF/ModelLayer/DomainObjects/Image/Layer.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Image {
-  Layer::Layer(int width, int height, float ppi);
+  Layer::Layer(int width, int height);
   Layer::~Layer();
 
   int Layer::getWidth() const;
   int Layer::getHeight() const;
-  float Layer::getPpi() const;
 
   AlphaType Layer::getAlphaAt(Coord<int> pos) const;
   PixelType Layer::getPixelAt(Coord<int> pos) const;
