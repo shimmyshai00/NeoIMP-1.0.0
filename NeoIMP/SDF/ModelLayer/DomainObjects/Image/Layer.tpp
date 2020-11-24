@@ -55,7 +55,7 @@ namespace SDF::ModelLayer::DomainObjects::Image {
   }
 
   template<class PixelType, class AlphaType>
-  void Layer::setAlphaAt(Coord<int> pos, PixelType newValue) {
+  void Layer::setAlphaAt(Coord<int> pos, AlphaType newValue) {
     m_alphaChannel(pos) = newValue;
   }
 

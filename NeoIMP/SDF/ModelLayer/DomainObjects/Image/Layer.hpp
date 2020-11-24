@@ -40,12 +40,9 @@ namespace SDF::ModelLayer::DomainObjects::Image {
     AlphaType getAlphaAt(Coord<int> pos) const;
     PixelType getPixelAt(Coord<int> pos) const;
 
-    void setAlphaAt(Coord<int> pos, PixelType newValue);
+    void setAlphaAt(Coord<int> pos, AlphaType newValue);
     void setPixelAt(Coord<int> pos, PixelType newValue);
   private:
-    int m_width;
-    int m_height;
-
     Raster<AlphaType> m_alphaChannel;
     Raster<PixelType> m_imageRaster;
   };

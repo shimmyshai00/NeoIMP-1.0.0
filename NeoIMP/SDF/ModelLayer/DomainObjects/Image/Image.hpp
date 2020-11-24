@@ -47,16 +47,16 @@ namespace SDF::ModelLayer::DomainObjects::Image {
     AlphaType getAlphaAt(int layerNum, Coord<int> pos) const;
     PixelType getPixelAt(int layerNum, Coord<int> pos) const;
 
-    void addLayer(Layer<PixelType, AlphaType> *layer);
-    
-    void setAlphaAt(int layerNum, Coord<int> pos, PixelType newValue);
+    void addLayer(int width, int height);
+
+    void setAlphaAt(int layerNum, Coord<int> pos, AlphaType newValue);
     void setPixelAt(int layerNum, Coord<int> pos, PixelType newValue);
   private:
     int m_width;
     int m_height;
     float m_ppi;
 
-    std::vector<Layer<PixelType, AlphaType> *> m_layers;
+    std::vector<std::unique_ptr<Layer<PixelType, AlphaType>>> m_layers;
   };
 }
 

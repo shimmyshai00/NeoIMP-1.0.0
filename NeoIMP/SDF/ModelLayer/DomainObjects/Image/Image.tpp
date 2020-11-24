@@ -22,22 +22,81 @@
  */
 
 #include <SDF/ModelLayer/DomainObjects/Image/Image.hpp>
+#include <cassert>
 
 namespace SDF::ModelLayer::DomainObjects::Image {
-  Image::Image(int width, int height, float ppi);
-  Image::~Image();
+  template<class PixelType, class AlphaType>
+  Image::Image(int width, int height, float ppi) : m_width(width), m_height(height), m_ppi(ppi) {
+    addLayer(width, height);
+  }
 
-  int Image::getWidth() const;
-  int Image::getHeight() const;
-  float Image::getPpi() const;
+  template<class PixelType, class AlphaType>
+  Image::~Image() {}
 
-  int Image::getNumLayers() const;
-  int Image::getLayerWidth(int layerNum) const;
-  int Image::getLayerHeight(int layerNum) const;
+  template<class PixelType, class AlphaType>
+  int Image::getWidth() const {
+    return m_width;
+  }
 
-  AlphaType Image::getAlphaAt(int layerNum, Coord<int> pos) const;
-  PixelType Image::getPixelAt(int layerNum, Coord<int> pos) const;
+  template<class PixelType, class AlphaType>
+  int Image::getHeight() const {
+    return m_height;
+  }
 
-  void Image::setAlphaAt(int layerNum, Coord<int> pos, PixelType newValue);
-  void Image::setPixelAt(int layerNum, Coord<int> pos, PixelType newValue);
+  template<class PixelType, class AlphaType>
+  float Image::getPpi() const {
+    return m_ppi;
+  }
+
+  template<class PixelType, class AlphaType>
+  int Image::getNumLayers() const {
+    return m_layers.size();
+  }
+
+  template<class PixelType, class AlphaType>
+  int Image::getLayerWidth(int layerNum) const {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    return m_layers[layerNum]->getWidth();
+  }
+
+  template<class PixelType, class AlphaType>
+  int Image::getLayerHeight(int layerNum) const {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    return m_layers[layerNum]->getHeight();
+  }
+
+  template<class PixelType, class AlphaType>
+  AlphaType Image::getAlphaAt(int layerNum, Coord<int> pos) const {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    return m_layers[layerNum]->getAlphaAt(pos);
+  }
+
+  template<class PixelType, class AlphaType>
+  PixelType Image::getPixelAt(int layerNum, Coord<int> pos) const {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    return m_layers[layerNum]->getPixelAt(pos);
+  }
+
+  template<class PixelType, class AlphaType>
+  void Image::addLayer(int width, int height) {
+    m_layers.push_back(std::make_unique<Layer>(width, height));
+  }
+
+  template<class PixelType, class AlphaType>
+  void Image::setAlphaAt(int layerNum, Coord<int> pos, AlphaType newValue) {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    m_layers[layerNum]->setAlphaAt(pos, newValue);
+  }
+
+  template<class PixelType, class AlphaType>
+  void Image::setPixelAt(int layerNum, Coord<int> pos, PixelType newValue) {
+    assert((0 <= layerNum) && (layerNum < m_layers.size()));
+
+    m_layers[layerNum]->setAlphaAt(pos, newValue);
+  }
 }
