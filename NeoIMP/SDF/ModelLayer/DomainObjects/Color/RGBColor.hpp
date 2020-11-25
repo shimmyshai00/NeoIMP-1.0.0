@@ -30,7 +30,6 @@ namespace SDF::ModelLayer::DomainObjects::Color {
   public:
     RGBColor();
     RGBColor(ChannelType r, ChannelType g, ChannelType b);
-    ~RGBColor();
 
     ChannelType getR() const;
     ChannelType getG() const;

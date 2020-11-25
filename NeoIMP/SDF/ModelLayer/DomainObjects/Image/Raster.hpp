@@ -37,6 +37,29 @@ namespace SDF::ModelLayer::DomainObjects::Image {
       delete[] m_data;
     }
 
+    Raster(const Raster<T> &obj) : m_width(obj.m_width), m_height(obj.m_height), m_data(new T[m_width*m_height]) {
+      for(int i(0); i < m_width*m_height; ++i) {
+        m_data[i] = obj.m_data[i];
+      }
+    }
+
+    Raster(Raster<T> &&obj) :
+    m_width(std::exchange(obj.m_width, 0)),
+    m_height(std::exchange(obj.m_height, 0)),
+    m_data(std::exchange(obj.m_data, nullptr)) {}
+
+    Raster<T> &operator=(const Raster<T> &rhs) {
+      return *this = Raster<T>(rhs);
+    }
+
+    Raster<T> &operator=(Raster<T> &&rhs) noexcept {
+      std::swap(m_width, rhs.m_width);
+      std::swap(m_height, rhs.m_height);
+      std::swap(m_data, rhs.m_data);
+
+      return *this;
+    }
+    
     // Size access.
     int getWidth() const {
       return m_width;

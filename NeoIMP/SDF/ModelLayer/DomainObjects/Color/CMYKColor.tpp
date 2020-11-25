@@ -25,51 +25,48 @@
 
 namespace SDF::ModelLayer::DomainObjects::Color {
   template<class ChannelType>
-  CMYKColor::CMYKColor() : m_c(0), m_m(0), m_y(0), m_k(channelMaxVal) {}
+  CMYKColor<ChannelType>::CMYKColor() : m_c(0), m_m(0), m_y(0), m_k(0) {}
 
   template<class ChannelType>
-  CMYKColor::CMYKColor(ChannelType c, ChannelType m, ChannelType y, ChannelType k) : m_c(c), m_m(m), m_y(y), m_k(k) {}
+  CMYKColor<ChannelType>::CMYKColor(ChannelType c, ChannelType m, ChannelType y, ChannelType k) : m_c(c), m_m(m), m_y(y), m_k(k) {}
 
   template<class ChannelType>
-  CMYKColor::~CMYKColor() {}
-
-  template<class ChannelType>
-  ChannelType CMYKColor::getC() const {
+  ChannelType CMYKColor<ChannelType>::getC() const {
     return m_c.getValue();
   }
 
   template<class ChannelType>
-  ChannelType CMYKColor::getM() const {
+  ChannelType CMYKColor<ChannelType>::getM() const {
     return m_m.getValue();
   }
 
   template<class ChannelType>
-  ChannelType CMYKColor::getY() const {
+  ChannelType CMYKColor<ChannelType>::getY() const {
     return m_y.getValue();
   }
 
   template<class ChannelType>
-  ChannelType CMYKColor::getK() const {
+  ChannelType CMYKColor<ChannelType>::getK() const {
     return m_k.getValue();
   }
 
   template<class ChannelType>
-  void CMYKColor::setC(ChannelType c) {
+  void CMYKColor<ChannelType>::setC(ChannelType c) {
     m_c.setValue(c);
   }
 
   template<class ChannelType>
-  void CMYKColor::setM(ChannelType m) {
+  void CMYKColor<ChannelType>::setM(ChannelType m) {
     m_m.setValue(m);
   }
 
   template<class ChannelType>
-  void CMYKColor::setY(ChannelType y) {
+  void CMYKColor<ChannelType>::setY(ChannelType y) {
     m_y.setValue(y);
   }
 
   template<class ChannelType>
-  void CMYKColor::setK(ChannelType k) {
+  void CMYKColor<ChannelType>::setK(ChannelType k) {
     m_k.setValue(k);
   }
 }

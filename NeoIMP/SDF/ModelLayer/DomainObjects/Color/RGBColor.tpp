@@ -25,41 +25,38 @@
 
 namespace SDF::ModelLayer::DomainObjects::Color {
   template<class ChannelType>
-  RGBColor::RGBColor() : m_r(0), m_g(0), m_b(0) {}
+  RGBColor<ChannelType>::RGBColor() : m_r(0), m_g(0), m_b(0) {}
 
   template<class ChannelType>
-  RGBColor::RGBColor(ChannelType r, ChannelType g, ChannelType b) : m_r(r), m_g(g), m_b(b) {}
+  RGBColor<ChannelType>::RGBColor(ChannelType r, ChannelType g, ChannelType b) : m_r(r), m_g(g), m_b(b) {}
 
   template<class ChannelType>
-  RGBColor::~RGBColor() {}
-
-  template<class ChannelType>
-  ChannelType RGBColor::getR() const {
+  ChannelType RGBColor<ChannelType>::getR() const {
     return m_r.getValue();
   }
 
   template<class ChannelType>
-  ChannelType RGBColor::getG() const {
+  ChannelType RGBColor<ChannelType>::getG() const {
     return m_g.getValue();
   }
 
   template<class ChannelType>
-  ChannelType RGBColor::getB() const {
+  ChannelType RGBColor<ChannelType>::getB() const {
     return m_b.getValue();
   }
 
   template<class ChannelType>
-  void RGBColor::setR(ChannelType r) {
+  void RGBColor<ChannelType>::setR(ChannelType r) {
     m_r.setValue(r);
   }
 
   template<class ChannelType>
-  void RGBColor::setG(ChannelType g) {
+  void RGBColor<ChannelType>::setG(ChannelType g) {
     m_g.setValue(g);
   }
 
   template<class ChannelType>
-  void RGBColor::setB(ChannelType b) {
+  void RGBColor<ChannelType>::setB(ChannelType b) {
     m_b.setValue(b);
   }
 }

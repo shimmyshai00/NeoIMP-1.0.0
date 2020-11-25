@@ -1,12 +1,13 @@
-#ifndef SDF_MODELLAYER_REPOSITORY_IIMAGEREPOSITORY_HPP
-#define SDF_MODELLAYER_REPOSITORY_IIMAGEREPOSITORY_HPP
+#ifndef SDF_MODELLAYER_REPOSITORY_IVOLATILEREPOSITORY_HPP
+#define SDF_MODELLAYER_REPOSITORY_IVOLATILEREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageRepository.hpp
- * PURPOSE: Definition of the interface for image repositories.
+ * FILE:    IVolatileRepository.hpp
+ * PURPOSE: Definition of the interface for domain object repositories that hold objects in RAM only, i.e. non-
+ *          persistent or volatile storage.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +25,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Framework {
-  class Uri;
-}
+#include <SDF/ModelLayer/Handle.hpp>
+#include <memory>
 
 namespace SDF::ModelLayer::Repository {
-  template<class ImageType>
-  class IImageRepository {
+  template<class ObjectType>
+  class IVolatileRepository {
   public:
-    virtual ~IImageRepository() = default;
-    virtual void saveImage(Framework::Uri imageUri, std::unique_ptr<ImageDto<ImageType>> image) = 0;
-    virtual std::unique_ptr<ImageDto<ImageType>> loadImage(Framework::Uri imageUri) = 0;
+    virtual ~IVolatileRepository() = default;
+
+    virtual Handle storeObject(std::unique_ptr<ObjectType> object) = 0;
+    virtual ObjectType *accessObject(Handle handle) = 0;
+    virtual void deleteObject(Handle handle) = 0;
   };
 }
 

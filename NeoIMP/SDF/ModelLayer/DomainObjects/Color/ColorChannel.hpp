@@ -30,7 +30,6 @@ namespace SDF::ModelLayer::DomainObjects::Color {
   public:
     ColorChannel();
     ColorChannel(StorageType val);
-    ~ColorChannel();
 
     StorageType getValue() const;
     void setValue(StorageType val);

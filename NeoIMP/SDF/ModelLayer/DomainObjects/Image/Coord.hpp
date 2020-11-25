@@ -49,7 +49,7 @@ namespace SDF::ModelLayer::DomainObjects::Image {
     }
 
     Coord<T> &operator-=(const Vec2D<T> &rhs) {
-      m_X -= rhs.getX();
+      m_x -= rhs.getX();
       m_y -= rhs.getY();
     }
   private:
@@ -79,7 +79,7 @@ namespace SDF::ModelLayer::DomainObjects::Image {
   }
 
   template<class T>
-  static inline Vec2D<T> operator-(const Coord<T> &lhs, const coord<T> &rhs) {
+  static inline Vec2D<T> operator-(const Coord<T> &lhs, const Coord<T> &rhs) {
     return Vec2D<T>(lhs.getX() - rhs.getX(), lhs.getY() - rhs.getY());
   }
 }

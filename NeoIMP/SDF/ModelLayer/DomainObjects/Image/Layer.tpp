@@ -25,42 +25,37 @@
 
 namespace SDF::ModelLayer::DomainObjects::Image {
   template<class PixelType, class AlphaType>
-  Layer::Layer(int width, int height) :
-  m_width(width),
-  m_height(height),
+  Layer<PixelType, AlphaType>::Layer(int width, int height) :
   m_alphaChannel(width, height),
-  m_imageRaster(with, height) {}
+  m_imageRaster(width, height) {}
 
   template<class PixelType, class AlphaType>
-  Layer::~Layer() {}
-
-  template<class PixelType, class AlphaType>
-  int Layer::getWidth() const {
-    return m_width;
+  int Layer<PixelType, AlphaType>::getWidth() const {
+    return m_imageRaster.getWidth();
   }
 
   template<class PixelType, class AlphaType>
-  int Layer::getHeight() const {
-    return m_height;
+  int Layer<PixelType, AlphaType>::getHeight() const {
+    return m_imageRaster.getHeight();
   }
 
   template<class PixelType, class AlphaType>
-  AlphaType Layer::getAlphaAt(Coord<int> pos) const {
+  AlphaType Layer<PixelType, AlphaType>::getAlphaAt(Coord<int> pos) const {
     return m_alphaChannel(pos);
   }
 
   template<class PixelType, class AlphaType>
-  PixelType Layer::getPixelAt(Coord<int> pos) const {
+  PixelType Layer<PixelType, AlphaType>::getPixelAt(Coord<int> pos) const {
     return m_imageRaster(pos);
   }
 
   template<class PixelType, class AlphaType>
-  void Layer::setAlphaAt(Coord<int> pos, AlphaType newValue) {
+  void Layer<PixelType, AlphaType>::setAlphaAt(Coord<int> pos, AlphaType newValue) {
     m_alphaChannel(pos) = newValue;
   }
 
   template<class PixelType, class AlphaType>
-  void Layer::setPixelAt(Coord<int> pos, PixelType newValue) {
+  void Layer<PixelType, AlphaType>::setPixelAt(Coord<int> pos, PixelType newValue) {
     m_imageRaster(pos) = newValue;
   }
 }

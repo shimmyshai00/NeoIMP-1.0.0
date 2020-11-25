@@ -27,13 +27,21 @@
 #include <INewDocumentView.hpp>
 #include <View/NewDocumentView.hpp>
 
+#include <AbstractModel/IDocumentCreationService.hpp>
+#include <ModelLayer/Services/DocumentCreationService.hpp>
+#include <ModelLayer/Handle.hpp>
+
 #include <iostream>
 
 namespace SDF::UILayer::Qt::Controller {
   class NewDocumentController : public INewDocumentController, public INewDocumentParameterReceiver {
   public:
-    INJECT(NewDocumentController(INewDocumentView *NewDocumentView)) :
-    m_newDocumentView(NewDocumentView) {}
+    INJECT(NewDocumentController(
+      INewDocumentView *newDocumentView,
+      AbstractModel::IDocumentCreationService *documentCreationService
+    )) :
+    m_newDocumentView(newDocumentView),
+    m_documentCreationService(documentCreationService) {}
 
     ~NewDocumentController() {}
 
@@ -47,14 +55,21 @@ namespace SDF::UILayer::Qt::Controller {
     ) {
       // TBA: pass this on to the model layer.
       std::cout << "New document requested: " << std::endl;
-      std::cout << " Dimensions: " << documentWidthPx << "px x " << documentHeightPx << " px" << std::endl;
+      std::cout << " Dimensions: " << documentWidthPx << " px x " << documentHeightPx << " px" << std::endl;
       std::cout << " Resolution: " << resolutionPpi << " PPI" << std::endl;
       std::cout << " Color model index: " << colorModel << std::endl;
       std::cout << " Bit depth index: " << bitDepth << std::endl;
       std::cout << std::endl;
+
+      ModelLayer::Handle handle(m_documentCreationService->createDocument(
+        documentWidthPx, documentHeightPx, resolutionPpi, colorModel, bitDepth
+      ));
+
+      std::cout << "New document handle: " << handle << std::endl;
     }
   private:
     INewDocumentView *m_newDocumentView;
+    AbstractModel::IDocumentCreationService *m_documentCreationService;
   };
 }
 
@@ -62,6 +77,7 @@ namespace SDF::UILayer::Qt::Controller {
   fruit::Component<INewDocumentController> getNewDocumentControllerComponent() {
     return fruit::createComponent()
       .bind<INewDocumentController, NewDocumentController>()
-      .install(View::getNewDocumentViewComponent);
+      .install(View::getNewDocumentViewComponent)
+      .install(ModelLayer::Services::getDocumentCreationServiceComponent);
   }
 }

@@ -30,7 +30,6 @@ namespace SDF::ModelLayer::DomainObjects::Color {
   public:
     CMYKColor();
     CMYKColor(ChannelType c, ChannelType m, ChannelType y, ChannelType k);
-    ~CMYKColor();
 
     ChannelType getC() const;
     ChannelType getM() const;

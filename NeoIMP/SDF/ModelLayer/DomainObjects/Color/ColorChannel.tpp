@@ -22,26 +22,24 @@
  */
 
 #include <SDF/ModelLayer/DomainObjects/Color/ColorChannel.hpp>
+#include <algorithm>
 
 namespace SDF::ModelLayer::DomainObjects::Color {
   template<class StorageType, StorageType maxVal>
-  ColorChannel::ColorChannel() :
+  ColorChannel<StorageType, maxVal>::ColorChannel() :
   m_val(0) {}
 
   template<class StorageType, StorageType maxVal>
-  ColorChannel::ColorChannel(StorageType val) :
-  m_val(std::clamp(val, 0, maxVal)) {}
+  ColorChannel<StorageType, maxVal>::ColorChannel(StorageType val) :
+  m_val(std::clamp<StorageType>(val, 0, maxVal)) {}
 
   template<class StorageType, StorageType maxVal>
-  ColorChannel::~ColorChannel() {}
-
-  template<class StorageType, StorageType maxVal>
-  StorageType ColorChannel::getValue() const {
+  StorageType ColorChannel<StorageType, maxVal>::getValue() const {
     return m_val;
   }
 
   template<class StorageType, StorageType maxVal>
-  void ColorChannel::setValue(StorageType val) {
-    m_val = std::clamp(val, 0, maxVal);
+  void ColorChannel<StorageType, maxVal>::setValue(StorageType val) {
+    m_val = std::clamp<StorageType>(val, 0, maxVal);
   }
 }

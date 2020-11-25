@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Domainobjects/Image/Layer.hpp>
+#include <SDF/ModelLayer/DomainObjects/Image/Layer.hpp>
 #include <SDF/ModelLayer/DomainObjects/Image/Coord.hpp>
 
 #include <vector>
@@ -34,7 +34,6 @@ namespace SDF::ModelLayer::DomainObjects::Image {
   class Image {
   public:
     Image(int width, int height, float ppi);
-    ~Image();
 
     int getWidth() const;
     int getHeight() const;

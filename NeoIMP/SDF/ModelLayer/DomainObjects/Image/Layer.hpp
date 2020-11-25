@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Domainobjects/Image/Raster.hpp>
+#include <SDF/ModelLayer/DomainObjects/Image/Raster.hpp>
 #include <SDF/ModelLayer/DomainObjects/Image/Coord.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Image {
@@ -32,7 +32,6 @@ namespace SDF::ModelLayer::DomainObjects::Image {
   class Layer {
   public:
     Layer(int width, int height);
-    ~Layer();
 
     int getWidth() const;
     int getHeight() const;

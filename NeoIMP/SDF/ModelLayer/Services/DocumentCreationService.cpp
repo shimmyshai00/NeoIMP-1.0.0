@@ -23,11 +23,17 @@
 
 #include <DocumentCreationService.hpp>
 
+#include <DomainObjects/Image/ImageTypes.hpp>
+
+#include <Repository/IVolatileRepository.hpp>
+#include <Repository/VolatileImageRepositoryComponent.hpp>
+
 namespace SDF::ModelLayer::Services {
   class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
   public:
-    INJECT(DocumentCreationService()) {
-    }
+    INJECT(DocumentCreationService(
+      Repository::IVolatileRepository<DomainObjects::Image::ImageVariant> *volatileImageRepository
+    )) : m_volatileImageRepository(volatileImageRepository) {}
 
     ~DocumentCreationService() {}
 
@@ -36,15 +42,56 @@ namespace SDF::ModelLayer::Services {
       ModelLayer::DomainObjects::Color::ColorModel colorModel,
       ModelLayer::DomainObjects::Color::BitDepth bitDepth
     ) {
-      // TBA
-      return 0;
+      using namespace ModelLayer::DomainObjects::Color;
+
+      // Create an image of the requested type specification.
+      std::unique_ptr<DomainObjects::Image::ImageVariant> imageVariant;
+      DomainObjects::Image::ImageVariant var(SDF::ModelLayer::DomainObjects::Image::Image<SDF::ModelLayer::DomainObjects::Color::RGBColor<SDF::ModelLayer::DomainObjects::Color::ColorChannel<unsigned char, 255> >, SDF::ModelLayer::DomainObjects::Color::ColorChannel<unsigned char, 255> >(10, 10, 120.0f));
+      if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_8)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::RGB24Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_10)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::RGB30Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_12)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::RGB36Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_16)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::RGB48Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_8)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::CMYK32Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_10)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::CMYK40Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_12)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::CMYK48Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_16)) {
+        imageVariant = std::make_unique<DomainObjects::Image::ImageVariant>(
+          DomainObjects::Image::CMYK64Image(widthInPixels, heightInPixels, resolutionPpi)
+        );
+      }
+
+      return m_volatileImageRepository->storeObject(std::move(imageVariant));
     }
+  private:
+    Repository::IVolatileRepository<DomainObjects::Image::ImageVariant> *m_volatileImageRepository;
   };
 }
 
 namespace SDF::ModelLayer::Services {
   fruit::Component<UILayer::AbstractModel::IDocumentCreationService> getDocumentCreationServiceComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>();
+      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>()
+      .install(Repository::getVolatileImageRepositoryComponent);
   }
 }

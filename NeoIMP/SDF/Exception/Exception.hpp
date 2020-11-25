@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
-#define SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
+#ifndef SDF_EXCEPTION_EXCEPTION_HPP
+#define SDF_EXCEPTION_EXCEPTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IRepository.hpp
- * PURPOSE: Definition of the interface for general domain object repositories.
+ * FILE:    Exception.hpp
+ * PURPOSE: Base class for custom exceptions.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+#include <SDF/Exception/SafeString.hpp>
+#include <cstdarg>
 
-namespace SDF::ModelLayer::Repository {
-  template<class ObjectType>
-  class IRepository {
-  public:
-    virtual ~IRepository() = default;
+namespace SDF::Exception {
+  class Exception : public std::exception {
+		public:
+			Exception(const char *whatFString, ...) noexcept {
+				va_list vl;
 
-    virtual void save(std::string uri, ObjectType &object) = 0;
-    virtual std::unique_ptr<ObjectType> load(std::string uri) = 0;
-  };
+				va_start(vl, whatFString);
+				whatString.vsPrintf(whatFString, vl);
+				va_end(vl);
+			}
+
+			virtual ~Exception() noexcept {}
+
+			const char* what() const noexcept final {
+				return whatString.get();
+			}
+		private:
+			SafeString whatString;
+	};
 }
 
 #endif

@@ -89,7 +89,7 @@ namespace SDF::ModelLayer::DomainObjects::Image {
 
   template<class T>
   static inline Vec2D<T> operator-(const Vec2D<T> &rhs) {
-    return Vec2D<T>(-lhs.getX(), -lhs.getY());
+    return Vec2D<T>(-rhs.getX(), -rhs.getY());
   }
 
   template<class T>

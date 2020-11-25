@@ -1,12 +1,9 @@
-#ifndef SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
-#define SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IRepository.hpp
- * PURPOSE: Definition of the interface for general domain object repositories.
+ * FILE:    VolatileImageRepositoryComponent.cpp
+ * PURPOSE: Implementation of the DI component for the volatile image repository.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+#include <VolatileImageRepositoryComponent.hpp>
+#include <DataLayer/Repositories/ConcreteVolatileRepository.hpp>
 
 namespace SDF::ModelLayer::Repository {
-  template<class ObjectType>
-  class IRepository {
-  public:
-    virtual ~IRepository() = default;
-
-    virtual void save(std::string uri, ObjectType &object) = 0;
-    virtual std::unique_ptr<ObjectType> load(std::string uri) = 0;
-  };
+  fruit::Component<IVolatileRepository<DomainObjects::Image::ImageVariant>> getVolatileImageRepositoryComponent() {
+    return fruit::createComponent()
+      .bind<
+        IVolatileRepository<DomainObjects::Image::ImageVariant>,
+        DataLayer::Repositories::ConcreteVolatileRepository<DomainObjects::Image::ImageVariant>
+      >();
+  }
 }
-
-#endif
