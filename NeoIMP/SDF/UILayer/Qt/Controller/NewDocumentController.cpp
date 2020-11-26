@@ -38,6 +38,7 @@ namespace SDF::UILayer::Qt::Controller {
   public:
     INJECT(NewDocumentController(
       INewDocumentView *newDocumentView,
+      IDocumentView *documentView,
       AbstractModel::IDocumentCreationService *documentCreationService
     )) :
     m_newDocumentView(newDocumentView),

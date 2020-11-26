@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
-#define SDF_MODELLAYER_REPOSITORY_IREPOSITORY_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_IDOCUMENTVIEW_HPP
+#define SDF_UILAYER_QT_CONTROLLER_IDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IRepository.hpp
- * PURPOSE: Definition of the interface for general persistent domain object repositories.
+ * FILE:    IDocumentView.hpp
+ * PURPOSE: The interface for the MVC view which displays the open documents.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+#include <SDF/ModelLayer/Handle.hpp>
 
-namespace SDF::ModelLayer::Repository {
-  template<class ObjectType>
-  class IRepository {
+namespace SDF::UILayer::Qt::Controller {
+  class IDocumentView {
   public:
-    virtual ~IRepository() = default;
+    virtual ~IDocumentView() = default;
 
-    virtual void save(std::string uri, ObjectType &object) = 0;
-    virtual std::unique_ptr<ObjectType> load(std::string uri) = 0;
+    virtual void addDocument(ModelLayer::Handle documentHandle) = 0;
+    virtual void removeDocument(ModelLayer::Handle documentHandle) = 0;
   };
 }
 
