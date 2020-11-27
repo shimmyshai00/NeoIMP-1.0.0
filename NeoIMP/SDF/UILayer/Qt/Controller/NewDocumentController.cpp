@@ -54,22 +54,16 @@ namespace SDF::UILayer::Qt::Controller {
       int documentWidthPx, int documentHeightPx, float resolutionPpi,
       ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
     ) {
-      // TBA: pass this on to the model layer.
-      std::cout << "New document requested: " << std::endl;
-      std::cout << " Dimensions: " << documentWidthPx << " px x " << documentHeightPx << " px" << std::endl;
-      std::cout << " Resolution: " << resolutionPpi << " PPI" << std::endl;
-      std::cout << " Color model index: " << colorModel << std::endl;
-      std::cout << " Bit depth index: " << bitDepth << std::endl;
-      std::cout << std::endl;
-
       ModelLayer::Handle handle(m_documentCreationService->createDocument(
         documentWidthPx, documentHeightPx, resolutionPpi, colorModel, bitDepth
       ));
 
-      std::cout << "New document handle: " << handle << std::endl;
+      m_documentView->addDocument(handle);
     }
   private:
     INewDocumentView *m_newDocumentView;
+    IDocumentView *m_documentView;
+
     AbstractModel::IDocumentCreationService *m_documentCreationService;
   };
 }
