@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTPARAMETERRECEIVER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTPARAMETERRECEIVER_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
+#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentParameterReceiver.hpp
- * PURPOSE: The interface for receiving parameters specifying a new document to be created.
+ * FILE:    INewDocumentView.hpp
+ * PURPOSE: The interface for the MVC view to get parameters for a new document from the user.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <ModelLayer/DomainObjects/Color/BitDepths.hpp>
-
 namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentParameterReceiver {
-  public:
-    virtual ~INewDocumentParameterReceiver() = default;
+  class INewDocumentController;
+}
 
-    virtual void receiveNewDocumentSpecification(
-      int documentWidthPx, int documentHeightPx, float resolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    ) = 0;
+namespace SDF::UILayer::Qt::View {
+  class INewDocumentView {
+  public:
+    virtual ~INewDocumentView() = default;
+    virtual void registerController(Controller::INewDocumentController *newDocumentController) = 0;
   };
 }
 

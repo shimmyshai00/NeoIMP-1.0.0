@@ -23,32 +23,26 @@
 
 #include <NewDocumentController.hpp>
 
-#include <INewDocumentParameterReceiver.hpp>
-#include <INewDocumentView.hpp>
-#include <View/NewDocumentView.hpp>
-
 #include <AbstractModel/IDocumentCreationService.hpp>
-#include <ModelLayer/Services/DocumentCreationService.hpp>
 #include <ModelLayer/Handle.hpp>
+
+#include <INewDocumentController.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <iostream>
 
 namespace SDF::UILayer::Qt::Controller {
-  class NewDocumentController : public INewDocumentController, public INewDocumentParameterReceiver {
+  class NewDocumentController : public INewDocumentController {
   public:
     INJECT(NewDocumentController(
-      INewDocumentView *newDocumentView,
-      IDocumentView *documentView,
+      View::INewDocumentView *newDocumentView,
+      //IDocumentView *documentView,
       AbstractModel::IDocumentCreationService *documentCreationService
     )) :
     m_newDocumentView(newDocumentView),
     m_documentCreationService(documentCreationService) {}
 
     ~NewDocumentController() {}
-
-    void startNewDocumentRequest() {
-      m_newDocumentView->requestNewDocumentParamsFromUser(this);
-    }
 
     void receiveNewDocumentSpecification(
       int documentWidthPx, int documentHeightPx, float resolutionPpi,
@@ -58,11 +52,11 @@ namespace SDF::UILayer::Qt::Controller {
         documentWidthPx, documentHeightPx, resolutionPpi, colorModel, bitDepth
       ));
 
-      m_documentView->addDocument(handle);
+      //m_documentView->addDocument(handle);
     }
   private:
-    INewDocumentView *m_newDocumentView;
-    IDocumentView *m_documentView;
+    View::INewDocumentView *m_newDocumentView;
+    //IDocumentView *m_documentView;
 
     AbstractModel::IDocumentCreationService *m_documentCreationService;
   };

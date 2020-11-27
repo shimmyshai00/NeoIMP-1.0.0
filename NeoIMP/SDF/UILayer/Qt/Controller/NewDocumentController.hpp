@@ -28,6 +28,8 @@
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::Controller {
+  class INewDocumentController;
+  
   fruit::Component<INewDocumentController> getNewDocumentControllerComponent();
 }
 

@@ -24,11 +24,11 @@
 #include <ApplicationView.hpp>
 
 #include <Windows/MainWindow.hpp>
-#include <Controller/IApplicationView.hpp>
-#include <IApplicationController.hpp>
+#include <IApplicationView.hpp>
+#include <Controller/IApplicationController.hpp>
 
 namespace SDF::UILayer::Qt::View {
-  class ApplicationView : public Controller::IApplicationView {
+  class ApplicationView : public View::IApplicationView {
   public:
     INJECT(ApplicationView()) {}
     ~ApplicationView() {}

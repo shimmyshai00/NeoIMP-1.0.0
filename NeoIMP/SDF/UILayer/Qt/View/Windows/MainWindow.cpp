@@ -36,8 +36,12 @@ namespace SDF::UILayer::Qt::View::Windows {
   MainWindow::~MainWindow() {
   }
 
-  void MainWindow::registerApplicationController(IApplicationController *applicationController) {
+  void MainWindow::registerApplicationController(Controller::IApplicationController *applicationController) {
     m_applicationController = applicationController;
+  }
+
+  void MainWindow::showMainWindow() {
+    return
   }
 
   // Private member.

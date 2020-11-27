@@ -28,7 +28,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<IApplicationController> getApplicationControllerComponent();
+  class IApplicationController;
+  
+  fruit::Component<Controller::IApplicationController> getApplicationControllerComponent();
 }
 
 #endif

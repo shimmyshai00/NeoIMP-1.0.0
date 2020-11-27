@@ -23,21 +23,19 @@
 
 #include <ApplicationController.hpp>
 
-#include <IApplicationView.hpp>
-#include <View/ApplicationView.hpp>
-#include <View/IApplicationController.hpp>
+#include <Qt/IApplicationController.hpp>
+#include <Controller/IApplicationController.hpp>
 
-#include <INewDocumentController.hpp>
-#include <NewDocumentController.hpp>
+#include <View/IApplicationView.hpp>
+#include <View/ApplicationView.hpp>
 
 #include <iostream>
 
 namespace SDF::UILayer::Qt::Controller {
-  class ApplicationController : public IApplicationController, public View::IApplicationController {
+  class ApplicationController : public Qt::IApplicationController, public Controller::IApplicationController {
   public:
-    INJECT(ApplicationController(IApplicationView *applicationView, INewDocumentController *newDocumentController)) :
-    m_applicationView(applicationView),
-    m_newDocumentController(newDocumentController) {
+    INJECT(ApplicationController(View::IApplicationView *applicationView)) :
+    m_applicationView(applicationView) {
       m_applicationView->registerController(this);
     }
 
@@ -48,19 +46,17 @@ namespace SDF::UILayer::Qt::Controller {
     }
 
     void newDocument() {
-      m_newDocumentController->startNewDocumentRequest();
+      m_applicationView->showNewDocumentView();
     }
   private:
-    IApplicationView *m_applicationView;
-    INewDocumentController *m_newDocumentController;
+    View::IApplicationView *m_applicationView;
   };
 }
 
 namespace SDF::UILayer::Qt::Controller {
-  fruit::Component<IApplicationController> getApplicationControllerComponent() {
+  fruit::Component<Controller::IApplicationController> getApplicationControllerComponent() {
     return fruit::createComponent()
-      .bind<IApplicationController, ApplicationController>()
-      .install(View::getApplicationViewComponent)
-      .install(Controller::getNewDocumentControllerComponent);
+      .bind<Controller::IApplicationController, ApplicationController>()
+      .install(View::getApplicationViewComponent);
   }
 }

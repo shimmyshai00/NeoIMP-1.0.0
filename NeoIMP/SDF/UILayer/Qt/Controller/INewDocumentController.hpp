@@ -24,11 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
+
 namespace SDF::UILayer::Qt::Controller {
   class INewDocumentController {
   public:
     virtual ~INewDocumentController() = default;
-    virtual void startNewDocumentRequest() = 0;
+    virtual void receiveNewDocumentSpecification(
+      int documentWidthPx, int documentHeightPx, float resolutionPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    ) = 0;
   };
 }
 

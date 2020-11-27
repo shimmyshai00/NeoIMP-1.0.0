@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/IApplicationView.hpp>
+#include <SDF/UILayer/Qt/View/IApplicationView.hpp>
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Qt::View {
-  fruit::Component<Controller::IApplicationView> getApplicationViewComponent();
+  fruit::Component<View::IApplicationView> getApplicationViewComponent();
 }
 
 #endif

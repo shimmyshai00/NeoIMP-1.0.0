@@ -29,7 +29,7 @@
 #include <QObject>
 
 namespace SDF::UILayer::Qt::View {
-  class NewDocumentView : public Controller::INewDocumentView {
+  class NewDocumentView : public View::INewDocumentView {
   public:
     INJECT(NewDocumentView()) {}
     ~NewDocumentView() {}
