@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_IDOCUMENTVIEW_HPP
-#define SDF_UILAYER_QT_CONTROLLER_IDOCUMENTVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentView.hpp
- * PURPOSE: The interface for the MVC view which displays the open documents.
+ * FILE:    MainWindow.cpp
+ * PURPOSE: Implementation of the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Handle.hpp>
+#include <MainWindow.hpp>
+#include "../QtResources/ui_MainWindow.h"
 
-namespace SDF::UILayer::Qt::Controller {
-  class IDocumentView {
-  public:
-    virtual ~IDocumentView() = default;
+namespace SDF::UILayer::View::Qt::Windows {
+  MainWindow::MainWindow(QWidget *parent) :
+  QMainWindow(parent),
+  m_ui(new Ui::MainWindow)
+  {
+    m_ui->setupUi(this);
+  }
 
-    virtual void addDocument(ModelLayer::Handle documentHandle) = 0;
-    virtual void removeDocument(ModelLayer::Handle documentHandle) = 0;
-  };
+  MainWindow::~MainWindow() {
+  }
+
+  void MainWindow::onApplicationStart() {
+    show();
+  }
+
+  // Private member.
+  void MainWindow::on_action_New_triggered() {
+    // TBA
+  }
 }
-
-#endif

@@ -1,12 +1,13 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTCONTROLLER_HPP
-
+#ifndef SDF_IAPPLICATION_HPP
+#define SDF_IAPPLICATION_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentController.hpp
- * PURPOSE: The interface for the new-document controller.
+ * FILE:    IApplication.hpp
+ * PURPOSE: The interface for the top-level application object. This is also the public interface for the SDF module
+ *          and so the whole program, to be called by main(). The implementation of this interface depends on the UI
+ *          layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +25,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
+class IApplication {
+public:
+  virtual ~IApplication() = default;
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentController {
-  public:
-    virtual ~INewDocumentController() = default;
-    virtual void receiveNewDocumentSpecification(
-      int documentWidthPx, int documentHeightPx, float resolutionPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    ) = 0;
-  };
-}
+  virtual int exec(int argc, char **argv) = 0;
+};
 
 #endif

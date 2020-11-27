@@ -1,11 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_WINDOWS_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEW_WINDOWS_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_VIEW_ICREATEDOCUMENTCOMMANDRECEIVER_HPP
+#define SDF_UILAYER_VIEW_ICREATEDOCUMENTCOMMANDRECEIVER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    ICreateDocumentCommandReceiver.hpp
+ * PURPOSE: An interface to receive a create-document command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,31 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/IApplicationController.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
+#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
 
-#include <QMainWindow>
-#include <memory>
-
-#include <fruit/fruit.h>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Qt::View::Windows {
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+namespace SDF::UILayer::View {
+  class ICreateDocumentCommandReceiver {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-    void registerApplicationController(Controller::IApplicationController *applicationController);
-    void showMainWindow();
-  private slots:
-    void on_action_New_triggered();
-  private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
-    Controller::IApplicationController *m_applicationController;
+    virtual ~ICreateDocumentCommandReceiver() = default;
+    virtual void createDocument(
+      int documentWidthPx, int documentHeightPx, float documentPpi,
+      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
+    ) = 0;
   };
 }
 

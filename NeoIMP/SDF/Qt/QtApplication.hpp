@@ -1,9 +1,11 @@
+#ifndef SDF_QTAPPLICATION_HPP
+#define SDF_QTAPPLICATION_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    TabbedDocumentView.cpp
- * PURPOSE: Implementation of the TabbedDocumentView class.
+ * FILE:    QtApplication.hpp
+ * PURPOSE: Application implementation for the Qt widget system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,31 +23,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <TabbedDocumentView.hpp>
+#include <IApplication.hpp>
+#include <fruit/fruit.h>
 
-#include <IWidgetView.hpp>
-#include <QTabWidget>
+namespace SDF {
+  class IStartUICommandReceiver;
+}
 
-namespace SDF::UILayer::Qt::View {
-  class TabbedDocumentView : public Controller::IDocumentView, public IWidgetView {
+namespace SDF::Qt {
+  class QtApplication : public IApplication {
   public:
-    INJECT(TabbedDocumentView()) : m_tabWidget(new QTabWidget) {}
+    INJECT(QtApplication(IStartUICommandReceiver *startUICommandReceiver));
 
-    void addDocument(ModelLayer::Handle documentHandle) {
-      // TBA
-    }
-
-    void removeDocument(ModelLayer::Handle documentHandle) {
-      // TBA
-    }
+    int exec(int argc, char **argv);
   private:
-    QTabWidget *m_tabWidget;
+    IStartUICommandReceiver *m_startUICommandReceiver;
   };
 }
 
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<Controller::IDocumentView> getTabbedDocumentViewComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IDocumentView, TabbedDocumentView>();
-  }
-}
+#endif

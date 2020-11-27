@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTVIEW_HPP
-#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentView.hpp
- * PURPOSE: The implementation of the MVC new-document view.
+ * FILE:    ControllerComponent.cpp
+ * PURPOSE: The DI component for the controller subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/View/INewDocumentView.hpp>
-#include <fruit/fruit.h>
+#include <SDF/UILayer/Controller/ControllerComponent.hpp>
+#include <ApplicationController.hpp>
+#include <View/Qt/ViewComponent.hpp>
 
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<View::INewDocumentView> getNewDocumentViewComponent();
+namespace SDF::UILayer::Controller {
+  DIComponent getControllerComponent() {
+    return fruit::createComponent()
+      .bind<IStartUICommandReceiver, ApplicationController>()
+      .install(View::Qt::getViewComponent);
+  }
 }
-
-#endif

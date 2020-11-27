@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_IWIDGETVIEW_HPP
-#define SDF_UILAYER_QT_VIEW_IWIDGETVIEW_HPP
+#ifndef SDF_QT_QTAPPLICATIONCOMPONENT_HPP
+#define SDF_QT_QTAPPLICATIONCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IWidgetView.hpp
- * PURPOSE: An interface for MVC views built around a Qt widget.
+ * FILE:    QtApplicationComponent.hpp
+ * PURPOSE: Header for the DI component for the Qt-based application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
+#include <IApplication.hpp>
+#include <fruit/fruit.h>
 
-namespace SDF::UILayer::Qt::View {
-  class IWidgetView {
-  public:
-    virtual ~IWidgetView() = default;
-    QWidget *getWidget() = 0;
-  };
+namespace SDF::Qt {
+  fruit::Component<IApplication> getApplicationComponent();
 }
 
 #endif

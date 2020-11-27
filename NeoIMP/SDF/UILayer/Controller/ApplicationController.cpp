@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
-#define SDF_UILAYER_QT_CONTROLLER_INEWDOCUMENTVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentView.hpp
- * PURPOSE: The interface for the MVC view to get parameters for a new document from the user.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: Implementation of the ApplicationController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentController;
-}
+#include <ApplicationController.hpp>
 
-namespace SDF::UILayer::Qt::View {
-  class INewDocumentView {
-  public:
-    virtual ~INewDocumentView() = default;
-    virtual void registerController(Controller::INewDocumentController *newDocumentController) = 0;
-  };
-}
+namespace SDF::UILayer::Controller {
+  ApplicationController::ApplicationController(IStartEventReceiver *startEventReceiver)
+    : m_startEventReceiver(startEventReceiver)
+  {}
 
-#endif
+  void ApplicationController::startUI() {
+    m_startEventReceiver->onApplicationStart();
+  }
+}

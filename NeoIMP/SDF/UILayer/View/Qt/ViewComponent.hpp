@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_VIEW_QTVIEW_VIEWCOMPONENT_HPP
+#define SDF_UILAYER_VIEW_QTVIEW_VIEWCOMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.cpp
- * PURPOSE: Implementation of the MainWindow class.
+ * FILE:    ViewComponent.hpp
+ * PURPOSE: Header for the DI component for the Qt-based view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,33 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindow.hpp>
-#include "../QtResources/ui_MainWindow.h"
+#include <SDF/UILayer/Controller/IStartEventReceiver.hpp>
+#include <fruit/fruit.h>
 
-namespace SDF::UILayer::Qt::View::Windows {
-  MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  m_ui(new Ui::MainWindow),
-  m_applicationController(nullptr)
-  {
-    m_ui->setupUi(this);
-  }
+namespace SDF::UILayer::View::Qt {
+  typedef fruit::Component<Controller::IStartEventReceiver> DIComponent;
 
-  MainWindow::~MainWindow() {
-  }
-
-  void MainWindow::registerApplicationController(Controller::IApplicationController *applicationController) {
-    m_applicationController = applicationController;
-  }
-
-  void MainWindow::showMainWindow() {
-    return
-  }
-
-  // Private member.
-  void MainWindow::on_action_New_triggered() {
-    if(m_applicationController != nullptr) {
-      m_applicationController->newDocument();
-    }
-  }
+  DIComponent getViewComponent();
 }
+
+#endif

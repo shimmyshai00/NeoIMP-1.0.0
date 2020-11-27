@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
-#define SDF_UILAYER_QT_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
+#ifndef SDF_UILAYER_CONTROLLER_CONTROLLERCOMPONENT_HPP
+#define SDF_UILAYER_CONTROLLER_CONTROLLERCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentController.hpp
- * PURPOSE: The new-document controller implementation.
+ * FILE:    ControllerComponent.hpp
+ * PURPOSE: Header for the DI component for the controller subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Qt/Controller/INewDocumentController.hpp>
+#include <SDF/IStartUICommandReceiver.hpp>
 #include <fruit/fruit.h>
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentController;
-  
-  fruit::Component<INewDocumentController> getNewDocumentControllerComponent();
+namespace SDF::UILayer::Controller {
+  typedef fruit::Component<IStartUICommandReceiver> DIComponent;
+  DIComponent getControllerComponent();
 }
 
 #endif

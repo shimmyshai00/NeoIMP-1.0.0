@@ -21,14 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <IApplication.hpp>
+#include <SDF/Qt/QtApplicationComponent.hpp>
+
 #include <fruit/fruit.h>
-#include <SDF/IApplication.hpp>
-#include <SDF/UILayer/Qt/QtApplication.hpp>
 #include <memory>
 
 int main(int argc, char **argv) {
-  fruit::Injector<SDF::IApplication> appInjector(SDF::UILayer::Qt::getApplicationComponent);
-  SDF::IApplication *application(appInjector.get<SDF::IApplication *>());
+  fruit::Injector<IApplication> appInjector(SDF::Qt::getApplicationComponent);
+  IApplication *application(appInjector.get<IApplication *>());
 
   return application->exec(argc, argv);
 }
