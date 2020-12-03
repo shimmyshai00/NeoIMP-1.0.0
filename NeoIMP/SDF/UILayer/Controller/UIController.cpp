@@ -1,12 +1,9 @@
-#ifndef SDF_QT_QTAPPLICATIONCOMPONENT_HPP
-#define SDF_QT_QTAPPLICATIONCOMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplicationComponent.hpp
- * PURPOSE: Header for the DI component for the Qt-based application.
+ * FILE:    UIController.cpp
+ * PURPOSE: The top-level UI MVC controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +21,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <IApplication.hpp>
-#include <fruit/fruit.h>
+#include <UIController.hpp>
 
-namespace SDF::Qt {
-  fruit::Component<IApplication> getApplicationComponent();
+#include <View/IViewManager.hpp>
+#include <View/IApplicationView.hpp>
+
+namespace SDF::UILayer::Controller {
+  UIController::UIController(View::IViewManager *viewManager) : m_viewManager(viewManager) {}
+
+  void UIController::startUI() {
+    View::IApplicationView *applicationView(m_viewManager->getApplicationView());
+    applicationView->showApplicationView();
+  }
 }
-
-#endif

@@ -1,9 +1,13 @@
+#ifndef SDF_UILAYER_VIEW_IVIEWMANAGER_HPP
+#define SDF_UILAYER_VIEW_IVIEWMANAGER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplicationComponent.hpp
- * PURPOSE: The DI component for the Qt-based application.
+ * FILE:    IViewManager.hpp
+ * PURPOSE: Interface for a manager object that owns and manages the relationships between views. The details will
+ *          depend on the widget package used.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +25,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtApplicationComponent.hpp>
-#include <QtApplication.hpp>
-#include <UILayer/Controller/ControllerComponent.hpp>
+namespace SDF::UILayer::View {
+  class IApplicationView;
 
-namespace SDF::Qt {
-  fruit::Component<IApplication> getApplicationComponent() {
-    return fruit::createComponent()
-      .bind<IApplication, QtApplication>()
-      .install(UILayer::Controller::getControllerComponent);
-  }
+  class IViewManager {
+  public:
+    virtual ~IViewManager() = default;
+
+    virtual IApplicationView *getApplicationView() = 0;
+  };
 }
+
+#endif

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewComponent.hpp
- * PURPOSE: The DI component for the Qt-based view subsystem.
+ * FILE:    ViewComponent.cpp
+ * PURPOSE: The DI component for the view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,17 @@
  */
 
 #include <ViewComponent.hpp>
-#include <Windows/MainWindow.hpp>
+
+#include <IViewManager.hpp>
+#include <ViewManager.hpp>
+
+#include <IApplicationView.hpp>
+#include <ApplicationView.hpp>
 
 namespace SDF::UILayer::View::Qt {
-  typedef fruit::Component<Controller::IStartEventReceiver> DIComponent;
-
   DIComponent getViewComponent() {
     return fruit::createComponent()
-      .bind<Controller::IStartEventReceiver, Windows::MainWindow>();
+      .bind<IViewManager, ViewManager>()
+      .bind<IApplicationView, ApplicationView>();
   }
 }

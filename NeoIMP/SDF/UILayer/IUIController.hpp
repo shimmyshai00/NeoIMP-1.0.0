@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_CONTROLLER_ISTARTEVENTRECEIVER_HPP
-#define SDF_UILAYER_CONTROLLER_ISTARTEVENTRECEIVER_HPP
+#ifndef SDF_UILAYER_IUICONTROLLER_HPP
+#define SDF_UILAYER_IUICONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IStartEventReceiver.hpp
- * PURPOSE: An interface to receiver an application-start event.
+ * FILE:    IUIController.hpp
+ * PURPOSE: The top-level interface for the UI controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Controller {
-  class IStartEventReceiver {
+namespace SDF::UILayer {
+  class IUIController {
   public:
-    virtual ~IStartEventReceiver() = default;
-    virtual void onApplicationStart() = 0;
+    virtual ~IUIController() = default;
+
+    virtual void startUI() = 0;
   };
 }
 

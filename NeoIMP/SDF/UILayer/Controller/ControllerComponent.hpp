@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ControllerComponent.hpp
- * PURPOSE: Header for the DI component for the controller subsystem.
+ * PURPOSE: Headers for the DI component for the controller subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IStartUICommandReceiver.hpp>
 #include <fruit/fruit.h>
 
+namespace SDF::UILayer {
+  class IUIController;
+}
+
 namespace SDF::UILayer::Controller {
-  typedef fruit::Component<IStartUICommandReceiver> DIComponent;
+  typedef fruit::Component<IUIController> DIComponent;
+
   DIComponent getControllerComponent();
 }
 

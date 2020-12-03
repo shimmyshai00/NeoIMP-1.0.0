@@ -1,11 +1,12 @@
-#ifndef SDF_QTAPPLICATION_HPP
-#define SDF_QTAPPLICATION_HPP
+#ifndef SDF_UILAYER_UICOMPONENT_HPP
+#define SDF_UILAYER_UICOMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    UIComponent.hpp
+ * PURPOSE: The top-level DI component for the UI layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,16 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
+#include <SDF/UILayer/IUIController.hpp>
 #include <fruit/fruit.h>
 
-namespace SDF::Qt {
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication());
-
-    int exec(int argc, char **argv);
-  };
+namespace SDF::UILayer {
+  fruit::Component<IUIController> getUIComponent();
 }
 
 #endif

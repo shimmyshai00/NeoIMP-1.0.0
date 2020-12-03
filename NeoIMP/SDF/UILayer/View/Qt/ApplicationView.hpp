@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_VIEW_ICREATEDOCUMENTCOMMANDRECEIVER_HPP
-#define SDF_UILAYER_VIEW_ICREATEDOCUMENTCOMMANDRECEIVER_HPP
+#ifndef SDF_UILAYER_VIEW_QT_APPLICATIONVIEW_HPP
+#define SDF_UILAYER_VIEW_QT_APPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateDocumentCommandReceiver.hpp
- * PURPOSE: An interface to receive a create-document command.
+ * FILE:    ApplicationView.hpp
+ * PURPOSE: Headers for the Qt-based application view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Color/ColorModels.hpp>
-#include <SDF/ModelLayer/DomainObjects/Color/BitDepths.hpp>
+#include <SDF/UILayer/View/IApplicationView.hpp>
 
-namespace SDF::UILayer::View {
-  class ICreateDocumentCommandReceiver {
+#include <SDF/UILayer/View/Qt/Windows/MainWindow.hpp>
+#include <QPointer>
+
+#include <fruit/fruit.h>
+
+namespace SDF::UILayer::View::Qt {
+  class ApplicationView : public IApplicationView {
   public:
-    virtual ~ICreateDocumentCommandReceiver() = default;
-    virtual void createDocument(
-      int documentWidthPx, int documentHeightPx, float documentPpi,
-      ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
-    ) = 0;
+    INJECT(ApplicationView());
+
+    void showApplicationView();
+  private:
+    QPointer<Windows::MainWindow> m_mainWindow;
   };
 }
 

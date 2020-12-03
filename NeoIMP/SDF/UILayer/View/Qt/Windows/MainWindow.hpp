@@ -23,8 +23,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Controller/IStartEventReceiver.hpp>
-
 #include <QMainWindow>
 #include <fruit/fruit.h>
 #include <memory>
@@ -34,15 +32,11 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 namespace SDF::UILayer::View::Qt::Windows {
-  class MainWindow : public QMainWindow, public Controller::IStartEventReceiver {
+  class MainWindow : public QMainWindow {
     Q_OBJECT
   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    using Inject = MainWindow();
-
-    void onApplicationStart();
   private slots:
     void on_action_New_triggered();
   private:

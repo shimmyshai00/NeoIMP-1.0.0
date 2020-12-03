@@ -24,17 +24,22 @@
 #include <QtApplication.hpp>
 #include <QApplication>
 
-#include <IStartUICommandReceiver.hpp>
+#include <UILayer/IUIController.hpp>
+#include <UILayer/UIComponent.hpp>
 
 namespace SDF::Qt {
-  QtApplication::QtApplication(IStartUICommandReceiver *startUICommandReceiver)
-    : m_startUICommandReceiver(startUICommandReceiver)
+  QtApplication::QtApplication()
   {
   }
 
   int QtApplication::exec(int argc, char **argv) {
     QApplication q(argc, argv);
-    m_startUICommandReceiver->startUI();
+
+    fruit::Injector<UILayer::IUIController> uiControllerInjector(UILayer::getUIComponent);
+    UILayer::IUIController *uiController(uiControllerInjector.get<UILayer::IUIController *>());
+
+    uiController->startUI();
+
     return q.exec();
   }
 }

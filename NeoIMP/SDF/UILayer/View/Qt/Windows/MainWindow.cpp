@@ -35,10 +35,6 @@ namespace SDF::UILayer::View::Qt::Windows {
   MainWindow::~MainWindow() {
   }
 
-  void MainWindow::onApplicationStart() {
-    show();
-  }
-
   // Private member.
   void MainWindow::on_action_New_triggered() {
     // TBA

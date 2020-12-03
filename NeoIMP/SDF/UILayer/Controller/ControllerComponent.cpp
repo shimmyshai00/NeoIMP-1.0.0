@@ -21,14 +21,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Controller/ControllerComponent.hpp>
-#include <ApplicationController.hpp>
+#include <ControllerComponent.hpp>
+
+#include <IUIController.hpp>
+#include <UIController.hpp>
+
 #include <View/Qt/ViewComponent.hpp>
 
 namespace SDF::UILayer::Controller {
   DIComponent getControllerComponent() {
     return fruit::createComponent()
-      .bind<IStartUICommandReceiver, ApplicationController>()
+      .bind<IUIController, UIController>()
       .install(View::Qt::getViewComponent);
   }
 }

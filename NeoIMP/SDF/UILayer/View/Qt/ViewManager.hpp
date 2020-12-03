@@ -1,11 +1,12 @@
-#ifndef SDF_QTAPPLICATION_HPP
-#define SDF_QTAPPLICATION_HPP
+#ifndef SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
+#define SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Application implementation for the Qt widget system.
+ * FILE:    ViewManager.hpp
+ * PURPOSE: The view manager for Qt-based MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,15 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IApplication.hpp>
+#include <SDF/UILayer/View/IViewManager.hpp>
 #include <fruit/fruit.h>
 
-namespace SDF::Qt {
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication());
+namespace SDF::UILayer::View {
+  class IApplicationView;
+}
 
-    int exec(int argc, char **argv);
+namespace SDF::UILayer::View::Qt {
+  class ViewManager : public IViewManager {
+  public:
+    INJECT(ViewManager(IApplicationView *applicationView));
+
+    IApplicationView *getApplicationView();
+  private:
+    IApplicationView *m_applicationView;
   };
 }
 

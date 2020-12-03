@@ -22,14 +22,14 @@
  */
 
 #include <IApplication.hpp>
-#include <SDF/Qt/QtApplicationComponent.hpp>
+#include <SDF/ApplicationComponent.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
 
 int main(int argc, char **argv) {
-  fruit::Injector<IApplication> appInjector(SDF::Qt::getApplicationComponent);
-  IApplication *application(appInjector.get<IApplication *>());
+  fruit::Injector<SDF::IApplication> appInjector(SDF::getApplicationComponent);
+  SDF::IApplication *application(appInjector.get<SDF::IApplication *>());
 
   return application->exec(argc, argv);
 }

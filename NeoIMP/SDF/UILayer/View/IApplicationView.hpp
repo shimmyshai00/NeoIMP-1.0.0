@@ -1,13 +1,12 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_UILAYER_VIEW_IAPPLICATIONVIEW_HPP
+#define SDF_UILAYER_VIEW_IAPPLICATIONVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.hpp
- * PURPOSE: The interface for the top-level application object. This is also the public interface for the SDF module
- *          and so the whole program, to be called by main(). The implementation of this interface depends on the UI
- *          layer.
+ * FILE:    IApplicationView.hpp
+ * PURPOSE: The interface for the main application MVC view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,11 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-class IApplication {
-public:
-  virtual ~IApplication() = default;
-
-  virtual int exec(int argc, char **argv) = 0;
-};
+namespace SDF::UILayer::View {
+  class IApplicationView {
+  public:
+    virtual ~IApplicationView() = default;
+    virtual void showApplicationView() = 0;
+  };
+}
 
 #endif

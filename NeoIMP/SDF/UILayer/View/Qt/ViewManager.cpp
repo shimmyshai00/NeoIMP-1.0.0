@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: Implementation of the ApplicationController class.
+ * FILE:    ViewManager.cpp
+ * PURPOSE: The view manager for Qt-based MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <ViewManager.hpp>
 
-namespace SDF::UILayer::Controller {
-  ApplicationController::ApplicationController(IStartEventReceiver *startEventReceiver)
-    : m_startEventReceiver(startEventReceiver)
-  {}
+namespace SDF::UILayer::View::Qt {
+  ViewManager::ViewManager(IApplicationView *applicationView) : m_applicationView(applicationView) {}
 
-  void ApplicationController::startUI() {
-    m_startEventReceiver->onApplicationStart();
+  IApplicationView *ViewManager::getApplicationView() {
+    return m_applicationView;
   }
 }

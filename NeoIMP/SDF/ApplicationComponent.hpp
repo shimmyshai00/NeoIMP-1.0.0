@@ -1,12 +1,11 @@
-#ifndef SDF_UILAYER_CONTROLLER_APPLICATIONCONTROLLER_HPP
-#define SDF_UILAYER_CONTROLLER_APPLICATIONCONTROLLER_HPP
-
+#ifndef SDF_APPLICATIONCOMPONENT_HPP
+#define SDF_APPLICATIONCOMPONENT_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.hpp
- * PURPOSE: The top-level MVC controller for the whole application.
+ * FILE:    ApplicationComponent.hpp
+ * PURPOSE: The top-level DI component for the application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +23,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/IStartUICommandReceiver.hpp>
-#include <SDF/UILayer/Controller/IStartEventReceiver.hpp>
-
+#include <SDF/IApplication.hpp>
 #include <fruit/fruit.h>
 
-namespace SDF::UILayer::Controller {
-  class ApplicationController : public IStartUICommandReceiver {
-  public:
-    INJECT(ApplicationController(IStartEventReceiver *startEventReceiver));
-
-    void startUI();
-  private:
-    IStartEventReceiver *m_startEventReceiver;
-  };
+namespace SDF {
+  fruit::Component<IApplication> getApplicationComponent();
 }
 
 #endif
