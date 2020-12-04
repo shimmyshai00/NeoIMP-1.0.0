@@ -28,9 +28,13 @@
 
 namespace SDF::UILayer {
   class IUIController;
-  
+
+  namespace View {
+    class INewDocumentCommandReceiver;
+  }
+
   namespace Controller {
-    typedef fruit::Component<IUIController> DIComponent;
+    typedef fruit::Component<IUIController, View::INewDocumentCommandReceiver> DIComponent;
 
     DIComponent getControllerComponent();
   }

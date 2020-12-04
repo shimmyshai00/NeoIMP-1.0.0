@@ -33,12 +33,17 @@ namespace SDF::UILayer {
   namespace View {
     class IViewManager;
     class IApplicationView;
+
+    class INewDocumentCommandReceiver;
   }
 
   namespace Controller {
     class UIController : public IUIController, public View::IExitProgramCommandReceiver {
     public:
-      INJECT(UIController(View::IViewManager *viewManager));
+      INJECT(UIController(
+        View::IViewManager *viewManager,
+        View::INewDocumentCommandReceiver *newDocumentCommandReceiver
+      ));
 
       void startUI();
       void exitProgram();

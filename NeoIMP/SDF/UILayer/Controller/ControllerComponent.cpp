@@ -26,12 +26,16 @@
 #include <View/Qt/ViewComponent.hpp>
 
 #include <IUIController.hpp>
+#include <View/INewDocumentCommandReceiver.hpp>
+
 #include <UIController.hpp>
+#include <NewDocumentController.hpp>
 
 namespace SDF::UILayer::Controller {
   DIComponent getControllerComponent() {
     return fruit::createComponent()
       .bind<IUIController, UIController>()
+      .bind<View::INewDocumentCommandReceiver, NewDocumentController>()
       .install(View::Qt::getViewComponent);
   }
 }

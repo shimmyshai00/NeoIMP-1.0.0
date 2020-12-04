@@ -26,12 +26,12 @@
 
 namespace SDF::UILayer::View {
   class IGetNewDocumentSettingsView;
-  
+
   class INewDocumentCommandReceiver {
   public:
     virtual ~INewDocumentCommandReceiver() = default;
 
-    virtual IGetNewDocumentSettingsView *newDocument() = 0;
+    virtual void newDocument() = 0;
   };
 }
 

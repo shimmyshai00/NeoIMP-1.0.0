@@ -24,7 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Controller {
+#include <View/INewDocumentCommandReceiver.hpp>
+#include <View/INewDocumentSettingsReceiver.hpp>
 
+#include <fruit/fruit.h>
+
+namespace SDF::UILayer {
+  namespace View {
+    class IViewManager;
+    class IGetNewDocumentSettingsView;
+  }
+
+  namespace Controller {
+    class NewDocumentController : public View::INewDocumentCommandReceiver, public View::INewDocumentSettingsReceiver {
+    public:
+      INJECT(NewDocumentController(View::IViewManager *viewManager));
+
+      void newDocument();
+      void receiveNewDocumentSpecification(
+        int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
+        ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
+      );
+    private:
+      View::IGetNewDocumentSettingsView *m_getNewDocumentSettingsView;
+    };
+  }
 }
+
 #endif

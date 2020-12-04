@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UIController.cpp
- * PURPOSE: The top-level UI MVC controller.
+ * FILE:    NewDocumentController.cpp
+ * PURPOSE: The MVC controller that handles the new-document command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,29 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <UIController.hpp>
+#include <NewDocumentController.hpp>
 
 #include <View/IViewManager.hpp>
-#include <View/IApplicationView.hpp>
+#include <View/IGetNewDocumentSettingsView.hpp>
 
-#include <View/INewDocumentCommandReceiver.hpp>
+#include <iostream>
 
 namespace SDF::UILayer::Controller {
-  UIController::UIController(
-    View::IViewManager *viewManager,
-    View::INewDocumentCommandReceiver *newDocumentCommandReceiver
+  NewDocumentController::NewDocumentController(View::IViewManager *viewManager)
+    : m_getNewDocumentSettingsView(viewManager->getGetNewDocumentSettingsView())
+  {}
+
+  void NewDocumentController::newDocument() {
+    m_getNewDocumentSettingsView->requestNewDocumentSettings(this);
+  }
+
+  void NewDocumentController::receiveNewDocumentSpecification(
+    int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
+    ModelLayer::DomainObjects::Color::ColorModel colorModel, ModelLayer::DomainObjects::Color::BitDepth bitDepth
   ) {
-    m_applicationView = viewManager->getApplicationView();
-    
-    m_applicationView->setNewDocumentCommandReceiver(newDocumentCommandReceiver);
-    m_applicationView->setExitProgramCommandReceiver(this);
-  }
-
-  void UIController::startUI() {
-    m_applicationView->showApplicationView();
-  }
-
-  void UIController::exitProgram() {
-    m_applicationView->closeApplicationView();
+    // TBA
+    std::cout << "Document specification received" << std::endl;
   }
 }
