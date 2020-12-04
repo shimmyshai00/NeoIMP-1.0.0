@@ -22,6 +22,8 @@
  */
 
 #include <ApplicationComponent.hpp>
+
+#include <IApplication.hpp>
 #include <Qt/QtApplication.hpp>
 
 namespace SDF {

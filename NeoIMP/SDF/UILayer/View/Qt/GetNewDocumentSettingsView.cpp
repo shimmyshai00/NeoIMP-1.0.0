@@ -22,8 +22,11 @@
  */
 
 #include <GetNewDocumentSettingsView.hpp>
-#include <Dialogs/NewDocumentDialog.hpp>
+
+#include <IQtView.hpp>
 #include <INewDocumentSettingsReceiver.hpp>
+
+#include <Dialogs/NewDocumentDialog.hpp>
 
 namespace SDF::UILayer::View::Qt {
   GetNewDocumentSettingsView::GetNewDocumentSettingsView() : m_contextView(nullptr) {}

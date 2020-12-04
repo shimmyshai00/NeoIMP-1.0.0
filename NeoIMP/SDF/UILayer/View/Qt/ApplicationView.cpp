@@ -23,6 +23,11 @@
 
 #include <ApplicationView.hpp>
 
+#include <INewDocumentCommandReceiver.hpp>
+#include <IExitProgramCommandReceiver.hpp>
+
+#include <Windows/MainWindow.hpp>
+
 namespace SDF::UILayer::View::Qt {
   ApplicationView::ApplicationView()
     : m_newDocumentCommandReceiver(nullptr),

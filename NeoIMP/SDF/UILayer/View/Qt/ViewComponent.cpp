@@ -24,12 +24,11 @@
 #include <ViewComponent.hpp>
 
 #include <IViewManager.hpp>
-#include <ViewManager.hpp>
-
 #include <IApplicationView.hpp>
-#include <ApplicationView.hpp>
-
 #include <IGetNewDocumentSettingsView.hpp>
+
+#include <ViewManager.hpp>
+#include <ApplicationView.hpp>
 #include <GetNewDocumentSettingsView.hpp>
 
 namespace SDF::UILayer::View::Qt {

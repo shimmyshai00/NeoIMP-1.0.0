@@ -29,21 +29,23 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::UILayer::View {
-  class IViewManager;
-  class IApplicationView;
-}
+namespace SDF::UILayer {
+  namespace View {
+    class IViewManager;
+    class IApplicationView;
+  }
 
-namespace SDF::UILayer::Controller {
-  class UIController : public IUIController, public View::IExitProgramCommandReceiver {
-  public:
-    INJECT(UIController(View::IViewManager *viewManager));
+  namespace Controller {
+    class UIController : public IUIController, public View::IExitProgramCommandReceiver {
+    public:
+      INJECT(UIController(View::IViewManager *viewManager));
 
-    void startUI();
-    void exitProgram();
-  private:
-    View::IApplicationView *m_applicationView;
-  };
+      void startUI();
+      void exitProgram();
+    private:
+      View::IApplicationView *m_applicationView;
+    };
+  }
 }
 
 #endif

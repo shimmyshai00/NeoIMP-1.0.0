@@ -24,9 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/View/INewDocumentSettingsReceiver.hpp>
-
 namespace SDF::UILayer::View {
+  class INewDocumentSettingsReceiver;
+  
   class IGetNewDocumentSettingsView {
   public:
     virtual ~IGetNewDocumentSettingsView() = default;

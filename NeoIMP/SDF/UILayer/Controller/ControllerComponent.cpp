@@ -23,10 +23,10 @@
 
 #include <ControllerComponent.hpp>
 
+#include <View/Qt/ViewComponent.hpp>
+
 #include <IUIController.hpp>
 #include <UIController.hpp>
-
-#include <View/Qt/ViewComponent.hpp>
 
 namespace SDF::UILayer::Controller {
   DIComponent getControllerComponent() {

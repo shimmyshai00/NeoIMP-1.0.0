@@ -28,12 +28,12 @@
 
 namespace SDF::UILayer {
   class IUIController;
-}
+  
+  namespace Controller {
+    typedef fruit::Component<IUIController> DIComponent;
 
-namespace SDF::UILayer::Controller {
-  typedef fruit::Component<IUIController> DIComponent;
-
-  DIComponent getControllerComponent();
+    DIComponent getControllerComponent();
+  }
 }
 
 #endif

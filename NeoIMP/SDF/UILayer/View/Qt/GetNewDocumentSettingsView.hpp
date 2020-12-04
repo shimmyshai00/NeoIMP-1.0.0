@@ -27,8 +27,6 @@
 #include <SDF/UILayer/View/IGetNewDocumentSettingsView.hpp>
 #include <SDF/UILayer/View/Qt/IQtView.hpp>
 
-#include <SDF/UILayer/View/Qt/Dialogs/NewDocumentDialog.hpp>
-
 #include <QPointer>
 #include <QWidget>
 
@@ -36,21 +34,25 @@
 
 namespace SDF::UILayer::View {
   class INewDocumentSettingsReceiver;
-}
 
-namespace SDF::UILayer::View::Qt {
-  class GetNewDocumentSettingsView : public IGetNewDocumentSettingsView, public IQtView {
-  public:
-    INJECT(GetNewDocumentSettingsView());
+  namespace Qt {
+    namespace Dialogs {
+      class NewDocumentDialog;
+    }
 
-    QPointer<QWidget> getQWidget();
-    void setContextView(IQtView *contextView);
+    class GetNewDocumentSettingsView : public IGetNewDocumentSettingsView, public IQtView {
+    public:
+      INJECT(GetNewDocumentSettingsView());
 
-    void requestNewDocumentSettings(INewDocumentSettingsReceiver *newDocumentSettingsReceiver);
-  private:
-    IQtView *m_contextView;
-    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
-  };
+      QPointer<QWidget> getQWidget();
+      void setContextView(IQtView *contextView);
+
+      void requestNewDocumentSettings(INewDocumentSettingsReceiver *newDocumentSettingsReceiver);
+    private:
+      IQtView *m_contextView;
+      QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+    };
+  }
 }
 
 #endif

@@ -27,38 +27,37 @@
 #include <SDF/UILayer/View/IApplicationView.hpp>
 #include <SDF/UILayer/View/Qt/IQtView.hpp>
 
-#include <SDF/UILayer/View/Qt/Windows/MainWindow.hpp>
-
-#include <SDF/UILayer/View/INewDocumentCommandReceiver.hpp>
-#include <SDF/UILayer/View/IExitProgramCommandReceiver.hpp>
-
 #include <QPointer>
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::View {
   class INewDocumentCommandReceiver;
   class IExitProgramCommandReceiver;
-}
 
-namespace SDF::UILayer::View::Qt {
-  class ApplicationView : public IApplicationView, public IQtView {
-  public:
-    INJECT(ApplicationView());
+  namespace Qt {
+    namespace Windows {
+      class MainWindow;
+    }
 
-    QPointer<QWidget> getQWidget();
-    void setContextView(IQtView *contextView);
+    class ApplicationView : public IApplicationView, public IQtView {
+    public:
+      INJECT(ApplicationView());
 
-    void showApplicationView();
-    void closeApplicationView();
+      QPointer<QWidget> getQWidget();
+      void setContextView(IQtView *contextView);
 
-    void setNewDocumentCommandReceiver(INewDocumentCommandReceiver *newDocumentCommandReceiver);
-    void setExitProgramCommandReceiver(IExitProgramCommandReceiver *exitProgramCommandReceiver);
-  private:
-    QPointer<Windows::MainWindow> m_mainWindow;
+      void showApplicationView();
+      void closeApplicationView();
 
-    INewDocumentCommandReceiver *m_newDocumentCommandReceiver;
-    IExitProgramCommandReceiver *m_exitProgramCommandReceiver;
-  };
+      void setNewDocumentCommandReceiver(INewDocumentCommandReceiver *newDocumentCommandReceiver);
+      void setExitProgramCommandReceiver(IExitProgramCommandReceiver *exitProgramCommandReceiver);
+    private:
+      QPointer<Windows::MainWindow> m_mainWindow;
+
+      INewDocumentCommandReceiver *m_newDocumentCommandReceiver;
+      IExitProgramCommandReceiver *m_exitProgramCommandReceiver;
+    };
+  }
 }
 
 #endif

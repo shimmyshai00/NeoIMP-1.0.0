@@ -32,30 +32,30 @@ QT_END_NAMESPACE
 
 namespace SDF::UILayer::View {
   class INewDocumentSettingsReceiver;
-}
 
-namespace SDF::UILayer::View::Qt::Dialogs {
-  class NewDocumentDialog : public QDialog {
-    Q_OBJECT
-  public:
-    NewDocumentDialog(QWidget *parent = nullptr);
-    ~NewDocumentDialog();
+  namespace Qt::Dialogs {
+    class NewDocumentDialog : public QDialog {
+      Q_OBJECT
+    public:
+      NewDocumentDialog(QWidget *parent = nullptr);
+      ~NewDocumentDialog();
 
-    void submit(INewDocumentSettingsReceiver *recv);
-  private slots:
-  /*
-    void widthChanged();
-    void heightChanged();
-    void widthUnitChanged();
-    void heightUnitChanged();
-    void resolutionChanged();
-    void resolutionUnitChanged();
-    void colorModelChanged();
-    void bitDepthChanged();
-  */
-  private:
-    Ui::NewDocumentDialog *m_ui;
-  };
+      void submit(INewDocumentSettingsReceiver *recv);
+    private slots:
+    /*
+      void widthChanged();
+      void heightChanged();
+      void widthUnitChanged();
+      void heightUnitChanged();
+      void resolutionChanged();
+      void resolutionUnitChanged();
+      void colorModelChanged();
+      void bitDepthChanged();
+    */
+    private:
+      Ui::NewDocumentDialog *m_ui;
+    };
+  }
 }
 
 #endif

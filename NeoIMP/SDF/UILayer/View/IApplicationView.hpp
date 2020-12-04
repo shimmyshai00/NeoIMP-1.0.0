@@ -27,7 +27,7 @@
 namespace SDF::UILayer::View {
   class INewDocumentCommandReceiver;
   class IExitProgramCommandReceiver;
-  
+
   class IApplicationView {
   public:
     virtual ~IApplicationView() = default;

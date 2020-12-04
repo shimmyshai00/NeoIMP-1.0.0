@@ -22,7 +22,10 @@
  */
 
 #include <UIComponent.hpp>
+
 #include <Controller/ControllerComponent.hpp>
+
+#include <IUIController.hpp>
 
 namespace SDF::UILayer {
   fruit::Component<IUIController> getUIComponent() {

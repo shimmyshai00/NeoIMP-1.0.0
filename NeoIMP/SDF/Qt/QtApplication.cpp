@@ -22,10 +22,11 @@
  */
 
 #include <QtApplication.hpp>
-#include <QApplication>
 
-#include <UILayer/IUIController.hpp>
 #include <UILayer/UIComponent.hpp>
+#include <UILayer/IUIController.hpp>
+
+#include <QApplication>
 
 namespace SDF::Qt {
   QtApplication::QtApplication()
