@@ -30,18 +30,18 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer::Qt::Controller {
-  class INewDocumentParameterReceiver;
+namespace SDF::UILayer::View {
+  class INewDocumentSettingsReceiver;
 }
 
-namespace SDF::UILayer::Qt::View::Dialogs {
+namespace SDF::UILayer::View::Qt::Dialogs {
   class NewDocumentDialog : public QDialog {
     Q_OBJECT
   public:
     NewDocumentDialog(QWidget *parent = nullptr);
     ~NewDocumentDialog();
 
-    void submit(Controller::INewDocumentParameterReceiver *recv);
+    void submit(INewDocumentSettingsReceiver *recv);
   private slots:
   /*
     void widthChanged();

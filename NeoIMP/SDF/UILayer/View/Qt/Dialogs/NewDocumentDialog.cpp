@@ -35,13 +35,13 @@
 #include <SDF/UILayer/Color/ColorModels.hpp>
 #include <SDF/UILayer/Color/BitDepths.hpp>
 
-#include <Controller/INewDocumentParameterReceiver.hpp>
+#include <INewDocumentSettingsReceiver.hpp>
 
-namespace SDF::UILayer::Qt::View::Dialogs {
+namespace SDF::UILayer::View::Qt::Dialogs {
   NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
   QDialog(parent),
   m_ui(new Ui::NewDocumentDialog) {
-    using namespace SDF::UILayer::Qt::View::CustomWidgets;
+    using namespace SDF::UILayer::View::Qt::CustomWidgets;
 
     m_ui->setupUi(this);
 
@@ -75,8 +75,8 @@ namespace SDF::UILayer::Qt::View::Dialogs {
     delete m_ui;
   }
 
-  void NewDocumentDialog::submit(Controller::INewDocumentParameterReceiver *recv) {
-    // Submit the gathered information to the model layer via the controller.
+  void NewDocumentDialog::submit(INewDocumentSettingsReceiver *recv) {
+    // Submit the gathered information to the model layer via the receiver.
     if(recv != nullptr) {
       recv->receiveNewDocumentSpecification(
         m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),

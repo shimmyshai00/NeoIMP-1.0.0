@@ -87,13 +87,13 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageWidthInput"/>
+      <widget class="SDF::UILayer::View::Qt::CustomWidgets::UnitQuantityInput" name="imageWidthInput"/>
      </item>
      <item row="1" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageHeightInput"/>
+      <widget class="SDF::UILayer::View::Qt::CustomWidgets::UnitQuantityInput" name="imageHeightInput"/>
      </item>
      <item row="2" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput" name="imageResolutionInput"/>
+      <widget class="SDF::UILayer::View::Qt::CustomWidgets::UnitQuantityInput" name="imageResolutionInput"/>
      </item>
      <item row="4" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -166,9 +166,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityInput</class>
+   <class>SDF::UILayer::View::Qt::CustomWidgets::UnitQuantityInput</class>
    <extends>QWidget</extends>
-   <header>SDF/UILayer/Qt/View/CustomWidgets/UnitQuantityInput.hpp</header>
+   <header>SDF/UILayer/View/Qt/CustomWidgets/UnitQuantityInput.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

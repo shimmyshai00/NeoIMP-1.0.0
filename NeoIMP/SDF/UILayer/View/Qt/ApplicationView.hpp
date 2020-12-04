@@ -25,20 +25,39 @@
  */
 
 #include <SDF/UILayer/View/IApplicationView.hpp>
+#include <SDF/UILayer/View/Qt/IQtView.hpp>
 
 #include <SDF/UILayer/View/Qt/Windows/MainWindow.hpp>
-#include <QPointer>
 
+#include <SDF/UILayer/View/INewDocumentCommandReceiver.hpp>
+#include <SDF/UILayer/View/IExitProgramCommandReceiver.hpp>
+
+#include <QPointer>
 #include <fruit/fruit.h>
 
+namespace SDF::UILayer::View {
+  class INewDocumentCommandReceiver;
+  class IExitProgramCommandReceiver;
+}
+
 namespace SDF::UILayer::View::Qt {
-  class ApplicationView : public IApplicationView {
+  class ApplicationView : public IApplicationView, public IQtView {
   public:
     INJECT(ApplicationView());
 
+    QPointer<QWidget> getQWidget();
+    void setContextView(IQtView *contextView);
+
     void showApplicationView();
+    void closeApplicationView();
+
+    void setNewDocumentCommandReceiver(INewDocumentCommandReceiver *newDocumentCommandReceiver);
+    void setExitProgramCommandReceiver(IExitProgramCommandReceiver *exitProgramCommandReceiver);
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
+
+    INewDocumentCommandReceiver *m_newDocumentCommandReceiver;
+    IExitProgramCommandReceiver *m_exitProgramCommandReceiver;
   };
 }
 

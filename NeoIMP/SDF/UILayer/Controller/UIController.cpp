@@ -27,10 +27,16 @@
 #include <View/IApplicationView.hpp>
 
 namespace SDF::UILayer::Controller {
-  UIController::UIController(View::IViewManager *viewManager) : m_viewManager(viewManager) {}
+  UIController::UIController(View::IViewManager *viewManager) {
+    m_applicationView = viewManager->getApplicationView();
+    m_applicationView->setExitProgramCommandReceiver(this);
+  }
 
   void UIController::startUI() {
-    View::IApplicationView *applicationView(m_viewManager->getApplicationView());
-    applicationView->showApplicationView();
+    m_applicationView->showApplicationView();
+  }
+
+  void UIController::exitProgram() {
+    m_applicationView->closeApplicationView();
   }
 }

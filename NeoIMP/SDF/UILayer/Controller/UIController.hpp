@@ -25,20 +25,24 @@
  */
 
 #include <SDF/UILayer/IUIController.hpp>
+#include <SDF/UILayer/View/IExitProgramCommandReceiver.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::View {
   class IViewManager;
+  class IApplicationView;
 }
 
 namespace SDF::UILayer::Controller {
-  class UIController : public IUIController {
+  class UIController : public IUIController, public View::IExitProgramCommandReceiver {
   public:
     INJECT(UIController(View::IViewManager *viewManager));
 
     void startUI();
+    void exitProgram();
   private:
-    View::IViewManager *m_viewManager;
+    View::IApplicationView *m_applicationView;
   };
 }
 

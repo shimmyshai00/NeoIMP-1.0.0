@@ -23,10 +23,23 @@
 
 #include <ViewManager.hpp>
 
+#include <ApplicationView.hpp>
+#include <INewDocumentSettingsReceiver.hpp>
+#include <GetNewDocumentSettingsView.hpp>
+
 namespace SDF::UILayer::View::Qt {
-  ViewManager::ViewManager(IApplicationView *applicationView) : m_applicationView(applicationView) {}
+  ViewManager::ViewManager(ApplicationView *applicationView, GetNewDocumentSettingsView *getNewDocumentSettingsView)
+  : m_applicationView(applicationView),
+    m_getNewDocumentSettingsView(getNewDocumentSettingsView)
+  {
+    m_getNewDocumentSettingsView->setContextView(m_applicationView);
+  }
 
   IApplicationView *ViewManager::getApplicationView() {
     return m_applicationView;
+  }
+
+  IGetNewDocumentSettingsView *ViewManager::getGetNewDocumentSettingsView() {
+    return m_getNewDocumentSettingsView;
   }
 }

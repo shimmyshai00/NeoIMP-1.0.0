@@ -30,13 +30,11 @@ namespace SDF::UILayer::View::Qt::Windows {
   m_ui(new Ui::MainWindow)
   {
     m_ui->setupUi(this);
+    
+    connect(m_ui->action_New, &QAction::triggered, this, &MainWindow::newClicked);
+    connect(m_ui->actionE_xit, &QAction::triggered, this, &MainWindow::exitClicked);
   }
 
   MainWindow::~MainWindow() {
-  }
-
-  // Private member.
-  void MainWindow::on_action_New_triggered() {
-    // TBA
   }
 }

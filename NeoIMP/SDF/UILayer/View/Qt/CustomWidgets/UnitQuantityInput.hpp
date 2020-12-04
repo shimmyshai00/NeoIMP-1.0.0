@@ -34,7 +34,7 @@ class QHBoxLayout;
 class QLineEdit;
 class QComboBox;
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
+namespace SDF::UILayer::View::Qt::CustomWidgets {
   enum QuantityType {
     QUANTITY_PIXELS,
     QUANTITY_LENGTH,

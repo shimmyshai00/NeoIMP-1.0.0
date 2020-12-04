@@ -38,7 +38,7 @@
 
 #include <iostream>
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
+namespace SDF::UILayer::View::Qt::CustomWidgets {
   UnitQuantityInput::UnitQuantityInput(QWidget *parent, ::Qt::WindowFlags f) :
   QWidget(parent, f),
   m_layout(new QHBoxLayout(this)),

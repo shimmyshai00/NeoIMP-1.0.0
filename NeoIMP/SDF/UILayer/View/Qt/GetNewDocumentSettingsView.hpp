@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
-#define SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
+#ifndef SDF_UILAYER_VIEW_QT_GETNEWDOCUMENTSETTINGSVIEW_HPP
+#define SDF_UILAYER_VIEW_QT_GETNEWDOCUMENTSETTINGSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.hpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    GetNewDocumentSettingsView.hpp
+ * PURPOSE: Headers for the Qt-based new-document settings view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/View/IViewManager.hpp>
+#include <SDF/UILayer/View/IGetNewDocumentSettingsView.hpp>
+#include <SDF/UILayer/View/Qt/IQtView.hpp>
+
+#include <SDF/UILayer/View/Qt/Dialogs/NewDocumentDialog.hpp>
+
+#include <QPointer>
+#include <QWidget>
+
 #include <fruit/fruit.h>
 
+namespace SDF::UILayer::View {
+  class INewDocumentSettingsReceiver;
+}
+
 namespace SDF::UILayer::View::Qt {
-  class ApplicationView;
-  class GetNewDocumentSettingsView;
-
-  class ViewManager : public IViewManager {
+  class GetNewDocumentSettingsView : public IGetNewDocumentSettingsView, public IQtView {
   public:
-    INJECT(ViewManager(ApplicationView *applicationView, GetNewDocumentSettingsView *getNewDocumentSettingsView));
+    INJECT(GetNewDocumentSettingsView());
 
-    IApplicationView *getApplicationView();
-    IGetNewDocumentSettingsView *getGetNewDocumentSettingsView();
+    QPointer<QWidget> getQWidget();
+    void setContextView(IQtView *contextView);
+
+    void requestNewDocumentSettings(INewDocumentSettingsReceiver *newDocumentSettingsReceiver);
   private:
-    ApplicationView *m_applicationView;
-    GetNewDocumentSettingsView *m_getNewDocumentSettingsView;
+    IQtView *m_contextView;
+    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
   };
 }
 

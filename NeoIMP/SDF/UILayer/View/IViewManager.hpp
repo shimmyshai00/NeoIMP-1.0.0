@@ -27,12 +27,14 @@
 
 namespace SDF::UILayer::View {
   class IApplicationView;
+  class IGetNewDocumentSettingsView;
 
   class IViewManager {
   public:
     virtual ~IViewManager() = default;
 
     virtual IApplicationView *getApplicationView() = 0;
+    virtual IGetNewDocumentSettingsView *getGetNewDocumentSettingsView() = 0;
   };
 }
 

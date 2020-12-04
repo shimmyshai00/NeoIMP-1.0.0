@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
-#define SDF_UILAYER_VIEW_QT_VIEWMANAGER_HPP
+#ifndef SDF_UILAYER_VIEW_INEWDOCUMENTCOMMANDRECEIVER_HPP
+#define SDF_UILAYER_VIEW_INEWDOCUMENTCOMMANDRECEIVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.hpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    INewDocumentCommandReceiver.hpp
+ * PURPOSE: The receiver interface for the new-document command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/View/IViewManager.hpp>
-#include <fruit/fruit.h>
-
-namespace SDF::UILayer::View::Qt {
-  class ApplicationView;
-  class GetNewDocumentSettingsView;
-
-  class ViewManager : public IViewManager {
+namespace SDF::UILayer::View {
+  class IGetNewDocumentSettingsView;
+  
+  class INewDocumentCommandReceiver {
   public:
-    INJECT(ViewManager(ApplicationView *applicationView, GetNewDocumentSettingsView *getNewDocumentSettingsView));
+    virtual ~INewDocumentCommandReceiver() = default;
 
-    IApplicationView *getApplicationView();
-    IGetNewDocumentSettingsView *getGetNewDocumentSettingsView();
-  private:
-    ApplicationView *m_applicationView;
-    GetNewDocumentSettingsView *m_getNewDocumentSettingsView;
+    virtual IGetNewDocumentSettingsView *newDocument() = 0;
   };
 }
 

@@ -29,6 +29,9 @@
 #include <IApplicationView.hpp>
 #include <ApplicationView.hpp>
 
+#include <IGetNewDocumentSettingsView.hpp>
+#include <GetNewDocumentSettingsView.hpp>
+
 namespace SDF::UILayer::View::Qt {
   DIComponent getViewComponent() {
     return fruit::createComponent()

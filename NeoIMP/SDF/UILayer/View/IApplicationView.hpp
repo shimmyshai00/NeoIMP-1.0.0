@@ -25,10 +25,18 @@
  */
 
 namespace SDF::UILayer::View {
+  class INewDocumentCommandReceiver;
+  class IExitProgramCommandReceiver;
+  
   class IApplicationView {
   public:
     virtual ~IApplicationView() = default;
+
     virtual void showApplicationView() = 0;
+    virtual void closeApplicationView() = 0;
+
+    virtual void setNewDocumentCommandReceiver(INewDocumentCommandReceiver *newDocumentCommandReceiver) = 0;
+    virtual void setExitProgramCommandReceiver(IExitProgramCommandReceiver *exitProgramCommandReceiver) = 0;
   };
 }
 

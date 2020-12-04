@@ -24,13 +24,45 @@
 #include <ApplicationView.hpp>
 
 namespace SDF::UILayer::View::Qt {
-  ApplicationView::ApplicationView() {}
+  ApplicationView::ApplicationView()
+    : m_newDocumentCommandReceiver(nullptr),
+      m_exitProgramCommandReceiver(nullptr)
+  {}
+
+  QPointer<QWidget> ApplicationView::getQWidget() {
+    return m_mainWindow.data();
+  }
+
+  void ApplicationView::setContextView(IQtView *contextView) {
+    // N/A for this top-level view.
+  }
 
   void ApplicationView::showApplicationView() {
     if(!m_mainWindow) {
       m_mainWindow = new Windows::MainWindow();
+
+      QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, m_mainWindow, [=]() {
+        if(m_newDocumentCommandReceiver != nullptr) m_newDocumentCommandReceiver->newDocument();
+      });
+      QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, m_mainWindow, [=]() {
+        if(m_exitProgramCommandReceiver != nullptr) m_exitProgramCommandReceiver->exitProgram();
+      });
     }
 
     m_mainWindow->show();
+  }
+
+  void ApplicationView::closeApplicationView() {
+    if(m_mainWindow) {
+      m_mainWindow->close();
+    }
+  }
+
+  void ApplicationView::setNewDocumentCommandReceiver(INewDocumentCommandReceiver *newDocumentCommandReceiver) {
+    m_newDocumentCommandReceiver = newDocumentCommandReceiver;
+  }
+
+  void ApplicationView::setExitProgramCommandReceiver(IExitProgramCommandReceiver *exitProgramCommandReceiver) {
+    m_exitProgramCommandReceiver = exitProgramCommandReceiver;
   }
 }
