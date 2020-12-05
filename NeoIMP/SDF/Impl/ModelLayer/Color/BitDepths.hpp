@@ -1,12 +1,12 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_IMPL_MODELLAYER_COLOR_BITDEPTHS_HPP
+#define SDF_IMPL_MODELLAYER_COLOR_BITDEPTHS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Defines an interface for the main application object.
+ * FILE:    BitDepths.hpp
+ * PURPOSE: Enumeration of the available per-channel bit depths.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF {
-  class IApplication {
-  public:
-    virtual ~IApplication() = default;
-    virtual int exec(int argc, char **argv) = 0;
+namespace SDF::Impl::ModelLayer::Color {
+  enum BitDepth {
+    BIT_DEPTH_8,
+    BIT_DEPTH_10,
+    BIT_DEPTH_12,
+    BIT_DEPTH_16,
+    BIT_DEPTH_MAX
   };
 }
 

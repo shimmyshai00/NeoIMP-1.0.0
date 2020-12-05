@@ -1,11 +1,12 @@
 #ifndef SDF_APPLICATIONCOMPONENT_HPP
 #define SDF_APPLICATIONCOMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationComponent.hpp
- * PURPOSE: The top-level DI component for the application.
+ * PURPOSE: Definition of the application DI component.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,7 +28,7 @@
 
 namespace SDF {
   class IApplication;
-  
+
   fruit::Component<IApplication> getApplicationComponent();
 }
 

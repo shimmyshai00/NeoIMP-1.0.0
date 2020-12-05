@@ -1,12 +1,12 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
+#define SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Defines an interface for the main application object.
+ * FILE:    MainUI.hpp
+ * PURPOSE: The main UI layer object.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF {
-  class IApplication {
+#include <SDF/Impl/UILayer/IUI.hpp>
+
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IViewManager;
+    class IApplicationView;
+  }
+
+  namespace Controller {
+    class ApplicationController;
+    class NewDocumentController;
+  }
+
+  class MainUI : public IUI {
   public:
-    virtual ~IApplication() = default;
-    virtual int exec(int argc, char **argv) = 0;
+    INJECT(MainUI(
+      View::IViewManager *viewManager,
+      Controller::ApplicationController *applicationController,
+      Controller::NewDocumentController *newDocumentController
+    ));
+
+    void start();
+  private:
+    View::IApplicationView *m_applicationView;
+
+    Controller::ApplicationController *m_applicationController;
+    Controller::NewDocumentController *m_newDocumentController;
   };
 }
 

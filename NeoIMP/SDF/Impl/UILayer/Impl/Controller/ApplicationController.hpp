@@ -1,12 +1,12 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Defines an interface for the main application object.
+ * FILE:    ApplicationController.hpp
+ * PURPOSE: The MVC controller associated with the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF {
-  class IApplication {
-  public:
-    virtual ~IApplication() = default;
-    virtual int exec(int argc, char **argv) = 0;
-  };
+#include <SDF/Impl/UILayer/Impl/View/IExitCommandObserver.hpp>
+
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IViewManager;
+    class IApplicationView;
+  }
+
+  namespace Controller {
+    class ApplicationController : public View::IExitCommandObserver {
+    public:
+      INJECT(ApplicationController(View::IViewManager *viewManager));
+
+      void onExitCommand();
+    private:
+      View::IApplicationView *m_applicationView;
+    };
+  }
 }
 
 #endif

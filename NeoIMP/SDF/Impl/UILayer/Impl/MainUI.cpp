@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationComponent.cpp
- * PURPOSE: Implementation of the application DI component.
+ * FILE:    MainUI.cpp
+ * PURPOSE: Implementation of the main UI layer object.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationComponent.hpp>
+#include <MainUI.hpp>
 
-#include <IApplication.hpp>
-#include <Impl/Qt/QtApplication.hpp>
+#include <View/IViewManager.hpp>
+#include <View/IApplicationView.hpp>
 
-namespace SDF {
-  fruit::Component<IApplication> getApplicationComponent() {
-    return fruit::createComponent()
-      .bind<IApplication, Impl::Qt::QtApplication>();
+#include <Controller/ApplicationController.hpp>
+#include <Controller/NewDocumentController.hpp>
+
+namespace SDF::Impl::UILayer::Impl {
+  MainUI::MainUI(
+    View::IViewManager *viewManager,
+    Controller::ApplicationController *applicationController,
+    Controller::NewDocumentController *newDocumentController
+  )
+    : m_applicationView(viewManager->getApplicationView()),
+      m_applicationController(applicationController),
+      m_newDocumentController(newDocumentController)
+  {
+    m_applicationView->setNewDocumentCommandObserver(m_newDocumentController);
+    m_applicationView->setExitCommandObserver(m_applicationController);
+  }
+
+  void MainUI::start() {
+    m_applicationView->show();
   }
 }

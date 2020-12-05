@@ -1,12 +1,12 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_IMPL_QT_QTAPPLICATION_HPP
+#define SDF_IMPL_QT_QTAPPLICATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Defines an interface for the main application object.
+ * FILE:    QtApplication.hpp
+ * PURPOSE: Application implementation for the Qt widget system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF {
-  class IApplication {
+#include <SDF/IApplication.hpp>
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::Qt {
+  class QtApplication : public IApplication {
   public:
-    virtual ~IApplication() = default;
-    virtual int exec(int argc, char **argv) = 0;
+    INJECT(QtApplication());
+
+    int exec(int argc, char **argv);
   };
 }
 

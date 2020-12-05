@@ -1,12 +1,13 @@
-#ifndef SDF_IAPPLICATION_HPP
-#define SDF_IAPPLICATION_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IQTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IQTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.cpp
- * PURPOSE: Defines an interface for the main application object.
+ * FILE:    IQtView.hpp
+ * PURPOSE: The interface for Qt-based MVC views. This provides for specialized handling of hierarchy relatiosnhips
+ *          amongst views that are not passed outside this specific UI implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +25,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF {
-  class IApplication {
+#include <QPointer>
+#include <QWidget>
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class IQtView {
   public:
-    virtual ~IApplication() = default;
-    virtual int exec(int argc, char **argv) = 0;
+    virtual ~IQtView() = default;
+
+    virtual QPointer<QWidget> getQWidget() = 0;
+    virtual void setContextView(IQtView *contextView) = 0;
   };
 }
 

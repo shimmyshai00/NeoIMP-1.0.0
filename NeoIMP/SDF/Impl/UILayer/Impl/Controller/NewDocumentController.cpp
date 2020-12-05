@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationComponent.cpp
- * PURPOSE: Implementation of the application DI component.
+ * FILE:    NewDocumentController.cpp
+ * PURPOSE: Implementation of the MVC controller associated with the new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationComponent.hpp>
+#include <NewDocumentController.hpp>
 
-#include <IApplication.hpp>
-#include <Impl/Qt/QtApplication.hpp>
+#include <View/IViewManager.hpp>
+#include <View/INewDocumentParamsView.hpp>
 
-namespace SDF {
-  fruit::Component<IApplication> getApplicationComponent() {
-    return fruit::createComponent()
-      .bind<IApplication, Impl::Qt::QtApplication>();
+#include <iostream>
+
+namespace SDF::Impl::UILayer::Impl::Controller {
+  NewDocumentController::NewDocumentController(View::IViewManager *viewManager)
+    : m_newDocumentParamsView(viewManager->getNewDocumentParamsView())
+  {}
+
+  void NewDocumentController::onNewDocumentCommand() {
+    m_newDocumentParamsView->getNewDocumentParams(this);
+  }
+
+  void NewDocumentController::receiveNewDocumentParams(
+    int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
+    ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
+  ) {
+    // TBA
+    std::cout << "Document parameters received" << std::endl;
   }
 }
