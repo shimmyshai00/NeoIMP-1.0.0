@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/MemoryLayer/IImageRepository.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::MemoryLayer {
-  class IImageRepository;
-
   fruit::Component<IImageRepository> getImageRepositoryComponent();
 }
 

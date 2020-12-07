@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/IApplication.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF {
-  class IApplication;
-
   fruit::Component<IApplication> getApplicationComponent();
 }
 
