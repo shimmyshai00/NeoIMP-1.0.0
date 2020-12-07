@@ -23,14 +23,20 @@
 
 #include <NewDocumentController.hpp>
 
+#include <ModelLayer/Services/IDocumentManagementService.hpp>
+
 #include <View/IViewManager.hpp>
 #include <View/INewDocumentParamsView.hpp>
 
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  NewDocumentController::NewDocumentController(View::IViewManager *viewManager)
-    : m_newDocumentParamsView(viewManager->getNewDocumentParamsView())
+  NewDocumentController::NewDocumentController(
+    View::IViewManager *viewManager,
+    ModelLayer::Services::IDocumentManagementService *documentManagementService
+  )
+    : m_newDocumentParamsView(viewManager->getNewDocumentParamsView()),
+      m_documentManagementService(documentManagementService)
   {}
 
   void NewDocumentController::onNewDocumentCommand() {
@@ -41,7 +47,9 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
     ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
   ) {
-    // TBA
-    std::cout << "Document parameters received" << std::endl;
+    m_documentManagementService->createDocument(
+      documentWidthPx, documentHeightPx, documentResolutionPpi,
+      colorModel, bitDepth
+    );
   }
 }

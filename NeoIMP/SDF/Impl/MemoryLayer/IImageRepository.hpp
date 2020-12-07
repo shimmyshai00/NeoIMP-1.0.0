@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IImageRepository.hpp
- * PURPOSE: Definition of the image repository interface template for the memory layer.
+ * PURPOSE: Definition of the image repository interface for the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/Impl/Repositories/IImageRepository.hpp>
+#include <SDF/Impl/MemoryLayer/IImageRepositoryAccessor.hpp>
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/ImageTypes.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
 #include <string>
 
 namespace SDF::Impl::MemoryLayer {
-  template<class ImageType>
-  class IImageRepository : public ModelLayer::Services::Impl::Repositories::IImageRepository<ImageType> {
+  class IImageRepository : public IImageRepositoryAccessor {
   public:
     virtual ~IImageRepository() = default;
 
-    virtual ModelLayer::Handle addNewImage(std::string uri, std::unique_ptr<ImageType> image) = 0;
+    virtual ModelLayer::Handle addNewImage(
+      std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
+    ) = 0;
     virtual void persistImage(ModelLayer::Handle handle) = 0;
 
-    virtual ImageType *access(ModelLayer::Handle handle) = 0;
+    virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
   };
 }
 

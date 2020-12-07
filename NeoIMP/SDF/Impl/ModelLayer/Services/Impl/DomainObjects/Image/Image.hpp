@@ -28,6 +28,7 @@
 #include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Coord.hpp>
 
 #include <vector>
+#include <memory>
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
   template<class PixelType, class AlphaType>

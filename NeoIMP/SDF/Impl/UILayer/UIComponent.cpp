@@ -23,6 +23,10 @@
 
 #include <UIComponent.hpp>
 
+#include <ModelLayer/Services/ServiceComponent.hpp>
+
+#include <ModelLayer/Services/IDocumentManagementService.hpp>
+
 #include <IUI.hpp>
 #include <Impl/View/IViewManager.hpp>
 
@@ -35,6 +39,7 @@ namespace SDF::Impl::UILayer {
   fruit::Component<IUI> getUIComponent() {
     return fruit::createComponent()
       .bind<IUI, Impl::MainUI>()
-      .install(Impl::View::getViewComponent);
+      .install(Impl::View::getViewComponent)
+      .install(ModelLayer::Services::getServiceComponent);
   }
 }

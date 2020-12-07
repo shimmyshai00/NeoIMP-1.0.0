@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_IMAGETYPES_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_IMAGE_IMAGETYPES_HPP
+#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_IMAGETYPES_HPP
+#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_IMAGETYPES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,21 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Color/ColorTypes.hpp>
-#include <SDF/ModelLayer/DomainObjects/Image/Image.hpp>
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Color/ColorTypes.hpp>
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Image.hpp>
 
 #include <variant>
 
-namespace SDF::ModelLayer::DomainObjects::Image {
-  typedef Image<Color::ColorRGB24, Color::Channel8> RGB24Image;
-  typedef Image<Color::ColorRGB30, Color::Channel10> RGB30Image;
-  typedef Image<Color::ColorRGB36, Color::Channel12> RGB36Image;
-  typedef Image<Color::ColorRGB48, Color::Channel16> RGB48Image;
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  typedef Image<Color::RGB24Color, Color::AdditiveChannel8> RGB24Image;
+  typedef Image<Color::RGB30Color, Color::AdditiveChannel10> RGB30Image;
+  typedef Image<Color::RGB36Color, Color::AdditiveChannel12> RGB36Image;
+  typedef Image<Color::RGB48Color, Color::AdditiveChannel16> RGB48Image;
 
-  typedef Image<Color::ColorCMYK32, Color::Channel8> CMYK32Image;
-  typedef Image<Color::ColorCMYK40, Color::Channel10> CMYK40Image;
-  typedef Image<Color::ColorCMYK48, Color::Channel12> CMYK48Image;
-  typedef Image<Color::ColorCMYK64, Color::Channel16> CMYK64Image;
+  typedef Image<Color::CMYK32Color, Color::AdditiveChannel8> CMYK32Image;
+  typedef Image<Color::CMYK40Color, Color::AdditiveChannel8> CMYK40Image;
+  typedef Image<Color::CMYK48Color, Color::AdditiveChannel8> CMYK48Image;
+  typedef Image<Color::CMYK64Color, Color::AdditiveChannel8> CMYK64Image;
 
   typedef std::variant<
     RGB24Image, RGB30Image, RGB36Image, RGB48Image,

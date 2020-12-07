@@ -27,26 +27,27 @@
 #include <SDF/Impl/MemoryLayer/IImageRepository.hpp>
 
 #include <map>
+#include <string>
 #include <memory>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::MemoryLayer::Impl {
-  template<class ImageType>
   class ImageRepository : public MemoryLayer::IImageRepository {
   public:
     INJECT(ImageRepository());
 
-    ModelLayer::Handle addNewImage(std::string uri, std::unique_ptr<ImageType> image);
+    ModelLayer::Handle addNewImage(
+      std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
+    );
     void persistImage(ModelLayer::Handle handle);
 
-    ImageType *access(ModelLayer::Handle handle);
+    ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle);
   private:
     std::map<ModelLayer::Handle, std::string> m_uriStore;
-    std::map<ModelLayer::Handle, std::unique_ptr<ImageType>> m_imageStore;
+    std::map<ModelLayer::Handle, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant>>
+      m_imageStore;
   };
 }
-
-#include "SDF/Impl/MemoryLayer/Impl/ImageRepository.tpp"
 
 #endif

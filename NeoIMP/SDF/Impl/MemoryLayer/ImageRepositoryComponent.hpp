@@ -27,13 +27,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::MemoryLayer {
-  template<class ImageType>
   class IImageRepository;
 
-  template<class ImageType>
-  fruit::Component<IImageRepository<ImageType>> getImageRepositoryComponent();
+  fruit::Component<IImageRepository> getImageRepositoryComponent();
 }
-
-#include "SDF/Impl/MemoryLayer/ImageRepositoryComponent.tpp"
 
 #endif

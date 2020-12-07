@@ -27,7 +27,7 @@
 #include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Raster.hpp>
 #include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Coord.hpp>
 
-namespace SDF::Impl::ModelLayer::Servics::Impl::DomainObjects::Image {
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
   template<class PixelType, class AlphaType>
   class Layer {
   public:

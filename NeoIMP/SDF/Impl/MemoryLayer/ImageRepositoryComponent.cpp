@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryComponent.tpp
+ * FILE:    ImageRepositoryComponent.cpp
  * PURPOSE: Implementation of the DI component for image repositories.
  */
 
@@ -21,13 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <ImageRepositoryComponent.hpp>
+
 #include <IImageRepository.hpp>
 #include <Impl/ImageRepository.hpp>
 
 namespace SDF::Impl::MemoryLayer {
-  template<class ImageType>
-  fruit::Component<IImageRepository<ImageType>> getImageRepositoryComponent() {
+  fruit::Component<IImageRepository> getImageRepositoryComponent() {
     return fruit::createComponent()
-      .bind<IImageRepository<ImageType>, Impl::ImageRepository<ImageType>>();
+      .bind<IImageRepository, Impl::ImageRepository>();
   }
 }

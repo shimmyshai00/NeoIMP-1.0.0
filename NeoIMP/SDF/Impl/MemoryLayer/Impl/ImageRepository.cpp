@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepository.tpp
+ * FILE:    ImageRepository.cpp
  * PURPOSE: Implementation of an in-memory image repository linked to persistent backing storage.
  */
 
@@ -21,29 +21,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <ImageRepository.hpp>
+
+#include <Exception/Exceptions.hpp>
+#include <HandleGenerator.hpp>
+
 namespace SDF::Impl::MemoryLayer::Impl {
-  template<class ImageType>
-  ImageRepository<ImageType>::ImageRepository() {}
+  ImageRepository::ImageRepository() {}
 
-  template<class ImageType>
-  ModelLayer::Handle ImageRepository<ImageType>::addNewImage(std::string uri, std::unique_ptr<ImageType> image) {
-    ModelLayer::Handle handle(HandleGenerator::inst()->getNextHandle());
+  ModelLayer::Handle ImageRepository::addNewImage(
+    std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
+  ) {
+    ModelLayer::Handle newHandle(HandleGenerator::inst()->getNextHandle());
 
-    m_uriStore[handle] = uri;
-    m_imageStore[handle] = std::move(image);
+    m_uriStore[newHandle] = uri;
+    m_imageStore[newHandle] = std::move(image);
 
-    return handle;
+    return newHandle;
   }
 
-  template<class ImageType>
-  void ImageRepository<ImageType>::persistImage(ModelLayer::Handle handle) {
-    // TBA
+  void ImageRepository::persistImage(ModelLayer::Handle handle) {
+    // getNumBaseUnits
   }
 
-  template<class ImageType>
-  ImageType *ImageRepository<ImageType>::access(ModelLayer::Handle handle) {
+  ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *ImageRepository::access(ModelLayer::Handle handle) {
     if(m_imageStore.find(handle) == m_imageStore.end()) {
-      throw MemoryLayer::Exception::InvalidHandleException(handle);
+      throw Exception::InvalidHandleException(handle);
     } else {
       return m_imageStore[handle].get();
     }

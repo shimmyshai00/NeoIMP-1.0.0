@@ -32,25 +32,36 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::UILayer::Impl {
-  namespace View {
-    class IViewManager;
-    class INewDocumentParamsView;
+namespace SDF::Impl {
+  namespace ModelLayer::Services {
+    class IDocumentManagementService;
   }
 
-  namespace Controller {
-    class NewDocumentController : public View::INewDocumentCommandObserver, public View::INewDocumentParamsReceiver {
-    public:
-      INJECT(NewDocumentController(View::IViewManager *viewManager));
+  namespace UILayer::Impl {
+    namespace View {
+      class IViewManager;
+      class INewDocumentParamsView;
+    }
 
-      void onNewDocumentCommand();
-      void receiveNewDocumentParams(
-        int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-        ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
-      );
-    private:
-      View::INewDocumentParamsView *m_newDocumentParamsView;
-    };
+    namespace Controller {
+      class NewDocumentController : public View::INewDocumentCommandObserver, public View::INewDocumentParamsReceiver {
+      public:
+        INJECT(NewDocumentController(
+          View::IViewManager *viewManager,
+          ModelLayer::Services::IDocumentManagementService *documentManagementService
+        ));
+
+        void onNewDocumentCommand();
+        void receiveNewDocumentParams(
+          int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
+          ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
+        );
+      private:
+        View::INewDocumentParamsView *m_newDocumentParamsView;
+
+        ModelLayer::Services::IDocumentManagementService *m_documentManagementService;
+      };
+    }
   }
 }
 

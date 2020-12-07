@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_SERVICES_IDOCUMENTMANAGEMENTSERVICE_HPP
-#define SDF_IMPL_MODELLAYER_SERVICES_IDOCUMENTMANAGEMENTSERVICE_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORYACCESSOR_HPP
+#define SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORYACCESSOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentManagementService.hpp
- * PURPOSE: Defines an interface for the MVC service for basic document management "CRUD" operations (create, retrieve,
- *          update, and delete).
+ * FILE:    IImageRepositoryAccessor.hpp
+ * PURPOSE: Definition of the accessor interface for image repositories.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,20 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/ImageTypes.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
-#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
-
-namespace SDF::Impl::ModelLayer::Services {
-  class IDocumentManagementService {
+namespace SDF::Impl::MemoryLayer {
+  class IImageRepositoryAccessor {
   public:
-    virtual ~IDocumentManagementService() = default;
-
-    virtual Handle createDocument(
-      int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-      Color::ColorModel colorModel, Color::BitDepth bitDepth
-    ) = 0;
+    virtual ~IImageRepositoryAccessor() = default;
+    virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
   };
 }
 

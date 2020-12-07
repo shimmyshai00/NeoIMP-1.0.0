@@ -26,6 +26,8 @@
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
+#include <memory>
+
 namespace SDF::Impl::MemoryLayer::Impl {
   class HandleGenerator {
   private:
@@ -34,7 +36,7 @@ namespace SDF::Impl::MemoryLayer::Impl {
     ModelLayer::Handle getNextHandle();
 
     // Singleton implementation.
-    HandleGenerator *inst() {
+    static HandleGenerator *inst() {
       static std::unique_ptr<HandleGenerator> instPtr(new HandleGenerator());
       return instPtr.get();
     }

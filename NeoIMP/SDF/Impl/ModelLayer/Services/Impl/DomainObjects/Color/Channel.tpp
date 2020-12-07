@@ -25,16 +25,18 @@
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Color {
   template<class StorageType, StorageType maxValue, StorageType defaultValue>
-  Channel<StorageType, maxValue, defaultValue>::Channel() : m_value(std::clamp(defaultValue, 0, maxValue)) {}
+  Channel<StorageType, maxValue, defaultValue>::Channel()
+    : m_value(std::clamp<StorageType>(defaultValue, 0, maxValue))
+  {}
 
   template<class StorageType, StorageType maxValue, StorageType defaultValue>
-  ValueType Channel<StorageType, maxValue, defaultValue>::getValue() const {
+  StorageType Channel<StorageType, maxValue, defaultValue>::getValue() const {
     return m_value;
   }
 
   template<class StorageType, StorageType maxValue, StorageType defaultValue>
   void Channel<StorageType, maxValue, defaultValue>::setValue(StorageType value) {
-    m_value = std::clamp(value, 0, maxValue);
+    m_value = std::clamp<StorageType>(value, 0, maxValue);
   }
 
   template<class StorageType, StorageType maxValue, StorageType defaultValue>
