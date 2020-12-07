@@ -25,23 +25,29 @@
  */
 
 #include <SDF/Impl/MemoryLayer/IImageRepositoryAccessor.hpp>
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/ImageTypes.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
 #include <string>
+#include <memory>
 
-namespace SDF::Impl::MemoryLayer {
-  class IImageRepository : public IImageRepositoryAccessor {
-  public:
-    virtual ~IImageRepository() = default;
+namespace SDF::Impl {
+  namespace ModelLayer::Services::Impl::DomainObjects::Image {
+    class ImageVariant;
+  }
 
-    virtual ModelLayer::Handle addNewImage(
-      std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
-    ) = 0;
-    virtual void persistImage(ModelLayer::Handle handle) = 0;
+  namespace MemoryLayer {
+    class IImageRepository : public IImageRepositoryAccessor {
+    public:
+      virtual ~IImageRepository() = default;
 
-    virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
-  };
+      virtual ModelLayer::Handle addNewImage(
+        std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
+      ) = 0;
+      virtual void persistImage(ModelLayer::Handle handle) = 0;
+
+      virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
+    };
+  }
 }
 
 #endif

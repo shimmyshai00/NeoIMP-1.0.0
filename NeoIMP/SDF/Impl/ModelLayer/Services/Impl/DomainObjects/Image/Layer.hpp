@@ -24,10 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Raster.hpp>
 #include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Coord.hpp>
 
+#include <memory>
+
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  template<class T>
+  class Raster;
+  
   template<class PixelType, class AlphaType>
   class Layer {
   public:
@@ -42,8 +46,8 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
     void setAlphaAt(Math::Coord<int> pos, AlphaType newValue);
     void setPixelAt(Math::Coord<int> pos, PixelType newValue);
   private:
-    Raster<AlphaType> m_alphaChannel;
-    Raster<PixelType> m_imageRaster;
+    std::unique_ptr<Raster<AlphaType>> m_alphaChannel;
+    std::unique_ptr<Raster<PixelType>> m_imageRaster;
   };
 }
 

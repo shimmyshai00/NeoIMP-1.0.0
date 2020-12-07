@@ -24,13 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Layer.hpp>
 #include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Coord.hpp>
 
 #include <vector>
 #include <memory>
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  template<class PixelType, class AlphaType>
+  class Layer;
+  
   template<class PixelType, class AlphaType>
   class Image {
   public:

@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View {

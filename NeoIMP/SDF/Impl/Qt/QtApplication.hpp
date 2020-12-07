@@ -25,6 +25,7 @@
  */
 
 #include <SDF/IApplication.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::Qt {

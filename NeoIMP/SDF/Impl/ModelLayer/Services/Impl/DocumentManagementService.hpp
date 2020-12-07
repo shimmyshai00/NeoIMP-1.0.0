@@ -26,11 +26,6 @@
 
 #include <SDF/Impl/ModelLayer/Services/IDocumentManagementService.hpp>
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
-
-#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
-#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
-
 #include <fruit/fruit.h>
 
 namespace SDF::Impl {

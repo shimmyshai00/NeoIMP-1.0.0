@@ -24,15 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/ImageTypes.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-namespace SDF::Impl::MemoryLayer {
-  class IImageRepositoryAccessor {
-  public:
-    virtual ~IImageRepositoryAccessor() = default;
-    virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
-  };
+namespace SDF::Impl {
+  namespace ModelLayer::Services::Impl::DomainObjects::Impl {
+    class ImageVariant;
+  }
+  
+  namespace MemoryLayer {
+    class IImageRepositoryAccessor {
+    public:
+      virtual ~IImageRepositoryAccessor() = default;
+      virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
+    };
+  }
 }
 
 #endif
