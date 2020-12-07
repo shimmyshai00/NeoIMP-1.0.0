@@ -24,7 +24,6 @@
 #include <NewDocumentController.hpp>
 
 #include <ModelLayer/Services/IDocumentManagementService.hpp>
-
 #include <View/IViewManager.hpp>
 #include <View/INewDocumentParamsView.hpp>
 

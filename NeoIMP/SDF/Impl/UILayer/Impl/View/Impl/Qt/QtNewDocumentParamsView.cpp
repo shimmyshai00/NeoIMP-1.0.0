@@ -23,7 +23,6 @@
 
 #include <QtNewDocumentParamsView.hpp>
 
-#include <IQtView.hpp>
 #include <INewDocumentParamsReceiver.hpp>
 
 #include <Dialogs/NewDocumentDialog.hpp>
