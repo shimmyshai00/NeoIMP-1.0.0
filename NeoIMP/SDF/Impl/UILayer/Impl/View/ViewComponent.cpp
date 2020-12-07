@@ -23,10 +23,6 @@
 
 #include <ViewComponent.hpp>
 
-#include <IViewManager.hpp>
-#include <IApplicationView.hpp>
-#include <INewDocumentParamsView.hpp>
-
 #include <Impl/Qt/QtViewManager.hpp>
 #include <Impl/Qt/QtApplicationView.hpp>
 #include <Impl/Qt/QtNewDocumentParamsView.hpp>

@@ -22,7 +22,6 @@
  */
 
 #include <SDF/ApplicationComponent.hpp>
-#include <SDF/IApplication.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>

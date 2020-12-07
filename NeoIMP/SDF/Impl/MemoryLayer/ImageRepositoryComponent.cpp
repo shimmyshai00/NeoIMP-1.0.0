@@ -23,7 +23,6 @@
 
 #include <ImageRepositoryComponent.hpp>
 
-#include <IImageRepository.hpp>
 #include <Impl/ImageRepository.hpp>
 
 namespace SDF::Impl::MemoryLayer {

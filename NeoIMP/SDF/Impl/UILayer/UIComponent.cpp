@@ -23,17 +23,10 @@
 
 #include <UIComponent.hpp>
 
-#include <ModelLayer/Services/ServiceComponent.hpp>
-
-#include <ModelLayer/Services/IDocumentManagementService.hpp>
-
-#include <IUI.hpp>
-#include <Impl/View/IViewManager.hpp>
-
 #include <Impl/MainUI.hpp>
+
 #include <Impl/View/ViewComponent.hpp>
-#include <Impl/Controller/ApplicationController.hpp>
-#include <Impl/Controller/NewDocumentController.hpp>
+#include <ModelLayer/Services/ServiceComponent.hpp>
 
 namespace SDF::Impl::UILayer {
   fruit::Component<IUI> getUIComponent() {

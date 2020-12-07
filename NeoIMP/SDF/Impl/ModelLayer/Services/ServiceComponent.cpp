@@ -22,12 +22,10 @@
  */
 
 #include <ServiceComponent.hpp>
-#include <MemoryLayer/ImageRepositoryComponent.hpp>
-
-#include <MemoryLayer/IImageRepository.hpp>
-#include <IDocumentManagementService.hpp>
 
 #include <Impl/DocumentManagementService.hpp>
+
+#include <MemoryLayer/ImageRepositoryComponent.hpp>
 
 namespace SDF::Impl::ModelLayer::Services {
   DIComponent getServiceComponent() {

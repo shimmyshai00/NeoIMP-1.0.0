@@ -23,7 +23,6 @@
 
 #include <ApplicationComponent.hpp>
 
-#include <IApplication.hpp>
 #include <Impl/Qt/QtApplication.hpp>
 
 namespace SDF {
