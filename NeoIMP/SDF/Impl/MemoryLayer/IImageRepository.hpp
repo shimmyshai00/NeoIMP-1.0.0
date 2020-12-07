@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_HANDLE_HPP
-#define SDF_IMPL_MODELLAYER_HANDLE_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
+#define SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines an opaque handle type used to reference model-layer objects through services. Each handle uniquely
- *          references a particular domain object.
+ * FILE:    IImageRepository.hpp
+ * PURPOSE: Definition of the image repository interface template for the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,8 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::ModelLayer {
-  typedef int Handle;
+#include <SDF/Impl/ModelLayer/Services/Impl/Repositories/IImageRepository.hpp>
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
+#include <string>
+
+namespace SDF::Impl::MemoryLayer {
+  template<class ImageType>
+  class IImageRepository : public ModelLayer::Services::Impl::Repositories::IImageRepository<ImageType> {
+  public:
+    virtual ~IImageRepository() = default;
+
+    virtual ModelLayer::Handle addNewImage(std::string uri, std::unique_ptr<ImageType> image) = 0;
+    virtual void persistImage(ModelLayer::Handle handle) = 0;
+
+    virtual ImageType *access(ModelLayer::Handle handle) = 0;
+  };
 }
 
 #endif

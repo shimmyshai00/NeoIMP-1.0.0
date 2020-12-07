@@ -23,38 +23,38 @@
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Color {
   template<class ChannelType>
-  RGBColor::RGBColor() {}
+  RGBColor<ChannelType>::RGBColor() {}
 
   template<class ChannelType>
-  RGBColor::RGBColor(ChannelType r, ChannelType g, ChannelType b) : m_r(r), m_g(g), m_b(b) {}
+  RGBColor<ChannelType>::RGBColor(ChannelType r, ChannelType g, ChannelType b) : m_r(r), m_g(g), m_b(b) {}
 
   template<class ChannelType>
-  ChannelType RGBColor::getR() const {
+  ChannelType RGBColor<ChannelType>::getR() const {
     return m_r;
   }
 
   template<class ChannelType>
-  ChannelType RGBColor::getG() const {
+  ChannelType RGBColor<ChannelType>::getG() const {
     return m_g;
   }
 
   template<class ChannelType>
-  ChannelType RGBColor::getB() const {
+  ChannelType RGBColor<ChannelType>::getB() const {
     return m_b;
   }
 
   template<class ChannelType>
-  void RGBColor::setR(ChannelType r) {
+  void RGBColor<ChannelType>::setR(ChannelType r) {
     return r;
   }
 
   template<class ChannelType>
-  void RGBColor::setG(ChannelType g) {
+  void RGBColor<ChannelType>::setG(ChannelType g) {
     return g;
   }
 
   template<class ChannelType>
-  void RGBColor::setB(ChannelType b) {
+  void RGBColor<ChannelType>::setB(ChannelType b) {
     return b;
   }
 }

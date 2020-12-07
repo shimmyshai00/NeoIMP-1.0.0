@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_HANDLE_HPP
-#define SDF_IMPL_MODELLAYER_HANDLE_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_IMPL_HANDLEGENERATOR_HPP
+#define SDF_IMPL_MEMORYLAYER_IMPL_HANDLEGENERATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines an opaque handle type used to reference model-layer objects through services. Each handle uniquely
- *          references a particular domain object.
+ * FILE:    HandleGenerator.hpp
+ * PURPOSE: An object to generate unique domain object handles.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,8 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::ModelLayer {
-  typedef int Handle;
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
+namespace SDF::Impl::MemoryLayer::Impl {
+  class HandleGenerator {
+  private:
+    HandleGenerator();
+  public:
+    ModelLayer::Handle getNextHandle();
+
+    // Singleton implementation.
+    HandleGenerator *inst() {
+      static std::unique_ptr<HandleGenerator> instPtr(new HandleGenerator());
+      return instPtr.get();
+    }
+  private:
+    ModelLayer::Handle m_nextHandle;
+  };
 }
 
 #endif
