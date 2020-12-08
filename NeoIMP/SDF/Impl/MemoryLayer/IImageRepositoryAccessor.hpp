@@ -27,15 +27,15 @@
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
 namespace SDF::Impl {
-  namespace ModelLayer::Services::Impl::DomainObjects::Impl {
-    class ImageVariant;
+  namespace ModelLayer::Services::Impl::DomainObjects::Image {
+    class AbstractImage;
   }
-  
+
   namespace MemoryLayer {
     class IImageRepositoryAccessor {
     public:
       virtual ~IImageRepositoryAccessor() = default;
-      virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
+      virtual ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle) = 0;
     };
   }
 }

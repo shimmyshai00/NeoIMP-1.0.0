@@ -24,6 +24,8 @@
 #include <UIComponent.hpp>
 
 #include <Impl/MainUI.hpp>
+#include <Impl/Controller/ApplicationController.hpp>
+#include <Impl/Controller/NewDocumentController.hpp>
 
 #include <Impl/View/ViewComponent.hpp>
 #include <ModelLayer/Services/ServiceComponent.hpp>

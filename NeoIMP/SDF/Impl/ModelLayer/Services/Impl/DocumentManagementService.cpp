@@ -24,7 +24,7 @@
 #include <DocumentManagementService.hpp>
 
 #include <MemoryLayer/IImageRepository.hpp>
-#include <DomainObjects/Image/ImageTypes.hpp>
+#include <DomainObjects/Image/AbstractImage.hpp>
 
 namespace SDF::Impl::ModelLayer::Services::Impl {
   DocumentManagementService::DocumentManagementService(MemoryLayer::IImageRepository *imageRepository)
@@ -35,6 +35,7 @@ namespace SDF::Impl::ModelLayer::Services::Impl {
     int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
     Color::ColorModel colorModel, Color::BitDepth bitDepth
   ) {
+    /*
     using namespace ModelLayer::Color;
     using namespace DomainObjects::Image;
 
@@ -75,5 +76,8 @@ namespace SDF::Impl::ModelLayer::Services::Impl {
     }
 
     return m_imageRepository->addNewImage("", std::move(newImage));
+    */
+
+    return 0;
   }
 }

@@ -32,7 +32,7 @@
 
 namespace SDF::Impl {
   namespace ModelLayer::Services::Impl::DomainObjects::Image {
-    class ImageVariant;
+    class AbstractImage;
   }
 
   namespace MemoryLayer {
@@ -41,11 +41,11 @@ namespace SDF::Impl {
       virtual ~IImageRepository() = default;
 
       virtual ModelLayer::Handle addNewImage(
-        std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
+        std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage> image
       ) = 0;
       virtual void persistImage(ModelLayer::Handle handle) = 0;
 
-      virtual ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle) = 0;
+      virtual ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle) = 0;
     };
   }
 }

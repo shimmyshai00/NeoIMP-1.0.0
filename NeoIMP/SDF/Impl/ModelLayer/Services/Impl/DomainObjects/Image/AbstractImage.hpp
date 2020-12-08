@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_LAYER_HPP
-#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_LAYER_HPP
+#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_ABSTRACTIMAGE_HPP
+#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_ABSTRACTIMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Layer.hpp
- * PURPOSE: Definition of the image layer template.
+ * FILE:    AbstractImage.hpp
+ * PURPOSE: The abstract common base interface for the image domain object type.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Coord.hpp>
-
-#include <memory>
+#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
+#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
-  template<class T>
-  class Raster;
-  
-  template<class PixelType, class AlphaType>
-  class Layer {
+  class AbstractImage {
   public:
-    Layer(int width, int height);
+    virtual ~AbstractImage() = default;
 
-    int getWidth() const;
-    int getHeight() const;
+    virtual std::size_t getImageWidth() const = 0;
+    virtual std::size_t getImageHeight() const = 0;
+    virtual float getImageResolutionPpi() const = 0;
 
-    AlphaType getAlphaAt(Math::Coord<int> pos) const;
-    PixelType getPixelAt(Math::Coord<int> pos) const;
+    virtual ModelLayer::Color::ColorModel getColorModel() const = 0;
+    virtual ModelLayer::Color::BitDepth getBitDepth() const = 0;
 
-    void setAlphaAt(Math::Coord<int> pos, AlphaType newValue);
-    void setPixelAt(Math::Coord<int> pos, PixelType newValue);
-  private:
-    std::unique_ptr<Raster<AlphaType>> m_alphaChannel;
-    std::unique_ptr<Raster<PixelType>> m_imageRaster;
+    virtual std::size_t getNumImageLayers() const = 0;
+
+    virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
+    virtual void deleteLayer(std::size_t layerNum) = 0;
   };
 }
-
-#include "SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Layer.tpp"
 
 #endif

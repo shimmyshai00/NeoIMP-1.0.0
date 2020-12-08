@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/MemoryLayer/IImageRepository.hpp>
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/AbstractImage.hpp>
 
 #include <map>
 #include <string>
@@ -32,22 +33,24 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::MemoryLayer::Impl {
-  class ImageRepository : public MemoryLayer::IImageRepository {
-  public:
-    INJECT(ImageRepository());
+namespace SDF::Impl {
+  namespace MemoryLayer::Impl {
+    class ImageRepository : public MemoryLayer::IImageRepository {
+    public:
+      INJECT(ImageRepository());
 
-    ModelLayer::Handle addNewImage(
-      std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant> image
-    );
-    void persistImage(ModelLayer::Handle handle);
+      ModelLayer::Handle addNewImage(
+        std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage> image
+      );
+      void persistImage(ModelLayer::Handle handle);
 
-    ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant *access(ModelLayer::Handle handle);
-  private:
-    std::map<ModelLayer::Handle, std::string> m_uriStore;
-    std::map<ModelLayer::Handle, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::ImageVariant>>
-      m_imageStore;
-  };
+      ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle);
+    private:
+      std::map<ModelLayer::Handle, std::string> m_uriStore;
+      std::map<ModelLayer::Handle, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage>>
+        m_imageStore;
+    };
+  }
 }
 
 #endif
