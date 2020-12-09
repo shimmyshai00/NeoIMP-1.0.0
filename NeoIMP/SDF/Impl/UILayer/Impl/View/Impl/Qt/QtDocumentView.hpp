@@ -27,16 +27,19 @@
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
 #include <QPointer>
-#include <QWidget>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  namespace CustomWidgets {
+    class DocumentWidget;
+  }
+  
   class QtDocumentView : public IDocumentView {
   public:
-    QtDocumentView();
+    QtDocumentView(CustomWidgets::DocumentWidget *documentWidget);
   private:
-    QPointer<QWidget> m_documentWidget;
+    QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
   };
 }
 

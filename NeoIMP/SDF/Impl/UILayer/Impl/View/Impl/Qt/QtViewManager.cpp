@@ -3,7 +3,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ViewManager.cpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * PURPOSE: The view manager for Qt-based MVC views. This supplies the views with widgets and makes sure the widgets
+ *          are properly linked together.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -33,6 +34,7 @@
 
 #include <Windows/MainWindow.hpp>
 #include <Dialogs/NewDocumentDialog.hpp>
+#include <CustomWidgets/DocumentWidget.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtViewManager::QtViewManager()
@@ -53,8 +55,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   }
 
   std::unique_ptr<IDocumentView> QtViewManager::createDocumentView(ModelLayer::Handle handle) {
-    std::unique_ptr<QtDocumentView> rv(new QtDocumentView());
+    CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
+    m_mainWindow->addDocumentTab("Untitled", documentWidget);
 
+    std::unique_ptr<QtDocumentView> rv(new QtDocumentView(documentWidget));
     return std::move(rv);
   }
 }

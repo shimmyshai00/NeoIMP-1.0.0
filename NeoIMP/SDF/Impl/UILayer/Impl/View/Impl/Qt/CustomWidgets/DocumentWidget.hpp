@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_DOCUMENTWIDGET_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_DOCUMENTWIDGET_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtDocumentView.cpp
- * PURPOSE: The Qt-based document view implementation.
+ * FILE:    DocumentWidget.hpp
+ * PURPOSE: Headers for a custom Qt UI widget for displaying and editing a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtDocumentView.hpp>
+#include <QWidget>
 
-#include <CustomWidgets/DocumentWidget.hpp>
-
-#include <iostream>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtDocumentView::QtDocumentView(CustomWidgets::DocumentWidget *documentWidget)
-    : m_documentWidget(documentWidget)
-  {}
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
+  class DocumentWidget : public QWidget {
+    Q_OBJECT
+  public:
+    DocumentWidget(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
+    ~DocumentWidget() {}
+  };
 }
+
+#endif
