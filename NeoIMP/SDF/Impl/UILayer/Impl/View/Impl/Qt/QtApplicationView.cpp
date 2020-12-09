@@ -27,6 +27,7 @@
 #include <IExitCommandObserver.hpp>
 
 #include <Windows/MainWindow.hpp>
+#include <QtDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtApplicationView::QtApplicationView() : m_exitCommandObserver(nullptr), m_newDocumentCommandObserver(nullptr) {}
@@ -71,5 +72,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void QtApplicationView::setExitCommandObserver(IExitCommandObserver *observer) {
     m_exitCommandObserver = observer;
+  }
+
+  void QtApplicationView::addDocumentView(QtDocumentView *documentView) {
+    m_mainWindow->addDocumentTab("Untitled", documentView->getQWidget().data());
   }
 }

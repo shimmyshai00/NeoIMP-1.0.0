@@ -25,14 +25,21 @@
 
 #include <IApplicationView.hpp>
 #include <INewDocumentParamsView.hpp>
+#include <IDocumentView.hpp>
 
 #include <QtApplicationView.hpp>
 #include <QtNewDocumentParamsView.hpp>
+#include <QtDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtViewManager::QtViewManager(QtApplicationView *applicationView, QtNewDocumentParamsView *newDocumentParamsView)
+  QtViewManager::QtViewManager(
+    QtApplicationView *applicationView,
+    QtNewDocumentParamsView *newDocumentParamsView,
+    std::function<std::unique_ptr<QtDocumentView>(ModelLayer::Handle)> documentViewFactory
+  )
   : m_applicationView(applicationView),
-    m_newDocumentParamsView(newDocumentParamsView)
+    m_newDocumentParamsView(newDocumentParamsView),
+    m_documentViewFactory(documentViewFactory)
   {
     m_newDocumentParamsView->setContextView(m_applicationView);
   }
@@ -43,5 +50,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   INewDocumentParamsView *QtViewManager::getNewDocumentParamsView() {
     return m_newDocumentParamsView;
+  }
+
+  std::unique_ptr<IDocumentView> QtViewManager::createDocumentView(ModelLayer::Handle handle) {
+    std::unique_ptr<QtDocumentView> rv(m_documentViewFactory(handle));
+    rv->setContextView(m_applicationView);
+
+    return std::move(rv);
   }
 }

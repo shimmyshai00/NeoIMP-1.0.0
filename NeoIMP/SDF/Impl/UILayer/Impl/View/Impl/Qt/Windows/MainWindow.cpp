@@ -24,6 +24,8 @@
 #include <MainWindow.hpp>
 #include "../QtResources/ui_MainWindow.h"
 
+#include <QSizePolicy>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
   MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -36,4 +38,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
   }
 
   MainWindow::~MainWindow() {}
+
+  void MainWindow::addDocumentTab(QString title, QWidget *pageWidget) {
+    if(!m_documentTabs) {
+      m_documentTabs = new QTabWidget();
+      m_documentTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+      m_ui->tabLayout->addWidget(m_documentTabs, 0, 0);
+      m_documentTabs->show();
+    }
+
+    m_documentTabs->addTab(pageWidget, title);
+  }
 }

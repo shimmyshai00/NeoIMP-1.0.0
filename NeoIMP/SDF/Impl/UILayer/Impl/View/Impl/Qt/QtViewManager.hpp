@@ -27,24 +27,34 @@
 #include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
 
 #include <fruit/fruit.h>
+#include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView;
   class INewDocumentParamsView;
+  class IDocumentView;
 
   namespace Impl::Qt {
     class QtApplicationView;
     class QtNewDocumentParamsView;
+    class QtDocumentView;
 
     class QtViewManager : public IViewManager {
     public:
-      INJECT(QtViewManager(QtApplicationView *applicationView, QtNewDocumentParamsView *newDocumentParamsView));
+      INJECT(QtViewManager(
+        QtApplicationView *applicationView,
+        QtNewDocumentParamsView *newDocumentParamsView,
+        std::function<std::unique_ptr<QtDocumentView>(ModelLayer::Handle)> documentViewFactory
+      ));
 
       IApplicationView *getApplicationView();
       INewDocumentParamsView *getNewDocumentParamsView();
+      std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle);
     private:
       QtApplicationView *m_applicationView;
       QtNewDocumentParamsView *m_newDocumentParamsView;
+
+      std::function<std::unique_ptr<QtDocumentView>(ModelLayer::Handle)> m_documentViewFactory;
     };
   }
 }

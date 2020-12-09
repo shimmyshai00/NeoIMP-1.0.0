@@ -57,6 +57,7 @@ namespace SDF::Impl {
           ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
         );
       private:
+        View::IViewManager *m_viewManager;
         View::INewDocumentParamsView *m_newDocumentParamsView;
 
         ModelLayer::Services::IDocumentManagementService *m_documentManagementService;

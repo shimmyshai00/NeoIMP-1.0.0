@@ -24,9 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
+#include <memory>
+
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView;
   class INewDocumentParamsView;
+  class IDocumentView;
 
   class IViewManager {
   public:
@@ -34,6 +39,7 @@ namespace SDF::Impl::UILayer::Impl::View {
 
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentParamsView *getNewDocumentParamsView() = 0;
+    virtual std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle) = 0;
   };
 }
 

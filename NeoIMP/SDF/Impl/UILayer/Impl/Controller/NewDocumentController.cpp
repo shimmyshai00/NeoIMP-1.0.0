@@ -24,8 +24,11 @@
 #include <NewDocumentController.hpp>
 
 #include <ModelLayer/Services/IDocumentManagementService.hpp>
+#include <ModelLayer/Handle.hpp>
+
 #include <View/IViewManager.hpp>
 #include <View/INewDocumentParamsView.hpp>
+#include <View/IDocumentView.hpp>
 
 #include <iostream>
 
@@ -34,7 +37,8 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     View::IViewManager *viewManager,
     ModelLayer::Services::IDocumentManagementService *documentManagementService
   )
-    : m_newDocumentParamsView(viewManager->getNewDocumentParamsView()),
+    : m_viewManager(viewManager),
+      m_newDocumentParamsView(viewManager->getNewDocumentParamsView()),
       m_documentManagementService(documentManagementService)
   {}
 
@@ -46,9 +50,11 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
     ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
   ) {
-    m_documentManagementService->createDocument(
+    ModelLayer::Handle handle(m_documentManagementService->createDocument(
       documentWidthPx, documentHeightPx, documentResolutionPpi,
       colorModel, bitDepth
-    );
+    ));
+
+    m_viewManager->createDocumentView(handle);
   }
 }

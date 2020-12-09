@@ -37,6 +37,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
+  class QtDocumentView;
+
   class QtApplicationView : public IQtView, public IApplicationView {
   public:
     INJECT(QtApplicationView());
@@ -49,6 +51,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
     void setNewDocumentCommandObserver(INewDocumentCommandObserver *observer);
     void setExitCommandObserver(IExitCommandObserver *observer);
+
+    void addDocumentView(QtDocumentView *documentView);
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
 

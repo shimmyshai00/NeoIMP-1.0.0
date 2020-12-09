@@ -28,6 +28,8 @@
 #include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  class IImageVisitor;
+  
   class AbstractImage {
   public:
     virtual ~AbstractImage() = default;
@@ -43,6 +45,8 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
 
     virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
     virtual void deleteLayer(std::size_t layerNum) = 0;
+
+    virtual void visitLayer(std::size_t layerNum, IImageVisitor *visitor) = 0;
   };
 }
 
