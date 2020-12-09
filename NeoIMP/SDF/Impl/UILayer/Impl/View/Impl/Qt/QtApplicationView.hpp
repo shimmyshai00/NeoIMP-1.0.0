@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    QtApplicationView.hpp
- * PURPOSE: Headers for the Qt-based application view implementation.
+ * PURPOSE: Headers for the Qt-based application view implementation. This wraps the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
 #include <QWidget>
+#include <QMetaObject>
 
 #include <fruit/fruit.h>
 
@@ -37,24 +37,21 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class QtDocumentView;
-
-  class QtApplicationView : public IQtView, public IApplicationView {
+  class QtApplicationView : public IApplicationView {
   public:
-    INJECT(QtApplicationView());
-
-    QPointer<QWidget> getQWidget();
-    void setContextView(IQtView *contextView);
+    QtApplicationView(Windows::MainWindow *mainWindow);
+    ~QtApplicationView();
 
     void show();
     void close();
 
     void setNewDocumentCommandObserver(INewDocumentCommandObserver *observer);
     void setExitCommandObserver(IExitCommandObserver *observer);
-
-    void addDocumentView(QtDocumentView *documentView);
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
+
+    QMetaObject::Connection m_newDocumentCommandObserverConn;
+    QMetaObject::Connection m_exitCommandObserverConn;
 
     INewDocumentCommandObserver *m_newDocumentCommandObserver;
     IExitCommandObserver *m_exitCommandObserver;

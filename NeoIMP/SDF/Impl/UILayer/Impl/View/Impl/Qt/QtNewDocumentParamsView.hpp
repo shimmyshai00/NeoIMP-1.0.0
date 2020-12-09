@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentParamsView.hpp>
 
 #include <QPointer>
 #include <QWidget>
+#include <QMetaObject>
 
 #include <fruit/fruit.h>
 
@@ -40,17 +40,16 @@ namespace SDF::Impl::UILayer::Impl::View {
       class NewDocumentDialog;
     }
 
-    class QtNewDocumentParamsView : public IQtView, public INewDocumentParamsView {
+    class QtNewDocumentParamsView : public INewDocumentParamsView {
     public:
-      INJECT(QtNewDocumentParamsView());
-
-      QPointer<QWidget> getQWidget();
-      void setContextView(IQtView *contextView);
+      QtNewDocumentParamsView(Dialogs::NewDocumentDialog *newDocumentDialog);
+      ~QtNewDocumentParamsView();
 
       void getNewDocumentParams(INewDocumentParamsReceiver *recv);
     private:
       QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
-      IQtView *m_contextView;
+
+      QMetaObject::Connection m_newDocumentParamsReceiverConn;
     };
   }
 }

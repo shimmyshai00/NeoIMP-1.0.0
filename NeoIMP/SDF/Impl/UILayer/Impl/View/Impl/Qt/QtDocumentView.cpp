@@ -28,20 +28,4 @@
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtDocumentView::QtDocumentView() {}
-
-  QPointer<QWidget> QtDocumentView::getQWidget() {
-    if(!m_documentWidget) {
-      m_documentWidget = new QWidget();
-    }
-
-    return m_documentWidget;
-  }
-
-  void QtDocumentView::setContextView(IQtView *contextView) {
-    // can only work inside a QtApplicationView
-    QtApplicationView *applicationView(dynamic_cast<QtApplicationView *>(contextView));
-    if(applicationView != nullptr) {
-      applicationView->addDocumentView(this);
-    }
-  }
 }

@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
 #include <QPointer>
@@ -33,12 +32,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  class QtDocumentView : public IQtView, public IDocumentView {
+  class QtDocumentView : public IDocumentView {
   public:
     QtDocumentView();
-
-    QPointer<QWidget> getQWidget();
-    void setContextView(IQtView *contextView);
   private:
     QPointer<QWidget> m_documentWidget;
   };

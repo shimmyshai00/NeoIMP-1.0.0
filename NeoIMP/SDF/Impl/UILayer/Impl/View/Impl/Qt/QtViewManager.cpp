@@ -31,30 +31,29 @@
 #include <QtNewDocumentParamsView.hpp>
 #include <QtDocumentView.hpp>
 
+#include <Windows/MainWindow.hpp>
+#include <Dialogs/NewDocumentDialog.hpp>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtViewManager::QtViewManager(
-    QtApplicationView *applicationView,
-    QtNewDocumentParamsView *newDocumentParamsView,
-    std::function<std::unique_ptr<QtDocumentView>(ModelLayer::Handle)> documentViewFactory
-  )
-  : m_applicationView(applicationView),
-    m_newDocumentParamsView(newDocumentParamsView),
-    m_documentViewFactory(documentViewFactory)
-  {
-    m_newDocumentParamsView->setContextView(m_applicationView);
-  }
+  QtViewManager::QtViewManager()
+  : m_mainWindow(new Windows::MainWindow),
+    m_newDocumentDialog(new Dialogs::NewDocumentDialog),
+    m_applicationView(new QtApplicationView(m_mainWindow.get())),
+    m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get()))
+  {}
+
+  QtViewManager::~QtViewManager() {}
 
   IApplicationView *QtViewManager::getApplicationView() {
-    return m_applicationView;
+    return m_applicationView.get();
   }
 
   INewDocumentParamsView *QtViewManager::getNewDocumentParamsView() {
-    return m_newDocumentParamsView;
+    return m_newDocumentParamsView.get();
   }
 
   std::unique_ptr<IDocumentView> QtViewManager::createDocumentView(ModelLayer::Handle handle) {
-    std::unique_ptr<QtDocumentView> rv(m_documentViewFactory(handle));
-    rv->setContextView(m_applicationView);
+    std::unique_ptr<QtDocumentView> rv(new QtDocumentView());
 
     return std::move(rv);
   }

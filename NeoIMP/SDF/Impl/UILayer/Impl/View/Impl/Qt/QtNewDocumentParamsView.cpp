@@ -28,27 +28,16 @@
 #include <Dialogs/NewDocumentDialog.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtNewDocumentParamsView::QtNewDocumentParamsView() : m_contextView(nullptr) {}
+  QtNewDocumentParamsView::QtNewDocumentParamsView(Dialogs::NewDocumentDialog *newDocumentDialog)
+    : m_newDocumentDialog(newDocumentDialog)
+  {}
 
-  QPointer<QWidget> QtNewDocumentParamsView::getQWidget() {
-    return m_newDocumentDialog.data();
-  }
-
-  void QtNewDocumentParamsView::setContextView(IQtView *contextView) {
-    m_contextView = contextView;
+  QtNewDocumentParamsView::~QtNewDocumentParamsView() {
+    QObject::disconnect(m_newDocumentParamsReceiverConn);
   }
 
   void QtNewDocumentParamsView::getNewDocumentParams(INewDocumentParamsReceiver *recv) {
-    QWidget *m_dialogContext(nullptr);
-    if(m_contextView != nullptr) {
-      m_dialogContext = m_contextView->getQWidget();
-      if(m_dialogContext == nullptr) { // shouldn't happen but ...
-        m_dialogContext = m_newDocumentDialog;
-      }
-    }
-
-    m_newDocumentDialog = new Dialogs::NewDocumentDialog;
-    QWidget::connect(m_newDocumentDialog, &QDialog::accepted, m_dialogContext, [=]() {
+    m_newDocumentParamsReceiverConn = QObject::connect(m_newDocumentDialog, &QDialog::accepted, [=]() {
       m_newDocumentDialog->submit(recv);
     });
 

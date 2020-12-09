@@ -27,43 +27,37 @@
 #include <IExitCommandObserver.hpp>
 
 #include <Windows/MainWindow.hpp>
-#include <QtDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtApplicationView::QtApplicationView() : m_exitCommandObserver(nullptr), m_newDocumentCommandObserver(nullptr) {}
+  QtApplicationView::QtApplicationView(Windows::MainWindow *mainWindow)
+    : m_mainWindow(mainWindow),
+      m_exitCommandObserver(nullptr),
+      m_newDocumentCommandObserver(nullptr)
+  {
+    m_newDocumentCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
+      if(this->m_newDocumentCommandObserver != nullptr) {
+        this->m_newDocumentCommandObserver->onNewDocumentCommand();
+      }
+    });
 
-  QPointer<QWidget> QtApplicationView::getQWidget() {
-    return m_mainWindow.data();
+    m_exitCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
+      if(this->m_exitCommandObserver != nullptr) {
+        this->m_exitCommandObserver->onExitCommand();
+      }
+    });
   }
 
-  void QtApplicationView::setContextView(IQtView *contextView) {
-    // N/A for this top-level view.
+  QtApplicationView::~QtApplicationView() {
+    QObject::disconnect(m_newDocumentCommandObserverConn);
+    QObject::disconnect(m_exitCommandObserverConn);
   }
 
   void QtApplicationView::show() {
-    if(!m_mainWindow) {
-      m_mainWindow = new Windows::MainWindow();
-
-      QWidget::connect(m_mainWindow, &Windows::MainWindow::newClicked, m_mainWindow, [=]() {
-        if(this->m_newDocumentCommandObserver != nullptr) {
-          this->m_newDocumentCommandObserver->onNewDocumentCommand();
-        }
-      });
-
-      QWidget::connect(m_mainWindow, &Windows::MainWindow::exitClicked, m_mainWindow, [=]() {
-        if(this->m_exitCommandObserver != nullptr) {
-          this->m_exitCommandObserver->onExitCommand();
-        }
-      });
-    }
-
     m_mainWindow->show();
   }
 
   void QtApplicationView::close() {
-    if(m_mainWindow) {
-      m_mainWindow->close();
-    }
+    m_mainWindow->close();
   }
 
   void QtApplicationView::setNewDocumentCommandObserver(INewDocumentCommandObserver *observer) {
@@ -72,9 +66,5 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void QtApplicationView::setExitCommandObserver(IExitCommandObserver *observer) {
     m_exitCommandObserver = observer;
-  }
-
-  void QtApplicationView::addDocumentView(QtDocumentView *documentView) {
-    m_mainWindow->addDocumentTab("Untitled", documentView->getQWidget().data());
   }
 }

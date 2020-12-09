@@ -24,22 +24,10 @@
 #include <ViewComponent.hpp>
 
 #include <Impl/Qt/QtViewManager.hpp>
-#include <Impl/Qt/QtApplicationView.hpp>
-#include <Impl/Qt/QtNewDocumentParamsView.hpp>
-#include <Impl/Qt/QtDocumentView.hpp>
-
-#include <ModelLayer/Handle.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   fruit::Component<IViewManager> getViewComponent() {
     return fruit::createComponent()
-      .bind<IViewManager, Impl::Qt::QtViewManager>()
-      .bind<IApplicationView, Impl::Qt::QtApplicationView>()
-      .bind<INewDocumentParamsView, Impl::Qt::QtNewDocumentParamsView>()
-      .registerFactory<std::unique_ptr<Impl::Qt::QtDocumentView>(fruit::Assisted<ModelLayer::Handle>)>(
-        [](ModelLayer::Handle handle) {
-          return std::unique_ptr<Impl::Qt::QtDocumentView>(new Impl::Qt::QtDocumentView());
-        }
-      );
+      .bind<IViewManager, Impl::Qt::QtViewManager>();
   }
 }
