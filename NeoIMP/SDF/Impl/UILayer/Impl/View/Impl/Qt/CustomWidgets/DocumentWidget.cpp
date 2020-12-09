@@ -22,9 +22,24 @@
  */
 
 #include <DocumentWidget.hpp>
+#include <SubWidgets/DocumentRulerWidget.hpp>
+
+#include <QSizePolicy>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   DocumentWidget::DocumentWidget(QWidget *parent, ::Qt::WindowFlags f)
     : QWidget(parent, f)
-  {}
+  {
+    // The layout of this widget consists of two rulers on either side of the image display.
+    m_gridLayout = new QGridLayout(this);
+    m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
+    m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
+
+    m_documentEditorWidget = new QWidget(); // Placeholder / TBA
+    m_documentEditorWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+    m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
+    m_gridLayout->addWidget(m_verticalRuler, 1, 0);
+    m_gridLayout->addWidget(m_documentEditorWidget, 1, 1);
+  }
 }
