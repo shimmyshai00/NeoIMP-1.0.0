@@ -30,6 +30,9 @@ ADDENDUM (2020-12-09): Following a major rebuild, the program now also makes hea
 Google Fruit, a dependency injection framework for C++. You can get Fruit from its GitHub
 repository at https://github.com/google/fruit.
 
+ADDENDUM (2020-12-10): In addition to Fruit, Boost is now a required third-party component. You
+can get the latest version of Boost from https://www.boost.org.
+
 Coding
 ------
 
