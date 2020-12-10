@@ -13,19 +13,21 @@ NOTE: this is the ideal; the real thing might not 100% conform to these rules of
 
 * Indentation: Each indent should be 2 characters.
 
-* Brackets: Brackets should be on the same line as the specifier for the section they enclose.
+* Brackets: Brackets should be on the same line as the specifier for the section they enclose. The exception is when
+            we're dealing with class constructors with initializer lists not on the same line as the constructor: then,
+            the first bracket should be on its own line and indented same as the constructor signature.
 
 * Expressions: Infix operators (e.g. "=", "+", etc.) should be single-spaced apart from their operands, with the
                possible exception of the multiplication operator (*).
 
-* Namespaces: Namespaces are used extensively and should mirror the directory structure for the most part. The
-              exception is "include" directories which are used to separate the interface of a module - one should not
-              include the "include" part in the namespaces! To keep things manageable, when referencing an object from
-              a namespace in headers and function declarations, one should use the shortest identifier possible, and
-              when referencing it in function bodies, one should obtain it using "using". Do not put "using" in header
-              files.
+* Namespaces: Namespaces are used extensively and should mirror the directory structure for the most part.
+              Implementation details of modules should be put in separate "Impl" folders and namespace headings and
+              should generally not be accessed from outside those modules.
 
-* Includes: Likewise, paths-to-include-files should follow the same rules as (1) and (2) above.
+* Includes: Header include guidelines are that when including other headers of this program in a header, the full path
+            relative to the project root (e.g. "SDF/Impl/ModelLayer/...") should be employed. Moreover, headers should
+            not include other headers to get objects referenced only by pointer; these should be forward-declared
+            instead to reduce header dependencies.
 
 * Identifiers: Class names should begin with "C", interface names with "I", enums with "E" and structs with "S". Class,
                enum, etc. names should have all words first-letter capitalized (e.g. CSomeClass). Methods and variables
@@ -39,26 +41,28 @@ Program Design
 --------------
 
 The design of the code is intended to be such as to keep things modular and easily extensible. It is a standard "three
-tier" architecture divided into 3 layers, where the list below is organized to indicate that each layer can (and
+tier" architecture divided into 4 layers, where the list below is organized to indicate that each layer can (and
 usually, must) depend on the one mentioned immediately before it, but it should not depend on one two or more layers
-back.
+back. (NEW) In addition, the Model-View-Controller (MVC) triad should be followed, in that the UI layer should be
+segregated into View and Controller components, which are separate categories containing multiple objects, NOT single
+objects, with the former abstracting away the bits that depend on the particular third-party widget system used.
 
 For encapsulation purposes, each layer should consist of a number of modules, which in turn may consist of submodules.
 Every module and submodule has an interface and implementation packaged physically separate from each other: in
-particular, the interface files go in the module's "include" folder, while the implementation goes in a separate folder
-named "Impl", which also has a corresponding namespace hierarchy entry.
+particular, the implementation goes in a separate folder named "Impl", which also has a corresponding namespace
+hierarchy entry. Generally speaking, the "SOLID" rules are to be followed, though this is not necessarily applied
+religiously, at least the I and D parts, but those last two parts should be especially followed for inter-layer
+dependencies.
 
-CMake should also be used as a tool to enforce this encapsulation: in particular, each directory/namespace node that
-defines a new module or submodule should have its own CMakeLists.txt which defines it as a library, and should declare
-its include folder as PUBLIC, so that it is exported when compiling other modules dependent upon it, while the
-implementation files should be PRIVATE.
+Finally, the four layers are:
 
-Finally, the three layers are:
+* Persistence layer: This should contain all code related to saving and loading image files. This should expose in its
+                     public interface a set of "transfer objects" which are basically just structs that should be
+                     comprehensive enough to allow for the full transfer of image data but should not require
+                     restriction to a particular file format, as best as possible.
 
-* Data layer: This should contain all code related to saving and loading image files. This should expose in its public
-              interface a set of "transfer objects" which are basically just structs that should be comprehensive
-              enough to allow for the full transfer of image data but should not require restriction to a particular
-              file format, as best as possible.
+* Memory layer: This is a new layer that is meant to separate out the in-memory retention of multiple active image
+                documents. The in-memory document repository is defined in this layer.
 
 * Model (or "domain") layer: This should contain all the business logic, i.e. all code that does the "heavy lifting" of
                              image manipulation should go here. Each domain module (called a "model") should organize
@@ -72,7 +76,12 @@ Finally, the three layers are:
 * User interface layer: This layer is where that the GUI-related code, including the code to draw images on screen,
                         is & will be located. Currently this is implemented using Qt, but the point of this design is
                         that GUIs could be written for other widget systems as well (e.g. wxWidgets) with minimal to
-                        (ideally) no changes to the other layers.
+                        (ideally) no changes to the other layers. In line with the MVC pattern, the parts that
+                        correspond to windows and logical widget groups shown to the user are in the View submodule,
+                        and are constructed by an associated ViewManager. Views are passed by interface to the
+                        Controllers, which handle events generated thereby and pass responses back to them, and these
+                        interfaces should not expose any details of the widget framework thereto, though exposure of
+                        the broad layout of the GUI is acceptable if not necessary.
 
 Afterword
 ---------
@@ -83,3 +92,4 @@ above.
 
 ADD (2020 Aug 24): This document and the general layout have been considerably revised to hopefully make them neater.
 ADD (2020 Sep 4): Considerable revision of overall coding standard.
+ADD (2020 Dec 9): Coding standard revised again in light of second major rebuild of the program sources.

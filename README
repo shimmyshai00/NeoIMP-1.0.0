@@ -26,6 +26,10 @@ directory at the command line and then type
 and it should generate the needed build files. Then type "make", and an executable called "neoimp"
 should be generated in the current (i.e. "Build") directory for your viewing pleasure.
 
+ADDENDUM (2020-12-09): Following a major rebuild, the program now also makes heavy use of
+Google Fruit, a dependency injection framework for C++. You can get Fruit from its GitHub
+repository at https://github.com/google/fruit.
+
 Coding
 ------
 
