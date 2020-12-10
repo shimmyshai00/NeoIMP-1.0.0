@@ -147,7 +147,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
       int tickScreenPos(floor(screenSpaceOrigin + (i * minorTickScreenInterval)));
       int tickSize((i % m_numMinorTicksPerMajorTick == 0) ? majorTickHeight : minorTickHeight);
 
-      // Paint hte tick.
+      // Paint the tick.
       switch(m_orientation) {
         default:
         case ::Qt::Horizontal:

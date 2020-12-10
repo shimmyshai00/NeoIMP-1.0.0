@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_DOCUMENTWIDGET_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_DOCUMENTWIDGET_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_SUBWIDGETS_DOCUMENTEDITORWIDGET_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_CUSTOMWIDGETS_SUBWIDGETS_DOCUMENTEDITORWIDGET_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentWidget.hpp
- * PURPOSE: Headers for a custom Qt UI widget for displaying and editing a document.
+ * FILE:    DocumentEditorWidget.hpp
+ * PURPOSE: Headers for the custom Qt UI widget that actually displays an image document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,26 +25,13 @@
  */
 
 #include <QWidget>
-#include <QGridLayout>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
-  namespace SubWidgets {
-    class DocumentRulerWidget;
-    class DocumentEditorWidget;
-  }
-
-  class DocumentWidget : public QWidget {
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
+  class DocumentEditorWidget : public QWidget {
     Q_OBJECT
   public:
-    DocumentWidget(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
-    ~DocumentWidget() {}
-  private:
-    QGridLayout *m_gridLayout;
-
-    SubWidgets::DocumentRulerWidget *m_horizontalRuler;
-    SubWidgets::DocumentRulerWidget *m_verticalRuler;
-
-    SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
+    DocumentEditorWidget(QWidget *parent = nullptr);
+    ~DocumentEditorWidget() {}
   };
 }
 

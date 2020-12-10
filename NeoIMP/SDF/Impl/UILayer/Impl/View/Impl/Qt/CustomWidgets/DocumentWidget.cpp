@@ -23,6 +23,7 @@
 
 #include <DocumentWidget.hpp>
 #include <SubWidgets/DocumentRulerWidget.hpp>
+#include <SubWidgets/DocumentEditorWidget.hpp>
 
 #include <QSizePolicy>
 
@@ -35,7 +36,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
     m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
 
-    m_documentEditorWidget = new QWidget(); // Placeholder / TBA
+    m_documentEditorWidget = new SubWidgets::DocumentEditorWidget();
     m_documentEditorWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
