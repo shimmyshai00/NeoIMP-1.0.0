@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_GIL_GILLAYER_HPP
+#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_GIL_GILLAYER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageDataVisitor.cpp
- * PURPOSE: Implementation of the base class for visiting image data.
+ * FILE:    GilLayer.hpp
+ * PURPOSE: The layer glue template for the Boost GIL.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,9 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ImageDataVisitor.hpp>
-#include <Gil/GilImage.hpp>
+#include <cstdlib>
 
-namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
-  ImageDataVisitor::~ImageDataVisitor() {}
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
+  template<class GilAlphaType, class GilImageType>
+  class GilLayer {
+  public:
+    GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx);
+    ~GilLayer() {}
+
+    std::size_t getLayerWidth() const;
+    std::size_t getLayerHeight() const;
+
+    GilAlphaType &accessAlphaData();
+    GilImageType &accessImageData();
+  private:
+    GilAlphaType m_alpha;
+    GilImageType m_image;
+  };
 }
+
+#include "SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Gil/GilLayer.tpp"
+
+#endif

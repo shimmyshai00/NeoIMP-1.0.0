@@ -42,13 +42,15 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
     // Boost GIL-based visitation methods.
     void visitGilRegion(boost::gil::any_image_view<Gil::SupportedViewTypes> regionView) {}
 
-    void visitGilRegion(boost::gil::image_view<boost::gil::gray8_view_t> regionView) {}
-    void visitGilRegion(boost::gil::image_view<boost::gil::gray16_view_t> regionView) {}
-    void visitGilRegion(boost::gil::image_view<boost::gil::rgb8_view_t> regionView) {}
-    void visitGilRegion(boost::gil::image_view<boost::gil::rgb16_view_t> regionView) {}
-    void visitGilRegion(boost::gil::image_view<boost::gil::cmyk8_view_t> regionView) {}
-    void visitGilRegion(boost::gil::image_view<boost::gil::cmyk16_view_t> regionView) {}
+    void visitGilRegion(boost::gil::gray8_view_t regionView) {}
+    void visitGilRegion(boost::gil::gray16_view_t regionView) {}
+    void visitGilRegion(boost::gil::rgb8_view_t regionView) {}
+    void visitGilRegion(boost::gil::rgb16_view_t regionView) {}
+    void visitGilRegion(boost::gil::cmyk8_view_t regionView) {}
+    void visitGilRegion(boost::gil::cmyk16_view_t regionView) {}
   };
 }
 
+// Note: because we'd ideally like to use templates to describe pixel algorithms, but to instantiate the template we
+//       need to know the type, there is boilerplate
 #endif
