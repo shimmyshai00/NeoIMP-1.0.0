@@ -27,15 +27,18 @@
 #include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
 #include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
 
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Rect.hpp>
+
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
-  class IImageVisitor;
-  
+  class ImageDataVisitor;
+
   class AbstractImage {
   public:
     virtual ~AbstractImage() = default;
 
     virtual std::size_t getImageWidth() const = 0;
     virtual std::size_t getImageHeight() const = 0;
+    virtual Math::Rect<std::size_t> getImageRect() const = 0;
     virtual float getImageResolutionPpi() const = 0;
 
     virtual ModelLayer::Color::ColorModel getColorModel() const = 0;
@@ -46,7 +49,17 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
     virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
     virtual void deleteLayer(std::size_t layerNum) = 0;
 
-    virtual void visitLayer(std::size_t layerNum, IImageVisitor *visitor) = 0;
+    virtual void acceptLayerAlphaVisitor(
+      std::size_t layerNum,
+      Math::Rect<std::size_t> rect,
+      ImageDataVisitor *visitor
+    ) = 0;
+
+    virtual void acceptLayerPixelVisitor(
+      std::size_t layerNum,
+      Math::Rect<std::size_t> rect,
+      ImageDataVisitor *visitor
+    ) = 0;
   };
 }
 
