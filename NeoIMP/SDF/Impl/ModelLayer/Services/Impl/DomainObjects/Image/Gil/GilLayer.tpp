@@ -21,6 +21,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
+
+#include <boost/gil/point.hpp>
+
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
   GilLayer<GilAlphaType, GilImageType>::GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx)
@@ -39,12 +43,28 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
-  GilAlphaType &GilLayer<GilAlphaType, GilImageType>::accessAlphaData() {
-    return m_alpha;
+  void GilLayer<GilAlphaType, GilImageType>::acceptAlphaVisitor(
+    Math::Rect<std::size_t> rect,
+    ImageDataVisitor *visitor
+  ) {
+    typename GilAlphaType::view_t view(
+      m_alpha.xy_at(rect.getX1(), rect.getY1()),
+      boost::gil::point<std::ptrdiff_t>(rect.getWidth(), rect.getHeight())
+    );
+
+    visitor->visitGilRegion(view);
   }
 
   template<class GilAlphaType, class GilImageType>
-  GilImageType &GilLayer<GilAlphaType, GilImageType>::accessImageData() {
-    return m_image;
+  void GilLayer<GilAlphaType, GilImageType>::acceptPixelVisitor(
+    Math::Rect<std::size_t> rect,
+    ImageDataVisitor *visitor
+  ) {
+    typename GilImageType::view_t view(
+      m_alpha.xy_at(rect.getX1(), rect.getY1()),
+      boost::gil::point<std::ptrdiff_t>(rect.getWidth(), rect.getHeight())
+    );
+
+    visitor->visitGilRegion(view);
   }
 }

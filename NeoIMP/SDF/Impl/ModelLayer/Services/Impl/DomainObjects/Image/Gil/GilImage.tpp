@@ -101,7 +101,7 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
       throw ModelLayer::Exception::NonexistentLayerException(layerNum);
     }
 
-    // TBA
+    m_layers[layerNum]->acceptAlphaVisitor(rect, visitor);
   }
 
   template<class GilAlphaType, class GilImageType>
@@ -114,6 +114,6 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
       throw ModelLayer::Exception::NonexistentLayerException(layerNum);
     }
 
-    // TBA
+    m_layers[layerNum]->acceptPixelVisitor(rect, visitor);
   }
 }

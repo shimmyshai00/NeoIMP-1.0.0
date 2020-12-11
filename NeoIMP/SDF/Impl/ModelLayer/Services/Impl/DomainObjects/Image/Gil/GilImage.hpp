@@ -36,37 +36,39 @@
 #include <vector>
 #include <memory>
 
-namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
   class ImageDataVisitor;
-  
-  template<class GilAlphaType, class GilImageType>
-  class GilImage : public AbstractImage {
-  public:
-    GilImage(std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
-    ~GilImage();
 
-    std::size_t getImageWidth() const;
-    std::size_t getImageHeight() const;
-    Math::Rect<std::size_t> getImageRect() const;
-    float getImageResolutionPpi() const;
+  namespace Gil {
+    template<class GilAlphaType, class GilImageType>
+    class GilImage : public AbstractImage {
+    public:
+      GilImage(std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
+      ~GilImage();
 
-    ModelLayer::Color::ColorModel getColorModel() const;
-    ModelLayer::Color::BitDepth getBitDepth() const;
+      std::size_t getImageWidth() const;
+      std::size_t getImageHeight() const;
+      Math::Rect<std::size_t> getImageRect() const;
+      float getImageResolutionPpi() const;
 
-    std::size_t getNumImageLayers() const;
+      ModelLayer::Color::ColorModel getColorModel() const;
+      ModelLayer::Color::BitDepth getBitDepth() const;
 
-    void addNewLayer(std::size_t layerNumToInsertBefore);
-    void deleteLayer(std::size_t layerNum);
+      std::size_t getNumImageLayers() const;
 
-    void acceptLayerAlphaVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
-    void acceptLayerPixelVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
-  private:
-    std::size_t m_imageWidthPx;
-    std::size_t m_imageHeightPx;
-    float m_imageResolutionPpi;
+      void addNewLayer(std::size_t layerNumToInsertBefore);
+      void deleteLayer(std::size_t layerNum);
 
-    std::vector<std::unique_ptr<GilLayer<GilAlphaType, GilImageType>>> m_layers;
-  };
+      void acceptLayerAlphaVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
+      void acceptLayerPixelVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
+    private:
+      std::size_t m_imageWidthPx;
+      std::size_t m_imageHeightPx;
+      float m_imageResolutionPpi;
+
+      std::vector<std::unique_ptr<GilLayer<GilAlphaType, GilImageType>>> m_layers;
+    };
+  }
 }
 
 #include "SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Gil/GilImage.tpp"

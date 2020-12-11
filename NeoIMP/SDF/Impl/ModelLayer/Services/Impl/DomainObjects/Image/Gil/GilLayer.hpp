@@ -24,24 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Math/Rect.hpp>
+
 #include <cstdlib>
 
-namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
-  template<class GilAlphaType, class GilImageType>
-  class GilLayer {
-  public:
-    GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx);
-    ~GilLayer() {}
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  class ImageDataVisitor;
+  
+  namespace Gil {
+    template<class GilAlphaType, class GilImageType>
+    class GilLayer {
+    public:
+      GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx);
+      ~GilLayer() {}
 
-    std::size_t getLayerWidth() const;
-    std::size_t getLayerHeight() const;
+      std::size_t getLayerWidth() const;
+      std::size_t getLayerHeight() const;
 
-    GilAlphaType &accessAlphaData();
-    GilImageType &accessImageData();
-  private:
-    GilAlphaType m_alpha;
-    GilImageType m_image;
-  };
+      void acceptAlphaVisitor(Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
+      void acceptPixelVisitor(Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
+    private:
+      GilAlphaType m_alpha;
+      GilImageType m_image;
+    };
+  }
 }
 
 #include "SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/Gil/GilLayer.tpp"
