@@ -26,61 +26,79 @@
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::DisplayGenerator {
   Visitor::Visitor() {}
 
-  std::vector<unsigned int> &Visitor::accessRecoveredData() {
+  std::vector<unsigned char> &Visitor::accessRecoveredData() {
     return m_collectedData;
   }
 
   void Visitor::visitGilRegion(boost::gil::gray8_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 
   void Visitor::visitGilRegion(boost::gil::gray16_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 
   void Visitor::visitGilRegion(boost::gil::rgb8_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 
   void Visitor::visitGilRegion(boost::gil::rgb16_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 
   void Visitor::visitGilRegion(boost::gil::cmyk8_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 
   void Visitor::visitGilRegion(boost::gil::cmyk16_view_t regionView) {
-    m_collectedData.resize(regionView.size());
+    m_collectedData.resize(regionView.size() * 4);
 
-    std::vector<unsigned int>::iterator resultIt(m_collectedData.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++resultIt) {
-      (*resultIt) = 0xFFFFFFFF; // TBA
+    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
+      (*(resultIt    )) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // TBA
     }
   }
 }

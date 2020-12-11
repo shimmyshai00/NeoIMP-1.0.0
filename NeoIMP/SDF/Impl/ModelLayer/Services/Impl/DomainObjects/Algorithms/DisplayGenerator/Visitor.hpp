@@ -39,7 +39,7 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     // Access the recovered data. For the format, see below. The visitor owns this data, so it should not be discarded
     // until one is done using the data!
-    std::vector<unsigned int> &accessRecoveredData();
+    std::vector<unsigned char> &accessRecoveredData();
 
     // Visitation methods. For this algorithm, we have to process each pixel type separately, as each has its own
     // distinct conversion. We cannot just use a boost::gil::any_image_view.
@@ -57,7 +57,7 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
     // author does not have the money to purchase a monitor with a color depth surpassing 8 bits per channel (24 bits
     // total). Thus it would be impossible to debug properly. This is thus a large FIXME for any potential future
     // contributors who happen to have the relevant hardware.
-    std::vector<unsigned int> m_collectedData;
+    std::vector<unsigned char> m_collectedData;
   };
 }
 

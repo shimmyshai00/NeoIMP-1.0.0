@@ -25,17 +25,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/IImageDataSource.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <vector>
+#include <memory>
 
-namespace SDF::Impl::ModelLayer::Services {
-  class IImageRenderingService {
-  public:
-    virtual ~IImageRenderingService() = default;
+namespace SDF::Impl {
+  namespace UILayer {
+    class IImageDataSource;
+  }
 
-    virtual const std::vector<unsigned int> &renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) = 0;
-  };
+  namespace ModelLayer::Services {
+    class IImageRenderingService {
+    public:
+      virtual ~IImageRenderingService() = default;
+
+      virtual std::unique_ptr<UILayer::IImageDataSource> getDataSource(Handle imageHandle) = 0;
+    };
+  }
 }
 
 #endif

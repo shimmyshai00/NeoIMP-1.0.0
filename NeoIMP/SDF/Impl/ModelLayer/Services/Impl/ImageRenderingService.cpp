@@ -30,26 +30,40 @@
 #include <DomainObjects/Algorithms/DisplayGenerator/Visitor.hpp>
 #include <DomainObjects/Math/Rect.hpp>
 
+#include <UILayer/IImageDataSource.hpp>
+
 #include <ModelLayer/Exception/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Services::Impl {
-  ImageRenderingService::ImageRenderingService(MemoryLayer::IImageRepository *imageRepository)
-    : m_imageRepository(imageRepository),
-      m_visitor(std::make_unique<DomainObjects::Algorithms::DisplayGenerator::Visitor>())
-  {}
-
-  const std::vector<unsigned int> &ImageRenderingService::renderImageRegion(
-    Handle handle,
-    int x1, int y1, int x2, int y2
-  ) {
-    DomainObjects::Image::AbstractImage *image(m_imageRepository->access(handle));
-
-    // Visit the desired region.
-    if((x1 < 0) || (y1 < 0) || (x2 >= image->getImageWidth()) || (y2 >= image->getImageHeight())) {
-      throw ModelLayer::Exception::RectangleOutOfBoundsException(x1, y1, x2, y2);
+  // Helper class.
+  class ImageRenderer : public UILayer::IImageDataSource {
+  public:
+    ImageRenderer(MemoryLayer::IImageRepository *imageRepository, Handle handle)
+      : m_image(imageRepository->access(handle))
+    {
     }
 
-    image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor.get());
-    return m_visitor->accessRecoveredData();
+    const unsigned char *accessImageData(int x1, int y1, int x2, int y2) {
+      // Visit the desired region.
+      if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
+        throw ModelLayer::Exception::RectangleOutOfBoundsException(x1, y1, x2, y2);
+      }
+
+      m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), &m_visitor);
+      return &(m_visitor.accessRecoveredData()[0]);
+    }
+  private:
+    DomainObjects::Image::AbstractImage *m_image;
+    DomainObjects::Algorithms::DisplayGenerator::Visitor m_visitor;
+  };
+}
+
+namespace SDF::Impl::ModelLayer::Services::Impl {
+  ImageRenderingService::ImageRenderingService(MemoryLayer::IImageRepository *imageRepository)
+    : m_imageRepository(imageRepository)
+  {}
+
+  std::unique_ptr<UILayer::IImageDataSource> ImageRenderingService::getDataSource(Handle imageHandle) {
+    return std::make_unique<ImageRenderer>(m_imageRepository, imageHandle);
   }
 }

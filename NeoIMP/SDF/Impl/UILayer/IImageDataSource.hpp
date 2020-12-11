@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_IMAGERENDERINGSERVICE_HPP
-#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_IMAGERENDERINGSERVICE_HPP
+#ifndef SDF_IMPL_UILAYER_IIMAGEDATASOURCE_HPP
+#define SDF_IMPL_UILAYER_IIMAGEDATASOURCE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRenderingService.hpp
- * PURPOSE: Headers for the UI image rendering service implementation.
+ * FILE:    IImageDataSource.hpp
+ * PURPOSE: Headers for image data sources to be implemented by the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,27 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Services/IImageRenderingService.hpp>
+namespace SDF::Impl::UILayer {
+  class IImageDataSource {
+  public:
+    virtual ~IImageDataSource() = default;
 
-#include <fruit/fruit.h>
-
-#include <memory>
-
-namespace SDF::Impl {
-  namespace MemoryLayer {
-    class IImageRepository;
-  }
-
-  namespace ModelLayer::Services::Impl {
-    class ImageRenderingService : public IImageRenderingService {
-    public:
-      INJECT(ImageRenderingService(MemoryLayer::IImageRepository *imageRepository));
-
-      std::unique_ptr<UILayer::IImageDataSource> getDataSource(Handle imageHandle);
-    private:
-      MemoryLayer::IImageRepository *m_imageRepository;
-    };
-  }
+    // Right now, expects to receive RGB32 format pixels only. This should get a pointer to a region buffer describing
+    // the given rectangular region.
+    virtual const unsigned char *accessImageData(int x1, int y1, int x2, int y2) = 0;
+  };
 }
 
 #endif
