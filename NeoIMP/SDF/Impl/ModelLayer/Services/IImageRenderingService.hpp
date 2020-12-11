@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_MODELLAYER_EXCEPTION_EXCEPTIONS_HPP
-#define SDF_IMPL_MODELLAYER_EXCEPTION_EXCEPTIONS_HPP
+#ifndef SDF_IMPL_MODELLAYER_SERVICES_IIMAGERENDERINGSERVICE_HPP
+#define SDF_IMPL_MODELLAYER_SERVICES_IIMAGERENDERINGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Exceptions.hpp
- * PURPOSE: The exceptions that can be thrown from the model layer.
+ * FILE:    IImageRenderingService.hpp
+ * PURPOSE: Defines an interface for the MVC service for rendering parts of image documents so they can be displayed
+ *          by the UI.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +25,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Exception/Exception.hpp>
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-namespace SDF::Impl::ModelLayer::Exception {
-  struct NonexistentLayerException : public SDF::Exception::Exception {
-    NonexistentLayerException(std::size_t layerNum)
-      : Exception("Tried to access layer number %d, which does not exist in this image.", layerNum)
-    {}
-  };
+#include <vector>
 
-  struct RectangleOutOfBoundsException : public SDF::Exception::Exception {
-    RectangleOutOfBoundsException(int x1, int y1, int x2, int y2)
-      : Exception(
-          "Tried to request access to an image region (%d, %d) - (%d, %d) that goes out of bounds",
-          x1, y1, x2, y2
-        )
-    {}
+namespace SDF::Impl::ModelLayer::Services {
+  class IImageRenderingService {
+  public:
+    virtual ~IImageRenderingService() = default;
+
+    virtual const std::vector<unsigned int> &renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) = 0;
   };
 }
 
