@@ -35,7 +35,9 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
     : m_imageWidthPx(imageWidthPx),
       m_imageHeightPx(imageHeightPx),
       m_imageResolutionPpi(imageResolutionPpi)
-  {}
+  {
+    addNewLayer(0);
+  }
 
   template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::~GilImage() {}
@@ -88,7 +90,7 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
       throw ModelLayer::Exception::NonexistentLayerException(layerNum);
     }
 
-    m_layers.erase(layerNum);
+    //m_layers.erase(layerNum);
   }
 
   template<class GilAlphaType, class GilImageType>

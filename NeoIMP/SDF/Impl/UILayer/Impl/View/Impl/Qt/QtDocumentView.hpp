@@ -26,21 +26,43 @@
 
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
 #include <QPointer>
 
 #include <fruit/fruit.h>
+#include <memory>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace CustomWidgets {
-    class DocumentWidget;
+namespace SDF::Impl {
+  namespace ModelLayer::Services {
+    class IImageRenderingService;
   }
-  
-  class QtDocumentView : public IDocumentView {
-  public:
-    QtDocumentView(CustomWidgets::DocumentWidget *documentWidget);
-  private:
-    QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
-  };
+
+  namespace UILayer {
+    class IImageDataSource;
+
+    namespace Impl::View::Impl::Qt {
+      namespace CustomWidgets {
+        class DocumentWidget;
+      }
+
+      class QtDocumentView : public IDocumentView {
+      public:
+        QtDocumentView(
+          ModelLayer::Services::IImageRenderingService *imageRenderingService,
+          CustomWidgets::DocumentWidget *documentWidget
+        );
+
+        void showDocument(ModelLayer::Handle handle);
+      private:
+        ModelLayer::Services::IImageRenderingService *m_imageRenderingService;
+
+        QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
+
+        std::unique_ptr<IImageDataSource> m_imageDataSource;
+      };
+    }
+  }
 }
 
 #endif

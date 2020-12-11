@@ -29,39 +29,47 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentParamsView;
-  class IDocumentView;
+namespace SDF::Impl {
+  namespace ModelLayer::Services {
+    class IImageRenderingService;
+  }
 
-  namespace Impl::Qt {
-    namespace Windows {
-      class MainWindow;
+  namespace UILayer::Impl::View {
+    class IApplicationView;
+    class INewDocumentParamsView;
+    class IDocumentView;
+
+    namespace Impl::Qt {
+      namespace Windows {
+        class MainWindow;
+      }
+
+      namespace Dialogs {
+        class NewDocumentDialog;
+      }
+
+      class QtApplicationView;
+      class QtNewDocumentParamsView;
+      class QtDocumentView;
+
+      class QtViewManager : public IViewManager {
+      public:
+        INJECT(QtViewManager(ModelLayer::Services::IImageRenderingService *imageRenderingService));
+        ~QtViewManager();
+
+        IApplicationView *getApplicationView();
+        INewDocumentParamsView *getNewDocumentParamsView();
+        std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle);
+      private:
+        ModelLayer::Services::IImageRenderingService *m_imageRenderingService;
+        
+        std::unique_ptr<Windows::MainWindow> m_mainWindow;
+        std::unique_ptr<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+
+        std::unique_ptr<QtApplicationView> m_applicationView;
+        std::unique_ptr<QtNewDocumentParamsView> m_newDocumentParamsView;
+      };
     }
-
-    namespace Dialogs {
-      class NewDocumentDialog;
-    }
-
-    class QtApplicationView;
-    class QtNewDocumentParamsView;
-    class QtDocumentView;
-
-    class QtViewManager : public IViewManager {
-    public:
-      INJECT(QtViewManager());
-      ~QtViewManager();
-
-      IApplicationView *getApplicationView();
-      INewDocumentParamsView *getNewDocumentParamsView();
-      std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle);
-    private:
-      std::unique_ptr<Windows::MainWindow> m_mainWindow;
-      std::unique_ptr<Dialogs::NewDocumentDialog> m_newDocumentDialog;
-
-      std::unique_ptr<QtApplicationView> m_applicationView;
-      std::unique_ptr<QtNewDocumentParamsView> m_newDocumentParamsView;
-    };
   }
 }
 

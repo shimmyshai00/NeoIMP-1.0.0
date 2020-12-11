@@ -23,12 +23,25 @@
 
 #include <QtDocumentView.hpp>
 
+#include <ModelLayer/Services/IImageRenderingService.hpp>
+#include <IImageDataSource.hpp>
+
 #include <CustomWidgets/DocumentWidget.hpp>
 
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtDocumentView::QtDocumentView(CustomWidgets::DocumentWidget *documentWidget)
-    : m_documentWidget(documentWidget)
+  QtDocumentView::QtDocumentView(
+    ModelLayer::Services::IImageRenderingService *imageRenderingService,
+    CustomWidgets::DocumentWidget *documentWidget
+  )
+    : m_imageRenderingService(imageRenderingService),
+      m_documentWidget(documentWidget)
   {}
+
+  // nb: put under auspice of controller instead?
+  void QtDocumentView::showDocument(ModelLayer::Handle handle) {
+    m_imageDataSource = m_imageRenderingService->getDataSource(handle);
+    m_documentWidget->setDataSource(m_imageDataSource.get());
+  }
 }

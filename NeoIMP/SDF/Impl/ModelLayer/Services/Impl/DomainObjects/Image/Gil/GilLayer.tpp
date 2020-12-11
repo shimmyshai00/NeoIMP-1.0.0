@@ -47,9 +47,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
     Math::Rect<std::size_t> rect,
     ImageDataVisitor *visitor
   ) {
+    typename GilAlphaType::view_t masterView(boost::gil::view(m_alpha));
     typename GilAlphaType::view_t view(
-      m_alpha.xy_at(rect.getX1(), rect.getY1()),
-      boost::gil::point<std::ptrdiff_t>(rect.getWidth(), rect.getHeight())
+      rect.getWidth(), rect.getHeight(),
+      masterView.xy_at(rect.getX1(), rect.getY1())
     );
 
     visitor->visitGilRegion(view);
@@ -60,9 +61,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
     Math::Rect<std::size_t> rect,
     ImageDataVisitor *visitor
   ) {
+    typename GilImageType::view_t masterView(boost::gil::view(m_image));
     typename GilImageType::view_t view(
-      m_alpha.xy_at(rect.getX1(), rect.getY1()),
-      boost::gil::point<std::ptrdiff_t>(rect.getWidth(), rect.getHeight())
+      rect.getWidth(), rect.getHeight(),
+      masterView.xy_at(rect.getX1(), rect.getY1())
     );
 
     visitor->visitGilRegion(view);

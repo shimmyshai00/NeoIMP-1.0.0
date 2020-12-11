@@ -24,6 +24,8 @@
 
 #include <QtViewManager.hpp>
 
+#include <ModelLayer/Services/IImageRenderingService.hpp>
+
 #include <IApplicationView.hpp>
 #include <INewDocumentParamsView.hpp>
 #include <IDocumentView.hpp>
@@ -37,8 +39,9 @@
 #include <CustomWidgets/DocumentWidget.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtViewManager::QtViewManager()
-  : m_mainWindow(new Windows::MainWindow),
+  QtViewManager::QtViewManager(ModelLayer::Services::IImageRenderingService *imageRenderingService)
+  : m_imageRenderingService(imageRenderingService),
+    m_mainWindow(new Windows::MainWindow),
     m_newDocumentDialog(new Dialogs::NewDocumentDialog),
     m_applicationView(new QtApplicationView(m_mainWindow.get())),
     m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get()))
@@ -58,7 +61,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
     m_mainWindow->addDocumentTab("Untitled", documentWidget);
 
-    std::unique_ptr<QtDocumentView> rv(new QtDocumentView(documentWidget));
+    std::unique_ptr<QtDocumentView> rv(new QtDocumentView(m_imageRenderingService, documentWidget));
+    rv->showDocument(handle);
+
     return std::move(rv);
   }
 }

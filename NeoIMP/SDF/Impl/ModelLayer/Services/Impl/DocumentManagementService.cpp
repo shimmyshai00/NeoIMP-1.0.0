@@ -26,6 +26,8 @@
 #include <MemoryLayer/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
+#include <DomainObjects/Image/Gil/ImageFactory.hpp>
+
 namespace SDF::Impl::ModelLayer::Services::Impl {
   DocumentManagementService::DocumentManagementService(MemoryLayer::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository)
@@ -35,49 +37,9 @@ namespace SDF::Impl::ModelLayer::Services::Impl {
     int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
     Color::ColorModel colorModel, Color::BitDepth bitDepth
   ) {
-    /*
-    using namespace ModelLayer::Color;
-    using namespace DomainObjects::Image;
-
-    std::unique_ptr<ImageVariant> newImage;
-
-    if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_8)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { RGB24Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_10)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { RGB30Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_12)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { RGB36Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_16)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { RGB48Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_8)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { CMYK32Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_10)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { CMYK40Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_12)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { CMYK48Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_16)) {
-      newImage = std::unique_ptr<ImageVariant>(
-        new ImageVariant { CMYK64Image(documentWidthPx, documentHeightPx, documentResolutionPpi) }
-      );
-    }
-
-    return m_imageRepository->addNewImage("", std::move(newImage));
-    */
-
-    return 0;
+    return m_imageRepository->addNewImage("", DomainObjects::Image::Gil::createImage(
+      documentWidthPx, documentHeightPx, documentResolutionPpi,
+      colorModel, bitDepth
+    ));
   }
 }

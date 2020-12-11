@@ -33,6 +33,8 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
+  std::unique_ptr<View::IDocumentView> docview; // NB!!!: TERRIBLE LAZY DEBUG/TESTING STUB ONLY
+
   NewDocumentController::NewDocumentController(
     View::IViewManager *viewManager,
     ModelLayer::Services::IDocumentManagementService *documentManagementService
@@ -55,6 +57,6 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       colorModel, bitDepth
     ));
 
-    m_viewManager->createDocumentView(handle);
+    docview = m_viewManager->createDocumentView(handle);
   }
 }

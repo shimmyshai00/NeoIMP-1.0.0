@@ -25,11 +25,12 @@
  */
 
 #include <SDF/Impl/ModelLayer/Services/IDocumentManagementService.hpp>
+#include <SDF/Impl/ModelLayer/Services/IImageRenderingService.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::ModelLayer::Services {
-  typedef fruit::Component<IDocumentManagementService> DIComponent;
+  typedef fruit::Component<IDocumentManagementService, IImageRenderingService> DIComponent;
 
   DIComponent getServiceComponent();
 }

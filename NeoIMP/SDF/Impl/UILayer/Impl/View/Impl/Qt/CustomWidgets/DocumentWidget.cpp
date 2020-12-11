@@ -25,6 +25,8 @@
 #include <SubWidgets/DocumentRulerWidget.hpp>
 #include <SubWidgets/DocumentEditorWidget.hpp>
 
+#include <IImageDataSource.hpp>
+
 #include <QSizePolicy>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
@@ -42,5 +44,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
     m_gridLayout->addWidget(m_documentEditorWidget, 1, 1);
+  }
+
+  void DocumentWidget::setDataSource(IImageDataSource *dataSource) {
+    m_documentEditorWidget->setDataSource(dataSource);
   }
 }

@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_GIL_IMAGEFACTORY_HPP
+#define SDF_IMPL_MODELLAYER_SERVICES_IMPL_DOMAINOBJECTS_IMAGE_GIL_IMAGEFACTORY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ServiceComponent.cpp
- * PURPOSE: The DI component for the model layer services.
+ * FILE:    ImageFactory.hpp
+ * PURPOSE: The factory for Boost GIL-based images.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ServiceComponent.hpp>
+#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
+#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
 
-#include <Impl/DocumentManagementService.hpp>
-#include <Impl/ImageRenderingService.hpp>
+#include <memory>
 
-#include <MemoryLayer/ImageRepositoryComponent.hpp>
+namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
+  class AbstractImage;
 
-namespace SDF::Impl::ModelLayer::Services {
-  DIComponent getServiceComponent() {
-    return fruit::createComponent()
-      .bind<IDocumentManagementService, Impl::DocumentManagementService>()
-      .bind<IImageRenderingService, Impl::ImageRenderingService>()
-      .install(MemoryLayer::getImageRepositoryComponent);
+  namespace Gil {
+    std::unique_ptr<AbstractImage> createImage(
+      int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
+      Color::ColorModel colorModel, Color::BitDepth bitDepth
+    );
   }
 }
+
+#endif

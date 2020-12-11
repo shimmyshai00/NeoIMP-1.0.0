@@ -43,6 +43,14 @@ namespace SDF::Impl::ModelLayer::Services::Impl {
     {
     }
 
+    int getImageWidth() {
+      return m_image->getImageWidth();
+    }
+
+    int getImageHeight() {
+      return m_image->getImageHeight();
+    }
+
     const unsigned char *accessImageData(int x1, int y1, int x2, int y2) {
       // Visit the desired region.
       if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {

@@ -26,13 +26,37 @@
 
 #include <QWidget>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
-  class DocumentEditorWidget : public QWidget {
-    Q_OBJECT
-  public:
-    DocumentEditorWidget(QWidget *parent = nullptr);
-    ~DocumentEditorWidget() {}
-  };
+#include <QPaintEvent>
+#include <QPainter>
+#include <QRect>
+
+namespace SDF::Impl::UILayer {
+  class IImageDataSource;
+
+  namespace Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
+    class DocumentEditorWidget : public QWidget {
+      Q_OBJECT
+    public:
+      DocumentEditorWidget(QWidget *parent = nullptr);
+      ~DocumentEditorWidget() {}
+
+      void setDataSource(IImageDataSource *dataSource);
+
+      //void setViewport(float x1, float y1, float x2, float y2);
+      //void setCenterMag(float centerX, float centerY, float mag);
+    private:
+      IImageDataSource *m_dataSource;
+
+      float m_viewportX1;
+      float m_viewportY1;
+      float m_viewportX2;
+      float m_viewportY2;
+
+      void paintEvent(QPaintEvent *event);
+    private:
+      void paintWidgetRegion(QPainter &qp, QRect rect);
+    };
+  }
 }
 
 #endif

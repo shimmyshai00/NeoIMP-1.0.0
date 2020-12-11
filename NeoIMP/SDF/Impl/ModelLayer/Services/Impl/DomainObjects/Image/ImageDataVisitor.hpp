@@ -40,14 +40,14 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image {
     virtual ~ImageDataVisitor() = 0;
 
     // Boost GIL-based visitation methods.
-    void visitGilRegion(boost::gil::any_image_view<Gil::SupportedViewTypes> regionView) {}
+    //virtual void visitGilRegion(boost::gil::any_image_view<Gil::SupportedViewTypes> regionView) {}
 
-    void visitGilRegion(boost::gil::gray8_view_t regionView) {}
-    void visitGilRegion(boost::gil::gray16_view_t regionView) {}
-    void visitGilRegion(boost::gil::rgb8_view_t regionView) {}
-    void visitGilRegion(boost::gil::rgb16_view_t regionView) {}
-    void visitGilRegion(boost::gil::cmyk8_view_t regionView) {}
-    void visitGilRegion(boost::gil::cmyk16_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::gray8_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::gray16_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::rgb8_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::rgb16_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::cmyk8_view_t regionView) {}
+    virtual void visitGilRegion(boost::gil::cmyk16_view_t regionView) {}
   };
 }
 

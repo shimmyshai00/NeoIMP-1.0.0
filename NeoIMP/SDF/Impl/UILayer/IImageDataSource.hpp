@@ -29,6 +29,9 @@ namespace SDF::Impl::UILayer {
   public:
     virtual ~IImageDataSource() = default;
 
+    virtual int getImageWidth() = 0;
+    virtual int getImageHeight() = 0;
+    
     // Right now, expects to receive RGB32 format pixels only. This should get a pointer to a region buffer describing
     // the given rectangular region.
     virtual const unsigned char *accessImageData(int x1, int y1, int x2, int y2) = 0;
