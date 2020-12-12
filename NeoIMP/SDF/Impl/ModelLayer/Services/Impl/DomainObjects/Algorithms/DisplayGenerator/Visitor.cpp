@@ -35,10 +35,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
-      (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF; // nb: endianness matters here; need to make this more portable
+      (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it);
+      (*(resultIt + 1)) = boost::gil::semantic_at_c<0>(*it);
+      (*(resultIt    )) = boost::gil::semantic_at_c<0>(*it);
     }
   }
 
@@ -47,10 +47,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
-      (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF;
+      (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it) >> 8;
+      (*(resultIt + 1)) = boost::gil::semantic_at_c<0>(*it) >> 8;
+      (*(resultIt    )) = boost::gil::semantic_at_c<0>(*it) >> 8;
     }
   }
 
@@ -59,10 +59,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
-      (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 3)) = 0xFF;
+      (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it);
+      (*(resultIt + 1)) = boost::gil::semantic_at_c<1>(*it);
+      (*(resultIt    )) = boost::gil::semantic_at_c<2>(*it);
     }
   }
 
@@ -71,10 +71,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
       (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt    )) = 0xFF; // TBA
     }
   }
 
@@ -83,10 +83,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
       (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt    )) = 0xFF; // TBA
     }
   }
 
@@ -95,10 +95,10 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Algorithms::Disp
 
     std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt    )) = 0xFF; // TBA
-      (*(resultIt + 1)) = 0xFF; // TBA
-      (*(resultIt + 2)) = 0xFF; // TBA
       (*(resultIt + 3)) = 0xFF; // TBA
+      (*(resultIt + 2)) = 0xFF; // TBA
+      (*(resultIt + 1)) = 0xFF; // TBA
+      (*(resultIt    )) = 0xFF; // TBA
     }
   }
 }
