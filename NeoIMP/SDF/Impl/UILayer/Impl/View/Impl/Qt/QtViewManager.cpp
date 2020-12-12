@@ -57,13 +57,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return m_newDocumentParamsView.get();
   }
 
-  std::unique_ptr<IDocumentView> QtViewManager::createDocumentView(ModelLayer::Handle handle) {
-    CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
-    m_mainWindow->addDocumentTab("Untitled", documentWidget);
+  IDocumentView *QtViewManager::createDocumentView(ModelLayer::Handle handle) {
+    if(m_documentViews.find(handle) == m_documentViews.end()) {
+      CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
+      m_mainWindow->addDocumentTab("Untitled", documentWidget);
 
-    std::unique_ptr<QtDocumentView> rv(new QtDocumentView(m_imageRenderingService, documentWidget));
-    rv->showDocument(handle);
+      std::unique_ptr<QtDocumentView> documentView(new QtDocumentView(m_imageRenderingService, documentWidget));
+      documentView->showDocument(handle);
 
-    return std::move(rv);
+      m_documentViews[handle] = std::move(documentView);
+    }
+
+    return m_documentViews[handle].get();
   }
 }

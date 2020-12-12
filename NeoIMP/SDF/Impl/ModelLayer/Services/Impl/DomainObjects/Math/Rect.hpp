@@ -49,11 +49,11 @@ namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Math {
 
     // Size access.
     T getWidth() const {
-      return (m_x2 - m_x1);
+      return (m_x2 - m_x1) + 1;
     }
 
     T getHeight() const {
-      return (m_y2 - m_y1);
+      return (m_y2 - m_y1) + 1;
     }
 
     // Element access.

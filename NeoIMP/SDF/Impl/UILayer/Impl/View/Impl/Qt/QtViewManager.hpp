@@ -28,6 +28,7 @@
 
 #include <fruit/fruit.h>
 #include <memory>
+#include <map>
 
 namespace SDF::Impl {
   namespace ModelLayer::Services {
@@ -59,15 +60,16 @@ namespace SDF::Impl {
 
         IApplicationView *getApplicationView();
         INewDocumentParamsView *getNewDocumentParamsView();
-        std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle);
+        IDocumentView *createDocumentView(ModelLayer::Handle documentHandle);
       private:
         ModelLayer::Services::IImageRenderingService *m_imageRenderingService;
-        
+
         std::unique_ptr<Windows::MainWindow> m_mainWindow;
         std::unique_ptr<Dialogs::NewDocumentDialog> m_newDocumentDialog;
 
         std::unique_ptr<QtApplicationView> m_applicationView;
         std::unique_ptr<QtNewDocumentParamsView> m_newDocumentParamsView;
+        std::map<ModelLayer::Handle, std::unique_ptr<QtDocumentView>> m_documentViews;
       };
     }
   }

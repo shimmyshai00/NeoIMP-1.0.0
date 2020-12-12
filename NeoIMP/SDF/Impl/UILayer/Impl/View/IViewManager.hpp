@@ -39,7 +39,7 @@ namespace SDF::Impl::UILayer::Impl::View {
 
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentParamsView *getNewDocumentParamsView() = 0;
-    virtual std::unique_ptr<IDocumentView> createDocumentView(ModelLayer::Handle documentHandle) = 0;
+    virtual IDocumentView *createDocumentView(ModelLayer::Handle documentHandle) = 0;
   };
 }
 
