@@ -37,8 +37,8 @@ NOTE: this is the ideal; the real thing might not 100% conform to these rules of
 * Wrapping: When wrapping long function declarations, particularly in headers, one should chiefly wrap the argument
             list, and to do so in logical chunks as much as possible.
 
-Program Design
---------------
+Program Design & Code Organization
+----------------------------------
 
 The design of the code is intended to be such as to keep things modular and easily extensible. It is a standard "three
 tier" architecture divided into 4 layers, where the list below is organized to indicate that each layer can (and
@@ -47,14 +47,17 @@ back. (NEW) In addition, the Model-View-Controller (MVC) triad should be followe
 segregated into View and Controller components, which are separate categories containing multiple objects, NOT single
 objects, with the former abstracting away the bits that depend on the particular third-party widget system used.
 
-For encapsulation purposes, each layer should consist of a number of modules, which in turn may consist of submodules.
-Every module and submodule has an interface and implementation packaged physically separate from each other: in
-particular, the implementation goes in a separate folder named "Impl", which also has a corresponding namespace
-hierarchy entry. Generally speaking, the "SOLID" rules are to be followed, though this is not necessarily applied
-religiously, at least the I and D parts, but those last two parts should be especially followed for inter-layer
-dependencies.
+For encapsulation purposes, each layer should consist of a number of modules, which in turn may consist of submodules,
+and so on. Each module should have its own folder (and namespace), and implementation details of such modules should
+be put in a folder (and namespace) named "Impl" underneath that module's folder. In accordance with the "SOLID"
+principles of object-oriented design, the higher level layers should act as "owners" for the interfaces implemented
+by the lower-level layers. The interface for a dependency layer is under a folder, outside that layer's "Impl",
+labeled "AbstractXXX". Generally, nothing outside a module should access any other module's "Impl" namespace - the one
+exception being if "Impl" objects appear as parameters into an interface for a lower-level module or layer (e.g. the
+data layers are a good example, as they need to save domain objects in the model layer, objects which the higher-level
+UI layer should not know of.).
 
-Finally, the four layers are:
+Finally, the four layers are, from lowest to highest level:
 
 * Persistence layer: This should contain all code related to saving and loading image files. This should expose in its
                      public interface a set of "transfer objects" which are basically just structs that should be
