@@ -28,13 +28,13 @@
 #include <Impl/Controller/NewDocumentController.hpp>
 
 #include <Impl/View/ViewComponent.hpp>
-#include <ModelLayer/Services/ServiceComponent.hpp>
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer {
   fruit::Component<IUI> getUIComponent() {
     return fruit::createComponent()
       .bind<IUI, Impl::MainUI>()
       .install(Impl::View::getViewComponent)
-      .install(ModelLayer::Services::getServiceComponent);
+      .install(ModelLayer::getModelComponent);
   }
 }

@@ -33,35 +33,34 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-namespace SDF::Impl {
-  namespace ModelLayer::Services {
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IImageInformationService;
     class IImageRenderingService;
   }
 
-  namespace UILayer {
-    class IImageDataSource;
-
-    namespace Impl::View::Impl::Qt {
-      namespace CustomWidgets {
-        class DocumentWidget;
-      }
-
-      class QtDocumentView : public IDocumentView {
-      public:
-        QtDocumentView(
-          ModelLayer::Services::IImageRenderingService *imageRenderingService,
-          CustomWidgets::DocumentWidget *documentWidget
-        );
-
-        void showDocument(ModelLayer::Handle handle);
-      private:
-        ModelLayer::Services::IImageRenderingService *m_imageRenderingService;
-
-        QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
-
-        std::unique_ptr<IImageDataSource> m_imageDataSource;
-      };
+  namespace Impl::View::Impl::Qt {
+    namespace CustomWidgets {
+      class IImageDataSource;
+      class DocumentWidget;
     }
+
+    class QtDocumentView : public IDocumentView {
+    public:
+      QtDocumentView(
+        AbstractModel::Services::IImageInformationService *imageInformationService,
+        AbstractModel::Services::IImageRenderingService *imageRenderingService,
+        CustomWidgets::DocumentWidget *documentWidget
+      );
+
+      void showDocument(ModelLayer::Handle handle);
+    private:
+      AbstractModel::Services::IImageInformationService *m_imageInformationService;
+      AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+
+      QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
+      std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
+    };
   }
 }
 

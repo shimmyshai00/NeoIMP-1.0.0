@@ -28,19 +28,21 @@
 
 #include <Windows/MainWindow.hpp>
 
+#include <QApplication>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtApplicationView::QtApplicationView(Windows::MainWindow *mainWindow)
     : m_mainWindow(mainWindow),
       m_exitCommandObserver(nullptr),
       m_newDocumentCommandObserver(nullptr)
   {
-    m_newDocumentCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
+    m_newDocumentCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, qApp, [=]() {
       if(this->m_newDocumentCommandObserver != nullptr) {
         this->m_newDocumentCommandObserver->onNewDocumentCommand();
       }
     });
 
-    m_exitCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
+    m_exitCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, qApp, [=]() {
       if(this->m_exitCommandObserver != nullptr) {
         this->m_exitCommandObserver->onExitCommand();
       }

@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
-#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   class INewDocumentParamsReceiver {
@@ -34,7 +34,7 @@ namespace SDF::Impl::UILayer::Impl::View {
 
     virtual void receiveNewDocumentParams(
       int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-      ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
+      AbstractModel::Properties::ColorModel colorModel, AbstractModel::Properties::BitDepth bitDepth
     ) = 0;
   };
 }

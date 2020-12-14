@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
-#define SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
+#ifndef SDF_IMPL_MODELLAYER_IMPL_SERVICES_IMAGEINFORMATIONSERVICE_HPP
+#define SDF_IMPL_MODELLAYER_IMPL_SERVICES_IMAGEINFORMATIONSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryComponent.hpp
- * PURPOSE: Definition of the DI component for image repositories.
+ * FILE:    ImageRenderingService.hpp
+ * PURPOSE: Headers for the UI image information service implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Services/IImageInformationService.hpp>
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::MemoryLayer {
-  fruit::Component<ModelLayer::AbstractMemory::Repositories::IImageRepository> getImageRepositoryComponent();
+#include <memory>
+
+namespace SDF::Impl::ModelLayer {
+  namespace AbstractMemory::Repositories {
+    class IImageRepository;
+  }
+
+  namespace Impl::Services {
+    class ImageInformationService : public UILayer::AbstractModel::Services::IImageInformationService {
+    public:
+      INJECT(ImageInformationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+
+      int getImageWidth(ModelLayer::Handle handle);
+      int getImageHeight(ModelLayer::Handle handle);
+    private:
+      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+    };
+  }
 }
 
 #endif

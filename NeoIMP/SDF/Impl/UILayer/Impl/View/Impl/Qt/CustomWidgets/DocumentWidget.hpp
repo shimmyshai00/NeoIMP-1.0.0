@@ -27,31 +27,29 @@
 #include <QWidget>
 #include <QGridLayout>
 
-namespace SDF::Impl::UILayer {
-  class IImageDataSource;
-  
-  namespace Impl::View::Impl::Qt::CustomWidgets {
-    namespace SubWidgets {
-      class DocumentRulerWidget;
-      class DocumentEditorWidget;
-    }
-
-    class DocumentWidget : public QWidget {
-      Q_OBJECT
-    public:
-      DocumentWidget(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
-      ~DocumentWidget() {}
-
-      void setDataSource(IImageDataSource *dataSource);
-    private:
-      QGridLayout *m_gridLayout;
-
-      SubWidgets::DocumentRulerWidget *m_horizontalRuler;
-      SubWidgets::DocumentRulerWidget *m_verticalRuler;
-
-      SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
-    };
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
+  namespace SubWidgets {
+    class DocumentRulerWidget;
+    class DocumentEditorWidget;
   }
+
+  class IImageDataSource;
+
+  class DocumentWidget : public QWidget {
+    Q_OBJECT
+  public:
+    DocumentWidget(QWidget *parent = nullptr, ::Qt::WindowFlags f = ::Qt::WindowFlags());
+    ~DocumentWidget() {}
+
+    void setDataSource(IImageDataSource *dataSource);
+  private:
+    QGridLayout *m_gridLayout;
+
+    SubWidgets::DocumentRulerWidget *m_horizontalRuler;
+    SubWidgets::DocumentRulerWidget *m_verticalRuler;
+
+    SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
+  };
 }
 
 #endif

@@ -30,10 +30,10 @@
 #include <QPainter>
 #include <QRect>
 
-namespace SDF::Impl::UILayer {
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   class IImageDataSource;
-
-  namespace Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
+  
+  namespace SubWidgets {
     class DocumentEditorWidget : public QWidget {
       Q_OBJECT
     public:

@@ -24,8 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/MemoryLayer/IImageRepository.hpp>
-#include <SDF/Impl/ModelLayer/Services/Impl/DomainObjects/Image/AbstractImage.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
+
+#include <SDF/Impl/ModelLayer/Handle.hpp>
 
 #include <map>
 #include <string>
@@ -34,21 +35,27 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl {
+  namespace ModelLayer::Impl::DomainObjects::Image {
+    class AbstractImage;
+  }
+
   namespace MemoryLayer::Impl {
-    class ImageRepository : public MemoryLayer::IImageRepository {
+    class ImageRepository : public ModelLayer::AbstractMemory::Repositories::IImageRepository {
     public:
       INJECT(ImageRepository());
+      ~ImageRepository() {}
 
       ModelLayer::Handle addNewImage(
-        std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage> image
+        std::string uri, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> image
       );
-      void persistImage(ModelLayer::Handle handle);
 
-      ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle);
+      void persistImage(ModelLayer::Handle handle);
+      ModelLayer::Handle loadImage(std::string uri);
+
+      ModelLayer::Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle);
     private:
       std::map<ModelLayer::Handle, std::string> m_uriStore;
-      std::map<ModelLayer::Handle, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage>>
-        m_imageStore;
+      std::map<ModelLayer::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>> m_imageStore;
     };
   }
 }

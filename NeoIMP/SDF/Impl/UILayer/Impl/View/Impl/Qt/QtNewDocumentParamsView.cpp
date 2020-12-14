@@ -27,6 +27,8 @@
 
 #include <Dialogs/NewDocumentDialog.hpp>
 
+#include <QApplication>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtNewDocumentParamsView::QtNewDocumentParamsView(Dialogs::NewDocumentDialog *newDocumentDialog)
     : m_newDocumentDialog(newDocumentDialog)
@@ -37,7 +39,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   }
 
   void QtNewDocumentParamsView::getNewDocumentParams(INewDocumentParamsReceiver *recv) {
-    m_newDocumentParamsReceiverConn = QObject::connect(m_newDocumentDialog, &QDialog::accepted, [=]() {
+    m_newDocumentParamsReceiverConn = QObject::connect(m_newDocumentDialog, &QDialog::accepted, qApp, [=]() {
       m_newDocumentDialog->submit(recv);
     });
 

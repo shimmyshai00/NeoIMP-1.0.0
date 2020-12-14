@@ -28,6 +28,7 @@ namespace SDF::Impl::UILayer {
   class IUI {
   public:
     virtual ~IUI() = default;
+
     virtual void start() = 0;
   };
 }

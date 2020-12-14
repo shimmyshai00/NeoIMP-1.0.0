@@ -23,11 +23,13 @@
 
 #include <ImageRepositoryComponent.hpp>
 
+#include <ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
+
 #include <Impl/ImageRepository.hpp>
 
 namespace SDF::Impl::MemoryLayer {
-  fruit::Component<IImageRepository> getImageRepositoryComponent() {
+  fruit::Component<ModelLayer::AbstractMemory::Repositories::IImageRepository> getImageRepositoryComponent() {
     return fruit::createComponent()
-      .bind<IImageRepository, Impl::ImageRepository>();
+      .bind<ModelLayer::AbstractMemory::Repositories::IImageRepository, Impl::ImageRepository>();
   }
 }

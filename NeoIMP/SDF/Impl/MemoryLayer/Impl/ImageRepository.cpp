@@ -23,7 +23,7 @@
 
 #include <ImageRepository.hpp>
 
-#include <ModelLayer/Services/Impl/DomainObjects/Image/AbstractImage.hpp>
+#include <ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
 #include <Exception/Exceptions.hpp>
 #include <HandleGenerator.hpp>
 
@@ -31,7 +31,7 @@ namespace SDF::Impl::MemoryLayer::Impl {
   ImageRepository::ImageRepository() {}
 
   ModelLayer::Handle ImageRepository::addNewImage(
-    std::string uri, std::unique_ptr<ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage> image
+    std::string uri, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> image
   ) {
     ModelLayer::Handle newHandle(HandleGenerator::inst()->getNextHandle());
 
@@ -45,7 +45,12 @@ namespace SDF::Impl::MemoryLayer::Impl {
     // getNumBaseUnits
   }
 
-  ModelLayer::Services::Impl::DomainObjects::Image::AbstractImage *ImageRepository::access(ModelLayer::Handle handle) {
+  ModelLayer::Handle ImageRepository::loadImage(std::string uri) {
+    // TBA
+    return -1;
+  }
+
+  ModelLayer::Impl::DomainObjects::Image::AbstractImage *ImageRepository::access(ModelLayer::Handle handle) {
     if(m_imageStore.find(handle) == m_imageStore.end()) {
       throw Exception::InvalidHandleException(handle);
     } else {

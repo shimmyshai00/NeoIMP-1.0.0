@@ -27,17 +27,17 @@
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentCommandObserver.hpp>
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentParamsReceiver.hpp>
 
-#include <SDF/Impl/ModelLayer/Color/ColorModels.hpp>
-#include <SDF/Impl/ModelLayer/Color/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl {
-  namespace ModelLayer::Services {
-    class IDocumentManagementService;
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IDocumentCreationService;
   }
 
-  namespace UILayer::Impl {
+  namespace Impl {
     namespace View {
       class IViewManager;
       class INewDocumentParamsView;
@@ -48,19 +48,19 @@ namespace SDF::Impl {
       public:
         INJECT(NewDocumentController(
           View::IViewManager *viewManager,
-          ModelLayer::Services::IDocumentManagementService *documentManagementService
+          AbstractModel::Services::IDocumentCreationService *documentCreationService
         ));
 
         void onNewDocumentCommand();
         void receiveNewDocumentParams(
           int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-          ModelLayer::Color::ColorModel colorModel, ModelLayer::Color::BitDepth bitDepth
+          AbstractModel::Properties::ColorModel colorModel, AbstractModel::Properties::BitDepth bitDepth
         );
       private:
         View::IViewManager *m_viewManager;
         View::INewDocumentParamsView *m_newDocumentParamsView;
 
-        ModelLayer::Services::IDocumentManagementService *m_documentManagementService;
+        AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
       };
     }
   }

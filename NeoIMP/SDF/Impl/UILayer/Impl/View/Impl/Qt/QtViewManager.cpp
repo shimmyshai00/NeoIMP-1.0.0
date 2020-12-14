@@ -24,11 +24,14 @@
 
 #include <QtViewManager.hpp>
 
-#include <ModelLayer/Services/IImageRenderingService.hpp>
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
 
 #include <IApplicationView.hpp>
 #include <INewDocumentParamsView.hpp>
 #include <IDocumentView.hpp>
+
+#include <CustomWidgets/IImageDataSource.hpp>
 
 #include <QtApplicationView.hpp>
 #include <QtNewDocumentParamsView.hpp>
@@ -39,12 +42,16 @@
 #include <CustomWidgets/DocumentWidget.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtViewManager::QtViewManager(ModelLayer::Services::IImageRenderingService *imageRenderingService)
-  : m_imageRenderingService(imageRenderingService),
-    m_mainWindow(new Windows::MainWindow),
-    m_newDocumentDialog(new Dialogs::NewDocumentDialog),
-    m_applicationView(new QtApplicationView(m_mainWindow.get())),
-    m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get()))
+  QtViewManager::QtViewManager(
+    AbstractModel::Services::IImageInformationService *imageInformationService,
+    AbstractModel::Services::IImageRenderingService *imageRenderingService
+  )
+    : m_imageInformationService(imageInformationService),
+      m_imageRenderingService(imageRenderingService),
+      m_mainWindow(new Windows::MainWindow),
+      m_newDocumentDialog(new Dialogs::NewDocumentDialog),
+      m_applicationView(new QtApplicationView(m_mainWindow.get())),
+      m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get()))
   {}
 
   QtViewManager::~QtViewManager() {}
@@ -62,7 +69,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
       m_mainWindow->addDocumentTab("Untitled", documentWidget);
 
-      std::unique_ptr<QtDocumentView> documentView(new QtDocumentView(m_imageRenderingService, documentWidget));
+      std::unique_ptr<QtDocumentView> documentView(new QtDocumentView(
+        m_imageInformationService,
+        m_imageRenderingService,
+        documentWidget
+      ));
+
       documentView->showDocument(handle);
 
       m_documentViews[handle] = std::move(documentView);

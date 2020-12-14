@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
-#define SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryComponent.hpp
- * PURPOSE: Definition of the DI component for image repositories.
+ * FILE:    IImageRenderingService.hpp
+ * PURPOSE: Defines an interface for the MVC service for rendering parts of image documents so they can be displayed
+ *          by the UI.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +25,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
+#include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <fruit/fruit.h>
+#include <memory>
 
-namespace SDF::Impl::MemoryLayer {
-  fruit::Component<ModelLayer::AbstractMemory::Repositories::IImageRepository> getImageRepositoryComponent();
+namespace SDF::Impl::UILayer::AbstractModel::Services {
+  class IImageRenderingService {
+  public:
+    virtual ~IImageRenderingService() = default;
+
+    virtual const unsigned char *renderImageRegion(ModelLayer::Handle handle, int x1, int y1, int x2, int y2) = 0;
+  };
 }
 
 #endif

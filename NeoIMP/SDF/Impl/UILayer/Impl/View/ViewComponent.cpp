@@ -25,12 +25,12 @@
 
 #include <Impl/Qt/QtViewManager.hpp>
 
-#include <ModelLayer/Services/ServiceComponent.hpp>
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   fruit::Component<IViewManager> getViewComponent() {
     return fruit::createComponent()
       .bind<IViewManager, Impl::Qt::QtViewManager>()
-      .install(ModelLayer::Services::getServiceComponent);
+      .install(ModelLayer::getModelComponent);
   }
 }

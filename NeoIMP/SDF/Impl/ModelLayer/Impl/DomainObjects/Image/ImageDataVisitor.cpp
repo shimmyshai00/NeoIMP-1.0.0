@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
-#define SDF_IMPL_MEMORYLAYER_IMAGEREPOSITORYCOMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryComponent.hpp
- * PURPOSE: Definition of the DI component for image repositories.
+ * FILE:    ImageDataVisitor.cpp
+ * PURPOSE: Implementation of the base class for visiting image data.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +21,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
+#include <ImageDataVisitor.hpp>
+#include <Gil/GilImage.hpp>
 
-#include <fruit/fruit.h>
-
-namespace SDF::Impl::MemoryLayer {
-  fruit::Component<ModelLayer::AbstractMemory::Repositories::IImageRepository> getImageRepositoryComponent();
+namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
+  ImageDataVisitor::~ImageDataVisitor() {}
 }
-
-#endif

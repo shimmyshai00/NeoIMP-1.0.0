@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_COLOR_COLORMODELS_HPP
-#define SDF_UILAYER_COLOR_COLORMODELS_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
+#define SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorModels.hpp
- * PURPOSE: UI labels for the color models.
+ * FILE:    IImageRepository.hpp
+ * PURPOSE: Definition of the image repository interface for the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <string>
+#include <SDF/Impl/ModelLayer/Handle.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Strings {
-  static std::string colorModelNames[AbstractModel::Properties::COLOR_MODEL_MAX] = {
-    "RGB",
-    "CMYK"
-  };
+#include <string>
+#include <memory>
+
+namespace SDF::Impl::ModelLayer {
+  namespace Impl::DomainObjects::Image {
+    class AbstractImage;
+  }
+
+  namespace AbstractMemory::Repositories {
+    class IImageRepository {
+    public:
+      virtual ~IImageRepository() = default;
+
+      virtual ModelLayer::Handle addNewImage(
+        std::string uri, std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> image
+      ) = 0;
+
+      virtual void persistImage(ModelLayer::Handle handle) = 0;
+      virtual ModelLayer::Handle loadImage(std::string uri) = 0;
+
+      virtual Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle) = 0;
+    };
+  }
 }
 
 #endif

@@ -30,12 +30,13 @@
 #include <memory>
 #include <map>
 
-namespace SDF::Impl {
-  namespace ModelLayer::Services {
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IImageInformationService;
     class IImageRenderingService;
   }
 
-  namespace UILayer::Impl::View {
+  namespace Impl::View {
     class IApplicationView;
     class INewDocumentParamsView;
     class IDocumentView;
@@ -55,14 +56,19 @@ namespace SDF::Impl {
 
       class QtViewManager : public IViewManager {
       public:
-        INJECT(QtViewManager(ModelLayer::Services::IImageRenderingService *imageRenderingService));
+        INJECT(QtViewManager(
+          AbstractModel::Services::IImageInformationService *imageInformationService,
+          AbstractModel::Services::IImageRenderingService *imageRenderingService
+        ));
+
         ~QtViewManager();
 
         IApplicationView *getApplicationView();
         INewDocumentParamsView *getNewDocumentParamsView();
         IDocumentView *createDocumentView(ModelLayer::Handle documentHandle);
       private:
-        ModelLayer::Services::IImageRenderingService *m_imageRenderingService;
+        AbstractModel::Services::IImageInformationService *m_imageInformationService;
+        AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
         std::unique_ptr<Windows::MainWindow> m_mainWindow;
         std::unique_ptr<Dialogs::NewDocumentDialog> m_newDocumentDialog;

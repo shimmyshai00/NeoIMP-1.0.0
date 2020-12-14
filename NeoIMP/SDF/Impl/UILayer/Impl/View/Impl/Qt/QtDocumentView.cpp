@@ -23,25 +23,63 @@
 
 #include <QtDocumentView.hpp>
 
-#include <ModelLayer/Services/IImageRenderingService.hpp>
-#include <IImageDataSource.hpp>
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
+#include <CustomWidgets/IImageDataSource.hpp>
 
 #include <CustomWidgets/DocumentWidget.hpp>
+
+#include <QApplication>
 
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  // Helper object
+  class ImageDataSource : public CustomWidgets::IImageDataSource {
+  public:
+    ImageDataSource(
+      AbstractModel::Services::IImageInformationService *imageInformationService,
+      AbstractModel::Services::IImageRenderingService *imageRenderingService,
+      ModelLayer::Handle imageHandle
+    ) : m_imageInformationService(imageInformationService),
+        m_imageRenderingService(imageRenderingService),
+        m_imageHandle(imageHandle)
+    {}
+
+    int getImageWidth() {
+      return m_imageInformationService->getImageWidth(m_imageHandle);
+    }
+
+    int getImageHeight() {
+      return m_imageInformationService->getImageHeight(m_imageHandle);
+    }
+
+    const unsigned char *accessImageData(int x1, int y1, int x2, int y2) {
+      return m_imageRenderingService->renderImageRegion(m_imageHandle, x1, y1, x2, y2);
+    }
+  private:
+    AbstractModel::Services::IImageInformationService *m_imageInformationService;
+    AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+
+    ModelLayer::Handle m_imageHandle;
+  };
+}
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtDocumentView::QtDocumentView(
-    ModelLayer::Services::IImageRenderingService *imageRenderingService,
+    AbstractModel::Services::IImageInformationService *imageInformationService,
+    AbstractModel::Services::IImageRenderingService *imageRenderingService,
     CustomWidgets::DocumentWidget *documentWidget
   )
-    : m_imageRenderingService(imageRenderingService),
-      m_documentWidget(documentWidget)
+    : m_imageInformationService(imageInformationService),
+      m_imageRenderingService(imageRenderingService),
+      m_documentWidget(documentWidget),
+      m_imageDataSource(nullptr)
   {}
 
   // nb: put under auspice of controller instead?
   void QtDocumentView::showDocument(ModelLayer::Handle handle) {
-    m_imageDataSource = m_imageRenderingService->getDataSource(handle);
+    m_imageDataSource = std::make_unique<ImageDataSource>(m_imageInformationService, m_imageRenderingService, handle);
     m_documentWidget->setDataSource(m_imageDataSource.get());
   }
 }
