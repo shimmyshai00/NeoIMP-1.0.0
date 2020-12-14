@@ -1,11 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTVIEW_ISAVEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTVIEW_ISAVEDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    ISaveDocumentView.hpp
+ * PURPOSE: The interface for the save-document MVC view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,35 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
-#include <QMainWindow>
-#include <QTabWidget>
-
-#include <QString>
-#include <QPointer>
-
-#include <memory>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+namespace SDF::Impl::UILayer::Impl::Controller::AbstractView {
+  class IFileNameReceiver;
+  
+  class ISaveDocumentView {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    virtual ~ISaveDocumentView() = default;
 
-    void addDocumentTab(QString title, QWidget *pageWidget);
-  signals:
-    void newClicked();
-    void saveAsClicked();
-    void exitClicked();
-  private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
-
-    QPointer<QTabWidget> m_documentTabs;
+    virtual void getFileName(IFileNameReceiver *fileNameReceiver) = 0;
   };
 }
 

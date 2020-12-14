@@ -35,6 +35,7 @@
 
 #include <QtApplicationView.hpp>
 #include <QtNewDocumentParamsView.hpp>
+#include <QtSaveDocumentView.hpp>
 #include <QtDocumentView.hpp>
 
 #include <Windows/MainWindow.hpp>
@@ -50,9 +51,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_imageRenderingService(imageRenderingService),
       m_mainWindow(new Windows::MainWindow),
       m_newDocumentDialog(new Dialogs::NewDocumentDialog),
+      m_saveDocumentDialog(new QFileDialog(nullptr, "Save As")),
       m_applicationView(new QtApplicationView(m_mainWindow.get())),
-      m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get()))
-  {}
+      m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get())),
+      m_saveDocumentView(new QtSaveDocumentView(m_saveDocumentDialog.get()))
+  {
+    m_saveDocumentDialog->setAcceptMode(QFileDialog::AcceptSave);
+  }
 
   QtViewManager::~QtViewManager() {}
 
@@ -62,6 +67,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   INewDocumentParamsView *QtViewManager::getNewDocumentParamsView() {
     return m_newDocumentParamsView.get();
+  }
+
+  Controller::AbstractView::ISaveDocumentView *QtViewManager::getSaveDocumentView() {
+    return m_saveDocumentView.get();
   }
 
   IDocumentView *QtViewManager::createDocumentView(ModelLayer::Handle handle) {

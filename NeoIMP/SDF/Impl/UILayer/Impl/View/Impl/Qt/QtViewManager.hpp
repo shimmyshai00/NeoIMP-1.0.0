@@ -26,6 +26,8 @@
 
 #include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
 
+#include <QFileDialog>
+
 #include <fruit/fruit.h>
 #include <memory>
 #include <map>
@@ -34,6 +36,10 @@ namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IImageInformationService;
     class IImageRenderingService;
+  }
+
+  namespace Impl::Controller::AbstractView {
+    class ISaveDocumentView;
   }
 
   namespace Impl::View {
@@ -52,6 +58,7 @@ namespace SDF::Impl::UILayer {
 
       class QtApplicationView;
       class QtNewDocumentParamsView;
+      class QtSaveDocumentView;
       class QtDocumentView;
 
       class QtViewManager : public IViewManager {
@@ -65,6 +72,7 @@ namespace SDF::Impl::UILayer {
 
         IApplicationView *getApplicationView();
         INewDocumentParamsView *getNewDocumentParamsView();
+        Controller::AbstractView::ISaveDocumentView *getSaveDocumentView();
         IDocumentView *createDocumentView(ModelLayer::Handle documentHandle);
       private:
         AbstractModel::Services::IImageInformationService *m_imageInformationService;
@@ -72,9 +80,11 @@ namespace SDF::Impl::UILayer {
 
         std::unique_ptr<Windows::MainWindow> m_mainWindow;
         std::unique_ptr<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+        std::unique_ptr<QFileDialog> m_saveDocumentDialog;
 
         std::unique_ptr<QtApplicationView> m_applicationView;
         std::unique_ptr<QtNewDocumentParamsView> m_newDocumentParamsView;
+        std::unique_ptr<QtSaveDocumentView> m_saveDocumentView;
         std::map<ModelLayer::Handle, std::unique_ptr<QtDocumentView>> m_documentViews;
       };
     }

@@ -24,6 +24,7 @@
 #include <QtApplicationView.hpp>
 
 #include <INewDocumentCommandObserver.hpp>
+#include <AbstractController/ISaveDocumentCommandReceiver.hpp>
 #include <IExitCommandObserver.hpp>
 
 #include <Windows/MainWindow.hpp>
@@ -34,11 +35,18 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtApplicationView::QtApplicationView(Windows::MainWindow *mainWindow)
     : m_mainWindow(mainWindow),
       m_exitCommandObserver(nullptr),
-      m_newDocumentCommandObserver(nullptr)
+      m_newDocumentCommandObserver(nullptr),
+      m_saveDocumentCommandReceiver(nullptr)
   {
     m_newDocumentCommandObserverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, qApp, [=]() {
       if(this->m_newDocumentCommandObserver != nullptr) {
         this->m_newDocumentCommandObserver->onNewDocumentCommand();
+      }
+    });
+
+    m_saveDocumentCommandReceiverConn = QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, qApp, [=] {
+      if(this->m_saveDocumentCommandReceiver != nullptr) {
+        this->m_saveDocumentCommandReceiver->onSaveDocumentCommand();
       }
     });
 
@@ -51,6 +59,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   QtApplicationView::~QtApplicationView() {
     QObject::disconnect(m_newDocumentCommandObserverConn);
+    QObject::disconnect(m_saveDocumentCommandReceiverConn);
     QObject::disconnect(m_exitCommandObserverConn);
   }
 
@@ -64,6 +73,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void QtApplicationView::setNewDocumentCommandObserver(INewDocumentCommandObserver *observer) {
     m_newDocumentCommandObserver = observer;
+  }
+
+  void QtApplicationView::setSaveDocumentCommandReceiver(AbstractController::ISaveDocumentCommandReceiver *receiver) {
+    m_saveDocumentCommandReceiver = receiver;
   }
 
   void QtApplicationView::setExitCommandObserver(IExitCommandObserver *observer) {

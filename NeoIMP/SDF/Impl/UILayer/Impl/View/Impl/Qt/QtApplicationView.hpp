@@ -46,14 +46,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     void close();
 
     void setNewDocumentCommandObserver(INewDocumentCommandObserver *observer);
+    void setSaveDocumentCommandReceiver(AbstractController::ISaveDocumentCommandReceiver *receiver);
     void setExitCommandObserver(IExitCommandObserver *observer);
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
 
     QMetaObject::Connection m_newDocumentCommandObserverConn;
+    QMetaObject::Connection m_saveDocumentCommandReceiverConn;
     QMetaObject::Connection m_exitCommandObserverConn;
 
     INewDocumentCommandObserver *m_newDocumentCommandObserver;
+    AbstractController::ISaveDocumentCommandReceiver *m_saveDocumentCommandReceiver;
     IExitCommandObserver *m_exitCommandObserver;
   };
 }

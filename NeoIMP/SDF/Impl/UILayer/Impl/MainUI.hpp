@@ -37,6 +37,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace Controller {
     class ApplicationController;
     class NewDocumentController;
+    class SaveDocumentController;
   }
 
   class MainUI : public IUI {
@@ -44,7 +45,8 @@ namespace SDF::Impl::UILayer::Impl {
     INJECT(MainUI(
       View::IViewManager *viewManager,
       Controller::ApplicationController *applicationController,
-      Controller::NewDocumentController *newDocumentController
+      Controller::NewDocumentController *newDocumentController,
+      Controller::SaveDocumentController *saveDocumentController
     ));
 
     void start();
@@ -53,6 +55,7 @@ namespace SDF::Impl::UILayer::Impl {
 
     Controller::ApplicationController *m_applicationController;
     Controller::NewDocumentController *m_newDocumentController;
+    Controller::SaveDocumentController *m_saveDocumentController;
   };
 }
 

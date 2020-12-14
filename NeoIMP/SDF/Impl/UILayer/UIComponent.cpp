@@ -26,6 +26,7 @@
 #include <Impl/MainUI.hpp>
 #include <Impl/Controller/ApplicationController.hpp>
 #include <Impl/Controller/NewDocumentController.hpp>
+#include <Impl/Controller/SaveDocumentController.hpp>
 
 #include <Impl/View/ViewComponent.hpp>
 #include <ModelLayer/ModelComponent.hpp>

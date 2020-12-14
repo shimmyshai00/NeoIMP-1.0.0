@@ -28,18 +28,22 @@
 
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentController.hpp>
+#include <Controller/SaveDocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
     View::IViewManager *viewManager,
     Controller::ApplicationController *applicationController,
-    Controller::NewDocumentController *newDocumentController
+    Controller::NewDocumentController *newDocumentController,
+    Controller::SaveDocumentController *saveDocumentController
   )
     : m_applicationView(viewManager->getApplicationView()),
       m_applicationController(applicationController),
-      m_newDocumentController(newDocumentController)
+      m_newDocumentController(newDocumentController),
+      m_saveDocumentController(saveDocumentController)
   {
     m_applicationView->setNewDocumentCommandObserver(m_newDocumentController);
+    m_applicationView->setSaveDocumentCommandReceiver(m_saveDocumentController);
     m_applicationView->setExitCommandObserver(m_applicationController);
   }
 

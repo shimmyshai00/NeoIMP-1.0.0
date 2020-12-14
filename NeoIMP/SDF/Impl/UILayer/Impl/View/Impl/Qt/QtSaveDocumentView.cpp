@@ -1,11 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    QtSaveDocumentView.cpp
+ * PURPOSE: The Qt-based save-document view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,36 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
-#include <QMainWindow>
-#include <QTabWidget>
+#include <QtSaveDocumentView.hpp>
 
-#include <QString>
-#include <QPointer>
+#include <Controller/AbstractView/IFileNameReceiver.hpp>
 
-#include <memory>
+#include <QApplication>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  QtSaveDocumentView::QtSaveDocumentView(QFileDialog *saveFileDialog)
+    : m_saveFileDialog(saveFileDialog)
+  {}
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
-  public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+  QtSaveDocumentView::~QtSaveDocumentView() {
+    QObject::disconnect(m_fileNameReceiverConn);
+  }
 
-    void addDocumentTab(QString title, QWidget *pageWidget);
-  signals:
-    void newClicked();
-    void saveAsClicked();
-    void exitClicked();
-  private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
+  void QtSaveDocumentView::getFileName(Controller::AbstractView::IFileNameReceiver *fileNameReceiver) {
+    m_fileNameReceiverConn = QObject::connect(
+      m_saveFileDialog, &QFileDialog::fileSelected,
+      qApp, [=](const QString &file) { fileNameReceiver->receiveFileName(file.toStdString()); }
+    );
 
-    QPointer<QTabWidget> m_documentTabs;
-  };
+    m_saveFileDialog->open();
+  }
 }
-
-#endif

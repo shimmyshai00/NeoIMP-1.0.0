@@ -8,6 +8,7 @@ add_subdirectory(Dialogs)
 target_sources(neoimp PUBLIC
   QtApplicationView.cpp
   QtNewDocumentParamsView.cpp
+  QtSaveDocumentView.cpp
   QtDocumentView.cpp
   QtViewManager.cpp
 )

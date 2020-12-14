@@ -28,6 +28,10 @@
 
 #include <memory>
 
+namespace SDF::Impl::UILayer::Impl::Controller::AbstractView {
+  class ISaveDocumentView;
+}
+
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView;
   class INewDocumentParamsView;
@@ -39,6 +43,7 @@ namespace SDF::Impl::UILayer::Impl::View {
 
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentParamsView *getNewDocumentParamsView() = 0;
+    virtual Controller::AbstractView::ISaveDocumentView *getSaveDocumentView() = 0;
     virtual IDocumentView *createDocumentView(ModelLayer::Handle documentHandle) = 0;
   };
 }

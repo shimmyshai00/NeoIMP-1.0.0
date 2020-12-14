@@ -25,6 +25,10 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::View {
+  namespace AbstractController {
+    class ISaveDocumentCommandReceiver;
+  }
+
   class INewDocumentCommandObserver;
   class IExitCommandObserver;
 
@@ -36,6 +40,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual void close() = 0;
 
     virtual void setNewDocumentCommandObserver(INewDocumentCommandObserver *observer) = 0;
+    virtual void setSaveDocumentCommandReceiver(AbstractController::ISaveDocumentCommandReceiver *receiver) = 0;
     virtual void setExitCommandObserver(IExitCommandObserver *observer) = 0;
   };
 }
