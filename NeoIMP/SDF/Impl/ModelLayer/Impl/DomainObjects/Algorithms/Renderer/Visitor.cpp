@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Visitor.cpp
- * PURPOSE: An image processing algorithm to translate the image data into a UI-displayable simple RGB format.
+ * PURPOSE: Implementation of the renderer visitor.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,17 +23,17 @@
 
 #include <Visitor.hpp>
 
-namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerator {
+namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
   Visitor::Visitor() {}
 
-  std::vector<unsigned char> &Visitor::accessRecoveredData() {
-    return m_collectedData;
+  const unsigned char *Visitor::getRenderData() {
+    return &(m_renderBuffer[0]);
   }
 
   void Visitor::visitGilRegion(boost::gil::gray8_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF; // nb: endianness matters here; need to make this more portable
       (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it);
@@ -43,9 +43,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerat
   }
 
   void Visitor::visitGilRegion(boost::gil::gray16_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF;
       (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it) >> 8;
@@ -55,9 +55,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerat
   }
 
   void Visitor::visitGilRegion(boost::gil::rgb8_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF;
       (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it);
@@ -67,9 +67,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerat
   }
 
   void Visitor::visitGilRegion(boost::gil::rgb16_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF; // TBA
       (*(resultIt + 2)) = 0xFF; // TBA
@@ -79,9 +79,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerat
   }
 
   void Visitor::visitGilRegion(boost::gil::cmyk8_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF; // TBA
       (*(resultIt + 2)) = 0xFF; // TBA
@@ -91,9 +91,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::DisplayGenerat
   }
 
   void Visitor::visitGilRegion(boost::gil::cmyk16_view_t regionView) {
-    m_collectedData.resize(regionView.size() * 4);
+    m_renderBuffer.resize(regionView.size() * 4);
 
-    std::vector<unsigned char>::iterator resultIt(m_collectedData.begin());
+    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF; // TBA
       (*(resultIt + 2)) = 0xFF; // TBA

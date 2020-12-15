@@ -23,14 +23,16 @@
 
 #include <DocumentCreationService.hpp>
 
-#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
+#include <DomainObjects/Meta/ObjectMap.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
-    : m_imageRepository(imageRepository)
+  DocumentCreationService::DocumentCreationService(
+    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
+  )
+    : m_imageMap(imageMap)
   {}
 
   Handle DocumentCreationService::createDocument(
@@ -38,7 +40,7 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     UILayer::AbstractModel::Properties::ColorModel colorModel,
     UILayer::AbstractModel::Properties::BitDepth bitDepth
   ) {
-    return m_imageRepository->addNewImage("", DomainObjects::Image::Gil::createImage(
+    return m_imageMap->add(DomainObjects::Image::Gil::createImage(
       documentWidthPx, documentHeightPx, documentResolutionPpi,
       colorModel, bitDepth
     ));

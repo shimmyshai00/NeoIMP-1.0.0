@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    HandleGenerator.cpp
- * PURPOSE: Implementation of the handle generator class.
+ * FILE:    ObjectMap.tpp
+ * PURPOSE: A generic container for storing a group of domain objects in memory that can be retrieved by handle.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <HandleGenerator.hpp>
+namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Meta {
+  template<class T>
+  ObjectMap<T>::ObjectMap() : m_nextHandle(0) {}
 
-namespace SDF::Impl::MemoryLayer::Impl {
-  HandleGenerator::HandleGenerator() {}
+  template<class T>
+  T *ObjectMap<T>::find(Handle handle) {
+    if(m_objMap.find(handle) == m_objMap.end()) {
+      return nullptr;
+    } else {
+      return m_objMap[handle].get();
+    }
+  }
 
-  ModelLayer::Handle HandleGenerator::getNextHandle() {
-    return m_nextHandle++;
+  template<class T>
+  Handle ObjectMap<T>::add(std::unique_ptr<T> obj) {
+    Handle handle(m_nextHandle++);
+    m_objMap[handle] = std::move(obj);
+
+    return handle;
+  }
+
+  template<class T>
+  void ObjectMap<T>::remove(Handle handle) {
+    m_objMap.erase(handle);
   }
 }

@@ -28,22 +28,27 @@
 
 #include <fruit/fruit.h>
 
-#include <memory>
+namespace SDF::Impl::ModelLayer::Impl {
+  namespace DomainObjects {
+    namespace Meta {
+      template<class T>
+      class ObjectMap;
+    }
 
-namespace SDF::Impl::ModelLayer {
-  namespace AbstractMemory::Repositories {
-    class IImageRepository;
+    namespace Image {
+      class AbstractImage;
+    }
   }
 
-  namespace Impl::Services {
+  namespace Services {
     class ImageInformationService : public UILayer::AbstractModel::Services::IImageInformationService {
     public:
-      INJECT(ImageInformationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+      INJECT(ImageInformationService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
 
       int getImageWidth(ModelLayer::Handle handle);
       int getImageHeight(ModelLayer::Handle handle);
     private:
-      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
     };
   }
 }

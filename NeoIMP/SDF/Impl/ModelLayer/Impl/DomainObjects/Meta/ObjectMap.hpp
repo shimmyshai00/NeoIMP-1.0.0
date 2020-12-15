@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
-#define SDF_IMPL_MEMORYLAYER_IIMAGEREPOSITORY_HPP
+#ifndef SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_META_OBJECTMAP_HPP
+#define SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_META_OBJECTMAP_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageRepository.hpp
- * PURPOSE: Definition of the image repository interface for the memory layer.
+ * FILE:    ObjectMap.hpp
+ * PURPOSE: A generic container for storing a group of domain objects in memory that can be retrieved by handle.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,29 +26,26 @@
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <string>
+#include <fruit/fruit.h>
+
+#include <map>
 #include <memory>
 
-namespace SDF::Impl::ModelLayer {
-  namespace Impl::DomainObjects::Image {
-    class AbstractImage;
-  }
+namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Meta {
+  template<class T>
+  class ObjectMap {
+  public:
+    INJECT(ObjectMap());
 
-  namespace AbstractMemory::Repositories {
-    class IImageRepository {
-    public:
-      virtual ~IImageRepository() = default;
-
-      virtual ModelLayer::Handle addNewImage(
-        std::string uri, std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> image
-      ) = 0;
-
-      virtual void persistImage(ModelLayer::Handle handle) = 0;
-      virtual ModelLayer::Handle loadImage(std::string uri) = 0;
-
-      virtual Impl::DomainObjects::Image::AbstractImage *access(ModelLayer::Handle handle) = 0;
-    };
-  }
+    T *find(Handle handle);
+    Handle add(std::unique_ptr<T> obj);
+    void remove(Handle handle);
+  private:
+    Handle m_nextHandle;
+    std::map<Handle, std::unique_ptr<T>> m_objMap;
+  };
 }
+
+#include "SDF/Impl/ModelLayer/Impl/DomainObjects/Meta/ObjectMap.tpp"
 
 #endif

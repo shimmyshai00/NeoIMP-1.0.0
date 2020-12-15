@@ -25,9 +25,16 @@
  */
 
 #include <SDF/Exception/Exception.hpp>
+
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
 namespace SDF::Impl::ModelLayer::Exception {
+  struct InvalidHandleException : public SDF::Exception::Exception {
+    InvalidHandleException(ModelLayer::Handle handle)
+      : Exception("Tried to access a nonexistent object with handle '%d'.", handle)
+    {}
+  };
+
   struct NonexistentLayerException : public SDF::Exception::Exception {
     NonexistentLayerException(std::size_t layerNum)
       : Exception("Tried to access layer number %d, which does not exist in this image.", layerNum)

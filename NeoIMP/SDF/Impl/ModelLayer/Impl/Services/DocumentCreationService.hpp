@@ -31,15 +31,22 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::ModelLayer {
-  namespace AbstractMemory::Repositories {
-    class IImageRepository;
+namespace SDF::Impl::ModelLayer::Impl {
+  namespace DomainObjects {
+    namespace Meta {
+      template<class T>
+      class ObjectMap;
+    }
+
+    namespace Image {
+      class AbstractImage;
+    }
   }
 
-  namespace Impl::Services {
+  namespace Services {
     class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
     public:
-      INJECT(DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+      INJECT(DocumentCreationService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
 
       Handle createDocument(
         int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
@@ -47,7 +54,7 @@ namespace SDF::Impl::ModelLayer {
         UILayer::AbstractModel::Properties::BitDepth bitDepth
       );
     private:
-      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
     };
   }
 }

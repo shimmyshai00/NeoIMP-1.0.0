@@ -27,14 +27,14 @@
 #include <Impl/Services/ImageInformationService.hpp>
 #include <Impl/Services/ImageRenderingService.hpp>
 
-#include <MemoryLayer/ImageRepositoryComponent.hpp>
+#include <Impl/DomainObjects/Meta/ObjectMap.hpp>
+#include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
 namespace SDF::Impl::ModelLayer {
   DIComponent getModelComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::Services::IDocumentCreationService, Impl::Services::DocumentCreationService>()
       .bind<UILayer::AbstractModel::Services::IImageInformationService, Impl::Services::ImageInformationService>()
-      .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>()
-      .install(MemoryLayer::getImageRepositoryComponent);
+      .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>();
   }
 }

@@ -28,29 +28,32 @@
 
 #include <fruit/fruit.h>
 
-#include <memory>
+namespace SDF::Impl::ModelLayer::Impl {
+  namespace DomainObjects {
+    namespace Meta {
+      template<class T>
+      class ObjectMap;
+    }
 
-namespace SDF::Impl::ModelLayer {
-  namespace AbstractMemory::Repositories {
-    class IImageRepository;
-  }
+    namespace Image {
+      class AbstractImage;
+    }
 
-  namespace Impl {
-    namespace DomainObjects::Algorithms::DisplayGenerator {
+    namespace Algorithms::Renderer {
       class Visitor;
     }
-    
-    namespace Services {
-      class ImageRenderingService : public UILayer::AbstractModel::Services::IImageRenderingService {
-      public:
-        INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+  }
 
-        const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2);
-      private:
-        AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-        DomainObjects::Algorithms::DisplayGenerator::Visitor *m_visitor;
-      };
-    }
+  namespace Services {
+    class ImageRenderingService : public UILayer::AbstractModel::Services::IImageRenderingService {
+    public:
+      INJECT(ImageRenderingService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
+
+      const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2);
+    private:
+      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
+      DomainObjects::Algorithms::Renderer::Visitor *m_visitor;
+    };
   }
 }
 

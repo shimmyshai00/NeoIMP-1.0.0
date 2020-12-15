@@ -23,21 +23,31 @@
 
 #include <ImageInformationService.hpp>
 
-#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
+#include <DomainObjects/Meta/ObjectMap.hpp>
 #include <ModelLayer/Exception/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageInformationService::ImageInformationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
-    : m_imageRepository(imageRepository)
+  ImageInformationService::ImageInformationService(
+    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
+  )
+    : m_imageMap(imageMap)
   {}
 
   int ImageInformationService::getImageWidth(ModelLayer::Handle handle) {
-    return m_imageRepository->access(handle)->getImageWidth();
+    if(m_imageMap->find(handle) == nullptr) {
+      throw ModelLayer::Exception::InvalidHandleException(handle);
+    }
+
+    return m_imageMap->find(handle)->getImageWidth();
   }
 
   int ImageInformationService::getImageHeight(ModelLayer::Handle handle) {
-    return m_imageRepository->access(handle)->getImageHeight();
+    if(m_imageMap->find(handle) == nullptr) {
+      throw ModelLayer::Exception::InvalidHandleException(handle);
+    }
+
+    return m_imageMap->find(handle)->getImageHeight();
   }
 }
