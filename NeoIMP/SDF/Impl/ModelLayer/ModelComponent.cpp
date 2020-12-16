@@ -24,17 +24,22 @@
 #include <ModelComponent.hpp>
 
 #include <Impl/Services/DocumentCreationService.hpp>
+#include <Impl/Services/DocumentStorageService.hpp>
 #include <Impl/Services/ImageInformationService.hpp>
 #include <Impl/Services/ImageRenderingService.hpp>
 
 #include <Impl/DomainObjects/Meta/ObjectMap.hpp>
 #include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
+#include <DataLayer/DataComponent.hpp>
+
 namespace SDF::Impl::ModelLayer {
   DIComponent getModelComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::Services::IDocumentCreationService, Impl::Services::DocumentCreationService>()
+      .bind<UILayer::AbstractModel::Services::IDocumentStorageService, Impl::Services::DocumentStorageService>()
       .bind<UILayer::AbstractModel::Services::IImageInformationService, Impl::Services::ImageInformationService>()
-      .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>();
+      .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>()
+      .install(DataLayer::getDataComponent);
   }
 }

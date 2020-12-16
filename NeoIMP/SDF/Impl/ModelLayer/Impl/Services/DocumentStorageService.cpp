@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageInformationService.cpp
- * PURPOSE: The UI image information service implementation.
+ * FILE:    DocumentStorageService.cpp
+ * PURPOSE: The document storage service implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,33 +21,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ImageInformationService.hpp>
+#include <DocumentStorageService.hpp>
 
-#include <DomainObjects/Image/AbstractImage.hpp>
+#include <AbstractData/IImageRepositoryProvider.hpp>
+#include <AbstractData/IImageRepository.hpp>
 
-#include <DomainObjects/Meta/ObjectMap.hpp>
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 
+#include <DomainObjects/Meta/ObjectMap.hpp>
+#include <DomainObjects/Image/AbstractImage.hpp>
+
+
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageInformationService::ImageInformationService(
-    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
+  DocumentStorageService::DocumentStorageService(
+    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap,
+    AbstractData::IImageRepositoryProvider *repositoryProvider
   )
-    : m_imageMap(imageMap)
+    : m_imageMap(imageMap),
+      m_repositoryProvider(repositoryProvider)
   {}
 
-  int ImageInformationService::getImageWidth(ModelLayer::Handle handle) {
+  void DocumentStorageService::saveDocument(
+    std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
+    ModelLayer::Handle handle
+  ) {
     if(m_imageMap->find(handle) == nullptr) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
 
-    return m_imageMap->find(handle)->getImageWidth();
+    m_repositoryProvider->getPNGRepository()->saveImage(fileSpec, *m_imageMap->find(handle));
   }
 
-  int ImageInformationService::getImageHeight(ModelLayer::Handle handle) {
-    if(m_imageMap->find(handle) == nullptr) {
-      throw ModelLayer::Exceptions::InvalidHandleException(handle);
-    }
-
-    return m_imageMap->find(handle)->getImageHeight();
+  ModelLayer::Handle DocumentStorageService::loadDocument(
+    std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
+  ) {
+    // TBA
+    return -1;
   }
 }

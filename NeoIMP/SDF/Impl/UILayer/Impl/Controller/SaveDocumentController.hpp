@@ -25,12 +25,13 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/AbstractController/ISaveDocumentCommandReceiver.hpp>
+#include <SDF/Impl/UILayer/Impl/Controller/AbstractView/IFileNameReceiver.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractModel {
-    class IDocumentPersistenceService;
+  namespace AbstractModel::Services {
+    class IDocumentStorageService;
   }
 
   namespace Impl {
@@ -43,13 +44,20 @@ namespace SDF::Impl::UILayer {
         class ISaveDocumentView;
       }
 
-      class SaveDocumentController : public View::AbstractController::ISaveDocumentCommandReceiver {
+      class SaveDocumentController : public View::AbstractController::ISaveDocumentCommandReceiver,
+        public Controller::AbstractView::IFileNameReceiver {
       public:
-        INJECT(SaveDocumentController(View::IViewManager *viewManager));
+        INJECT(SaveDocumentController(
+          View::IViewManager *viewManager,
+          AbstractModel::Services::IDocumentStorageService *documentStorageService
+        ));
 
         void onSaveDocumentCommand();
+        void receiveFileName(std::string fileName);
       private:
         AbstractView::ISaveDocumentView *m_saveDocumentView;
+
+        AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
       };
     }
   }

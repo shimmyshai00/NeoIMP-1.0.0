@@ -23,15 +23,27 @@
 
 #include <SaveDocumentController.hpp>
 
+#include <AbstractModel/Properties/FileFormats.hpp>
+#include <AbstractModel/Services/IDocumentStorageService.hpp>
+
 #include <View/IViewManager.hpp>
 #include <AbstractView/ISaveDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  SaveDocumentController::SaveDocumentController(View::IViewManager *viewManager)
-    : m_saveDocumentView(viewManager->getSaveDocumentView())
+  SaveDocumentController::SaveDocumentController(
+    View::IViewManager *viewManager,
+    AbstractModel::Services::IDocumentStorageService *documentStorageService
+  )
+    : m_saveDocumentView(viewManager->getSaveDocumentView()),
+      m_documentStorageService(documentStorageService)
   {}
 
   void SaveDocumentController::onSaveDocumentCommand() {
-    m_saveDocumentView->getFileName(nullptr);
+    m_saveDocumentView->getFileName(this);
+  }
+
+  void SaveDocumentController::receiveFileName(std::string fileName) {
+    // NB: STUBby
+    m_documentStorageService->saveDocument(fileName, AbstractModel::Properties::FileFormat::FILE_FORMAT_PNG, 0);
   }
 }

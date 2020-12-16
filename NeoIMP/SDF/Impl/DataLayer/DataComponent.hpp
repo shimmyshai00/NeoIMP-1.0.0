@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_MODELCOMPONENT_HPP
-#define SDF_IMPL_MODELLAYER_MODELCOMPONENT_HPP
+#ifndef SDF_IMPL_DATALAYER_DATACOMPONENT_HPP
+#define SDF_IMPL_DATALAYER_DATACOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ModelComponent.hpp
- * PURPOSE: Headers for the DI component for the model layer services.
+ * FILE:    DataComponent.hpp
+ * PURPOSE: Headers for the DI component for the data layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentCreationService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentStorageService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageInformationService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageRenderingService.hpp>
+#include <SDF/Impl/ModelLayer/AbstractData/IImageRepositoryProvider.hpp>
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::ModelLayer {
+namespace SDF::Impl::DataLayer {
   typedef fruit::Component<
-    UILayer::AbstractModel::Services::IDocumentCreationService,
-    UILayer::AbstractModel::Services::IDocumentStorageService,
-    UILayer::AbstractModel::Services::IImageInformationService,
-    UILayer::AbstractModel::Services::IImageRenderingService
+    ModelLayer::AbstractData::IImageRepositoryProvider
   > DIComponent;
 
-  DIComponent getModelComponent();
+  DIComponent getDataComponent();
 }
 
 #endif

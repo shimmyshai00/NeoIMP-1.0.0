@@ -29,7 +29,7 @@
 #include <DomainObjects/Math/Rect.hpp>
 #include <DomainObjects/Meta/ObjectMap.hpp>
 
-#include <ModelLayer/Exception/Exceptions.hpp>
+#include <ModelLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   ImageRenderingService::ImageRenderingService(
@@ -42,14 +42,14 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
   const unsigned char *ImageRenderingService::renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) {
     // NB: needs to be made threadsafe
     if(m_imageMap->find(handle) == nullptr) {
-      throw ModelLayer::Exception::InvalidHandleException(handle);
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
 
     DomainObjects::Image::AbstractImage *m_image(m_imageMap->find(handle));
 
     // Visit the desired region.
     if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
-      throw ModelLayer::Exception::RectangleOutOfBoundsException(x1, y1, x2, y2);
+      throw ModelLayer::Exceptions::RectangleOutOfBoundsException(x1, y1, x2, y2);
     }
 
     m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor);

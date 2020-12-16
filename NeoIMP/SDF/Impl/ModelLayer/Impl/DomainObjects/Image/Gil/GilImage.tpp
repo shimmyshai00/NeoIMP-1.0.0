@@ -23,7 +23,7 @@
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
 
-#include <SDF/Impl/ModelLayer/Exception/Exceptions.hpp>
+#include <SDF/Impl/ModelLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
@@ -87,7 +87,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
   void GilImage<GilAlphaType, GilImageType>::deleteLayer(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
-      throw ModelLayer::Exception::NonexistentLayerException(layerNum);
+      throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }
 
     //m_layers.erase(layerNum);
@@ -100,7 +100,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
     ImageDataVisitor *visitor
   ) {
     if(layerNum >= m_layers.size()) {
-      throw ModelLayer::Exception::NonexistentLayerException(layerNum);
+      throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }
 
     m_layers[layerNum]->acceptAlphaVisitor(rect, visitor);
@@ -113,7 +113,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
     ImageDataVisitor *visitor
   ) {
     if(layerNum >= m_layers.size()) {
-      throw ModelLayer::Exception::NonexistentLayerException(layerNum);
+      throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }
 
     m_layers[layerNum]->acceptPixelVisitor(rect, visitor);

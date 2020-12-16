@@ -27,6 +27,8 @@
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Coord.hpp>
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Vec2D.hpp>
 
+#include <algorithm>
+
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Math {
   template<class T>
   class Rect {

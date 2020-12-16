@@ -1,5 +1,5 @@
-#ifndef SDF_IMPL_MODELLAYER_EXCEPTION_EXCEPTIONS_HPP
-#define SDF_IMPL_MODELLAYER_EXCEPTION_EXCEPTIONS_HPP
+#ifndef SDF_IMPL_MODELLAYER_EXCEPTIONS_EXCEPTIONS_HPP
+#define SDF_IMPL_MODELLAYER_EXCEPTIONS_EXCEPTIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -28,7 +28,7 @@
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-namespace SDF::Impl::ModelLayer::Exception {
+namespace SDF::Impl::ModelLayer::Exceptions {
   struct InvalidHandleException : public SDF::Exception::Exception {
     InvalidHandleException(ModelLayer::Handle handle)
       : Exception("Tried to access a nonexistent object with handle '%d'.", handle)
