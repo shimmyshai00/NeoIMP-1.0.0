@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/AbstractController/ISaveDocumentCommandReceiver.hpp>
-#include <SDF/Impl/UILayer/Impl/Controller/AbstractView/IFileNameReceiver.hpp>
+#include <SDF/Impl/UILayer/Impl/Controller/AbstractView/IDocumentSaveParamsReceiver.hpp>
 
 #include <fruit/fruit.h>
 
@@ -45,7 +45,7 @@ namespace SDF::Impl::UILayer {
       }
 
       class SaveDocumentController : public View::AbstractController::ISaveDocumentCommandReceiver,
-        public Controller::AbstractView::IFileNameReceiver {
+        public Controller::AbstractView::IDocumentSaveParamsReceiver {
       public:
         INJECT(SaveDocumentController(
           View::IViewManager *viewManager,
@@ -53,7 +53,9 @@ namespace SDF::Impl::UILayer {
         ));
 
         void onSaveDocumentCommand();
-        void receiveFileName(std::string fileName);
+        void receiveSaveParams(
+          std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
+        );
       private:
         AbstractView::ISaveDocumentView *m_saveDocumentView;
 

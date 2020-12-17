@@ -26,21 +26,29 @@
 
 #include <SDF/Impl/UILayer/Impl/Controller/AbstractView/ISaveDocumentView.hpp>
 
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
 #include <QPointer>
 #include <QFileDialog>
 #include <QMetaObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  namespace Windows {
+    class MainWindow;
+  }
+
   class QtSaveDocumentView : public Controller::AbstractView::ISaveDocumentView {
   public:
     QtSaveDocumentView(QFileDialog *saveFileDialog);
     ~QtSaveDocumentView();
 
-    void getFileName(Controller::AbstractView::IFileNameReceiver *fileNameReceiver);
+    void setDocumentHandleToSave(ModelLayer::Handle documentHandleToSave);
+    void getDocumentSaveParams(Controller::AbstractView::IDocumentSaveParamsReceiver *saveParamsReceiver);
   private:
+    ModelLayer::Handle m_documentHandleToSave;
     QPointer<QFileDialog> m_saveFileDialog;
 
-    QMetaObject::Connection m_fileNameReceiverConn;
+    QMetaObject::Connection m_saveParamsReceiverConn;
   };
 }
 

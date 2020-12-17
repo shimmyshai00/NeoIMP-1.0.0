@@ -23,23 +23,34 @@
 
 #include <QtSaveDocumentView.hpp>
 
-#include <Controller/AbstractView/IFileNameReceiver.hpp>
+#include <Controller/AbstractView/IDocumentSaveParamsReceiver.hpp>
 
 #include <QApplication>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtSaveDocumentView::QtSaveDocumentView(QFileDialog *saveFileDialog)
-    : m_saveFileDialog(saveFileDialog)
+    : m_documentHandleToSave(-1),
+      m_saveFileDialog(saveFileDialog)
   {}
 
   QtSaveDocumentView::~QtSaveDocumentView() {
-    QObject::disconnect(m_fileNameReceiverConn);
+    QObject::disconnect(m_saveParamsReceiverConn);
   }
 
-  void QtSaveDocumentView::getFileName(Controller::AbstractView::IFileNameReceiver *fileNameReceiver) {
-    m_fileNameReceiverConn = QObject::connect(
+  void QtSaveDocumentView::setDocumentHandleToSave(ModelLayer::Handle documentHandleToSave) {
+    m_documentHandleToSave = documentHandleToSave;
+  }
+  
+  void QtSaveDocumentView::getDocumentSaveParams(
+    Controller::AbstractView::IDocumentSaveParamsReceiver *saveParamsReceiver
+  ) {
+    m_saveParamsReceiverConn = QObject::connect(
       m_saveFileDialog, &QFileDialog::fileSelected,
-      qApp, [=](const QString &file) { fileNameReceiver->receiveFileName(file.toStdString()); }
+      qApp, [=](const QString &file) {
+        saveParamsReceiver->receiveSaveParams(
+          file.toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG, m_documentHandleToSave
+        );
+      }
     );
 
     m_saveFileDialog->open();

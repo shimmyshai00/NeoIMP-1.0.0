@@ -40,14 +40,24 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
 
   MainWindow::~MainWindow() {}
 
-  void MainWindow::addDocumentTab(QString title, QWidget *pageWidget) {
+  int MainWindow::addDocumentTab(QString title, QWidget *pageWidget) {
     if(!m_documentTabs) {
       m_documentTabs = new QTabWidget();
       m_documentTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
       m_ui->tabLayout->addWidget(m_documentTabs, 0, 0);
+
       m_documentTabs->show();
     }
 
-    m_documentTabs->addTab(pageWidget, title);
+    return m_documentTabs->addTab(pageWidget, title);
+  }
+
+  int MainWindow::getFocusTab() {
+    if(!m_documentTabs) {
+      return -1; // no tabs available
+    } else {
+      return m_documentTabs->currentIndex();
+    }
   }
 }

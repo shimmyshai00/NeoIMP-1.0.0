@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IFILENAMERECEIVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IFILENAMERECEIVER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IDOCUMENTSAVEPARAMSRECEIVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IDOCUMENTSAVEPARAMSRECEIVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IFileNameReceiver.hpp
- * PURPOSE: An interface to receive a file name from the user.
+ * FILE:    IDocumentSaveParamsReceiver.hpp
+ * PURPOSE: An interface to receive from the user the parameters needed for saving a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormats.hpp>
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::Controller::AbstractView {
-  class IFileNameReceiver {
+  class IDocumentSaveParamsReceiver {
   public:
-    virtual ~IFileNameReceiver() = default;
+    virtual ~IDocumentSaveParamsReceiver() = default;
 
-    virtual void receiveFileName(std::string fileName) = 0;
+    virtual void receiveSaveParams(
+      std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
+    ) = 0;
   };
 }
 

@@ -39,11 +39,12 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   {}
 
   void SaveDocumentController::onSaveDocumentCommand() {
-    m_saveDocumentView->getFileName(this);
+    m_saveDocumentView->getDocumentSaveParams(this);
   }
 
-  void SaveDocumentController::receiveFileName(std::string fileName) {
-    // NB: STUBby
-    m_documentStorageService->saveDocument(fileName, AbstractModel::Properties::FileFormat::FILE_FORMAT_PNG, 0);
+  void SaveDocumentController::receiveSaveParams(
+    std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
+  ) {
+    m_documentStorageService->saveDocument(fileName, fileFormat, documentHandle);
   }
 }

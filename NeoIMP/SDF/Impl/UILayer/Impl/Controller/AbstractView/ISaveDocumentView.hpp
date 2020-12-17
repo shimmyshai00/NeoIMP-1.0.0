@@ -25,13 +25,13 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::Controller::AbstractView {
-  class IFileNameReceiver;
-  
+  class IDocumentSaveParamsReceiver;
+
   class ISaveDocumentView {
   public:
     virtual ~ISaveDocumentView() = default;
 
-    virtual void getFileName(IFileNameReceiver *fileNameReceiver) = 0;
+    virtual void getDocumentSaveParams(IDocumentSaveParamsReceiver *saveParamsReceiver) = 0;
   };
 }
 

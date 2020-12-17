@@ -43,7 +43,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void addDocumentTab(QString title, QWidget *pageWidget);
+    int addDocumentTab(QString title, QWidget *pageWidget);
+    int getFocusTab();
   signals:
     void newClicked();
     void saveAsClicked();

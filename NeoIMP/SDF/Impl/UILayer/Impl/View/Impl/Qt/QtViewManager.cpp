@@ -70,13 +70,14 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   }
 
   Controller::AbstractView::ISaveDocumentView *QtViewManager::getSaveDocumentView() {
+    m_saveDocumentView->setDocumentHandleToSave(m_tabHandles[m_mainWindow->getFocusTab()]);
     return m_saveDocumentView.get();
   }
 
   IDocumentView *QtViewManager::createDocumentView(ModelLayer::Handle handle) {
     if(m_documentViews.find(handle) == m_documentViews.end()) {
       CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
-      m_mainWindow->addDocumentTab("Untitled", documentWidget);
+      int newTabIndex(m_mainWindow->addDocumentTab("Untitled", documentWidget));
 
       std::unique_ptr<QtDocumentView> documentView(new QtDocumentView(
         m_imageInformationService,
@@ -87,6 +88,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       documentView->showDocument(handle);
 
       m_documentViews[handle] = std::move(documentView);
+      m_tabHandles[newTabIndex] = handle;
     }
 
     return m_documentViews[handle].get();
