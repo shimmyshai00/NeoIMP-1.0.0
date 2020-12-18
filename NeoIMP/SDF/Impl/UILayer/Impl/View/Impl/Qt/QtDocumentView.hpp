@@ -45,21 +45,39 @@ namespace SDF::Impl::UILayer {
       class DocumentWidget;
     }
 
+    namespace Windows {
+      class MainWindow;
+    }
+
     class QtDocumentView : public IDocumentView {
     public:
       QtDocumentView(
         AbstractModel::Services::IImageInformationService *imageInformationService,
         AbstractModel::Services::IImageRenderingService *imageRenderingService,
-        CustomWidgets::DocumentWidget *documentWidget
+        Windows::MainWindow *mainWindow,
+        CustomWidgets::DocumentWidget *documentWidget,
+        int documentTabIndex,
+        ModelLayer::Handle documentHandle
       );
 
-      void showDocument(ModelLayer::Handle handle);
+      ~QtDocumentView();
+
+      void updateDocumentName(std::string documentName);
+
+      void setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
+      QPointer<Windows::MainWindow> m_mainWindow;
       QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
+      int m_documentTabIndex;
+
       std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
+
+      QMetaObject::Connection m_documentGainFocusObserverConn;
+
+      AbstractController::IDocumentGainFocusObserver *m_documentGainFocusObserver;
     };
   }
 }

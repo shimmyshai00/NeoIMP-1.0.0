@@ -32,6 +32,7 @@
 #include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
 
+#include <string>
 #include <cstdlib>
 #include <vector>
 #include <memory>
@@ -43,8 +44,10 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     template<class GilAlphaType, class GilImageType>
     class GilImage : public AbstractImage {
     public:
-      GilImage(std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
+      GilImage(std::string imageName, std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
       ~GilImage();
+
+      std::string getImageName() const;
 
       std::size_t getImageWidth() const;
       std::size_t getImageHeight() const;
@@ -56,12 +59,16 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
 
       std::size_t getNumImageLayers() const;
 
+      void setImageName(std::string newImageName);
+
       void addNewLayer(std::size_t layerNumToInsertBefore);
       void deleteLayer(std::size_t layerNum);
 
       void acceptLayerAlphaVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
       void acceptLayerPixelVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
     private:
+      std::string m_imageName;
+
       std::size_t m_imageWidthPx;
       std::size_t m_imageHeightPx;
       float m_imageResolutionPpi;

@@ -5,4 +5,5 @@ target_sources(neoimp PUBLIC
   DocumentStorageService.cpp
   ImageInformationService.cpp
   ImageRenderingService.cpp
+  ImageBaseEditingService.cpp
 )

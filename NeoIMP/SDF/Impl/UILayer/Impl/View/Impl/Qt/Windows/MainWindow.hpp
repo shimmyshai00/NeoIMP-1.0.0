@@ -44,11 +44,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     ~MainWindow();
 
     int addDocumentTab(QString title, QWidget *pageWidget);
+    void setTabTitle(int index, QString newTitle);
+
     int getFocusTab();
+    QString getDocumentTabTitle(int index);
+    QWidget *getDocumentTabWidget(int index);
   signals:
     void newClicked();
     void saveAsClicked();
     void exitClicked();
+
+    void focusTabChanged(int index);
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
 

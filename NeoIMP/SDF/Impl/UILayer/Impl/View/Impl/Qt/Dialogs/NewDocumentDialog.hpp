@@ -26,6 +26,9 @@
 
 #include <QDialog>
 
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
@@ -40,7 +43,12 @@ namespace SDF::Impl::UILayer::Impl::View {
       NewDocumentDialog(QWidget *parent = nullptr);
       ~NewDocumentDialog();
 
-      void submit(INewDocumentParamsReceiver *recv);
+      int getDocumentWidthPx();
+      int getDocumentHeightPx();
+      float getDocumentResolutionPpi();
+
+      AbstractModel::Properties::ColorModel getDocumentColorModel();
+      AbstractModel::Properties::BitDepth getDocumentBitDepth();
     private slots:
     /*
       void widthChanged();

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTCOMMANDOBSERVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTCOMMANDOBSERVER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IEXITCOMMANDOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IEXITCOMMANDOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentCommandObserver.hpp
- * PURPOSE: An interface to receive a new-document command.
+ * FILE:    IExitCommandObserver.hpp
+ * PURPOSE: An interface to receive an exit command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentCommandObserver {
+namespace SDF::Impl::UILayer::Impl::View::AbstractController {
+  class IExitCommandObserver {
   public:
-    virtual ~INewDocumentCommandObserver() = default;
-    virtual void onNewDocumentCommand() = 0;
+    virtual ~IExitCommandObserver() = default;
+
+    virtual void onExitCommand() = 0;
   };
 }
 

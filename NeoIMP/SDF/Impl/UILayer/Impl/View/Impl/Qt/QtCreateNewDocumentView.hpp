@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTSAVEDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTSAVEDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTCREATENEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTCREATENEWDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtSaveDocumentView.hpp
- * PURPOSE: Headers for the Qt-based save-document view implementation.
+ * FILE:    QtCreateNewDocumentView.hpp
+ * PURPOSE: Headers for the Qt-based create-new-document view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/ISaveDocumentView.hpp>
-
-#include <SDF/Impl/ModelLayer/Handle.hpp>
+#include <SDF/Impl/UILayer/Impl/View/ICreateNewDocumentView.hpp>
 
 #include <QPointer>
-#include <QFileDialog>
+#include <QWidget>
 #include <QMetaObject>
 
+#include <fruit/fruit.h>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
+  namespace Dialogs {
+    class NewDocumentDialog;
   }
 
-  class QtSaveDocumentView : public ISaveDocumentView {
+  class QtCreateNewDocumentView : public ICreateNewDocumentView {
   public:
-    QtSaveDocumentView(QFileDialog *saveFileDialog);
-    ~QtSaveDocumentView();
+    QtCreateNewDocumentView(Dialogs::NewDocumentDialog *newDocumentDialog);
+    ~QtCreateNewDocumentView();
 
     void show();
     
-    void setAcceptDocumentSaveParamsCommandObserver(
-      AbstractController::IAcceptDocumentSaveParamsCommandObserver *observer
-    );
+    void setAcceptDocumentParamsCommandObserver(AbstractController::IAcceptNewDocumentParamsCommandObserver *observer);
   private:
-    QPointer<QFileDialog> m_saveFileDialog;
+    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
 
-    QMetaObject::Connection m_acceptDocumentSaveParamsCommandObserverConn;
+    QMetaObject::Connection m_acceptNewDocumentParamsCommandObserverConn;
 
-    AbstractController::IAcceptDocumentSaveParamsCommandObserver *m_acceptDocumentSaveParamsCommandObserver;
+    AbstractController::IAcceptNewDocumentParamsCommandObserver *m_acceptNewDocumentParamsCommandObserver;
   };
 }
 

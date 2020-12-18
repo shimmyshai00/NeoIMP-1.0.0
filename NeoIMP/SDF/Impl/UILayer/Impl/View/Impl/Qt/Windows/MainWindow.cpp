@@ -45,6 +45,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
       m_documentTabs = new QTabWidget();
       m_documentTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+      connect(m_documentTabs, &QTabWidget::currentChanged, this, &MainWindow::focusTabChanged);
+
       m_ui->tabLayout->addWidget(m_documentTabs, 0, 0);
 
       m_documentTabs->show();
@@ -53,11 +55,33 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     return m_documentTabs->addTab(pageWidget, title);
   }
 
+  void MainWindow::setTabTitle(int index, QString newTitle) {
+    if(m_documentTabs) {
+      m_documentTabs->setTabText(index, newTitle);
+    }
+  }
+
   int MainWindow::getFocusTab() {
     if(!m_documentTabs) {
       return -1; // no tabs available
     } else {
       return m_documentTabs->currentIndex();
+    }
+  }
+
+  QString MainWindow::getDocumentTabTitle(int index) {
+    if(!m_documentTabs) {
+      return "*** ERROR ***";
+    } else {
+      return m_documentTabs->tabText(index);
+    }
+  }
+
+  QWidget *MainWindow::getDocumentTabWidget(int index) {
+    if(!m_documentTabs) {
+      return nullptr;
+    } else {
+      return m_documentTabs->widget(index);
     }
   }
 }

@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/INewDocumentCommandObserver.hpp>
-#include <SDF/Impl/UILayer/Impl/View/INewDocumentParamsReceiver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/INewDocumentCommandObserver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/IAcceptNewDocumentParamsCommandObserver.hpp>
 
 #include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
@@ -40,11 +40,12 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewManager;
-      class INewDocumentParamsView;
+      class ICreateNewDocumentView;
     }
 
     namespace Controller {
-      class NewDocumentController : public View::INewDocumentCommandObserver, public View::INewDocumentParamsReceiver {
+      class NewDocumentController : public View::AbstractController::INewDocumentCommandObserver,
+        public View::AbstractController::IAcceptNewDocumentParamsCommandObserver {
       public:
         INJECT(NewDocumentController(
           View::IViewManager *viewManager,
@@ -52,13 +53,13 @@ namespace SDF::Impl::UILayer {
         ));
 
         void onNewDocumentCommand();
-        void receiveNewDocumentParams(
+        void onAcceptNewDocumentParamsCommand(
           int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
           AbstractModel::Properties::ColorModel colorModel, AbstractModel::Properties::BitDepth bitDepth
         );
       private:
         View::IViewManager *m_viewManager;
-        View::INewDocumentParamsView *m_newDocumentParamsView;
+        View::ICreateNewDocumentView *m_createNewDocumentView;
 
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
       };

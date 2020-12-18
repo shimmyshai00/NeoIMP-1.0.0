@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IEXITCOMMANDOBSERVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IEXITCOMMANDOBSERVER_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEBASEEDITINGSERVICE_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEBASEEDITINGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IExitCommandObserver.hpp
- * PURPOSE: An interface to receive an exit command.
+ * FILE:    IImageBaseEditingService.hpp
+ * PURPOSE: Defines an interface for an MVC service that provides editing of basic image properties.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IExitCommandObserver {
+#include <SDF/Impl/ModelLayer/Handle.hpp>
+
+#include <string>
+
+namespace SDF::Impl::UILayer::AbstractModel::Services {
+  class IImageBaseEditingService {
   public:
-    virtual ~IExitCommandObserver() = default;
-    virtual void onExitCommand() = 0;
+    virtual ~IImageBaseEditingService() = default;
+
+    virtual void setImageName(ModelLayer::Handle handle, std::string newImageName) = 0;
   };
 }
 

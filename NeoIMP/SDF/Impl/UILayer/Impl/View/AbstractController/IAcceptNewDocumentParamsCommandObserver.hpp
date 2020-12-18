@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSRECEIVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSRECEIVER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IACCEPTNEWDOCUMENTPARAMSCOMMANDOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IACCEPTNEWDOCUMENTPARAMSCOMMANDOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentParamsReceiver.hpp
- * PURPOSE: Defines an interface to receive parameters for a new document.
+ * FILE:    IAcceptNewDocumentParamsCommandObserver.hpp
+ * PURPOSE: Defines an interface to receive parameters for creating a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,12 +27,12 @@
 #include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentParamsReceiver {
+namespace SDF::Impl::UILayer::Impl::View::AbstractController {
+  class IAcceptNewDocumentParamsCommandObserver {
   public:
-    virtual ~INewDocumentParamsReceiver() = default;
+    virtual ~IAcceptNewDocumentParamsCommandObserver() = default;
 
-    virtual void receiveNewDocumentParams(
+    virtual void onAcceptNewDocumentParamsCommand(
       int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
       AbstractModel::Properties::ColorModel colorModel, AbstractModel::Properties::BitDepth bitDepth
     ) = 0;

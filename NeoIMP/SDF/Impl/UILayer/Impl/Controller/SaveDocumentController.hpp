@@ -24,8 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/AbstractController/ISaveDocumentCommandReceiver.hpp>
-#include <SDF/Impl/UILayer/Impl/Controller/AbstractView/IDocumentSaveParamsReceiver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/ISaveDocumentCommandObserver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/IAcceptDocumentSaveParamsCommandObserver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/IDocumentGainFocusObserver.hpp>
 
 #include <fruit/fruit.h>
 
@@ -37,15 +38,13 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewManager;
+      class ISaveDocumentView;
     }
 
     namespace Controller {
-      namespace AbstractView {
-        class ISaveDocumentView;
-      }
-
-      class SaveDocumentController : public View::AbstractController::ISaveDocumentCommandReceiver,
-        public Controller::AbstractView::IDocumentSaveParamsReceiver {
+      class SaveDocumentController : public View::AbstractController::ISaveDocumentCommandObserver,
+        public View::AbstractController::IAcceptDocumentSaveParamsCommandObserver,
+        public View::AbstractController::IDocumentGainFocusObserver {
       public:
         INJECT(SaveDocumentController(
           View::IViewManager *viewManager,
@@ -53,13 +52,14 @@ namespace SDF::Impl::UILayer {
         ));
 
         void onSaveDocumentCommand();
-        void receiveSaveParams(
-          std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
-        );
+        void onAcceptDocumentSaveParamsCommand(std::string fileName, AbstractModel::Properties::FileFormat fileFormat);
+        void onDocumentGainedFocus(ModelLayer::Handle newFocusDocumentHandle);
       private:
-        AbstractView::ISaveDocumentView *m_saveDocumentView;
+        View::ISaveDocumentView *m_saveDocumentView;
 
         AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
+
+        ModelLayer::Handle m_focusDocumentHandle;
       };
     }
   }

@@ -27,6 +27,7 @@
 #include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
 
+#include <string>
 #include <memory>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
@@ -34,6 +35,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
 
   namespace Gil {
     std::unique_ptr<AbstractImage> createImage(
+      std::string imageName,
       int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
       UILayer::AbstractModel::Properties::ColorModel colorModel, UILayer::AbstractModel::Properties::BitDepth bitDepth
     );

@@ -41,7 +41,7 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     UILayer::AbstractModel::Properties::BitDepth bitDepth
   ) {
     return m_imageMap->add(DomainObjects::Image::Gil::createImage(
-      documentWidthPx, documentHeightPx, documentResolutionPpi,
+      "Untitled", documentWidthPx, documentHeightPx, documentResolutionPpi,
       colorModel, bitDepth
     ));
   }

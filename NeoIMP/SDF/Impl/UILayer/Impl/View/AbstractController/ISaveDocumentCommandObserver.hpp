@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_ISAVEDOCUMENTCOMMANDOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_ISAVEDOCUMENTCOMMANDOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentParamsView.hpp
- * PURPOSE: Defines an interface for an MVC view to get the parameters for a new document from the user.
+ * FILE:    ISaveDocumentCommandObserver.hpp
+ * PURPOSE: The interface for observers for the save-document command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentParamsReceiver;
-
-  class INewDocumentParamsView {
+namespace SDF::Impl::UILayer::Impl::View::AbstractController {
+  class ISaveDocumentCommandObserver {
   public:
-    virtual ~INewDocumentParamsView() = default;
+    virtual ~ISaveDocumentCommandObserver() = default;
 
-    virtual void getNewDocumentParams(INewDocumentParamsReceiver *recv) = 0;
+    virtual void onSaveDocumentCommand() = 0;
   };
 }
 

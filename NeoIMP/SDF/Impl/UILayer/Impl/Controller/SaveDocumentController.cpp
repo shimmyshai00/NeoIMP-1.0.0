@@ -27,7 +27,7 @@
 #include <AbstractModel/Services/IDocumentStorageService.hpp>
 
 #include <View/IViewManager.hpp>
-#include <AbstractView/ISaveDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   SaveDocumentController::SaveDocumentController(
@@ -35,16 +35,23 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     AbstractModel::Services::IDocumentStorageService *documentStorageService
   )
     : m_saveDocumentView(viewManager->getSaveDocumentView()),
-      m_documentStorageService(documentStorageService)
-  {}
-
-  void SaveDocumentController::onSaveDocumentCommand() {
-    m_saveDocumentView->getDocumentSaveParams(this);
+      m_documentStorageService(documentStorageService),
+      m_focusDocumentHandle(-1)
+  {
+    m_saveDocumentView->setAcceptDocumentSaveParamsCommandObserver(this);
   }
 
-  void SaveDocumentController::receiveSaveParams(
-    std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
+  void SaveDocumentController::onSaveDocumentCommand() {
+    m_saveDocumentView->show();
+  }
+
+  void SaveDocumentController::onAcceptDocumentSaveParamsCommand(
+    std::string fileName, AbstractModel::Properties::FileFormat fileFormat
   ) {
-    m_documentStorageService->saveDocument(fileName, fileFormat, documentHandle);
+    m_documentStorageService->saveDocument(fileName, fileFormat, m_focusDocumentHandle);
+  }
+
+  void SaveDocumentController::onDocumentGainedFocus(ModelLayer::Handle newFocusDocumentHandle) {
+    m_focusDocumentHandle = newFocusDocumentHandle;
   }
 }

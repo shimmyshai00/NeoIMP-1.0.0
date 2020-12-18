@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtNewDocumentParamsView.cpp
- * PURPOSE: The Qt-based new-document parameters view implementation.
+ * FILE:    INewDocumentParamsView.hpp
+ * PURPOSE: Defines an interface for an MVC view to get the parameters for a new document from the user.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtNewDocumentParamsView.hpp>
-
-#include <INewDocumentParamsReceiver.hpp>
-
-#include <Dialogs/NewDocumentDialog.hpp>
-
-#include <QApplication>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtNewDocumentParamsView::QtNewDocumentParamsView(Dialogs::NewDocumentDialog *newDocumentDialog)
-    : m_newDocumentDialog(newDocumentDialog)
-  {}
-
-  QtNewDocumentParamsView::~QtNewDocumentParamsView() {
-    QObject::disconnect(m_newDocumentParamsReceiverConn);
+namespace SDF::Impl::UILayer::Impl::View {
+  namespace AbstractController {
+    class IAcceptNewDocumentParamsCommandObserver;
   }
 
-  void QtNewDocumentParamsView::getNewDocumentParams(INewDocumentParamsReceiver *recv) {
-    m_newDocumentParamsReceiverConn = QObject::connect(m_newDocumentDialog, &QDialog::accepted, qApp, [=]() {
-      m_newDocumentDialog->submit(recv);
-    });
+  class ICreateNewDocumentView {
+  public:
+    virtual ~ICreateNewDocumentView() = default;
 
-    m_newDocumentDialog->open();
-  }
+    virtual void show() = 0;
+
+    virtual void setAcceptDocumentParamsCommandObserver(
+      AbstractController::IAcceptNewDocumentParamsCommandObserver *observer
+    ) = 0;
+  };
 }
+
+#endif

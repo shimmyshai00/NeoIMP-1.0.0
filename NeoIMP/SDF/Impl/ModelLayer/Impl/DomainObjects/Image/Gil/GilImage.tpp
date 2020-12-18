@@ -28,11 +28,13 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::GilImage(
+    std::string imageName,
     std::size_t imageWidthPx,
     std::size_t imageHeightPx,
     float imageResolutionPpi
   )
-    : m_imageWidthPx(imageWidthPx),
+    : m_imageName(imageName),
+      m_imageWidthPx(imageWidthPx),
       m_imageHeightPx(imageHeightPx),
       m_imageResolutionPpi(imageResolutionPpi)
   {
@@ -41,6 +43,11 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
 
   template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::~GilImage() {}
+
+  template<class GilAlphaType, class GilImageType>
+  std::string GilImage<GilAlphaType, GilImageType>::getImageName() const {
+    return m_imageName;
+  }
 
   template<class GilAlphaType, class GilImageType>
   std::size_t GilImage<GilAlphaType, GilImageType>::getImageWidth() const {
@@ -77,6 +84,11 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
   std::size_t GilImage<GilAlphaType, GilImageType>::getNumImageLayers() const {
     return m_layers.size();
+  }
+
+  template<class GilAlphaType, class GilImageType>
+  void GilImage<GilAlphaType, GilImageType>::setImageName(std::string newImageName) {
+    m_imageName = newImageName;
   }
 
   template<class GilAlphaType, class GilImageType>

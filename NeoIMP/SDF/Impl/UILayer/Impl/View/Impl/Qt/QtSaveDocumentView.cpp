@@ -23,36 +23,35 @@
 
 #include <QtSaveDocumentView.hpp>
 
-#include <Controller/AbstractView/IDocumentSaveParamsReceiver.hpp>
+#include <AbstractController/IAcceptDocumentSaveParamsCommandObserver.hpp>
 
 #include <QApplication>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtSaveDocumentView::QtSaveDocumentView(QFileDialog *saveFileDialog)
-    : m_documentHandleToSave(-1),
-      m_saveFileDialog(saveFileDialog)
-  {}
-
-  QtSaveDocumentView::~QtSaveDocumentView() {
-    QObject::disconnect(m_saveParamsReceiverConn);
-  }
-
-  void QtSaveDocumentView::setDocumentHandleToSave(ModelLayer::Handle documentHandleToSave) {
-    m_documentHandleToSave = documentHandleToSave;
-  }
-  
-  void QtSaveDocumentView::getDocumentSaveParams(
-    Controller::AbstractView::IDocumentSaveParamsReceiver *saveParamsReceiver
-  ) {
-    m_saveParamsReceiverConn = QObject::connect(
-      m_saveFileDialog, &QFileDialog::fileSelected,
-      qApp, [=](const QString &file) {
-        saveParamsReceiver->receiveSaveParams(
-          file.toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG, m_documentHandleToSave
+  QtSaveDocumentView::QtSaveDocumentView(QFileDialog *saveFileDialog) : m_saveFileDialog(saveFileDialog) {
+    m_acceptDocumentSaveParamsCommandObserverConn = QFileDialog::connect(
+      m_saveFileDialog,
+      &QFileDialog::accepted,
+      [=]() {
+        QString file(m_saveFileDialog->selectedFiles()[0]);
+        m_acceptDocumentSaveParamsCommandObserver->onAcceptDocumentSaveParamsCommand(
+          file.toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG
         );
       }
     );
+  }
 
+  QtSaveDocumentView::~QtSaveDocumentView() {
+    QObject::disconnect(m_acceptDocumentSaveParamsCommandObserverConn);
+  }
+
+  void QtSaveDocumentView::show() {
     m_saveFileDialog->open();
+  }
+
+  void QtSaveDocumentView::setAcceptDocumentSaveParamsCommandObserver(
+    AbstractController::IAcceptDocumentSaveParamsCommandObserver *observer
+  ) {
+    m_acceptDocumentSaveParamsCommandObserver = observer;
   }
 }

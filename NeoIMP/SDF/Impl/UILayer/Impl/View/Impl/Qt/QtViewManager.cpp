@@ -28,13 +28,14 @@
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 
 #include <IApplicationView.hpp>
-#include <INewDocumentParamsView.hpp>
+#include <ICreateNewDocumentView.hpp>
+#include <ISaveDocumentView.hpp>
 #include <IDocumentView.hpp>
 
 #include <CustomWidgets/IImageDataSource.hpp>
 
 #include <QtApplicationView.hpp>
-#include <QtNewDocumentParamsView.hpp>
+#include <QtCreateNewDocumentView.hpp>
 #include <QtSaveDocumentView.hpp>
 #include <QtDocumentView.hpp>
 
@@ -53,7 +54,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_newDocumentDialog(new Dialogs::NewDocumentDialog),
       m_saveDocumentDialog(new QFileDialog(nullptr, "Save As")),
       m_applicationView(new QtApplicationView(m_mainWindow.get())),
-      m_newDocumentParamsView(new QtNewDocumentParamsView(m_newDocumentDialog.get())),
+      m_createNewDocumentView(new QtCreateNewDocumentView(m_newDocumentDialog.get())),
       m_saveDocumentView(new QtSaveDocumentView(m_saveDocumentDialog.get()))
   {
     m_saveDocumentDialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -65,12 +66,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return m_applicationView.get();
   }
 
-  INewDocumentParamsView *QtViewManager::getNewDocumentParamsView() {
-    return m_newDocumentParamsView.get();
+  ICreateNewDocumentView *QtViewManager::getCreateNewDocumentView() {
+    return m_createNewDocumentView.get();
   }
 
-  Controller::AbstractView::ISaveDocumentView *QtViewManager::getSaveDocumentView() {
-    m_saveDocumentView->setDocumentHandleToSave(m_tabHandles[m_mainWindow->getFocusTab()]);
+  ISaveDocumentView *QtViewManager::getSaveDocumentView() {
     return m_saveDocumentView.get();
   }
 
@@ -82,13 +82,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       std::unique_ptr<QtDocumentView> documentView(new QtDocumentView(
         m_imageInformationService,
         m_imageRenderingService,
-        documentWidget
+        m_mainWindow.get(),
+        documentWidget,
+        newTabIndex,
+        handle
       ));
 
-      documentView->showDocument(handle);
-
       m_documentViews[handle] = std::move(documentView);
-      m_tabHandles[newTabIndex] = handle;
     }
 
     return m_documentViews[handle].get();

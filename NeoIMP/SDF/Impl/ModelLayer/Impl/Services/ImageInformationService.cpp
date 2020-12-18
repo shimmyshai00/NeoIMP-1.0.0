@@ -35,6 +35,14 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     : m_imageMap(imageMap)
   {}
 
+  std::string ImageInformationService::getImageName(ModelLayer::Handle handle) {
+    if(m_imageMap->find(handle) == nullptr) {
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+    }
+
+    return m_imageMap->find(handle)->getImageName();
+  }
+  
   int ImageInformationService::getImageWidth(ModelLayer::Handle handle) {
     if(m_imageMap->find(handle) == nullptr) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);

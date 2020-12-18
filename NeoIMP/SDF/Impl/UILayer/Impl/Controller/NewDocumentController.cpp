@@ -27,7 +27,7 @@
 #include <ModelLayer/Handle.hpp>
 
 #include <View/IViewManager.hpp>
-#include <View/INewDocumentParamsView.hpp>
+#include <View/ICreateNewDocumentView.hpp>
 #include <View/IDocumentView.hpp>
 
 #include <iostream>
@@ -38,15 +38,17 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     AbstractModel::Services::IDocumentCreationService *documentCreationService
   )
     : m_viewManager(viewManager),
-      m_newDocumentParamsView(viewManager->getNewDocumentParamsView()),
+      m_createNewDocumentView(viewManager->getCreateNewDocumentView()),
       m_documentCreationService(documentCreationService)
-  {}
-
-  void NewDocumentController::onNewDocumentCommand() {
-    m_newDocumentParamsView->getNewDocumentParams(this);
+  {
+    m_createNewDocumentView->setAcceptDocumentParamsCommandObserver(this);
   }
 
-  void NewDocumentController::receiveNewDocumentParams(
+  void NewDocumentController::onNewDocumentCommand() {
+    m_createNewDocumentView->show();
+  }
+
+  void NewDocumentController::onAcceptNewDocumentParamsCommand(
     int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
     AbstractModel::Properties::ColorModel colorModel, AbstractModel::Properties::BitDepth bitDepth
   ) {

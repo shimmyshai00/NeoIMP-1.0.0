@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IExitCommandObserver.hpp>
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/IExitCommandObserver.hpp>
 
 #include <fruit/fruit.h>
 
@@ -35,7 +35,7 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   namespace Controller {
-    class ApplicationController : public View::IExitCommandObserver {
+    class ApplicationController : public View::AbstractController::IExitCommandObserver {
     public:
       INJECT(ApplicationController(View::IViewManager *viewManager));
 

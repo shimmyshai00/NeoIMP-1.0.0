@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISaveDocumentCommandReceiver.hpp
- * PURPOSE: The interface for receivers for the save-document command.
+ * FILE:    ImageBaseEditingService.cpp
+ * PURPOSE: The implementation of the MVC base image editing service.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +21,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View::AbstractController {
-  class ISaveDocumentCommandReceiver {
-  public:
-    virtual ~ISaveDocumentCommandReceiver() = default;
+#include <ImageBaseEditingService.hpp>
 
-    virtual void onSaveDocumentCommand() = 0;
-  };
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Meta/ObjectMap.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
+#include <SDF/Impl/ModelLayer/Exceptions/Exceptions.hpp>
+
+namespace SDF::Impl::ModelLayer::Impl::Services {
+  ImageBaseEditingService::ImageBaseEditingService(
+    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
+  )
+    : m_imageMap(imageMap)
+  {}
+
+  void ImageBaseEditingService::setImageName(ModelLayer::Handle handle, std::string newImageName) {
+    if(m_imageMap->find(handle) == nullptr) {
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+    }
+
+    m_imageMap->find(handle)->setImageName(newImageName);
+  }
 }
-
-#endif

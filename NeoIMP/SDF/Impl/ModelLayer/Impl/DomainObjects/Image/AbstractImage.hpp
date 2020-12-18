@@ -29,12 +29,17 @@
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
+#include <string>
+#include <cstdlib>
+
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   class ImageDataVisitor;
 
   class AbstractImage {
   public:
     virtual ~AbstractImage() = default;
+
+    virtual std::string getImageName() const = 0;
 
     virtual std::size_t getImageWidth() const = 0;
     virtual std::size_t getImageHeight() const = 0;
@@ -46,6 +51,8 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
 
     virtual std::size_t getNumImageLayers() const = 0;
 
+    virtual void setImageName(std::string newImageName) = 0;
+    
     virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
     virtual void deleteLayer(std::size_t layerNum) = 0;
 

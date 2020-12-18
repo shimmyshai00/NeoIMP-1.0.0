@@ -26,10 +26,14 @@
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
+#include <string>
+
 namespace SDF::Impl::UILayer::AbstractModel::Services {
   class IImageInformationService {
   public:
     virtual ~IImageInformationService() = default;
+
+    virtual std::string getImageName(ModelLayer::Handle handle) = 0;
 
     virtual int getImageWidth(ModelLayer::Handle handle) = 0;
     virtual int getImageHeight(ModelLayer::Handle handle) = 0;

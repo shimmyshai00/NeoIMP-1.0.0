@@ -35,8 +35,6 @@
 #include <Strings/ColorModels.hpp>
 #include <Strings/BitDepths.hpp>
 
-#include <INewDocumentParamsReceiver.hpp>
-
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
   NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
   QDialog(parent),
@@ -75,16 +73,23 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
     delete m_ui;
   }
 
-  void NewDocumentDialog::submit(INewDocumentParamsReceiver *recv) {
-    // Submit the gathered information to the model layer via the receiver.
-    if(recv != nullptr) {
-      recv->receiveNewDocumentParams(
-        m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
-        m_ui->imageHeightInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One),
-        m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Resolution::Units::PixelsPerInch),
-        static_cast<AbstractModel::Properties::ColorModel>(m_ui->colorModelComboBox->currentData().toInt()),
-        static_cast<AbstractModel::Properties::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt())
-      );
-    }
+  int NewDocumentDialog::getDocumentWidthPx() {
+    return m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One);
+  }
+
+  int NewDocumentDialog::getDocumentHeightPx() {
+    return m_ui->imageHeightInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One);
+  }
+
+  float NewDocumentDialog::getDocumentResolutionPpi() {
+    return m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Resolution::Units::PixelsPerInch);
+  }
+
+  AbstractModel::Properties::ColorModel NewDocumentDialog::getDocumentColorModel() {
+    return static_cast<AbstractModel::Properties::ColorModel>(m_ui->colorModelComboBox->currentData().toInt());
+  }
+
+  AbstractModel::Properties::BitDepth NewDocumentDialog::getDocumentBitDepth() {
+    return static_cast<AbstractModel::Properties::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt());
   }
 }

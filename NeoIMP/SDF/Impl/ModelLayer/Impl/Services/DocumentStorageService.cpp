@@ -31,7 +31,6 @@
 #include <DomainObjects/Meta/ObjectMap.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(
     DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap,

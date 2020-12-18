@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IDOCUMENTSAVEPARAMSRECEIVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTIVEW_IDOCUMENTSAVEPARAMSRECEIVER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_IACCEPTDOCUMENTSAVEPARAMSCOMMANDOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_ABSTRACTCONTROLLER_IACCEPTDOCUMENTSAVEPARAMSCOMMANDOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentSaveParamsReceiver.hpp
- * PURPOSE: An interface to receive from the user the parameters needed for saving a document.
+ * FILE:    IAcceptDocumentSaveParamsCommandObserver.hpp
+ * PURPOSE: Defines an interface to receive parameters for saving a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,16 @@
  */
 
 #include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormats.hpp>
-#include <SDF/Impl/ModelLayer/Handle.hpp>
 
 #include <string>
 
-namespace SDF::Impl::UILayer::Impl::Controller::AbstractView {
-  class IDocumentSaveParamsReceiver {
+namespace SDF::Impl::UILayer::Impl::View::AbstractController {
+  class IAcceptDocumentSaveParamsCommandObserver {
   public:
-    virtual ~IDocumentSaveParamsReceiver() = default;
+    virtual ~IAcceptDocumentSaveParamsCommandObserver() = default;
 
-    virtual void receiveSaveParams(
-      std::string fileName, AbstractModel::Properties::FileFormat fileFormat, ModelLayer::Handle documentHandle
+    virtual void onAcceptDocumentSaveParamsCommand(
+      std::string fileName, AbstractModel::Properties::FileFormat fileFormat
     ) = 0;
   };
 }

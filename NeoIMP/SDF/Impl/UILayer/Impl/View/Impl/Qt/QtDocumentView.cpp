@@ -26,10 +26,12 @@
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 #include <CustomWidgets/IImageDataSource.hpp>
+#include <AbstractController/IDocumentGainFocusObserver.hpp>
 
+#include <Windows/MainWindow.hpp>
 #include <CustomWidgets/DocumentWidget.hpp>
 
-#include <QApplication>
+#include <QString>
 
 #include <iostream>
 
@@ -69,17 +71,41 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   QtDocumentView::QtDocumentView(
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService,
-    CustomWidgets::DocumentWidget *documentWidget
+    Windows::MainWindow *mainWindow,
+    CustomWidgets::DocumentWidget *documentWidget,
+    int documentTabIndex,
+    ModelLayer::Handle documentHandle
   )
     : m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
+      m_mainWindow(mainWindow),
       m_documentWidget(documentWidget),
-      m_imageDataSource(nullptr)
-  {}
+      m_documentTabIndex(documentTabIndex),
+      m_imageDataSource(new ImageDataSource(imageInformationService, imageRenderingService, documentHandle)),
+      m_documentGainFocusObserver(nullptr)
+  {
+    updateDocumentName(m_imageInformationService->getImageName(documentHandle));
 
-  // nb: put under auspice of controller instead?
-  void QtDocumentView::showDocument(ModelLayer::Handle handle) {
-    m_imageDataSource = std::make_unique<ImageDataSource>(m_imageInformationService, m_imageRenderingService, handle);
-    m_documentWidget->setDataSource(m_imageDataSource.get());
+    m_documentGainFocusObserverConn = Windows::MainWindow::connect(
+      m_mainWindow,
+      &Windows::MainWindow::focusTabChanged,
+      [=](int index) {
+        if(index == m_documentTabIndex) {
+          m_documentGainFocusObserver->onDocumentGainedFocus(documentHandle);
+        }
+      }
+    );
+  }
+
+  QtDocumentView::~QtDocumentView() {
+    Windows::MainWindow::disconnect(m_documentGainFocusObserverConn);
+  }
+
+  void QtDocumentView::updateDocumentName(std::string documentName) {
+    m_mainWindow->setTabTitle(m_documentTabIndex, QString(documentName.c_str()));
+  }
+
+  void QtDocumentView::setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer) {
+    m_documentGainFocusObserver = observer;
   }
 }

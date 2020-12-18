@@ -44,7 +44,8 @@ namespace SDF::Impl::UILayer {
 
   namespace Impl::View {
     class IApplicationView;
-    class INewDocumentParamsView;
+    class ICreateNewDocumentView;
+    class ISaveDocumentView;
     class IDocumentView;
 
     namespace Impl::Qt {
@@ -57,7 +58,7 @@ namespace SDF::Impl::UILayer {
       }
 
       class QtApplicationView;
-      class QtNewDocumentParamsView;
+      class QtCreateNewDocumentView;
       class QtSaveDocumentView;
       class QtDocumentView;
 
@@ -71,8 +72,8 @@ namespace SDF::Impl::UILayer {
         ~QtViewManager();
 
         IApplicationView *getApplicationView();
-        INewDocumentParamsView *getNewDocumentParamsView();
-        Controller::AbstractView::ISaveDocumentView *getSaveDocumentView();
+        ICreateNewDocumentView *getCreateNewDocumentView();
+        ISaveDocumentView *getSaveDocumentView();
         IDocumentView *createDocumentView(ModelLayer::Handle documentHandle);
       private:
         AbstractModel::Services::IImageInformationService *m_imageInformationService;
@@ -83,13 +84,10 @@ namespace SDF::Impl::UILayer {
         std::unique_ptr<QFileDialog> m_saveDocumentDialog;
 
         std::unique_ptr<QtApplicationView> m_applicationView;
-        std::unique_ptr<QtNewDocumentParamsView> m_newDocumentParamsView;
+        std::unique_ptr<QtCreateNewDocumentView> m_createNewDocumentView;
         std::unique_ptr<QtSaveDocumentView> m_saveDocumentView;
 
         std::map<ModelLayer::Handle, std::unique_ptr<QtDocumentView>> m_documentViews;
-
-        // nb: move this out of here?
-        std::map<int, ModelLayer::Handle> m_tabHandles;
       };
     }
   }
