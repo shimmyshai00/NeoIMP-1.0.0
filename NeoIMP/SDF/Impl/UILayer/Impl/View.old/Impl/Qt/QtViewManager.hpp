@@ -74,7 +74,9 @@ namespace SDF::Impl::UILayer {
         IApplicationView *getApplicationView();
         ICreateNewDocumentView *getCreateNewDocumentView();
         ISaveDocumentView *getSaveDocumentView();
-        IDocumentView *createDocumentView(ModelLayer::Handle documentHandle);
+        IDocumentView *getDocumentView(ModelLayer::Handle documentHandle);
+
+        void createDocumentView(ModelLayer::Handle documentHandle);
       private:
         AbstractModel::Services::IImageInformationService *m_imageInformationService;
         AbstractModel::Services::IImageRenderingService *m_imageRenderingService;

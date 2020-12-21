@@ -25,17 +25,22 @@
 
 #include <AbstractModel/Properties/FileFormats.hpp>
 #include <AbstractModel/Services/IDocumentStorageService.hpp>
+#include <AbstractModel/Services/IImageBaseEditingService.hpp>
 
 #include <View/IViewManager.hpp>
 #include <View/ISaveDocumentView.hpp>
+#include <View/IDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   SaveDocumentController::SaveDocumentController(
     View::IViewManager *viewManager,
-    AbstractModel::Services::IDocumentStorageService *documentStorageService
+    AbstractModel::Services::IDocumentStorageService *documentStorageService,
+    AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService
   )
-    : m_saveDocumentView(viewManager->getSaveDocumentView()),
+    : m_viewManager(viewManager),
+      m_saveDocumentView(viewManager->getSaveDocumentView()),
       m_documentStorageService(documentStorageService),
+      m_imageBaseEditingService(imageBaseEditingService),
       m_focusDocumentHandle(-1)
   {
     m_saveDocumentView->setAcceptDocumentSaveParamsCommandObserver(this);
@@ -49,6 +54,9 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     std::string fileName, AbstractModel::Properties::FileFormat fileFormat
   ) {
     m_documentStorageService->saveDocument(fileName, fileFormat, m_focusDocumentHandle);
+    m_imageBaseEditingService->setImageName(m_focusDocumentHandle, fileName);
+
+    m_viewManager->getDocumentView(m_focusDocumentHandle)->updateDocumentName(fileName);
   }
 
   void SaveDocumentController::onDocumentGainedFocus(ModelLayer::Handle newFocusDocumentHandle) {

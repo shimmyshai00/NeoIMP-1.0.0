@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IApplicationView.hpp
- * PURPOSE: Defines an interface for the application MVC view.
+ * PURPOSE: Interface for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,22 +25,24 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
+  namespace Observers {
     class INewDocumentCommandObserver;
     class ISaveDocumentCommandObserver;
+    class ISaveDocumentAsCommandObserver;
     class IExitCommandObserver;
   }
 
   class IApplicationView {
   public:
-    virtual ~IApplicationView() = default;
+    virtual ~IApplicationView() = 0;
 
     virtual void show() = 0;
     virtual void close() = 0;
 
-    virtual void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer) = 0;
-    virtual void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer) = 0;
-    virtual void setExitCommandObserver(AbstractController::IExitCommandObserver *observer) = 0;
+    virtual void addNewDocumentCommandObserver(Observers::INewDocumentCommandObserver *observer) = 0;
+    virtual void addSaveDocumentCommandObserver(Observers::ISaveDocumentCommandObserver *observer) = 0;
+    virtual void addSaveDocumentAsCommandObserver(Observers::ISaveDocumentAsCommandObserver *observer) = 0;
+    virtual void addExitCommandObserver(Observers::IExitCommandObserver *observer) = 0;
   };
 }
 

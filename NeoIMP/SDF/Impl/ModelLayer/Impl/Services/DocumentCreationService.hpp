@@ -26,8 +26,7 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentCreationService.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 #include <fruit/fruit.h>
 
@@ -48,11 +47,7 @@ namespace SDF::Impl::ModelLayer::Impl {
     public:
       INJECT(DocumentCreationService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
 
-      Handle createDocument(
-        int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-        UILayer::AbstractModel::Properties::ColorModel colorModel,
-        UILayer::AbstractModel::Properties::BitDepth bitDepth
-      );
+      Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
     private:
       DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
     };

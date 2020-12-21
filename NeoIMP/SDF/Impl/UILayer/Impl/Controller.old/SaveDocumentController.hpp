@@ -33,6 +33,7 @@
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IDocumentStorageService;
+    class IImageBaseEditingService;
   }
 
   namespace Impl {
@@ -48,16 +49,19 @@ namespace SDF::Impl::UILayer {
       public:
         INJECT(SaveDocumentController(
           View::IViewManager *viewManager,
-          AbstractModel::Services::IDocumentStorageService *documentStorageService
+          AbstractModel::Services::IDocumentStorageService *documentStorageService,
+          AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService
         ));
 
         void onSaveDocumentCommand();
         void onAcceptDocumentSaveParamsCommand(std::string fileName, AbstractModel::Properties::FileFormat fileFormat);
         void onDocumentGainedFocus(ModelLayer::Handle newFocusDocumentHandle);
       private:
+        View::IViewManager *m_viewManager;
         View::ISaveDocumentView *m_saveDocumentView;
 
         AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
+        AbstractModel::Services::IImageBaseEditingService *m_imageBaseEditingService;
 
         ModelLayer::Handle m_focusDocumentHandle;
       };

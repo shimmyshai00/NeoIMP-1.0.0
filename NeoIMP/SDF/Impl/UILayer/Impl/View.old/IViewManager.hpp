@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_HANDLE_HPP
-#define SDF_IMPL_MODELLAYER_HANDLE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines an opaque handle type used to reference model-layer objects through services. Each handle uniquely
- *          references a particular domain object.
+ * FILE:    IViewManager.hpp
+ * PURPOSE: The interface for the view manager.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,10 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::ModelLayer {
-  typedef int Handle;
+#include <SDF/Impl/ModelLayer/Handle.hpp>
 
-  static const Handle HANDLE_INVALID = -1;
+#include <memory>
+
+namespace SDF::Impl::UILayer::Impl::View {
+  class IApplicationView;
+  class ICreateNewDocumentView;
+  class ISaveDocumentView;
+  class IDocumentView;
+
+  class IViewManager {
+  public:
+    virtual ~IViewManager() = default;
+
+    virtual IApplicationView *getApplicationView() = 0;
+    virtual ICreateNewDocumentView *getCreateNewDocumentView() = 0;
+    virtual ISaveDocumentView *getSaveDocumentView() = 0;
+    virtual IDocumentView *getDocumentView(ModelLayer::Handle documentHandle) = 0;
+
+    virtual void createDocumentView(ModelLayer::Handle documentHandle) = 0;
+  };
 }
 
 #endif

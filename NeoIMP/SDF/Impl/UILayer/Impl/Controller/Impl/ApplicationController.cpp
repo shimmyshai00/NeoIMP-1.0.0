@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMATS_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMATS_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FileFormats.hpp
- * PURPOSE: Enumeration of the available image file formats.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: Implementation of the application controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +21,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractModel::Properties {
-  enum FileFormat {
-    FILE_FORMAT_PNG,
-    FILE_FORMAT_MAX
-  };
-}
+#include <ApplicationController.hpp>
 
-#endif
+#include <View/IApplicationView.hpp>
+
+namespace SDF::Impl::UILayer::Impl::Controller::Impl {
+  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
+    : m_applicationView(applicationView)
+  {}
+
+  void ApplicationController::onProgramStarted() {
+    m_applicationView->show();
+  }
+
+  void ApplicationController::onExitCommand() {
+    m_applicationView->close();
+  }
+}

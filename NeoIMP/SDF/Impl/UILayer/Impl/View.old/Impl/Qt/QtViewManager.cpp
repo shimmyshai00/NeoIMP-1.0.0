@@ -74,7 +74,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return m_saveDocumentView.get();
   }
 
-  IDocumentView *QtViewManager::createDocumentView(ModelLayer::Handle handle) {
+  IDocumentView *QtViewManager::getDocumentView(ModelLayer::Handle documentHandle) {
+    if(m_documentViews.find(documentHandle) == m_documentViews.end()) {
+      return nullptr;
+    } else {
+      return m_documentViews[documentHandle].get();
+    }
+  }
+
+  void QtViewManager::createDocumentView(ModelLayer::Handle handle) {
     if(m_documentViews.find(handle) == m_documentViews.end()) {
       CustomWidgets::DocumentWidget *documentWidget(new CustomWidgets::DocumentWidget);
       int newTabIndex(m_mainWindow->addDocumentTab("Untitled", documentWidget));
@@ -90,7 +98,5 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
       m_documentViews[handle] = std::move(documentView);
     }
-
-    return m_documentViews[handle].get();
   }
 }

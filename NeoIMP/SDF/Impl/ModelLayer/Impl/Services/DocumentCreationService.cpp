@@ -35,14 +35,10 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     : m_imageMap(imageMap)
   {}
 
-  Handle DocumentCreationService::createDocument(
-    int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-    UILayer::AbstractModel::Properties::ColorModel colorModel,
-    UILayer::AbstractModel::Properties::BitDepth bitDepth
-  ) {
+  Handle DocumentCreationService::createDocument(UILayer::AbstractModel::Data::DocumentSpec spec) {
     return m_imageMap->add(DomainObjects::Image::Gil::createImage(
-      "Untitled", documentWidthPx, documentHeightPx, documentResolutionPpi,
-      colorModel, bitDepth
+      spec.documentName, spec.documentWidthPx, spec.documentHeightPx, spec.documentResolutionPpi,
+      spec.colorModel, spec.bitDepth
     ));
   }
 }

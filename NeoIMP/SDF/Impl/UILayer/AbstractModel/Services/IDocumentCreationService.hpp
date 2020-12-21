@@ -26,18 +26,14 @@
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::UILayer::AbstractModel::Services {
   class IDocumentCreationService {
   public:
     virtual ~IDocumentCreationService() = default;
 
-    virtual ModelLayer::Handle createDocument(
-      int documentWidthPx, int documentHeightPx, float documentResolutionPpi,
-      Properties::ColorModel colorModel, Properties::BitDepth bitDepth
-    ) = 0;
+    virtual ModelLayer::Handle createDocument(Data::DocumentSpec spec) = 0;
   };
 }
 

@@ -85,6 +85,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_documentGainFocusObserver(nullptr)
   {
     updateDocumentName(m_imageInformationService->getImageName(documentHandle));
+    m_documentWidget->setDataSource(m_imageDataSource.get());
 
     m_documentGainFocusObserverConn = Windows::MainWindow::connect(
       m_mainWindow,
@@ -99,6 +100,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   QtDocumentView::~QtDocumentView() {
     Windows::MainWindow::disconnect(m_documentGainFocusObserverConn);
+    m_documentWidget->setDataSource(nullptr);
   }
 
   void QtDocumentView::updateDocumentName(std::string documentName) {

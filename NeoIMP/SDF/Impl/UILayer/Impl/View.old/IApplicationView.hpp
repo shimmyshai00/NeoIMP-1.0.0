@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewManager.hpp
- * PURPOSE: The interface for the view manager.
+ * FILE:    IApplicationView.hpp
+ * PURPOSE: Defines an interface for the application MVC view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
-
-#include <memory>
-
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class ICreateNewDocumentView;
-  class ISaveDocumentView;
-  class IDocumentView;
+  namespace AbstractController {
+    class INewDocumentCommandObserver;
+    class ISaveDocumentCommandObserver;
+    class IExitCommandObserver;
+  }
 
-  class IViewManager {
+  class IApplicationView {
   public:
-    virtual ~IViewManager() = default;
+    virtual ~IApplicationView() = default;
 
-    virtual IApplicationView *getApplicationView() = 0;
-    virtual ICreateNewDocumentView *getCreateNewDocumentView() = 0;
-    virtual ISaveDocumentView *getSaveDocumentView() = 0;
-    virtual IDocumentView *createDocumentView(ModelLayer::Handle documentHandle) = 0;
+    virtual void show() = 0;
+    virtual void close() = 0;
+
+    virtual void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer) = 0;
+    virtual void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer) = 0;
+    virtual void setExitCommandObserver(AbstractController::IExitCommandObserver *observer) = 0;
   };
 }
 

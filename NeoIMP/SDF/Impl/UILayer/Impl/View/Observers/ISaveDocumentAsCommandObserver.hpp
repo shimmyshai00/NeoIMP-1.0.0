@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_BITDEPTHS_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_BITDEPTHS_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_ISAVEDOCUMENTASCOMMANDOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_ISAVEDOCUMENTASCOMMANDOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BitDepths.hpp
- * PURPOSE: Enumeration of the available per-channel bit depths.
+ * FILE:    ISaveDocumentAsCommandObserver.hpp
+ * PURPOSE: An observer for the save-document-as command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractModel::Properties {
-  enum BitDepth {
-    BIT_DEPTH_8,
-    BIT_DEPTH_10,
-    BIT_DEPTH_12,
-    BIT_DEPTH_16,
-    BIT_DEPTH_MAX
+namespace SDF::Impl::UILayer::Impl::View::Observers {
+  class ISaveDocumentAsCommandObserver {
+  public:
+    virtual ~ISaveDocumentAsCommandObserver() = 0;
+
+    virtual void onSaveDocumentAsCommand() = 0;
   };
 }
 

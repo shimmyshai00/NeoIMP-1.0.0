@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_HANDLE_HPP
-#define SDF_IMPL_MODELLAYER_HANDLE_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMAT_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMAT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines an opaque handle type used to reference model-layer objects through services. Each handle uniquely
- *          references a particular domain object.
+ * FILE:    FileFormat.hpp
+ * PURPOSE: Enumeration of the available image file formats.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,10 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::ModelLayer {
-  typedef int Handle;
-
-  static const Handle HANDLE_INVALID = -1;
+namespace SDF::Impl::UILayer::AbstractModel::Properties {
+  enum FileFormat {
+    FILE_FORMAT_PNG,
+    FILE_FORMAT_MAX
+  };
 }
 
 #endif
