@@ -24,13 +24,19 @@
 #include <WidgetProvider.hpp>
 
 #include <Windows/MainWindow.hpp>
+#include <Dialogs/NewDocumentDialog.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   WidgetProvider::WidgetProvider()
-    : m_mainWindow(new Windows::MainWindow)
+    : m_mainWindow(new Windows::MainWindow),
+      m_newDocumentDialog(new Dialogs::NewDocumentDialog)
   {}
 
   QPointer<Windows::MainWindow> WidgetProvider::getMainWindow() {
     return m_mainWindow;
+  }
+
+  QPointer<Dialogs::NewDocumentDialog> WidgetProvider::getNewDocumentDialog() {
+    return m_newDocumentDialog;
   }
 }

@@ -33,13 +33,19 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
+  namespace Dialogs {
+    class NewDocumentDialog;
+  }
+
   class WidgetProvider {
   public:
     INJECT(WidgetProvider());
 
     QPointer<Windows::MainWindow> getMainWindow();
+    QPointer<Dialogs::NewDocumentDialog> getNewDocumentDialog();
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
+    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
   };
 }
 

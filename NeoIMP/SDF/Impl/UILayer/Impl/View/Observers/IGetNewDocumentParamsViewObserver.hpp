@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IGETNEWDOCUMENTPARAMSVIEWOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IGETNEWDOCUMENTPARAMSVIEWOBSERVER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtViewComponenet.cpp
- * PURPOSE: The DI component for the Qt-based view subsystem.
+ * FILE:    IGetNewDocumentParamsViewObserver.hpp
+ * PURPOSE: Observer interface for the get new document parameters view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,24 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtViewComponent.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
-#include <Impl/Qt/WidgetProvider.hpp>
-#include <Impl/Qt/Windows/MainWindow.hpp>
+namespace SDF::Impl::UILayer::Impl::View::Observers {
+  class IGetNewDocumentParamsViewObserver {
+  public:
+    virtual ~IGetNewDocumentParamsViewObserver() = default;
 
-#include <Impl/Qt/ApplicationView.hpp>
-#include <Impl/Qt/GetNewDocumentParamsView.hpp>
-
-namespace SDF::Impl::UILayer::Impl::View {
-  DIComponent getQtViewComponent() {
-    return fruit::createComponent()
-      .registerProvider([](Impl::Qt::WidgetProvider *widgetProvider) {
-        return (IApplicationView *)(new Impl::Qt::ApplicationView(widgetProvider->getMainWindow()));
-      })
-      .registerProvider([](Impl::Qt::WidgetProvider *widgetProvider) {
-        return (IGetNewDocumentParamsView *)(new Impl::Qt::GetNewDocumentParamsView(
-          widgetProvider->getNewDocumentDialog()
-        ));
-      });
-  }
+    virtual void onParametersAccepted(AbstractModel::Data::DocumentSpec documentSpec) = 0;
+  };
 }
+
+#endif

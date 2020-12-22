@@ -25,11 +25,12 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IGetNewDocumentParamsView.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  typedef fruit::Component<IApplicationView> DIComponent;
+  typedef fruit::Component<IApplicationView, IGetNewDocumentParamsView> DIComponent;
 
   DIComponent getQtViewComponent();
 }

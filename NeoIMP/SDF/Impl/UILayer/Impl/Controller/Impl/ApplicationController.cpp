@@ -24,10 +24,15 @@
 #include <ApplicationController.hpp>
 
 #include <View/IApplicationView.hpp>
+#include <View/IGetNewDocumentParamsView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Impl {
-  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
-    : m_applicationView(applicationView)
+  ApplicationController::ApplicationController(
+    View::IApplicationView *applicationView,
+    View::IGetNewDocumentParamsView *getNewDocumentParamsView
+  )
+    : m_applicationView(applicationView),
+      m_getNewDocumentParamsView(getNewDocumentParamsView)
   {
     m_applicationView->addObserver(this);
   }
@@ -41,7 +46,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   }
 
   void ApplicationController::onNewDocumentCommand() {
-
+    m_getNewDocumentParamsView->show();
   }
 
   void ApplicationController::onSaveDocumentCommand() {
@@ -53,6 +58,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   }
 
   void ApplicationController::onExitCommand() {
+    m_getNewDocumentParamsView->close();
     m_applicationView->close();
   }
 }

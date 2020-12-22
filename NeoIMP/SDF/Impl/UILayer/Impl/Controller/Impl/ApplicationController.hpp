@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 #include <SDF/Impl/UILayer/Impl/Controller/IApplicationController.hpp>
 
 #include <fruit/fruit.h>
@@ -32,12 +31,17 @@
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IApplicationView;
+    class IGetNewDocumentParamsView;
   }
 
   namespace Controller::Impl {
     class ApplicationController : public IApplicationController {
     public:
-      INJECT(ApplicationController(View::IApplicationView *applicationView));
+      INJECT(ApplicationController(
+        View::IApplicationView *applicationView,
+        View::IGetNewDocumentParamsView *getNewDocumentParamsView
+      ));
+
       ~ApplicationController();
 
       void onProgramStarted();
@@ -47,6 +51,7 @@ namespace SDF::Impl::UILayer::Impl {
       void onExitCommand();
     private:
       View::IApplicationView *m_applicationView;
+      View::IGetNewDocumentParamsView *m_getNewDocumentParamsView;
     };
   }
 }
