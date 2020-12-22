@@ -23,31 +23,16 @@
 
 #include <MainUI.hpp>
 
-#include <View/IViewManager.hpp>
-#include <View/IApplicationView.hpp>
-
-#include <Controller/ApplicationController.hpp>
-#include <Controller/NewDocumentController.hpp>
-#include <Controller/SaveDocumentController.hpp>
+#include <Controller/IApplicationController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
-    View::IViewManager *viewManager,
-    Controller::ApplicationController *applicationController,
-    Controller::NewDocumentController *newDocumentController,
-    Controller::SaveDocumentController *saveDocumentController
+    Controller::IApplicationController *applicationController
   )
-    : m_applicationView(viewManager->getApplicationView()),
-      m_applicationController(applicationController),
-      m_newDocumentController(newDocumentController),
-      m_saveDocumentController(saveDocumentController)
-  {
-    m_applicationView->setNewDocumentCommandObserver(m_newDocumentController);
-    m_applicationView->setSaveDocumentCommandObserver(m_saveDocumentController);
-    m_applicationView->setExitCommandObserver(m_applicationController);
-  }
+    : m_applicationController(applicationController)
+  {}
 
   void MainUI::start() {
-    m_applicationView->show();
+    m_applicationController->onProgramStarted();
   }
 }

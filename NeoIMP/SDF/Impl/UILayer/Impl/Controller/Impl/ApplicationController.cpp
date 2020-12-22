@@ -28,10 +28,28 @@
 namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   ApplicationController::ApplicationController(View::IApplicationView *applicationView)
     : m_applicationView(applicationView)
-  {}
+  {
+    m_applicationView->addObserver(this);
+  }
+
+  ApplicationController::~ApplicationController() {
+    m_applicationView->removeObserver(this);
+  }
 
   void ApplicationController::onProgramStarted() {
     m_applicationView->show();
+  }
+
+  void ApplicationController::onNewDocumentCommand() {
+
+  }
+
+  void ApplicationController::onSaveDocumentCommand() {
+
+  }
+
+  void ApplicationController::onSaveDocumentAsCommand() {
+
   }
 
   void ApplicationController::onExitCommand() {

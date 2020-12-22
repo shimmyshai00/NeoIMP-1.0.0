@@ -31,10 +31,7 @@
 
 namespace SDF::Impl::UILayer::Impl::View {
   namespace Observers {
-    class INewDocumentCommandObserver;
-    class ISaveDocumentCommandObserver;
-    class ISaveDocumentAsCommandObserver;
-    class IExitCommandObserver;
+    class IApplicationViewObserver;
   }
 
   namespace Impl::Qt {
@@ -49,18 +46,13 @@ namespace SDF::Impl::UILayer::Impl::View {
       void show();
       void close();
 
-      void addNewDocumentCommandObserver(Observers::INewDocumentCommandObserver *observer);
-      void addSaveDocumentCommandObserver(Observers::ISaveDocumentCommandObserver *observer);
-      void addSaveDocumentAsCommandObserver(Observers::ISaveDocumentAsCommandObserver *observer);
-      void addExitCommandObserver(Observers::IExitCommandObserver *observer);
+      void addObserver(Observers::IApplicationViewObserver *observer);
+      void removeObserver(Observers::IApplicationViewObserver *observer);
     private:
-      QPointer<Windows::MainWindow> mainWindow;
+      QPointer<Windows::MainWindow> m_mainWindow;
 
-      std::vector<Observers::INewDocumentCommandObserver *> m_newDocumentCommandObservers;
-      std::vector<Observers::ISaveDocumentCommandObserver *> m_saveCommandObservers;
-      std::vector<Observers::ISaveDocumentAsCommandObserver *> m_newDocumentCommandObservers;
-      std::vector<Observers::IExitCommandObserver *> m_newDocumentCommandObservers;
-    }
+      std::vector<Observers::IApplicationViewObserver *> m_observers;
+    };
   }
 }
 

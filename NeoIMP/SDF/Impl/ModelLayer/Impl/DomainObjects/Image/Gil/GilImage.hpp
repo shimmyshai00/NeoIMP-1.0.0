@@ -29,8 +29,8 @@
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
 
 #include <string>
 #include <cstdlib>

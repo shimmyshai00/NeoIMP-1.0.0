@@ -26,23 +26,18 @@
 
 namespace SDF::Impl::UILayer::Impl::View {
   namespace Observers {
-    class INewDocumentCommandObserver;
-    class ISaveDocumentCommandObserver;
-    class ISaveDocumentAsCommandObserver;
-    class IExitCommandObserver;
+    class IApplicationViewObserver;
   }
 
   class IApplicationView {
   public:
-    virtual ~IApplicationView() = 0;
+    virtual ~IApplicationView() = default;
 
     virtual void show() = 0;
     virtual void close() = 0;
 
-    virtual void addNewDocumentCommandObserver(Observers::INewDocumentCommandObserver *observer) = 0;
-    virtual void addSaveDocumentCommandObserver(Observers::ISaveDocumentCommandObserver *observer) = 0;
-    virtual void addSaveDocumentAsCommandObserver(Observers::ISaveDocumentAsCommandObserver *observer) = 0;
-    virtual void addExitCommandObserver(Observers::IExitCommandObserver *observer) = 0;
+    virtual void addObserver(Observers::IApplicationViewObserver *observer) = 0;
+    virtual void removeObserver(Observers::IApplicationViewObserver *observer) = 0;
   };
 }
 

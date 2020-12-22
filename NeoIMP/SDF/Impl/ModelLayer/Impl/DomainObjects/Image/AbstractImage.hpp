@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
@@ -52,7 +52,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     virtual std::size_t getNumImageLayers() const = 0;
 
     virtual void setImageName(std::string newImageName) = 0;
-    
+
     virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
     virtual void deleteLayer(std::size_t layerNum) = 0;
 

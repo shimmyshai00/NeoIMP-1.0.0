@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_COLOR_COLORMODELS_HPP
-#define SDF_UILAYER_COLOR_COLORMODELS_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorModels.hpp
- * PURPOSE: UI labels for the color models.
+ * FILE:    QtViewComponenet.cpp
+ * PURPOSE: The DI component for the Qt-based view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <string>
+#include <QtViewComponent.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Strings {
-  static std::string colorModelNames[AbstractModel::Properties::COLOR_MODEL_MAX] = {
-    "RGB",
-    "CMYK"
-  };
+#include <Impl/Qt/WidgetProvider.hpp>
+#include <Impl/Qt/Windows/MainWindow.hpp>
+
+#include <Impl/Qt/ApplicationView.hpp>
+
+namespace SDF::Impl::UILayer::Impl::View {
+  DIComponent getQtViewComponent() {
+    return fruit::createComponent()
+      .registerProvider([](Impl::Qt::WidgetProvider *widgetProvider) {
+        return (IApplicationView *)(new Impl::Qt::ApplicationView(widgetProvider->getMainWindow()));
+      });
+  }
 }
-
-#endif

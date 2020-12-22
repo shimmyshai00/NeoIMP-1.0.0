@@ -25,7 +25,9 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IExitCommandObserver.hpp>
+#include <SDF/Impl/UILayer/Impl/Controller/IApplicationController.hpp>
+
+#include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
@@ -33,14 +35,18 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   namespace Controller::Impl {
-    class ApplicationController : public IApplicationController, public View::Observers::IExitCommandObserver {
+    class ApplicationController : public IApplicationController {
     public:
-      ApplicationController(View::IApplicationView *applicationView);
+      INJECT(ApplicationController(View::IApplicationView *applicationView));
+      ~ApplicationController();
 
       void onProgramStarted();
+      void onNewDocumentCommand();
+      void onSaveDocumentCommand();
+      void onSaveDocumentAsCommand();
       void onExitCommand();
     private:
-      View::IApplicationView *applicationView;
+      View::IApplicationView *m_applicationView;
     };
   }
 }

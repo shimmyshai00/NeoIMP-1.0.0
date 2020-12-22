@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::Strings {

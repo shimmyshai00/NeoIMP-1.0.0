@@ -26,8 +26,8 @@
 
 #include <QDialog>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModels.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepths.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }

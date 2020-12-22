@@ -26,7 +26,7 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentStorageService.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormats.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 #include <fruit/fruit.h>
 #include <string>

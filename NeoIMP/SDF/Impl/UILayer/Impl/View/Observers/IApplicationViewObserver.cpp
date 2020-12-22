@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IEXITCOMMANDOBSERVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IEXITCOMMANDOBSERVER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IExitCommandObserver.hpp
- * PURPOSE: An observer for the exit command.
+ * FILE:    IApplicationViewObserver.hpp
+ * PURPOSE: Observer interface for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +21,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <IApplicationViewObserver.hpp>
+
 namespace SDF::Impl::UILayer::Impl::View::Observers {
-  class IExitCommandObserver {
-  public:
-    virtual ~IExitCommandObserver() = 0;
-
-    virtual void onExitCommand() = 0;
-  };
+  IApplicationViewObserver::~IApplicationViewObserver() {}
 }
-
-#endif

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_ISAVEDOCUMENTCOMMANDOBSERVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_ISAVEDOCUMENTCOMMANDOBSERVER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IAPPLICATIONVIEWOBSERVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_OBSERVERS_IAPPLICATIONVIEWOBSERVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISaveDocumentCommandObserver.hpp
- * PURPOSE: An observer for the save-document command.
+ * FILE:    IApplicationViewObserver.hpp
+ * PURPOSE: Observer interface for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,11 +25,14 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::View::Observers {
-  class ISaveDocumentCommandObserver {
+  class IApplicationViewObserver {
   public:
-    virtual ~ISaveDocumentCommandObserver() = 0;
+    virtual ~IApplicationViewObserver() = 0;
 
-    virtual void onSaveDocumentCommand() = 0;
+    virtual void onNewDocumentCommand() {}
+    virtual void onSaveDocumentCommand() {}
+    virtual void onSaveDocumentAsCommand() {}
+    virtual void onExitCommand() {}
   };
 }
 

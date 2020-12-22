@@ -24,14 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/Observers/IApplicationViewObserver.hpp>
+
 namespace SDF::Impl::UILayer::Impl::Controller {
-  class IApplicationController {
+  class IApplicationController : public View::Observers::IApplicationViewObserver {
   public:
     virtual ~IApplicationController() = default;
 
-    virtual void newDocument() = 0;
-    virtual void saveDocumentAs(std::string fileName) = 0;
-    virtual void exitProgram() = 0;
+    virtual void onProgramStarted() = 0;
+    virtual void onNewDocumentCommand() = 0;
+    virtual void onSaveDocumentCommand() = 0;
+    virtual void onSaveDocumentAsCommand() = 0;
+    virtual void onExitCommand() = 0;
   };
 }
 

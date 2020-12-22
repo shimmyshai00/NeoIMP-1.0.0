@@ -24,18 +24,12 @@
 #include <UIComponent.hpp>
 
 #include <Impl/MainUI.hpp>
-#include <Impl/Controller/ApplicationController.hpp>
-#include <Impl/Controller/NewDocumentController.hpp>
-#include <Impl/Controller/SaveDocumentController.hpp>
-
-#include <Impl/View/ViewComponent.hpp>
-#include <ModelLayer/ModelComponent.hpp>
+#include <Impl/Controller/ControllerComponent.hpp>
 
 namespace SDF::Impl::UILayer {
   fruit::Component<IUI> getUIComponent() {
     return fruit::createComponent()
       .bind<IUI, Impl::MainUI>()
-      .install(Impl::View::getViewComponent)
-      .install(ModelLayer::getModelComponent);
+      .install(Impl::Controller::getControllerComponent);
   }
 }

@@ -31,31 +31,23 @@
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IViewManager;
-    class IApplicationView;
   }
 
   namespace Controller {
-    class ApplicationController;
-    class NewDocumentController;
-    class SaveDocumentController;
+    class IApplicationController;
   }
 
   class MainUI : public IUI {
   public:
     INJECT(MainUI(
-      View::IViewManager *viewManager,
-      Controller::ApplicationController *applicationController,
-      Controller::NewDocumentController *newDocumentController,
-      Controller::SaveDocumentController *saveDocumentController
+      Controller::IApplicationController *applicationController
     ));
+
+    ~MainUI() {}
 
     void start();
   private:
-    View::IApplicationView *m_applicationView;
-
-    Controller::ApplicationController *m_applicationController;
-    Controller::NewDocumentController *m_newDocumentController;
-    Controller::SaveDocumentController *m_saveDocumentController;
+    Controller::IApplicationController *m_applicationController;
   };
 }
 

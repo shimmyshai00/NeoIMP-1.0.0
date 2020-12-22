@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormats.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 #include <string>
 

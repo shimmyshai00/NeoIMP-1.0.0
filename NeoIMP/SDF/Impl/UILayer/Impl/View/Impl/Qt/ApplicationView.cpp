@@ -24,29 +24,44 @@
 #include <ApplicationView.hpp>
 
 #include <Windows/MainWindow.hpp>
-#include <Observers/INewDocumentCommandObserver.hpp>
-#include <Observers/ISaveDocumentCommandObserver.hpp>
-#include <Observers/ISaveDocumentAsCommandObserver.hpp>
-#include <Observers/IExitCommandObserver.hpp>
+#include <Observers/IApplicationViewObserver.hpp>
+
+#include <QObject>
+
+#include <algorithm>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::ApplicationView(QPointer<Windows::MainWindow> mainWindow)
     : m_mainWindow(mainWindow)
-  {}
+  {
+    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
+      for(Observers::IApplicationViewObserver *observer : m_observers) observer->onNewDocumentCommand();
+    });
+
+    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() {
+      for(Observers::IApplicationViewObserver *observer : m_observers) observer->onSaveDocumentAsCommand();
+    });
+
+    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
+      for(Observers::IApplicationViewObserver *observer : m_observers) observer->onExitCommand();
+    });
+  }
 
   void ApplicationView::show() {
-    m_mainWindow->open();
+    m_mainWindow->show();
   }
 
   void ApplicationView::close() {
     m_mainWindow->close();
   }
 
-  void ApplicationView::addNewDocumentCommandObserver(Observers::INewDocumentCommandObserver *observer) {
-    
+  void ApplicationView::addObserver(Observers::IApplicationViewObserver *observer) {
+    if(std::find(m_observers.begin(), m_observers.end(), observer) == m_observers.end()) {
+      m_observers.push_back(observer);
+    }
   }
 
-  void ApplicationView::addSaveDocumentCommandObserver(Observers::ISaveDocumentCommandObserver *observer);
-  void ApplicationView::addSaveDocumentAsCommandObserver(Observers::ISaveDocumentAsCommandObserver *observer);
-  void ApplicationView::addExitCommandObserver(Observers::IExitCommandObserver *observer);
+  void ApplicationView::removeObserver(Observers::IApplicationViewObserver *observer) {
+    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
 }
