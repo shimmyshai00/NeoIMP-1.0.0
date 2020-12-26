@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WIDGETPROVIDER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WIDGETPROVIDER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_IGETNEWDOCUMENTPARAMSCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_IGETNEWDOCUMENTPARAMSCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    WidgetProvider.hpp
- * PURPOSE: An object to provide properly-connected Qt widgets for the Qt-based UI system.
+ * FILE:    IGetNewDocumentParamsController.hpp
+ * PURPOSE: Interface for the get new document parameters view's controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <fruit/fruit.h>
+#include <SDF/Impl/UILayer/Impl/View/Observers/IGetNewDocumentParamsViewObserver.hpp>
 
-#include <QPointer>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace CustomWidgets {
-    class DocumentWidget;
-  }
-
-  namespace Windows {
-    class MainWindow;
-  }
-
-  namespace Dialogs {
-    class NewDocumentDialog;
-  }
-
-  class WidgetProvider {
+namespace SDF::Impl::UILayer::Impl::Controller {
+  class IGetNewDocumentParamsController : public View::Observers::IGetNewDocumentParamsViewObserver {
   public:
-    INJECT(WidgetProvider());
+    virtual ~IGetNewDocumentParamsController() = default;
 
-    QPointer<Windows::MainWindow> getMainWindow();
-    QPointer<Dialogs::NewDocumentDialog> getNewDocumentDialog();
-    QPointer<CustomWidgets::DocumentWidget> makeDocumentWidget();
-  private:
-    QPointer<Windows::MainWindow> m_mainWindow;
-    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+    virtual void onParametersAccepted(AbstractModel::Data::DocumentSpec documentSpec) = 0;
   };
 }
 

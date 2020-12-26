@@ -47,6 +47,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     void setTabTitle(int index, QString newTitle);
 
     int getFocusTab();
+    int getDocumentTabIndex(QWidget *pageWidget);
     QString getDocumentTabTitle(int index);
     QWidget *getDocumentTabWidget(int index);
   signals:

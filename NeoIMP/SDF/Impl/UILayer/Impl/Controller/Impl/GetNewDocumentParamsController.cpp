@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_QTVIEWCOMPONENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_QTVIEWCOMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtViewComponenet.hpp
- * PURPOSE: The DI component for the Qt-based view subsystem.
+ * FILE:    GetNewDocumentParamsController.cpp
+ * PURPOSE: Implementation of the get new document parameters view's controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +21,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IGetNewDocumentParamsView.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
+#include <GetNewDocumentParamsController.hpp>
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
+namespace SDF::Impl::UILayer::Impl::Controller::Impl {
+  GetNewDocumentParamsController::GetNewDocumentParamsController() {}
 
-#include <fruit/fruit.h>
+  void GetNewDocumentParamsController::onParametersAccepted(AbstractModel::Data::DocumentSpec documentSpec) {
 
-#include <memory>
-
-namespace SDF::Impl::UILayer::Impl::View {
-  typedef fruit::Component<
-    IApplicationView,
-    IGetNewDocumentParamsView,
-    std::function<std::unique_ptr<IDocumentView>(ModelLayer::Handle)>
-  > DIComponent;
-
-  DIComponent getQtViewComponent();
+  }
 }
-
-#endif

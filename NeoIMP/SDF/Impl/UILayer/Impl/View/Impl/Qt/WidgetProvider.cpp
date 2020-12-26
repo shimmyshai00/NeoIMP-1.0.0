@@ -23,6 +23,7 @@
 
 #include <WidgetProvider.hpp>
 
+#include <CustomWidgets/DocumentWidget.hpp>
 #include <Windows/MainWindow.hpp>
 #include <Dialogs/NewDocumentDialog.hpp>
 
@@ -38,5 +39,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   QPointer<Dialogs::NewDocumentDialog> WidgetProvider::getNewDocumentDialog() {
     return m_newDocumentDialog;
+  }
+
+  QPointer<CustomWidgets::DocumentWidget> WidgetProvider::makeDocumentWidget() {
+    QPointer<CustomWidgets::DocumentWidget> documentWidget(new CustomWidgets::DocumentWidget);
+    m_mainWindow->addDocumentTab("", documentWidget);
+
+    return documentWidget;
   }
 }

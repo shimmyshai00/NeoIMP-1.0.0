@@ -25,9 +25,13 @@
 
 #include <Impl/Qt/WidgetProvider.hpp>
 #include <Impl/Qt/Windows/MainWindow.hpp>
+#include <Impl/Qt/CustomWidgets/DocumentWidget.hpp>
 
 #include <Impl/Qt/ApplicationView.hpp>
 #include <Impl/Qt/GetNewDocumentParamsView.hpp>
+#include <Impl/Qt/DocumentView.hpp>
+
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   DIComponent getQtViewComponent() {
@@ -39,6 +43,29 @@ namespace SDF::Impl::UILayer::Impl::View {
         return (IGetNewDocumentParamsView *)(new Impl::Qt::GetNewDocumentParamsView(
           widgetProvider->getNewDocumentDialog()
         ));
-      });
+      })
+      .registerFactory<std::unique_ptr<IDocumentView>(
+          AbstractModel::Services::IImageInformationService *,
+          AbstractModel::Services::IImageRenderingService *,
+          Impl::Qt::WidgetProvider *,
+          fruit::Assisted<ModelLayer::Handle>
+        )>(
+          [](
+              AbstractModel::Services::IImageInformationService *imageInformationService,
+              AbstractModel::Services::IImageRenderingService *imageRenderingService,
+              Impl::Qt::WidgetProvider *widgetProvider,
+              ModelLayer::Handle handle
+          ) {
+            QPointer<Impl::Qt::Windows::MainWindow> mainWindow(widgetProvider->getMainWindow());
+            QPointer<Impl::Qt::CustomWidgets::DocumentWidget> documentWidget(widgetProvider->makeDocumentWidget());
+
+            return std::unique_ptr<IDocumentView>(new Impl::Qt::DocumentView(
+              imageInformationService, imageRenderingService,
+              mainWindow, documentWidget,
+              handle
+            ));
+          }
+      )
+      .install(ModelLayer::getModelComponent);
   }
 }

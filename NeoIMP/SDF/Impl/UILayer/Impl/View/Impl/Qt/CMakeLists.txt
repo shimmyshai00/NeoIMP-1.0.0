@@ -7,6 +7,8 @@ add_subdirectory(Dialogs)
 
 target_sources(neoimp PUBLIC
   WidgetProvider.cpp
+  ModelImageDataSource.cpp
   ApplicationView.cpp
   GetNewDocumentParamsView.cpp
+  DocumentView.cpp
 )

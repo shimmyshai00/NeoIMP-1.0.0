@@ -69,6 +69,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     }
   }
 
+  int MainWindow::getDocumentTabIndex(QWidget *pageWidget) {
+    return m_documentTabs->indexOf(pageWidget);
+  }
+  
   QString MainWindow::getDocumentTabTitle(int index) {
     if(!m_documentTabs) {
       return "*** ERROR ***";
