@@ -34,8 +34,11 @@ namespace SDF::Impl::ModelLayer::AbstractData {
   public:
     virtual ~IImageRepository() = default;
 
-    virtual void saveImage(std::string fileName, Impl::DomainObjects::Image::AbstractImage &image) = 0;
-    virtual std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileName) = 0;
+    // Similar to the usual "CRUD" type methods for repository access. Note: for efficiency reasons, we do not want to
+    // just return copies, so we presume ownership of the image object to the repository.
+    virtual void addImage(Handle handle, std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> &image) = 0;
+    virtual Impl::DomainObjects::Image::AbstractImage &accessImage(Handle handle) = 0;
+    virtual void removeImage(Handle handle) = 0;
   };
 }
 

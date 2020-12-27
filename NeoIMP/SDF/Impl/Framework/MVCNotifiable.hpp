@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
+#define SDF_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplicationView.hpp
- * PURPOSE: Defines an interface for the application MVC view.
+ * FILE:    MVCNotifiable.hpp
+ * PURPOSE: An implementation of the observer pattern for the MVC views and controllers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,24 +26,24 @@
 
 #include <SDF/Impl/Framework/IMVCObservable.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class INewDocumentCommandObserver;
-    class ISaveDocumentCommandObserver;
-    class IExitCommandObserver;
-  }
+#include <memory>
+#include <vector>
 
-  class IApplicationView {
+namespace SDF::Impl::Framework {
+  class IMVCObserverHandle;
+
+  template<class Args ...>
+  class MVCNotifiable : public IMVCObservable<Args ...> {
   public:
-    virtual ~IApplicationView() = default;
+    MVCNotifiable();
 
-    virtual void show() = 0;
-    virtual void close() = 0;
-
-    virtual void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer) = 0;
-    virtual void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer) = 0;
-    virtual void setExitCommandObserver(AbstractController::IExitCommandObserver *observer) = 0;
+    void std::unique_ptr<IMVCObserverHandle> attachObserver(std::function<void (Args ...)> func);
+    void notify(Args... args);
+  private:
+    std::vector<std::function<void (Args ...)>> m_funcList;
   };
 }
+
+#include "SDF/Impl/Framework/MVCNotifiable.tpp"
 
 #endif

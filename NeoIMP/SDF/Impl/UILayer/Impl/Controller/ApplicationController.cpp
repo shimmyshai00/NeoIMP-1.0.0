@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_META_OBJECTMAP_HPP
-#define SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_META_OBJECTMAP_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ObjectMap.hpp
- * PURPOSE: A generic container for storing a group of domain objects in memory that can be retrieved by handle.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: Implementation of the MVC controller associated with the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +21,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
+#include <ApplicationController.hpp>
 
-#include <fruit/fruit.h>
+#include <View/IViewManager.hpp>
+#include <View/IApplicationView.hpp>
 
-#include <map>
-#include <memory>
+namespace SDF::Impl::UILayer::Impl::Controller {
+  ApplicationController::ApplicationController(View::IViewManager *viewManager)
+    : m_applicationView(viewManager->getApplicationView())
+  {}
 
-namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Meta {
-  template<class T>
-  class ObjectMap {
-  public:
-    INJECT(ObjectMap());
-
-    T *find(Handle handle);
-    Handle add(std::unique_ptr<T> obj);
-    void remove(Handle handle);
-  private:
-    Handle m_nextHandle;
-    std::map<Handle, std::unique_ptr<T>> m_objMap;
-  };
+  void ApplicationController::onExitCommand() {
+    m_applicationView->close();
+  }
 }
-
-#include "SDF/Impl/ModelLayer/Impl/DomainObjects/Meta/ObjectMap.tpp"
-
-#endif

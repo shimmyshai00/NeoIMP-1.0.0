@@ -6,9 +6,9 @@ add_subdirectory(Windows)
 add_subdirectory(Dialogs)
 
 target_sources(neoimp PUBLIC
-  QtApplicationView.cpp
-  QtCreateNewDocumentView.cpp
-  QtSaveDocumentView.cpp
-  QtDocumentView.cpp
-  QtViewManager.cpp
+  WidgetProvider.cpp
+  ModelImageDataSource.cpp
+  ApplicationView.cpp
+  GetNewDocumentParamsView.cpp
+  DocumentView.cpp
 )

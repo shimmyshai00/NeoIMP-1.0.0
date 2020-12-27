@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplicationView.hpp
- * PURPOSE: Defines an interface for the application MVC view.
+ * FILE:    INewDocumentParamsView.hpp
+ * PURPOSE: Defines an interface for an MVC view to get the parameters for a new document from the user.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCObservable.hpp>
-
 namespace SDF::Impl::UILayer::Impl::View {
   namespace AbstractController {
-    class INewDocumentCommandObserver;
-    class ISaveDocumentCommandObserver;
-    class IExitCommandObserver;
+    class IAcceptNewDocumentParamsCommandObserver;
   }
 
-  class IApplicationView {
+  class ICreateNewDocumentView {
   public:
-    virtual ~IApplicationView() = default;
+    virtual ~ICreateNewDocumentView() = default;
 
     virtual void show() = 0;
-    virtual void close() = 0;
 
-    virtual void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer) = 0;
-    virtual void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer) = 0;
-    virtual void setExitCommandObserver(AbstractController::IExitCommandObserver *observer) = 0;
+    virtual void setAcceptDocumentParamsCommandObserver(
+      AbstractController::IAcceptNewDocumentParamsCommandObserver *observer
+    ) = 0;
   };
 }
 

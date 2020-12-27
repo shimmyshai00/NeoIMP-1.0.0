@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_FRAMEWORK_HANDLE_HPP
+#define SDF_IMPL_FRAMEWORK_HANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentView.hpp
- * PURPOSE: The interface for the MVC document view.
+ * FILE:    Handle.hpp
+ * PURPOSE: Defines an opaque handle type used to reference model-layer objects through services. Each handle uniquely
+ *          references a particular domain object.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +25,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+namespace SDF::Impl::Framework {
+  typedef int Handle;
 
-namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class IDocumentGainFocusObserver;
-  }
-
-  class IDocumentView {
-  public:
-    virtual ~IDocumentView() = default;
-
-    virtual void updateDocumentName(std::string documentName) = 0;
-
-    virtual void setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer) = 0;
-  };
+  static const Handle HANDLE_INVALID = -1;
 }
 
 #endif

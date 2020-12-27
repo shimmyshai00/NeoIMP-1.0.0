@@ -31,27 +31,28 @@
 #include <fruit/fruit.h>
 #include <string>
 
-namespace SDF::Impl::ModelLayer::Impl {
-  namespace DomainObjects {
-    namespace Meta {
-      template<class T>
-      class ObjectMap;
-    }
-
-    namespace Image {
-      class AbstractImage;
-    }
+namespace SDF::Impl::ModelLayer {
+  namespace AbstractData {
+    class IImageRepository;
   }
 
-  namespace Services {
-    class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
-    public:
-      INJECT(ImageBaseEditingService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
+  namespace Impl {
+    namespace DomainObjects {
+      namespace Image {
+        class AbstractImage;
+      }
+    }
 
-      void setImageName(ModelLayer::Handle handle, std::string newImageName);
-    private:
-      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
-    };
+    namespace Services {
+      class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
+      public:
+        INJECT(ImageBaseEditingService(AbstractData::IImageRepository *imageRepository));
+
+        void setImageName(ModelLayer::Handle handle, std::string newImageName);
+      private:
+        AbstractData::IImageRepository *m_imageRepository;
+      };
+    }
   }
 }
 

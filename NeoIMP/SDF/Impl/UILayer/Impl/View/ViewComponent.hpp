@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_VIEWCOMPONENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_VIEWCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentView.hpp
- * PURPOSE: The interface for the MVC document view.
+ * FILE:    ViewComponent.hpp
+ * PURPOSE: The DI component for the view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
+
+#include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class IDocumentGainFocusObserver;
-  }
-
-  class IDocumentView {
-  public:
-    virtual ~IDocumentView() = default;
-
-    virtual void updateDocumentName(std::string documentName) = 0;
-
-    virtual void setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer) = 0;
-  };
+  fruit::Component<IViewManager> getViewComponent();
 }
 
 #endif

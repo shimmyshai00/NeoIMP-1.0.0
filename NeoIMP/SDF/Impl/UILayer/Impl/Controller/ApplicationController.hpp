@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ObjectMap.tpp
- * PURPOSE: A generic container for storing a group of domain objects in memory that can be retrieved by handle.
+ * FILE:    ApplicationController.hpp
+ * PURPOSE: The MVC controller associated with the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,29 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Meta {
-  template<class T>
-  ObjectMap<T>::ObjectMap() : m_nextHandle(0) {}
+#include <SDF/Impl/UILayer/Impl/View/AbstractController/IExitCommandObserver.hpp>
 
-  template<class T>
-  T *ObjectMap<T>::find(Handle handle) {
-    if(m_objMap.find(handle) == m_objMap.end()) {
-      return nullptr;
-    } else {
-      return m_objMap[handle].get();
-    }
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IViewManager;
+    class IApplicationView;
   }
 
-  template<class T>
-  Handle ObjectMap<T>::add(std::unique_ptr<T> obj) {
-    Handle handle(m_nextHandle++);
-    m_objMap[handle] = std::move(obj);
+  namespace Controller {
+    class ApplicationController : public View::AbstractController::IExitCommandObserver {
+    public:
+      INJECT(ApplicationController(View::IViewManager *viewManager));
 
-    return handle;
-  }
-
-  template<class T>
-  void ObjectMap<T>::remove(Handle handle) {
-    m_objMap.erase(handle);
+      void onExitCommand();
+    private:
+      View::IApplicationView *m_applicationView;
+    };
   }
 }
+
+#endif

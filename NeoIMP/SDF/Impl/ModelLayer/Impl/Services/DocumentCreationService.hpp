@@ -30,27 +30,28 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::ModelLayer::Impl {
-  namespace DomainObjects {
-    namespace Meta {
-      template<class T>
-      class ObjectMap;
-    }
-
-    namespace Image {
-      class AbstractImage;
-    }
+namespace SDF::Impl::ModelLayer {
+  namespace AbstractData {
+    class IImageRepository;
   }
 
-  namespace Services {
-    class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
-    public:
-      INJECT(DocumentCreationService(DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap));
+  namespace Impl {
+    namespace DomainObjects {
+      namespace Image {
+        class AbstractImage;
+      }
+    }
 
-      Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
-    private:
-      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
-    };
+    namespace Services {
+      class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
+      public:
+        INJECT(DocumentCreationService(AbstractData::IImageRepository *imageRepository));
+
+        Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
+      private:
+        AbstractData::IImageRepository *m_imageRepository;
+      };
+    }
   }
 }
 
