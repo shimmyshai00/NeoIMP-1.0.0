@@ -1,11 +1,11 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTAPPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTAPPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplicationView.hpp
+ * FILE:    ApplicationView.hpp
  * PURPOSE: Headers for the Qt-based application view implementation. This wraps the main window.
  */
 
@@ -24,10 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
+#include <SDF/Impl/Framework/IMVCObservable.hpp>
+#include <SDF/Impl/Framework/MVCNotifiable.hpp>
+
 #include <QPointer>
-#include <QWidget>
 #include <QMetaObject>
 
 #include <fruit/fruit.h>
@@ -37,27 +40,29 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class QtApplicationView : public IApplicationView {
+  class ApplicationView : public IQtView<Windows::MainWindow>, public IApplicationView {
   public:
-    QtApplicationView(Windows::MainWindow *mainWindow);
-    ~QtApplicationView();
+    ApplicationView();
+    ~ApplicationView();
+
+    QPointer<Windows::MainWindow> getQWidget();
 
     void show();
     void close();
 
-    void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer);
-    void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer);
-    void setExitCommandObserver(AbstractController::IExitCommandObserver *observer);
+    Framework::IMVCObservable<> &getNewDocumentCommandObservable();
+    Framework::IMVCObservable<> &getSaveDocumentCommandObservable();
+    Framework::IMVCObservable<> &getExitCommandObservable();
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
 
-    QMetaObject::Connection m_newDocumentCommandObserverConn;
-    QMetaObject::Connection m_saveDocumentCommandObserverConn;
-    QMetaObject::Connection m_exitCommandObserverConn;
+    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
 
-    AbstractController::INewDocumentCommandObserver *m_newDocumentCommandObserver;
-    AbstractController::ISaveDocumentCommandObserver *m_saveDocumentCommandObserver;
-    AbstractController::IExitCommandObserver *m_exitCommandObserver;
+    Framework::MVCNotifiable<> m_newDocumentCommandNotifiable;
+    Framework::MVCNotifiable<> m_saveDocumentCommandNotifiable;
+    Framework::MVCNotifiable<> m_exitCommandNotifiable;
   };
 }
 

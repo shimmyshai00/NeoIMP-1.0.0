@@ -27,12 +27,6 @@
 #include <SDF/Impl/Framework/IMVCObservable.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class INewDocumentCommandObserver;
-    class ISaveDocumentCommandObserver;
-    class IExitCommandObserver;
-  }
-
   class IApplicationView {
   public:
     virtual ~IApplicationView() = default;
@@ -40,9 +34,9 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual void show() = 0;
     virtual void close() = 0;
 
-    virtual void setNewDocumentCommandObserver(AbstractController::INewDocumentCommandObserver *observer) = 0;
-    virtual void setSaveDocumentCommandObserver(AbstractController::ISaveDocumentCommandObserver *observer) = 0;
-    virtual void setExitCommandObserver(AbstractController::IExitCommandObserver *observer) = 0;
+    virtual Framework::IMVCObservable<> &getNewDocumentCommandObservable() = 0;
+    virtual Framework::IMVCObservable<> &getSaveDocumentCommandObservable() = 0;
+    virtual Framework::IMVCObservable<> &getExitCommandObservable() = 0;
   };
 }
 

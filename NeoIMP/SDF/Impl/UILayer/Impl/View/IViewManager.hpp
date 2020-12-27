@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IViewManager.hpp
- * PURPOSE: The interface for the view manager.
+ * PURPOSE: The interface for the view manager. The view manager manages all active views within the application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual ISaveDocumentView *getSaveDocumentView() = 0;
     virtual IDocumentView *getDocumentView(ModelLayer::Handle documentHandle) = 0;
 
-    virtual void createDocumentView(ModelLayer::Handle documentHandle) = 0;
+    virtual void addNewDocument(ModelLayer::Handle documentHandle) = 0;
   };
 }
 

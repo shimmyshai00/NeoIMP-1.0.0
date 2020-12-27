@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtCreateNewDocumentView.cpp
+ * FILE:    CreateNewDocumentView.cpp
  * PURPOSE: The Qt-based create-new-document view implementation.
  */
 
@@ -21,38 +21,43 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtCreateNewDocumentView.hpp>
-
-#include <AbstractController/IAcceptNewDocumentParamsCommandObserver.hpp>
+#include <CreateNewDocumentView.hpp>
 
 #include <Dialogs/NewDocumentDialog.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtCreateNewDocumentView::QtCreateNewDocumentView(Dialogs::NewDocumentDialog *newDocumentDialog)
-    : m_newDocumentDialog(newDocumentDialog)
+  CreateNewDocumentView::CreateNewDocumentView(ApplicationView *parentApplicationView)
+    : m_newDocumentDialog(new Dialogs::NewDocumentDialog(parentApplicationView->getQWidget()))
   {
-    m_acceptNewDocumentParamsCommandObserverConn = QDialog::connect(m_newDocumentDialog, &QDialog::accepted, [=]() {
-      m_acceptNewDocumentParamsCommandObserver->onAcceptNewDocumentParamsCommand(
+    m_acceptCreateParamsCommandNotifiableConn = QDialog::connect(m_newDocumentDialog, &QDialog::accepted, [=]() {
+      AbstractModel::Data::DocumentSpec spec {
+        "Untitled",
         m_newDocumentDialog->getDocumentWidthPx(),
         m_newDocumentDialog->getDocumentHeightPx(),
         m_newDocumentDialog->getDocumentResolutionPpi(),
         m_newDocumentDialog->getDocumentColorModel(),
         m_newDocumentDialog->getDocumentBitDepth()
-      );
+      };
+
+      m_acceptCreateParamsCommandNotifiable->notify(spec);
     });
   }
 
-  QtCreateNewDocumentView::~QtCreateNewDocumentView() {
+  CreateNewDocumentView::~CreateNewDocumentView() {
     QDialog::disconnect(m_acceptNewDocumentParamsCommandObserverConn);
   }
 
-  void QtCreateNewDocumentView::show() {
+  QPointer<Dialogs::NewDocumentDialog> CreateNewDocumentView::getQWidget() {
+    return m_newDocumentDialog;
+  }
+
+  void CreateNewDocumentView::show() {
     m_newDocumentDialog->open();
   }
-  
-  void QtCreateNewDocumentView::setAcceptDocumentParamsCommandObserver(
-    AbstractController::IAcceptNewDocumentParamsCommandObserver *observer
-  ) {
-    m_acceptNewDocumentParamsCommandObserver = observer;
+
+  Framework::IMVCObservable<AbstractModel::Data::DocumentSpec> &
+    CreateNewDocumentView::getAcceptCreateParamsCommandObservable()
+  {
+    return m_acceptCreateParamsCommandNotifiable
   }
 }

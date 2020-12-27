@@ -27,17 +27,11 @@
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class IDocumentGainFocusObserver;
-  }
-
   class IDocumentView {
   public:
     virtual ~IDocumentView() = default;
 
-    virtual void updateDocumentName(std::string documentName) = 0;
-
-    virtual void setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer) = 0;
+    virtual void documentNameChanged() = 0;
   };
 }
 

@@ -30,14 +30,13 @@
 
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
-    class IViewManager;
     class IApplicationView;
   }
 
   namespace Controller {
     class ApplicationController : public View::AbstractController::IExitCommandObserver {
     public:
-      INJECT(ApplicationController(View::IViewManager *viewManager));
+      INJECT(ApplicationController(View::IApplicationView *applicationView));
 
       void onExitCommand();
     private:

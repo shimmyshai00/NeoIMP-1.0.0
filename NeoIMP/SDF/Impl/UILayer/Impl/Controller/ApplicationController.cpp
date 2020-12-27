@@ -23,12 +23,11 @@
 
 #include <ApplicationController.hpp>
 
-#include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IViewManager *viewManager)
-    : m_applicationView(viewManager->getApplicationView())
+  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
+    : m_applicationView(applicationView)
   {}
 
   void ApplicationController::onExitCommand() {

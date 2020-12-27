@@ -24,20 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  namespace AbstractController {
-    class IAcceptNewDocumentParamsCommandObserver;
-  }
+#include <SDF/Impl/Framework/IMVCObservable.hpp>
 
+namespace SDF::Impl::UILayer::Impl::View {
   class ICreateNewDocumentView {
   public:
     virtual ~ICreateNewDocumentView() = default;
 
     virtual void show() = 0;
 
-    virtual void setAcceptDocumentParamsCommandObserver(
-      AbstractController::IAcceptNewDocumentParamsCommandObserver *observer
-    ) = 0;
+    virtual Framework::IMVCObservable<AbstractModel::Data::DocumentSpec> &getAcceptCreateParamsCommandObservable() = 0;
   };
 }
 
