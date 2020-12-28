@@ -34,15 +34,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     : m_mainWindow(new Windows::MainWindow)
   {
     m_newDocumentCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
-      m_newDocumentCommandNotifiable->notify();
+      m_newDocumentCommandNotifiable.notify();
     });
 
     m_saveDocumentCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() {
-      m_saveDocumentCommandNotifiable->notify();
+      m_saveDocumentCommandNotifiable.notify();
     });
 
     m_exitCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
-      m_exitCommandNotifiable->notify();
+      m_exitCommandNotifiable.notify();
     });
   }
 

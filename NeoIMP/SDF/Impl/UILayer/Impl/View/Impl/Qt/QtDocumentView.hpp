@@ -1,11 +1,11 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtDocumentView.hpp
+ * FILE:    DocumentView.hpp
  * PURPOSE: Headers for the Qt-based document view implementation.
  */
 

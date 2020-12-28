@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtSaveDocumentView.cpp
+ * FILE:    SaveDocumentView.cpp
  * PURPOSE: The Qt-based save-document view implementation.
  */
 
@@ -21,37 +21,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QtSaveDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 
-#include <AbstractController/IAcceptDocumentSaveParamsCommandObserver.hpp>
-
-#include <QApplication>
+#include <ApplicationView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  QtSaveDocumentView::QtSaveDocumentView(QFileDialog *saveFileDialog) : m_saveFileDialog(saveFileDialog) {
-    m_acceptDocumentSaveParamsCommandObserverConn = QFileDialog::connect(
+  SaveDocumentView::SaveDocumentView(ApplicationView *parentApplicationView)
+    : m_saveFileDialog(new QFileDialog(parentApplicationView->getQWidget())
+  {
+    m_saveFileDialog->setAcceptMode(QFileDialog::AcceptSave);
+
+    m_acceptSaveParamsCommandNotifiableConn = QFileDialog::connect(
       m_saveFileDialog,
       &QFileDialog::accepted,
       [=]() {
         QString file(m_saveFileDialog->selectedFiles()[0]);
-        m_acceptDocumentSaveParamsCommandObserver->onAcceptDocumentSaveParamsCommand(
-          file.toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG
-        );
+        m_acceptSaveParamsCommandNotifiable.notify(file.toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG);
       }
     );
   }
 
-  QtSaveDocumentView::~QtSaveDocumentView() {
-    QObject::disconnect(m_acceptDocumentSaveParamsCommandObserverConn);
+  SaveDocumentView::~SaveDocumentView() {
+    QObject::disconnect(m_acceptSaveParamsCommandNotifiableConn);
   }
 
-  void QtSaveDocumentView::show() {
+  void SaveDocumentView::show() {
     m_saveFileDialog->open();
   }
 
-  void QtSaveDocumentView::setAcceptDocumentSaveParamsCommandObserver(
-    AbstractController::IAcceptDocumentSaveParamsCommandObserver *observer
-  ) {
-    m_acceptDocumentSaveParamsCommandObserver = observer;
+  Framework::IMVCObservable<std::string, AbstractModel::Properties::FileFormat> &
+    SaveDocumentView::getAcceptSaveParamsCommandObservable()
+  {
+    return m_acceptSaveParamsCommandNotifiable;
   }
 }

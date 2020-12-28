@@ -39,12 +39,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
         m_newDocumentDialog->getDocumentBitDepth()
       };
 
-      m_acceptCreateParamsCommandNotifiable->notify(spec);
+      m_acceptCreateParamsCommandNotifiable.notify(spec);
     });
   }
 
   CreateNewDocumentView::~CreateNewDocumentView() {
-    QDialog::disconnect(m_acceptNewDocumentParamsCommandObserverConn);
+    QDialog::disconnect(m_acceptCreateParamsCommandNotifiableConn);
   }
 
   QPointer<Dialogs::NewDocumentDialog> CreateNewDocumentView::getQWidget() {

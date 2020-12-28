@@ -1,11 +1,11 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTSAVEDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_QTSAVEDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_SAVEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_SAVEDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtSaveDocumentView.hpp
+ * FILE:    SaveDocumentView.hpp
  * PURPOSE: Headers for the Qt-based save-document view implementation.
  */
 
@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/ISaveDocumentView.hpp>
 
 #include <SDF/Impl/ModelLayer/Handle.hpp>
@@ -33,26 +34,25 @@
 #include <QMetaObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
-  }
+  class ApplicationView;
 
-  class QtSaveDocumentView : public ISaveDocumentView {
+  class SaveDocumentView : public IQtView<QFileDialog>, public ISaveDocumentView {
   public:
-    QtSaveDocumentView(QFileDialog *saveFileDialog);
-    ~QtSaveDocumentView();
+    SaveDocumentView(ApplicationView *parentApplicationView);
+    ~SaveDocumentView();
+
+    QPointer<QFileDialog> getQWidget();
 
     void show();
-    
-    void setAcceptDocumentSaveParamsCommandObserver(
-      AbstractController::IAcceptDocumentSaveParamsCommandObserver *observer
-    );
+
+    Framework::IMVCObservable<std::string, AbstractModel::Properties::FileFormat> &
+      getAcceptSaveParamsCommandObservable();
   private:
     QPointer<QFileDialog> m_saveFileDialog;
 
-    QMetaObject::Connection m_acceptDocumentSaveParamsCommandObserverConn;
+    QMetaObject::Connection m_acceptSaveParamsCommandNotifiableConn;
 
-    AbstractController::IAcceptDocumentSaveParamsCommandObserver *m_acceptDocumentSaveParamsCommandObserver;
+    Framework::MVCNotifiable<std::string, AbstractModel::Properties::FileFormat> m_acceptSaveParamsCommandNotifiable;
   };
 }
 
