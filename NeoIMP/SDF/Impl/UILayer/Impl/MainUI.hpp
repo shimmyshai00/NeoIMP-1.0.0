@@ -28,27 +28,45 @@
 #include <SDF/Impl/UILayer/IUI.hpp>
 
 #include <fruit/fruit.h>
+#include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  namespace View {
-    class IViewManager;
-    class IApplicationView;
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IDocumentCreationService;
   }
 
-  class MainUI : public IUI {
-  public:
-    INJECT(MainUI(View::IViewManager *viewManager));
+  namespace Impl {
+    namespace View {
+      class IViewManager;
+      class IApplicationView;
+      class INewDocumentView;
+    }
 
-    ~MainUI() {}
+    namespace Controller {
+      class NewDocumentController;
+    }
 
-    void start();
-  private:
-    View::IViewManager *m_viewManager;
-    View::IApplicationView *m_applicationView;
+    class MainUI : public IUI {
+    public:
+      INJECT(MainUI(
+        AbstractModel::Services::IDocumentCreationService *documentCreationService,
+        View::IViewManager *viewManager
+      ));
 
-    // Event handlers for the application view.
-    void onExitCommand();
-  };
+      ~MainUI();
+
+      void start();
+    private:
+      View::IViewManager *m_viewManager;
+      View::IApplicationView *m_applicationView;
+
+      std::unique_ptr<Controller::NewDocumentController> m_newDocumentController;
+
+      // Event handlers for the application view.
+      void onNewCommand();
+      void onExitCommand();
+    };
+  }
 }
 
 #endif

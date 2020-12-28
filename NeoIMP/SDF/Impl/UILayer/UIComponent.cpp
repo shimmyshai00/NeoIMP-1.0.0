@@ -25,11 +25,13 @@
 
 #include <Impl/MainUI.hpp>
 #include <Impl/View/Qt/ViewComponent.hpp>
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer {
   fruit::Component<IUI> getUIComponent() {
     return fruit::createComponent()
       .bind<IUI, Impl::MainUI>()
-      .install(Impl::View::Qt::getViewComponent);
+      .install(Impl::View::Qt::getViewComponent)
+      .install(ModelLayer::getModelComponent);
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.hpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    INewDocumentView.hpp
+ * PURPOSE: Defines an interface for the MVC view to get parameters for creating a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <boost/signals2/connection.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  class ApplicationView;
-  class NewDocumentView;
-
-  class ViewManager : public IViewManager {
+namespace SDF::Impl::UILayer::Impl::View {
+  class INewDocumentView {
   public:
-    INJECT(ViewManager());
-    ~ViewManager();
+    virtual ~INewDocumentView() = default;
 
-    IApplicationView *getApplicationView();
-    INewDocumentView *getNewDocumentView();
-  private:
-    std::unique_ptr<ApplicationView> m_applicationView;
-    std::unique_ptr<INewDocumentView> m_newDocumentView;
+    virtual void show() = 0;
+
+    virtual boost::signals2::connection addGotParamsObserver(
+      std::function<void (AbstractModel::Data::DocumentSpec)> observer
+    ) = 0;
   };
 }
 

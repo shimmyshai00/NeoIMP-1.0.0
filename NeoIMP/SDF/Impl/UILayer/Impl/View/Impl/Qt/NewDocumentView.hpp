@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.cpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    NewDocumentView.hpp
+ * PURPOSE: Headers for the Qt-based new document view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,27 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ViewManager.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
 
-#include <IApplicationView.hpp>
-#include <INewDocumentView.hpp>
+#include <Dialogs/NewDocumentDialog.hpp>
 
-#include <ApplicationView.hpp>
-#include <NewDocumentView.hpp>
+#include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewManager::ViewManager()
-    : m_applicationView(new ApplicationView),
-      m_newDocumentView(new NewDocumentView)
-  {}
+  class NewDocumentView : public IQtView<Dialogs::NewDocumentDialog>, public INewDocumentView {
+  public:
+    NewDocumentView();
 
-  ViewManager::~ViewManager() {}
+    QPointer<Dialogs::NewDocumentDialog> getQWidget();
 
-  IApplicationView *ViewManager::getApplicationView() {
-    return m_applicationView.get();
-  }
+    void show();
 
-  INewDocumentView *ViewManager::getNewDocumentView() {
-    return m_newDocumentView.get();
-  }
+    boost::signals2::connection addGotParamsObserver(std::function<void (AbstractModel::Data::DocumentSpec)> observer);
+  private:
+    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+
+    boost::signals2::signal<void (AbstractModel::Data::DocumentSpec)> m_gotParamsSignal;
+  };
 }
+
+#endif

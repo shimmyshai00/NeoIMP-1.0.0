@@ -23,25 +23,41 @@
 
 #include <MainUI.hpp>
 
+#include <AbstractModel/Services/IDocumentCreationService.hpp>
+
 #include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
 
+#include <Controller/NewDocumentController.hpp>
+
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
+    AbstractModel::Services::IDocumentCreationService *documentCreationService,
     View::IViewManager *viewManager
   )
-    : m_viewManager(viewManager)
+    : m_viewManager(viewManager),
+      m_newDocumentController(new Controller::NewDocumentController(
+        documentCreationService,
+        viewManager->getNewDocumentView()
+      ))
   {
     m_applicationView = m_viewManager->getApplicationView();
 
+    m_applicationView->addNewCommandObserver([=]() { onNewCommand(); });
     m_applicationView->addExitCommandObserver([=]() { onExitCommand(); });
   }
+
+  MainUI::~MainUI() {}
 
   void MainUI::start() {
     m_applicationView->show();
   }
 
   // Private members.
+  void MainUI::onNewCommand() {
+    m_newDocumentController->createNewDocument();
+  }
+
   void MainUI::onExitCommand() {
     m_applicationView->close();
   }

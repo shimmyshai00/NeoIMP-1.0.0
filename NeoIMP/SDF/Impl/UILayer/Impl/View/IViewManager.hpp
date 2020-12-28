@@ -26,12 +26,14 @@
 
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView;
+  class INewDocumentView;
 
   class IViewManager {
   public:
     virtual ~IViewManager() = default;
 
     virtual IApplicationView *getApplicationView() = 0;
+    virtual INewDocumentView *getNewDocumentView() = 0;
   };
 }
 
