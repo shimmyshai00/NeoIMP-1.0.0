@@ -7,5 +7,7 @@ add_subdirectory(Dialogs)
 
 target_sources(neoimp PUBLIC
   ApplicationView.cpp
+  CreateNewDocumentView.cpp
+  SaveDocumentView.cpp
   ViewManager.cpp
 )

@@ -3,7 +3,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ViewManager.cpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * PURPOSE: The view manager for Qt-based MVC views. This supplies the views with widgets and makes sure the widgets
+ *          are properly linked together.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +22,47 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ViewManager.hpp>
+#include <QtViewManager.hpp>
+
+#include <IApplicationView.hpp>
+#include <ICreateNewDocumentView.hpp>
+#include <ISaveDocumentView.hpp>
 
 #include <ApplicationView.hpp>
+#include <CreateNewDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewManager::ViewManager()
-    : m_applicationView(new ApplicationView)
+    : m_applicationView(new ApplicationView())
   {}
-
-  ViewManager::~ViewManager() {}
 
   IApplicationView *ViewManager::getApplicationView() {
     return m_applicationView.get();
+  }
+
+  ICreateNewDocumentView *ViewManager::getCreateNewDocumentView() {
+    if(!m_createNewDocumentView) {
+      m_createNewDocumentView = std::make_unique<CreateNewDocumentView>(m_applicationView);
+    }
+
+    return m_createNewDocumentView.get();
+  }
+
+  ISaveDocumentView *ViewManager::getSaveDocumentView() {
+    if(!m_saveDocumentView) {
+      m_saveDocumentView = std::make_unique<SaveDocumentView>(m_applicationView);
+    }
+
+    return m_saveDocumentView.get();
+  }
+
+  IDocumentView *ViewManager::getDocumentView(ModelLayer::Handle documentHandle) {
+    // TBA
+    return nullptr;
+  }
+
+  void ViewManager::addNewDocument(ModelLayer::Handle documentHandle) {
+    // TBA
   }
 }

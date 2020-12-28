@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IQTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IQTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainUI.cpp
- * PURPOSE: Implementation of the main UI layer object.
+ * FILE:    IQtView.hpp
+ * PURPOSE: An interface for Qt-based MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainUI.hpp>
+#include <QPointer>
 
-#include <View/IViewManager.hpp>
-#include <View/IApplicationView.hpp>
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  template<class WidgetType>
+  class IQtView {
+  public:
+    virtual ~IQtView() = default;
 
-namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(
-    View::IViewManager *viewManager
-  )
-    : m_viewManager(viewManager)
-  {
-    m_applicationView = m_viewManager->getApplicationView();
-
-    m_applicationView->addExitCommandObserver([=]() { onExitCommand(); });
-  }
-
-  void MainUI::start() {
-    m_applicationView->show();
-  }
-
-  // Private members.
-  void MainUI::onExitCommand() {
-    m_applicationView->close();
-  }
+    virtual QPointer<WidgetType> getQWidget() = 0;
+  };
 }
+
+#endif

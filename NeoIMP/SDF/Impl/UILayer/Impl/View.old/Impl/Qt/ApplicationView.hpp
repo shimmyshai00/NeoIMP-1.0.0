@@ -27,8 +27,13 @@
 #include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
+#include <SDF/Impl/Framework/IMVCObservable.hpp>
+#include <SDF/Impl/Framework/MVCNotifiable.hpp>
+
 #include <QPointer>
-#include <boost/signals2/signal.hpp>
+#include <QMetaObject>
+
+#include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   namespace Windows {
@@ -38,22 +43,26 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   class ApplicationView : public IQtView<Windows::MainWindow>, public IApplicationView {
   public:
     ApplicationView();
+    ~ApplicationView();
 
     QPointer<Windows::MainWindow> getQWidget();
 
     void show();
     void close();
 
-    boost::signals2::connection addNewCommandObserver(std::function<void ()> observer);
-    boost::signals2::connection addSaveAsCommandObserver(std::function<void ()> observer);
-    boost::signals2::connection addExitCommandObserver(std::function<void ()> observer);
+    Framework::IMVCObservable<> &getNewDocumentCommandObservable();
+    Framework::IMVCObservable<> &getSaveDocumentCommandObservable();
+    Framework::IMVCObservable<> &getExitCommandObservable();
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
 
-    // note: we use Boost's signals mechanism here to insulate from too much dependency on the widget system (here, QT)
-    boost::signals2::signal<void ()> m_newCommandSignal;
-    boost::signals2::signal<void ()> m_saveAsCommandSignal;
-    boost::signals2::signal<void ()> m_exitCommandSignal;
+    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_saveDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_exitCommandNotifiableConn;
+
+    Framework::MVCNotifiable<> m_newDocumentCommandNotifiable;
+    Framework::MVCNotifiable<> m_saveDocumentCommandNotifiable;
+    Framework::MVCNotifiable<> m_exitCommandNotifiable;
   };
 }
 

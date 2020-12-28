@@ -29,9 +29,23 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::ApplicationView()
     : m_mainWindow(new Windows::MainWindow)
   {
-    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_newCommandSignal(); });
-    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() { m_saveAsCommandSignal(); });
-    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_exitCommandSignal(); });
+    m_newDocumentCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
+      m_newDocumentCommandNotifiable.notify();
+    });
+
+    m_saveDocumentCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() {
+      m_saveDocumentCommandNotifiable.notify();
+    });
+
+    m_exitCommandNotifiableConn = QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
+      m_exitCommandNotifiable.notify();
+    });
+  }
+
+  ApplicationView::~ApplicationView() {
+    QObject::disconnect(m_newDocumentCommandNotifiableConn);
+    QObject::disconnect(m_saveDocumentCommandNotifiableConn);
+    QObject::disconnect(m_exitCommandNotifiableConn);
   }
 
   QPointer<Windows::MainWindow> ApplicationView::getQWidget() {
@@ -46,15 +60,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     m_mainWindow->close();
   }
 
-  boost::signals2::connection ApplicationView::addNewCommandObserver(std::function<void ()> observer) {
-    return m_newCommandSignal.connect(observer);
+  Framework::IMVCObservable<> &ApplicationView::getNewDocumentCommandObservable() {
+    return m_newDocumentCommandNotifiable;
   }
 
-  boost::signals2::connection ApplicationView::addSaveAsCommandObserver(std::function<void ()> observer) {
-    return m_saveAsCommandSignal.connect(observer);
+  Framework::IMVCObservable<> &ApplicationView::getSaveDocumentCommandObservable() {
+    return m_saveDocumentCommandNotifiable;
   }
 
-  boost::signals2::connection ApplicationView::addExitCommandObserver(std::function<void ()> observer) {
-    return m_exitCommandSignal.connect(observer);
+  Framework::IMVCObservable<> &ApplicationView::getExitCommandObservable() {
+    return m_exitCommandNotifiable;
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_FRAMEWORK_IMVCOBSERVABLE_HPP
-#define SDF_IMPL_FRAMEWORK_IMVCOBSERVABLE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_QT_CUSTOMWIDGETS_IIMAGEDATASOURCE_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_QT_CUSTOMWIDGETS_IIMAGEDATASOURCE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCObservable.hpp
- * PURPOSE: An implementation of the observer pattern for the MVC views and controllers.
+ * FILE:    IImageDataSource.hpp
+ * PURPOSE: Headers for image data sources for the document editor widget.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-namespace SDF::Impl::Framework {
-  class IMVCObserverHandle;
-  
-  template<class ... Args>
-  class IMVCObservable {
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
+  class IImageDataSource {
   public:
-    virtual ~IMVCObservable() = default;
+    virtual ~IImageDataSource() = default;
 
-    virtual std::unique_ptr<IMVCObserverHandle> attachObserver(std::function<void (Args ...)> func) = 0;
+    virtual int getImageWidth() = 0;
+    virtual int getImageHeight() = 0;
+
+    // Right now, expects to receive RGB32 format pixels only. This should get a pointer to a region buffer describing
+    // the given rectangular region.
+    virtual const unsigned char *accessImageData(int x1, int y1, int x2, int y2) = 0;
   };
 }
 

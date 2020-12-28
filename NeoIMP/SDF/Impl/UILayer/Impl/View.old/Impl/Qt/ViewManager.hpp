@@ -26,21 +26,38 @@
 
 #include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
 
+#include <QFileDialog>
+
 #include <fruit/fruit.h>
 #include <memory>
+#include <map>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  class ApplicationView;
+namespace SDF::Impl::UILayer::Impl::View {
+  class IApplicationView;
+  class ICreateNewDocumentView;
+  class ISaveDocumentView;
 
-  class ViewManager : public IViewManager {
-  public:
-    INJECT(ViewManager());
-    ~ViewManager();
+  namespace Impl::Qt {
+    class ApplicationView;
+    class CreateNewDocumentView;
+    class SaveDocumentView;
 
-    IApplicationView *getApplicationView();
-  private:
-    std::unique_ptr<ApplicationView> m_applicationView;
-  };
+    class ViewManager : public IViewManager {
+    public:
+      ViewManager();
+
+      IApplicationView *getApplicationView();
+      ICreateNewDocumentView *getCreateNewDocumentView();
+      ISaveDocumentView *getSaveDocumentView();
+      IDocumentView *getDocumentView(ModelLayer::Handle documentHandle);
+
+      void addNewDocument(ModelLayer::Handle documentHandle);
+    private:
+      std::unique_ptr<ApplicationView> m_applicationView;
+      std::unique_ptr<CreateNewDocumentView> m_createNewDocumentView;
+      std::unique_ptr<SaveDocumentView> m_saveDocumentView;
+    };
+  }
 }
 
 #endif

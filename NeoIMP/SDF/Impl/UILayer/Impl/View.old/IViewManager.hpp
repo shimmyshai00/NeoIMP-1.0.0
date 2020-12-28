@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
-#define SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainUI.hpp
- * PURPOSE: The main UI layer object. This effectively acts as a "back end" for all the MVC views and controllers. Also
- *          called the "front controller".
+ * FILE:    IViewManager.hpp
+ * PURPOSE: The interface for the view manager. The view manager manages all active views within the application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,29 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/IUI.hpp>
+#include <SDF/Impl/ModelLayer/Handle.hpp>
 
-#include <fruit/fruit.h>
+#include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  namespace View {
-    class IViewManager;
-    class IApplicationView;
-  }
+namespace SDF::Impl::UILayer::Impl::View {
+  class IApplicationView;
+  class ICreateNewDocumentView;
+  class ISaveDocumentView;
+  class IDocumentView;
 
-  class MainUI : public IUI {
+  class IViewManager {
   public:
-    INJECT(MainUI(View::IViewManager *viewManager));
+    virtual ~IViewManager() = default;
 
-    ~MainUI() {}
+    virtual IApplicationView *getApplicationView() = 0;
+    virtual ICreateNewDocumentView *getCreateNewDocumentView() = 0;
+    virtual ISaveDocumentView *getSaveDocumentView() = 0;
+    virtual IDocumentView *getDocumentView(ModelLayer::Handle documentHandle) = 0;
 
-    void start();
-  private:
-    View::IViewManager *m_viewManager;
-    View::IApplicationView *m_applicationView;
-
-    // Event handlers for the application view.
-    void onExitCommand();
+    virtual void addNewDocument(ModelLayer::Handle documentHandle) = 0;
   };
 }
 

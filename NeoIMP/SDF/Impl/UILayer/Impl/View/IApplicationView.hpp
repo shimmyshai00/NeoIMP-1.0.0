@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCObservable.hpp>
+#include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView {
@@ -34,9 +34,9 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual void show() = 0;
     virtual void close() = 0;
 
-    virtual Framework::IMVCObservable<> &getNewDocumentCommandObservable() = 0;
-    virtual Framework::IMVCObservable<> &getSaveDocumentCommandObservable() = 0;
-    virtual Framework::IMVCObservable<> &getExitCommandObservable() = 0;
+    virtual boost::signals2::connection addNewCommandObserver(std::function<void ()> observer) = 0;
+    virtual boost::signals2::connection addSaveAsCommandObserver(std::function<void ()> observer) = 0;
+    virtual boost::signals2::connection addExitCommandObserver(std::function<void ()> observer) = 0;
   };
 }
 

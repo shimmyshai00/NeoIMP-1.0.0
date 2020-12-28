@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
-#define SDF_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCNotifiable.hpp
- * PURPOSE: An implementation of the observer pattern for the MVC views and controllers.
+ * FILE:    ViewComponent.hpp
+ * PURPOSE: The DI component for the Qt-based view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCObservable.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
 
-#include <memory>
-#include <vector>
+#include <fruit/fruit.h>
 
-namespace SDF::Impl::Framework {
-  class IMVCObserverHandle;
-
-  template<class ... Args>
-  class MVCNotifiable : public IMVCObservable<Args ...> {
-  public:
-    MVCNotifiable();
-
-    std::unique_ptr<IMVCObserverHandle> attachObserver(std::function<void (Args ...)> func);
-    void notify(Args... args);
-  private:
-    std::vector<std::function<void (Args ...)>> m_funcList;
-  };
+namespace SDF::Impl::UILayer::Impl::View::Qt {
+  fruit::Component<IViewManager> getViewComponent();
 }
-
-#include "SDF/Impl/Framework/MVCNotifiable.tpp"
 
 #endif

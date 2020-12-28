@@ -1,4 +1,7 @@
 target_include_directories(neoimp PUBLIC .)
 
 add_subdirectory(Impl)
-add_subdirectory(Qt)
+
+target_sources(neoimp PUBLIC
+  ViewComponent.cpp
+)
