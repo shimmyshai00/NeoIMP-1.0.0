@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/Framework/IMVCDomainObject.hpp>
+
 #include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
 
@@ -35,9 +37,12 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   class ImageDataVisitor;
 
-  class AbstractImage {
+  class AbstractImage : public IMVCDomainObject<AbstractImage> {
   public:
     virtual ~AbstractImage() = default;
+
+    virtual Framework::Handle getDomainObjectId() const = 0;
+    virtual AbstractImage &get() = 0;
 
     virtual std::string getImageName() const = 0;
 

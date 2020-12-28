@@ -57,8 +57,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QPointer<Windows::MainWindow> m_mainWindow;
 
     QMetaObject::Connection m_newDocumentCommandNotifiableConn;
-    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
-    QMetaObject::Connection m_newDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_saveDocumentCommandNotifiableConn;
+    QMetaObject::Connection m_exitCommandNotifiableConn;
 
     Framework::MVCNotifiable<> m_newDocumentCommandNotifiable;
     Framework::MVCNotifiable<> m_saveDocumentCommandNotifiable;

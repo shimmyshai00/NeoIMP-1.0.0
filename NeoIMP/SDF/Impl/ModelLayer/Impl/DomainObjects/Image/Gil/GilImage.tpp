@@ -28,12 +28,14 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::GilImage(
+    Framework::Handle id,
     std::string imageName,
     std::size_t imageWidthPx,
     std::size_t imageHeightPx,
     float imageResolutionPpi
   )
-    : m_imageName(imageName),
+    : m_id(id),
+      m_imageName(imageName),
       m_imageWidthPx(imageWidthPx),
       m_imageHeightPx(imageHeightPx),
       m_imageResolutionPpi(imageResolutionPpi)
@@ -43,6 +45,16 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
 
   template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::~GilImage() {}
+
+  template<class GilAlphaType, class GilImageType>
+  Framework::Handle GilImage<GilAlphaType, GilImageType>::getDomainObjectId() const {
+    return m_id;
+  }
+
+  template<class GilAlphaType, class GilImageType>
+  AbstractImage &GilImage<GilAlphaType, GilImageType>::get() {
+    return *this;
+  }
 
   template<class GilAlphaType, class GilImageType>
   std::string GilImage<GilAlphaType, GilImageType>::getImageName() const {

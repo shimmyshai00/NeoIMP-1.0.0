@@ -28,30 +28,26 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
+#include <SDF/Impl/Framework/IMVCRepository.hpp>
+
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::ModelLayer {
-  namespace AbstractData {
-    class IImageRepository;
+namespace SDF::Impl::ModelLayer::Impl {
+  namespace DomainObjects {
+    namespace Image {
+      class AbstractImage;
+    }
   }
 
-  namespace Impl {
-    namespace DomainObjects {
-      namespace Image {
-        class AbstractImage;
-      }
-    }
+  namespace Services {
+    class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
+    public:
+      INJECT(DocumentCreationService(Framework::IMVCRepository<AbstractImage> *imageRepository));
 
-    namespace Services {
-      class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
-      public:
-        INJECT(DocumentCreationService(AbstractData::IImageRepository *imageRepository));
-
-        Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
-      private:
-        AbstractData::IImageRepository *m_imageRepository;
-      };
-    }
+      Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
+    private:
+      Framework::IMVCRepository<AbstractImage> *m_imageRepository;
+    };
   }
 }
 

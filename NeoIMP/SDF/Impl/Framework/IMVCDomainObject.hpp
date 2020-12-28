@@ -32,7 +32,7 @@ namespace SDF::Impl::Framework {
   public:
     virtual ~IMVCDomainObject() = default;
 
-    virtual Handle getDomainObjectId() = 0;
+    virtual Handle getDomainObjectId() const = 0;
     virtual T &get() = 0;
   };
 }

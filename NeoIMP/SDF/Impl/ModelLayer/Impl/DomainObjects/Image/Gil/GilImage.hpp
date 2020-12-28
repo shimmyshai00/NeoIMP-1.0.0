@@ -44,8 +44,14 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     template<class GilAlphaType, class GilImageType>
     class GilImage : public AbstractImage {
     public:
-      GilImage(std::string imageName, std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
+      GilImage(
+        Framework::Handle id, std::string imageName,
+        std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi
+      );
       ~GilImage();
+
+      Framework::Handle getDomainObjectId() const;
+      AbstractImage &get();
 
       std::string getImageName() const;
 
@@ -67,6 +73,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
       void acceptLayerAlphaVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
       void acceptLayerPixelVisitor(std::size_t layerNum, Math::Rect<std::size_t> rect, ImageDataVisitor *visitor);
     private:
+      Framework::Handle m_id;
       std::string m_imageName;
 
       std::size_t m_imageWidthPx;

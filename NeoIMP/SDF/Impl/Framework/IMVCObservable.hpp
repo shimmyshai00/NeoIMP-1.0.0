@@ -24,8 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <memory>
+
 namespace SDF::Impl::Framework {
-  template<class R, class Args...>
+  class IMVCObserverHandle;
+  
+  template<class ... Args>
   class IMVCObservable {
   public:
     virtual ~IMVCObservable() = default;

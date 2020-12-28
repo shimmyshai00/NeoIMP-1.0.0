@@ -21,9 +21,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/Framework/IMVCObserverHandle.hpp>
+
 namespace SDF::Impl::Framework::Impl {
   // Helper class.
-  template<class Args ...>
+  template<class ... Args>
   class ObserverHandle : public IMVCObserverHandle {
   public:
     ObserverHandle(std::vector<std::function<void (Args ...)>> *funcList, std::function<void (Args ...)> func)
@@ -43,22 +45,22 @@ namespace SDF::Impl::Framework::Impl {
   private:
     std::vector<std::function<void (Args ...)>> *m_funcList;
     std::function<void (Args ...)> m_func;
-  }
+  };
 }
 
 namespace SDF::Impl::Framework {
-  template<class Args ...>
+  template<class ... Args>
   MVCNotifiable<Args ...>::MVCNotifiable() {}
 
-  template<class Args ...>
-  void std::unique_ptr<IMVCObserverHandle> MVCNotifiable<Args ...>::attachObserver(std::function<void (Args ...)> func) {
+  template<class ... Args>
+  std::unique_ptr<IMVCObserverHandle> MVCNotifiable<Args ...>::attachObserver(std::function<void (Args ...)> func) {
     return std::make_unique<Impl::ObserverHandle<Args ...>>(&m_funcList, func);
   }
 
-  template<class Args ...>
+  template<class ... Args>
   void MVCNotifiable<Args ...>::notify(Args... args) {
     for(auto f : m_funcList) {
-      f(args);
+      f(args...);
     }
   }
 }

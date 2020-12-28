@@ -23,10 +23,6 @@
 
 #include <ApplicationView.hpp>
 
-#include <AbstractController/INewDocumentCommandObserver.hpp>
-#include <AbstractController/ISaveDocumentCommandObserver.hpp>
-#include <AbstractController/IExitCommandObserver.hpp>
-
 #include <Windows/MainWindow.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {

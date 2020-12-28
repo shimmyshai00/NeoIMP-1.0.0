@@ -32,12 +32,12 @@
 namespace SDF::Impl::Framework {
   class IMVCObserverHandle;
 
-  template<class Args ...>
+  template<class ... Args>
   class MVCNotifiable : public IMVCObservable<Args ...> {
   public:
     MVCNotifiable();
 
-    void std::unique_ptr<IMVCObserverHandle> attachObserver(std::function<void (Args ...)> func);
+    std::unique_ptr<IMVCObserverHandle> attachObserver(std::function<void (Args ...)> func);
     void notify(Args... args);
   private:
     std::vector<std::function<void (Args ...)>> m_funcList;

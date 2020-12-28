@@ -31,45 +31,32 @@
 #include <fruit/fruit.h>
 #include <string>
 
-namespace SDF::Impl::ModelLayer {
-  namespace AbstractData {
-    class IImageRepositoryProvider;
-    class IImageRepository;
+namespace SDF::Impl::ModelLayer::Impl {
+  namespace DomainObjects {
+    namespace Image {
+      class AbstractImage;
+    }
   }
 
-  namespace Impl {
-    namespace DomainObjects {
-      namespace Image {
-        class AbstractImage;
-      }
+  namespace Services {
+    class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
+    public:
+      INJECT(DocumentStorageService(
+        Framework::IMVCRepository<AbstractImage> *imageRepository,
+      ));
 
-      namespace Meta {
-        template<class T>
-        class ObjectMap;
-      }
-    }
+      void saveDocument(
+        std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
+        ModelLayer::Handle handle
+      );
 
-    namespace Services {
-      class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
-      public:
-        INJECT(DocumentStorageService(
-          DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap,
-          AbstractData::IImageRepositoryProvider *repositoryProvider
-        ));
-
-        void saveDocument(
-          std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-          ModelLayer::Handle handle
-        );
-
-        ModelLayer::Handle loadDocument(
-          std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
-        );
-      private:
-        DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
-        AbstractData::IImageRepositoryProvider *m_repositoryProvider;
-      };
-    }
+      ModelLayer::Handle loadDocument(
+        std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
+      );
+    private:
+      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
+      AbstractData::IImageRepositoryProvider *m_repositoryProvider;
+    };
   }
 }
 
