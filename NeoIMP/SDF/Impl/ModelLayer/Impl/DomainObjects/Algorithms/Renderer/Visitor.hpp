@@ -26,11 +26,7 @@
  */
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
-#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
-#include <boost/gil.hpp>
-
-#include <cstdlib>
 #include <vector>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {

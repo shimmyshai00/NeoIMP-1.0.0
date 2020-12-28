@@ -27,6 +27,8 @@
 
 #include <GilImage.hpp>
 
+#include <Framework/Handle.hpp>
+
 #include <boost/gil/extension/dynamic_image/any_image_view.hpp>
 #include <boost/gil/image_view.hpp>
 #include <boost/gil.hpp>
@@ -39,43 +41,45 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   ) {
     using namespace UILayer::AbstractModel::Properties;
 
+    static Framework::Handle nextImageId(0);
+
     if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_8)) {
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray8_image_t, boost::gil::rgb8_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_10)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::rgb16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_12)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::rgb16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_16)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::rgb16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_8)) {
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray8_image_t, boost::gil::cmyk16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_10)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::cmyk16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_12)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::cmyk16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     } else if((colorModel == COLOR_MODEL_CMYK) && (bitDepth == BIT_DEPTH_16)) {
       // NB: need to support more refined bit depth formats
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray16_image_t, boost::gil::cmyk16_image_t>(
-        imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
+        nextImageId++, imageName, imageWidthPx, imageHeightPx, imageResolutionPpi
       ));
     }
   }

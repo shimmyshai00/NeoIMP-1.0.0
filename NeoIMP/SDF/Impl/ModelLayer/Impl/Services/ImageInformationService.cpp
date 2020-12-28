@@ -23,39 +23,38 @@
 
 #include <ImageInformationService.hpp>
 
+#include <ModelLayer/Exceptions/Exceptions.hpp>
+#include <DataLayer/Exceptions/Exceptions.hpp>
+
+#include <AbstractData/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <DomainObjects/Meta/ObjectMap.hpp>
-#include <ModelLayer/Exceptions/Exceptions.hpp>
-
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageInformationService::ImageInformationService(
-    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
-  )
-    : m_imageMap(imageMap)
+  ImageInformationService::ImageInformationService(AbstractData::IImageRepository *imageRepository)
+    : m_imageRepository(imageRepository)
   {}
 
-  std::string ImageInformationService::getImageName(ModelLayer::Handle handle) {
-    if(m_imageMap->find(handle) == nullptr) {
+  std::string ImageInformationService::getImageName(Framework::Handle handle) {
+    try {
+      return m_imageRepository->retrieveNonOwning(handle)->get().getImageName();
+    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
-
-    return m_imageMap->find(handle)->getImageName();
-  }
-  
-  int ImageInformationService::getImageWidth(ModelLayer::Handle handle) {
-    if(m_imageMap->find(handle) == nullptr) {
-      throw ModelLayer::Exceptions::InvalidHandleException(handle);
-    }
-
-    return m_imageMap->find(handle)->getImageWidth();
   }
 
-  int ImageInformationService::getImageHeight(ModelLayer::Handle handle) {
-    if(m_imageMap->find(handle) == nullptr) {
+  int ImageInformationService::getImageWidth(Framework::Handle handle) {
+    try {
+      return m_imageRepository->retrieveNonOwning(handle)->get().getImageWidth();
+    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
+  }
 
-    return m_imageMap->find(handle)->getImageHeight();
+  int ImageInformationService::getImageHeight(Framework::Handle handle) {
+    try {
+      return m_imageRepository->retrieveNonOwning(handle)->get().getImageHeight();
+    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+    }
   }
 }

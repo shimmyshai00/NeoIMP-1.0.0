@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEREPOSITORY_HPP
+#define SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEREPOSITORY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryProvider.cpp
- * PURPOSE: Implementation of the image repository provider.
+ * FILE:    IImageRepository.hpp
+ * PURPOSE: Defines an interface for image repositories.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ImageRepositoryProvider.hpp>
+#include <SDF/Impl/Framework/IMVCRepository.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
 
-#include <ModelLayer/AbstractData/IImageRepository.hpp>
-
-#include <Repositories/PNGRepository.hpp>
-
-namespace SDF::Impl::DataLayer::Impl {
-  ImageRepositoryProvider::ImageRepositoryProvider()
-    : m_pngRepository(new Repositories::PNGRepository())
-  {}
-
-  ModelLayer::AbstractData::IImageRepository *ImageRepositoryProvider::getPNGRepository() {
-    return m_pngRepository.get();
-  }
+namespace SDF::Impl::ModelLayer::AbstractData {
+  class IImageRepository : public Framework::IMVCRepository<ModelLayer::Impl::DomainObjects::Image::AbstractImage> {};
 }
+
+#endif

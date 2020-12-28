@@ -24,7 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/Framework/Handle.hpp>
+
+#include <memory>
+
 namespace SDF::Impl::Framework {
+  template<class T>
+  class IMVCDomainObject;
+
   template<class T>
   class IMVCRepository {
   public:
@@ -34,11 +41,11 @@ namespace SDF::Impl::Framework {
     // domain object, which is necessary for keeping good performance.
     virtual void add(std::unique_ptr<IMVCDomainObject<T>> object) = 0;
 
-    virtual std::unique_ptr<IMVCDomainObject<T>> retrieve(Handle handle) = 0;
-    virtual IMVCDomainObject<T> *retrieveNonOwning(Handle handle) = 0;
+    virtual std::unique_ptr<IMVCDomainObject<T>> retrieve(Framework::Handle handle) = 0;
+    virtual IMVCDomainObject<T> *retrieveNonOwning(Framework::Handle handle) = 0;
 
     virtual void update(std::unique_ptr<IMVCDomainObject<T>> object) = 0;
-    virtual void delete(Handle handle) = 0;
+    virtual void remove(Framework::Handle handle) = 0;
   };
 }
 

@@ -23,11 +23,12 @@
 
 #include <DataComponent.hpp>
 
-#include <Impl/ImageRepositoryProvider.hpp>
+#include <Impl/ImageRepository.hpp>
 
 namespace SDF::Impl::DataLayer {
   DIComponent getDataComponent() {
     return fruit::createComponent()
-      .bind<ModelLayer::AbstractData::IImageRepositoryProvider, Impl::ImageRepositoryProvider>();
+      .bind<ModelLayer::AbstractData::IImageRepository, Impl::ImageRepository>()
+      .bind<ModelLayer::AbstractData::IImageFileMap, Impl::ImageRepository>();
   }
 }

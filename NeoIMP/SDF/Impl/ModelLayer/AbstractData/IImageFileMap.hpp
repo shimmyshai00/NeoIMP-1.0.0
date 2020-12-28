@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_DATALAYER_IMPL_IMAGEREPOSITORYPROVIDER_HPP
-#define SDF_IMPL_DATALAYER_IMPL_IMAGEREPOSITORYPROVIDER_HPP
+#ifndef SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEFILEMAP_HPP
+#define SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEFILEMAP_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageRepositoryProvider.hpp
- * PURPOSE: Headers for the implementation of the image repository provider.
+ * FILE:    IImageFileMap.hpp
+ * PURPOSE: Defines an interface for a mapping of document object IDs to file name specifiers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/AbstractData/IImageRepositoryProvider.hpp>
-#include <SDF/Impl/DataLayer/Impl/Repositories/PNGRepository.hpp>
+#include <SDF/Impl/Framework/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <string>
 
-namespace SDF::Impl {
-  namespace ModelLayer::AbstractData {
-    class IImageRepository;
-  }
+namespace SDF::Impl::ModelLayer::AbstractData {
+  class IImageFileMap {
+  public:
+    virtual ~IImageFileMap() = default;
 
-  namespace DataLayer::Impl {
-    class ImageRepositoryProvider : public ModelLayer::AbstractData::IImageRepositoryProvider {
-    public:
-      INJECT(ImageRepositoryProvider());
-      ~ImageRepositoryProvider() {}
+    virtual void addBinding(
+      Framework::Handle handle,
+      std::string fileName, UILayer::AbstractModel::Properties::FileFormat fileFormat
+    ) = 0;
 
-      ModelLayer::AbstractData::IImageRepository *getPNGRepository();
-    private:
-      std::unique_ptr<Repositories::PNGRepository> m_pngRepository;
-    };
-  }
+    virtual void removeBinding(Framework::Handle handle) = 0;
+  };
 }
 
 #endif

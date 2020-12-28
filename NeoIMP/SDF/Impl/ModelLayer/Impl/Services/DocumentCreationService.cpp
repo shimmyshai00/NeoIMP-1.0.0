@@ -23,22 +23,27 @@
 
 #include <DocumentCreationService.hpp>
 
+#include <AbstractData/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
-
-#include <DomainObjects/Meta/ObjectMap.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
+#include <Framework/Handle.hpp>
+#include <UILayer/AbstractModel/Data/DocumentSpec.hpp>
+
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  DocumentCreationService::DocumentCreationService(
-    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
-  )
-    : m_imageMap(imageMap)
+  DocumentCreationService::DocumentCreationService(AbstractData::IImageRepository *imageRepository)
+    : m_imageRepository(imageRepository)
   {}
 
-  Handle DocumentCreationService::createDocument(UILayer::AbstractModel::Data::DocumentSpec spec) {
-    return m_imageMap->add(DomainObjects::Image::Gil::createImage(
+  Framework::Handle DocumentCreationService::createDocument(UILayer::AbstractModel::Data::DocumentSpec spec) {
+    std::unique_ptr<DomainObjects::Image::AbstractImage> image(DomainObjects::Image::Gil::createImage(
       spec.documentName, spec.documentWidthPx, spec.documentHeightPx, spec.documentResolutionPpi,
       spec.colorModel, spec.bitDepth
     ));
+
+    Framework::Handle imageHandle(image->getDomainObjectId());
+    m_imageRepository->add(std::move(image));
+
+    return imageHandle;
   }
 }

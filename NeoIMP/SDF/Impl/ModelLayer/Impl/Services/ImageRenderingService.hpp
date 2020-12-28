@@ -34,14 +34,8 @@ namespace SDF::Impl::ModelLayer {
   }
 
   namespace Impl {
-    namespace DomainObjects {
-      namespace Image {
-        class AbstractImage;
-      }
-
-      namespace Algorithms::Renderer {
-        class Visitor;
-      }
+    namespace DomainObjects::Algorithms::Renderer {
+      class Visitor;
     }
 
     namespace Services {
@@ -49,7 +43,7 @@ namespace SDF::Impl::ModelLayer {
       public:
         INJECT(ImageRenderingService(AbstractData::IImageRepository *imageRepository));
 
-        const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2);
+        const unsigned char *renderImageRegion(Framework::Handle handle, int x1, int y1, int x2, int y2);
       private:
         AbstractData::IImageRepository *m_imageRepository;
         DomainObjects::Algorithms::Renderer::Visitor *m_visitor;

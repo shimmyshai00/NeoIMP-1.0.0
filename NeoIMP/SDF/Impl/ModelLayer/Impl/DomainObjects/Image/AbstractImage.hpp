@@ -37,7 +37,7 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   class ImageDataVisitor;
 
-  class AbstractImage : public IMVCDomainObject<AbstractImage> {
+  class AbstractImage : public Framework::IMVCDomainObject<AbstractImage> {
   public:
     virtual ~AbstractImage() = default;
 

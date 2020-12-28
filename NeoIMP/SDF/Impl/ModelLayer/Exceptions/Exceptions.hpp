@@ -26,11 +26,11 @@
 
 #include <SDF/Exception/Exception.hpp>
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
+#include <SDF/Impl/Framework/Handle.hpp>
 
 namespace SDF::Impl::ModelLayer::Exceptions {
   struct InvalidHandleException : public SDF::Exception::Exception {
-    InvalidHandleException(ModelLayer::Handle handle)
+    InvalidHandleException(Framework::Handle handle)
       : Exception("Tried to access a nonexistent object with handle '%d'.", handle)
     {}
   };

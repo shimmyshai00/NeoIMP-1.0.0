@@ -26,7 +26,21 @@
 
 #include <SDF/Exception/Exception.hpp>
 
+#include <SDF/Impl/Framework/Handle.hpp>
+
 namespace SDF::Impl::DataLayer::Exceptions {
+  struct IdAlreadyInUseException : public SDF::Exception::Exception {
+    IdAlreadyInUseException(Framework::Handle handle)
+      : Exception("An object with handle '%d' already exists in the repository.", handle)
+    {}
+  };
+
+  struct ObjectNotFoundException : public SDF::Exception::Exception {
+    ObjectNotFoundException(Framework::Handle handle)
+      : Exception("Object with handle '%d' was not found in the repository.", handle)
+    {}
+  };
+
   struct MultilayerImageNotSupportedException : public SDF::Exception::Exception {
     MultilayerImageNotSupportedException(std::string formatName)
       : Exception("The %s format does not support saving images with multiple layers.", formatName)

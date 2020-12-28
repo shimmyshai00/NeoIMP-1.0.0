@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
+#include <SDF/Impl/Framework/Handle.hpp>
 
 #include <string>
 
@@ -33,7 +33,7 @@ namespace SDF::Impl::UILayer::AbstractModel::Services {
   public:
     virtual ~IImageBaseEditingService() = default;
 
-    virtual void setImageName(ModelLayer::Handle handle, std::string newImageName) = 0;
+    virtual void setImageName(Framework::Handle handle, std::string newImageName) = 0;
   };
 }
 

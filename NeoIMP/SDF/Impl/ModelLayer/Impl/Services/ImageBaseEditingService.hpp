@@ -26,8 +26,6 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Services/IImageBaseEditingService.hpp>
 
-#include <SDF/Impl/ModelLayer/Handle.hpp>
-
 #include <fruit/fruit.h>
 #include <string>
 
@@ -36,23 +34,15 @@ namespace SDF::Impl::ModelLayer {
     class IImageRepository;
   }
 
-  namespace Impl {
-    namespace DomainObjects {
-      namespace Image {
-        class AbstractImage;
-      }
-    }
+  namespace Impl::Services {
+    class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
+    public:
+      INJECT(ImageBaseEditingService(AbstractData::IImageRepository *imageRepository));
 
-    namespace Services {
-      class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
-      public:
-        INJECT(ImageBaseEditingService(AbstractData::IImageRepository *imageRepository));
-
-        void setImageName(ModelLayer::Handle handle, std::string newImageName);
-      private:
-        AbstractData::IImageRepository *m_imageRepository;
-      };
-    }
+      void setImageName(Framework::Handle handle, std::string newImageName);
+    private:
+      AbstractData::IImageRepository *m_imageRepository;
+    };
   }
 }
 

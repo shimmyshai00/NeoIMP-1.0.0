@@ -26,36 +26,34 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentStorageService.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
-
 #include <fruit/fruit.h>
 #include <string>
 
-namespace SDF::Impl::ModelLayer::Impl {
-  namespace DomainObjects {
-    namespace Image {
-      class AbstractImage;
-    }
+namespace SDF::Impl::ModelLayer {
+  namespace AbstractData {
+    class IImageRepository;
+    class IImageFileMap;
   }
 
-  namespace Services {
+  namespace Impl::Services {
     class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
     public:
       INJECT(DocumentStorageService(
-        Framework::IMVCRepository<AbstractImage> *imageRepository,
+        AbstractData::IImageRepository *imageRepository,
+        AbstractData::IImageFileMap *imageFileMap
       ));
 
       void saveDocument(
         std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-        ModelLayer::Handle handle
+        Framework::Handle handle
       );
 
-      ModelLayer::Handle loadDocument(
+      Framework::Handle loadDocument(
         std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
       );
     private:
-      DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *m_imageMap;
-      AbstractData::IImageRepositoryProvider *m_repositoryProvider;
+      AbstractData::IImageRepository *m_imageRepository;
+      AbstractData::IImageFileMap *m_imageFileMap;
     };
   }
 }

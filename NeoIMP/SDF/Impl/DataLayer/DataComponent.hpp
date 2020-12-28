@@ -24,13 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/AbstractData/IImageRepositoryProvider.hpp>
+#include <SDF/Impl/ModelLayer/AbstractData/IImageRepository.hpp>
+#include <SDF/Impl/ModelLayer/AbstractData/IImageFileMap.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::DataLayer {
   typedef fruit::Component<
-    ModelLayer::AbstractData::IImageRepositoryProvider
+    ModelLayer::AbstractData::IImageRepository,
+    ModelLayer::AbstractData::IImageFileMap
   > DIComponent;
 
   DIComponent getDataComponent();

@@ -24,13 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/Gil/GilLayer.hpp>
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
-
-#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
-
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/Gil/GilLayer.hpp>
 
 #include <string>
 #include <cstdlib>

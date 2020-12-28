@@ -28,7 +28,6 @@
 #include <Impl/Services/ImageInformationService.hpp>
 #include <Impl/Services/ImageRenderingService.hpp>
 
-#include <Impl/DomainObjects/Meta/ObjectMap.hpp>
 #include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
 #include <DataLayer/DataComponent.hpp>

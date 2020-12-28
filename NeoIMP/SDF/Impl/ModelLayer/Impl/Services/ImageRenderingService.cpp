@@ -27,32 +27,35 @@
 #include <DomainObjects/Image/ImageDataVisitor.hpp>
 #include <DomainObjects/Algorithms/Renderer/Visitor.hpp>
 #include <DomainObjects/Math/Rect.hpp>
-#include <DomainObjects/Meta/ObjectMap.hpp>
+
+#include <AbstractData/IImageRepository.hpp>
+#include <DomainObjects/Image/AbstractImage.hpp>
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
+#include <DataLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageRenderingService::ImageRenderingService(
-    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap
-  )
-    : m_imageMap(imageMap),
+  ImageRenderingService::ImageRenderingService(AbstractData::IImageRepository *imageRepository)
+    : m_imageRepository(imageRepository),
       m_visitor(new DomainObjects::Algorithms::Renderer::Visitor)
   {}
 
-  const unsigned char *ImageRenderingService::renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) {
-    // NB: needs to be made threadsafe
-    if(m_imageMap->find(handle) == nullptr) {
+  const unsigned char *ImageRenderingService::renderImageRegion(
+    Framework::Handle handle, int x1, int y1, int x2, int y2
+  ) {
+    try {
+      // NB: needs to be made threadsafe
+      DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->retrieveNonOwning(handle)->get());
+
+      // Visit the desired region.
+      if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
+        throw ModelLayer::Exceptions::RectangleOutOfBoundsException(x1, y1, x2, y2);
+      }
+
+      m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor);
+      return m_visitor->getRenderData();
+    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
-
-    DomainObjects::Image::AbstractImage *m_image(m_imageMap->find(handle));
-
-    // Visit the desired region.
-    if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
-      throw ModelLayer::Exceptions::RectangleOutOfBoundsException(x1, y1, x2, y2);
-    }
-
-    m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor);
-    return m_visitor->getRenderData();
   }
 }

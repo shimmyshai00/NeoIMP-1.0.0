@@ -23,35 +23,32 @@
 
 #include <DocumentStorageService.hpp>
 
-#include <AbstractData/IImageRepositoryProvider.hpp>
-#include <AbstractData/IImageRepository.hpp>
-
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 
-#include <DomainObjects/Meta/ObjectMap.hpp>
+#include <AbstractData/IImageRepository.hpp>
+#include <AbstractData/IImageFileMap.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
+
+#include <Framework/Handle.hpp>
+#include <UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(
-    DomainObjects::Meta::ObjectMap<DomainObjects::Image::AbstractImage> *imageMap,
-    AbstractData::IImageRepositoryProvider *repositoryProvider
+    AbstractData::IImageRepository *imageRepository,
+    AbstractData::IImageFileMap *imageFileMap
   )
-    : m_imageMap(imageMap),
-      m_repositoryProvider(repositoryProvider)
+    : m_imageRepository(imageRepository),
+      m_imageFileMap(imageFileMap)
   {}
 
   void DocumentStorageService::saveDocument(
     std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-    ModelLayer::Handle handle
+    Framework::Handle handle
   ) {
-    if(m_imageMap->find(handle) == nullptr) {
-      throw ModelLayer::Exceptions::InvalidHandleException(handle);
-    }
-
-    m_repositoryProvider->getPNGRepository()->saveImage(fileSpec, *m_imageMap->find(handle));
+    // TBA
   }
 
-  ModelLayer::Handle DocumentStorageService::loadDocument(
+  Framework::Handle DocumentStorageService::loadDocument(
     std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
   ) {
     // TBA

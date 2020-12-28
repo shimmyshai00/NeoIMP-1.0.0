@@ -34,26 +34,18 @@ namespace SDF::Impl::ModelLayer {
     class IImageRepository;
   }
 
-  namespace Impl {
-    namespace DomainObjects {
-      namespace Image {
-        class AbstractImage;
-      }
-    }
+  namespace Impl::Services {
+    class ImageInformationService : public UILayer::AbstractModel::Services::IImageInformationService {
+    public:
+      INJECT(ImageInformationService(AbstractData::IImageRepository *imageRepository));
 
-    namespace Services {
-      class ImageInformationService : public UILayer::AbstractModel::Services::IImageInformationService {
-      public:
-        INJECT(ImageInformationService(AbstractData::IImageRepository *imageRepository));
+      std::string getImageName(Framework::Handle handle);
 
-        std::string getImageName(ModelLayer::Handle handle);
-
-        int getImageWidth(ModelLayer::Handle handle);
-        int getImageHeight(ModelLayer::Handle handle);
-      private:
-        AbstractData::IImageRepository *m_imageRepository;
-      };
-    }
+      int getImageWidth(Framework::Handle handle);
+      int getImageHeight(Framework::Handle handle);
+    private:
+      AbstractData::IImageRepository *m_imageRepository;
+    };
   }
 }
 
