@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
@@ -35,11 +34,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public IQtView<Windows::MainWindow>, public IApplicationView {
+  class ApplicationView : public IApplicationView {
   public:
     ApplicationView();
-
-    QPointer<Windows::MainWindow> getQWidget();
 
     void show();
     void close();

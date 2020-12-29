@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
 
 #include <Dialogs/NewDocumentDialog.hpp>
@@ -32,11 +31,9 @@
 #include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  class NewDocumentView : public IQtView<Dialogs::NewDocumentDialog>, public INewDocumentView {
+  class NewDocumentView : public public INewDocumentView {
   public:
     NewDocumentView();
-
-    QPointer<Dialogs::NewDocumentDialog> getQWidget();
 
     void show();
 
