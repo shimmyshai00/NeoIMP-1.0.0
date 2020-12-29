@@ -24,8 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/Handle.hpp>
-
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 #include <string>
 
 namespace SDF::Impl::UILayer::AbstractModel::Services {
@@ -33,10 +32,10 @@ namespace SDF::Impl::UILayer::AbstractModel::Services {
   public:
     virtual ~IImageInformationService() = default;
 
-    virtual std::string getImageName(Framework::Handle handle) = 0;
+    virtual std::string getImageName(Handle handle) = 0;
 
-    virtual int getImageWidth(Framework::Handle handle) = 0;
-    virtual int getImageHeight(Framework::Handle handle) = 0;
+    virtual int getImageWidth(Handle handle) = 0;
+    virtual int getImageHeight(Handle handle) = 0;
   };
 }
 

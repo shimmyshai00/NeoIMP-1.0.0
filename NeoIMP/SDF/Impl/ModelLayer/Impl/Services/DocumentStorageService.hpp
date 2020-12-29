@@ -45,10 +45,10 @@ namespace SDF::Impl::ModelLayer {
 
       void saveDocument(
         std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-        Framework::Handle handle
+        UILayer::AbstractModel::Handle handle
       );
 
-      Framework::Handle loadDocument(
+      UILayer::AbstractModel::Handle loadDocument(
         std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
       );
     private:

@@ -29,7 +29,7 @@
 #include <AbstractData/IImageFileMap.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <Framework/Handle.hpp>
+#include <UILayer/AbstractModel/Handle.hpp>
 #include <UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
@@ -43,12 +43,12 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
 
   void DocumentStorageService::saveDocument(
     std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-    Framework::Handle handle
+    UILayer::AbstractModel::Handle handle
   ) {
     // TBA
   }
 
-  Framework::Handle DocumentStorageService::loadDocument(
+  UILayer::AbstractModel::Handle DocumentStorageService::loadDocument(
     std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
   ) {
     // TBA

@@ -27,7 +27,7 @@
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
-#include <Framework/Handle.hpp>
+#include <UILayer/AbstractModel/Handle.hpp>
 #include <UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
@@ -35,7 +35,9 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     : m_imageRepository(imageRepository)
   {}
 
-  Framework::Handle DocumentCreationService::createDocument(UILayer::AbstractModel::Data::DocumentSpec spec) {
+  UILayer::AbstractModel::Handle DocumentCreationService::createDocument(
+    UILayer::AbstractModel::Data::DocumentSpec spec
+  ) {
     std::unique_ptr<DomainObjects::Image::AbstractImage> image(DomainObjects::Image::Gil::createImage(
       spec.documentName, spec.documentWidthPx, spec.documentHeightPx, spec.documentResolutionPpi,
       spec.colorModel, spec.bitDepth

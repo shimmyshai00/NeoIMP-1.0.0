@@ -38,7 +38,7 @@ namespace SDF::Impl::ModelLayer {
     public:
       INJECT(DocumentCreationService(AbstractData::IImageRepository *imageRepository));
 
-      Framework::Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
+      UILayer::AbstractModel::Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
     private:
       AbstractData::IImageRepository *m_imageRepository;
     };

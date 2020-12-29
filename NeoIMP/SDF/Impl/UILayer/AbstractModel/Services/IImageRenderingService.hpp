@@ -25,8 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/Handle.hpp>
-
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 #include <memory>
 
 namespace SDF::Impl::UILayer::AbstractModel::Services {
@@ -34,7 +33,7 @@ namespace SDF::Impl::UILayer::AbstractModel::Services {
   public:
     virtual ~IImageRenderingService() = default;
 
-    virtual const unsigned char *renderImageRegion(Framework::Handle handle, int x1, int y1, int x2, int y2) = 0;
+    virtual const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) = 0;
   };
 }
 

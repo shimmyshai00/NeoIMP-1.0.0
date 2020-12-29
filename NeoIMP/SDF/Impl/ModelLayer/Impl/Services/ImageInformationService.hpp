@@ -39,10 +39,10 @@ namespace SDF::Impl::ModelLayer {
     public:
       INJECT(ImageInformationService(AbstractData::IImageRepository *imageRepository));
 
-      std::string getImageName(Framework::Handle handle);
+      std::string getImageName(UILayer::AbstractModel::Handle handle);
 
-      int getImageWidth(Framework::Handle handle);
-      int getImageHeight(Framework::Handle handle);
+      int getImageWidth(UILayer::AbstractModel::Handle handle);
+      int getImageHeight(UILayer::AbstractModel::Handle handle);
     private:
       AbstractData::IImageRepository *m_imageRepository;
     };

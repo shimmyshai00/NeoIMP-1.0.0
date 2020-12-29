@@ -39,7 +39,7 @@ namespace SDF::Impl::ModelLayer {
     public:
       INJECT(ImageBaseEditingService(AbstractData::IImageRepository *imageRepository));
 
-      void setImageName(Framework::Handle handle, std::string newImageName);
+      void setImageName(UILayer::AbstractModel::Handle handle, std::string newImageName);
     private:
       AbstractData::IImageRepository *m_imageRepository;
     };

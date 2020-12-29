@@ -29,14 +29,14 @@
 #include <AbstractData/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <Framework/Handle.hpp>
+#include <UILayer/AbstractModel/Handle.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   ImageBaseEditingService::ImageBaseEditingService(AbstractData::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository)
   {}
 
-  void ImageBaseEditingService::setImageName(Framework::Handle handle, std::string newImageName) {
+  void ImageBaseEditingService::setImageName(UILayer::AbstractModel::Handle handle, std::string newImageName) {
     try {
       m_imageRepository->retrieveNonOwning(handle)->get().setImageName(newImageName);
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {

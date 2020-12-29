@@ -24,8 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/Handle.hpp>
-
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::UILayer::AbstractModel::Services {
@@ -33,7 +32,7 @@ namespace SDF::Impl::UILayer::AbstractModel::Services {
   public:
     virtual ~IDocumentCreationService() = default;
 
-    virtual Framework::Handle createDocument(Data::DocumentSpec spec) = 0;
+    virtual Handle createDocument(Data::DocumentSpec spec) = 0;
   };
 }
 

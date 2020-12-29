@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 #include <string>
@@ -35,7 +35,7 @@ namespace SDF::Impl::UILayer::AbstractModel::Services {
     virtual ~IDocumentStorageService() = default;
 
     virtual void saveDocument(std::string fileSpec, Properties::FileFormat fileFormat, Framework::Handle handle) = 0;
-    virtual Framework::Handle loadDocument(std::string fileSpec, Properties::FileFormat fileFormat) = 0;
+    virtual Handle loadDocument(std::string fileSpec, Properties::FileFormat fileFormat) = 0;
   };
 }
 
