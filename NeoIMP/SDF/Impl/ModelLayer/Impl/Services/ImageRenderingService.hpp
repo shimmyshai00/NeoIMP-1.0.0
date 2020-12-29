@@ -29,7 +29,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::ModelLayer {
-  namespace AbstractData {
+  namespace AbstractMemory::Repositories {
     class IImageRepository;
   }
 
@@ -41,11 +41,11 @@ namespace SDF::Impl::ModelLayer {
     namespace Services {
       class ImageRenderingService : public UILayer::AbstractModel::Services::IImageRenderingService {
       public:
-        INJECT(ImageRenderingService(AbstractData::IImageRepository *imageRepository));
+        INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
         const unsigned char *renderImageRegion(UILayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2);
       private:
-        AbstractData::IImageRepository *m_imageRepository;
+        AbstractMemory::Repositories::IImageRepository *m_imageRepository;
         DomainObjects::Algorithms::Renderer::Visitor *m_visitor;
       };
     }

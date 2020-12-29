@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEREPOSITORY_HPP
-#define SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEREPOSITORY_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_MEMORYCOMPONENT_HPP
+#define SDF_IMPL_MEMORYLAYER_MEMORYCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageRepository.hpp
- * PURPOSE: Defines an interface for image repositories.
+ * FILE:    MemoryComponent.hpp
+ * PURPOSE: Headers for the DI component for the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCRepository.hpp>
-#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
 
-namespace SDF::Impl::ModelLayer::AbstractData {
-  class IImageRepository : public Framework::IMVCRepository<ModelLayer::Impl::DomainObjects::Image::AbstractImage> {};
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::MemoryLayer {
+  typedef fruit::Component<
+    ModelLayer::AbstractMemory::Repositories::IImageRepository
+  > DIComponent;
+
+  DIComponent getMemoryComponent();
 }
 
 #endif

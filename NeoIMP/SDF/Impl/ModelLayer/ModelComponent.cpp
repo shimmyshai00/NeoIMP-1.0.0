@@ -30,7 +30,7 @@
 
 #include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
-#include <DataLayer/DataComponent.hpp>
+#include <MemoryLayer/MemoryComponent.hpp>
 
 namespace SDF::Impl::ModelLayer {
   DIComponent getModelComponent() {
@@ -39,6 +39,6 @@ namespace SDF::Impl::ModelLayer {
       .bind<UILayer::AbstractModel::Services::IDocumentStorageService, Impl::Services::DocumentStorageService>()
       .bind<UILayer::AbstractModel::Services::IImageInformationService, Impl::Services::ImageInformationService>()
       .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>()
-      .install(DataLayer::getDataComponent);
+      .install(MemoryLayer::getMemoryComponent);
   }
 }

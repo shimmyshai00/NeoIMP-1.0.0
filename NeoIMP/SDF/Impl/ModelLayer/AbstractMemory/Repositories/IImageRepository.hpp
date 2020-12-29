@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_IMPL_SERVICES_DOCUMENTCREATIONSERVICE_HPP
-#define SDF_IMPL_MODELLAYER_IMPL_SERVICES_DOCUMENTCREATIONSERVICE_HPP
+#ifndef SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_IIMAGEREPOSITORY_HPP
+#define SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_IIMAGEREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentCreationService.hpp
- * PURPOSE: Headers for the document creation service implementation.
+ * FILE:    IImageRepository.hpp
+ * PURPOSE: Defines an interface for an in-memory repository to hold the documents open for editing.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentCreationService.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-#include <fruit/fruit.h>
+#include <memory>
 
 namespace SDF::Impl::ModelLayer {
-  namespace AbstractMemory::Repositories {
-    class IImageRepository;
+  namespace Impl::DomainObjects::Image {
+    class AbstractImage;
   }
 
-  namespace Impl::Services {
-    class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
+  namespace AbstractMemory::Repositories {
+    class IImageRepository {
     public:
-      INJECT(DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+      virtual ~IImageRepository() = default;
 
-      UILayer::AbstractModel::Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
-    private:
-      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-      UILayer::AbstractModel::Handle m_nextHandle;
+      virtual void add(
+        UILayer::AbstractModel::Handle handle,
+        std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> imageDocument
+      ) = 0;
+
+      virtual Impl::DomainObjects::Image::AbstractImage &access(UILayer::AbstractModel::Handle handle) = 0;
+      virtual void remove(UILayer::AbstractModel::Handle handle) = 0;
     };
   }
 }

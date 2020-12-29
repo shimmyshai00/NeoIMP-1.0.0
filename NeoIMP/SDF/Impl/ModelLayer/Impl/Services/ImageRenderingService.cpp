@@ -23,29 +23,31 @@
 
 #include <ImageRenderingService.hpp>
 
+#include <UILayer/AbstractModel/Handle.hpp>
+
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/ImageDataVisitor.hpp>
 #include <DomainObjects/Algorithms/Renderer/Visitor.hpp>
 #include <DomainObjects/Math/Rect.hpp>
 
-#include <AbstractData/IImageRepository.hpp>
+#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
-#include <DataLayer/Exceptions/Exceptions.hpp>
+#include <MemoryLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageRenderingService::ImageRenderingService(AbstractData::IImageRepository *imageRepository)
+  ImageRenderingService::ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository),
       m_visitor(new DomainObjects::Algorithms::Renderer::Visitor)
   {}
 
   const unsigned char *ImageRenderingService::renderImageRegion(
-    Framework::Handle handle, int x1, int y1, int x2, int y2
+    UILayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2
   ) {
     try {
       // NB: needs to be made threadsafe
-      DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->retrieveNonOwning(handle)->get());
+      DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->access(handle));
 
       // Visit the desired region.
       if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
@@ -54,7 +56,7 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
 
       m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor);
       return m_visitor->getRenderData();
-    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }

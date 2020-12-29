@@ -30,17 +30,17 @@
 #include <string>
 
 namespace SDF::Impl::ModelLayer {
-  namespace AbstractData {
-    class IImageRepository;
-    class IImageFileMap;
+  namespace AbstractMemory {
+    namespace Repositories {
+      class IImageRepository;
+    }
   }
 
   namespace Impl::Services {
     class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
     public:
       INJECT(DocumentStorageService(
-        AbstractData::IImageRepository *imageRepository,
-        AbstractData::IImageFileMap *imageFileMap
+        AbstractMemory::Repositories::IImageRepository *imageRepository
       ));
 
       void saveDocument(
@@ -52,8 +52,7 @@ namespace SDF::Impl::ModelLayer {
         std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
       );
     private:
-      AbstractData::IImageRepository *m_imageRepository;
-      AbstractData::IImageFileMap *m_imageFileMap;
+      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };
   }
 }

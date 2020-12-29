@@ -25,8 +25,7 @@
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 
-#include <AbstractData/IImageRepository.hpp>
-#include <AbstractData/IImageFileMap.hpp>
+#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
 #include <UILayer/AbstractModel/Handle.hpp>
@@ -34,11 +33,9 @@
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(
-    AbstractData::IImageRepository *imageRepository,
-    AbstractData::IImageFileMap *imageFileMap
+    AbstractMemory::Repositories::IImageRepository *imageRepository
   )
-    : m_imageRepository(imageRepository),
-      m_imageFileMap(imageFileMap)
+    : m_imageRepository(imageRepository)
   {}
 
   void DocumentStorageService::saveDocument(

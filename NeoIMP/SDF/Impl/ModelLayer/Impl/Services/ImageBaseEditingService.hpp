@@ -30,18 +30,18 @@
 #include <string>
 
 namespace SDF::Impl::ModelLayer {
-  namespace AbstractData {
+  namespace AbstractMemory::Repositories {
     class IImageRepository;
   }
 
   namespace Impl::Services {
     class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
     public:
-      INJECT(ImageBaseEditingService(AbstractData::IImageRepository *imageRepository));
+      INJECT(ImageBaseEditingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
       void setImageName(UILayer::AbstractModel::Handle handle, std::string newImageName);
     private:
-      AbstractData::IImageRepository *m_imageRepository;
+      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };
   }
 }

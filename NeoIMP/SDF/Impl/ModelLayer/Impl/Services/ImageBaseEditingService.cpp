@@ -23,23 +23,23 @@
 
 #include <ImageBaseEditingService.hpp>
 
-#include <SDF/Impl/DataLayer/Exceptions/Exceptions.hpp>
+#include <SDF/Impl/MemoryLayer/Exceptions/Exceptions.hpp>
 #include <SDF/Impl/ModelLayer/Exceptions/Exceptions.hpp>
 
-#include <AbstractData/IImageRepository.hpp>
+#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
 #include <UILayer/AbstractModel/Handle.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageBaseEditingService::ImageBaseEditingService(AbstractData::IImageRepository *imageRepository)
+  ImageBaseEditingService::ImageBaseEditingService(AbstractMemory::Repositories::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository)
   {}
 
   void ImageBaseEditingService::setImageName(UILayer::AbstractModel::Handle handle, std::string newImageName) {
     try {
-      m_imageRepository->retrieveNonOwning(handle)->get().setImageName(newImageName);
-    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+      m_imageRepository->access(handle).setImageName(newImageName);
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }

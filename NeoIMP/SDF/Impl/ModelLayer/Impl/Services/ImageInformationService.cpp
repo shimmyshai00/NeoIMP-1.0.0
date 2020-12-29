@@ -24,36 +24,36 @@
 #include <ImageInformationService.hpp>
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
-#include <DataLayer/Exceptions/Exceptions.hpp>
+#include <MemoryLayer/Exceptions/Exceptions.hpp>
 
-#include <AbstractData/IImageRepository.hpp>
+#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageInformationService::ImageInformationService(AbstractData::IImageRepository *imageRepository)
+  ImageInformationService::ImageInformationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository)
   {}
 
   std::string ImageInformationService::getImageName(UILayer::AbstractModel::Handle handle) {
     try {
-      return m_imageRepository->retrieveNonOwning(handle)->get().getImageName();
-    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+      return m_imageRepository->access(handle).getImageName();
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }
 
   int ImageInformationService::getImageWidth(UILayer::AbstractModel::Handle handle) {
     try {
-      return m_imageRepository->retrieveNonOwning(handle)->get().getImageWidth();
-    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+      return m_imageRepository->access(handle).getImageWidth();
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }
 
   int ImageInformationService::getImageHeight(UILayer::AbstractModel::Handle handle) {
     try {
-      return m_imageRepository->retrieveNonOwning(handle)->get().getImageHeight();
-    } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
+      return m_imageRepository->access(handle).getImageHeight();
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }

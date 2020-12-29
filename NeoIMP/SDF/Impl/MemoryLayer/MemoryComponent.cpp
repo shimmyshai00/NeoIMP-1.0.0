@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentView.hpp
- * PURPOSE: Headers for the Qt-based new document view implementation.
+ * FILE:    MemoryComponent.cpp
+ * PURPOSE: The DI component for the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +21,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
+#include <MemoryComponent.hpp>
 
-#include <boost/signals2/signal.hpp>
+#include <Impl/Repositories/ImageRepository.hpp>
 
-#include <QPointer>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Dialogs {
-    class NewDocumentDialog;
+namespace SDF::Impl::MemoryLayer {
+  DIComponent getMemoryComponent() {
+    return fruit::createComponent()
+      .bind<ModelLayer::AbstractMemory::Repositories::IImageRepository, Impl::Repositories::ImageRepository>();
   }
-
-  class NewDocumentView : public INewDocumentView {
-  public:
-    NewDocumentView();
-
-    void show();
-
-    boost::signals2::connection addGotParamsObserver(std::function<void (AbstractModel::Data::DocumentSpec)> observer);
-  private:
-    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
-
-    boost::signals2::signal<void (AbstractModel::Data::DocumentSpec)> m_gotParamsSignal;
-  };
 }
-
-#endif

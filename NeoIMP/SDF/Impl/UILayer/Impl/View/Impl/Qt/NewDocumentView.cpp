@@ -27,7 +27,7 @@
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   NewDocumentView::NewDocumentView()
-    : m_newDocumentDialog(new Dialogs::NewDocumentDialog
+    : m_newDocumentDialog(new Dialogs::NewDocumentDialog)
   {}
 
   void NewDocumentView::show() {

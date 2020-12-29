@@ -23,7 +23,7 @@
 
 #include <DocumentCreationService.hpp>
 
-#include <AbstractData/IImageRepository.hpp>
+#include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
@@ -31,8 +31,9 @@
 #include <UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  DocumentCreationService::DocumentCreationService(AbstractData::IImageRepository *imageRepository)
-    : m_imageRepository(imageRepository)
+  DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
+    : m_imageRepository(imageRepository),
+      m_nextHandle(0)
   {}
 
   UILayer::AbstractModel::Handle DocumentCreationService::createDocument(
@@ -43,8 +44,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       spec.colorModel, spec.bitDepth
     ));
 
-    Framework::Handle imageHandle(image->getDomainObjectId());
-    m_imageRepository->add(std::move(image));
+    UILayer::AbstractModel::Handle imageHandle(m_nextHandle++);
+    m_imageRepository->add(imageHandle, std::move(image));
 
     return imageHandle;
   }
