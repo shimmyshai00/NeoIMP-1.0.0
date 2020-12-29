@@ -28,7 +28,20 @@
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   NewDocumentView::NewDocumentView()
     : m_newDocumentDialog(new Dialogs::NewDocumentDialog)
-  {}
+  {
+    QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::accepted, [=]() {
+      AbstractModel::Data::DocumentSpec spec {
+        "Untitled",
+        m_newDocumentDialog->getDocumentWidthPx(),
+        m_newDocumentDialog->getDocumentHeightPx(),
+        m_newDocumentDialog->getDocumentResolutionPpi(),
+        m_newDocumentDialog->getDocumentColorModel(),
+        m_newDocumentDialog->getDocumentBitDepth()
+      };
+
+      m_gotParamsSignal(spec);
+    });
+  }
 
   void NewDocumentView::show() {
     m_newDocumentDialog->open();

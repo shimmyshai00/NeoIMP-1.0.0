@@ -26,6 +26,10 @@
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 #include <View/INewDocumentView.hpp>
 
+#include <AbstractModel/Data/DocumentSpec.hpp>
+
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::Controller {
   NewDocumentController::NewDocumentController(
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
@@ -34,11 +38,13 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     : m_documentCreationService(documentCreationService),
       m_newDocumentView(newDocumentView)
   {
+    m_newDocumentView->addGotParamsObserver([=](AbstractModel::Data::DocumentSpec spec) {
+      std::cout << "got" << std::endl;
+      m_documentCreationService->createDocument(spec);
+    });
   }
 
   void NewDocumentController::createNewDocument() {
     m_newDocumentView->show();
-
-    // TBA
   }
 }
