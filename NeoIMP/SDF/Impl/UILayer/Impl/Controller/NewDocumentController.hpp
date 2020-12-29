@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <boost/signals2/connection.hpp>
+
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IDocumentCreationService;

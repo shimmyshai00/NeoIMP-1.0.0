@@ -33,7 +33,8 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   )
     : m_documentCreationService(documentCreationService),
       m_newDocumentView(newDocumentView)
-  {}
+  {
+  }
 
   void NewDocumentController::createNewDocument() {
     m_newDocumentView->show();
