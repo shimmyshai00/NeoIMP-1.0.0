@@ -28,6 +28,7 @@
 #include <View/IViewGenerator.hpp>
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/IDocumentView.hpp>
 
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentController.hpp>
@@ -60,6 +61,12 @@ namespace SDF::Impl::UILayer::Impl {
 
   void MainUI::showNewDocumentView() {
     m_newDocumentView->show();
+  }
+
+  void MainUI::addDocumentView(AbstractModel::Handle handle) {
+    if(m_activeDocumentViews.find(handle) == m_activeDocumentViews.end()) {
+      m_activeDocumentViews[handle] = m_viewGenerator->createDocumentView(m_applicationView.get(), handle);
+    }
   }
 
   void MainUI::shutdownUI() {

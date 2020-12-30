@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWGENERATOR_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWGENERATOR_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewGenerator.hpp
- * PURPOSE: Headers for the Qt-based view generator implementation.
+ * FILE:    DocumentView.hpp
+ * PURPOSE: Headers for the Qt-based document view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewGenerator.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-#include <fruit/fruit.h>
+#include <QPointer>
+#include <memory>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -36,19 +37,32 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::View::Impl::Qt {
-    class ViewGenerator : public IViewGenerator {
-    public:
-      INJECT(ViewGenerator(
-        AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService
-      ));
+    namespace CustomWidgets {
+      class DocumentWidget;
+      class IImageDataSource;
+    }
 
-      std::unique_ptr<IApplicationView> createApplicationView();
-      std::unique_ptr<INewDocumentView> createNewDocumentView(IApplicationView *context);
-      std::unique_ptr<IDocumentView> createDocumentView(IApplicationView *context, AbstractModel::Handle handle);
+    namespace Windows {
+      class MainWindow;
+    }
+
+    class DocumentView : public IDocumentView {
+    public:
+      DocumentView(
+        AbstractModel::Services::IImageInformationService *imageInformationService,
+        AbstractModel::Services::IImageRenderingService *imageRenderingService,
+        QPointer<Windows::MainWindow> mainWindowContext,
+        AbstractModel::Handle documentHandle
+      );
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+
+      QPointer<Windows::MainWindow> m_mainWindowContext;
+      QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
+
+      AbstractModel::Handle m_documentHandle;
+      std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
     };
   }
 }

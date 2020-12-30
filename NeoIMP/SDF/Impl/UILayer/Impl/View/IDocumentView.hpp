@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWGENERATOR_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWGENERATOR_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewGenerator.hpp
- * PURPOSE: Defines an interface for producing MVC views for a given widget system.
+ * FILE:    IDocumentView.hpp
+ * PURPOSE: Defines an interface for the MVC document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,26 +23,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
- 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-
-#include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class IDocumentView;
-
-  class IViewGenerator {
+  class IDocumentView {
   public:
-    virtual ~IViewGenerator() = default;
-
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView(IApplicationView *context) = 0;
-    virtual std::unique_ptr<IDocumentView> createDocumentView(
-      IApplicationView *context,
-      AbstractModel::Handle handle
-    ) = 0;
+    virtual ~IDocumentView() = default;
   };
 }
 

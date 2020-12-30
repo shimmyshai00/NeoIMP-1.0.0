@@ -30,6 +30,12 @@ namespace SDF::Impl::UILayer::Exceptions {
   struct RemovedRootViewException : public SDF::Exception::Exception {
     RemovedRootViewException() : Exception("Tried to remove a root view from its view hierarchy.") {}
   };
+
+  struct IncompatibleContextException : public SDF::Exception::Exception {
+    IncompatibleContextException(const char *viewType)
+      : Exception("Tried to create a '%s' view with the wrong type of context view", viewType)
+    {}
+  };
 }
 
 #endif

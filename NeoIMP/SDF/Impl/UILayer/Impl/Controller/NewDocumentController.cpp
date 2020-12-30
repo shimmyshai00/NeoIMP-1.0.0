@@ -24,6 +24,7 @@
 #include <NewDocumentController.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Handle.hpp>
 
 #include <IUIDetail.hpp>
 #include <View/IViewGenerator.hpp>
@@ -46,6 +47,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   // Private members.
   void NewDocumentController::onAcceptCommand(AbstractModel::Data::DocumentSpec spec) {
-    m_documentCreationService->createDocument(spec);
+    AbstractModel::Handle handle(m_documentCreationService->createDocument(spec));
+    m_uiDetail->addDocumentView(handle);
   }
 }

@@ -29,6 +29,7 @@
 
 #include <fruit/fruit.h>
 #include <memory>
+#include <map>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -40,6 +41,7 @@ namespace SDF::Impl::UILayer {
       class IViewGenerator;
       class IApplicationView;
       class INewDocumentView;
+      class IDocumentView;
     }
 
     namespace Controller {
@@ -61,12 +63,16 @@ namespace SDF::Impl::UILayer {
       void showApplicationView();
       void showNewDocumentView();
 
+      void addDocumentView(AbstractModel::Handle handle);
+
       void shutdownUI();
     private:
       View::IViewGenerator *m_viewGenerator;
 
       std::unique_ptr<View::IApplicationView> m_applicationView;
       std::unique_ptr<View::INewDocumentView> m_newDocumentView;
+
+      std::map<AbstractModel::Handle, std::unique_ptr<View::IDocumentView>> m_activeDocumentViews;
 
       std::unique_ptr<Controller::ApplicationController> m_applicationController;
       std::unique_ptr<Controller::NewDocumentController> m_newDocumentController;

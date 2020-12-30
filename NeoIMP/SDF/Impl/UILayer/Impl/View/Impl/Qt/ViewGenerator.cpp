@@ -23,14 +23,30 @@
 
 #include <ViewGenerator.hpp>
 
+#include <UILayer/Exceptions/Exceptions.hpp>
+
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
+#include <AbstractModel/Handle.hpp>
+
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
+#include <IDocumentView.hpp>
+
+#include <IImageDataSource.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <DocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewGenerator::ViewGenerator() {}
+  ViewGenerator::ViewGenerator(
+    AbstractModel::Services::IImageInformationService *imageInformationService,
+    AbstractModel::Services::IImageRenderingService *imageRenderingService
+  )
+    : m_imageInformationService(imageInformationService),
+      m_imageRenderingService(imageRenderingService)
+  {}
 
   std::unique_ptr<IApplicationView> ViewGenerator::createApplicationView() {
     return std::make_unique<ApplicationView>();
@@ -38,5 +54,21 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   std::unique_ptr<INewDocumentView> ViewGenerator::createNewDocumentView(IApplicationView *context) {
     return std::make_unique<NewDocumentView>();
+  }
+
+  std::unique_ptr<IDocumentView> ViewGenerator::createDocumentView(
+    IApplicationView *context,
+    AbstractModel::Handle handle
+  ) {
+    // note: it seems to be a tricky problem to avoid this here
+    if(ApplicationView *applicationView = dynamic_cast<ApplicationView *>(context)) {
+      return std::make_unique<DocumentView>(
+        m_imageInformationService, m_imageRenderingService,
+        applicationView->getWidget(),
+        handle
+      );
+    } else {
+      throw UILayer::Exceptions::IncompatibleContextException("DocumentView");
+    }
   }
 }

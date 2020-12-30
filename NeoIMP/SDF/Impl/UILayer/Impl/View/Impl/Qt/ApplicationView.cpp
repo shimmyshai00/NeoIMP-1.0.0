@@ -34,6 +34,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_exitCommandSignal(); });
   }
 
+  QPointer<Windows::MainWindow> ApplicationView::getWidget() {
+    return m_mainWindow;
+  }
+
   void ApplicationView::show() {
     m_mainWindow->show();
   }

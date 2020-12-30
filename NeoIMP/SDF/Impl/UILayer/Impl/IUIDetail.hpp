@@ -25,6 +25,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+
 namespace SDF::Impl::UILayer::Impl {
   class IUIDetail {
   public:
@@ -32,6 +34,8 @@ namespace SDF::Impl::UILayer::Impl {
 
     virtual void showApplicationView() = 0;
     virtual void showNewDocumentView() = 0;
+
+    virtual void addDocumentView(AbstractModel::Handle handle) = 0;
 
     virtual void shutdownUI() = 0;
   };

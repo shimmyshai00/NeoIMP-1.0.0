@@ -24,10 +24,12 @@
 #include <ViewComponent.hpp>
 
 #include <View/Impl/Qt/ViewGenerator.hpp>
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Qt {
   fruit::Component<IViewGenerator> getViewComponent() {
     return fruit::createComponent()
-      .bind<IViewGenerator, View::Impl::Qt::ViewGenerator>();
+      .bind<IViewGenerator, View::Impl::Qt::ViewGenerator>()
+      .install(ModelLayer::getModelComponent);
   }
 }

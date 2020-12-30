@@ -38,6 +38,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   public:
     ApplicationView();
 
+    QPointer<Windows::MainWindow> getWidget();
+    
     void show();
     void close();
 
