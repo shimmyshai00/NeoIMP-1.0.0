@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWGENERATOR_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWGENERATOR_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewGenerator.hpp
- * PURPOSE: Defines an interface for producing MVC views for a given widget system.
+ * FILE:    ISaveDocumentView.hpp
+ * PURPOSE: Defines an interface for the MVC view to get parameters for saving a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
-#include <memory>
+#include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
-  class IDocumentView;
-
-  class IViewGenerator {
+  class ISaveDocumentView {
   public:
-    virtual ~IViewGenerator() = default;
+    virtual ~ISaveDocumentView() = default;
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView(IApplicationView *context) = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView(IApplicationView *context) = 0;
-    virtual std::unique_ptr<IDocumentView> createDocumentView(
-      IApplicationView *context,
-      AbstractModel::Handle handle
+    virtual void show() = 0;
+
+    virtual boost::signals2::connection addGotParamsObserver(
+      std::function<void (std::string, AbstractModel::Properties::FileFormat)> observer
     ) = 0;
   };
 }

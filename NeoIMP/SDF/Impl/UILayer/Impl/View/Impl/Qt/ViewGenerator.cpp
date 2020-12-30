@@ -31,12 +31,14 @@
 
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
+#include <ISaveDocumentView.hpp>
 #include <IDocumentView.hpp>
 
 #include <IImageDataSource.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 #include <DocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
@@ -54,6 +56,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   std::unique_ptr<INewDocumentView> ViewGenerator::createNewDocumentView(IApplicationView *context) {
     return std::make_unique<NewDocumentView>();
+  }
+
+  std::unique_ptr<ISaveDocumentView> ViewGenerator::createSaveDocumentView(IApplicationView *context) {
+    return std::make_unique<SaveDocumentView>();
   }
 
   std::unique_ptr<IDocumentView> ViewGenerator::createDocumentView(
