@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+
+#include <fruit/fruit.h>
 #include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer {
@@ -36,19 +39,24 @@ namespace SDF::Impl::UILayer {
       class INewDocumentView;
     }
 
+    class IUIDetail;
+
     namespace Controller {
       class NewDocumentController {
       public:
         NewDocumentController(
           AbstractModel::Services::IDocumentCreationService *documentCreationService,
-          View::INewDocumentView *newDocumentView
+          View::INewDocumentView *newDocumentView,
+          IUIDetail *uiDetail
         );
-
-        void createNewDocument();
       private:
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
 
+        IUIDetail *m_uiDetail;
         View::INewDocumentView *m_newDocumentView;
+
+        // Event handlers.
+        void onAcceptCommand(AbstractModel::Data::DocumentSpec spec);
       };
     }
   }

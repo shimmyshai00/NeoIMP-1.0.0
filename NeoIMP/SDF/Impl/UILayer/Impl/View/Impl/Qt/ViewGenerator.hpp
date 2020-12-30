@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWGENERATOR_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWGENERATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewComponent.hpp
- * PURPOSE: The DI component for the Qt-based view subsystem.
+ * FILE:    ViewGenerator.hpp
+ * PURPOSE: Headers for the Qt-based view generator implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,14 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewGenerator> getViewComponent();
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class ViewGenerator : public IViewGenerator {
+  public:
+    INJECT(ViewGenerator());
+
+    std::unique_ptr<IApplicationView> createApplicationView();
+    std::unique_ptr<INewDocumentView> createNewDocumentView(IApplicationView *context);
+  };
 }
 
 #endif

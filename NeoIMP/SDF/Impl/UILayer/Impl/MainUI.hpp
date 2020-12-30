@@ -6,8 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MainUI.hpp
- * PURPOSE: The main UI layer object. This effectively acts as a "back end" for all the MVC views and controllers. Also
- *          called the "front controller".
+ * PURPOSE: The main UI layer object. This effectively acts as a "back end" for all the MVC views and controllers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/IUI.hpp>
+#include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
+#include <SDF/Impl/UILayer/Impl/IUIDetail.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -37,34 +37,39 @@ namespace SDF::Impl::UILayer {
 
   namespace Impl {
     namespace View {
-      class IViewManager;
+      class IViewGenerator;
       class IApplicationView;
       class INewDocumentView;
     }
 
     namespace Controller {
+      class ApplicationController;
       class NewDocumentController;
     }
 
-    class MainUI : public IUI {
+    class MainUI : public IUIEntryPoint, public IUIDetail {
     public:
       INJECT(MainUI(
         AbstractModel::Services::IDocumentCreationService *documentCreationService,
-        View::IViewManager *viewManager
+        View::IViewGenerator *viewGenerator
       ));
 
       ~MainUI();
 
       void start();
+
+      void showApplicationView();
+      void showNewDocumentView();
+
+      void shutdownUI();
     private:
-      View::IViewManager *m_viewManager;
-      View::IApplicationView *m_applicationView;
+      View::IViewGenerator *m_viewGenerator;
 
+      std::unique_ptr<View::IApplicationView> m_applicationView;
+      std::unique_ptr<View::INewDocumentView> m_newDocumentView;
+
+      std::unique_ptr<Controller::ApplicationController> m_applicationController;
       std::unique_ptr<Controller::NewDocumentController> m_newDocumentController;
-
-      // Event handlers for the application view.
-      void onNewCommand();
-      void onExitCommand();
     };
   }
 }

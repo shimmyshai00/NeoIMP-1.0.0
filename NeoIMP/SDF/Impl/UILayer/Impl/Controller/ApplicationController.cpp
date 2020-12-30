@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.cpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: The MVC controller for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,27 +21,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ViewManager.hpp>
+#include <ApplicationController.hpp>
 
-#include <IApplicationView.hpp>
-#include <INewDocumentView.hpp>
+#include <IUIDetail.hpp>
+#include <View/IApplicationView.hpp>
 
-#include <ApplicationView.hpp>
-#include <NewDocumentView.hpp>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewManager::ViewManager()
-    : m_applicationView(new ApplicationView),
-      m_newDocumentView(new NewDocumentView)
-  {}
-
-  ViewManager::~ViewManager() {}
-
-  IApplicationView *ViewManager::getApplicationView() {
-    return m_applicationView.get();
+namespace SDF::Impl::UILayer::Impl::Controller {
+  ApplicationController::ApplicationController(View::IApplicationView *applicationView, IUIDetail *uiDetail)
+    : m_uiDetail(uiDetail),
+      m_applicationView(applicationView)
+  {
+    m_applicationView->addNewCommandObserver([=]() { onNewCommand(); });
+    m_applicationView->addExitCommandObserver([=]() { onExitCommand(); });
   }
 
-  INewDocumentView *ViewManager::getNewDocumentView() {
-    return m_newDocumentView.get();
+  // Private members.
+  void ApplicationController::onNewCommand() {
+    m_uiDetail->showNewDocumentView();
+  }
+
+  void ApplicationController::onExitCommand() {
+    m_uiDetail->shutdownUI();
   }
 }

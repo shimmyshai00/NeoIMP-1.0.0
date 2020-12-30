@@ -23,7 +23,7 @@
 
 #include <QtApplication.hpp>
 
-#include <UILayer/IUI.hpp>
+#include <UILayer/IUIEntryPoint.hpp>
 
 #include <UILayer/UIComponent.hpp>
 
@@ -38,11 +38,11 @@ namespace SDF::Impl::Qt {
   int QtApplication::exec(int argc, char **argv) {
     QApplication q(argc, argv);
 
-    fruit::Injector<UILayer::IUI> uiInjector(UILayer::getUIComponent);
-    UILayer::IUI *ui(uiInjector.get<UILayer::IUI *>());
+    fruit::Injector<UILayer::IUIEntryPoint> uiInjector(UILayer::getUIComponent);
+    UILayer::IUIEntryPoint *ui(uiInjector.get<UILayer::IUIEntryPoint *>());
 
     ui->start();
-    
+
     return q.exec();
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IUI_HPP
-#define SDF_IMPL_UILAYER_IUI_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUI.hpp
- * PURPOSE: The interface for the UI layer.
+ * FILE:    ApplicationController.hpp
+ * PURPOSE: The MVC controller for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer {
-  class IUI {
-  public:
-    virtual ~IUI() = default;
+namespace SDF::Impl::UILayer::Impl {
+  class IUIDetail;
 
-    virtual void start() = 0;
-  };
+  namespace View {
+    class IApplicationView;
+  }
+  
+  namespace Controller {
+    class ApplicationController {
+    public:
+      ApplicationController(View::IApplicationView *applicationView, IUIDetail *uiDetail);
+    private:
+      IUIDetail *m_uiDetail;
+
+      View::IApplicationView *m_applicationView;
+
+      // Event handlers.
+      void onNewCommand();
+      void onExitCommand();
+    };
+  }
 }
 
 #endif

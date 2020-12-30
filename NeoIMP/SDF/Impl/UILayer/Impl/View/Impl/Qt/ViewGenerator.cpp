@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewManager.hpp
- * PURPOSE: The interface for the view manager. The view manager manages all active views within the application.
+ * FILE:    ViewGenerator.cpp
+ * PURPOSE: The Qt-based view generator implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +21,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
+#include <ViewGenerator.hpp>
 
-  class IViewManager {
-  public:
-    virtual ~IViewManager() = default;
+#include <IApplicationView.hpp>
+#include <INewDocumentView.hpp>
 
-    virtual IApplicationView *getApplicationView() = 0;
-    virtual INewDocumentView *getNewDocumentView() = 0;
-  };
+#include <ApplicationView.hpp>
+#include <NewDocumentView.hpp>
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  ViewGenerator::ViewGenerator() {}
+
+  std::unique_ptr<IApplicationView> ViewGenerator::createApplicationView() {
+    return std::make_unique<ApplicationView>();
+  }
+
+  std::unique_ptr<INewDocumentView> ViewGenerator::createNewDocumentView(IApplicationView *context) {
+    return std::make_unique<NewDocumentView>();
+  }
 }
-
-#endif

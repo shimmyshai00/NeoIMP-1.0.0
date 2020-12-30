@@ -24,27 +24,28 @@
 #include <NewDocumentController.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <View/INewDocumentView.hpp>
 
-#include <AbstractModel/Data/DocumentSpec.hpp>
+#include <IUIDetail.hpp>
+#include <View/IViewGenerator.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   NewDocumentController::NewDocumentController(
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::INewDocumentView *newDocumentView
+    View::INewDocumentView *newDocumentView,
+    IUIDetail *uiDetail
   )
     : m_documentCreationService(documentCreationService),
-      m_newDocumentView(newDocumentView)
+      m_newDocumentView(newDocumentView),
+      m_uiDetail(uiDetail)
   {
-    m_newDocumentView->addGotParamsObserver([=](AbstractModel::Data::DocumentSpec spec) {
-      std::cout << "got" << std::endl;
-      m_documentCreationService->createDocument(spec);
-    });
+    m_newDocumentView->addGotParamsObserver([=](AbstractModel::Data::DocumentSpec spec) { onAcceptCommand(spec); });
   }
 
-  void NewDocumentController::createNewDocument() {
-    m_newDocumentView->show();
+  // Private members.
+  void NewDocumentController::onAcceptCommand(AbstractModel::Data::DocumentSpec spec) {
+    m_documentCreationService->createDocument(spec);
   }
 }

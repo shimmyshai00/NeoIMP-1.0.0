@@ -24,12 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/IUI.hpp>
+#include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer {
-  fruit::Component<IUI> getUIComponent();
+  fruit::Component<IUIEntryPoint> getUIComponent();
 }
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IUIENTRYPOINT_HPP
+#define SDF_IMPL_UILAYER_IUIENTRYPOINT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.hpp
- * PURPOSE: The view manager for Qt-based MVC views.
+ * FILE:    IUIEntryPoint.hpp
+ * PURPOSE: The interface for starting the user interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
-
-#include <fruit/fruit.h>
-#include <memory>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  class ApplicationView;
-  class NewDocumentView;
-
-  class ViewManager : public IViewManager {
+namespace SDF::Impl::UILayer {
+  class IUIEntryPoint {
   public:
-    INJECT(ViewManager());
-    ~ViewManager();
+    virtual ~IUIEntryPoint() = default;
 
-    IApplicationView *getApplicationView();
-    INewDocumentView *getNewDocumentView();
-  private:
-    std::unique_ptr<ApplicationView> m_applicationView;
-    std::unique_ptr<INewDocumentView> m_newDocumentView;
+    virtual void start() = 0;
   };
 }
 

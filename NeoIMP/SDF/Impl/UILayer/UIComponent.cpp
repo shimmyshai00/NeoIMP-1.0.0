@@ -28,9 +28,9 @@
 #include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer {
-  fruit::Component<IUI> getUIComponent() {
+  fruit::Component<IUIEntryPoint> getUIComponent() {
     return fruit::createComponent()
-      .bind<IUI, Impl::MainUI>()
+      .bind<IUIEntryPoint, Impl::MainUI>()
       .install(Impl::View::Qt::getViewComponent)
       .install(ModelLayer::getModelComponent);
   }
