@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer::Impl {
 
     virtual void showApplicationView() = 0;
     virtual void showNewDocumentView() = 0;
+    virtual void showSaveDocumentAsView() = 0;
 
     virtual void addDocumentView(AbstractModel::Handle handle) = 0;
 

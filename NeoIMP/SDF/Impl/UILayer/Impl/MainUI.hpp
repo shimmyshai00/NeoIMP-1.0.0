@@ -41,12 +41,18 @@ namespace SDF::Impl::UILayer {
       class IViewGenerator;
       class IApplicationView;
       class INewDocumentView;
+      class ISaveDocumentView;
       class IDocumentView;
     }
 
     namespace Controller {
       class ApplicationController;
       class NewDocumentController;
+      class SaveDocumentController;
+    }
+
+    namespace ViewModel {
+      class ApplicationViewModel;
     }
 
     class MainUI : public IUIEntryPoint, public IUIDetail {
@@ -62,6 +68,7 @@ namespace SDF::Impl::UILayer {
 
       void showApplicationView();
       void showNewDocumentView();
+      void showSaveDocumentAsView();
 
       void addDocumentView(AbstractModel::Handle handle);
 
@@ -71,11 +78,15 @@ namespace SDF::Impl::UILayer {
 
       std::unique_ptr<View::IApplicationView> m_applicationView;
       std::unique_ptr<View::INewDocumentView> m_newDocumentView;
+      std::unique_ptr<View::ISaveDocumentView> m_saveDocumentView;
+
+      std::unique_ptr<ViewModel::ApplicationViewModel> m_applicationViewModel;
 
       std::map<AbstractModel::Handle, std::unique_ptr<View::IDocumentView>> m_activeDocumentViews;
 
       std::unique_ptr<Controller::ApplicationController> m_applicationController;
       std::unique_ptr<Controller::NewDocumentController> m_newDocumentController;
+      std::unique_ptr<Controller::SaveDocumentController> m_saveDocumentController;
     };
   }
 }

@@ -30,7 +30,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IApplicationView;
   }
-  
+
   namespace Controller {
     class ApplicationController {
     public:
@@ -42,6 +42,7 @@ namespace SDF::Impl::UILayer::Impl {
 
       // Event handlers.
       void onNewCommand();
+      void onSaveAsCommand();
       void onExitCommand();
     };
   }

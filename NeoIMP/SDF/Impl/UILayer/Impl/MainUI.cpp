@@ -28,10 +28,14 @@
 #include <View/IViewGenerator.hpp>
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 #include <View/IDocumentView.hpp>
 
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentController.hpp>
+#include <Controller/SaveDocumentController.hpp>
+
+#include <ViewModel/ApplicationViewModel.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
@@ -61,6 +65,10 @@ namespace SDF::Impl::UILayer::Impl {
 
   void MainUI::showNewDocumentView() {
     m_newDocumentView->show();
+  }
+
+  void MainUI::showSaveDocumentAsView() {
+
   }
 
   void MainUI::addDocumentView(AbstractModel::Handle handle) {

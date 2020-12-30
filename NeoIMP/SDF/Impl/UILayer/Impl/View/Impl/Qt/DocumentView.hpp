@@ -54,6 +54,8 @@ namespace SDF::Impl::UILayer {
         QPointer<Windows::MainWindow> mainWindowContext,
         AbstractModel::Handle documentHandle
       );
+
+      void updateDocumentName();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;

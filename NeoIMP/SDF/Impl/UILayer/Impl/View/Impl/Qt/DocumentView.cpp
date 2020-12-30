@@ -83,4 +83,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     );
     m_documentWidget->setDataSource(m_imageDataSource.get());
   }
+
+  void DocumentView::updateDocumentName() {
+    int index(m_mainWindowContext->getDocumentTabIndex(m_documentWidget));
+    m_mainWindowContext->setTabTitle(index, m_imageInformationService->getImageName(m_documentHandle).c_str());
+  }
 }

@@ -40,6 +40,10 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     m_uiDetail->showNewDocumentView();
   }
 
+  void ApplicationController::onSaveAsCommand() {
+    m_uiDetail->showSaveDocumentAsView();
+  }
+
   void ApplicationController::onExitCommand() {
     m_uiDetail->shutdownUI();
   }
