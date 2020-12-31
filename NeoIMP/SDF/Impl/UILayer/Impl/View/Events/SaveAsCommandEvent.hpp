@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUIDETAIL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUIDETAIL_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_SAVEASCOMMANDEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_SAVEASCOMMANDEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIDetail.hpp
- * PURPOSE: The impleemntation-detail interface for the UI container object. This should only provide commands to
- *          activate and deactivate the various available views.
+ * FILE:    SaveAsCommandEvent.hpp
+ * PURPOSE: Defines an interface for an event representing the "save as" command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,21 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-
-namespace SDF::Impl::UILayer::Impl {
-  class IUIDetail {
-  public:
-    virtual ~IUIDetail() = default;
-
-    virtual void showApplicationView() = 0;
-    virtual void showNewDocumentView() = 0;
-    virtual void showSaveDocumentAsView() = 0;
-
-    virtual void addDocumentView(AbstractModel::Handle handle) = 0;
-
-    virtual void shutdownUI() = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::View::Events {
+  struct SaveAsCommandEvent {};
 }
 
 #endif

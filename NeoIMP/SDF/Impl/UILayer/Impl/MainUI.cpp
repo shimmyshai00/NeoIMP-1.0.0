@@ -25,57 +25,29 @@
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 
-#include <View/IViewGenerator.hpp>
+#include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
-#include <View/INewDocumentView.hpp>
-#include <View/ISaveDocumentView.hpp>
-#include <View/IDocumentView.hpp>
 
 #include <Controller/ApplicationController.hpp>
-#include <Controller/NewDocumentController.hpp>
-#include <Controller/SaveDocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::IViewGenerator *viewGenerator
+    View::IViewManager *viewManager
   )
-    : m_viewGenerator(viewGenerator),
-      m_applicationView(m_viewGenerator->createApplicationView()),
-      m_newDocumentView(m_viewGenerator->createNewDocumentView(m_applicationView.get())),
-      m_applicationController(new Controller::ApplicationController(m_applicationView.get(), this)),
-      m_newDocumentController(new Controller::NewDocumentController(
-        documentCreationService,
-        m_newDocumentView.get(),
-        this
-      ))
+    : m_viewManager(viewManager)
   {}
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    m_applicationView->show();
-  }
+    m_viewManager->showApplicationView();
 
-  void MainUI::showApplicationView() {
-    m_applicationView->show();
-  }
+    m_applicationController = std::make_unique<Controller::ApplicationController>(
+      *m_viewManager->getApplicationView(),
+      m_viewManager
+    );
 
-  void MainUI::showNewDocumentView() {
-    m_newDocumentView->show();
-  }
-
-  void MainUI::showSaveDocumentAsView() {
-
-  }
-
-  void MainUI::addDocumentView(AbstractModel::Handle handle) {
-    if(m_activeDocumentViews.find(handle) == m_activeDocumentViews.end()) {
-      m_activeDocumentViews[handle] = m_viewGenerator->createDocumentView(m_applicationView.get(), handle);
-    }
-  }
-
-  void MainUI::shutdownUI() {
-    m_applicationView->close();
+    m_viewManager->getApplicationView()->show();
   }
 }

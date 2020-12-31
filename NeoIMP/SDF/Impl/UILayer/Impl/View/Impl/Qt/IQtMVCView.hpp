@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTPARAMSVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_QT_IQTMVCVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_QT_IQTMVCVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentParamsView.hpp
- * PURPOSE: Defines an interface for an MVC view to get the parameters for a new document from the user.
+ * FILE:    IQtMVCView.hpp
+ * PURPOSE: Defines an interface for Qt-based MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCObservable.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class ICreateNewDocumentView {
+#include <QWidget>
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class IQtMVCView : public Framework::IMVCView {
   public:
-    virtual ~ICreateNewDocumentView() = default;
+    virtual ~IQtMVCView() = default;
 
-    virtual void show() = 0;
-
-    virtual Framework::IMVCObservable<AbstractModel::Data::DocumentSpec> &getAcceptCreateParamsCommandObservable() = 0;
+    virtual QWidget *getQWidget() = 0;
   };
 }
 

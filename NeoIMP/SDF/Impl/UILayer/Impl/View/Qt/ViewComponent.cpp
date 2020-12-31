@@ -23,13 +23,13 @@
 
 #include <ViewComponent.hpp>
 
-#include <View/Impl/Qt/ViewGenerator.hpp>
+#include <View/Impl/Qt/ViewManager.hpp>
 #include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewGenerator> getViewComponent() {
+  fruit::Component<IViewManager> getViewComponent() {
     return fruit::createComponent()
-      .bind<IViewGenerator, View::Impl::Qt::ViewGenerator>()
+      .bind<IViewManager, View::Impl::Qt::ViewManager>()
       .install(ModelLayer::getModelComponent);
   }
 }

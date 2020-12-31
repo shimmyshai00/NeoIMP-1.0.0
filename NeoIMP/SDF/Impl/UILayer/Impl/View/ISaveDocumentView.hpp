@@ -24,20 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
 
-#include <boost/signals2/connection.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptSaveParametersEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class ISaveDocumentView {
+  class ISaveDocumentView : public Framework::IMVCView,
+    public Framework::IMVCViewEventHook<Events::AcceptSaveParametersEvent> {
   public:
     virtual ~ISaveDocumentView() = default;
-
-    virtual void show() = 0;
-
-    virtual boost::signals2::connection addGotParamsObserver(
-      std::function<void (std::string, AbstractModel::Properties::FileFormat)> observer
-    ) = 0;
   };
 }
 

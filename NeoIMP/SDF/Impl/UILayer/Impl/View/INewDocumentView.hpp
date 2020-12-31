@@ -24,20 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
 
-#include <boost/signals2/connection.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentView {
+  class INewDocumentView : public Framework::IMVCView,
+    public Framework::IMVCViewEventHook<Events::AcceptDocumentParametersEvent> {
   public:
     virtual ~INewDocumentView() = default;
-
-    virtual void show() = 0;
-
-    virtual boost::signals2::connection addGotParamsObserver(
-      std::function<void (AbstractModel::Data::DocumentSpec)> observer
-    ) = 0;
   };
 }
 

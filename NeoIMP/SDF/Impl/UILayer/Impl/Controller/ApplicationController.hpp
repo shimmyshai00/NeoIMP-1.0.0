@@ -24,26 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+
 namespace SDF::Impl::UILayer::Impl {
   class IUIDetail;
 
   namespace View {
-    class IApplicationView;
+    class IViewManager;
   }
 
   namespace Controller {
     class ApplicationController {
     public:
-      ApplicationController(View::IApplicationView *applicationView, IUIDetail *uiDetail);
+      ApplicationController(
+        Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> &exitCommandHook,
+        View::IViewManager *viewManager
+      );
+
+      ~ApplicationController();
     private:
-      IUIDetail *m_uiDetail;
+      View::IViewManager *m_viewManager;
 
-      View::IApplicationView *m_applicationView;
-
-      // Event handlers.
-      void onNewCommand();
-      void onSaveAsCommand();
-      void onExitCommand();
+      boost::signals2::connection m_exitCommandConnection;
     };
   }
 }

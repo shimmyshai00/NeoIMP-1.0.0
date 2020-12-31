@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTSAVEPARAMETERSEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTSAVEPARAMETERSEVENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: Implementation of the MVC controller associated with the application view.
+ * FILE:    AcceptSaveParametersEvent.hpp
+ * PURPOSE: Defines an interface for an event containing parameters for a document save operation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
-#include <View/IApplicationView.hpp>
+#include <string>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
-    : m_applicationView(applicationView)
-  {}
-
-  void ApplicationController::onExitCommand() {
-    m_applicationView->close();
-  }
+namespace SDF::Impl::UILayer::Impl::View::Events {
+  struct AcceptSaveParametersEvent {
+    std::string fileSpec;
+    AbstractModel::Properties::FileFormat fileFormat;
+  };
 }
+
+#endif

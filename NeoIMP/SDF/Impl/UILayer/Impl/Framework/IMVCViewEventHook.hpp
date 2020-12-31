@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWEVENTHOOK_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWEVENTHOOK_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.hpp
- * PURPOSE: The MVC controller associated with the application view.
+ * FILE:    IMVCViewEventHook.hpp
+ * PURPOSE: Defines an interface for MVC view event hooks.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/AbstractController/IExitCommandObserver.hpp>
+#include <boost/signals2/connection.hpp>
 
-#include <fruit/fruit.h>
+namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class EventType>
+  class IMVCViewEventHook {
+  public:
+    virtual ~IMVCViewEventHook() = default;
 
-namespace SDF::Impl::UILayer::Impl {
-  namespace View {
-    class IApplicationView;
-  }
-
-  namespace Controller {
-    class ApplicationController : public View::AbstractController::IExitCommandObserver {
-    public:
-      INJECT(ApplicationController(View::IApplicationView *applicationView));
-
-      void onExitCommand();
-    private:
-      View::IApplicationView *m_applicationView;
-    };
-  }
+    virtual boost::signals2::connection connectEventListener(std::function<void (EventType)> listener) = 0;
+  };
 }
 
 #endif

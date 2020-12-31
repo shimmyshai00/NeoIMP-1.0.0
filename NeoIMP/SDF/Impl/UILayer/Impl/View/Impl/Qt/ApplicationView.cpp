@@ -29,12 +29,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::ApplicationView()
     : m_mainWindow(new Windows::MainWindow)
   {
-    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_newCommandSignal(); });
-    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() { m_saveAsCommandSignal(); });
-    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_exitCommandSignal(); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_newCommandSignal(Events::NewCommandEvent()); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() { m_saveAsCommandSignal(Events::SaveAsCommandEvent()); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_exitCommandSignal(Events::ExitCommandEvent()); });
   }
 
-  QPointer<Windows::MainWindow> ApplicationView::getWidget() {
+  QWidget *ApplicationView::getQWidget() {
     return m_mainWindow;
   }
 
@@ -46,15 +46,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     m_mainWindow->close();
   }
 
-  boost::signals2::connection ApplicationView::addNewCommandObserver(std::function<void ()> observer) {
-    return m_newCommandSignal.connect(observer);
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::NewCommandEvent)> listener) {
+    return m_newCommandSignal.connect(listener);
   }
 
-  boost::signals2::connection ApplicationView::addSaveAsCommandObserver(std::function<void ()> observer) {
-    return m_saveAsCommandSignal.connect(observer);
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::SaveAsCommandEvent)> listener) {
+    return m_saveAsCommandSignal.connect(listener);
   }
 
-  boost::signals2::connection ApplicationView::addExitCommandObserver(std::function<void ()> observer) {
-    return m_exitCommandSignal.connect(observer);
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::ExitCommandEvent)> listener) {
+    return m_exitCommandSignal.connect(listener);
   }
 }

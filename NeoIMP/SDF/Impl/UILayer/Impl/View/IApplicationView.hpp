@@ -24,19 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/signals2/connection.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView {
+  class IApplicationView : public Framework::IMVCView,
+    public Framework::IMVCViewEventHook<Events::NewCommandEvent>,
+    public Framework::IMVCViewEventHook<Events::SaveAsCommandEvent>,
+    public Framework::IMVCViewEventHook<Events::ExitCommandEvent> {
   public:
     virtual ~IApplicationView() = default;
-
-    virtual void show() = 0;
-    virtual void close() = 0;
-
-    virtual boost::signals2::connection addNewCommandObserver(std::function<void ()> observer) = 0;
-    virtual boost::signals2::connection addSaveAsCommandObserver(std::function<void ()> observer) = 0;
-    virtual boost::signals2::connection addExitCommandObserver(std::function<void ()> observer) = 0;
   };
 }
 

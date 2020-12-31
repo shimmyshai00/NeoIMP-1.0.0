@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IDocumentView.hpp
- * PURPOSE: Defines an interface for the MVC document view.
+ * PURPOSE: Defines an interface for the MVC view representing an individual open document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+ #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+
 namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView {
+  class IDocumentView : public Framework::IMVCView {
   public:
     virtual ~IDocumentView() = default;
   };

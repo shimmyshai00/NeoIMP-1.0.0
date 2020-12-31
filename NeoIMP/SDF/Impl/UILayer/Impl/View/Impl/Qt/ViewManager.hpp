@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentView.hpp
- * PURPOSE: Headers for the Qt-based document view implementation.
+ * FILE:    ViewManager.hpp
+ * PURPOSE: Headers for the Qt-based view manager implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
-
-#include <SDF/Impl/ModelLayer/Handle.hpp>
-
-#include <QPointer>
+#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
+
 #include <memory>
 
 namespace SDF::Impl::UILayer {
@@ -40,44 +38,25 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::View::Impl::Qt {
-    namespace CustomWidgets {
-      class IImageDataSource;
-      class DocumentWidget;
-    }
+    class ApplicationView;
 
-    namespace Windows {
-      class MainWindow;
-    }
-
-    class QtDocumentView : public IDocumentView {
+    class ViewManager : public IViewManager {
     public:
-      QtDocumentView(
+      INJECT(ViewManager(
         AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService,
-        Windows::MainWindow *mainWindow,
-        CustomWidgets::DocumentWidget *documentWidget,
-        int documentTabIndex,
-        ModelLayer::Handle documentHandle
-      );
+        AbstractModel::Services::IImageRenderingService *imageRenderingService
+      ));
 
-      ~QtDocumentView();
+      ~ViewManager();
 
-      void updateDocumentName(std::string documentName);
+      void showApplicationView();
 
-      void setDocumentGainFocusObserver(AbstractController::IDocumentGainFocusObserver *observer);
+      IApplicationView *getApplicationView();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      QPointer<Windows::MainWindow> m_mainWindow;
-      QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
-      int m_documentTabIndex;
-
-      std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
-
-      QMetaObject::Connection m_documentGainFocusObserverConn;
-
-      AbstractController::IDocumentGainFocusObserver *m_documentGainFocusObserver;
+      std::unique_ptr<ApplicationView> m_applicationView;
     };
   }
 }

@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
-#include <SDF/Impl/UILayer/Impl/IUIDetail.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -38,49 +37,27 @@ namespace SDF::Impl::UILayer {
 
   namespace Impl {
     namespace View {
-      class IViewGenerator;
-      class IApplicationView;
-      class INewDocumentView;
-      class ISaveDocumentView;
-      class IDocumentView;
+      class IViewManager;
     }
 
     namespace Controller {
       class ApplicationController;
-      class NewDocumentController;
-      class SaveDocumentController;
     }
 
-    class MainUI : public IUIEntryPoint, public IUIDetail {
+    class MainUI : public IUIEntryPoint {
     public:
       INJECT(MainUI(
         AbstractModel::Services::IDocumentCreationService *documentCreationService,
-        View::IViewGenerator *viewGenerator
+        View::IViewManager *viewManager
       ));
 
       ~MainUI();
 
       void start();
-
-      void showApplicationView();
-      void showNewDocumentView();
-      void showSaveDocumentAsView();
-
-      void addDocumentView(AbstractModel::Handle handle);
-
-      void shutdownUI();
     private:
-      View::IViewGenerator *m_viewGenerator;
-
-      std::unique_ptr<View::IApplicationView> m_applicationView;
-      std::unique_ptr<View::INewDocumentView> m_newDocumentView;
-      std::unique_ptr<View::ISaveDocumentView> m_saveDocumentView;
-
-      std::map<AbstractModel::Handle, std::unique_ptr<View::IDocumentView>> m_activeDocumentViews;
+      View::IViewManager *m_viewManager;
 
       std::unique_ptr<Controller::ApplicationController> m_applicationController;
-      std::unique_ptr<Controller::NewDocumentController> m_newDocumentController;
-      std::unique_ptr<Controller::SaveDocumentController> m_saveDocumentController;
     };
   }
 }

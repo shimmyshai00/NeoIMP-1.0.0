@@ -23,28 +23,22 @@
 
 #include <ApplicationController.hpp>
 
-#include <IUIDetail.hpp>
+#include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IApplicationView *applicationView, IUIDetail *uiDetail)
-    : m_uiDetail(uiDetail),
-      m_applicationView(applicationView)
+  ApplicationController::ApplicationController(
+    Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> &exitCommandHook,
+    View::IViewManager *viewManager
+  )
+    : m_viewManager(viewManager)
   {
-    m_applicationView->addNewCommandObserver([=]() { onNewCommand(); });
-    m_applicationView->addExitCommandObserver([=]() { onExitCommand(); });
+    m_exitCommandConnection = exitCommandHook.connectEventListener([=](View::Events::ExitCommandEvent e) {
+      m_viewManager->getApplicationView()->close();
+    });
   }
 
-  // Private members.
-  void ApplicationController::onNewCommand() {
-    m_uiDetail->showNewDocumentView();
-  }
-
-  void ApplicationController::onSaveAsCommand() {
-    m_uiDetail->showSaveDocumentAsView();
-  }
-
-  void ApplicationController::onExitCommand() {
-    m_uiDetail->shutdownUI();
+  ApplicationController::~ApplicationController() {
+    m_exitCommandConnection.disconnect();
   }
 }

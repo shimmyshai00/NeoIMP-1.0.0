@@ -24,12 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewGenerator.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewGenerator> getViewComponent();
+  fruit::Component<IViewManager> getViewComponent();
 }
 
 #endif

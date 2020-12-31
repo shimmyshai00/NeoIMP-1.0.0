@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewGenerator.cpp
- * PURPOSE: The Qt-based view generator implementation.
+ * FILE:    ViewManager.cpp
+ * PURPOSE: The Qt-based view manager implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ViewGenerator.hpp>
+#include <ViewManager.hpp>
 
 #include <UILayer/Exceptions/Exceptions.hpp>
 
@@ -30,19 +30,12 @@
 #include <AbstractModel/Handle.hpp>
 
 #include <IApplicationView.hpp>
-#include <INewDocumentView.hpp>
-#include <ISaveDocumentView.hpp>
-#include <IDocumentView.hpp>
-
-#include <IImageDataSource.hpp>
 
 #include <ApplicationView.hpp>
-#include <NewDocumentView.hpp>
-#include <SaveDocumentView.hpp>
-#include <DocumentView.hpp>
+
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewGenerator::ViewGenerator(
+  ViewManager::ViewManager(
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService
   )
@@ -50,31 +43,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_imageRenderingService(imageRenderingService)
   {}
 
-  std::unique_ptr<IApplicationView> ViewGenerator::createApplicationView() {
-    return std::make_unique<ApplicationView>();
-  }
+  ViewManager::~ViewManager() {}
 
-  std::unique_ptr<INewDocumentView> ViewGenerator::createNewDocumentView(IApplicationView *context) {
-    return std::make_unique<NewDocumentView>();
-  }
-
-  std::unique_ptr<ISaveDocumentView> ViewGenerator::createSaveDocumentView(IApplicationView *context) {
-    return std::make_unique<SaveDocumentView>();
-  }
-
-  std::unique_ptr<IDocumentView> ViewGenerator::createDocumentView(
-    IApplicationView *context,
-    AbstractModel::Handle handle
-  ) {
-    // note: it seems to be a tricky problem to avoid this here
-    if(ApplicationView *applicationView = dynamic_cast<ApplicationView *>(context)) {
-      return std::make_unique<DocumentView>(
-        m_imageInformationService, m_imageRenderingService,
-        applicationView->getWidget(),
-        handle
-      );
-    } else {
-      throw UILayer::Exceptions::IncompatibleContextException("DocumentView");
+  void ViewManager::showApplicationView() {
+    if(!m_applicationView) {
+      m_applicationView = std::make_unique<ApplicationView>();
     }
+  }
+
+  IApplicationView *ViewManager::getApplicationView() {
+    return m_applicationView.get();
   }
 }

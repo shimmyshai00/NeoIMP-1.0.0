@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
@@ -34,25 +35,25 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public IApplicationView {
+  class ApplicationView : public IQtMVCView, public IApplicationView {
   public:
     ApplicationView();
 
-    QPointer<Windows::MainWindow> getWidget();
-    
+    QWidget *getQWidget();
+
     void show();
     void close();
 
-    boost::signals2::connection addNewCommandObserver(std::function<void ()> observer);
-    boost::signals2::connection addSaveAsCommandObserver(std::function<void ()> observer);
-    boost::signals2::connection addExitCommandObserver(std::function<void ()> observer);
+    boost::signals2::connection connectEventListener(std::function<void (Events::NewCommandEvent)> listener);
+    boost::signals2::connection connectEventListener(std::function<void (Events::SaveAsCommandEvent)> listener);
+    boost::signals2::connection connectEventListener(std::function<void (Events::ExitCommandEvent)> listener);
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
 
     // note: we use Boost's signals mechanism here to insulate from too much dependency on the widget system (here, QT)
-    boost::signals2::signal<void ()> m_newCommandSignal;
-    boost::signals2::signal<void ()> m_saveAsCommandSignal;
-    boost::signals2::signal<void ()> m_exitCommandSignal;
+    boost::signals2::signal<void (Events::NewCommandEvent)> m_newCommandSignal;
+    boost::signals2::signal<void (Events::SaveAsCommandEvent)> m_saveAsCommandSignal;
+    boost::signals2::signal<void (Events::ExitCommandEvent)> m_exitCommandSignal;
   };
 }
 
