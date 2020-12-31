@@ -23,7 +23,6 @@
 
 #include <ApplicationView.hpp>
 
-#include <ViewModel/ApplicationViewModel.hpp>
 #include <Windows/MainWindow.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {

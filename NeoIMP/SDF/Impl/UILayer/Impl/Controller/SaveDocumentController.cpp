@@ -30,22 +30,16 @@
  #include <IUIDetail.hpp>
  #include <View/IViewGenerator.hpp>
  #include <View/ISaveDocumentView.hpp>
- #include <View/IDocumentView.hpp>
- #include <ViewModel/ApplicationViewModel.hpp>
 
  #include <iostream>
 
  namespace SDF::Impl::UILayer::Impl::Controller {
    SaveDocumentController::SaveDocumentController(
      AbstractModel::Services::IDocumentStorageService *documentStorageService,
-     View::ISaveDocumentView *saveDocumentView,
-     ViewModel::ApplicationViewModel *applicationViewModel,
-     View::IDocumentView *documentViewOfActiveDocument
+     View::ISaveDocumentView *saveDocumentView
    )
     : m_documentStorageService(documentStorageService),
-      m_saveDocumentView(saveDocumentView),
-      m_documentViewOfActiveDocument(documentViewOfActiveDocument),
-      m_applicationViewModel(applicationViewModel)
+      m_saveDocumentView(saveDocumentView)
    {
      m_saveDocumentView->addGotParamsObserver([=](
        std::string fileSpec, AbstractModel::Properties::FileFormat fileFormat
@@ -58,7 +52,6 @@
    void SaveDocumentController::onAcceptCommand(
      std::string fileSpec, AbstractModel::Properties::FileFormat fileFormat
    ) {
-     m_documentStorageService->saveDocument(fileSpec, fileFormat, m_applicationViewModel->getActiveDocumentHandle());
-     m_documentViewOfActiveDocument->updateDocumentName();
+     // TBA
    }
  }

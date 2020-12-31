@@ -38,11 +38,6 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class ISaveDocumentView;
-      class IDocumentView;
-    }
-
-    namespace ViewModel {
-      class ApplicationViewModel;
     }
 
     class IUIDetail;
@@ -52,18 +47,13 @@ namespace SDF::Impl::UILayer {
       public:
         SaveDocumentController(
           AbstractModel::Services::IDocumentStorageService *documentStorageService,
-          View::ISaveDocumentView *saveDocumentView,
-          ViewModel::ApplicationViewModel *applicationViewModel,
-          View::IDocumentView *documentViewOfActiveDocument
+          View::ISaveDocumentView *saveDocumentView
         );
       private:
         AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
 
         IUIDetail *m_uiDetail;
         View::ISaveDocumentView *m_saveDocumentView;
-        View::IDocumentView *m_documentViewOfActiveDocument;
-
-        ViewModel::ApplicationViewModel *m_applicationViewModel;
 
         // Event handlers.
         void onAcceptCommand(std::string fileSpec, AbstractModel::Properties::FileFormat fileFormat);

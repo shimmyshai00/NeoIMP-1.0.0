@@ -28,9 +28,6 @@ namespace SDF::Impl::UILayer::Impl::View {
   class IDocumentView {
   public:
     virtual ~IDocumentView() = default;
-
-    // NB: could be a method of/attribute on a viewmodel.
-    virtual void updateDocumentName() = 0;
   };
 }
 

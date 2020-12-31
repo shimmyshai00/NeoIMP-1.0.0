@@ -51,10 +51,6 @@ namespace SDF::Impl::UILayer {
       class SaveDocumentController;
     }
 
-    namespace ViewModel {
-      class ApplicationViewModel;
-    }
-
     class MainUI : public IUIEntryPoint, public IUIDetail {
     public:
       INJECT(MainUI(
@@ -79,8 +75,6 @@ namespace SDF::Impl::UILayer {
       std::unique_ptr<View::IApplicationView> m_applicationView;
       std::unique_ptr<View::INewDocumentView> m_newDocumentView;
       std::unique_ptr<View::ISaveDocumentView> m_saveDocumentView;
-
-      std::unique_ptr<ViewModel::ApplicationViewModel> m_applicationViewModel;
 
       std::map<AbstractModel::Handle, std::unique_ptr<View::IDocumentView>> m_activeDocumentViews;
 

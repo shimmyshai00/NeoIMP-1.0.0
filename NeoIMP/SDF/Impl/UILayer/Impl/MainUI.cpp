@@ -35,8 +35,6 @@
 #include <Controller/NewDocumentController.hpp>
 #include <Controller/SaveDocumentController.hpp>
 
-#include <ViewModel/ApplicationViewModel.hpp>
-
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
