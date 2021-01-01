@@ -44,6 +44,7 @@ namespace SDF::Impl::UILayer::Impl {
 
     m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
     m_controllerManager->registerNewDocumentView(m_viewManager->getNewDocumentView());
+    m_controllerManager->registerOpenDocumentsView(m_viewManager->getOpenDocumentsView());
   }
 
   MainUI::~MainUI() {}

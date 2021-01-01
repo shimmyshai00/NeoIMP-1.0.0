@@ -31,9 +31,13 @@
 
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
+#include <IOpenDocumentsView.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <OpenDocumentsView.hpp>
+
+#include <Windows/MainWindow.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewManager::ViewManager(
@@ -43,8 +47,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     : m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
       m_applicationView(new ApplicationView),
-      m_newDocumentView(new NewDocumentView)
-  {}
+      m_newDocumentView(new NewDocumentView),
+      m_openDocumentsView(new OpenDocumentsView(m_imageInformationService))
+  {
+    // Assemble view hierarchy
+    // nb: should template IQtMVCView interface?
+    static_cast<Windows::MainWindow *>(m_applicationView->getQWidget())->addPrincipalWidget(
+      m_openDocumentsView->getQWidget()
+    );
+  }
 
   ViewManager::~ViewManager() {}
 
@@ -54,5 +65,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   INewDocumentView *ViewManager::getNewDocumentView() {
     return m_newDocumentView.get();
+  }
+
+  IOpenDocumentsView *ViewManager::getOpenDocumentsView() {
+    return m_openDocumentsView.get();
   }
 }

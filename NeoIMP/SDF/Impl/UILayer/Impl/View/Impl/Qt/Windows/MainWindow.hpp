@@ -25,7 +25,6 @@
 
 #include <QWidget>
 #include <QMainWindow>
-#include <QTabWidget>
 
 #include <QString>
 #include <QPointer>
@@ -43,23 +42,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    int addDocumentTab(QString title, QWidget *pageWidget);
-    void setTabTitle(int index, QString newTitle);
-
-    int getFocusTab();
-    int getDocumentTabIndex(QWidget *pageWidget);
-    QString getDocumentTabTitle(int index);
-    QWidget *getDocumentTabWidget(int index);
+    void addPrincipalWidget(QWidget *widget);
   signals:
     void newClicked();
     void saveAsClicked();
     void exitClicked();
-
-    void focusTabChanged(int index);
   private:
     std::unique_ptr<Ui::MainWindow> m_ui;
-
-    QPointer<QTabWidget> m_documentTabs;
   };
 }
 

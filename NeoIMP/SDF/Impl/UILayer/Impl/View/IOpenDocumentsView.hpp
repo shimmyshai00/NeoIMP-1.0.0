@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewManager.hpp
- * PURPOSE: Defines an interface for the view manager. The purpose of the view manager is to isolate the controllers
- *          from how views are composed together as a layout, not just what widget systems are used to implement them.
+ * FILE:    IOpenDocumentsView.hpp
+ * PURPOSE: Defines an interface for the MVC view showing the currently-open documents.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,27 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewUpdate.hpp>
 
-#include <memory>
+#include <SDF/Impl/UILayer/Impl/View/Updates/DocumentAddedUpdate.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class IOpenDocumentsView;
-  class ISaveDocumentView;
-  class IDocumentView;
-
-  class IViewManager {
+  class IOpenDocumentsView : public Framework::IMVCView,
+    public Framework::IMVCViewUpdate<Updates::DocumentAddedUpdate> {
   public:
-    virtual ~IViewManager() = default;
-
-    // Commands.
-
-    // View access.
-    virtual IApplicationView *getApplicationView() = 0;
-    virtual INewDocumentView *getNewDocumentView() = 0;
-    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
+    virtual ~IOpenDocumentsView() = default;
   };
 }
 

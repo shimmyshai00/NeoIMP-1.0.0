@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewManager.hpp
- * PURPOSE: Headers for the Qt-based view manager implementation.
+ * FILE:    OpenDocumentsView.hpp
+ * PURPOSE: Headers for the Qt-based open-documents view implementation. This provides a tab widget to be inserted into
+ *          the main window, and to which can be added tabs with document views in them.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,43 +25,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewManager.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IOpenDocumentsView.hpp>
 
-#include <fruit/fruit.h>
+#include <QPointer>
+#include <QTabWidget>
+#include <QWidget>
 
-#include <memory>
+#include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IImageInformationService;
-    class IImageRenderingService;
   }
 
   namespace Impl::View::Impl::Qt {
-    class ApplicationView;
-    class NewDocumentView;
-    class OpenDocumentsView;
-
-    class ViewManager : public IViewManager {
+    class DocumentView;
+    
+    class OpenDocumentsView : public IQtMVCView, public IOpenDocumentsView {
     public:
-      INJECT(ViewManager(
-        AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService
-      ));
+      OpenDocumentsView(AbstractModel::Services::IImageInformationService *imageInformationService);
 
-      ~ViewManager();
+      QWidget *getQWidget();
 
-      IApplicationView *getApplicationView();
-      INewDocumentView *getNewDocumentView();
-      IOpenDocumentsView *getOpenDocumentsView();
+      void show();
+      void close();
+
+      void addDocumentView(AbstractModel::Handle handle, DocumentView &documentView);
+
+      void update(Updates::DocumentAddedUpdate updateData);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
-      AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      std::unique_ptr<ApplicationView> m_applicationView;
-      std::unique_ptr<NewDocumentView> m_newDocumentView;
-      std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
+      QPointer<QTabWidget> m_tabWidget;
+      std::map<AbstractModel::Handle, QPointer<QWidget>> m_documentWidgetHolders;
     };
   }
 }

@@ -30,6 +30,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IApplicationView;
     class INewDocumentView;
+    class IOpenDocumentsView;
   }
 
   class IUIController;
@@ -43,9 +44,11 @@ namespace SDF::Impl::UILayer::Impl {
 
       virtual void registerApplicationView(View::IApplicationView *applicationView) = 0;
       virtual void registerNewDocumentView(View::INewDocumentView *newDocumentView) = 0;
+      virtual void registerOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) = 0;
 
       virtual void unregisterApplicationView(View::IApplicationView *applicationView) = 0;
       virtual void unregisterNewDocumentView(View::INewDocumentView *newDocumentView) = 0;
+      virtual void unregisterOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) = 0;
     };
   }
 }

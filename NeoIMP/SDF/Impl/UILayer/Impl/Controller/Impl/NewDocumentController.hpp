@@ -25,13 +25,17 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewUpdate.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
 
+#include <SDF/Impl/UILayer/Impl/View/Updates/DocumentAddedUpdate.hpp>
+
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
 #include <map>
+#include <vector>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -56,10 +60,14 @@ namespace SDF::Impl::UILayer {
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
         );
 
+        void addDocumentAddedUpdatable(Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable);
+
         void removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook);
         void removeAcceptDocumentParametersHook(
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
         );
+
+        void removeDocumentAddedUpdatable(Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable);
       private:
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
 
@@ -71,6 +79,8 @@ namespace SDF::Impl::UILayer {
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *,
           boost::signals2::connection
         > m_acceptDocumentParametersHookMap;
+
+        std::vector<Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *> m_documentAddedUpdatables;
       };
     }
   }

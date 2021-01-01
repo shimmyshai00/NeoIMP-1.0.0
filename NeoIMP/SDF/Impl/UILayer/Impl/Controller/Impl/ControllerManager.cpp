@@ -28,6 +28,7 @@
 
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/IOpenDocumentsView.hpp>
 
 #include <ApplicationController.hpp>
 #include <NewDocumentController.hpp>
@@ -57,11 +58,19 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
     m_newDocumentController->hookAcceptDocumentParametersEvent(newDocumentView);
   }
 
+  void ControllerManager::registerOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {
+    m_newDocumentController->addDocumentAddedUpdatable(openDocumentsView);
+  }
+
   void ControllerManager::unregisterApplicationView(View::IApplicationView *applicationView) {
     m_applicationController->removeExitCommandHook(applicationView);
   }
 
   void ControllerManager::unregisterNewDocumentView(View::INewDocumentView *newDocumentView) {
     m_newDocumentController->removeAcceptDocumentParametersHook(newDocumentView);
+  }
+
+  void ControllerManager::unregisterOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {
+    m_newDocumentController->removeDocumentAddedUpdatable(openDocumentsView);
   }
 }

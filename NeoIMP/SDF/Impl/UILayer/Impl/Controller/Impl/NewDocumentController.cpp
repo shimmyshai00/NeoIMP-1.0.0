@@ -30,6 +30,7 @@
 #include <View/INewDocumentView.hpp>
 
 #include <iostream>
+#include <algorithm>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   NewDocumentController::NewDocumentController(
@@ -58,8 +59,17 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
     m_acceptDocumentParametersHookMap[hook] = hook->connectEventListener(
       [=](View::Events::AcceptDocumentParametersEvent event) {
         AbstractModel::Handle handle(m_documentCreationService->createDocument(event.spec));
+        for(auto &updatable : m_documentAddedUpdatables) {
+          updatable->update(View::Updates::DocumentAddedUpdate { handle });
+        }
       }
     );
+  }
+
+  void NewDocumentController::addDocumentAddedUpdatable(
+    Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable
+  ) {
+    m_documentAddedUpdatables.push_back(updatable);
   }
 
   void NewDocumentController::removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook) {
@@ -72,5 +82,14 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   ) {
     m_acceptDocumentParametersHookMap[hook].disconnect();
     m_acceptDocumentParametersHookMap.erase(hook);
+  }
+
+  void NewDocumentController::removeDocumentAddedUpdatable(
+    Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable
+  ) {
+    m_documentAddedUpdatables.erase(std::find(
+      m_documentAddedUpdatables.begin(), m_documentAddedUpdatables.end(),
+      updatable
+    ));
   }
 }

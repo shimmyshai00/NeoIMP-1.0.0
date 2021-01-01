@@ -52,12 +52,14 @@ namespace SDF::Impl::UILayer {
 
       void registerApplicationView(View::IApplicationView *applicationView);
       void registerNewDocumentView(View::INewDocumentView *newDocumentView);
+      void registerOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView);
 
       void unregisterApplicationView(View::IApplicationView *applicationView);
       void unregisterNewDocumentView(View::INewDocumentView *newDocumentView);
+      void unregisterOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView);
     private:
       AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
-      
+
       IUIController *m_uiController;
 
       std::unique_ptr<ApplicationController> m_applicationController;

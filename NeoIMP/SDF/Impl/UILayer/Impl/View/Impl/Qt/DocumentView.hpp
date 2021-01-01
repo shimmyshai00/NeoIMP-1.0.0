@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
+
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 #include <QPointer>
@@ -46,7 +48,7 @@ namespace SDF::Impl::UILayer {
       class MainWindow;
     }
 
-    class DocumentView : public IDocumentView {
+    class DocumentView : public IQtMVCView, public IDocumentView {
     public:
       DocumentView(
         AbstractModel::Services::IImageInformationService *imageInformationService,
@@ -55,7 +57,7 @@ namespace SDF::Impl::UILayer {
         AbstractModel::Handle documentHandle
       );
 
-      void updateDocumentName();
+      QWidget *getQWidget();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
