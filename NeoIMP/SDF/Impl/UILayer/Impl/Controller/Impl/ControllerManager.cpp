@@ -49,6 +49,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   }
 
   void ControllerManager::registerApplicationView(View::IApplicationView *applicationView) {
+    m_newDocumentController->hookNewCommandEvent(applicationView);
     m_applicationController->hookExitCommandEvent(applicationView);
   }
 

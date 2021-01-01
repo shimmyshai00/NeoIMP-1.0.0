@@ -44,6 +44,14 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
     for(auto const &conn : m_acceptDocumentParametersHookMap) conn.second.disconnect();
   }
 
+  void NewDocumentController::hookNewCommandEvent(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook) {
+    m_newCommandHookMap[hook] = hook->connectEventListener(
+      [=](View::Events::NewCommandEvent event) {
+        m_uiController->showNewDocumentView();
+      }
+    );
+  }
+
   void NewDocumentController::hookAcceptDocumentParametersEvent(
     Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
   ) {
@@ -52,6 +60,11 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
         AbstractModel::Handle handle(m_documentCreationService->createDocument(event.spec));
       }
     );
+  }
+
+  void NewDocumentController::removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook) {
+    m_newCommandHookMap[hook].disconnect();
+    m_newCommandHookMap.erase(hook);
   }
 
   void NewDocumentController::removeAcceptDocumentParametersHook(

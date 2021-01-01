@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
 
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
 
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
@@ -50,10 +51,12 @@ namespace SDF::Impl::UILayer {
 
         ~NewDocumentController();
 
+        void hookNewCommandEvent(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook);
         void hookAcceptDocumentParametersEvent(
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
         );
 
+        void removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook);
         void removeAcceptDocumentParametersHook(
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
         );
@@ -62,6 +65,8 @@ namespace SDF::Impl::UILayer {
 
         IUIController *m_uiController;
 
+        std::map<Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *, boost::signals2::connection>
+          m_newCommandHookMap;
         std::map<
           Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *,
           boost::signals2::connection
