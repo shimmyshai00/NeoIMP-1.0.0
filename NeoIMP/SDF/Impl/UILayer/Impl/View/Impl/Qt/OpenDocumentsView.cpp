@@ -46,16 +46,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   void OpenDocumentsView::close() {}
 
   void OpenDocumentsView::addDocumentView(AbstractModel::Handle handle, DocumentView &documentView) {
-    documentView.getQWidget()->setParent(m_documentWidgetHolders[handle]);
-    documentView.getQWidget()->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    if(m_documents.find(handle) != m_documents.end()) {
+      m_tabWidget->addTab(documentView.getQWidget(), m_imageInformationService->getImageName(handle).c_str());
+    }
   }
 
   void OpenDocumentsView::update(Updates::DocumentAddedUpdate updateData) {
-    m_documentWidgetHolders[updateData.handle] = new QWidget();
-
-    m_tabWidget->addTab(
-      m_documentWidgetHolders[updateData.handle],
-      m_imageInformationService->getImageName(updateData.handle).c_str()
-    );
+    m_documents.insert(updateData.handle);
   }
 }

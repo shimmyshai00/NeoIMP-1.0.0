@@ -34,6 +34,8 @@
 
 #include <boost/signals2/signal.hpp>
 
+#include <set>
+
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IImageInformationService;
@@ -41,7 +43,7 @@ namespace SDF::Impl::UILayer {
 
   namespace Impl::View::Impl::Qt {
     class DocumentView;
-    
+
     class OpenDocumentsView : public IQtMVCView, public IOpenDocumentsView {
     public:
       OpenDocumentsView(AbstractModel::Services::IImageInformationService *imageInformationService);
@@ -58,7 +60,7 @@ namespace SDF::Impl::UILayer {
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
 
       QPointer<QTabWidget> m_tabWidget;
-      std::map<AbstractModel::Handle, QPointer<QWidget>> m_documentWidgetHolders;
+      std::set<AbstractModel::Handle> m_documents;
     };
   }
 }
