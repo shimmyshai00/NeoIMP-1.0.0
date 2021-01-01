@@ -27,6 +27,7 @@
 
 #include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <Controller/IControllerManager.hpp>
 
@@ -40,6 +41,9 @@ namespace SDF::Impl::UILayer::Impl {
       m_controllerManager(controllerManager)
   {
     m_controllerManager->setUIController(this);
+
+    m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
+    m_controllerManager->registerNewDocumentView(m_viewManager->getNewDocumentView());
   }
 
   MainUI::~MainUI() {}
@@ -49,21 +53,18 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   void MainUI::showApplicationView() {
-    m_viewManager->createApplicationView();
-    m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
-
     m_viewManager->getApplicationView()->show();
   }
 
   void MainUI::showNewDocumentView() {
-
+    m_viewManager->getNewDocumentView()->show();
   }
 
   void MainUI::closeApplicationView() {
-    m_controllerManager->unregisterApplicationView(m_viewManager->getApplicationView());
+    m_viewManager->getApplicationView()->close();
   }
 
   void MainUI::closeNewDocumentView() {
-
+    m_viewManager->getNewDocumentView()->close();
   }
 }

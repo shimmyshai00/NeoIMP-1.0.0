@@ -41,22 +41,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     AbstractModel::Services::IImageRenderingService *imageRenderingService
   )
     : m_imageInformationService(imageInformationService),
-      m_imageRenderingService(imageRenderingService)
+      m_imageRenderingService(imageRenderingService),
+      m_applicationView(new ApplicationView),
+      m_newDocumentView(new NewDocumentView)
   {}
 
   ViewManager::~ViewManager() {}
-
-  void ViewManager::createApplicationView() {
-    if(!m_applicationView) {
-      m_applicationView = std::make_unique<ApplicationView>();
-    }
-  }
-
-  void ViewManager::createNewDocumentView() {
-    if(!m_newDocumentView) {
-      m_newDocumentView = std::make_unique<NewDocumentView>();
-    }
-  }
 
   IApplicationView *ViewManager::getApplicationView() {
     return m_applicationView.get();

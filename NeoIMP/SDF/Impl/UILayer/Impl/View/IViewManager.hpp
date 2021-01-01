@@ -39,10 +39,8 @@ namespace SDF::Impl::UILayer::Impl::View {
   public:
     virtual ~IViewManager() = default;
 
-    // Commands
-    virtual void createApplicationView() = 0;
-    virtual void createNewDocumentView() = 0;
-
+    // Commands.
+    
     // View access.
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentView *getNewDocumentView() = 0;
