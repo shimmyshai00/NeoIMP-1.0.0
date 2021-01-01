@@ -39,17 +39,25 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
         m_newDocumentDialog->getDocumentBitDepth()
       };
 
-      m_gotParamsSignal(spec);
+      m_acceptDocumentParametersSignal(Events::AcceptDocumentParametersEvent { spec });
     });
   }
 
+  QWidget *NewDocumentView::getQWidget() {
+    return m_newDocumentDialog;
+  }
+  
   void NewDocumentView::show() {
     m_newDocumentDialog->open();
   }
 
-  boost::signals2::connection NewDocumentView::addGotParamsObserver(
-    std::function<void (AbstractModel::Data::DocumentSpec)> observer
+  void NewDocumentView::close() {
+    m_newDocumentDialog->close();
+  }
+
+  boost::signals2::connection NewDocumentView::connectEventListener(
+    std::function<void (Events::AcceptDocumentParametersEvent)> listener
   ) {
-    return m_gotParamsSignal.connect(observer);
+    return m_acceptDocumentParametersSignal.connect(listener);
   }
 }

@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewManager.hpp
- * PURPOSE: Defines an interface for the view manager. The purpose of the view manager is to isolate the controllers
- *          from how views are composed together as a layout, not just what widget systems are used to implement them.
+ * FILE:    IUIController.hpp
+ * PURPOSE: Interface for the global UI controller, which creates and destroys UI views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,27 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-
-#include <memory>
-
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
-  class IDocumentView;
-
-  class IViewManager {
+namespace SDF::Impl::UILayer::Impl {
+  class IUIController {
   public:
-    virtual ~IViewManager() = default;
+    virtual ~IUIController() = default;
 
-    // Commands
-    virtual void createApplicationView() = 0;
-    virtual void createNewDocumentView() = 0;
+    virtual void showApplicationView() = 0;
+    virtual void showNewDocumentView() = 0;
 
-    // View access.
-    virtual IApplicationView *getApplicationView() = 0;
-    virtual INewDocumentView *getNewDocumentView() = 0;
+    virtual void closeApplicationView() = 0;
+    virtual void closeNewDocumentView() = 0;
   };
 }
 

@@ -39,6 +39,7 @@ namespace SDF::Impl::UILayer {
 
   namespace Impl::View::Impl::Qt {
     class ApplicationView;
+    class NewDocumentView;
 
     class ViewManager : public IViewManager {
     public:
@@ -49,14 +50,17 @@ namespace SDF::Impl::UILayer {
 
       ~ViewManager();
 
-      void showApplicationView();
+      void createApplicationView();
+      void createNewDocumentView();
 
       IApplicationView *getApplicationView();
+      INewDocumentView *getNewDocumentView();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
       std::unique_ptr<ApplicationView> m_applicationView;
+      std::unique_ptr<NewDocumentView> m_newDocumentView;
     };
   }
 }

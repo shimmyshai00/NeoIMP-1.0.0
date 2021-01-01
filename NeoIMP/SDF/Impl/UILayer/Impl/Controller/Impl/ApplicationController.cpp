@@ -23,22 +23,26 @@
 
 #include <ApplicationController.hpp>
 
-#include <View/IViewManager.hpp>
+#include <IUIController.hpp>
 #include <View/IApplicationView.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
-    Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> &exitCommandHook,
-    View::IViewManager *viewManager
-  )
-    : m_viewManager(viewManager)
-  {
-    m_exitCommandConnection = exitCommandHook.connectEventListener([=](View::Events::ExitCommandEvent e) {
-      m_viewManager->getApplicationView()->close();
+namespace SDF::Impl::UILayer::Impl::Controller::Impl {
+  ApplicationController::ApplicationController(IUIController *uiController)
+    : m_uiController(uiController)
+  {}
+
+  ApplicationController::~ApplicationController() {
+    for(auto const &conn : m_exitCommandHookMap) conn.second.disconnect();
+  }
+
+  void ApplicationController::hookExitCommandEvent(Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> *hook) {
+    m_exitCommandHookMap[hook] = hook->connectEventListener([=](View::Events::ExitCommandEvent e) {
+      m_uiController->closeApplicationView();
     });
   }
 
-  ApplicationController::~ApplicationController() {
-    m_exitCommandConnection.disconnect();
+  void ApplicationController::removeExitCommandHook(Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> *hook) {
+    m_exitCommandHookMap[hook].disconnect();
+    m_exitCommandHookMap.erase(hook);
   }
 }

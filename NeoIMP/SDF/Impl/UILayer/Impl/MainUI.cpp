@@ -28,26 +28,42 @@
 #include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
 
-#include <Controller/ApplicationController.hpp>
+#include <Controller/IControllerManager.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::IViewManager *viewManager
+    View::IViewManager *viewManager,
+    Controller::IControllerManager *controllerManager
   )
-    : m_viewManager(viewManager)
-  {}
+    : m_viewManager(viewManager),
+      m_controllerManager(controllerManager)
+  {
+    m_controllerManager->setUIController(this);
+  }
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    m_viewManager->showApplicationView();
+    showApplicationView();
+  }
 
-    m_applicationController = std::make_unique<Controller::ApplicationController>(
-      *m_viewManager->getApplicationView(),
-      m_viewManager
-    );
+  void MainUI::showApplicationView() {
+    m_viewManager->createApplicationView();
+    m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
 
     m_viewManager->getApplicationView()->show();
+  }
+
+  void MainUI::showNewDocumentView() {
+
+  }
+
+  void MainUI::closeApplicationView() {
+    m_controllerManager->unregisterApplicationView(m_viewManager->getApplicationView());
+  }
+
+  void MainUI::closeNewDocumentView() {
+
   }
 }

@@ -24,28 +24,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
 
 #include <boost/signals2/signal.hpp>
 
 #include <QPointer>
+#include <QWidget>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   namespace Dialogs {
     class NewDocumentDialog;
   }
 
-  class NewDocumentView : public INewDocumentView {
+  class NewDocumentView : public IQtMVCView, public INewDocumentView {
   public:
     NewDocumentView();
 
-    void show();
+    QWidget *getQWidget();
 
-    boost::signals2::connection addGotParamsObserver(std::function<void (AbstractModel::Data::DocumentSpec)> observer);
+    void show();
+    void close();
+
+    boost::signals2::connection connectEventListener(std::function<void (Events::AcceptDocumentParametersEvent)> listener);
   private:
     QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
 
-    boost::signals2::signal<void (AbstractModel::Data::DocumentSpec)> m_gotParamsSignal;
+    boost::signals2::signal<void (Events::AcceptDocumentParametersEvent)> m_acceptDocumentParametersSignal;
   };
 }
 

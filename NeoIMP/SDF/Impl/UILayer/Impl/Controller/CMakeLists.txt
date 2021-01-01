@@ -1,5 +1,7 @@
 target_include_directories(neoimp PUBLIC .)
 
+add_subdirectory(Impl)
+
 target_sources(neoimp PUBLIC
-  ApplicationController.cpp
+  ControllerComponent.cpp
 )

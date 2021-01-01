@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
+#include <SDF/Impl/UILayer/Impl/IUIController.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -41,23 +42,29 @@ namespace SDF::Impl::UILayer {
     }
 
     namespace Controller {
-      class ApplicationController;
+      class IControllerManager;
     }
 
-    class MainUI : public IUIEntryPoint {
+    class MainUI : public IUIEntryPoint, public IUIController {
     public:
       INJECT(MainUI(
         AbstractModel::Services::IDocumentCreationService *documentCreationService,
-        View::IViewManager *viewManager
+        View::IViewManager *viewManager,
+        Controller::IControllerManager *controllerManager
       ));
 
       ~MainUI();
 
       void start();
+
+      void showApplicationView();
+      void showNewDocumentView();
+
+      void closeApplicationView();
+      void closeNewDocumentView();
     private:
       View::IViewManager *m_viewManager;
-
-      std::unique_ptr<Controller::ApplicationController> m_applicationController;
+      Controller::IControllerManager *m_controllerManager;
     };
   }
 }

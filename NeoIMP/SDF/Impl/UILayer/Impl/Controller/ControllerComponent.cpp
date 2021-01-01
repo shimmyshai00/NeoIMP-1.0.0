@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentController.cpp
- * PURPOSE: The MVC controller for the new-document view.
+ * FILE:    ControllerComponent.cpp
+ * PURPOSE: The DI component for the controller subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,33 +21,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <NewDocumentController.hpp>
+#include <ControllerComponent.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <AbstractModel/Handle.hpp>
 
-#include <IUIDetail.hpp>
-#include <View/IViewGenerator.hpp>
-#include <View/INewDocumentView.hpp>
-
-#include <iostream>
+#include <Controller/Impl/ControllerManager.hpp>
+#include <View/Qt/ViewComponent.hpp>
+#include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  NewDocumentController::NewDocumentController(
-    AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::INewDocumentView *newDocumentView,
-    IUIDetail *uiDetail
-  )
-    : m_documentCreationService(documentCreationService),
-      m_newDocumentView(newDocumentView),
-      m_uiDetail(uiDetail)
-  {
-    m_newDocumentView->addGotParamsObserver([=](AbstractModel::Data::DocumentSpec spec) { onAcceptCommand(spec); });
-  }
-
-  // Private members.
-  void NewDocumentController::onAcceptCommand(AbstractModel::Data::DocumentSpec spec) {
-    AbstractModel::Handle handle(m_documentCreationService->createDocument(spec));
-    m_uiDetail->addDocumentView(handle);
+  fruit::Component<IControllerManager> getControllerComponent() {
+    return fruit::createComponent()
+      .bind<IControllerManager, Controller::Impl::ControllerManager>()
+      .install(View::Qt::getViewComponent)
+      .install(ModelLayer::getModelComponent);
   }
 }

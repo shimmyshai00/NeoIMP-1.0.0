@@ -24,10 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
+
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
-#include <fruit/fruit.h>
-#include <boost/signals2/connection.hpp>
+#include <map>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -35,28 +38,34 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl {
-    namespace View {
-      class INewDocumentView;
-    }
+    class IUIController;
 
-    class IUIDetail;
-
-    namespace Controller {
+    namespace Controller::Impl {
       class NewDocumentController {
       public:
         NewDocumentController(
           AbstractModel::Services::IDocumentCreationService *documentCreationService,
-          View::INewDocumentView *newDocumentView,
-          IUIDetail *uiDetail
+          IUIController *uiController
+        );
+
+        ~NewDocumentController();
+
+        void hookAcceptDocumentParametersEvent(
+          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
+        );
+
+        void removeAcceptDocumentParametersHook(
+          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
         );
       private:
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
 
-        IUIDetail *m_uiDetail;
-        View::INewDocumentView *m_newDocumentView;
+        IUIController *m_uiController;
 
-        // Event handlers.
-        void onAcceptCommand(AbstractModel::Data::DocumentSpec spec);
+        std::map<
+          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *,
+          boost::signals2::connection
+        > m_acceptDocumentParametersHookMap;
       };
     }
   }

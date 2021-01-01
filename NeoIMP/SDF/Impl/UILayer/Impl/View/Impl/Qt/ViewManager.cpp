@@ -30,9 +30,10 @@
 #include <AbstractModel/Handle.hpp>
 
 #include <IApplicationView.hpp>
+#include <INewDocumentView.hpp>
 
 #include <ApplicationView.hpp>
-
+#include <NewDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewManager::ViewManager(
@@ -45,13 +46,23 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   ViewManager::~ViewManager() {}
 
-  void ViewManager::showApplicationView() {
+  void ViewManager::createApplicationView() {
     if(!m_applicationView) {
       m_applicationView = std::make_unique<ApplicationView>();
     }
   }
 
+  void ViewManager::createNewDocumentView() {
+    if(!m_newDocumentView) {
+      m_newDocumentView = std::make_unique<NewDocumentView>();
+    }
+  }
+
   IApplicationView *ViewManager::getApplicationView() {
     return m_applicationView.get();
+  }
+
+  INewDocumentView *ViewManager::getNewDocumentView() {
+    return m_newDocumentView.get();
   }
 }
