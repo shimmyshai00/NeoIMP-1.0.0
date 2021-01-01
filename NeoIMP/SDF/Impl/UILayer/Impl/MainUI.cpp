@@ -68,4 +68,8 @@ namespace SDF::Impl::UILayer::Impl {
   void MainUI::closeNewDocumentView() {
     m_viewManager->getNewDocumentView()->close();
   }
+
+  void MainUI::createDocumentView(AbstractModel::Handle documentHandle) {
+    m_viewManager->createDocumentView(documentHandle);
+  }
 }

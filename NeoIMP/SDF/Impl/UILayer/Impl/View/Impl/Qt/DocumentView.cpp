@@ -68,24 +68,24 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   DocumentView::DocumentView(
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService,
-    QPointer<Windows::MainWindow> mainWindowContext,
     AbstractModel::Handle documentHandle
   )
     : m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
-      m_mainWindowContext(mainWindowContext),
       m_documentWidget(new CustomWidgets::DocumentWidget),
       m_documentHandle(documentHandle),
       m_imageDataSource(new ImageDataSource(imageInformationService, imageRenderingService, documentHandle))
   {
-    m_mainWindowContext->addDocumentTab(
-      m_imageInformationService->getImageName(m_documentHandle).c_str(), m_documentWidget
-    );
     m_documentWidget->setDataSource(m_imageDataSource.get());
   }
 
-  void DocumentView::updateDocumentName() {
-    int index(m_mainWindowContext->getDocumentTabIndex(m_documentWidget));
-    m_mainWindowContext->setTabTitle(index, m_imageInformationService->getImageName(m_documentHandle).c_str());
+  DocumentView::~DocumentView() {}
+
+  QWidget *DocumentView::getQWidget() {
+    return m_documentWidget;
   }
+
+  void DocumentView::show() {}
+
+  void DocumentView::close() {}
 }

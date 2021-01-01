@@ -32,10 +32,12 @@
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
 #include <IOpenDocumentsView.hpp>
+#include <IDocumentView.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
 #include <OpenDocumentsView.hpp>
+#include <DocumentView.hpp>
 
 #include <Windows/MainWindow.hpp>
 
@@ -59,6 +61,26 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   ViewManager::~ViewManager() {}
 
+  void ViewManager::createDocumentView(AbstractModel::Handle documentHandle) {
+    if(m_documentViews.find(documentHandle) == m_documentViews.end()) {
+      m_documentViews[documentHandle] = std::make_unique<DocumentView>(
+        m_imageInformationService,
+        m_imageRenderingService,
+        documentHandle
+      );
+
+      m_openDocumentsView->addDocumentView(documentHandle, *m_documentViews[documentHandle]);
+    }
+  }
+
+  void ViewManager::removeDocumentView(AbstractModel::Handle documentHandle) {
+    if(m_documentViews.find(documentHandle) == m_documentViews.end()) {
+      throw UILayer::Exceptions::InvalidHandleException(documentHandle);
+    }
+
+    m_documentViews.erase(documentHandle);
+  }
+
   IApplicationView *ViewManager::getApplicationView() {
     return m_applicationView.get();
   }
@@ -69,5 +91,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   IOpenDocumentsView *ViewManager::getOpenDocumentsView() {
     return m_openDocumentsView.get();
+  }
+
+  IDocumentView *ViewManager::getDocumentView(AbstractModel::Handle documentHandle) {
+    if(m_documentViews.find(documentHandle) == m_documentViews.end()) {
+      throw UILayer::Exceptions::InvalidHandleException(documentHandle);
+    }
+
+    return m_documentViews[documentHandle].get();
   }
 }

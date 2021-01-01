@@ -30,6 +30,7 @@
 #include <fruit/fruit.h>
 
 #include <memory>
+#include <map>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -41,6 +42,7 @@ namespace SDF::Impl::UILayer {
     class ApplicationView;
     class NewDocumentView;
     class OpenDocumentsView;
+    class DocumentView;
 
     class ViewManager : public IViewManager {
     public:
@@ -51,9 +53,13 @@ namespace SDF::Impl::UILayer {
 
       ~ViewManager();
 
+      void createDocumentView(AbstractModel::Handle documentHandle);
+      void removeDocumentView(AbstractModel::Handle documentHandle);
+
       IApplicationView *getApplicationView();
       INewDocumentView *getNewDocumentView();
       IOpenDocumentsView *getOpenDocumentsView();
+      IDocumentView *getDocumentView(AbstractModel::Handle documentHandle);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
@@ -61,6 +67,8 @@ namespace SDF::Impl::UILayer {
       std::unique_ptr<ApplicationView> m_applicationView;
       std::unique_ptr<NewDocumentView> m_newDocumentView;
       std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
+
+      std::map<AbstractModel::Handle, std::unique_ptr<DocumentView>> m_documentViews;
     };
   }
 }

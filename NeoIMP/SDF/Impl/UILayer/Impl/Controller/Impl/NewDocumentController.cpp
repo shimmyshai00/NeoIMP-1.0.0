@@ -62,6 +62,8 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
         for(auto &updatable : m_documentAddedUpdatables) {
           updatable->update(View::Updates::DocumentAddedUpdate { handle });
         }
+
+        m_uiController->createDocumentView(handle);
       }
     );
   }

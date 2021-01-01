@@ -36,6 +36,12 @@ namespace SDF::Impl::UILayer::Exceptions {
       : Exception("Tried to create a '%s' view with the wrong type of context view", viewType)
     {}
   };
+
+  struct InvalidHandleException : public SDF::Exception::Exception {
+    InvalidHandleException(AbstractModel::Handle handle)
+      : Exception("Tried to access an object with handle '%d' that does not exist. This is likely a bug.", handle)
+    {}
+  };
 }
 
 #endif

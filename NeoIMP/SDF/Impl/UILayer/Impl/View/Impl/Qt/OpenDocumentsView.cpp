@@ -27,11 +27,15 @@
 
 #include <DocumentView.hpp>
 
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   OpenDocumentsView::OpenDocumentsView(AbstractModel::Services::IImageInformationService *imageInformationService)
     : m_imageInformationService(imageInformationService),
       m_tabWidget(new QTabWidget)
-  {}
+  {
+    m_tabWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+  }
 
   QWidget *OpenDocumentsView::getQWidget() {
     return m_tabWidget;
@@ -43,10 +47,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void OpenDocumentsView::addDocumentView(AbstractModel::Handle handle, DocumentView &documentView) {
     documentView.getQWidget()->setParent(m_documentWidgetHolders[handle]);
+    documentView.getQWidget()->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
   }
 
   void OpenDocumentsView::update(Updates::DocumentAddedUpdate updateData) {
     m_documentWidgetHolders[updateData.handle] = new QWidget();
+
     m_tabWidget->addTab(
       m_documentWidgetHolders[updateData.handle],
       m_imageInformationService->getImageName(updateData.handle).c_str()

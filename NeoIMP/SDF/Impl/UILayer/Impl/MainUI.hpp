@@ -62,6 +62,8 @@ namespace SDF::Impl::UILayer {
 
       void closeApplicationView();
       void closeNewDocumentView();
+
+      void createDocumentView(AbstractModel::Handle documentHandle);
     private:
       View::IViewManager *m_viewManager;
       Controller::IControllerManager *m_controllerManager;

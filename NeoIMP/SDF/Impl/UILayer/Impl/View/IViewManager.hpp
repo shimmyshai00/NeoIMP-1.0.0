@@ -41,11 +41,14 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual ~IViewManager() = default;
 
     // Commands.
+    virtual void createDocumentView(AbstractModel::Handle documentHandle) = 0;
+    virtual void removeDocumentView(AbstractModel::Handle documentHandle) = 0;
 
     // View access.
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentView *getNewDocumentView() = 0;
     virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
+    virtual IDocumentView *getDocumentView(AbstractModel::Handle documentHandle) = 0;
   };
 }
 

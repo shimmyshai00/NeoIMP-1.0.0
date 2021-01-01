@@ -44,25 +44,24 @@ namespace SDF::Impl::UILayer {
       class IImageDataSource;
     }
 
-    namespace Windows {
-      class MainWindow;
-    }
-
     class DocumentView : public IQtMVCView, public IDocumentView {
     public:
       DocumentView(
         AbstractModel::Services::IImageInformationService *imageInformationService,
         AbstractModel::Services::IImageRenderingService *imageRenderingService,
-        QPointer<Windows::MainWindow> mainWindowContext,
         AbstractModel::Handle documentHandle
       );
+
+      ~DocumentView();
+
+      void show();
+      void close();
 
       QWidget *getQWidget();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      QPointer<Windows::MainWindow> m_mainWindowContext;
       QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
 
       AbstractModel::Handle m_documentHandle;
