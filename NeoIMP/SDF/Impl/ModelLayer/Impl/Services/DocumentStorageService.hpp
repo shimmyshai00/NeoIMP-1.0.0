@@ -34,13 +34,20 @@ namespace SDF::Impl::ModelLayer {
     namespace Repositories {
       class IImageRepository;
     }
+
+    namespace Persistence {
+      class IImagePersistenceMap;
+      class IImagePersister;
+    }
   }
 
   namespace Impl::Services {
     class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
     public:
       INJECT(DocumentStorageService(
-        AbstractMemory::Repositories::IImageRepository *imageRepository
+        AbstractMemory::Repositories::IImageRepository *imageRepository,
+        AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
+        AbstractMemory::Persistence::IImagePersister *imagePersister
       ));
 
       void saveDocument(
@@ -53,6 +60,8 @@ namespace SDF::Impl::ModelLayer {
       );
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+      AbstractMemory::Persistence::IImagePersistenceMap *m_imagePersistenceMap;
+      AbstractMemory::Persistence::IImagePersister *m_imagePersister;
     };
   }
 }

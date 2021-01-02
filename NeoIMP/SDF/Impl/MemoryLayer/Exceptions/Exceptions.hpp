@@ -40,6 +40,12 @@ namespace SDF::Impl::MemoryLayer::Exceptions {
       : Exception("Tried to add object to repository with already-taken handle '%d'", handle)
     {}
   };
+
+  struct FileSpecNotAssignedException : public SDF::Exception::Exception {
+    FileSpecNotAssignedException(UILayer::AbstractModel::Handle handle)
+      : Exception("Tried to save object with handle '%d' without assigned file spec", handle)
+    {}
+  };
 }
 
 #endif

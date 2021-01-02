@@ -1,5 +1,3 @@
 target_include_directories(neoimp PUBLIC .)
 
-target_sources(neoimp PUBLIC
-  ImageRepository.cpp
-)
+add_subdirectory(DataMappers)

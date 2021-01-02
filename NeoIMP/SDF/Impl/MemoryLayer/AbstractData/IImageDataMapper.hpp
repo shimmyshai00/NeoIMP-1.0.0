@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_PERSISTENCE_IIMAGEPERSISTENCEMAP_HPP
-#define SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_PERSISTENCE_IIMAGEPERSISTENCEMAP_HPP
+#ifndef SDF_IMPL_MEMORYLAYER_ABSTRACTDATA_IIMAGEDATAMAPPER_HPP
+#define SDF_IMPL_MEMORYLAYER_ABSTRACTDATA_IIMAGEDATAMAPPER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImagePersistenceMap.hpp
- * PURPOSE: Interface for a map between document repository IDs (handles) and persistence-specific data such as file
- *          names and formats.
+ * FILE:    IImageDataMapper.hpp
+ * PURPOSE: An interface for image data mappers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,18 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
 
-namespace SDF::Impl::ModelLayer::AbstractMemory::Persistence {
-  class IImagePersistenceMap {
+#include <memory>
+#include <string>
+
+namespace SDF::Impl::MemoryLayer::AbstractData {
+  class IImageDataMapper {
   public:
-    virtual ~IImagePersistenceMap() = default;
+    virtual ~IImageDataMapper() = default;
 
-    virtual void assignFileSpec(UILayer::AbstractModel::Handle handle, std::string fileSpec) = 0;
-    virtual void assignFileFormat(
-      UILayer::AbstractModel::Handle handle,
-      UILayer::AbstractModel::Properties::FileFormat fileFormat
+    virtual void saveImage(
+      std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
+    ) = 0;
+
+    virtual std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(
+      std::string fileSpec, UILayer::AbstractModel::Handle handle
     ) = 0;
   };
 }

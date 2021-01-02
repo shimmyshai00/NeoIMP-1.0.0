@@ -25,29 +25,54 @@
  */
 
 #include <SDF/Impl/ModelLayer/AbstractMemory/Repositories/IImageRepository.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Persistence/IImagePersister.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Persistence/IImagePersistenceMap.hpp>
 
 #include <fruit/fruit.h>
 
 #include <map>
 #include <memory>
 
-namespace SDF::Impl::MemoryLayer::Impl::Repositories {
-  class ImageRepository : public ModelLayer::AbstractMemory::Repositories::IImageRepository {
-  public:
-    INJECT(ImageRepository());
-    ~ImageRepository();
+namespace SDF::Impl::MemoryLayer {
+  namespace AbstractData {
+    class IImageDataMapper;
+  }
 
-    void add(
-      UILayer::AbstractModel::Handle handle,
-      std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
-    );
+  namespace Impl::Repositories {
+    class ImageRepository : public ModelLayer::AbstractMemory::Repositories::IImageRepository,
+      public ModelLayer::AbstractMemory::Persistence::IImagePersister,
+      public ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap {
+    public:
+      INJECT(ImageRepository(AbstractData::IImageDataMapper *dataMapper));
+      ~ImageRepository();
 
-    ModelLayer::Impl::DomainObjects::Image::AbstractImage &access(UILayer::AbstractModel::Handle handle);
-    void remove(UILayer::AbstractModel::Handle handle);
-  private:
-    std::map<UILayer::AbstractModel::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>>
-      m_imageMap;
-  };
+      void add(
+        UILayer::AbstractModel::Handle handle,
+        std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
+      );
+
+      ModelLayer::Impl::DomainObjects::Image::AbstractImage &access(UILayer::AbstractModel::Handle handle);
+      void remove(UILayer::AbstractModel::Handle handle);
+
+      // Persistence methods.
+      void assignFileSpec(UILayer::AbstractModel::Handle handle, std::string fileSpec);
+      void assignFileFormat(
+        UILayer::AbstractModel::Handle handle,
+        UILayer::AbstractModel::Properties::FileFormat fileFormat
+      );
+
+      void persistImage(UILayer::AbstractModel::Handle handle);
+      void retrieveImage(UILayer::AbstractModel::Handle handle);
+    private:
+      std::map<UILayer::AbstractModel::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>>
+        m_imageMap;
+
+      std::map<UILayer::AbstractModel::Handle, std::string> m_imageFileSpecMap;
+      std::map<UILayer::AbstractModel::Handle, UILayer::AbstractModel::Properties::FileFormat> m_imageFileFormatMap;
+
+      AbstractData::IImageDataMapper *m_dataMapper;
+    };
+  }
 }
 
 #endif

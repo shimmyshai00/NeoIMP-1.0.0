@@ -23,9 +23,13 @@
 
 #include <DocumentStorageService.hpp>
 
+#include <MemoryLayer/Exceptions/Exceptions.hpp>
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 
 #include <AbstractMemory/Repositories/IImageRepository.hpp>
+#include <AbstractMemory/Persistence/IImagePersistenceMap.hpp>
+#include <AbstractMemory/Persistence/IImagePersister.hpp>
+
 #include <DomainObjects/Image/AbstractImage.hpp>
 
 #include <UILayer/AbstractModel/Handle.hpp>
@@ -33,16 +37,27 @@
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(
-    AbstractMemory::Repositories::IImageRepository *imageRepository
+    AbstractMemory::Repositories::IImageRepository *imageRepository,
+    AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
+    AbstractMemory::Persistence::IImagePersister *imagePersister
   )
-    : m_imageRepository(imageRepository)
+    : m_imageRepository(imageRepository),
+      m_imagePersistenceMap(imagePersistenceMap),
+      m_imagePersister(imagePersister)
   {}
 
   void DocumentStorageService::saveDocument(
     std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
     UILayer::AbstractModel::Handle handle
   ) {
-    // TBA
+    try {
+      m_imagePersistenceMap->assignFileSpec(handle, fileSpec);
+      m_imagePersistenceMap->assignFileFormat(handle, fileFormat);
+
+      m_imagePersister->persistImage(handle);
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+    }
   }
 
   UILayer::AbstractModel::Handle DocumentStorageService::loadDocument(

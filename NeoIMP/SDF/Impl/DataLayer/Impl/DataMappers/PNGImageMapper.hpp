@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEFILEMAP_HPP
-#define SDF_IMPL_MODELLAYER_ABSTRACTDATA_IIMAGEFILEMAP_HPP
+#ifndef SDF_IMPL_DATALAYER_IMPL_DATAMAPPERS_PNGIMAGEMAPPER_HPP
+#define SDF_IMPL_DATALAYER_IMPL_DATAMAPPERS_PNGIMAGEMAPPER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageFileMap.hpp
- * PURPOSE: Defines an interface for a mapping of document object IDs to file name specifiers.
+ * FILE:    PNGImageMapper.hpp
+ * PURPOSE: A data mapper for mapping out images to PNG files.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
+#include <SDF/Impl/MemoryLayer/AbstractData/IImageDataMapper.hpp>
 
-#include <string>
+#include <fruit/fruit.h>
 
-namespace SDF::Impl::ModelLayer::AbstractData {
-  class IImageFileMap {
+namespace SDF::Impl::DataLayer::Impl::DataMappers {
+  class PNGImageMapper : public MemoryLayer::AbstractData::IImageDataMapper {
   public:
-    virtual ~IImageFileMap() = default;
+    INJECT(PNGImageMapper());
 
-    virtual void addBinding(
-      Framework::Handle handle,
-      std::string fileName, UILayer::AbstractModel::Properties::FileFormat fileFormat
-    ) = 0;
-
-    virtual void removeBinding(Framework::Handle handle) = 0;
+    void saveImage(std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image);
+    std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(
+      std::string fileSpec, UILayer::AbstractModel::Handle handle
+    );
   };
 }
 
