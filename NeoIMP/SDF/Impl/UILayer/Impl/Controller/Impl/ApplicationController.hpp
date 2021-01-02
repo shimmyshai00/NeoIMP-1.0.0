@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCControllerEventHandler.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
@@ -34,18 +34,13 @@ namespace SDF::Impl::UILayer::Impl {
   class IUIController;
 
   namespace Controller::Impl {
-    class ApplicationController {
+    class ApplicationController : public Framework::IMVCControllerEventHandler<View::Events::ExitCommandEvent> {
     public:
       ApplicationController(IUIController *uiController);
-      ~ApplicationController();
 
-      void hookExitCommandEvent(Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> *hook);
-      void removeExitCommandHook(Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> *hook);
+      void handleEvent(View::Events::ExitCommandEvent event);
     private:
       IUIController *m_uiController;
-
-      std::map<Framework::IMVCViewEventHook<View::Events::ExitCommandEvent> *, boost::signals2::connection>
-        m_exitCommandHookMap;
     };
   }
 }

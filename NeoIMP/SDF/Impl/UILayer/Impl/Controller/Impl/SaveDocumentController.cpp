@@ -41,23 +41,11 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
       m_uiController(uiController)
   {}
 
-  SaveDocumentController::~SaveDocumentController() {
-    for(auto const &conn : m_acceptSaveParametersHookMap) conn.second.disconnect();
+  void SaveDocumentController::handleEvent(View::Events::SaveAsCommandEvent event) {
+    m_uiController->showSaveDocumentView();
   }
 
-  void SaveDocumentController::hookSaveAsCommandEvent(
-    Framework::IMVCViewEventHook<View::Events::SaveAsCommandEvent> *hook
-  ) {
-    m_saveAsCommandHookMap[hook] = hook->connectEventListener(
-      [=](View::Events::SaveAsCommandEvent event) {
-        m_uiController->showSaveDocumentView();
-      }
-    );
-  }
-
-  void SaveDocumentController::hookAcceptSaveParametersEvent(
-    Framework::IMVCViewEventHook<View::Events::AcceptSaveParametersEvent> *hook
-  ) {
+  void SaveDocumentController::handleEvent(View::Events::AcceptSaveParametersEvent event) {
     // TBA
 
     /*
@@ -74,32 +62,9 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
     */
   }
 
-  void SaveDocumentController::addDocumentNameChangedUpdatable(
-    Framework::IMVCViewUpdate<View::Updates::DocumentNameChangedUpdate> *updatable
+  boost::signals2::connection SaveDocumentController::connectUpdateDestination(
+    std::function<void (View::Updates::DocumentNameChangedUpdate)> dest
   ) {
-    m_documentNameChangedUpdatables.push_back(updatable);
-  }
-
-  void SaveDocumentController::removeSaveAsCommandHook(
-    Framework::IMVCViewEventHook<View::Events::SaveAsCommandEvent> *hook
-  ) {
-    m_saveAsCommandHookMap[hook].disconnect();
-    m_saveAsCommandHookMap.erase(hook);
-  }
-
-  void SaveDocumentController::removeAcceptSaveParametersHook(
-    Framework::IMVCViewEventHook<View::Events::AcceptSaveParametersEvent> *hook
-  ) {
-    m_acceptSaveParametersHookMap[hook].disconnect();
-    m_acceptSaveParametersHookMap.erase(hook);
-  }
-
-  void SaveDocumentController::removeDocumentNameChangedUpdatable(
-    Framework::IMVCViewUpdate<View::Updates::DocumentNameChangedUpdate> *updatable
-  ) {
-    m_documentNameChangedUpdatables.erase(std::find(
-      m_documentNameChangedUpdatables.begin(), m_documentNameChangedUpdatables.end(),
-      updatable
-    ));
+    return m_documentNameChangedUpdateSignal.connect(dest);
   }
 }

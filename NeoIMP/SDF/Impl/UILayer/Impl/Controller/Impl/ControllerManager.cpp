@@ -58,38 +58,38 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   }
 
   void ControllerManager::registerApplicationView(View::IApplicationView *applicationView) {
-    m_newDocumentController->hookNewCommandEvent(applicationView);
-    m_saveDocumentController->hookSaveAsCommandEvent(applicationView);
-    m_applicationController->hookExitCommandEvent(applicationView);
+    m_newCommandEventBindings.bindEventSource(applicationView, m_newDocumentController.get());
+    m_saveAsCommandEventBindings.bindEventSource(applicationView, m_saveDocumentController.get());
+    m_exitCommandEventBindings.bindEventSource(applicationView, m_applicationController.get());
   }
 
   void ControllerManager::registerNewDocumentView(View::INewDocumentView *newDocumentView) {
-    m_newDocumentController->hookAcceptDocumentParametersEvent(newDocumentView);
+    m_acceptDocumentParametersEventBindings.bindEventSource(newDocumentView, m_newDocumentController.get());
   }
 
   void ControllerManager::registerSaveDocumentView(View::ISaveDocumentView *saveDocumentView) {
-    m_saveDocumentController->hookAcceptSaveParametersEvent(saveDocumentView);
+    m_acceptSaveParametersEventBindings.bindEventSource(saveDocumentView, m_saveDocumentController.get());
   }
 
   void ControllerManager::registerOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {
-    m_newDocumentController->addDocumentAddedUpdatable(openDocumentsView);
+    m_documentAddedUpdateBindings.bindUpdateSink(openDocumentsView, m_newDocumentController.get());
   }
 
   void ControllerManager::unregisterApplicationView(View::IApplicationView *applicationView) {
-    m_newDocumentController->removeNewCommandHook(applicationView);
-    m_saveDocumentController->removeSaveAsCommandHook(applicationView);
-    m_applicationController->removeExitCommandHook(applicationView);
+    m_newCommandEventBindings.releaseEventSource(applicationView);
+    m_saveAsCommandEventBindings.releaseEventSource(applicationView);
+    m_exitCommandEventBindings.releaseEventSource(applicationView);
   }
 
   void ControllerManager::unregisterNewDocumentView(View::INewDocumentView *newDocumentView) {
-    m_newDocumentController->removeAcceptDocumentParametersHook(newDocumentView);
+    m_acceptDocumentParametersEventBindings.releaseEventSource(newDocumentView);
   }
 
   void ControllerManager::unregisterSaveDocumentView(View::ISaveDocumentView *saveDocumentView) {
-    m_saveDocumentController->removeAcceptSaveParametersHook(saveDocumentView);
+    m_acceptSaveParametersEventBindings.releaseEventSource(saveDocumentView);
   }
 
   void ControllerManager::unregisterOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {
-    m_newDocumentController->removeDocumentAddedUpdatable(openDocumentsView);
+    m_documentAddedUpdateBindings.releaseUpdateSink(openDocumentsView);
   }
 }

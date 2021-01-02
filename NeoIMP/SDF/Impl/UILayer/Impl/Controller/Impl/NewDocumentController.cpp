@@ -41,57 +41,20 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
       m_uiController(uiController)
   {}
 
-  NewDocumentController::~NewDocumentController() {
-    for(auto const &conn : m_acceptDocumentParametersHookMap) conn.second.disconnect();
+  void NewDocumentController::handleEvent(View::Events::NewCommandEvent event) {
+    m_uiController->showNewDocumentView();
   }
 
-  void NewDocumentController::hookNewCommandEvent(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook) {
-    m_newCommandHookMap[hook] = hook->connectEventListener(
-      [=](View::Events::NewCommandEvent event) {
-        m_uiController->showNewDocumentView();
-      }
-    );
+  void NewDocumentController::handleEvent(View::Events::AcceptDocumentParametersEvent event) {
+    AbstractModel::Handle handle(m_documentCreationService->createDocument(event.spec));
+    m_documentAddedUpdateSignal(View::Updates::DocumentAddedUpdate { handle });
+
+    m_uiController->createDocumentView(handle);
   }
 
-  void NewDocumentController::hookAcceptDocumentParametersEvent(
-    Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
+  boost::signals2::connection NewDocumentController::connectUpdateDestination(
+    std::function<void (View::Updates::DocumentAddedUpdate)> dest
   ) {
-    m_acceptDocumentParametersHookMap[hook] = hook->connectEventListener(
-      [=](View::Events::AcceptDocumentParametersEvent event) {
-        AbstractModel::Handle handle(m_documentCreationService->createDocument(event.spec));
-        for(auto &updatable : m_documentAddedUpdatables) {
-          updatable->update(View::Updates::DocumentAddedUpdate { handle });
-        }
-
-        m_uiController->createDocumentView(handle);
-      }
-    );
-  }
-
-  void NewDocumentController::addDocumentAddedUpdatable(
-    Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable
-  ) {
-    m_documentAddedUpdatables.push_back(updatable);
-  }
-
-  void NewDocumentController::removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook) {
-    m_newCommandHookMap[hook].disconnect();
-    m_newCommandHookMap.erase(hook);
-  }
-
-  void NewDocumentController::removeAcceptDocumentParametersHook(
-    Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
-  ) {
-    m_acceptDocumentParametersHookMap[hook].disconnect();
-    m_acceptDocumentParametersHookMap.erase(hook);
-  }
-
-  void NewDocumentController::removeDocumentAddedUpdatable(
-    Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable
-  ) {
-    m_documentAddedUpdatables.erase(std::find(
-      m_documentAddedUpdatables.begin(), m_documentAddedUpdatables.end(),
-      updatable
-    ));
+    return m_documentAddedUpdateSignal.connect(dest);
   }
 }

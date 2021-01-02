@@ -27,6 +27,18 @@
 
 #include <SDF/Impl/UILayer/Impl/Controller/IControllerManager.hpp>
 
+#include <SDF/Impl/UILayer/Impl/Framework/MVCEventBinding.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCUpdateBinding.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptSaveParametersEvent.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Updates/DocumentAddedUpdate.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Updates/DocumentNameChangedUpdate.hpp>
+
 #include <fruit/fruit.h>
 
 #include <memory>
@@ -71,6 +83,16 @@ namespace SDF::Impl::UILayer {
       std::unique_ptr<ApplicationController> m_applicationController;
       std::unique_ptr<NewDocumentController> m_newDocumentController;
       std::unique_ptr<SaveDocumentController> m_saveDocumentController;
+
+      // Bindings
+      Framework::MVCEventBinding<View::Events::NewCommandEvent> m_newCommandEventBindings;
+      Framework::MVCEventBinding<View::Events::SaveAsCommandEvent> m_saveAsCommandEventBindings;
+      Framework::MVCEventBinding<View::Events::ExitCommandEvent> m_exitCommandEventBindings;
+      Framework::MVCEventBinding<View::Events::AcceptDocumentParametersEvent> m_acceptDocumentParametersEventBindings;
+      Framework::MVCEventBinding<View::Events::AcceptSaveParametersEvent> m_acceptSaveParametersEventBindings;
+
+      Framework::MVCUpdateBinding<View::Updates::DocumentAddedUpdate> m_documentAddedUpdateBindings;
+      Framework::MVCUpdateBinding<View::Updates::DocumentNameChangedUpdate> m_documentNameChangedUpdateBindings;
     };
   }
 }

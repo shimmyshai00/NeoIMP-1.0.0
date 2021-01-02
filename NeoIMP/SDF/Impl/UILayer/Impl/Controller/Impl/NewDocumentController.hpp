@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewUpdate.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCControllerEventHandler.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCControllerUpdateHook.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
@@ -34,8 +34,7 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
 
-#include <map>
-#include <vector>
+#include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -46,41 +45,27 @@ namespace SDF::Impl::UILayer {
     class IUIController;
 
     namespace Controller::Impl {
-      class NewDocumentController {
+      class NewDocumentController : public Framework::IMVCControllerEventHandler<View::Events::NewCommandEvent>,
+        public Framework::IMVCControllerEventHandler<View::Events::AcceptDocumentParametersEvent>,
+        public Framework::IMVCControllerUpdateHook<View::Updates::DocumentAddedUpdate> {
       public:
         NewDocumentController(
           AbstractModel::Services::IDocumentCreationService *documentCreationService,
           IUIController *uiController
         );
 
-        ~NewDocumentController();
+        void handleEvent(View::Events::NewCommandEvent event);
+        void handleEvent(View::Events::AcceptDocumentParametersEvent event);
 
-        void hookNewCommandEvent(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook);
-        void hookAcceptDocumentParametersEvent(
-          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
+        boost::signals2::connection connectUpdateDestination(
+          std::function<void (View::Updates::DocumentAddedUpdate)> dest
         );
-
-        void addDocumentAddedUpdatable(Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable);
-
-        void removeNewCommandHook(Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *hook);
-        void removeAcceptDocumentParametersHook(
-          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *hook
-        );
-
-        void removeDocumentAddedUpdatable(Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *updatable);
       private:
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
 
         IUIController *m_uiController;
 
-        std::map<Framework::IMVCViewEventHook<View::Events::NewCommandEvent> *, boost::signals2::connection>
-          m_newCommandHookMap;
-        std::map<
-          Framework::IMVCViewEventHook<View::Events::AcceptDocumentParametersEvent> *,
-          boost::signals2::connection
-        > m_acceptDocumentParametersHookMap;
-
-        std::vector<Framework::IMVCViewUpdate<View::Updates::DocumentAddedUpdate> *> m_documentAddedUpdatables;
+        boost::signals2::signal<void (View::Updates::DocumentAddedUpdate)> m_documentAddedUpdateSignal;
       };
     }
   }

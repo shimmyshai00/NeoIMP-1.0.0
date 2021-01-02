@@ -24,16 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewUpdate.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCControllerEventHandler.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCControllerUpdateHook.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptSaveParametersEvent.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Updates/DocumentNameChangedUpdate.hpp>
 
-#include <map>
-#include <vector>
+#include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -44,46 +43,27 @@ namespace SDF::Impl::UILayer {
     class IUIController;
 
     namespace Controller::Impl {
-      class SaveDocumentController {
+      class SaveDocumentController : public Framework::IMVCControllerEventHandler<View::Events::SaveAsCommandEvent>,
+        public Framework::IMVCControllerEventHandler<View::Events::AcceptSaveParametersEvent>,
+        public Framework::IMVCControllerUpdateHook<View::Updates::DocumentNameChangedUpdate> {
       public:
         SaveDocumentController(
           AbstractModel::Services::IDocumentStorageService *documentStorageService,
           IUIController *uiController
         );
 
-        ~SaveDocumentController();
+        void handleEvent(View::Events::SaveAsCommandEvent);
+        void handleEvent(View::Events::AcceptSaveParametersEvent);
 
-        void hookSaveAsCommandEvent(Framework::IMVCViewEventHook<View::Events::SaveAsCommandEvent> *hook);
-        void hookAcceptSaveParametersEvent(
-          Framework::IMVCViewEventHook<View::Events::AcceptSaveParametersEvent> *hook
-        );
-
-        void addDocumentNameChangedUpdatable(
-          Framework::IMVCViewUpdate<View::Updates::DocumentNameChangedUpdate> *updatable
-        );
-
-        void removeSaveAsCommandHook(Framework::IMVCViewEventHook<View::Events::SaveAsCommandEvent> *hook);
-        void removeAcceptSaveParametersHook(
-          Framework::IMVCViewEventHook<View::Events::AcceptSaveParametersEvent> *hook
-        );
-
-        void removeDocumentNameChangedUpdatable(
-          Framework::IMVCViewUpdate<View::Updates::DocumentNameChangedUpdate> *updatable
+        boost::signals2::connection connectUpdateDestination(
+          std::function<void (View::Updates::DocumentNameChangedUpdate)> dest
         );
       private:
         AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
 
         IUIController *m_uiController;
 
-        std::map<Framework::IMVCViewEventHook<View::Events::SaveAsCommandEvent> *, boost::signals2::connection>
-          m_saveAsCommandHookMap;
-        std::map<
-          Framework::IMVCViewEventHook<View::Events::AcceptSaveParametersEvent> *,
-          boost::signals2::connection
-        > m_acceptSaveParametersHookMap;
-
-        std::vector<Framework::IMVCViewUpdate<View::Updates::DocumentNameChangedUpdate> *>
-          m_documentNameChangedUpdatables;
+        boost::signals2::signal<void (View::Updates::DocumentNameChangedUpdate)> m_documentNameChangedUpdateSignal;
       };
     }
   }

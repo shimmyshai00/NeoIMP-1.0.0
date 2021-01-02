@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLERUPDATEHOOK_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLERUPDATEHOOK_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: The MVC controller for the application view.
+ * FILE:    IMVCControllerUpdateHook.hpp
+ * PURPOSE: Defines an interface for MVC controller update hooks.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,17 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <boost/signals2/connection.hpp>
 
-#include <IUIController.hpp>
-#include <View/IApplicationView.hpp>
+namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class UpdateType>
+  class IMVCControllerUpdateHook {
+  public:
+    virtual ~IMVCControllerUpdateHook() = default;
 
-namespace SDF::Impl::UILayer::Impl::Controller::Impl {
-  ApplicationController::ApplicationController(IUIController *uiController)
-    : m_uiController(uiController)
-  {}
-
-  void ApplicationController::handleEvent(View::Events::ExitCommandEvent event) {
-    m_uiController->closeApplicationView();
-  }
+    virtual boost::signals2::connection connectUpdateDestination(std::function<void (UpdateType)> dest) = 0;
+  };
 }
+
+#endif

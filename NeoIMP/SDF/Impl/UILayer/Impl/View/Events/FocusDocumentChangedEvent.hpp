@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_FOCUSDOCUMENTCHANGEDEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_FOCUSDOCUMENTCHANGEDEVENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: The MVC controller for the application view.
+ * FILE:    FocusDocumentChangedEvenet.hpp
+ * PURPOSE: Defines an event indicating the focus document has changed.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,17 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-#include <IUIController.hpp>
-#include <View/IApplicationView.hpp>
+#include <string>
 
-namespace SDF::Impl::UILayer::Impl::Controller::Impl {
-  ApplicationController::ApplicationController(IUIController *uiController)
-    : m_uiController(uiController)
-  {}
-
-  void ApplicationController::handleEvent(View::Events::ExitCommandEvent event) {
-    m_uiController->closeApplicationView();
-  }
+namespace SDF::Impl::UILayer::Impl::View::Events {
+  struct FocusDocumentChangedEvenet {
+    AbstractModel::Handle newFocusDocumentHandle;
+  };
 }
+
+
+#endif
