@@ -41,6 +41,7 @@ namespace SDF::Impl::UILayer {
   namespace Impl::View::Impl::Qt {
     class ApplicationView;
     class NewDocumentView;
+    class SaveDocumentView;
     class OpenDocumentsView;
     class DocumentView;
 
@@ -58,6 +59,7 @@ namespace SDF::Impl::UILayer {
 
       IApplicationView *getApplicationView();
       INewDocumentView *getNewDocumentView();
+      ISaveDocumentView *getSaveDocumentView();
       IOpenDocumentsView *getOpenDocumentsView();
       IDocumentView *getDocumentView(AbstractModel::Handle documentHandle);
     private:
@@ -66,6 +68,7 @@ namespace SDF::Impl::UILayer {
 
       std::unique_ptr<ApplicationView> m_applicationView;
       std::unique_ptr<NewDocumentView> m_newDocumentView;
+      std::unique_ptr<SaveDocumentView> m_saveDocumentView;
       std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
 
       std::map<AbstractModel::Handle, std::unique_ptr<DocumentView>> m_documentViews;

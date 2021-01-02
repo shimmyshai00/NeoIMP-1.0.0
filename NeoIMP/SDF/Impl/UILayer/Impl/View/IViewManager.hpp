@@ -32,8 +32,8 @@
 namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView;
   class INewDocumentView;
-  class IOpenDocumentsView;
   class ISaveDocumentView;
+  class IOpenDocumentsView;
   class IDocumentView;
 
   class IViewManager {
@@ -47,6 +47,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     // View access.
     virtual IApplicationView *getApplicationView() = 0;
     virtual INewDocumentView *getNewDocumentView() = 0;
+    virtual ISaveDocumentView *getSaveDocumentView() = 0;
     virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
     virtual IDocumentView *getDocumentView(AbstractModel::Handle documentHandle) = 0;
   };

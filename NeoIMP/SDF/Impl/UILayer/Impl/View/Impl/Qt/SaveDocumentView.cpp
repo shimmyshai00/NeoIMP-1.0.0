@@ -40,18 +40,29 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       QStringList selectedFiles(m_saveDocumentDialog->selectedFiles());
 
       if(selectedFiles[0] != selectedDirectory.path()) {
-        m_gotParamsSignal(selectedFiles[0].toStdString(), AbstractModel::Properties::FILE_FORMAT_PNG);
+        m_acceptSaveParametersSignal(Events::AcceptSaveParametersEvent {
+          selectedFiles[0].toStdString(),
+          AbstractModel::Properties::FILE_FORMAT_PNG
+        });
       }
     });
   }
 
+  QWidget *SaveDocumentView::getQWidget() {
+    return m_saveDocumentDialog;
+  }
+  
   void SaveDocumentView::show() {
     m_saveDocumentDialog->open();
   }
 
-  boost::signals2::connection SaveDocumentView::addGotParamsObserver(
-    std::function<void (std::string, AbstractModel::Properties::FileFormat)> observer
+  void SaveDocumentView::close() {
+    m_saveDocumentDialog->close();
+  }
+
+  boost::signals2::connection SaveDocumentView::connectEventListener(
+    std::function<void (Events::AcceptSaveParametersEvent)> listener
   ) {
-    return m_gotParamsSignal.connect(observer);
+    return m_acceptSaveParametersSignal.connect(listener);
   }
 }

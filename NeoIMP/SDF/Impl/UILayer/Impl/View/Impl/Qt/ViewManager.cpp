@@ -31,11 +31,13 @@
 
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
+#include <ISaveDocumentView.hpp>
 #include <IOpenDocumentsView.hpp>
 #include <IDocumentView.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 #include <OpenDocumentsView.hpp>
 #include <DocumentView.hpp>
 
@@ -50,6 +52,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_imageRenderingService(imageRenderingService),
       m_applicationView(new ApplicationView),
       m_newDocumentView(new NewDocumentView),
+      m_saveDocumentView(new SaveDocumentView),
       m_openDocumentsView(new OpenDocumentsView(m_imageInformationService))
   {
     // Assemble view hierarchy
@@ -87,6 +90,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   INewDocumentView *ViewManager::getNewDocumentView() {
     return m_newDocumentView.get();
+  }
+
+  ISaveDocumentView *ViewManager::getSaveDocumentView() {
+    return m_saveDocumentView.get();
   }
 
   IOpenDocumentsView *ViewManager::getOpenDocumentsView() {

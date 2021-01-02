@@ -24,20 +24,27 @@
 
 #include <ControllerManager.hpp>
 
+#include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Services/IDocumentStorageService.hpp>
+
 #include <IUIController.hpp>
 
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 #include <View/IOpenDocumentsView.hpp>
 
 #include <ApplicationController.hpp>
 #include <NewDocumentController.hpp>
+#include <SaveDocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Impl {
   ControllerManager::ControllerManager(
-    AbstractModel::Services::IDocumentCreationService *documentCreationService
+    AbstractModel::Services::IDocumentCreationService *documentCreationService,
+    AbstractModel::Services::IDocumentStorageService *documentStorageService
   )
-    : m_documentCreationService(documentCreationService)
+    : m_documentCreationService(documentCreationService),
+      m_documentStorageService(documentStorageService)
   {}
 
   ControllerManager::~ControllerManager() {}
@@ -47,10 +54,12 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
 
     m_applicationController = std::make_unique<ApplicationController>(uiController);
     m_newDocumentController = std::make_unique<NewDocumentController>(m_documentCreationService, uiController);
+    m_saveDocumentController = std::make_unique<SaveDocumentController>(m_documentStorageService, uiController);
   }
 
   void ControllerManager::registerApplicationView(View::IApplicationView *applicationView) {
     m_newDocumentController->hookNewCommandEvent(applicationView);
+    m_saveDocumentController->hookSaveAsCommandEvent(applicationView);
     m_applicationController->hookExitCommandEvent(applicationView);
   }
 
@@ -58,16 +67,26 @@ namespace SDF::Impl::UILayer::Impl::Controller::Impl {
     m_newDocumentController->hookAcceptDocumentParametersEvent(newDocumentView);
   }
 
+  void ControllerManager::registerSaveDocumentView(View::ISaveDocumentView *saveDocumentView) {
+    m_saveDocumentController->hookAcceptSaveParametersEvent(saveDocumentView);
+  }
+
   void ControllerManager::registerOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {
     m_newDocumentController->addDocumentAddedUpdatable(openDocumentsView);
   }
 
   void ControllerManager::unregisterApplicationView(View::IApplicationView *applicationView) {
+    m_newDocumentController->removeNewCommandHook(applicationView);
+    m_saveDocumentController->removeSaveAsCommandHook(applicationView);
     m_applicationController->removeExitCommandHook(applicationView);
   }
 
   void ControllerManager::unregisterNewDocumentView(View::INewDocumentView *newDocumentView) {
     m_newDocumentController->removeAcceptDocumentParametersHook(newDocumentView);
+  }
+
+  void ControllerManager::unregisterSaveDocumentView(View::ISaveDocumentView *saveDocumentView) {
+    m_saveDocumentController->removeAcceptSaveParametersHook(saveDocumentView);
   }
 
   void ControllerManager::unregisterOpenDocumentsView(View::IOpenDocumentsView *openDocumentsView) {

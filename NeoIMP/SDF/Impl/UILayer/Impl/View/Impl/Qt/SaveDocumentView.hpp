@@ -24,31 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
- #include <SDF/Impl/UILayer/Impl/View/ISaveDocumentView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Impl/Qt/IQtMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/ISaveDocumentView.hpp>
 
- #include <boost/signals2/signal.hpp>
+#include <boost/signals2/signal.hpp>
 
- #include <QPointer>
- #include <QFileDialog>
+#include <QPointer>
+#include <QFileDialog>
+#include <QWidget>
 
- namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-   namespace Dialogs {
-     class NewDocumentDialog;
-   }
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class SaveDocumentView : public IQtMVCView, public ISaveDocumentView {
+  public:
+    SaveDocumentView();
 
-   class SaveDocumentView : public ISaveDocumentView {
-   public:
-     SaveDocumentView();
+    QWidget *getQWidget();
 
-     void show();
+    void show();
+    void close();
 
-     boost::signals2::connection addGotParamsObserver(
-       std::function<void (std::string, AbstractModel::Properties::FileFormat)> observer
-     );
-   private:
-     QPointer<QFileDialog> m_saveDocumentDialog;
+    boost::signals2::connection connectEventListener(std::function<void (Events::AcceptSaveParametersEvent)> listener);
+  private:
+    QPointer<QFileDialog> m_saveDocumentDialog;
 
-     boost::signals2::signal<void (std::string, AbstractModel::Properties::FileFormat)> m_gotParamsSignal;
-   };
- }
+    boost::signals2::signal<void (Events::AcceptSaveParametersEvent)> m_acceptSaveParametersSignal;
+  };
+}
+
 #endif

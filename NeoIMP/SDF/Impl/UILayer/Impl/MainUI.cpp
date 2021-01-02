@@ -28,6 +28,7 @@
 #include <View/IViewManager.hpp>
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 
 #include <Controller/IControllerManager.hpp>
 
@@ -44,6 +45,7 @@ namespace SDF::Impl::UILayer::Impl {
 
     m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
     m_controllerManager->registerNewDocumentView(m_viewManager->getNewDocumentView());
+    m_controllerManager->registerSaveDocumentView(m_viewManager->getSaveDocumentView());
     m_controllerManager->registerOpenDocumentsView(m_viewManager->getOpenDocumentsView());
   }
 
@@ -61,12 +63,20 @@ namespace SDF::Impl::UILayer::Impl {
     m_viewManager->getNewDocumentView()->show();
   }
 
+  void MainUI::showSaveDocumentView() {
+    m_viewManager->getSaveDocumentView()->show();
+  }
+
   void MainUI::closeApplicationView() {
     m_viewManager->getApplicationView()->close();
   }
 
   void MainUI::closeNewDocumentView() {
     m_viewManager->getNewDocumentView()->close();
+  }
+
+  void MainUI::closeSaveDocumentView() {
+    m_viewManager->getSaveDocumentView()->close();
   }
 
   void MainUI::createDocumentView(AbstractModel::Handle documentHandle) {

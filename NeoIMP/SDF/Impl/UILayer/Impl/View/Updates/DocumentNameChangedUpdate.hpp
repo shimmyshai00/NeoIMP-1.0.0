@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_UPDATES_DOCUMENTNAMECHANGEDUPDATE_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_UPDATES_DOCUMENTNAMECHANGEDUPDATE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIController.hpp
- * PURPOSE: Interface for the global UI controller, which creates and destroys UI views.
+ * FILE:    DocumentNameChangedUpdate.hpp
+ * PURPOSE: The view update for when a document's name changes (e.g. after a save).
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,21 +26,12 @@
 
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIController {
-  public:
-    virtual ~IUIController() = default;
-
-    virtual void showApplicationView() = 0;
-    virtual void showNewDocumentView() = 0;
-    virtual void showSaveDocumentView() = 0;
-
-    virtual void closeApplicationView() = 0;
-    virtual void closeNewDocumentView() = 0;
-    virtual void closeSaveDocumentView() = 0;
-
-    virtual void createDocumentView(AbstractModel::Handle documentHandle) = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::View {
+  namespace Updates {
+    struct DocumentNameChangedUpdate {
+      AbstractModel::Handle handle;
+    };
+  }
 }
 
 #endif

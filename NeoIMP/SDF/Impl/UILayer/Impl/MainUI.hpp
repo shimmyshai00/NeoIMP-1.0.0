@@ -59,9 +59,11 @@ namespace SDF::Impl::UILayer {
 
       void showApplicationView();
       void showNewDocumentView();
+      void showSaveDocumentView();
 
       void closeApplicationView();
       void closeNewDocumentView();
+      void closeSaveDocumentView();
 
       void createDocumentView(AbstractModel::Handle documentHandle);
     private:
