@@ -29,7 +29,7 @@
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct FocusDocumentChangedEvenet {
+  struct FocusDocumentChangedEvent {
     AbstractModel::Handle newFocusDocumentHandle;
   };
 }
