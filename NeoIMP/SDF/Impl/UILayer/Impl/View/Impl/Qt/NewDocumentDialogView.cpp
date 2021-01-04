@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_FOCUSDOCUMENTCHANGEDEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_FOCUSDOCUMENTCHANGEDEVENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FocusDocumentChangedEvenet.hpp
- * PURPOSE: Defines an event indicating the focus document has changed.
+ * FILE:    NewDocumentDialogView.cpp
+ * PURPOSE: Implementation of the NewDocumentDialogView class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <NewDocumentDialogView.hpp>
 
-#include <string>
+#include <Dialogs/NewDocumentDialog.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct FocusDocumentChangedEvent {
-    AbstractModel::Handle newFocusDocumentHandle;
-  };
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  NewDocumentDialogView::NewDocumentDialogView()
+    : m_newDocumentDialog(new Dialogs::NewDocumentDialog)
+  {}
+
+  Dialogs::NewDocumentDialog *NewDocumentDialogView::getPresentation() {
+    return m_newDocumentDialog;
+  }
+
+  AbstractModel::Data::DocumentSpec NewDocumentDialogView::getEnteredSpec() {
+    return DocumentSpec {
+      "Untitled",
+      m_newDocumentDialog->getDocumentWidthPx(),
+      m_newDocumentDialog->getDocumentHeightPx(),
+      m_newDocumentDialog->getDocumentResolutionPpi(),
+      m_newDocumentDialog->getDocumentColorModel(),
+      m_newDocumentDialog->getDocumentBitDepth()
+    };
+  }
 }
-
-
-#endif

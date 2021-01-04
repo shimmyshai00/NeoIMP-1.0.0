@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IApplicationView.hpp
- * PURPOSE: Defines an interface for the application MVC view.
+ * PURPOSE: The widget system-agnostic interface for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ApplicationCommand.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView : public Framework::IMVCView,
-    public Framework::IMVCViewEventHook<Events::NewCommandEvent>,
-    public Framework::IMVCViewEventHook<Events::SaveAsCommandEvent>,
-    public Framework::IMVCViewEventHook<Events::ExitCommandEvent> {
+  class IApplicationView : public Framework::IMVCObservable<Events::ApplicationCommand> {
   public:
     virtual ~IApplicationView() = default;
   };

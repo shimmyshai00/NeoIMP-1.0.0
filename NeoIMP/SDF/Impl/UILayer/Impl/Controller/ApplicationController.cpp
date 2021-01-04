@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLEREVENTHANDLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLEREVENTHANDLER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCControllerEventHandler.hpp
- * PURPOSE: Defines an interface for MVC controller event handlers.
+ * FILE:    ApplicationController.cpp
+ * PURPOSE: The MVC controller for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +21,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
-  class IMVCControllerEventHandler {
-  public:
-    virtual ~IMVCControllerEventHandler() = default;
+#include <ApplicationController.hpp>
 
-    virtual void handleEvent(EventType event) = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::Controller {
+  ApplicationController::ApplicationController() {}
+
+  void ApplicationController::notify(View::Events::ApplicationCommand command) {
+
+  }
 }
-
-#endif

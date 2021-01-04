@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_UPDATES_DOCUMENTNAMECHANGEDUPDATE_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_UPDATES_DOCUMENTNAMECHANGEDUPDATE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentNameChangedUpdate.hpp
- * PURPOSE: The view update for when a document's name changes (e.g. after a save).
+ * FILE:    ViewComponent.cpp
+ * PURPOSE: The DI component for the view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <ViewComponent.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  namespace Updates {
-    struct DocumentNameChangedUpdate {
-      AbstractModel::Handle handle;
-    };
+#include <View/Impl/Qt/ViewManager.hpp>
+#include <ModelLayer/ModelComponent.hpp>
+
+namespace SDF::Impl::UILayer::Impl::View::Qt {
+  fruit::Component<IViewManager> getViewComponent() {
+    return fruit::createComponent()
+      .bind<IViewManager, View::Impl::Qt::ViewManager>()
+      .install(ModelLayer::getModelComponent);
   }
 }
-
-#endif

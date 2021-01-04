@@ -29,15 +29,32 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::ApplicationView()
     : m_mainWindow(new Windows::MainWindow)
   {
-    using namespace Windows;
-    using Events::ApplicationCommand;
-
-    QObject::connect(m_mainWindow, &MainWindow::newClicked, [=]() { notifyObservers(COMMAND_NEW) });
-    QObject::connect(m_mainWindow, &MainWindow::saveAsClicked, [=]() { notifyObservers(COMMAND_SAVE_AS); });
-    QObject::connect(m_mainWindow, &MainWindow::exitClicked, [=]() { notifyObservers(COMMAND_EXIT); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_newCommandSignal(Events::NewCommandEvent()); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() { m_saveAsCommandSignal(Events::SaveAsCommandEvent()); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_exitCommandSignal(Events::ExitCommandEvent()); });
   }
 
-  Windows::MainWindow *ApplicationView::getPresentation() {
+  QWidget *ApplicationView::getQWidget() {
     return m_mainWindow;
+  }
+
+  void ApplicationView::show() {
+    m_mainWindow->show();
+  }
+
+  void ApplicationView::close() {
+    m_mainWindow->close();
+  }
+
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::NewCommandEvent)> listener) {
+    return m_newCommandSignal.connect(listener);
+  }
+
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::SaveAsCommandEvent)> listener) {
+    return m_saveAsCommandSignal.connect(listener);
+  }
+
+  boost::signals2::connection ApplicationView::connectEventListener(std::function<void (Events::ExitCommandEvent)> listener) {
+    return m_exitCommandSignal.connect(listener);
   }
 }

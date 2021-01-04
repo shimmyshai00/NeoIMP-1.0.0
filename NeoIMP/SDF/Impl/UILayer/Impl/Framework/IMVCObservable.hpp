@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLERUPDATEHOOK_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLERUPDATEHOOK_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOBSERVABLE_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOBSERVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCControllerUpdateHook.hpp
- * PURPOSE: Defines an interface for MVC controller update hooks.
+ * FILE:    IMVCObservable.hpp
+ * PURPOSE: Provides an interface for MVC observables. For cutting down on boilerplate.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,12 +27,12 @@
 #include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class UpdateType>
-  class IMVCControllerUpdateHook {
+  template<class ObservableType, class EventType>
+  class IMVCObservable {
   public:
-    virtual ~IMVCControllerUpdateHook() = default;
+    virtual ~IMVCObservable() = 0;
 
-    virtual boost::signals2::connection connectUpdateDestination(std::function<void (UpdateType)> dest) = 0;
+    virtual boost::signals2::connection attachObserver(IMVCObserver<ObservableType, EventType> *observer) = 0;
   };
 }
 

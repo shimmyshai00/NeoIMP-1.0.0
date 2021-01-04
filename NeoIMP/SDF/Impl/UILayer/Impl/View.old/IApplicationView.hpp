@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTDOCUMENTPARAMETERSEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTDOCUMENTPARAMETERSEVENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AcceptDocumentParametersEvent.hpp
- * PURPOSE: Defines an interface for an event containing parameters for a new document to create.
+ * FILE:    IApplicationView.hpp
+ * PURPOSE: Defines an interface for the application MVC view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct AcceptDocumentParametersEvent {
-    AbstractModel::Data::DocumentSpec spec;
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+
+namespace SDF::Impl::UILayer::Impl::View {
+  class IApplicationView : public Framework::IMVCView,
+    public Framework::IMVCViewEventHook<Events::NewCommandEvent>,
+    public Framework::IMVCViewEventHook<Events::SaveAsCommandEvent>,
+    public Framework::IMVCViewEventHook<Events::ExitCommandEvent> {
+  public:
+    virtual ~IApplicationView() = default;
   };
 }
 

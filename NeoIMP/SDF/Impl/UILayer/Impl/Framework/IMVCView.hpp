@@ -25,12 +25,13 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class ContextViewType, class PresentationData>
   class IMVCView {
   public:
     virtual ~IMVCView() = default;
 
-    virtual void show() = 0;
-    virtual void close() = 0;
+    virtual void setContextView(ContextViewType *contextView) {};
+    virtual PresentationData *getPresentation() = 0;
   };
 }
 

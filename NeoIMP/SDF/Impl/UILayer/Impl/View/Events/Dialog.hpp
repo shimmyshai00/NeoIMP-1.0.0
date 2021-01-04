@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_SAVEASCOMMANDEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_SAVEASCOMMANDEVENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_DIALOG_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_DIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    SaveAsCommandEvent.hpp
- * PURPOSE: Defines an interface for an event representing the "save as" command.
+ * FILE:    Dialog.hpp
+ * PURPOSE: Event type for dialog events.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,10 @@
  */
 
 namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct SaveAsCommandEvent {};
+  enum Dialog {
+    DIALOG_ACCEPT,
+    DIALOG_REJECT
+  };
 }
 
 #endif

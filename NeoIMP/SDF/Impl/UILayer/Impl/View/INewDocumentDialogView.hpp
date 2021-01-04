@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTDIALOGVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTDIALOGVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ExitCommandEvent.hpp
- * PURPOSE: Defines an interface for an event representing the "exit" command.
+ * FILE:    INewDocumentDialogView.hpp
+ * PURPOSE: The widget system-agnostic interface for the new-document dialog.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct ExitCommandEvent {};
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/Dialog.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+
+namespace SDF::Impl::UILayer::Impl::View {
+  class INewDocumentDialogView : public Framework::IMVCObservable<Events::Dialog> {
+  public:
+    virtual ~INewDocumentDialogView() = default;
+
+    virtual AbstractModel::Data::DocumentSpec getEnteredSpec() = 0;
+  };
 }
 
 #endif

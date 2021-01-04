@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWUPDATE_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWUPDATE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCViewUpdate.hpp
- * PURPOSE: Defines an interface for MVC view updates.
+ * FILE:    MVCObservable.hpp
+ * PURPOSE: Provides a template for the boilerplate for MVC observables. Wraps Boost::Signals2.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class UpdateType>
-  class IMVCViewUpdate {
-  public:
-    virtual ~IMVCViewUpdate() = default;
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 
-    virtual void update(UpdateType updateData) = 0;
+#include <boost/signals2/signal.hpp>
+
+namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class ObservableType, class EventType>
+  class MVCObservable : public IMVCObservable<ObservableType, EventType> {
+  public:
+    MVCObservable() {}
+
+    boost::signals2::connection attachObserver(IMVCObserver<ObservableType, EventType> *observer) {
+      return m_signal.connect([=](EventType e) { observer->notify(this, e); });
+    }
+  protected:
+    void notifyObservers(EventType event) {
+      m_signal(event);
+    }
+  private:
+    boost::signals2::signal<void (ObservableType &, EventType)> m_signal;
   };
 }
 
