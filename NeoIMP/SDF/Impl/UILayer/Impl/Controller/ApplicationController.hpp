@@ -35,7 +35,7 @@
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IViewFactory;
-    class IApplicationView;
+    class IApplicationViewComposite;
   }
 
   namespace Controller {
@@ -53,8 +53,8 @@ namespace SDF::Impl::UILayer::Impl {
       void notify(View::Events::ExitCommandEvent event);
     private:
       View::IViewFactory *m_viewFactory;
-      
-      std::unique_ptr<View::IApplicationView> m_applicationView;
+
+      std::unique_ptr<View::IApplicationViewComposite> m_applicationViewComposite;
 
       Framework::MVCConnectionManager m_connectionManager;
     };

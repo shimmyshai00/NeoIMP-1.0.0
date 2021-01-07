@@ -23,17 +23,26 @@
 
 #include <ViewFactory.hpp>
 
-#include <IApplicationView.hpp>
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
+
+#include <IApplicationViewComposite.hpp>
 #include <INewDocumentView.hpp>
 
-#include <ApplicationView.hpp>
+#include <ApplicationViewComposite.hpp>
 #include <NewDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory() {}
+  ViewFactory::ViewFactory(
+    AbstractModel::Services::IImageInformationService *imageInformationService,
+    AbstractModel::Services::IImageRenderingService *imageRenderingService
+  )
+    : m_imageInformationService(imageInformationService),
+      m_imageRenderingService(imageRenderingService)
+  {}
 
-  std::unique_ptr<IApplicationView> ViewFactory::createApplicationView() {
-    return std::make_unique<ApplicationView>();
+  std::unique_ptr<IApplicationViewComposite> ViewFactory::createApplicationViewComposite() {
+    return std::make_unique<ApplicationViewComposite>(m_imageInformationService, m_imageRenderingService);
   }
 
   std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {

@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBJECT_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBJECT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEWCOMPOSITE_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEWCOMPOSITE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCObject.hpp
- * PURPOSE: Provides a dynamic, hierarchical container base for ownership of MVC views and controllers.
+ * FILE:    IApplicationViewManager.hpp
+ * PURPOSE: The interface for the composite application view, which is composited from a number of non-interchangeable
+ *          component subviews.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +25,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCObject {
+namespace SDF::Impl::UILayer::Impl::View {
+  class IApplicationView;
+  class IDocumentView;
+
+  class IApplicationViewComposite {
   public:
-    MVCObject();
-    virtual ~MVCObject() = 0;
+    virtual ~IApplicationViewComposite() = default;
 
-    // Hierarchy methods.
-    MVCObject *getParent();
-    MVCObject *getFirstChild();
-    MVCObject *getNextSibling();
+    virtual IApplicationView *getApplicationView() = 0;
+    virtual IDocumentView *getDocumentView(AbstractModel::Handle handle) = 0;
 
-    void addChild(std::shared_ptr<MVCObject> child);
-    std::shared_ptr<MVCObject> unlink();
-  private:
-    MVCObject *m_parent;
-    std::shared_ptr<MVCObject> m_firstChild;
-    std::shared_ptr<MVCObject> m_nextSibling;
+    virtual void addDocument(AbstractModel::Handle handle) = 0;
   };
 }
 

@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
@@ -33,10 +34,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public IApplicationView {
+  class ApplicationView : public IMVCViewDetail<Windows::MainWindow>, public IApplicationView {
   public:
     ApplicationView();
 
+    Windows::MainWindow *getDetail();
+    
     void show();
     void close();
   private:

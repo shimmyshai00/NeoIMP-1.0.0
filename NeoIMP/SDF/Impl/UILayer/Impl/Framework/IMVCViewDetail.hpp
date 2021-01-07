@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBJECT_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBJECT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEWDETAIL_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEWDETAIL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCObject.hpp
- * PURPOSE: Provides a dynamic, hierarchical container base for ownership of MVC views and controllers.
+ * FILE:    IMVCViewDetail.hpp
+ * PURPOSE: An interface providing access to the detail of an MVC view. Used internally within view implementations
+ *          only.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +25,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCObject {
+namespace SDF::Impl::UILayer::Impl::View {
+  template<class DetailType>
+  class IMVCViewDetail {
   public:
-    MVCObject();
-    virtual ~MVCObject() = 0;
+    virtual ~IMVCViewDetail() = default;
 
-    // Hierarchy methods.
-    MVCObject *getParent();
-    MVCObject *getFirstChild();
-    MVCObject *getNextSibling();
-
-    void addChild(std::shared_ptr<MVCObject> child);
-    std::shared_ptr<MVCObject> unlink();
-  private:
-    MVCObject *m_parent;
-    std::shared_ptr<MVCObject> m_firstChild;
-    std::shared_ptr<MVCObject> m_nextSibling;
+    virtual DetailType *getDetail() = 0;
   };
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_DOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewFactory.hpp
- * PURPOSE: The Qt-based view factory implementation.
+ * FILE:    DocumentView.hpp
+ * PURPOSE: Headers for the Qt-based document view implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 
-#include <fruit/fruit.h>
+#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
+
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+
+#include <QPointer>
+#include <QTabWidget>
+#include <memory>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -35,18 +41,34 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::View::Impl::Qt {
-    class ViewFactory : public IViewFactory {
-    public:
-      INJECT(ViewFactory(
-        AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService
-      ));
+    namespace CustomWidgets {
+      class DocumentWidget;
+      class IImageDataSource;
+    }
 
-      std::unique_ptr<IApplicationViewComposite> createApplicationViewComposite();
-      std::unique_ptr<INewDocumentView> createNewDocumentView();
+    class DocumentView : public IMVCViewDetail<CustomWidgets::DocumentWidget>, public IDocumentView {
+    public:
+      DocumentView(
+        QPointer<QTabWidget> tabWidget,
+        AbstractModel::Services::IImageInformationService *imageInformationService,
+        AbstractModel::Services::IImageRenderingService *imageRenderingService,
+        AbstractModel::Handle documentHandle
+      );
+
+      ~DocumentView();
+
+      CustomWidgets::DocumentWidget *getDetail();
+
+      void notifyDocumentNameChanged();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+
+      QPointer<QTabWidget> m_tabWidget;
+      QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
+
+      AbstractModel::Handle m_documentHandle;
+      std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
     };
   }
 }

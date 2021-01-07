@@ -43,6 +43,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     });
   }
 
+  Windows::MainWindow *ApplicationView::getDetail() {
+    return m_mainWindow;
+  }
+  
   void ApplicationView::show() {
     m_mainWindow->show();
   }

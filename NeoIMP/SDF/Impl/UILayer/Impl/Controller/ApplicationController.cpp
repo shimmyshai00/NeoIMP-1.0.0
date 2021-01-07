@@ -24,6 +24,7 @@
 #include <ApplicationController.hpp>
 
 #include <View/IViewFactory.hpp>
+#include <View/IApplicationViewComposite.hpp>
 #include <View/IApplicationView.hpp>
 
 #include <NewDocumentController.hpp>
@@ -31,21 +32,23 @@
 namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::ApplicationController(View::IViewFactory *viewFactory)
     : m_viewFactory(viewFactory),
-      m_applicationView(viewFactory->createApplicationView())
+      m_applicationViewComposite(viewFactory->createApplicationViewComposite())
   {
-    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(this));
-    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(this));
-    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(this));
+    View::IApplicationView *applicationView(m_applicationViewComposite->getApplicationView());
 
-    m_applicationView->show();
+    m_connectionManager.addConnection(applicationView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(applicationView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(applicationView->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(this));
+
+    applicationView->show();
   }
 
   ApplicationController::~ApplicationController() {}
 
   void ApplicationController::notify(View::Events::NewCommandEvent event) {
     // Get the parameters for creating the new document from the user.
-    std::unique_ptr<NewDocumentController> controller(new NewDocumentController(m_viewFactory));
-    addChild(std::move(controller));
+    std::shared_ptr<NewDocumentController> controller(new NewDocumentController(m_viewFactory));
+    addChild(controller);
   }
 
   void ApplicationController::notify(View::Events::SaveAsCommandEvent event) {
@@ -53,6 +56,8 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   }
 
   void ApplicationController::notify(View::Events::ExitCommandEvent event) {
-    m_applicationView->close();
+    View::IApplicationView *applicationView(m_applicationViewComposite->getApplicationView());
+
+    applicationView->close();
   }
 }

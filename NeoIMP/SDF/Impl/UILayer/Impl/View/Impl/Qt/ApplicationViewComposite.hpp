@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEWCOMPOSITE_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEWCOMPOSITE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewFactory.hpp
- * PURPOSE: The Qt-based view factory implementation.
+ * FILE:    ApplicationViewComposite.hpp
+ * PURPOSE: The Qt-based application view composite.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IApplicationViewComposite.hpp>
 
-#include <fruit/fruit.h>
+#include <QPointer>
+#include <QTabWidget>
+
+#include <map>
+#include <memory>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -35,18 +39,30 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::View::Impl::Qt {
-    class ViewFactory : public IViewFactory {
+    class ApplicationView;
+    class DocumentView;
+
+    class ApplicationViewComposite : public IApplicationViewComposite {
     public:
-      INJECT(ViewFactory(
+      ApplicationViewComposite(
         AbstractModel::Services::IImageInformationService *imageInformationService,
         AbstractModel::Services::IImageRenderingService *imageRenderingService
-      ));
+      );
 
-      std::unique_ptr<IApplicationViewComposite> createApplicationViewComposite();
-      std::unique_ptr<INewDocumentView> createNewDocumentView();
+      ~ApplicationViewComposite();
+
+      IApplicationView *getApplicationView();
+      IDocumentView *getDocumentView(AbstractModel::Handle handle);
+
+      void addDocument(AbstractModel::Handle handle);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+
+      std::unique_ptr<ApplicationView> m_applicationView;
+      QPointer<QTabWidget> m_tabWidget;
+
+      std::map<AbstractModel::Handle, std::unique_ptr<DocumentView>> m_documentViews;
     };
   }
 }

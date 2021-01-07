@@ -42,7 +42,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     return m_nextSibling.get();
   }
 
-  void MVCObject::addChild(std::unique_ptr<MVCObject> child) {
+  void MVCObject::addChild(std::shared_ptr<MVCObject> child) {
     // Add this child to the end of the sibling list.
     if(!m_firstChild) {
       m_firstChild = std::move(child);
@@ -56,7 +56,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     }
   }
 
-  std::unique_ptr<MVCObject> MVCObject::unlink() {
+  std::shared_ptr<MVCObject> MVCObject::unlink() {
     // Remove this MVC object from its parent.
     if(m_parent == nullptr) {
       // ERROR!
@@ -64,20 +64,20 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     } else {
       // Excise from the sibling list.
       if(m_parent->getFirstChild() == this) {
-        std::unique_ptr<MVCObject> selfPtr(std::move(m_parent->m_firstChild));
-        m_parent->m_firstChild = std::move(selfPtr->m_nextSibling);
+        std::shared_ptr<MVCObject> selfPtr(m_parent->m_firstChild);
+        m_parent->m_firstChild = selfPtr->m_nextSibling;
 
-        return std::move(selfPtr);
+        return selfPtr;
       } else {
         MVCObject *curSibling(m_parent->m_firstChild.get());
         while(curSibling->getNextSibling() != this) {
           curSibling = curSibling->getNextSibling();
         }
 
-        std::unique_ptr<MVCObject> selfPtr(std::move(curSibling->m_nextSibling));
-        curSibling->m_nextSibling = std::move(selfPtr->m_nextSibling);
+        std::shared_ptr<MVCObject> selfPtr(curSibling->m_nextSibling);
+        curSibling->m_nextSibling = selfPtr->m_nextSibling;
 
-        return std::move(selfPtr);
+        return selfPtr;
       }
     }
   }
