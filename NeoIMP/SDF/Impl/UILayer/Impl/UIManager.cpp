@@ -37,13 +37,13 @@ namespace SDF::Impl::UILayer::Impl {
     std::unique_ptr<Controller::ApplicationController> controller(new Controller::ApplicationController(view.get()));
 
     m_viewConnections[m_nextViewId].push_back(
-      view->Framework::IMVCObservable<View::Events::NewCommandEvent>::attachObserver(controller.get())
+      view->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(controller.get())
     );
     m_viewConnections[m_nextViewId].push_back(
-      view->Framework::IMVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(controller.get())
+      view->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(controller.get())
     );
     m_viewConnections[m_nextViewId].push_back(
-      view->Framework::IMVCObservable<View::Events::ExitCommandEvent>::attachObserver(controller.get())
+      view->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(controller.get())
     );
 
     m_applicationViews[m_nextViewId] = std::move(view);

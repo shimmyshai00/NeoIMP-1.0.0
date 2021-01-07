@@ -27,8 +27,6 @@
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
-
 #include <QPointer>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
@@ -36,16 +34,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public IApplicationView, public Framework::IMVCViewDetail<Windows::MainWindow>,
-    public Framework::MVCObservable<Events::NewCommandEvent>,
-    public Framework::MVCObservable<Events::SaveAsCommandEvent>,
-    public Framework::MVCObservable<Events::ExitCommandEvent>
-  {
+  class ApplicationView : public IApplicationView, public Framework::IMVCViewDetail<Windows::MainWindow> {
   public:
     ApplicationView();
 
     Windows::MainWindow *getDetail();
-    
+
     void show();
     void close();
   private:

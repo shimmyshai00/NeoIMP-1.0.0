@@ -24,14 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 
 #include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
   template<class EventType>
-  class MVCObservable : public virtual IMVCObservable<EventType> {
+  class MVCObservable {
   public:
     MVCObservable() {}
 
