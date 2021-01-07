@@ -33,6 +33,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   class MVCObservable {
   public:
     MVCObservable() {}
+    virtual ~MVCObservable() = 0;
 
     boost::signals2::connection attachObserver(IMVCObserver<EventType> *observer) {
       return m_signal.connect([=](EventType e) { observer->notify(e); });
@@ -44,6 +45,9 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   private:
     boost::signals2::signal<void (EventType)> m_signal;
   };
+
+  template<class EventType>
+  MVCObservable<EventType>::~MVCObservable() {}
 }
 
 #endif
