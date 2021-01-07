@@ -26,6 +26,8 @@
 
 #include <SDF/Exception/Exception.hpp>
 
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+
 namespace SDF::Impl::UILayer::Exceptions {
   struct RemovedRootViewException : public SDF::Exception::Exception {
     RemovedRootViewException() : Exception("Tried to remove a root view from its view hierarchy.") {}

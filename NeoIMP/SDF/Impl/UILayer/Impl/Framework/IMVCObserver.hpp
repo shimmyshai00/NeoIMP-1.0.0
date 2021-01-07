@@ -27,12 +27,12 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class ObservableType, class EventType>
+  template<class EventType>
   class IMVCObserver {
   public:
-    virtual ~IMVCObserver() = 0;
+    virtual ~IMVCObserver() = default;
 
-    virtual void notify(ObservableType &observable, EventType e) = 0;
+    virtual void notify(EventType e) = 0;
   };
 }
 

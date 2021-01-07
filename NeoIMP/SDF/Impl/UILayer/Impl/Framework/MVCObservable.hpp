@@ -30,20 +30,20 @@
 #include <boost/signals2/signal.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class ObservableType, class EventType>
-  class MVCObservable : public IMVCObservable<ObservableType, EventType> {
+  template<class EventType>
+  class MVCObservable : public virtual IMVCObservable<EventType> {
   public:
     MVCObservable() {}
 
-    boost::signals2::connection attachObserver(IMVCObserver<ObservableType, EventType> *observer) {
-      return m_signal.connect([=](EventType e) { observer->notify(this, e); });
+    boost::signals2::connection attachObserver(IMVCObserver<EventType> *observer) {
+      return m_signal.connect([=](EventType e) { observer->notify(e); });
     }
   protected:
     void notifyObservers(EventType event) {
       m_signal(event);
     }
   private:
-    boost::signals2::signal<void (ObservableType &, EventType)> m_signal;
+    boost::signals2::signal<void (EventType)> m_signal;
   };
 }
 

@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.cpp
- * PURPOSE: The MVC controller for the application view.
+ * PURPOSE: Implementation of the application controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,26 @@
 
 #include <ApplicationController.hpp>
 
+#include <View/IApplicationView.hpp>
+
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController() {}
+  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
+    : m_applicationView(applicationView)
+  {}
 
-  void ApplicationController::notify(View::Events::ApplicationCommand command) {
+  void ApplicationController::showApplicationView() {
+    m_applicationView->show();
+  }
 
+  void ApplicationController::notify(View::Events::NewCommandEvent event) {
+
+  }
+
+  void ApplicationController::notify(View::Events::SaveAsCommandEvent event) {
+
+  }
+
+  void ApplicationController::notify(View::Events::ExitCommandEvent event) {
+    m_applicationView->close();
   }
 }

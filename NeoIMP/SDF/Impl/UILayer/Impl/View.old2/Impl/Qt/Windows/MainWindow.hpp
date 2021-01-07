@@ -1,12 +1,11 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTDIALOGVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_INEWDOCUMENTDIALOGVIEW_HPP
-
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    INewDocumentDialogView.hpp
- * PURPOSE: The widget system-agnostic interface for the new-document dialog.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: The Qt object corresponding to the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +23,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
+#include <QWidget>
+#include <QMainWindow>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/Dialog.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <QString>
+#include <QPointer>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentDialogView : public Framework::IMVCObservable<Events::Dialog> {
+#include <memory>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
+  class MainWindow : public QMainWindow {
+    Q_OBJECT
   public:
-    virtual ~INewDocumentDialogView() = default;
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-    virtual AbstractModel::Data::DocumentSpec getEnteredSpec() = 0;
+    void addPrincipalWidget(QWidget *widget);
+  signals:
+    void newClicked();
+    void saveAsClicked();
+    void exitClicked();
+  private:
+    std::unique_ptr<Ui::MainWindow> m_ui;
   };
 }
 

@@ -1,9 +1,13 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWDETAIL_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEWDETAIL_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialogView.cpp
- * PURPOSE: Implementation of the NewDocumentDialogView class.
+ * FILE:    IMVCViewDetail.hpp
+ * PURPOSE: Provides an interface for MVC views to get the widget implementation-specific detail for the view. This is
+ *          only used internally within each widget system-based implementation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,27 +25,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <NewDocumentDialogView.hpp>
+namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class T>
+  class IMVCViewDetail {
+  public:
+    virtual ~IMVCViewDetail() = default;
 
-#include <Dialogs/NewDocumentDialog.hpp>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  NewDocumentDialogView::NewDocumentDialogView()
-    : m_newDocumentDialog(new Dialogs::NewDocumentDialog)
-  {}
-
-  Dialogs::NewDocumentDialog *NewDocumentDialogView::getPresentation() {
-    return m_newDocumentDialog;
-  }
-
-  AbstractModel::Data::DocumentSpec NewDocumentDialogView::getEnteredSpec() {
-    return DocumentSpec {
-      "Untitled",
-      m_newDocumentDialog->getDocumentWidthPx(),
-      m_newDocumentDialog->getDocumentHeightPx(),
-      m_newDocumentDialog->getDocumentResolutionPpi(),
-      m_newDocumentDialog->getDocumentColorModel(),
-      m_newDocumentDialog->getDocumentBitDepth()
-    };
-  }
+    virtual T *getDetail() = 0;
+  };
 }
+
+#endif

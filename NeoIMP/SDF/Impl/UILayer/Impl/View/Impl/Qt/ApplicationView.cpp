@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationView.cpp
- * PURPOSE: Implementation of the ApplicationView class.
+ * PURPOSE: The Qt-based application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,19 +25,33 @@
 
 #include <Windows/MainWindow.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView()
-    : m_mainWindow(new Windows::MainWindow)
-  {
-    using namespace Windows;
-    using Events::ApplicationCommand;
+#include <QObject>
 
-    QObject::connect(m_mainWindow, &MainWindow::newClicked, [=]() { notifyObservers(COMMAND_NEW) });
-    QObject::connect(m_mainWindow, &MainWindow::saveAsClicked, [=]() { notifyObservers(COMMAND_SAVE_AS); });
-    QObject::connect(m_mainWindow, &MainWindow::exitClicked, [=]() { notifyObservers(COMMAND_EXIT); });
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  ApplicationView::ApplicationView() : m_mainWindow(new Windows::MainWindow) {
+    // Hook events.
+    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
+      Framework::MVCObservable<Events::NewCommandEvent>::notifyObservers(Events::NewCommandEvent());
+    });
+
+    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() {
+      Framework::MVCObservable<Events::SaveAsCommandEvent>::notifyObservers(Events::SaveAsCommandEvent());
+    });
+
+    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
+      Framework::MVCObservable<Events::ExitCommandEvent>::notifyObservers(Events::ExitCommandEvent());
+    });
   }
 
-  Windows::MainWindow *ApplicationView::getPresentation() {
+  Windows::MainWindow *ApplicationView::getDetail() {
     return m_mainWindow;
+  }
+
+  void ApplicationView::show() {
+    m_mainWindow->show();
+  }
+
+  void ApplicationView::close() {
+    m_mainWindow->close();
   }
 }

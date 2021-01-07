@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONCONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_IMPL_APPLICATIONCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_IMPL_APPLICATIONCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.hpp
- * PURPOSE: The MVC controller for the application view.
+ * PURPOSE: Implementation of the application controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,32 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/ApplicationCommand.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  class ApplicationController : public Framework::IMVCObserver<View::Events::ApplicationCommand> {
-  public:
-    ApplicationController();
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
-    void notify(View::Events::ApplicationCommand command);
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IApplicationView;
+  }
+
+  namespace Controller {
+    class ApplicationController : public Framework::IMVCObserver<View::Events::NewCommandEvent>,
+      public Framework::IMVCObserver<View::Events::SaveAsCommandEvent>,
+      public Framework::IMVCObserver<View::Events::ExitCommandEvent>
+    {
+    public:
+      ApplicationController(View::IApplicationView *applicationView);
+
+      void showApplicationView();
+
+      void notify(View::Events::NewCommandEvent event);
+      void notify(View::Events::SaveAsCommandEvent event);
+      void notify(View::Events::ExitCommandEvent event);
+    private:
+      View::IApplicationView *m_applicationView;
+    };
   }
 }
 

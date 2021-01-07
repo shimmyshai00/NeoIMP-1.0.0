@@ -23,63 +23,24 @@
 
 #include <MainUI.hpp>
 
-#include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <UIManager.hpp>
 
-#include <View/IViewManager.hpp>
+#include <View/IViewFactory.hpp>
 #include <View/IApplicationView.hpp>
-#include <View/INewDocumentView.hpp>
-#include <View/ISaveDocumentView.hpp>
-
-#include <Controller/IControllerManager.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(
-    AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::IViewManager *viewManager,
-    Controller::IControllerManager *controllerManager
-  )
-    : m_viewManager(viewManager),
-      m_controllerManager(controllerManager)
-  {
-    m_controllerManager->setUIController(this);
-
-    m_controllerManager->registerApplicationView(m_viewManager->getApplicationView());
-    m_controllerManager->registerNewDocumentView(m_viewManager->getNewDocumentView());
-    m_controllerManager->registerSaveDocumentView(m_viewManager->getSaveDocumentView());
-    m_controllerManager->registerOpenDocumentsView(m_viewManager->getOpenDocumentsView());
-  }
+  MainUI::MainUI(UIManager *uiManager, View::IViewFactory *viewFactory)
+    : m_uiManager(uiManager),
+      m_viewFactory(viewFactory)
+  {}
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    showApplicationView();
-  }
+    std::unique_ptr<View::IApplicationView> applicationView(m_viewFactory->createApplicationView());
+    View::IApplicationView *applicationViewPtr(applicationView.get());
 
-  void MainUI::showApplicationView() {
-    m_viewManager->getApplicationView()->show();
-  }
-
-  void MainUI::showNewDocumentView() {
-    m_viewManager->getNewDocumentView()->show();
-  }
-
-  void MainUI::showSaveDocumentView() {
-    m_viewManager->getSaveDocumentView()->show();
-  }
-
-  void MainUI::closeApplicationView() {
-    m_viewManager->getApplicationView()->close();
-  }
-
-  void MainUI::closeNewDocumentView() {
-    m_viewManager->getNewDocumentView()->close();
-  }
-
-  void MainUI::closeSaveDocumentView() {
-    m_viewManager->getSaveDocumentView()->close();
-  }
-
-  void MainUI::createDocumentView(AbstractModel::Handle documentHandle) {
-    m_viewManager->createDocumentView(documentHandle);
+    m_uiManager->retainView(std::move(applicationView));
+    applicationViewPtr->show();
   }
 }

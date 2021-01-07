@@ -24,21 +24,18 @@
 #include <UIComponent.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <Impl/View/IViewManager.hpp>
-#include <Impl/Controller/IControllerManager.hpp>
+#include <Impl/View/IViewFactory.hpp>
 
+#include <Impl/UIManager.hpp>
 #include <Impl/MainUI.hpp>
 #include <Impl/View/Qt/ViewComponent.hpp>
-#include <Impl/Controller/ControllerComponent.hpp>
 #include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::UILayer {
   fruit::Component<IUIEntryPoint> getUIComponent() {
     return fruit::createComponent()
       .bind<IUIEntryPoint, Impl::MainUI>()
-      .bind<Impl::IUIController, Impl::MainUI>()
       .install(Impl::View::Qt::getViewComponent)
-      .install(Impl::Controller::getControllerComponent)
       .install(ModelLayer::getModelComponent);
   }
 }

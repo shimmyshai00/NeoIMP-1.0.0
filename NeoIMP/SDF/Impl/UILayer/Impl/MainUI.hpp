@@ -25,50 +25,29 @@
  */
 
 #include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
-#include <SDF/Impl/UILayer/Impl/IUIController.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
 #include <map>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractModel::Services {
-    class IDocumentCreationService;
-  }
-
   namespace Impl {
     namespace View {
-      class IViewManager;
+      class IViewFactory;
     }
 
-    namespace Controller {
-      class IControllerManager;
-    }
+    class UIManager;
 
-    class MainUI : public IUIEntryPoint, public IUIController {
+    class MainUI : public IUIEntryPoint {
     public:
-      INJECT(MainUI(
-        AbstractModel::Services::IDocumentCreationService *documentCreationService,
-        View::IViewManager *viewManager,
-        Controller::IControllerManager *controllerManager
-      ));
+      INJECT(MainUI(UIManager *uiManager, View::IViewFactory *viewFactory));
 
       ~MainUI();
 
       void start();
-
-      void showApplicationView();
-      void showNewDocumentView();
-      void showSaveDocumentView();
-
-      void closeApplicationView();
-      void closeNewDocumentView();
-      void closeSaveDocumentView();
-
-      void createDocumentView(AbstractModel::Handle documentHandle);
     private:
-      View::IViewManager *m_viewManager;
-      Controller::IControllerManager *m_controllerManager;
+      UIManager *m_uiManager;
+      View::IViewFactory *m_viewFactory;
     };
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTDIALOGVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTDIALOGVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialogView.hpp
- * PURPOSE: Headers for the Qt-based new-document dialog view implementation.
+ * FILE:    ISaveDocumentView.hpp
+ * PURPOSE: Defines an interface for the MVC view to get parameters for saving a document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,28 +25,15 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewEventHook.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/AcceptSaveParametersEvent.hpp>
 
-#include <QPointer>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Dialogs {
-    class NewDocumentDialog;
-  }
-
-  class NewDocumentDialogView : public Framework::IMVCView<void, Dialogs::NewDocumentDialog>,
-    public INewDocumentDialogView,
-    public Framework::MVCObservable<Events::Dialog> {
+namespace SDF::Impl::UILayer::Impl::View {
+  class ISaveDocumentView : public Framework::IMVCView,
+    public Framework::IMVCViewEventHook<Events::AcceptSaveParametersEvent> {
   public:
-    NewDocumentDialogView();
-
-    Dialogs::NewDocumentDialog *getPresentation();
-
-    AbstractModel::Data::DocumentSpec getEnteredSpec();
-  private:
-    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
+    virtual ~ISaveDocumentView() = default;
   };
 }
 

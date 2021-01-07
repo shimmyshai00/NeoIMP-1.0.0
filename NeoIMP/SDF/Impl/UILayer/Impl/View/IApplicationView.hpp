@@ -24,15 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObservable.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/ApplicationCommand.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView : public Framework::IMVCObservable<Events::ApplicationCommand> {
+  class IApplicationView : public virtual Framework::IMVCObservable<Events::NewCommandEvent>,
+    public virtual Framework::IMVCObservable<Events::SaveAsCommandEvent>,
+    public virtual Framework::IMVCObservable<Events::ExitCommandEvent> {
   public:
     virtual ~IApplicationView() = default;
+
+    virtual void show() = 0;
+    virtual void close() = 0;
   };
 }
 

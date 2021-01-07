@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCView.hpp
- * PURPOSE: Defines an interface for MVC views.
+ * FILE:    ApplicationView.hpp
+ * PURPOSE: Headers for the Qt-based application view implementation. This wraps the main window.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class ContextViewType, class PresentationData>
-  class IMVCView {
-  public:
-    virtual ~IMVCView() = default;
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
-    virtual void setContextView(ContextViewType *contextView) {};
-    virtual PresentationData *getPresentation() = 0;
+#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+
+#include <QPointer>
+
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  namespace Windows {
+    class MainWindow;
+  }
+
+  class ApplicationView : public Framework::IMVCView<Windows::MainWindow>, public IApplicationView,
+    public Framework::MVCObservable<Events::ApplicationCommand> {
+  public:
+    ApplicationView();
+
+    Windows::MainWindow *getPresentation();
+
+    void show();
+    void close();
+  private:
+    QPointer<Windows::MainWindow> m_mainWindow;
   };
 }
 

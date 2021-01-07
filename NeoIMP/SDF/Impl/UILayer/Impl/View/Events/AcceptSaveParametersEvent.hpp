@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_DIALOG_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_DIALOG_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTSAVEPARAMETERSEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_ACCEPTSAVEPARAMETERSEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Dialog.hpp
- * PURPOSE: Event type for dialog events.
+ * FILE:    AcceptSaveParametersEvent.hpp
+ * PURPOSE: Defines an interface for an event containing parameters for a document save operation.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
+
+#include <string>
+
 namespace SDF::Impl::UILayer::Impl::View::Events {
-  enum Dialog {
-    DIALOG_ACCEPT,
-    DIALOG_REJECT
+  struct AcceptSaveParametersEvent {
+    std::string fileSpec;
+    AbstractModel::Properties::FileFormat fileFormat;
   };
 }
 

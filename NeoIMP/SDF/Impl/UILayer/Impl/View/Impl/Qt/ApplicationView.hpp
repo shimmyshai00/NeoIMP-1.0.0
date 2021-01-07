@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationView.hpp
- * PURPOSE: Headers for the Qt-based application view implementation. This wraps the main window.
+ * PURPOSE: The Qt-based application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
-
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
+
+#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
 #include <QPointer>
 
@@ -36,12 +36,18 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public Framework::IMVCView<void, Windows::MainWindow>, public IApplicationView,
-    public Framework::MVCObservable<Events::ApplicationCommand> {
+  class ApplicationView : public IApplicationView, public Framework::IMVCViewDetail<Windows::MainWindow>,
+    public Framework::MVCObservable<Events::NewCommandEvent>,
+    public Framework::MVCObservable<Events::SaveAsCommandEvent>,
+    public Framework::MVCObservable<Events::ExitCommandEvent>
+  {
   public:
     ApplicationView();
 
-    Windows::MainWindow *getPresentation();
+    Windows::MainWindow *getDetail();
+    
+    void show();
+    void close();
   private:
     QPointer<Windows::MainWindow> m_mainWindow;
   };

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIController.hpp
- * PURPOSE: Interface for the global UI controller, which creates and destroys UI views.
+ * FILE:    ExitCommandEvent.hpp
+ * PURPOSE: Defines an interface for an event representing the "exit" command.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-
-namespace SDF::Impl::UILayer::Impl {
-  class IUIController {
-  public:
-    virtual ~IUIController() = default;
-
-    virtual void showApplicationView() = 0;
-    virtual void showNewDocumentView() = 0;
-    virtual void showSaveDocumentView() = 0;
-
-    virtual void closeApplicationView() = 0;
-    virtual void closeNewDocumentView() = 0;
-    virtual void closeSaveDocumentView() = 0;
-
-    virtual void createDocumentView(AbstractModel::Handle documentHandle) = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::View::Events {
+  struct ExitCommandEvent {};
 }
 
 #endif

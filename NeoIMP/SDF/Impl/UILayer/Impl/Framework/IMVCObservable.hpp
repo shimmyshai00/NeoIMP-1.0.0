@@ -27,12 +27,15 @@
 #include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class ObservableType, class EventType>
+  template<class EventType>
+  class IMVCObserver;
+
+  template<class EventType>
   class IMVCObservable {
   public:
-    virtual ~IMVCObservable() = 0;
+    virtual ~IMVCObservable() = default;
 
-    virtual boost::signals2::connection attachObserver(IMVCObserver<ObservableType, EventType> *observer) = 0;
+    virtual boost::signals2::connection attachObserver(IMVCObserver<EventType> *observer) = 0;
   };
 }
 
