@@ -52,6 +52,19 @@ namespace SDF::Impl::UILayer::Impl {
     return m_nextViewId++;
   }
 
+  int UIManager::retainView(std::unique_ptr<View::INewDocumentView> view) {
+    std::unique_ptr<Controller::NewDocumentController> controller(new Controller::NewDocumentController(view.get()));
+
+    m_viewConnections[m_nextViewId].push_back(
+      view->Framework::MVCObservable<View::Events::AcceptDocumentParametersEvent>::attachObserver(controller.get())
+    );
+
+    m_newDocumentViews[m_nextViewId] = std::move(view);
+    m_newDocumentControllers[m_nextViewId] = std::move(controller);
+
+    return m_nextViewId++;
+  }
+
   // View removal.
   void UIManager::destroyView(int viewId) {
     for(auto &conn : m_viewConnections[viewId]) {
@@ -60,7 +73,9 @@ namespace SDF::Impl::UILayer::Impl {
 
     // Erase from whichever arrays contain this view and its associated controller.
     m_applicationViews.erase(viewId);
+    m_newDocumentViews.erase(viewId);
 
     m_applicationControllers.erase(viewId);
+    m_newDocumentControllers.erase(viewId);
   }
 }

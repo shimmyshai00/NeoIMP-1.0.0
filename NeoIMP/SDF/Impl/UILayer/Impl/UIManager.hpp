@@ -37,13 +37,14 @@
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IApplicationView;
+    class INewDocumentView;
   }
 
   namespace Controller {
     class ApplicationController;
   }
 
-  class UIManager : public IViewContainer<View::IApplicationView> {
+  class UIManager : public IViewContainer<View::IApplicationView>, public IViewContainer<View::INewDocumentView> {
   public:
     INJECT(UIManager());
     ~UIManager();
@@ -56,9 +57,11 @@ namespace SDF::Impl::UILayer::Impl {
 
     // The registries of active views.
     std::map<int, std::unique_ptr<View::IApplicationView>> m_applicationViews;
+    std::map<int, std::unique_ptr<View::INewDocumentView>> m_newDocumentViews;
 
     // The principal controllers for each view.
     std::map<int, std::unique_ptr<Controller::ApplicationController>> m_applicationControllers;
+    std::map<int, std::unique_ptr<Controller::NewDocumentController>> m_newDocumentControllers;
 
     // The connections between the views and controllers.
     std::map<int, std::vector<boost::signals2::connection>> m_viewConnections;
