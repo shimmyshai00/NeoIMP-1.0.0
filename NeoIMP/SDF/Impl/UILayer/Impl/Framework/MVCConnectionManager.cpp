@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWCONTAINER_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWCONTAINER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewContainer.hpp
- * PURPOSE: The interface for view containers.
+ * FILE:    MVCConnectionManager.cpp
+ * PURPOSE: A small container to hold Boost::Signals2 connections and close them when destroyed.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <MVCConnectionManager.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  template<class ViewType>
-  class IViewContainer {
-  public:
-    virtual ~IViewContainer() = default;
+namespace SDF::Impl::UILayer::Impl::Framework {
+  MVCConnectionManager::MVCConnectionManager() {}
 
-    virtual int retainView(std::unique_ptr<ViewType> view) = 0;
-  };
+  MVCConnectionManager::~MVCConnectionManager() {
+    for(auto &conn : m_conns) {
+      conn.disconnect();
+    }
+  }
+
+  void MVCConnectionManager::addConnection(boost::signals2::connection conn) {
+    m_conns.push_back(conn);
+  }
 }
-
-#endif

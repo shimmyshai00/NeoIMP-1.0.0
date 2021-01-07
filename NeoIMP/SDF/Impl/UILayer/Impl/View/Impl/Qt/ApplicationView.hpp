@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 
 #include <QPointer>
 
@@ -34,11 +33,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public IApplicationView, public Framework::IMVCViewDetail<Windows::MainWindow> {
+  class ApplicationView : public IApplicationView {
   public:
     ApplicationView();
-
-    Windows::MainWindow *getDetail();
 
     void show();
     void close();

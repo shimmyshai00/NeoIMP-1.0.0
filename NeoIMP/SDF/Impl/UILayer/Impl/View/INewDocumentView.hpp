@@ -27,14 +27,14 @@
 #include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ViewDismissedEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentView : public Framework::MVCObservable<Events::AcceptDocumentParametersEvent> {
+  class INewDocumentView : public Framework::MVCObservable<Events::AcceptDocumentParametersEvent>,
+    public Framework::MVCObservable<Events::ViewDismissedEvent>
+  {
   public:
     virtual ~INewDocumentView() = default;
-
-    virtual void show() = 0;
-    virtual void close() = 0;
   };
 }
 

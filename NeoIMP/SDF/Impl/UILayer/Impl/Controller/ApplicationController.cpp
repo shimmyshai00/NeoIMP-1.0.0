@@ -23,19 +23,29 @@
 
 #include <ApplicationController.hpp>
 
+#include <View/IViewFactory.hpp>
 #include <View/IApplicationView.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
-    : m_applicationView(applicationView)
-  {}
+#include <NewDocumentController.hpp>
 
-  void ApplicationController::showApplicationView() {
+namespace SDF::Impl::UILayer::Impl::Controller {
+  ApplicationController::ApplicationController(View::IViewFactory *viewFactory)
+    : m_viewFactory(viewFactory),
+      m_applicationView(viewFactory->createApplicationView())
+  {
+    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(this));
+
     m_applicationView->show();
   }
 
-  void ApplicationController::notify(View::Events::NewCommandEvent event) {
+  ApplicationController::~ApplicationController() {}
 
+  void ApplicationController::notify(View::Events::NewCommandEvent event) {
+    // Get the parameters for creating the new document from the user.
+    std::unique_ptr<NewDocumentController> controller(new NewDocumentController(m_viewFactory));
+    addChild(std::move(controller));
   }
 
   void ApplicationController::notify(View::Events::SaveAsCommandEvent event) {

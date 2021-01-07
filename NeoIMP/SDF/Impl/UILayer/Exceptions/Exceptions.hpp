@@ -29,8 +29,8 @@
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 namespace SDF::Impl::UILayer::Exceptions {
-  struct RemovedRootViewException : public SDF::Exception::Exception {
-    RemovedRootViewException() : Exception("Tried to remove a root view from its view hierarchy.") {}
+  struct RemovedRootException : public SDF::Exception::Exception {
+    RemovedRootException() : Exception("Tried to remove a root MVC object from its hierarchy.") {}
   };
 
   struct IncompatibleContextException : public SDF::Exception::Exception {

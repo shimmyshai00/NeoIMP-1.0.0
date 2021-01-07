@@ -23,22 +23,22 @@
 
 #include <NewDocumentController.hpp>
 
+#include <View/IViewFactory.hpp>
 #include <View/INewDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  NewDocumentController::NewDocumentController(
-    AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    View::INewDocumentView *newDocumentView
-  )
-    : m_documentCreationService(documentCreationService),
-      m_newDocumentView(newDocumentView)
+  NewDocumentController::NewDocumentController(View::IViewFactory *viewFactory)
+    : m_newDocumentView(viewFactory->createNewDocumentView())
   {}
 
-  void NewDocumentController::showNewDocumentView() {
-    m_newDocumentView->show();
-  }
+  NewDocumentController::~NewDocumentController() {}
 
   void NewDocumentController::notify(View::Events::AcceptDocumentParametersEvent event) {
     // TBA
+  }
+
+  void NewDocumentController::notify(View::Events::ViewDismissedEvent event) {
+    // dynamically destroy self
+    unlink();
   }
 }

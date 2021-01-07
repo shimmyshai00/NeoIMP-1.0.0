@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 
 #include <QPointer>
 
@@ -34,16 +33,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class NewDocumentDialog;
   }
 
-  class NewDocumentView : public INewDocumentView, public Framework::IMVCViewDetail<Dialogs::NewDocumentDialog> {
+  class NewDocumentView : public INewDocumentView {
   public:
     NewDocumentView();
-
-    Dialogs::NewDocumentDialog *getDetail();
-
-    void show();
-    void close();
   private:
-    Dialogs::NewDocumentDialog *m_newDocumentDialog;
+    QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
   };
 }
 

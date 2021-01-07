@@ -24,15 +24,13 @@
 #include <NewDocumentView.hpp>
 
 #include <Dialogs/NewDocumentDialog.hpp>
+
 #include <AbstractModel/Data/DocumentSpec.hpp>
 
-#include <QObject>
-
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  NewDocumentView::NewDocumentView() : m_newDocumentDialog(new Dialogs::NewDocumentDialog) {
-    // Hook events.
+  NewDocumentView::NewDocumentView() : m_newDocumentDialog(new Dialogs::NewDocumentDialog()) {
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::accepted, [=]() {
-      DocumentSpec spec {
+      AbstractModel::Data::DocumentSpec spec {
         "Untitled",
         m_newDocumentDialog->getDocumentWidthPx(),
         m_newDocumentDialog->getDocumentHeightPx(),
@@ -41,19 +39,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
         m_newDocumentDialog->getDocumentBitDepth()
       };
 
-      Framework::MVCObservable<Events::NewCommandEvent>::notifyObservers(Events::AcceptDocumentParametersEvent(spec));
+      Framework::MVCObservable<Events::AcceptDocumentParametersEvent>::notifyObservers(
+        Events::AcceptDocumentParametersEvent { spec }
+      );
+
+      Framework::MVCObservable<Events::ViewDismissedEvent>::notifyObservers(Events::ViewDismissedEvent());
     });
-  }
 
-  Dialogs::NewDocumentDialog *NewDocumentView::getDetail() {
-    return m_newDocumentDialog;
-  }
-
-  void NewDocumentView::show() {
     m_newDocumentDialog->open();
-  }
-
-  void NewDocumentView::close() {
-    m_newDocumentDialog->close();
   }
 }

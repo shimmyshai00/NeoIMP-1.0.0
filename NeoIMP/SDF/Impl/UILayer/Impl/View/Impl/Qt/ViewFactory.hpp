@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     INJECT(ViewFactory());
 
     std::unique_ptr<IApplicationView> createApplicationView();
+    std::unique_ptr<INewDocumentView> createNewDocumentView();
   };
 }
 

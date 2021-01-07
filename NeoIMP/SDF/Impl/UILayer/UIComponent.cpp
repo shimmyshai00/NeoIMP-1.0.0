@@ -26,7 +26,6 @@
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 #include <Impl/View/IViewFactory.hpp>
 
-#include <Impl/UIManager.hpp>
 #include <Impl/MainUI.hpp>
 #include <Impl/View/Qt/ViewComponent.hpp>
 #include <ModelLayer/ModelComponent.hpp>

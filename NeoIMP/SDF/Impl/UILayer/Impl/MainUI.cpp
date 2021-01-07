@@ -23,24 +23,17 @@
 
 #include <MainUI.hpp>
 
-#include <UIManager.hpp>
-
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
+#include <Controller/ApplicationController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(UIManager *uiManager, View::IViewFactory *viewFactory)
-    : m_uiManager(uiManager),
-      m_viewFactory(viewFactory)
+  MainUI::MainUI(View::IViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
   {}
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    std::unique_ptr<View::IApplicationView> applicationView(m_viewFactory->createApplicationView());
-    View::IApplicationView *applicationViewPtr(applicationView.get());
-
-    m_uiManager->retainView(std::move(applicationView));
-    applicationViewPtr->show();
+    m_applicationController = std::make_unique<Controller::ApplicationController>(m_viewFactory);
   }
 }
