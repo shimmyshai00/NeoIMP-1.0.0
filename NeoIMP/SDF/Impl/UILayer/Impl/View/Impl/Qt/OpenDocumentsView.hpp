@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEWCOMPOSITE_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEWCOMPOSITE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationViewComposite.hpp
- * PURPOSE: The Qt-based application view composite.
+ * FILE:    OpenDocumentsView.hpp
+ * PURPOSE: The Qt-based open-documents view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IApplicationViewComposite.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IOpenDocumentsView.hpp>
+
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 #include <QPointer>
 #include <QTabWidget>
@@ -39,27 +41,31 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::View::Impl::Qt {
-    class ApplicationView;
+    namespace Windows {
+      class MainWindow;
+    }
+
     class DocumentView;
 
-    class ApplicationViewComposite : public IApplicationViewComposite {
+    class OpenDocumentsView : public IOpenDocumentsView {
     public:
-      ApplicationViewComposite(
+      OpenDocumentsView(
+        QPointer<Windows::MainWindow> mainWindow,
         AbstractModel::Services::IImageInformationService *imageInformationService,
         AbstractModel::Services::IImageRenderingService *imageRenderingService
       );
 
-      ~ApplicationViewComposite();
+      ~OpenDocumentsView();
 
-      IApplicationView *getApplicationView();
+      void notifyOfDocumentAdded(AbstractModel::Handle handle);
+      void notifyOfDocumentRemoved(AbstractModel::Handle handle);
+
       IDocumentView *getDocumentView(AbstractModel::Handle handle);
-
-      void addDocument(AbstractModel::Handle handle);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      std::unique_ptr<ApplicationView> m_applicationView;
+      QPointer<Windows::MainWindow> m_mainWindow;
       QPointer<QTabWidget> m_tabWidget;
 
       std::map<AbstractModel::Handle, std::unique_ptr<DocumentView>> m_documentViews;

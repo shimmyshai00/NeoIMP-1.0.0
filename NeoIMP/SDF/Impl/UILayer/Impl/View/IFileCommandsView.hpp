@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IFILECOMMANDSVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IFILECOMMANDSVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    IFileCommandsView.hpp
+ * PURPOSE: The widget system-agnostic interface for the view containing the file-manipulation commands. Usually this
+ *          is a drop-down menu.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +25,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-
-  class IViewFactory {
+  class IFileCommandsView : public Framework::MVCObservable<Events::NewCommandEvent>,
+    public Framework::MVCObservable<Events::SaveAsCommandEvent>
+  {
   public:
-    virtual ~IViewFactory() = default;
-
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
+    virtual ~IFileCommandsView() = default;
   };
 }
 

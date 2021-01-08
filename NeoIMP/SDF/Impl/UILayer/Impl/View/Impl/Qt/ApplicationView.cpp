@@ -23,35 +23,43 @@
 
 #include <ApplicationView.hpp>
 
+#include <FileCommandsView.hpp>
+#include <OpenDocumentsView.hpp>
+
 #include <Windows/MainWindow.hpp>
 
 #include <QObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView() : m_mainWindow(new Windows::MainWindow) {
+  ApplicationView::ApplicationView(
+    AbstractModel::Services::IImageInformationService *imageInformationService,
+    AbstractModel::Services::IImageRenderingService *imageRenderingService
+  )
+    : m_mainWindow(new Windows::MainWindow),
+      m_fileCommandsView(new FileCommandsView(m_mainWindow)),
+      m_openDocumentsView(new OpenDocumentsView(m_mainWindow, imageInformationService, imageRenderingService))
+  {
     // Hook events.
-    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
-      Framework::MVCObservable<Events::NewCommandEvent>::notifyObservers(Events::NewCommandEvent());
-    });
-
-    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() {
-      Framework::MVCObservable<Events::SaveAsCommandEvent>::notifyObservers(Events::SaveAsCommandEvent());
-    });
-
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
       Framework::MVCObservable<Events::ExitCommandEvent>::notifyObservers(Events::ExitCommandEvent());
     });
   }
 
-  Windows::MainWindow *ApplicationView::getDetail() {
-    return m_mainWindow;
-  }
-  
+  ApplicationView::~ApplicationView() {}
+
   void ApplicationView::show() {
     m_mainWindow->show();
   }
 
   void ApplicationView::close() {
     m_mainWindow->close();
+  }
+
+  IFileCommandsView *ApplicationView::getFileCommandsView() {
+    return m_fileCommandsView.get();
+  }
+
+  IOpenDocumentsView *ApplicationView::getOpenDocumentsView() {
+    return m_openDocumentsView.get();
   }
 }

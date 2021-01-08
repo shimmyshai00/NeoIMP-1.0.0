@@ -28,33 +28,27 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCConnectionManager.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IViewFactory;
-    class IApplicationViewComposite;
+    class IApplicationView;
   }
 
   namespace Controller {
     class ApplicationController : public Framework::MVCObject,
-      public Framework::IMVCObserver<View::Events::NewCommandEvent>,
-      public Framework::IMVCObserver<View::Events::SaveAsCommandEvent>,
       public Framework::IMVCObserver<View::Events::ExitCommandEvent>
     {
     public:
       ApplicationController(View::IViewFactory *viewFactory);
       ~ApplicationController();
 
-      void notify(View::Events::NewCommandEvent event);
-      void notify(View::Events::SaveAsCommandEvent event);
       void notify(View::Events::ExitCommandEvent event);
     private:
       View::IViewFactory *m_viewFactory;
 
-      std::unique_ptr<View::IApplicationViewComposite> m_applicationViewComposite;
+      std::unique_ptr<View::IApplicationView> m_applicationView;
 
       Framework::MVCConnectionManager m_connectionManager;
     };

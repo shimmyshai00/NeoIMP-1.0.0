@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationViewComposite.cpp
- * PURPOSE: The Qt-based application view composite.
+ * FILE:    OpenDocumentsView.cpp
+ * PURPOSE: The Qt-based open-documents view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,50 +21,58 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationViewComposite.hpp>
+#include <OpenDocumentsView.hpp>
 
 #include <UILayer/Exceptions/Exceptions.hpp>
 
-#include <ApplicationView.hpp>
-#include <DocumentView.hpp>
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
+
+#include <IDocumentView.hpp>
 
 #include <Windows/MainWindow.hpp>
 
+#include <DocumentView.hpp>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationViewComposite::ApplicationViewComposite(
+  OpenDocumentsView::OpenDocumentsView(
+    QPointer<Windows::MainWindow> mainWindow,
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService
   )
     : m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
-      m_applicationView(new ApplicationView()),
-      m_tabWidget(new QTabWidget())
+      m_mainWindow(mainWindow),
+      m_tabWidget(new QTabWidget)
   {
-    m_applicationView->getDetail()->addPrincipalWidget(m_tabWidget);
+    m_mainWindow->addPrincipalWidget(m_tabWidget);
   }
 
-  ApplicationViewComposite::~ApplicationViewComposite() {}
+  OpenDocumentsView::~OpenDocumentsView() {
 
-  IApplicationView *ApplicationViewComposite::getApplicationView() {
-    return m_applicationView.get();
   }
 
-  IDocumentView *ApplicationViewComposite::getDocumentView(AbstractModel::Handle handle) {
+  void OpenDocumentsView::notifyOfDocumentAdded(AbstractModel::Handle handle) {
+    if(m_documentViews.find(handle) == m_documentViews.end()) {
+      m_documentViews[handle] = std::make_unique<DocumentView>(
+        m_tabWidget,
+        m_imageInformationService, m_imageRenderingService,
+        handle
+      );
+    }
+  }
+
+  void OpenDocumentsView::notifyOfDocumentRemoved(AbstractModel::Handle handle) {
+    if(m_documentViews.find(handle) != m_documentViews.end()) {
+      m_documentViews.erase(handle);
+    }
+  }
+
+  IDocumentView *OpenDocumentsView::getDocumentView(AbstractModel::Handle handle) {
     if(m_documentViews.find(handle) == m_documentViews.end()) {
       throw UILayer::Exceptions::InvalidHandleException(handle);
     }
 
     return m_documentViews[handle].get();
-  }
-
-  void ApplicationViewComposite::addDocument(AbstractModel::Handle handle) {
-    if(m_documentViews.find(handle) == m_documentViews.end()) {
-      m_documentViews[handle] = std::make_unique<DocumentView>(
-        m_tabWidget,
-        m_imageInformationService,
-        m_imageRenderingService,
-        handle
-      );
-    }
   }
 }

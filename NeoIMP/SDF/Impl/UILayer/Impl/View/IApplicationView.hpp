@@ -26,19 +26,22 @@
 
 #include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView : public Framework::MVCObservable<Events::NewCommandEvent>,
-    public Framework::MVCObservable<Events::SaveAsCommandEvent>,
-    public Framework::MVCObservable<Events::ExitCommandEvent> {
+  class IFileCommandsView;
+  class IOpenDocumentsView;
+
+  class IApplicationView : public Framework::MVCObservable<Events::ExitCommandEvent> {
   public:
     virtual ~IApplicationView() = default;
 
     virtual void show() = 0;
     virtual void close() = 0;
+
+    virtual IFileCommandsView *getFileCommandsView() = 0;
+
+    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };
 }
 

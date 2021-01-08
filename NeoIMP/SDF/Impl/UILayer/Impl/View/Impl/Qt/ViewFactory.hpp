@@ -42,7 +42,7 @@ namespace SDF::Impl::UILayer {
         AbstractModel::Services::IImageRenderingService *imageRenderingService
       ));
 
-      std::unique_ptr<IApplicationViewComposite> createApplicationViewComposite();
+      std::unique_ptr<IApplicationView> createApplicationView();
       std::unique_ptr<INewDocumentView> createNewDocumentView();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;

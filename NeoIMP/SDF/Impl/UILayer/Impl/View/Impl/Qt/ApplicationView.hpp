@@ -24,27 +24,46 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IImageInformationService;
+    class IImageRenderingService;
   }
 
-  class ApplicationView : public IMVCViewDetail<Windows::MainWindow>, public IApplicationView {
-  public:
-    ApplicationView();
+  namespace Impl::View::Impl::Qt {
+    namespace Windows {
+      class MainWindow;
+    }
 
-    Windows::MainWindow *getDetail();
-    
-    void show();
-    void close();
-  private:
-    QPointer<Windows::MainWindow> m_mainWindow;
-  };
+    class FileCommandsView;
+    class OpenDocumentsView;
+
+    class ApplicationView : public IApplicationView {
+    public:
+      ApplicationView(
+        AbstractModel::Services::IImageInformationService *imageInformationService,
+        AbstractModel::Services::IImageRenderingService *imageRenderingService
+      );
+
+      ~ApplicationView();
+
+      void show();
+      void close();
+
+      IFileCommandsView *getFileCommandsView();
+
+      IOpenDocumentsView *getOpenDocumentsView();
+    private:
+      QPointer<Windows::MainWindow> m_mainWindow;
+
+      std::unique_ptr<FileCommandsView> m_fileCommandsView;
+      std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
+    };
+  }
 }
 
 #endif

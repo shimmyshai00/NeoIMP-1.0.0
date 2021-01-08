@@ -26,10 +26,10 @@
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 
-#include <IApplicationViewComposite.hpp>
+#include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
 
-#include <ApplicationViewComposite.hpp>
+#include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
@@ -41,8 +41,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_imageRenderingService(imageRenderingService)
   {}
 
-  std::unique_ptr<IApplicationViewComposite> ViewFactory::createApplicationViewComposite() {
-    return std::make_unique<ApplicationViewComposite>(m_imageInformationService, m_imageRenderingService);
+  std::unique_ptr<IApplicationView> ViewFactory::createApplicationView() {
+    return std::make_unique<ApplicationView>(m_imageInformationService, m_imageRenderingService);
   }
 
   std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
