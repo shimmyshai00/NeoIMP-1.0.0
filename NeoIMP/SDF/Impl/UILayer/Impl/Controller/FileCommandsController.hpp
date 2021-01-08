@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_NEWDOCUMENTCONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_FILECOMMANDSCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_FILECOMMANDSCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentController.hpp
- * PURPOSE: Implementation of the new-document controller.
+ * FILE:    FileCommandsController.hpp
+ * PURPOSE: Implementation of the file commands controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,8 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCConnectionManager.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
-#include <SDF/Impl/UILayer/Impl/View/Events/ViewDismissedEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -39,29 +39,30 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewFactory;
-      class INewDocumentView;
-      class IOpenDocumentsView;
+      class IFileCommandsView;
     }
 
     namespace Controller {
-      class NewDocumentController : public Framework::MVCObject,
-        public Framework::IMVCObserver<View::Events::AcceptDocumentParametersEvent>,
-        public Framework::IMVCObserver<View::Events::ViewDismissedEvent>
+      class ControllerFactory;
+
+      class FileCommandsController : public Framework::MVCObject,
+        public Framework::IMVCObserver<View::Events::NewCommandEvent>,
+        public Framework::IMVCObserver<View::Events::SaveAsCommandEvent>
       {
       public:
-        NewDocumentController(
-          AbstractModel::Services::IDocumentCreationService *documentCreationService,
-          View::IViewFactory *viewFactory, View::IOpenDocumentsView *openDocumentsView
+        FileCommandsController(
+          View::IViewFactory *viewFactory,
+          Controller::ControllerFactory *controllerFactory,
+          View::IFileCommandsView *fileCommandsView
         );
-        ~NewDocumentController();
 
-        void notify(View::Events::AcceptDocumentParametersEvent event);
-        void notify(View::Events::ViewDismissedEvent event);
+        void notify(View::Events::NewCommandEvent event);
+        void notify(View::Events::SaveAsCommandEvent event);
       private:
-        AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+        View::IViewFactory *m_viewFactory;
+        View::IFileCommandsView *m_fileCommandsView;
 
-        std::unique_ptr<View::INewDocumentView> m_newDocumentView;
-        View::IOpenDocumentsView *m_openDocumentsView;
+        Controller::ControllerFactory *m_controllerFactory;
 
         Framework::MVCConnectionManager m_connectionManager;
       };

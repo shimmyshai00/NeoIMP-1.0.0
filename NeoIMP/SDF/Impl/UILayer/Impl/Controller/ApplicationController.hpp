@@ -37,16 +37,19 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   namespace Controller {
+    class ControllerFactory;
+
     class ApplicationController : public Framework::MVCObject,
       public Framework::IMVCObserver<View::Events::ExitCommandEvent>
     {
     public:
-      ApplicationController(View::IViewFactory *viewFactory);
+      ApplicationController(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory);
       ~ApplicationController();
 
       void notify(View::Events::ExitCommandEvent event);
     private:
       View::IViewFactory *m_viewFactory;
+      Controller::ControllerFactory *m_controllerFactory;
 
       std::unique_ptr<View::IApplicationView> m_applicationView;
 

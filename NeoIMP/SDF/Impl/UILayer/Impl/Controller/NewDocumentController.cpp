@@ -23,18 +23,30 @@
 
 #include <NewDocumentController.hpp>
 
+#include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Handle.hpp>
+
 #include <View/IViewFactory.hpp>
 #include <View/INewDocumentView.hpp>
+#include <VIew/IOpenDocumentsView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  NewDocumentController::NewDocumentController(View::IViewFactory *viewFactory)
-    : m_newDocumentView(viewFactory->createNewDocumentView())
+  NewDocumentController::NewDocumentController(
+    AbstractModel::Services::IDocumentCreationService *documentCreationService,
+    View::IViewFactory *viewFactory,
+    View::IOpenDocumentsView *openDocumentsView
+  )
+    : m_documentCreationService(documentCreationService),
+      m_newDocumentView(viewFactory->createNewDocumentView()),
+      m_openDocumentsView(openDocumentsView)
   {}
 
   NewDocumentController::~NewDocumentController() {}
 
   void NewDocumentController::notify(View::Events::AcceptDocumentParametersEvent event) {
-    // TBA
+    AbstractModel::Handle handle(m_documentCreationService->createDocument(event.spec));
+
+    m_openDocumentsView->notifyOfDocumentAdded(handle);
   }
 
   void NewDocumentController::notify(View::Events::ViewDismissedEvent event) {

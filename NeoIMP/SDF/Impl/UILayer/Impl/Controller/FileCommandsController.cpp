@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: Implementation of the application controller.
+ * FILE:    FileCommandsController.cpp
+ * PURPOSE: Implementation of the file commands controller.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,39 +21,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <FileCommandsController.hpp>
+#include <NewDocumentController.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
-
-#include <NewDocumentController.hpp>
-#include <FileCommandsController.hpp>
+#include <View/IFileCommandsView.hpp>
 
 #include <ControllerFactory.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
+  FileCommandsController::FileCommandsController(
     View::IViewFactory *viewFactory,
+    View::IFileCommandsView *fileCommandsView,
     Controller::ControllerFactory *controllerFactory
   )
     : m_viewFactory(viewFactory),
-      m_controllerFactory(controllerFactory),
-      m_applicationView(viewFactory->createApplicationView())
+      m_fileCommandsView(fileCommandsView),
+      m_controllerFactory(controllerFactory)
   {
-    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(m_fileCommandsView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(this));
+    m_connectionManager.addConnection(m_fileCommandsView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(this));
+  }
 
-    m_applicationView->show();
-
-    std::shared_ptr<FileCommandsController> controller(
-      m_controllerFactory->createFileCommandsController(m_applicationView.get())
-    );
-
+  void FileCommandsController::notify(View::Events::NewCommandEvent event) {
+    // Get the parameters for creating the new document from the user.
+    std::shared_ptr<NewDocumentController> controller(new NewDocumentController(m_viewFactory));
     addChild(controller);
   }
 
-  ApplicationController::~ApplicationController() {}
+  void FileCommandsController::notify(View::Events::SaveAsCommandEvent event) {
 
-  void ApplicationController::notify(View::Events::ExitCommandEvent event) {
-    m_applicationView->close();
   }
 }
