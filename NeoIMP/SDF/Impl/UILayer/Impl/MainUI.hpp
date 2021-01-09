@@ -37,19 +37,19 @@ namespace SDF::Impl::UILayer {
     }
 
     namespace Controller {
-      class ApplicationController;
+      class ControllerFactory;
+      class ApplicationMasterController;
     }
 
     class MainUI : public IUIEntryPoint {
     public:
-      INJECT(MainUI(View::IViewFactory *viewFactory));
+      INJECT(MainUI(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory));
 
       ~MainUI();
 
       void start();
     private:
-      View::IViewFactory *m_viewFactory;
-      std::unique_ptr<Controller::ApplicationController> m_applicationController;
+      std::unique_ptr<Controller::ApplicationMasterController> m_applicationMasterController;
     };
   }
 }

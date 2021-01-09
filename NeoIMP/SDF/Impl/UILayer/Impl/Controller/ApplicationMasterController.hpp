@@ -1,9 +1,13 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONMASTERCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATIONMASTERCONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainUI.cpp
- * PURPOSE: Implementation of the main UI layer object.
+ * FILE:    ApplicationMasterController.hpp
+ * PURPOSE: Implementation of the application master controller, which creates and destroys the various temporary views
+ *          used in the program.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,23 +25,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainUI.hpp>
-
-#include <View/IViewFactory.hpp>
-#include <Controller/ControllerFactory.hpp>
-
-#include <Controller/ApplicationMasterController.hpp>
-
-#include <Controller/Messages.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCMasterController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory)
-    : m_applicationMasterController(new Controller::ApplicationMasterController(viewFactory, controllerFactory))
-  {}
+  namespace View {
+    class IViewFactory;
+  }
 
-  MainUI::~MainUI() {}
+  namespace Controller {
+    class ControllerFactory;
 
-  void MainUI::start() {
-    m_applicationMasterController->receiveMessage(this, Controller::Messages::CreateApplicationView);
+    class ApplicationMasterController : public Framework::MVCMasterController {
+    public:
+      ApplicationMasterController(View::IViewFactory *viewFactory, ControllerFactory *controllerFactory);
+
+      void receiveMessage(void *sender, std::string message);
+    private:
+      View::IViewFactory *m_viewFactory;
+      Controller::ControllerFactory *m_controllerFactory;
+    };
   }
 }
+
+#endif

@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.cpp
- * PURPOSE: Implementation of the application controller.
+ * PURPOSE: Handles events from the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,23 +23,29 @@
 
 #include <ApplicationController.hpp>
 
+#include <Framework/MVCViewUnit.hpp>
+
 #include <View/IViewFactory.hpp>
 #include <View/IApplicationView.hpp>
 
-#include <NewDocumentController.hpp>
-#include <FileCommandsController.hpp>
+//#include <NewDocumentController.hpp>
+//#include <FileCommandsController.hpp>
 
 #include <ControllerFactory.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
-    View::IViewFactory *viewFactory,
-    View::IApplicationView *applicationView
-  )
-    : m_viewFactory(viewFactory),
-      m_applicationView(applicationView)
+  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
+    : m_applicationView(applicationView)
   {
+    m_applicationViewConn = m_applicationView->attachObserver(this);
   }
 
   ApplicationController::~ApplicationController() {}
+
+  void ApplicationController::receiveMessage(void *sender, std::string message) {}
+
+  void ApplicationController::notify(View::Events::ExitCommandEvent event) {
+    // NB: will need smth more thorough eventually
+    m_viewUnit->removeSelf();
+  }
 }

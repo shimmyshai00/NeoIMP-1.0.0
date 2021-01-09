@@ -1,9 +1,13 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_CONTROLLERFACTORY_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_CONTROLLERFACTORY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UIComponent.cpp
- * PURPOSE: The top-level DI component for the UI layer.
+ * FILE:    ControllerFactory.hpp
+ * PURPOSE: Centralize the creation of all controllers needed in the program - especially, the injection of MVC model
+ *          layer services.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +25,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <UIComponent.hpp>
+#include <fruit/fruit.h>
+#include <memory>
 
-#include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <Impl/View/IViewFactory.hpp>
-#include <Impl/Controller/ControllerFactory.hpp>
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IApplicationView;
+  }
 
-#include <Impl/MainUI.hpp>
-#include <Impl/View/Qt/ViewComponent.hpp>
-#include <ModelLayer/ModelComponent.hpp>
+  namespace Controller {
+    class ApplicationController;
 
-namespace SDF::Impl::UILayer {
-  fruit::Component<IUIEntryPoint> getUIComponent() {
-    return fruit::createComponent()
-      .bind<IUIEntryPoint, Impl::MainUI>()
-      .install(Impl::View::Qt::getViewComponent)
-      .install(ModelLayer::getModelComponent);
+    class ControllerFactory {
+    public:
+      INJECT(ControllerFactory());
+      ~ControllerFactory();
+
+      std::unique_ptr<ApplicationController> createApplicationController(View::IApplicationView *applicationView);
+    };
   }
 }
+
+#endif

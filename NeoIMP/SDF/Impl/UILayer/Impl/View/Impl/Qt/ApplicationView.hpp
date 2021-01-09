@@ -51,13 +51,15 @@ namespace SDF::Impl::UILayer {
 
       ~ApplicationView();
 
-      IFileCommandsView *getFileCommandsView();
-      IOpenDocumentsView *getOpenDocumentsView();
+      //IFileCommandsView *getFileCommandsView();
+      //IOpenDocumentsView *getOpenDocumentsView();
+
+      void update(std::string updateEvent);
     private:
       QPointer<Windows::MainWindow> m_mainWindow;
 
-      std::unique_ptr<FileCommandsView> m_fileCommandsView;
-      std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
+      //std::unique_ptr<FileCommandsView> m_fileCommandsView;
+      //std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
     };
   }
 }

@@ -45,7 +45,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return std::make_unique<ApplicationView>(m_imageInformationService, m_imageRenderingService);
   }
 
+/*
   std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
     return std::make_unique<NewDocumentView>();
   }
+  */
 }

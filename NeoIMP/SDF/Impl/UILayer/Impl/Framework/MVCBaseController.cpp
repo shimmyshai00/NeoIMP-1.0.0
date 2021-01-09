@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UIComponent.cpp
- * PURPOSE: The top-level DI component for the UI layer.
+ * FILE:    MVCBaseController.cpp
+ * PURPOSE: Provides a base for MVC controllers to define the message receiver add/remove boilerplate.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <UIComponent.hpp>
+#include <MVCBaseController.hpp>
 
-#include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <Impl/View/IViewFactory.hpp>
-#include <Impl/Controller/ControllerFactory.hpp>
+#include <algorithm>
 
-#include <Impl/MainUI.hpp>
-#include <Impl/View/Qt/ViewComponent.hpp>
-#include <ModelLayer/ModelComponent.hpp>
+namespace SDF::Impl::UILayer::Impl::Framework {
+  MVCBaseController::MVCBaseController() {}
 
-namespace SDF::Impl::UILayer {
-  fruit::Component<IUIEntryPoint> getUIComponent() {
-    return fruit::createComponent()
-      .bind<IUIEntryPoint, Impl::MainUI>()
-      .install(Impl::View::Qt::getViewComponent)
-      .install(ModelLayer::getModelComponent);
+  void MVCBaseController::addMessageReceiver(IMVCMessageReceiver *receiver) {
+    m_messageReceivers.push_back(receiver);
+  }
+
+  void MVCBaseController::removeMessageReceiver(IMVCMessageReceiver *receiver) {
+    m_messageReceivers.erase(std::find(m_messageReceivers.begin(), m_messageReceivers.end(), receiver));
+  }
+
+  void MVCBaseController::setViewUnit(MVCViewUnit *viewUnit) {
+    m_viewUnit = viewUnit;
+  }
+
+  // Protected member.
+  void MVCBaseController::dispatchMessage(std::string message) {
+    for(auto &recv : m_messageReceivers) {
+      recv->receiveMessage(this, message);
+    }
   }
 }

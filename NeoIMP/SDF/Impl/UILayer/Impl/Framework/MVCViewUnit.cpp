@@ -71,11 +71,13 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   MVCViewUnit::Builder::Builder(std::unique_ptr<IMVCView> view) : m_viewUnit(new MVCViewUnit(std::move(view))) {}
   MVCViewUnit::Builder::~Builder() {}
 
-  void MVCViewUnit::Builder::addController(std::unique_ptr<IMVCController> controller) {
+  MVCViewUnit::Builder &MVCViewUnit::Builder::addController(std::unique_ptr<IMVCController> controller) {
     controller->addMessageReceiver(m_viewUnit->m_outgoingMessageDispatcher.get());
     m_viewUnit->m_incomingMessageDispatcher->addMessageReceiver(controller.get());
 
     m_viewUnit->m_controllers.push_back(std::move(controller));
+
+    return *this;
   }
 
   std::unique_ptr<MVCViewUnit> MVCViewUnit::Builder::build() {

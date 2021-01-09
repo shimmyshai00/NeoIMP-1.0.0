@@ -27,12 +27,19 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageEmitter.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageReceiver.hpp>
 
+#include <string>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
   class MVCViewUnit;
-  
+
   class IMVCController : public IMVCMessageEmitter, public IMVCMessageReceiver {
   public:
     virtual ~IMVCController() = default;
+
+    virtual void addMessageReceiver(IMVCMessageReceiver *receiver) = 0;
+    virtual void removeMessageReceiver(IMVCMessageReceiver *receiver) = 0;
+
+    virtual void receiveMessage(void *sender, std::string message) = 0;
 
     virtual void setViewUnit(MVCViewUnit *viewUnit) = 0;
   };

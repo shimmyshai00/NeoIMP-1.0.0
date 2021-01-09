@@ -68,7 +68,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
       Builder(std::unique_ptr<IMVCView> view);
       ~Builder();
 
-      void addController(std::unique_ptr<IMVCController> controller);
+      Builder &addController(std::unique_ptr<IMVCController> controller);
       std::unique_ptr<MVCViewUnit> build();
     private:
       std::unique_ptr<MVCViewUnit> m_viewUnit;

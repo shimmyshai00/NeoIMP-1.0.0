@@ -24,20 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/ViewDismissedEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   class IFileCommandsView;
   class IOpenDocumentsView;
 
-  class IApplicationView : public Framework::MVCObservable<Events::ViewDismissedEvent> {
+  class IApplicationView : public Framework::IMVCView, public Framework::MVCObservable<Events::ExitCommandEvent> {
   public:
     virtual ~IApplicationView() = default;
 
-    virtual IFileCommandsView *getFileCommandsView() = 0;
-    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
+    //virtual IFileCommandsView *getFileCommandsView() = 0;
+    //virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };
 }
 

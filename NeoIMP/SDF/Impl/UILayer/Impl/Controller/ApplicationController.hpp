@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.hpp
- * PURPOSE: Implementation of the application controller.
+ * PURPOSE: Handles events from the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObject.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseController.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCConnectionManager.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+
+#include <memory>
+#include <boost/signals2/connection.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
@@ -39,24 +41,20 @@ namespace SDF::Impl::UILayer::Impl {
   namespace Controller {
     class ControllerFactory;
 
-    class ApplicationController : public MVCObject,
+    class ApplicationController : public Framework::MVCBaseController,
       public Framework::IMVCObserver<View::Events::ExitCommandEvent>
     {
     public:
-      ApplicationController(
-        View::IViewFactory *viewFactory,
-        View::IApplicationView *applicationView
-      );
-
+      ApplicationController(View::IApplicationView *applicationView);
       ~ApplicationController();
+
+      void receiveMessage(void *sender, std::string message);
 
       void notify(View::Events::ExitCommandEvent event);
     private:
-      View::IViewFactory *m_viewFactory;
-
       std::unique_ptr<View::IApplicationView> m_applicationView;
 
-      Framework::MVCConnectionManager m_connectionManager;
+      boost::signals2::scoped_connection m_applicationViewConn;
     };
   }
 }

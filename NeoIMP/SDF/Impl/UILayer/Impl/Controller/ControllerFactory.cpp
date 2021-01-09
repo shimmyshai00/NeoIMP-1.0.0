@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UIComponent.cpp
- * PURPOSE: The top-level DI component for the UI layer.
+ * FILE:    ControllerFactory.cpp
+ * PURPOSE: Centralize the creation of all controllers needed in the program.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <UIComponent.hpp>
+#include <ControllerFactory.hpp>
 
-#include <AbstractModel/Services/IDocumentCreationService.hpp>
-#include <Impl/View/IViewFactory.hpp>
-#include <Impl/Controller/ControllerFactory.hpp>
+#include <View/IApplicationView.hpp>
 
-#include <Impl/MainUI.hpp>
-#include <Impl/View/Qt/ViewComponent.hpp>
-#include <ModelLayer/ModelComponent.hpp>
+#include <ApplicationController.hpp>
 
-namespace SDF::Impl::UILayer {
-  fruit::Component<IUIEntryPoint> getUIComponent() {
-    return fruit::createComponent()
-      .bind<IUIEntryPoint, Impl::MainUI>()
-      .install(Impl::View::Qt::getViewComponent)
-      .install(ModelLayer::getModelComponent);
+namespace SDF::Impl::UILayer::Impl::Controller {
+  ControllerFactory::ControllerFactory() {}
+  ControllerFactory::~ControllerFactory() {}
+
+  std::unique_ptr<ApplicationController> ControllerFactory::createApplicationController(
+    View::IApplicationView *applicationView
+  ) {
+    return std::make_unique<ApplicationController>(applicationView);
   }
 }

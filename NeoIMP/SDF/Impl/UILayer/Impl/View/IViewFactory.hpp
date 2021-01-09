@@ -35,7 +35,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual ~IViewFactory() = default;
 
     virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
+    //virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
   };
 }
 

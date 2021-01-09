@@ -23,8 +23,8 @@
 
 #include <ApplicationView.hpp>
 
-#include <FileCommandsView.hpp>
-#include <OpenDocumentsView.hpp>
+//#include <FileCommandsView.hpp>
+//#include <OpenDocumentsView.hpp>
 
 #include <Windows/MainWindow.hpp>
 
@@ -35,9 +35,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService
   )
-    : m_mainWindow(new Windows::MainWindow),
-      m_fileCommandsView(new FileCommandsView(m_mainWindow)),
-      m_openDocumentsView(new OpenDocumentsView(m_mainWindow, imageInformationService, imageRenderingService))
+    : m_mainWindow(new Windows::MainWindow)//,
+      //m_fileCommandsView(new FileCommandsView(m_mainWindow)),
+      //m_openDocumentsView(new OpenDocumentsView(m_mainWindow, imageInformationService, imageRenderingService))
   {
     // Hook events.
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
@@ -49,6 +49,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   ApplicationView::~ApplicationView() {}
 
+/*
   IFileCommandsView *ApplicationView::getFileCommandsView() {
     return m_fileCommandsView.get();
   }
@@ -56,4 +57,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   IOpenDocumentsView *ApplicationView::getOpenDocumentsView() {
     return m_openDocumentsView.get();
   }
+*/
+
+  void ApplicationView::update(std::string updateEvent) {}
 }
