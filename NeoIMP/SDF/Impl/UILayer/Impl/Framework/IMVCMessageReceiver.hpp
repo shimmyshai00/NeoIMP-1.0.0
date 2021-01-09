@@ -1,13 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEWDETAIL_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEWDETAIL_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCMESSAGERECEIVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCMESSAGERECEIVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCViewDetail.hpp
- * PURPOSE: An interface providing access to the detail of an MVC view. Used internally within view implementations
- *          only.
+ * FILE:    IMVCMessageReceiver.hpp
+ * PURPOSE: An interface for messageable MVC objects. These are used to send simple messages usually used to indicate
+ *          a change that requires an update from the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View {
-  template<class DetailType>
-  class IMVCViewDetail {
-  public:
-    virtual ~IMVCViewDetail() = default;
+#include <string>
 
-    virtual DetailType *getDetail() = 0;
+namespace SDF::Impl::UILayer::Impl::Framework {
+  class IMVCMessageReceiver {
+  public:
+    virtual ~IMVCMessageReceiver() = default;
+
+    virtual void receiveMessage(void *sender, std::string message) = 0;
   };
 }
 

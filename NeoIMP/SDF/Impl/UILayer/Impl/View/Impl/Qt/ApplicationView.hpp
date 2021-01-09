@@ -51,11 +51,7 @@ namespace SDF::Impl::UILayer {
 
       ~ApplicationView();
 
-      void show();
-      void close();
-
       IFileCommandsView *getFileCommandsView();
-
       IOpenDocumentsView *getOpenDocumentsView();
     private:
       QPointer<Windows::MainWindow> m_mainWindow;

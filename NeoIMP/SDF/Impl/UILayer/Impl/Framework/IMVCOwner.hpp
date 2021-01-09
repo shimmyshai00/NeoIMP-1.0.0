@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCOBSERVABLE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOWNER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOWNER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCObservable.hpp
- * PURPOSE: Provides a template for the boilerplate for MVC observables. Wraps Boost::Signals2.
+ * FILE:    IMVCOwner.hpp
+ * PURPOSE: An interface for an owner for MVC ownables.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
-
-#include <boost/signals2/signal.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCOwnable.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
-  class MVCObservable {
+  template<class OwnableT>
+  class IMVCOwner {
   public:
-    MVCObservable() {}
-    virtual ~MVCObservable() = 0;
+    virtual ~IMVCOwner() = default;
 
-    boost::signals2::connection attachObserver(IMVCObserver<EventType> *observer) {
-      return m_signal.connect([=](EventType e) { observer->notify(e); });
-    }
-  protected:
-    void notifyObservers(EventType event) {
-      m_signal(event);
-    }
-  private:
-    boost::signals2::signal<void (EventType)> m_signal;
+    virtual void addOwnable(std::unique_ptr<OwnableT> ownable) = 0;
+    virtual std::unique_ptr<OwnableT> removeOwnable(OwnableT *ownable) = 0;
   };
-
-  template<class EventType>
-  MVCObservable<EventType>::~MVCObservable() {}
 }
 
 #endif

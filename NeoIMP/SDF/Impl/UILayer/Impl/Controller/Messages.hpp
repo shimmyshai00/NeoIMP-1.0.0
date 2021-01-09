@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_MESSAGES_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_MESSAGES_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCConnectionManager.cpp
- * PURPOSE: A small container to hold Boost::Signals2 connections and close them when destroyed.
+ * FILE:    Messages.hpp
+ * PURPOSE: Enumeration of all the update messages that controllers can send to each other.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MVCConnectionManager.hpp>
+#include <string>
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  MVCConnectionManager::MVCConnectionManager() {}
+namespace SDF::Impl::UILayer::Impl::Controller::Messages {
 
-  MVCConnectionManager::~MVCConnectionManager() {
-    for(auto &conn : m_conns) {
-      conn.disconnect();
-    }
-  }
-
-  void MVCConnectionManager::addConnection(boost::signals2::connection conn) {
-    m_conns.push_back(conn);
-  }
 }
+
+#endif

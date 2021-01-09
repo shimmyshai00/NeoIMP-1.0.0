@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOBSERVER_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCOBSERVER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCObserver.hpp
- * PURPOSE: Provides an interface for MVC observers. For cutting down on boilerplate.
+ * FILE:    MVCMessageDispatcher.cpp
+ * PURPOSE: Definition of a message dispatcher, which dispatches messages to a pre-set set of recipients.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +21,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <MVCMessageDispatcher.hpp>
+#include <algorithm>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
-  class IMVCObserver {
-  public:
-    virtual ~IMVCObserver() = default;
+  MVCMessageDispatcher::MVCMessageDispatcher() {}
 
-    virtual void notify(EventType e) = 0;
-  };
+  void MVCMessageDispatcher::receiveMessage(void *sender, std::string message) {
+    for(IMVCMessageReceiver *recv : m_messageReceivers) {
+      if(recv != sender) {
+        recv->receiveMessage(this, message);
+      }
+    }
+  }
+
+  void MVCMessageDispatcher::addMessageReceiver(IMVCMessageReceiver *receiver) {
+    m_messageReceivers.push_back(receiver);
+  }
+
+  void MVCMessageDispatcher::removeMessageReceiver(IMVCMessageReceiver *receiver) {
+    m_messageReceivers.erase(std::find(m_messageReceivers.begin(), m_messageReceivers.end(), receiver));
+  }
 }
-
-#endif

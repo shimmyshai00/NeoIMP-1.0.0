@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCCONNECTIONMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCCONNECTIONMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCMESSAGEDISPATCHER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCMESSAGEDISPATCHER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCConnectionManager.hpp
- * PURPOSE: A small container to hold Boost::Signals2 connections and close them when destroyed.
+ * FILE:    MVCMessageDispatcher.hpp
+ * PURPOSE: Definition of a message dispatcher, which dispatches messages to a pre-set set of recipients.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/signals2/connection.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageReceiver.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageEmitter.hpp>
 
 #include <vector>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCConnectionManager {
+  class MVCMessageDispatcher : public IMVCMessageReceiver, public IMVCMessageEmitter {
   public:
-    MVCConnectionManager();
-    ~MVCConnectionManager();
+    MVCMessageDispatcher();
 
-    void addConnection(boost::signals2::connection conn);
+    void receiveMessage(void *sender, std::string message);
+
+    void addMessageReceiver(IMVCMessageReceiver *receiver);
+    void removeMessageReceiver(IMVCMessageReceiver *receiver);
   private:
-    std::vector<boost::signals2::connection> m_conns;
+    std::vector<IMVCMessageReceiver *> m_messageReceivers;
   };
 }
 

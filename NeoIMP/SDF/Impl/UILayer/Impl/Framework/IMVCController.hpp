@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplicationView.hpp
- * PURPOSE: The widget system-agnostic interface for the application view.
+ * FILE:    IMVCController.hpp
+ * PURPOSE: An interface for MVC controllers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageEmitter.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageReceiver.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/ViewDismissedEvent.hpp>
-
-namespace SDF::Impl::UILayer::Impl::View {
-  class IFileCommandsView;
-  class IOpenDocumentsView;
-
-  class IApplicationView : public Framework::MVCObservable<Events::ViewDismissedEvent> {
+namespace SDF::Impl::UILayer::Impl::Framework {
+  class MVCViewUnit;
+  
+  class IMVCController : public IMVCMessageEmitter, public IMVCMessageReceiver {
   public:
-    virtual ~IApplicationView() = default;
+    virtual ~IMVCController() = default;
 
-    virtual IFileCommandsView *getFileCommandsView() = 0;
-    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
+    virtual void setViewUnit(MVCViewUnit *viewUnit) = 0;
   };
 }
 

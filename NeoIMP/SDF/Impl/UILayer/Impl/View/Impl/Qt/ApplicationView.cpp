@@ -43,17 +43,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
       Framework::MVCObservable<Events::ExitCommandEvent>::notifyObservers(Events::ExitCommandEvent());
     });
-  }
 
-  ApplicationView::~ApplicationView() {}
-
-  void ApplicationView::show() {
     m_mainWindow->show();
   }
 
-  void ApplicationView::close() {
-    m_mainWindow->close();
-  }
+  ApplicationView::~ApplicationView() {}
 
   IFileCommandsView *ApplicationView::getFileCommandsView() {
     return m_fileCommandsView.get();

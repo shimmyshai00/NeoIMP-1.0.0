@@ -34,26 +34,12 @@
 namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::ApplicationController(
     View::IViewFactory *viewFactory,
-    Controller::ControllerFactory *controllerFactory
+    View::IApplicationView *applicationView
   )
     : m_viewFactory(viewFactory),
-      m_controllerFactory(controllerFactory),
-      m_applicationView(viewFactory->createApplicationView())
+      m_applicationView(applicationView)
   {
-    m_connectionManager.addConnection(m_applicationView->Framework::MVCObservable<View::Events::ExitCommandEvent>::attachObserver(this));
-
-    m_applicationView->show();
-
-    std::shared_ptr<FileCommandsController> controller(
-      m_controllerFactory->createFileCommandsController(m_applicationView.get())
-    );
-
-    addChild(controller);
   }
 
   ApplicationController::~ApplicationController() {}
-
-  void ApplicationController::notify(View::Events::ExitCommandEvent event) {
-    m_applicationView->close();
-  }
 }

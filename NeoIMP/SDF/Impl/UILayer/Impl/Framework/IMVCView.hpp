@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_EXITCOMMANDEVENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ExitCommandEvent.hpp
- * PURPOSE: Defines an interface for an event representing the "exit" command.
+ * FILE:    IMVCView.hpp
+ * PURPOSE: An interface for MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct ExitCommandEvent {};
+namespace SDF::Impl::UILayer::Impl::Framework {
+  class IMVCView {
+  public:
+    virtual ~IMVCView() = default;
+
+    virtual void update(std::string updateEvent) = 0;
+  };
 }
 
 #endif
