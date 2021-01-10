@@ -36,6 +36,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   class NewDocumentView : public INewDocumentView {
   public:
     NewDocumentView();
+
+    void activate();
+    void update(std::string updateEvent);
+    void shutdown();
   private:
     QPointer<Dialogs::NewDocumentDialog> m_newDocumentDialog;
   };

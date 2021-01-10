@@ -25,15 +25,13 @@
 
 #include <View/IApplicationView.hpp>
 
-#include <ApplicationController.hpp>
+#include <Application/Controller.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   ControllerFactory::ControllerFactory() {}
   ControllerFactory::~ControllerFactory() {}
 
-  std::unique_ptr<ApplicationController> ControllerFactory::createApplicationController(
-    View::IApplicationView *applicationView
-  ) {
-    return std::make_unique<ApplicationController>(applicationView);
+  std::unique_ptr<Application::Controller> ControllerFactory::createApplicationController() {
+    return std::make_unique<Application::Controller>();
   }
 }

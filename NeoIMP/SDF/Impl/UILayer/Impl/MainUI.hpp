@@ -38,7 +38,7 @@ namespace SDF::Impl::UILayer {
 
     namespace Controller {
       class ControllerFactory;
-      class ApplicationMasterController;
+      class MasterController;
     }
 
     class MainUI : public IUIEntryPoint {
@@ -49,7 +49,7 @@ namespace SDF::Impl::UILayer {
 
       void start();
     private:
-      std::unique_ptr<Controller::ApplicationMasterController> m_applicationMasterController;
+      std::unique_ptr<Controller::MasterController> m_masterController;
     };
   }
 }

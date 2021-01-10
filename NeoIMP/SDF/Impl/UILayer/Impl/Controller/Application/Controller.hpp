@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_VIEWIDS_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_VIEWIDS_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_CONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_CONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewIDs.hpp
- * PURPOSE: Enumeration of ID codes for the available views.
+ * FILE:    Controller.hpp
+ * PURPOSE: The controller for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  enum ViewID {
-    APPLICATION_VIEW
-    DOCUMENT_VIEW_ID_BEGIN
-  }
+#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseController.hpp>
+
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  class Controller : public Framework::MVCBaseController {
+  public:
+    Controller();
+    ~Controller();
+
+    void receiveMessage(void *sender, std::string message);
+  };
 }
+
 #endif

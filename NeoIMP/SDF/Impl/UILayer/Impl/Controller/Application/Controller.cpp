@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainUI.cpp
- * PURPOSE: Implementation of the main UI layer object.
+ * FILE:    Controller.cpp
+ * PURPOSE: The controller for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,23 +21,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainUI.hpp>
+#include <Controller.hpp>
 
-#include <View/IViewFactory.hpp>
-#include <Controller/ControllerFactory.hpp>
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  Controller::Controller() {}
+  Controller::~Controller() {}
 
-#include <Controller/MasterController.hpp>
-
-#include <Controller/Messages.hpp>
-
-namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory)
-    : m_masterController(new Controller::MasterController(viewFactory, controllerFactory))
-  {}
-
-  MainUI::~MainUI() {}
-
-  void MainUI::start() {
-    m_masterController->receiveMessage(this, Controller::Messages::CreateApplicationView);
-  }
+  void Controller::receiveMessage(void *sender, std::string message) {}
 }

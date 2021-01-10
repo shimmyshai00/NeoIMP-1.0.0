@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: Handles events from the application view.
+ * FILE:    ViewUnitProvider.cpp
+ * PURPOSE: Creates the view unit for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,31 +21,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <ViewUnitProvider.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
-
-//#include <NewDocumentController.hpp>
-//#include <FileCommandsController.hpp>
-
 #include <ControllerFactory.hpp>
 
-#include <Messages.hpp>
+#include <View/IApplicationView.hpp>
+#include <Controller.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IApplicationView *applicationView)
-    : m_applicationView(applicationView)
-  {
-    m_applicationViewConn = m_applicationView->attachObserver(this);
-  }
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
+    View::IViewFactory *viewFactory,
+    ControllerFactory *controllerFactory
+  ) {
+    std::unique_ptr<View::IApplicationView> view(viewFactory->createApplicationView());
+    std::unique_ptr<Controller> controller(controllerFactory->createApplicationController());
 
-  ApplicationController::~ApplicationController() {}
-
-  void ApplicationController::receiveMessage(void *sender, std::string message) {}
-
-  void ApplicationController::notify(View::Events::ExitCommandEvent event) {
-    // NB: will need smth more thorough eventually
-    dispatchMessage(Messages::DestroyApplicationView);
+    return Framework::MVCViewUnit::Builder(std::move(view))
+      .addController(std::move(controller))
+      .build();
   }
 }

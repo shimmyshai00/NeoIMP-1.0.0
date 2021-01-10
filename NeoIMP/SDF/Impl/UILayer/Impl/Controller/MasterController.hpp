@@ -5,7 +5,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationMasterController.hpp
+ * FILE:    MasterController.hpp
  * PURPOSE: Implementation of the application master controller, which creates and destroys the various temporary views
  *          used in the program.
  */
@@ -35,9 +35,9 @@ namespace SDF::Impl::UILayer::Impl {
   namespace Controller {
     class ControllerFactory;
 
-    class ApplicationMasterController : public Framework::MVCMasterController {
+    class MasterController : public Framework::MVCMasterController {
     public:
-      ApplicationMasterController(View::IViewFactory *viewFactory, ControllerFactory *controllerFactory);
+      MasterController(View::IViewFactory *viewFactory, ControllerFactory *controllerFactory);
 
       void receiveMessage(void *sender, std::string message);
     private:

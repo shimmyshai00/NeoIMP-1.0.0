@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationMasterController.cpp
+ * FILE:    MasterController.cpp
  * PURPOSE: Implementation of the application master controller, which creates and destroys the various temporary views
  *          used in the program.
  */
@@ -22,24 +22,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationMasterController.hpp>
+#include <MasterController.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
-
 #include <ControllerFactory.hpp>
-#include <ApplicationController.hpp>
+
+#include <Application/ViewUnitProvider.hpp>
 
 #include <Messages.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   enum {
-    VIEW_ID_APPLICATION_VIEW
+    APPLICATION_VIEW_ID
   };
 }
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationMasterController::ApplicationMasterController(
+  MasterController::MasterController(
     View::IViewFactory *viewFactory,
     ControllerFactory *controllerFactory
   )
@@ -47,24 +46,15 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       m_controllerFactory(controllerFactory)
   {}
 
-  void ApplicationMasterController::receiveMessage(void *sender, std::string message) {
+  void MasterController::receiveMessage(void *sender, std::string message) {
     // View creation
     if(message == Messages::CreateApplicationView) {
-      std::unique_ptr<View::IApplicationView> applicationView(m_viewFactory->createApplicationView());
-      std::unique_ptr<ApplicationController> applicationController(
-        m_controllerFactory->createApplicationController(applicationView.get())
-      );
-
-      auto viewUnit = Framework::MVCViewUnit::Builder(std::move(applicationView))
-        .addController(std::move(applicationController))
-        .build();
-
-      addViewUnit(VIEW_ID_APPLICATION_VIEW, std::move(viewUnit));
+      addViewUnit(APPLICATION_VIEW_ID, std::move(Application::createViewUnit(m_viewFactory, m_controllerFactory)));
     }
 
     // View destruction
     if(message == Messages::DestroyApplicationView) {
-      removeViewUnit(VIEW_ID_APPLICATION_VIEW);
+      removeViewUnit(APPLICATION_VIEW_ID);
     }
   }
 }

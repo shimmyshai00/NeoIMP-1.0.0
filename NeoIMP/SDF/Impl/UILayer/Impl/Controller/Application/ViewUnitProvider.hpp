@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_IMPL_APPLICATIONCONTROLLER_HPP
-#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_IMPL_APPLICATIONCONTROLLER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_VIEWUNITPROVIDER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_VIEWUNITPROVIDER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.hpp
- * PURPOSE: Handles events from the application view.
+ * FILE:    ViewUnitProvider.hpp
+ * PURPOSE: Creates the view unit for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,38 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseController.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
-
-#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
-
-#include <memory>
-#include <boost/signals2/connection.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewUnit.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IViewFactory;
-    class IApplicationView;
   }
 
   namespace Controller {
     class ControllerFactory;
 
-    class ApplicationController : public Framework::MVCBaseController,
-      public Framework::IMVCObserver<View::Events::ExitCommandEvent>
-    {
-    public:
-      ApplicationController(View::IApplicationView *applicationView);
-      ~ApplicationController();
-
-      void receiveMessage(void *sender, std::string message);
-
-      void notify(View::Events::ExitCommandEvent event);
-    private:
-      View::IApplicationView *m_applicationView;
-
-      boost::signals2::scoped_connection m_applicationViewConn;
-    };
+    namespace Application {
+      std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
+        View::IViewFactory *viewFactory,
+        ControllerFactory *controllerFactory
+      );
+    }
   }
 }
 

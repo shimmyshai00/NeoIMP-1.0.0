@@ -34,14 +34,16 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   namespace Controller {
-    class ApplicationController;
+    namespace Application {
+      class Controller;
+    }
 
     class ControllerFactory {
     public:
       INJECT(ControllerFactory());
       ~ControllerFactory();
 
-      std::unique_ptr<ApplicationController> createApplicationController(View::IApplicationView *applicationView);
+      std::unique_ptr<Application::Controller> createApplicationController();
     };
   }
 }

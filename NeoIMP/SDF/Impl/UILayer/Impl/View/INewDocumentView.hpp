@@ -24,13 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/AcceptDocumentParametersEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/ViewDismissedEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class INewDocumentView : public Framework::MVCObservable<Events::AcceptDocumentParametersEvent>,
+  class INewDocumentView : public Framework::IMVCView,
+    public Framework::MVCObservable<Events::AcceptDocumentParametersEvent>,
     public Framework::MVCObservable<Events::ViewDismissedEvent>
   {
   public:

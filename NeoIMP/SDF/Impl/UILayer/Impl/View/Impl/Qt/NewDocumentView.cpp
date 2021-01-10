@@ -45,7 +45,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
       Framework::MVCObservable<Events::ViewDismissedEvent>::notifyObservers(Events::ViewDismissedEvent());
     });
+  }
 
+  void NewDocumentView::activate() {
     m_newDocumentDialog->open();
+  }
+
+  void NewDocumentView::update(std::string updateEvent) {}
+
+  void NewDocumentView::shutdown() {
+    m_newDocumentDialog->close();
   }
 }
