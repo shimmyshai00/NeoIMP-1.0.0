@@ -42,7 +42,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       Framework::MVCObservable<Events::AcceptDocumentParametersEvent>::notifyObservers(
         Events::AcceptDocumentParametersEvent { spec }
       );
+    });
 
+    QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::rejected, [=]() {
       Framework::MVCObservable<Events::ViewDismissedEvent>::notifyObservers(Events::ViewDismissedEvent());
     });
   }

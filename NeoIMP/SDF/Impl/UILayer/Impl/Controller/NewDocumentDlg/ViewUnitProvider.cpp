@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ViewUnitProvider.cpp
- * PURPOSE: Creates the view unit for the application view.
+ * PURPOSE: Creates the view unit for the new-document dialog.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,28 +26,22 @@
 #include <View/IViewFactory.hpp>
 #include <ControllerFactory.hpp>
 
-#include <View/IApplicationView.hpp>
-#include <View/IFileCommandsView.hpp>
+#include <View/INewDocumentView.hpp>
+#include <NewDocumentDlg/Controller.hpp>
 
-#include <Application/Controller.hpp>
-#include <Application/FileController.hpp>
-
-namespace SDF::Impl::UILayer::Impl::Controller::Application {
+namespace SDF::Impl::UILayer::Impl::Controller::NewDocumentDlg {
   std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
     View::IViewFactory *viewFactory,
     ControllerFactory *controllerFactory
   ) {
-    std::unique_ptr<View::IApplicationView> view(viewFactory->createApplicationView());
-    View::IFileCommandsView *fileSubView(view->getFileCommandsView());
+    std::unique_ptr<View::INewDocumentView> view(viewFactory->createNewDocumentView());
+    std::unique_ptr<Controller> controller(controllerFactory->createNewDocumentDlgController());
 
-    std::unique_ptr<Controller> controller(controllerFactory->createApplicationController());
-    std::unique_ptr<FileController> fileController(controllerFactory->createApplicationFileController());
-
-    fileSubView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(fileController.get());
+    view->Framework::MVCObservable<View::Events::AcceptDocumentParametersEvent>::attachObserver(controller.get());
+    view->Framework::MVCObservable<View::Events::ViewDismissedEvent>::attachObserver(controller.get());
 
     return Framework::MVCViewUnit::Builder(std::move(view))
       .addController(std::move(controller))
-      .addController(std::move(fileController))
       .build();
   }
 }

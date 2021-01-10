@@ -23,15 +23,31 @@
 
 #include <ControllerFactory.hpp>
 
+#include <AbstractModel/Services/IDocumentCreationService.hpp>
+
 #include <View/IApplicationView.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <Application/Controller.hpp>
+#include <Application/FileController.hpp>
+#include <NewDocumentDlg/Controller.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ControllerFactory::ControllerFactory() {}
+  ControllerFactory::ControllerFactory(AbstractModel::Services::IDocumentCreationService *documentCreationService)
+    : m_documentCreationService(documentCreationService)
+  {}
+
   ControllerFactory::~ControllerFactory() {}
 
   std::unique_ptr<Application::Controller> ControllerFactory::createApplicationController() {
     return std::make_unique<Application::Controller>();
+  }
+
+  std::unique_ptr<Application::FileController> ControllerFactory::createApplicationFileController() {
+    return std::make_unique<Application::FileController>();
+  }
+
+  std::unique_ptr<NewDocumentDlg::Controller> ControllerFactory::createNewDocumentDlgController() {
+    return std::make_unique<NewDocumentDlg::Controller>(m_documentCreationService);
   }
 }

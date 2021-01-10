@@ -27,6 +27,7 @@
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 #include <QPointer>
+#include <memory>
 
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
@@ -54,8 +55,12 @@ namespace SDF::Impl::UILayer {
       void activate();
       void update(std::string updateEvent);
       void shutdown();
+
+      IFileCommandsView *getFileCommandsView();
     private:
       QPointer<Windows::MainWindow> m_mainWindow;
+
+      std::unique_ptr<FileCommandsView> m_fileCommandsView;
     };
   }
 }

@@ -37,4 +37,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       Framework::MVCObservable<Events::SaveAsCommandEvent>::notifyObservers(Events::SaveAsCommandEvent());
     });
   }
+
+  void FileCommandsView::activate() {}
+  void FileCommandsView::update(std::string updateEvent) {}
+  void FileCommandsView::shutdown() {}
 }

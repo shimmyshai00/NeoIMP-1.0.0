@@ -23,7 +23,7 @@
 
 #include <ApplicationView.hpp>
 
-//#include <FileCommandsView.hpp>
+#include <FileCommandsView.hpp>
 //#include <OpenDocumentsView.hpp>
 
 #include <Windows/MainWindow.hpp>
@@ -35,8 +35,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     AbstractModel::Services::IImageInformationService *imageInformationService,
     AbstractModel::Services::IImageRenderingService *imageRenderingService
   )
-    : m_mainWindow(new Windows::MainWindow)//,
-      //m_fileCommandsView(new FileCommandsView(m_mainWindow)),
+    : m_mainWindow(new Windows::MainWindow),
+      m_fileCommandsView(new FileCommandsView(m_mainWindow))
       //m_openDocumentsView(new OpenDocumentsView(m_mainWindow, imageInformationService, imageRenderingService))
   {
     // Hook events.
@@ -47,11 +47,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   ApplicationView::~ApplicationView() {}
 
-/*
   IFileCommandsView *ApplicationView::getFileCommandsView() {
     return m_fileCommandsView.get();
   }
 
+/*
   IOpenDocumentsView *ApplicationView::getOpenDocumentsView() {
     return m_openDocumentsView.get();
   }
@@ -65,4 +65,5 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   void ApplicationView::shutdown() {
     m_mainWindow->close();
   }
+
 }

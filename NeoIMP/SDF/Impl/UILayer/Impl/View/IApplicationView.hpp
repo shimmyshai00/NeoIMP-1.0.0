@@ -36,8 +36,8 @@ namespace SDF::Impl::UILayer::Impl::View {
   class IApplicationView : public Framework::IMVCView, public Framework::MVCObservable<Events::ExitCommandEvent> {
   public:
     virtual ~IApplicationView() = default;
-    
-    //virtual IFileCommandsView *getFileCommandsView() = 0;
+
+    virtual IFileCommandsView *getFileCommandsView() = 0;
     //virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };
 }

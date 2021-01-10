@@ -1,13 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMVCHIERARCHYOBJECT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMVCHIERARCHYOBJECT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCHierarchyObject.hpp
- * PURPOSE: Provides a base interface for MVC objects that form a hierarchy into which they can be dynamically added
- *          and removed.
+ * FILE:    FileController.cpp
+ * PURPOSE: The controller for the file commands sub-view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,21 +21,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class T>
-  class IMVCMutableHierarchy;
+#include <Application/FileController.hpp>
 
-  template<class T>
-  class IMVCHierarchyObject {
-  public:
-    virtual ~IMVCHierarchyObject() = default;
+#include <Messages.hpp>
 
-    virtual T *downcast() = 0;
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  FileController::FileController() {}
+  FileController::~FileController() {}
 
-    virtual IMVCHierarchyObject<T> *getParent() = 0;
-    virtual IMVCHierarchyObject<T> *getFirstChild() = 0;
-    virtual IMVCHierarchyObject<T> *getNextSibling() = 0;
-  };
+  void FileController::receiveMessage(void *sender, std::string message) {}
+
+  void FileController::notify(View::Events::NewCommandEvent e) {
+    dispatchMessage(Messages::CreateNewDocumentView);
+  }
 }
-
-#endif

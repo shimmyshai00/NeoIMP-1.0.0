@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IFILECOMMANDSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IFILECOMMANDSVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_FILECONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_APPLICATION_FILECONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FileCommandsView.hpp
- * PURPOSE: The Qt-based file commands view.
+ * FILE:    FileController.hpp
+ * PURPOSE: The controller for the file commands sub-view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IFileCommandsView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseController.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 
-#include <QPointer>
+#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
-  }
-
-  class FileCommandsView : public IFileCommandsView {
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  class FileController : public Framework::MVCBaseController,
+    public Framework::IMVCObserver<View::Events::NewCommandEvent>
+  {
   public:
-    FileCommandsView(QPointer<Windows::MainWindow> mainWindow);
+    FileController();
+    ~FileController();
 
-    void activate();
-    void update(std::string updateEvent);
-    void shutdown();
-  private:
-    QPointer<Windows::MainWindow> m_mainWindow;
+    void receiveMessage(void *sender, std::string message);
+
+    void notify(View::Events::NewCommandEvent e);
   };
 }
 

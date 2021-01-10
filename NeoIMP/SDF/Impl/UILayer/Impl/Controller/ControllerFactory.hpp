@@ -28,23 +28,38 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  namespace View {
-    class IApplicationView;
+namespace SDF::Impl::UILayer {
+  namespace AbstractModel::Services {
+    class IDocumentCreationService;
   }
 
-  namespace Controller {
-    namespace Application {
-      class Controller;
+  namespace Impl {
+    namespace View {
+      class IApplicationView;
     }
 
-    class ControllerFactory {
-    public:
-      INJECT(ControllerFactory());
-      ~ControllerFactory();
+    namespace Controller {
+      namespace Application {
+        class Controller;
+        class FileController;
+      }
 
-      std::unique_ptr<Application::Controller> createApplicationController();
-    };
+      namespace NewDocumentDlg {
+        class Controller;
+      }
+
+      class ControllerFactory {
+      public:
+        INJECT(ControllerFactory(AbstractModel::Services::IDocumentCreationService *documentCreationService));
+        ~ControllerFactory();
+
+        std::unique_ptr<Application::Controller> createApplicationController();
+        std::unique_ptr<Application::FileController> createApplicationFileController();
+        std::unique_ptr<NewDocumentDlg::Controller> createNewDocumentDlgController();
+      private:
+        AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+      };
+    }
   }
 }
 

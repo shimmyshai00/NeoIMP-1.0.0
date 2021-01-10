@@ -25,13 +25,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
 #include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IFileCommandsView : public Framework::MVCObservable<Events::NewCommandEvent>,
+  class IFileCommandsView : public Framework::IMVCView,
+    public Framework::MVCObservable<Events::NewCommandEvent>,
     public Framework::MVCObservable<Events::SaveAsCommandEvent>
   {
   public:

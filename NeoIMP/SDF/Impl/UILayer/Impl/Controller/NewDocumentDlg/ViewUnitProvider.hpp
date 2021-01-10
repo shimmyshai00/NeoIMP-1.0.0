@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IFILECOMMANDSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_IFILECOMMANDSVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_NEWDOCUMENTDLG_VIEWUNITPROVIDER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_NEWDOCUMENTDLG_VIEWUNITPROVIDER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FileCommandsView.hpp
- * PURPOSE: The Qt-based file commands view.
+ * FILE:    ViewUnitProvider.hpp
+ * PURPOSE: Creates the view unit for the new-document dialog.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IFileCommandsView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewUnit.hpp>
 
-#include <QPointer>
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IViewFactory;
   }
 
-  class FileCommandsView : public IFileCommandsView {
-  public:
-    FileCommandsView(QPointer<Windows::MainWindow> mainWindow);
+  namespace Controller {
+    class ControllerFactory;
 
-    void activate();
-    void update(std::string updateEvent);
-    void shutdown();
-  private:
-    QPointer<Windows::MainWindow> m_mainWindow;
-  };
+    namespace NewDocumentDlg {
+      std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
+        View::IViewFactory *viewFactory,
+        ControllerFactory *controllerFactory
+      );
+    }
+  }
 }
 
 #endif

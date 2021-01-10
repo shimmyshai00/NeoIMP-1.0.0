@@ -7,6 +7,7 @@ add_subdirectory(CustomWidgets)
 
 target_sources(neoimp PUBLIC
   ApplicationView.cpp
+  FileCommandsView.cpp
   NewDocumentView.cpp
   ViewFactory.cpp
 )
