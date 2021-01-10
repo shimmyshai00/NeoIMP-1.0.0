@@ -29,6 +29,8 @@
 namespace SDF::Impl::UILayer::Impl::Controller::Messages {
   static const std::string CreateApplicationView = "create.application.view";
   static const std::string CreateNewDocumentView = "create.new.document.view";
+
+  static const std::string DestroyApplicationView = "destroy.application.view";
 }
 
 #endif

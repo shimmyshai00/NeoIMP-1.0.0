@@ -26,7 +26,7 @@
 
 namespace SDF::Impl::UILayer::Impl::Framework {
   class IMVCMessageReceiver;
-  
+
   class IMVCMessageEmitter {
   public:
     virtual ~IMVCMessageEmitter() = default;

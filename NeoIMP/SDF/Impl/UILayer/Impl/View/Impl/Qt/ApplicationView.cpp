@@ -43,8 +43,6 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
       Framework::MVCObservable<Events::ExitCommandEvent>::notifyObservers(Events::ExitCommandEvent());
     });
-
-    m_mainWindow->show();
   }
 
   ApplicationView::~ApplicationView() {}
@@ -58,6 +56,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return m_openDocumentsView.get();
   }
 */
+  void ApplicationView::activate() {
+    m_mainWindow->show();
+  }
 
   void ApplicationView::update(std::string updateEvent) {}
+
+  void ApplicationView::shutdown() {
+    m_mainWindow->close();
+  }
 }

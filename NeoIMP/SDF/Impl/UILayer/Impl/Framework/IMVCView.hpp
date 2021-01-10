@@ -31,7 +31,9 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   public:
     virtual ~IMVCView() = default;
 
+    virtual void activate() = 0;
     virtual void update(std::string updateEvent) = 0;
+    virtual void shutdown() = 0;
   };
 }
 

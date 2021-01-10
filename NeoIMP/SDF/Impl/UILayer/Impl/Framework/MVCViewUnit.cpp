@@ -3,8 +3,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MVCViewUnit.hpp
- * PURPOSE: The MVC view unit. A view unit stores a single view together with associated controllers and permits
- *          dynamic destruction of itself.
+ * PURPOSE: Provides a way to bundle a view together with its associated controllers under a uniform interface to help
+ *          facilitate dynamic creation and destruction thereof.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 
 #include <MVCViewUnit.hpp>
 
-#include <IMVCOwner.hpp>
 #include <IMVCView.hpp>
 #include <IMVCController.hpp>
 
@@ -34,24 +33,19 @@
 
 namespace SDF::Impl::UILayer::Impl::Framework {
   MVCViewUnit::MVCViewUnit(std::unique_ptr<IMVCView> view)
-    : m_owner(nullptr),
-      m_view(std::move(view)),
+    : m_view(std::move(view)),
       m_outgoingMessageDispatcher(new MVCMessageDispatcher),
       m_incomingMessageDispatcher(new MVCMessageDispatcher)
   {}
 
   MVCViewUnit::~MVCViewUnit() {}
 
-  std::unique_ptr<MVCViewUnit> MVCViewUnit::removeSelf() {
-    if(m_owner == nullptr) {
-      throw UILayer::Exceptions::RemovedRootException();
-    }
-
-    return m_owner->removeOwnable(this);
+  void MVCViewUnit::activateView() {
+    m_view->activate();
   }
 
-  void MVCViewUnit::setOwner(IMVCOwner<MVCViewUnit> *owner) {
-    m_owner = owner;
+  void MVCViewUnit::shutdownView() {
+    m_view->shutdown();
   }
 
   void MVCViewUnit::addMessageReceiver(IMVCMessageReceiver *receiver) {

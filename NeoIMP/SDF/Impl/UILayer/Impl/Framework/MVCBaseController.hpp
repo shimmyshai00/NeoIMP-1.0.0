@@ -31,7 +31,6 @@
 
 namespace SDF::Impl::UILayer::Impl::Framework {
   class IMVCMessageReceiver;
-  class MVCViewUnit;
 
   class MVCBaseController : public IMVCController {
   public:
@@ -41,11 +40,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     void removeMessageReceiver(IMVCMessageReceiver *receiver);
 
     virtual void receiveMessage(void *sender, std::string message) = 0;
-
-    void setViewUnit(MVCViewUnit *viewUnit);
   protected:
-    MVCViewUnit *m_viewUnit;
-
     void dispatchMessage(std::string message);
   private:
     std::vector<IMVCMessageReceiver *> m_messageReceivers;

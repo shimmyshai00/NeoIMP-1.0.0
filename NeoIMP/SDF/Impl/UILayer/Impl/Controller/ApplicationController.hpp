@@ -52,7 +52,7 @@ namespace SDF::Impl::UILayer::Impl {
 
       void notify(View::Events::ExitCommandEvent event);
     private:
-      std::unique_ptr<View::IApplicationView> m_applicationView;
+      View::IApplicationView *m_applicationView;
 
       boost::signals2::scoped_connection m_applicationViewConn;
     };

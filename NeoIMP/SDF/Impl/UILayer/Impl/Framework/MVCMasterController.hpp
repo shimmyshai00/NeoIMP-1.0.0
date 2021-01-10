@@ -25,24 +25,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCOwner.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCViewUnit.hpp>
 
+#include <map>
 #include <vector>
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCMasterController : public IMVCMessageReceiver, protected IMVCOwner<MVCViewUnit> {
+  class MVCMasterController : public IMVCMessageReceiver {
   public:
     MVCMasterController();
+
+    void flush();
 
     // Users should override this method to create views in response to suitable messages.
     virtual void receiveMessage(void *sender, std::string message) = 0;
   protected:
-    void addOwnable(std::unique_ptr<MVCViewUnit> ownable);
-    std::unique_ptr<MVCViewUnit> removeOwnable(MVCViewUnit *ownable);
+    void addViewUnit(int id, std::unique_ptr<MVCViewUnit> viewUnit);
+    void removeViewUnit(int id);
   private:
-    std::vector<std::unique_ptr<MVCViewUnit>> m_viewUnits;
+    std::map<int, std::unique_ptr<MVCViewUnit>> m_viewUnits;
+    std::vector<std::unique_ptr<MVCViewUnit>> m_viewUnitsPendingDestroy;
   };
 }
 

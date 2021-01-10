@@ -28,21 +28,22 @@
 namespace SDF::Impl::UILayer::Impl::Framework {
   MVCMasterController::MVCMasterController() {}
 
-  void MVCMasterController::addOwnable(std::unique_ptr<MVCViewUnit> ownable) {
-    (static_cast<IMVCOwnable<MVCViewUnit> *>(ownable.get()))->setOwner(this); // yeegh :(
-    m_viewUnits.push_back(std::move(ownable));
+  void MVCMasterController::addViewUnit(int id, std::unique_ptr<MVCViewUnit> viewUnit) {
+    viewUnit->addMessageReceiver(this);
+    viewUnit->activateView();
+    m_viewUnits[id] = std::move(viewUnit);
   }
 
-  std::unique_ptr<MVCViewUnit> MVCMasterController::removeOwnable(MVCViewUnit *ownable) {
-    std::vector<std::unique_ptr<MVCViewUnit>>::iterator it(m_viewUnits.begin());
+  void MVCMasterController::removeViewUnit(int id) {
+    // We do not just delete the view here because this method may be called from within a view in response to it being
+    // dismissed, so we want to defer the deletion until later when it is safe.
+    m_viewUnits[id]->shutdownView();
+    m_viewUnitsPendingDestroy.push_back(std::move(m_viewUnits[id]));
+    m_viewUnits.erase(id);
+  }
 
-    while(it->get() != ownable) {
-      ++it;
-    }
-
-    std::unique_ptr<MVCViewUnit> rv(std::move(*it));
-    m_viewUnits.erase(it);
-
-    return std::move(rv);
+  void MVCMasterController::flush() {
+    // This should be called from the top-level UI message loop only!
+    m_viewUnitsPendingDestroy.clear();
   }
 }

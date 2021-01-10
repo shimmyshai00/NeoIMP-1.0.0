@@ -40,8 +40,6 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     virtual void removeMessageReceiver(IMVCMessageReceiver *receiver) = 0;
 
     virtual void receiveMessage(void *sender, std::string message) = 0;
-
-    virtual void setViewUnit(MVCViewUnit *viewUnit) = 0;
   };
 }
 

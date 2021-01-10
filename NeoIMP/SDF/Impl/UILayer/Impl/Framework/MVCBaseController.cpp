@@ -36,10 +36,6 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     m_messageReceivers.erase(std::find(m_messageReceivers.begin(), m_messageReceivers.end(), receiver));
   }
 
-  void MVCBaseController::setViewUnit(MVCViewUnit *viewUnit) {
-    m_viewUnit = viewUnit;
-  }
-
   // Protected member.
   void MVCBaseController::dispatchMessage(std::string message) {
     for(auto &recv : m_messageReceivers) {

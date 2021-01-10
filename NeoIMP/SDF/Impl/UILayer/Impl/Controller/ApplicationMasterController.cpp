@@ -33,6 +33,12 @@
 #include <Messages.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
+  enum {
+    VIEW_ID_APPLICATION_VIEW
+  };
+}
+
+namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationMasterController::ApplicationMasterController(
     View::IViewFactory *viewFactory,
     ControllerFactory *controllerFactory
@@ -42,6 +48,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   {}
 
   void ApplicationMasterController::receiveMessage(void *sender, std::string message) {
+    // View creation
     if(message == Messages::CreateApplicationView) {
       std::unique_ptr<View::IApplicationView> applicationView(m_viewFactory->createApplicationView());
       std::unique_ptr<ApplicationController> applicationController(
@@ -52,7 +59,12 @@ namespace SDF::Impl::UILayer::Impl::Controller {
         .addController(std::move(applicationController))
         .build();
 
-      addOwnable(std::move(viewUnit));
+      addViewUnit(VIEW_ID_APPLICATION_VIEW, std::move(viewUnit));
+    }
+
+    // View destruction
+    if(message == Messages::DestroyApplicationView) {
+      removeViewUnit(VIEW_ID_APPLICATION_VIEW);
     }
   }
 }

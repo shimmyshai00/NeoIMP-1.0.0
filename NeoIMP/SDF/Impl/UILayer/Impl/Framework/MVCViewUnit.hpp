@@ -6,8 +6,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MVCViewUnit.hpp
- * PURPOSE: The MVC view unit. A view unit stores a single view together with associated controllers and permits
- *          dynamic destruction of itself.
+ * PURPOSE: Provides a way to bundle a view together with its associated controllers under a uniform interface to help
+ *          facilitate dynamic creation and destruction thereof.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCOwnable.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageEmitter.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageReceiver.hpp>
 
@@ -33,28 +32,23 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class T>
-  class IMVCOwner;
   class IMVCView;
   class IMVCController;
 
   class MVCMessageDispatcher;
 
-  class MVCViewUnit : public IMVCOwnable<MVCViewUnit>, public IMVCMessageEmitter, public IMVCMessageReceiver {
+  class MVCViewUnit : public IMVCMessageEmitter, public IMVCMessageReceiver {
   public:
     ~MVCViewUnit();
 
-    std::unique_ptr<MVCViewUnit> removeSelf();
+    void activateView();
+    void shutdownView();
 
     void addMessageReceiver(IMVCMessageReceiver *receiver);
     void removeMessageReceiver(IMVCMessageReceiver *receiver);
 
     void receiveMessage(void *sender, std::string message);
-  protected:
-    void setOwner(IMVCOwner<MVCViewUnit> *owner);
   private:
-    IMVCOwner<MVCViewUnit> *m_owner;
-
     std::unique_ptr<IMVCView> m_view;
     std::vector<std::unique_ptr<IMVCController>> m_controllers;
 

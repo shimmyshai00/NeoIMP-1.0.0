@@ -37,6 +37,10 @@ namespace SDF::Impl::UILayer::Impl::View {
   public:
     virtual ~IApplicationView() = default;
 
+    virtual void activate() = 0;
+    virtual void update(std::string updateEvent) = 0;
+    virtual void shutdown() = 0;
+    
     //virtual IFileCommandsView *getFileCommandsView() = 0;
     //virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };

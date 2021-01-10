@@ -23,8 +23,6 @@
 
 #include <ApplicationController.hpp>
 
-#include <Framework/MVCViewUnit.hpp>
-
 #include <View/IViewFactory.hpp>
 #include <View/IApplicationView.hpp>
 
@@ -32,6 +30,8 @@
 //#include <FileCommandsController.hpp>
 
 #include <ControllerFactory.hpp>
+
+#include <Messages.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::ApplicationController(View::IApplicationView *applicationView)
@@ -46,6 +46,6 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   void ApplicationController::notify(View::Events::ExitCommandEvent event) {
     // NB: will need smth more thorough eventually
-    m_viewUnit->removeSelf();
+    dispatchMessage(Messages::DestroyApplicationView);
   }
 }
