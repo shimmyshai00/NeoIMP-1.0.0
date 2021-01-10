@@ -26,10 +26,13 @@
 #include <algorithm>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  MVCMasterController::MVCMasterController() {}
+  MVCMasterController::MVCMasterController() : m_messageDispatcher(new MVCMessageDispatcher) {}
 
   void MVCMasterController::addViewUnit(int id, std::unique_ptr<MVCViewUnit> viewUnit) {
+    viewUnit->addMessageReceiver(m_messageDispatcher.get());
+    m_messageDispatcher->addMessageReceiver(viewUnit.get());
     viewUnit->addMessageReceiver(this);
+
     viewUnit->activateView();
     m_viewUnits[id] = std::move(viewUnit);
   }

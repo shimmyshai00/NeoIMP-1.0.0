@@ -29,7 +29,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
   OpenDocumentsController::~OpenDocumentsController() {}
 
   void OpenDocumentsController::receiveMessage(void *sender, std::string message) {
-    std::cout << "recv: " << message << std::endl;
+    std::cout << "odc recv: " << message << std::endl;
     m_view->update(message);
   }
 }

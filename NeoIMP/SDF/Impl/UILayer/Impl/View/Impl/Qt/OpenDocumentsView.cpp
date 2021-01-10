@@ -37,6 +37,8 @@
 
 #include <DocumentView.hpp>
 
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   OpenDocumentsView::OpenDocumentsView(
     QPointer<Windows::MainWindow> mainWindow,
@@ -61,9 +63,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   void OpenDocumentsView::activate() {}
 
   void OpenDocumentsView::update(std::string updateEvent) {
+    std::cout << "odv got message: " << updateEvent << std::endl;
     std::pair<std::string, int> decodedMessage(Framework::decodeExtra(updateEvent));
+    std::cout << " decoded: msg=" << decodedMessage.first << " handle=" << decodedMessage.second << std::endl;
     if(decodedMessage.first == Controller::Messages::DocumentCreated) {
       AbstractModel::Handle handle(decodedMessage.second);
+
+      std::cout << "handle: " << handle << std::endl;
 
       if(m_documentViews.find(handle) == m_documentViews.end()) {
         m_documentViews[handle] = std::make_unique<DocumentView>(

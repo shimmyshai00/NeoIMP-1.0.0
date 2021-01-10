@@ -73,6 +73,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
 
   MVCViewUnit::Builder &MVCViewUnit::Builder::addController(std::unique_ptr<IMVCController> controller) {
     controller->addMessageReceiver(m_viewUnit->m_internalMessageDispatcher.get());
+    m_viewUnit->m_internalMessageDispatcher->addMessageReceiver(controller.get());
     controller->addMessageReceiver(m_viewUnit->m_outgoingMessageDispatcher.get());
     m_viewUnit->m_incomingMessageDispatcher->addMessageReceiver(controller.get());
 

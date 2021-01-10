@@ -43,9 +43,9 @@ namespace SDF::Impl::UILayer::Impl::Framework {
       tokens.push_back(token);
     }
 
-    if((tokens.size() == 3) && (tokens[1] == ":")) {
+    if(tokens.size() == 2) {
       try {
-        return std::pair<std::string, int>(tokens[0], std::stoi(tokens[2]));
+        return std::pair<std::string, int>(tokens[0], std::stoi(tokens[1]));
       } catch(std::exception &e) {
         return std::pair<std::string, int>(tokens[0], -1);
       }

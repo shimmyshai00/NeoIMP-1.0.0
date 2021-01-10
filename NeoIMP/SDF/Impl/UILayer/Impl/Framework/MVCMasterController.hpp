@@ -25,6 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/MVCMessageDispatcher.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCViewUnit.hpp>
 
 #include <map>
@@ -44,6 +45,8 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     void addViewUnit(int id, std::unique_ptr<MVCViewUnit> viewUnit);
     void removeViewUnit(int id);
   private:
+    std::unique_ptr<MVCMessageDispatcher> m_messageDispatcher;
+    
     std::map<int, std::unique_ptr<MVCViewUnit>> m_viewUnits;
     std::vector<std::unique_ptr<MVCViewUnit>> m_viewUnitsPendingDestroy;
   };
