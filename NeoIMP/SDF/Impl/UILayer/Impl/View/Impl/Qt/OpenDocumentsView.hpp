@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IOpenDocumentsView.hpp>
 
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
@@ -47,7 +48,7 @@ namespace SDF::Impl::UILayer {
 
     class DocumentView;
 
-    class OpenDocumentsView : public IOpenDocumentsView {
+    class OpenDocumentsView : public Framework::IMVCViewDetail<QTabWidget>, public IOpenDocumentsView {
     public:
       OpenDocumentsView(
         QPointer<Windows::MainWindow> mainWindow,
@@ -57,15 +58,17 @@ namespace SDF::Impl::UILayer {
 
       ~OpenDocumentsView();
 
-      void notifyOfDocumentAdded(AbstractModel::Handle handle);
-      void notifyOfDocumentRemoved(AbstractModel::Handle handle);
+      QTabWidget *getDetail();
+
+      void activate();
+      void update(std::string updateEvent);
+      void shutdown();
 
       IDocumentView *getDocumentView(AbstractModel::Handle handle);
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      QPointer<Windows::MainWindow> m_mainWindow;
       QPointer<QTabWidget> m_tabWidget;
 
       std::map<AbstractModel::Handle, std::unique_ptr<DocumentView>> m_documentViews;

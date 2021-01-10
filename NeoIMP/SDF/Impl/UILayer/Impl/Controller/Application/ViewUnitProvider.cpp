@@ -28,9 +28,11 @@
 
 #include <View/IApplicationView.hpp>
 #include <View/IFileCommandsView.hpp>
+#include <View/IOpenDocumentsView.hpp>
 
 #include <Application/Controller.hpp>
 #include <Application/FileController.hpp>
+#include <Application/OpenDocumentsController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Application {
   std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
@@ -39,15 +41,20 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
   ) {
     std::unique_ptr<View::IApplicationView> view(viewFactory->createApplicationView());
     View::IFileCommandsView *fileSubView(view->getFileCommandsView());
+    View::IOpenDocumentsView *openDocumentsSubView(view->getOpenDocumentsView());
 
     std::unique_ptr<Controller> controller(controllerFactory->createApplicationController());
     std::unique_ptr<FileController> fileController(controllerFactory->createApplicationFileController());
+    std::unique_ptr<OpenDocumentsController> openDocumentsController(
+      controllerFactory->createApplicationOpenDocumentsController(openDocumentsSubView)
+    );
 
     fileSubView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(fileController.get());
 
     return Framework::MVCViewUnit::Builder(std::move(view))
       .addController(std::move(controller))
       .addController(std::move(fileController))
+      .addController(std::move(openDocumentsController))
       .build();
   }
 }

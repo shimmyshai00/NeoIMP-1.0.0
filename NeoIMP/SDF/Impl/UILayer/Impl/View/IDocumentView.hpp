@@ -24,14 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView {
+  class IDocumentView : public Framework::IMVCView {
   public:
     virtual ~IDocumentView() = default;
-
-    virtual void notifyDocumentNameChanged() = 0;
   };
 }
 

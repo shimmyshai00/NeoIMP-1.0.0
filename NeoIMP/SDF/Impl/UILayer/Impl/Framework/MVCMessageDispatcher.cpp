@@ -23,14 +23,20 @@
 
 #include <MVCMessageDispatcher.hpp>
 #include <algorithm>
+#include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
   MVCMessageDispatcher::MVCMessageDispatcher() {}
 
   void MVCMessageDispatcher::receiveMessage(void *sender, std::string message) {
+    std::cout << "dispatcher " << this << " dispatching message: " << message << std::endl;
     for(IMVCMessageReceiver *recv : m_messageReceivers) {
+      std::cout << " recv ... ";
       if(recv != sender) {
         recv->receiveMessage(this, message);
+        std::cout << "ack" << std::endl;
+      } else {
+        std::cout << std::endl;
       }
     }
   }

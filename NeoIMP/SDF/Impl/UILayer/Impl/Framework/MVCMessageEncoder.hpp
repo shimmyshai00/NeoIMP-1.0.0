@@ -1,12 +1,15 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCMESSAGEENCODER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCMESSAGEENCODER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IOpenDocumentsView.hpp
- * PURPOSE: The widget system-agnostic interface for the view showing the currently-open documents.
+ * FILE:    MVCMessageEncoder.hpp
+ * PURPOSE: A simple method to encode a bit of extra information into inter-controller pub/sub messages. These messages
+ *          are not meant to convey a lot of information (otherwise we would use the Observer system in some way), but
+ *          rather just to notify views and controllers they need to pull data from the model layer. However, sometimes
+ *          a handle or other such simple datum will be required along with the specification of what to fetch.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +27,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <string>
+#include <algorithm>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView;
-
-  class IOpenDocumentsView : public Framework::IMVCView {
-  public:
-    virtual ~IOpenDocumentsView() = default;
-
-    virtual IDocumentView *getDocumentView(AbstractModel::Handle handle) = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::Framework {
+  std::string encodeExtra(std::string prefix, int val);
+  std::pair<std::string, int> decodeExtra(std::string message);
 }
 
 #endif

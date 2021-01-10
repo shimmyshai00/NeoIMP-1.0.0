@@ -23,11 +23,15 @@
 
 #include <DocumentView.hpp>
 
+#include <Framework/MVCMessageEncoder.hpp>
+
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 
 #include <Windows/MainWindow.hpp>
 #include <AbstractModel/Handle.hpp>
+
+#include <Controller/Messages.hpp>
 
 #include <CustomWidgets/DocumentWidget.hpp>
 #include <CustomWidgets/IImageDataSource.hpp>
@@ -90,10 +94,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return m_documentWidget;
   }
 
-  void DocumentView::notifyDocumentNameChanged() {
-    m_tabWidget->setTabText(
-      m_tabWidget->indexOf(m_documentWidget),
-      m_imageInformationService->getImageName(m_documentHandle).c_str()
-    );
+  void DocumentView::activate() {}
+
+  void DocumentView::update(std::string updateEvent) {
+    std::pair<std::string, int> decodedMessage(Framework::decodeExtra(updateEvent));
+    if(decodedMessage.first == Controller::Messages::DocumentNameChanged) {
+      m_tabWidget->setTabText(
+        m_tabWidget->indexOf(m_documentWidget),
+        m_imageInformationService->getImageName(m_documentHandle).c_str()
+      );
+    }
   }
+
+  void DocumentView::shutdown() {}
 }

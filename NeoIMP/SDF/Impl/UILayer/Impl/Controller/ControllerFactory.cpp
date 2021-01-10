@@ -30,6 +30,7 @@
 
 #include <Application/Controller.hpp>
 #include <Application/FileController.hpp>
+#include <Application/OpenDocumentsController.hpp>
 #include <NewDocumentDlg/Controller.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
@@ -45,6 +46,12 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   std::unique_ptr<Application::FileController> ControllerFactory::createApplicationFileController() {
     return std::make_unique<Application::FileController>();
+  }
+
+  std::unique_ptr<Application::OpenDocumentsController> ControllerFactory::createApplicationOpenDocumentsController(
+    Framework::IMVCView *view
+  ) {
+    return std::make_unique<Application::OpenDocumentsController>(view);
   }
 
   std::unique_ptr<NewDocumentDlg::Controller> ControllerFactory::createNewDocumentDlgController() {

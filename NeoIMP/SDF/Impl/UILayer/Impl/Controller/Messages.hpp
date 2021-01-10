@@ -33,7 +33,9 @@ namespace SDF::Impl::UILayer::Impl::Controller::Messages {
   static const std::string DestroyApplicationView = "destroy.application.view";
   static const std::string DestroyNewDocumentView = "destroy.new.document.view";
 
-  static const std::string DocumentCreated = "document.created:"; // should be followed up with a handle
+  static const std::string DocumentCreated = "document.created"; // should be followed up with a handle extra
+  static const std::string DocumentRemoved = "document.removed"; // should be followed up with a handle extra
+  static const std::string DocumentNameChanged = "document.name.changed"; // should be followed up with a handle extra
 }
 
 #endif

@@ -24,9 +24,12 @@
 #include <OpenDocumentsView.hpp>
 
 #include <UILayer/Exceptions/Exceptions.hpp>
+#include <Framework/MVCMessageEncoder.hpp>
 
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
+
+#include <Controller/Messages.hpp>
 
 #include <IDocumentView.hpp>
 
@@ -42,31 +45,43 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   )
     : m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
-      m_mainWindow(mainWindow),
       m_tabWidget(new QTabWidget)
   {
-    m_mainWindow->addPrincipalWidget(m_tabWidget);
+    mainWindow->addPrincipalWidget(m_tabWidget);
   }
 
   OpenDocumentsView::~OpenDocumentsView() {
 
   }
 
-  void OpenDocumentsView::notifyOfDocumentAdded(AbstractModel::Handle handle) {
-    if(m_documentViews.find(handle) == m_documentViews.end()) {
-      m_documentViews[handle] = std::make_unique<DocumentView>(
-        m_tabWidget,
-        m_imageInformationService, m_imageRenderingService,
-        handle
-      );
+  QTabWidget *OpenDocumentsView::getDetail() {
+    return m_tabWidget;
+  }
+
+  void OpenDocumentsView::activate() {}
+
+  void OpenDocumentsView::update(std::string updateEvent) {
+    std::pair<std::string, int> decodedMessage(Framework::decodeExtra(updateEvent));
+    if(decodedMessage.first == Controller::Messages::DocumentCreated) {
+      AbstractModel::Handle handle(decodedMessage.second);
+
+      if(m_documentViews.find(handle) == m_documentViews.end()) {
+        m_documentViews[handle] = std::make_unique<DocumentView>(
+          m_tabWidget,
+          m_imageInformationService, m_imageRenderingService,
+          handle
+        );
+      }
+    } else if(decodedMessage.first == Controller::Messages::DocumentRemoved) {
+      AbstractModel::Handle handle(decodedMessage.second);
+
+      if(m_documentViews.find(handle) != m_documentViews.end()) {
+        m_documentViews.erase(handle);
+      }
     }
   }
 
-  void OpenDocumentsView::notifyOfDocumentRemoved(AbstractModel::Handle handle) {
-    if(m_documentViews.find(handle) != m_documentViews.end()) {
-      m_documentViews.erase(handle);
-    }
-  }
+  void OpenDocumentsView::shutdown() {}
 
   IDocumentView *OpenDocumentsView::getDocumentView(AbstractModel::Handle handle) {
     if(m_documentViews.find(handle) == m_documentViews.end()) {

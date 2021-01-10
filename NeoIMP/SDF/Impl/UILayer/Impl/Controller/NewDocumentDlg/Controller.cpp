@@ -23,6 +23,8 @@
 
 #include <NewDocumentDlg/Controller.hpp>
 
+#include <Framework/MVCMessageEncoder.hpp>
+
 #include <AbstractModel/Handle.hpp>
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 
@@ -42,7 +44,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::NewDocumentDlg {
   void Controller::notify(View::Events::AcceptDocumentParametersEvent e) {
     AbstractModel::Handle handle(m_documentCreationService->createDocument(e.spec));
 
-    dispatchMessage(Messages::DocumentCreated + std::to_string(handle));
+    dispatchMessage(Framework::encodeExtra(Messages::DocumentCreated, handle));
     dispatchMessage(Messages::DestroyNewDocumentView);
   }
 

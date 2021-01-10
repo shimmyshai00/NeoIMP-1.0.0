@@ -5,4 +5,5 @@ target_sources(neoimp PUBLIC
   MVCViewUnit.cpp
   MVCMasterController.cpp
   MVCBaseController.cpp
+  MVCMessageEncoder.cpp
 )

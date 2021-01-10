@@ -38,7 +38,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual ~IApplicationView() = default;
 
     virtual IFileCommandsView *getFileCommandsView() = 0;
-    //virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
+    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };
 }
 

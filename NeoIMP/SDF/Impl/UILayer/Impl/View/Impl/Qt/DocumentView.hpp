@@ -46,7 +46,7 @@ namespace SDF::Impl::UILayer {
       class IImageDataSource;
     }
 
-    class DocumentView : public IMVCViewDetail<CustomWidgets::DocumentWidget>, public IDocumentView {
+    class DocumentView : public Framework::IMVCViewDetail<CustomWidgets::DocumentWidget>, public IDocumentView {
     public:
       DocumentView(
         QPointer<QTabWidget> tabWidget,
@@ -58,6 +58,10 @@ namespace SDF::Impl::UILayer {
       ~DocumentView();
 
       CustomWidgets::DocumentWidget *getDetail();
+
+      void activate();
+      void update(std::string updateEvent);
+      void shutdown();
 
       void notifyDocumentNameChanged();
     private:

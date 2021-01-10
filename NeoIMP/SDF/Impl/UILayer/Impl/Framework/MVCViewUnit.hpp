@@ -53,6 +53,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     std::vector<std::unique_ptr<IMVCController>> m_controllers;
 
     std::unique_ptr<MVCMessageDispatcher> m_outgoingMessageDispatcher;
+    std::unique_ptr<MVCMessageDispatcher> m_internalMessageDispatcher;
     std::unique_ptr<MVCMessageDispatcher> m_incomingMessageDispatcher;
 
     MVCViewUnit(std::unique_ptr<IMVCView> view);

@@ -31,12 +31,17 @@
 
 #include <UILayer/Exceptions/Exceptions.hpp>
 
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
   MVCViewUnit::MVCViewUnit(std::unique_ptr<IMVCView> view)
     : m_view(std::move(view)),
       m_outgoingMessageDispatcher(new MVCMessageDispatcher),
+      m_internalMessageDispatcher(new MVCMessageDispatcher),
       m_incomingMessageDispatcher(new MVCMessageDispatcher)
-  {}
+  {
+    std::cout << "internal: " << m_internalMessageDispatcher.get() << std::endl;
+  }
 
   MVCViewUnit::~MVCViewUnit() {}
 
@@ -57,6 +62,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   }
 
   void MVCViewUnit::receiveMessage(void *sender, std::string message) {
+    std::cout << "view unit received message: " << message << std::endl;
     m_incomingMessageDispatcher->receiveMessage(sender, message);
   }
 }
@@ -66,6 +72,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
   MVCViewUnit::Builder::~Builder() {}
 
   MVCViewUnit::Builder &MVCViewUnit::Builder::addController(std::unique_ptr<IMVCController> controller) {
+    controller->addMessageReceiver(m_viewUnit->m_internalMessageDispatcher.get());
     controller->addMessageReceiver(m_viewUnit->m_outgoingMessageDispatcher.get());
     m_viewUnit->m_incomingMessageDispatcher->addMessageReceiver(controller.get());
 

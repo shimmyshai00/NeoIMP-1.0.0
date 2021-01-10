@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IOPENDOCUMENTSVIEW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IOpenDocumentsView.hpp
- * PURPOSE: The widget system-agnostic interface for the view showing the currently-open documents.
+ * FILE:    OpenDocumentsController.cpp
+ * PURPOSE: The controller for the open documents sub-view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <OpenDocumentsController.hpp>
+#include <iostream>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView;
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  OpenDocumentsController::OpenDocumentsController(Framework::IMVCView *view) : m_view(view) {}
+  OpenDocumentsController::~OpenDocumentsController() {}
 
-  class IOpenDocumentsView : public Framework::IMVCView {
-  public:
-    virtual ~IOpenDocumentsView() = default;
-
-    virtual IDocumentView *getDocumentView(AbstractModel::Handle handle) = 0;
-  };
+  void OpenDocumentsController::receiveMessage(void *sender, std::string message) {
+    std::cout << "recv: " << message << std::endl;
+    m_view->update(message);
+  }
 }
-
-#endif
