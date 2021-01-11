@@ -28,10 +28,12 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 
 #include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/SaveAsCommandEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Application {
   class FileController : public Framework::MVCBaseController,
-    public Framework::IMVCObserver<View::Events::NewCommandEvent>
+    public Framework::IMVCObserver<View::Events::NewCommandEvent>,
+    public Framework::IMVCObserver<View::Events::SaveAsCommandEvent>
   {
   public:
     FileController();
@@ -40,6 +42,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
     void receiveMessage(void *sender, std::string message);
 
     void notify(View::Events::NewCommandEvent e);
+    void notify(View::Events::SaveAsCommandEvent e);
   };
 }
 

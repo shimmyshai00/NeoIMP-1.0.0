@@ -28,9 +28,11 @@
 
 #include <IApplicationView.hpp>
 #include <INewDocumentView.hpp>
+#include <ISaveDocumentView.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(
@@ -47,5 +49,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
     return std::make_unique<NewDocumentView>();
+  }
+
+  std::unique_ptr<ISaveDocumentView> ViewFactory::createSaveDocumentView() {
+    return std::make_unique<SaveDocumentView>();
   }
 }

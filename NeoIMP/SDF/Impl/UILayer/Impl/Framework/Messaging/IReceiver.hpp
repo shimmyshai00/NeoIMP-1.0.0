@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MESSAGING_IRECEIVER_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MESSAGING_IRECEIVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    IReceiver.hpp
+ * PURPOSE: A simple dataflow interface for MVC objects that receive messages.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <string>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
-
-  class IViewFactory {
+namespace SDF::Impl::UILayer::Impl::Framework::Messaging {
+  class IReceiver {
   public:
-    virtual ~IViewFactory() = default;
+    virtual ~IReceiver() = default;
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
+    virtual void receiveMessage(std::string message) = 0;
   };
 }
 

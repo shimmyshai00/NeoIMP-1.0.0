@@ -24,18 +24,25 @@
 #include <ControllerFactory.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Services/IDocumentStorageService.hpp>
 
 #include <View/IApplicationView.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 
 #include <Application/Controller.hpp>
 #include <Application/FileController.hpp>
 #include <Application/OpenDocumentsController.hpp>
 #include <NewDocumentDlg/Controller.hpp>
+#include <SaveDocumentDlg/Controller.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ControllerFactory::ControllerFactory(AbstractModel::Services::IDocumentCreationService *documentCreationService)
-    : m_documentCreationService(documentCreationService)
+  ControllerFactory::ControllerFactory(
+    AbstractModel::Services::IDocumentCreationService *documentCreationService,
+    AbstractModel::Services::IDocumentStorageService *documentStorageService
+  )
+    : m_documentCreationService(documentCreationService),
+      m_documentStorageService(documentStorageService)
   {}
 
   ControllerFactory::~ControllerFactory() {}
@@ -56,5 +63,9 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   std::unique_ptr<NewDocumentDlg::Controller> ControllerFactory::createNewDocumentDlgController() {
     return std::make_unique<NewDocumentDlg::Controller>(m_documentCreationService);
+  }
+
+  std::unique_ptr<SaveDocumentDlg::Controller> ControllerFactory::createSaveDocumentDlgController() {
+    return std::make_unique<SaveDocumentDlg::Controller>(m_documentStorageService);
   }
 }

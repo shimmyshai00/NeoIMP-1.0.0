@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MESSAGING_BOX_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MESSAGING_BOX_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    Box.hpp
+ * PURPOSE: Provides a base for a box, which can contain internal emitting components wired to an external emitter.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/Messaging/Emitter.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/Messaging/IReceiver.hpp>
+
+#include <string>
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
-
-  class IViewFactory {
+namespace SDF::Impl::UILayer::Impl::Framework::Messaging {
+  class Box : public Emitter {
   public:
-    virtual ~IViewFactory() = default;
+    Box();
+    virtual ~Box() = 0;
+  protected:
+    class InnerReceiver : public IReceiver {
+    public:
+      InnerReceiver(Box *box);
+      void receiveMessage(std::string message);
+    private:
+      Box *m_box;
+    };
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
+    std::unique_ptr<InnerReceiver> m_innerReceiver;
   };
 }
 

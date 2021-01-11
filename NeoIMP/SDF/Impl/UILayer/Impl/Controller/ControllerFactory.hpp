@@ -33,6 +33,7 @@
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IDocumentCreationService;
+    class IDocumentStorageService;
   }
 
   namespace Impl {
@@ -51,9 +52,16 @@ namespace SDF::Impl::UILayer {
         class Controller;
       }
 
+      namespace SaveDocumentDlg {
+        class Controller;
+      }
+
       class ControllerFactory {
       public:
-        INJECT(ControllerFactory(AbstractModel::Services::IDocumentCreationService *documentCreationService));
+        INJECT(ControllerFactory(
+          AbstractModel::Services::IDocumentCreationService *documentCreationService,
+          AbstractModel::Services::IDocumentStorageService *documentStorageService
+        ));
         ~ControllerFactory();
 
         std::unique_ptr<Application::Controller> createApplicationController();
@@ -62,8 +70,10 @@ namespace SDF::Impl::UILayer {
           Framework::IMVCView *view
         );
         std::unique_ptr<NewDocumentDlg::Controller> createNewDocumentDlgController();
+        std::unique_ptr<SaveDocumentDlg::Controller> createSaveDocumentDlgController();
       private:
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+        AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
       };
     }
   }

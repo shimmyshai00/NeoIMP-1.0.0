@@ -44,6 +44,7 @@ namespace SDF::Impl::UILayer {
 
       std::unique_ptr<IApplicationView> createApplicationView();
       std::unique_ptr<INewDocumentView> createNewDocumentView();
+      std::unique_ptr<ISaveDocumentView> createSaveDocumentView();
     private:
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;

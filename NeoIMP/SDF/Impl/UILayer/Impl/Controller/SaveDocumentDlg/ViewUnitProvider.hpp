@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_SAVEDOCUMENTDLG_VIEWUNITPROVIDER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_SAVEDOCUMENTDLG_VIEWUNITPROVIDER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    ViewUnitProvider.hpp
+ * PURPOSE: Creates the view unit for the save-document dialog.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewUnit.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
+namespace SDF::Impl::UILayer::Impl {
+  namespace View {
+    class IViewFactory;
+  }
 
-  class IViewFactory {
-  public:
-    virtual ~IViewFactory() = default;
+  namespace Controller {
+    class ControllerFactory;
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
-  };
+    namespace SaveDocumentDlg {
+      std::unique_ptr<Framework::MVCViewUnit> createViewUnit(
+        View::IViewFactory *viewFactory,
+        ControllerFactory *controllerFactory
+      );
+    }
+  }
 }
 
 #endif

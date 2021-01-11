@@ -50,6 +50,7 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
     );
 
     fileSubView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(fileController.get());
+    fileSubView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(fileController.get());
 
     return Framework::MVCViewUnit::Builder(std::move(view))
       .addController(std::move(controller))

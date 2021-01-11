@@ -29,13 +29,15 @@
 
 #include <Application/ViewUnitProvider.hpp>
 #include <NewDocumentDlg/ViewUnitProvider.hpp>
+#include <SaveDocumentDlg/ViewUnitProvider.hpp>
 
 #include <Messages.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   enum {
     APPLICATION_VIEW_ID,
-    NEW_DOCUMENT_DLG_VIEW_ID
+    NEW_DOCUMENT_DLG_VIEW_ID,
+    SAVE_DOCUMENT_DLG_VIEW_ID
   };
 }
 
@@ -54,6 +56,8 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       addViewUnit(APPLICATION_VIEW_ID, std::move(Application::createViewUnit(m_viewFactory, m_controllerFactory)));
     } else if(message == Messages::CreateNewDocumentView) {
       addViewUnit(NEW_DOCUMENT_DLG_VIEW_ID, std::move(NewDocumentDlg::createViewUnit(m_viewFactory, m_controllerFactory)));
+    } else if(message == Messages::CreateSaveDocumentView) {
+      addViewUnit(SAVE_DOCUMENT_DLG_VIEW_ID, std::move(SaveDocumentDlg::createViewUnit(m_viewFactory, m_controllerFactory)));
     }
 
     // View destruction
@@ -61,6 +65,8 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       removeViewUnit(APPLICATION_VIEW_ID);
     } else if(message == Messages::DestroyNewDocumentView) {
       removeViewUnit(NEW_DOCUMENT_DLG_VIEW_ID);
+    } else if(message == Messages::DestroySaveDocumentView) {
+      removeViewUnit(SAVE_DOCUMENT_DLG_VIEW_ID);
     }
   }
 }

@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    Broadcaster.cpp
+ * PURPOSE: Connects its input receiver connection to an output emitter.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +21,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <Broadcaster.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
+namespace SDF::Impl::UILayer::Impl::Framework::Messaging {
+  Broadcaster::Broadcaster() {}
+  Broadcaster::~Broadcaster() {}
 
-  class IViewFactory {
-  public:
-    virtual ~IViewFactory() = default;
-
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
-  };
+  void Broadcaster::receiveMessage(std::string message) {
+    emitMessage(message);
+  }
 }
-
-#endif

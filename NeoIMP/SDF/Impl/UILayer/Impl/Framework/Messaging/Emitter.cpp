@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    Emitter.hpp
+ * PURPOSE: A simple dataflow base for MVC objects that emit messages.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include <Emitter.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
-  class INewDocumentView;
-  class ISaveDocumentView;
+#include <IReceiver.hpp>
 
-  class IViewFactory {
-  public:
-    virtual ~IViewFactory() = default;
+#include <algorithm>
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-    virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-    virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::Framework::Messaging {
+  Emitter::Emitter() {}
+  Emitter::~Emitter() {}
+
+  void Emitter::connectTo(IReceiver *recv) {
+    m_receivers.push_back(recv);
+  }
+
+  void Emitter::disconnect(IReceiver *recv) {
+    m_receivers.erase(std::find(m_receivers.begin(), m_receivers.end(), recv));
+  }
+
+  void Emitter::emitMessage(std::string message) {
+    for(auto recv : m_receivers) {
+      recv->receiveMessage(message);
+    }
+  }
 }
-
-#endif

@@ -34,4 +34,8 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
   void FileController::notify(View::Events::NewCommandEvent e) {
     dispatchMessage(Messages::CreateNewDocumentView);
   }
+
+  void FileController::notify(View::Events::SaveAsCommandEvent e) {
+    dispatchMessage(Messages::CreateSaveDocumentView);
+  }
 }
