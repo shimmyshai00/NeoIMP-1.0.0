@@ -1,5 +1,6 @@
 target_include_directories(neoimp PUBLIC .)
 
+add_subdirectory(Framework)
 add_subdirectory(View)
 add_subdirectory(Controller)
 

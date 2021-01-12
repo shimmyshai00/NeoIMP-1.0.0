@@ -24,20 +24,31 @@
 #include <MainUI.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <Controller/ControllerFactory.hpp>
+#include <View/IApplicationView.hpp>
 
-#include <Controller/MasterController.hpp>
-
-#include <Controller/Messages.hpp>
+#include <Controller/ApplicationController.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
-  MainUI::MainUI(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory)
-    : m_masterController(new Controller::MasterController(viewFactory, controllerFactory))
+  MainUI::MainUI(View::IViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
   {}
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    m_masterController->receiveMessage(this, Controller::Messages::CreateApplicationView);
+    m_applicationView = m_viewFactory->createApplicationView();
+    m_applicationView->addController(std::make_unique<Controller::ApplicationController>(this, m_viewFactory));
+  }
+
+  void MainUI::closeUI() {
+    m_applicationView.release();
+  }
+
+  void MainUI::viewRemoved(std::unique_ptr<Framework::IMVCView> view) {
+    m_discardedViews.push_back(std::move(view));
+  }
+
+  void MainUI::pump() {
+    m_discardedViews.clear();
   }
 }

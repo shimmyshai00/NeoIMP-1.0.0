@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCBaseView.tpp
+ * FILE:    MVCBaseView.cpp
  * PURPOSE: The base class for MVC views.
  */
 
@@ -21,38 +21,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <MVCBaseView.hpp>
+
 #include <SDF/Impl/UILayer/Exceptions/Exceptions.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
-  MVCBaseView<EventType>::MVCBaseView() : m_parent(nullptr) {}
+  MVCBaseView::MVCBaseView() : m_parent(nullptr) {}
+  MVCBaseView::~MVCBaseView() {}
 
-  template<class EventType>
-  MVCBaseView<EventType>::~MVCBaseView() {}
-
-  template<class EventType>
-  IMVCView<EventType> *MVCBaseView<EventType>::getParent() {
+  IMVCView *MVCBaseView::getParent() {
     return m_parent;
   }
 
-  template<class EventType>
-  IMVCView<EventType> *MVCBaseView<EventType>::getFirstChild() {
-    return m_firstChild;
+  IMVCView *MVCBaseView::getFirstChild() {
+    return m_firstChild.get();
   }
 
-  template<class EventType>
-  IMVCView<EventType> *MVCBaseView<EventType>::getNextSibling() {
-    return m_nextSibling;
+  IMVCView *MVCBaseView::getNextSibling() {
+    return m_nextSibling.get();
   }
 
-  template<class EventType>
-  void MVCBaseView<EventType>::addController(std::unique_ptr<IMVCController<EventType>> controller) {
+  void MVCBaseView::addController(std::unique_ptr<IMVCController> controller) {
     m_controllers.push_back(std::move(controller));
   }
 
-  template<class EventType>
-  void MVCBaseView<EventType>::addChild(std::unique_ptr<MVCBaseView> child) {
+  void MVCBaseView::addChild(std::unique_ptr<MVCBaseView> child) {
     child->m_parent = this;
 
     if(!m_firstChild) {
@@ -60,19 +54,18 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     } else {
       MVCBaseView *curChild(m_firstChild.get());
       while(curChild->m_nextSibling) {
-        curChild = curChild->m_nextSibling;
+        curChild = curChild->m_nextSibling.get();
       }
 
       curChild->m_nextSibling = std::move(child);
     }
   }
 
-  template<class EventType>
-  std::unique_ptr<MVCBaseView> MVCBaseView<EventType>::removeSelf() {
+  std::unique_ptr<MVCBaseView> MVCBaseView::removeSelf() {
     if(m_parent == nullptr) {
       throw UILayer::Exceptions::RemovedRootException();
     } else {
-      if(m_parent->m_firstChild == this) {
+      if(m_parent->m_firstChild.get() == this) {
         std::unique_ptr<MVCBaseView> rv(std::move(m_parent->m_firstChild));
         m_parent->m_firstChild = std::move(rv->m_nextSibling);
 
@@ -82,7 +75,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
       } else {
         MVCBaseView *curChild(m_firstChild.get());
         while(curChild->m_nextSibling.get() != this) {
-          curChild = curChild->m_nextSibling;
+          curChild = curChild->m_nextSibling.get();
         }
 
         std::unique_ptr<MVCBaseView> rv(std::move(curChild->m_nextSibling));
@@ -95,8 +88,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     }
   }
 
-  template<class EventType>
-  void MVCBaseView<EventType>::dispatchEvent(EventType &event) {
+  void MVCBaseView::dispatchEvent(const MVCEvent &event) {
     for(auto &controller : m_controllers) {
       controller->handleEvent(event);
     }

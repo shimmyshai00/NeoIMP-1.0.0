@@ -25,39 +25,36 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCEvent.hpp>
 
 #include <memory>
 #include <vector>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
   class IMVCController;
 
-  template<class EventType>
-  class MVCBaseView : public IMVCView<EventType> {
+  class MVCBaseView : public IMVCView {
   public:
     MVCBaseView();
     virtual ~MVCBaseView() = 0;
 
-    IMVCView<EventType> *getParent();
-    IMVCView<EventType> *getFirstChild();
-    IMVCView<EventType> *getNextSibling();
+    IMVCView *getParent();
+    IMVCView *getFirstChild();
+    IMVCView *getNextSibling();
 
-    void addController(std::unique_ptr<IMVCController<EventType>> controller);
+    void addController(std::unique_ptr<IMVCController> controller);
   protected:
     void addChild(std::unique_ptr<MVCBaseView> child);
     std::unique_ptr<MVCBaseView> removeSelf();
 
-    void dispatchEvent(EventType &event);
+    void dispatchEvent(const MVCEvent &event);
   private:
-    IMVCView<EventType> *m_parent;
+    MVCBaseView *m_parent;
     std::unique_ptr<MVCBaseView> m_firstChild;
     std::unique_ptr<MVCBaseView> m_nextSibling;
 
-    std::vector<std::unique_ptr<IMVCController<EventType>> m_controllers;
+    std::vector<std::unique_ptr<IMVCController>> m_controllers;
   };
 }
-
-#include "SDF/Impl/UILayer/Impl/Framework/MVCBaseView.tpp"
 
 #endif

@@ -24,21 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
-
-#include <SDF/Impl/UILayer/Impl/View/Events/ExitCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IFileCommandsView;
-  class IOpenDocumentsView;
-
-  class IApplicationView : public Framework::IMVCView, public Framework::MVCObservable<Events::ExitCommandEvent> {
+  class IApplicationView : public Framework::MVCBaseView {
   public:
     virtual ~IApplicationView() = default;
-
-    virtual IFileCommandsView *getFileCommandsView() = 0;
-    virtual IOpenDocumentsView *getOpenDocumentsView() = 0;
   };
 }
 

@@ -23,49 +23,29 @@
 
 #include <ApplicationView.hpp>
 
-#include <FileCommandsView.hpp>
-#include <OpenDocumentsView.hpp>
-
 #include <Windows/MainWindow.hpp>
+#include <Events/ExitCommandEvent.hpp>
 
 #include <QObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView(
-    AbstractModel::Services::IImageInformationService *imageInformationService,
-    AbstractModel::Services::IImageRenderingService *imageRenderingService
-  )
-    : m_mainWindow(new Windows::MainWindow),
-      m_fileCommandsView(new FileCommandsView(m_mainWindow)),
-      m_openDocumentsView(new OpenDocumentsView(m_mainWindow, imageInformationService, imageRenderingService))
+  ApplicationView::ApplicationView()
+    : m_mainWindow(new Windows::MainWindow)
   {
     // Hook events.
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
-      Framework::MVCObservable<Events::ExitCommandEvent>::notifyObservers(Events::ExitCommandEvent());
+      dispatchEvent(Events::ExitCommandEvent {});
     });
-  }
 
-  ApplicationView::~ApplicationView() {}
-
-  Windows::MainWindow *ApplicationView::getDetail() {
-    return m_mainWindow;
-  }
-
-  IFileCommandsView *ApplicationView::getFileCommandsView() {
-    return m_fileCommandsView.get();
-  }
-
-  IOpenDocumentsView *ApplicationView::getOpenDocumentsView() {
-    return m_openDocumentsView.get();
-  }
-
-  void ApplicationView::activate() {
     m_mainWindow->show();
   }
 
-  void ApplicationView::update(std::string updateEvent) {}
-
-  void ApplicationView::shutdown() {
+  ApplicationView::~ApplicationView() {
     m_mainWindow->close();
+    delete m_mainWindow;
+  }
+
+  Windows::MainWindow *ApplicationView::getDetail() {
+    return m_mainWindow;
   }
 }

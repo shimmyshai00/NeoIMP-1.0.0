@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ViewFactory.cpp
- * PURPOSE: The Qt-based view factory implementation.
+ * PURPOSE: The Qt-based view factory.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,35 +23,19 @@
 
 #include <ViewFactory.hpp>
 
-#include <AbstractModel/Services/IImageInformationService.hpp>
-#include <AbstractModel/Services/IImageRenderingService.hpp>
-
-#include <IApplicationView.hpp>
-#include <INewDocumentView.hpp>
-#include <ISaveDocumentView.hpp>
+#include <IUIManager.hpp>
 
 #include <ApplicationView.hpp>
-#include <NewDocumentView.hpp>
-#include <SaveDocumentView.hpp>
+
+#include <Controller/ApplicationController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory(
-    AbstractModel::Services::IImageInformationService *imageInformationService,
-    AbstractModel::Services::IImageRenderingService *imageRenderingService
-  )
-    : m_imageInformationService(imageInformationService),
-      m_imageRenderingService(imageRenderingService)
-  {}
+  ViewFactory::ViewFactory(IUIManager *uiManager) : m_uiManager(uiManager) {}
 
   std::unique_ptr<IApplicationView> ViewFactory::createApplicationView() {
-    return std::make_unique<ApplicationView>(m_imageInformationService, m_imageRenderingService);
-  }
+    std::unique_ptr<IApplicationView> view(new ApplicationView());
+    view->addController(std::make_unique<Controller::ApplicationController>(m_uiManager, this));
 
-  std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
-    return std::make_unique<NewDocumentView>();
-  }
-
-  std::unique_ptr<ISaveDocumentView> ViewFactory::createSaveDocumentView() {
-    return std::make_unique<SaveDocumentView>();
+    return std::move(view);
   }
 }

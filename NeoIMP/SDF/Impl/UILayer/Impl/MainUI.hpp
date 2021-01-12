@@ -34,22 +34,24 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewFactory;
+      class IApplicationView;
     }
 
-    namespace Controller {
-      class ControllerFactory;
-      class MasterController;
-    }
-
-    class MainUI : public IUIEntryPoint {
+    class MainUI : public IUIEntryPoint, public IUIManager {
     public:
-      INJECT(MainUI(View::IViewFactory *viewFactory, Controller::ControllerFactory *controllerFactory));
+      INJECT(MainUI(View::IViewFactory *viewFactory));
 
       ~MainUI();
 
-      void start();
+      void closeUI();
+
+      void viewRemoved(std::unique_ptr<Framework::IMVCView> view);
+      void pump();
     private:
-      std::unique_ptr<Controller::MasterController> m_masterController;
+      View::IViewFactory *m_viewFactory;
+
+      std::unique_ptr<View::IApplicationView> m_applicationView;
+      std::vector<std::unique_ptr<Framework::IMVCView>> m_discardedViews;
     };
   }
 }

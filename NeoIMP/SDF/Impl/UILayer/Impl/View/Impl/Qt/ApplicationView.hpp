@@ -27,47 +27,20 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
-#include <QPointer>
-#include <memory>
-
-namespace SDF::Impl::UILayer {
-  namespace AbstractModel::Services {
-    class IImageInformationService;
-    class IImageRenderingService;
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  namespace Windows {
+    class MainWindow;
   }
 
-  namespace Impl::View::Impl::Qt {
-    namespace Windows {
-      class MainWindow;
-    }
+  class ApplicationView : public Framework::IMVCViewDetail<Windows::MainWindow>, public IApplicationView {
+  public:
+    ApplicationView();
+    ~ApplicationView();
 
-    class FileCommandsView;
-    class OpenDocumentsView;
-
-    class ApplicationView : public Framework::IMVCViewDetail<Windows::MainWindow>, public IApplicationView {
-    public:
-      ApplicationView(
-        AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService
-      );
-
-      ~ApplicationView();
-
-      Windows::MainWindow *getDetail();
-
-      void activate();
-      void update(std::string updateEvent);
-      void shutdown();
-
-      IFileCommandsView *getFileCommandsView();
-      IOpenDocumentsView *getOpenDocumentsView();
-    private:
-      QPointer<Windows::MainWindow> m_mainWindow;
-
-      std::unique_ptr<FileCommandsView> m_fileCommandsView;
-      std::unique_ptr<OpenDocumentsView> m_openDocumentsView;
-    };
-  }
+    Windows::MainWindow *getDetail();
+  private:
+    Windows::MainWindow *m_mainWindow;
+  };
 }
 
 #endif

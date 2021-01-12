@@ -24,13 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/MVCEvent.hpp>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
   class IMVCController {
   public:
     virtual ~IMVCController() = default;
 
-    virtual void handleEvent(EventType &event) = 0;
+    virtual void handleEvent(const MVCEvent &event) = 0;
   };
 }
 

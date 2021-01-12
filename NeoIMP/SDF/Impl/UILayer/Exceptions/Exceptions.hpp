@@ -26,7 +26,7 @@
 
 #include <SDF/Exception/Exception.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 
 namespace SDF::Impl::UILayer::Exceptions {
   struct RemovedRootException : public SDF::Exception::Exception {
@@ -40,8 +40,8 @@ namespace SDF::Impl::UILayer::Exceptions {
   };
 
   struct InvalidHandleException : public SDF::Exception::Exception {
-    InvalidHandleException(AbstractModel::Handle handle)
-      : Exception("Tried to access an object with handle '%d' that does not exist. This is likely a bug.", handle)
+    InvalidHandleException(UILayer::AbstractAppModel::DocumentHandle handle)
+      : Exception("Tried to access a document with handle '%d' that does not exist. This is likely a bug.", handle)
     {}
   };
 }

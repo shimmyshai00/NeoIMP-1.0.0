@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ViewFactory.hpp
- * PURPOSE: The Qt-based view factory implementation.
+ * PURPOSE: The Qt-based view factory.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,29 +25,19 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
-
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::UILayer {
-  namespace AbstractModel::Services {
-    class IImageInformationService;
-    class IImageRenderingService;
-  }
+namespace SDF::Impl::UILayer::Impl {
+  class IUIManager;
 
-  namespace Impl::View::Impl::Qt {
+  namespace View::Impl::Qt {
     class ViewFactory : public IViewFactory {
     public:
-      INJECT(ViewFactory(
-        AbstractModel::Services::IImageInformationService *imageInformationService,
-        AbstractModel::Services::IImageRenderingService *imageRenderingService
-      ));
+      INJECT(ViewFactory(IUIManager *uiManager));
 
       std::unique_ptr<IApplicationView> createApplicationView();
-      std::unique_ptr<INewDocumentView> createNewDocumentView();
-      std::unique_ptr<ISaveDocumentView> createSaveDocumentView();
     private:
-      AbstractModel::Services::IImageInformationService *m_imageInformationService;
-      AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
+      IUIManager *m_uiManager;
     };
   }
 }

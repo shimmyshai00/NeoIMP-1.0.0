@@ -28,21 +28,19 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  template<class EventType>
   class IMVCController;
 
-  template<class EventType>
   class IMVCView {
   public:
     virtual ~IMVCView() = default;
 
-    virtual IMVCView<EventType> *getParent() = 0;
-    virtual IMVCView<EventType> *getFirstChild() = 0;
-    virtual IMVCView<EventType> *getNextSibling() = 0;
+    virtual IMVCView *getParent() = 0;
+    virtual IMVCView *getFirstChild() = 0;
+    virtual IMVCView *getNextSibling() = 0;
 
     // This ownership ensures that when or if the view is destroyed dynamically, the relevant controllers are
     // destroyed along with it, so that both views and controllers can be added and removed dynamically.
-    virtual void addController(std::unique_ptr<IMVCController<EventType>> controller) = 0;
+    virtual void addController(std::unique_ptr<IMVCController> controller) = 0;
   };
 }
 

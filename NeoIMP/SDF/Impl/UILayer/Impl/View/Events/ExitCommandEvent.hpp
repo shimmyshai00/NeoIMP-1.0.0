@@ -24,8 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/MVCEvent.hpp>
+
 namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct ExitCommandEvent {};
+  struct ExitCommandEvent : public Framework::MVCEvent {};
 }
 
 #endif
