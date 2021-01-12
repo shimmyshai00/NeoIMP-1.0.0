@@ -26,8 +26,8 @@
 
 #include <QDialog>
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
+#include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
@@ -47,8 +47,8 @@ namespace SDF::Impl::UILayer::Impl::View {
       int getDocumentHeightPx();
       float getDocumentResolutionPpi();
 
-      AbstractModel::Properties::ColorModel getDocumentColorModel();
-      AbstractModel::Properties::BitDepth getDocumentBitDepth();
+      ModelLayer::Properties::ColorModel getDocumentColorModel();
+      ModelLayer::Properties::BitDepth getDocumentBitDepth();
     private slots:
     /*
       void widthChanged();

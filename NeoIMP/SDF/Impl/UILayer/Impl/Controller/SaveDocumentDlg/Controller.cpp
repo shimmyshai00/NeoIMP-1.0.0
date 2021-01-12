@@ -27,12 +27,20 @@
 
 #include <AbstractModel/Handle.hpp>
 #include <AbstractModel/Services/IDocumentStorageService.hpp>
+#include <AbstractModel/Services/IImageBaseEditingService.hpp>
+#include <AbstractAppModel/IFocusDocumentSelector.hpp>
 
 #include <Messages.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::SaveDocumentDlg {
-  Controller::Controller(AbstractModel::Services::IDocumentStorageService *documentStorageService)
-    : m_documentStorageService(documentStorageService)
+  Controller::Controller(
+    AbstractModel::Services::IDocumentStorageService *documentStorageService,
+    AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService,
+    AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector
+  )
+    : m_documentStorageService(documentStorageService),
+      m_imageBaseEditingService(imageBaseEditingService),
+      m_focusDocumentSelector(focusDocumentSelector)
   {}
 
   Controller::~Controller() {}
@@ -42,11 +50,15 @@ namespace SDF::Impl::UILayer::Impl::Controller::SaveDocumentDlg {
   }
 
   void Controller::notify(View::Events::AcceptSaveParametersEvent e) {
+    AbstractModel::Handle handle(m_focusDocumentSelector->getFocusDocument());
+    m_documentStorageService->saveDocument(e.fileSpec, e.fileFormat, handle);
+    m_imageBaseEditingService->setImageName(handle, e.fileSpec);
     /*
     AbstractModel::Handle handle(m_documentStorageService->createDocument(e.spec));
 
     dispatchMessage(Framework::encodeExtra(Messages::DocumentCreated, handle));
     */
+    dispatchMessage(Framework::encodeExtra(Messages::DocumentNameChanged, handle));
     dispatchMessage(Messages::DestroySaveDocumentView);
   }
 

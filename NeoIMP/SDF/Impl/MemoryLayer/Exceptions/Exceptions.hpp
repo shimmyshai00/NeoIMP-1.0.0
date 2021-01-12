@@ -26,23 +26,23 @@
 
 #include <SDF/Exception/Exception.hpp>
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Handle.hpp>
 
 namespace SDF::Impl::MemoryLayer::Exceptions {
   struct ObjectNotFoundException : public SDF::Exception::Exception {
-    ObjectNotFoundException(UILayer::AbstractModel::Handle handle)
+    ObjectNotFoundException(ModelLayer::AbstractMemory::Handle handle)
       : Exception("Object with handle '%d' not found in the repository", handle)
     {}
   };
 
   struct DuplicateObjectException : public SDF::Exception::Exception {
-    DuplicateObjectException(UILayer::AbstractModel::Handle handle)
+    DuplicateObjectException(ModelLayer::AbstractMemory::Handle handle)
       : Exception("Tried to add object to repository with already-taken handle '%d'", handle)
     {}
   };
 
   struct FileSpecNotAssignedException : public SDF::Exception::Exception {
-    FileSpecNotAssignedException(UILayer::AbstractModel::Handle handle)
+    FileSpecNotAssignedException(ModelLayer::AbstractMemory::Handle handle)
       : Exception("Tried to save object with handle '%d' without assigned file spec", handle)
     {}
   };

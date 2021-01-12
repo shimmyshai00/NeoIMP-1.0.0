@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentStorageService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentStorageService.hpp>
 
 #include <fruit/fruit.h>
 #include <string>
@@ -42,7 +42,7 @@ namespace SDF::Impl::ModelLayer {
   }
 
   namespace Impl::Services {
-    class DocumentStorageService : public UILayer::AbstractModel::Services::IDocumentStorageService {
+    class DocumentStorageService : public AppModelLayer::AbstractModel::Services::IDocumentStorageService {
     public:
       INJECT(DocumentStorageService(
         AbstractMemory::Repositories::IImageRepository *imageRepository,
@@ -51,12 +51,12 @@ namespace SDF::Impl::ModelLayer {
       ));
 
       void saveDocument(
-        std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-        UILayer::AbstractModel::Handle handle
+        std::string fileSpec, DataLayer::Properties::FileFormat fileFormat,
+        AppModelLayer::AbstractModel::Handle handle
       );
 
-      UILayer::AbstractModel::Handle loadDocument(
-        std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
+      AppModelLayer::AbstractModel::Handle loadDocument(
+        std::string fileSpec, DataLayer::Properties::FileFormat fileFormat
       );
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;

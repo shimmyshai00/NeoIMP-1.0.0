@@ -27,8 +27,8 @@
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
-#include <UILayer/AbstractModel/Handle.hpp>
-#include <UILayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <AppModelLayer/AbstractModel/Handle.hpp>
+#include <AppModelLayer/AbstractModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
@@ -36,15 +36,15 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       m_nextHandle(0)
   {}
 
-  UILayer::AbstractModel::Handle DocumentCreationService::createDocument(
-    UILayer::AbstractModel::Data::DocumentSpec spec
+  AppModelLayer::AbstractModel::Handle DocumentCreationService::createDocument(
+    AppModelLayer::AbstractModel::Data::DocumentSpec spec
   ) {
     std::unique_ptr<DomainObjects::Image::AbstractImage> image(DomainObjects::Image::Gil::createImage(
       spec.documentName, spec.documentWidthPx, spec.documentHeightPx, spec.documentResolutionPpi,
       spec.colorModel, spec.bitDepth
     ));
 
-    UILayer::AbstractModel::Handle imageHandle(m_nextHandle++);
+    AppModelLayer::AbstractModel::Handle imageHandle(m_nextHandle++);
     m_imageRepository->add(imageHandle, std::move(image));
 
     return imageHandle;

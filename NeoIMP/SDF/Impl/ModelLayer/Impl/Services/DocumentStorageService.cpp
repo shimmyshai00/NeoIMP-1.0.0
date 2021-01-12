@@ -32,8 +32,8 @@
 
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <UILayer/AbstractModel/Handle.hpp>
-#include <UILayer/AbstractModel/Properties/FileFormat.hpp>
+#include <AppModelLayer/AbstractModel/Handle.hpp>
+#include <DataLayer/Properties/FileFormat.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(
@@ -47,8 +47,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
   {}
 
   void DocumentStorageService::saveDocument(
-    std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat,
-    UILayer::AbstractModel::Handle handle
+    std::string fileSpec, DataLayer::Properties::FileFormat fileFormat,
+    AppModelLayer::AbstractModel::Handle handle
   ) {
     try {
       m_imagePersistenceMap->assignFileSpec(handle, fileSpec);
@@ -60,8 +60,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     }
   }
 
-  UILayer::AbstractModel::Handle DocumentStorageService::loadDocument(
-    std::string fileSpec, UILayer::AbstractModel::Properties::FileFormat fileFormat
+  AppModelLayer::AbstractModel::Handle DocumentStorageService::loadDocument(
+    std::string fileSpec, DataLayer::Properties::FileFormat fileFormat
   ) {
     // TBA
     return -1;

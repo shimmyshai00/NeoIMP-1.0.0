@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
+#ifndef SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_HANDLE_HPP
+#define SDF_IMPL_MODELLAYER_ABSTRACTMEMORY_HANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageRenderingService.hpp
- * PURPOSE: Defines an interface for the MVC service for rendering parts of image documents so they can be displayed
- *          by the UI.
+ * FILE:    Handle.hpp
+ * PURPOSE: Definition of a type holding handles for objects in the memory layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,16 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <memory>
-
-namespace SDF::Impl::UILayer::AbstractModel::Services {
-  class IImageRenderingService {
-  public:
-    virtual ~IImageRenderingService() = default;
-
-    virtual const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) = 0;
-  };
+namespace SDF::Impl::ModelLayer::AbstractMemory {
+  typedef int Handle;
 }
 
 #endif

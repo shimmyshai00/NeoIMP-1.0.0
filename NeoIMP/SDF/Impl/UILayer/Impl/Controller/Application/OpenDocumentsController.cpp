@@ -25,11 +25,23 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Application {
-  OpenDocumentsController::OpenDocumentsController(Framework::IMVCView *view) : m_view(view) {}
+  OpenDocumentsController::OpenDocumentsController(
+    AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector,
+    Framework::IMVCView *view
+  )
+    : m_focusDocumentSelector(focusDocumentSelector),
+      m_view(view)
+  {}
+
   OpenDocumentsController::~OpenDocumentsController() {}
 
   void OpenDocumentsController::receiveMessage(void *sender, std::string message) {
     std::cout << "odc recv: " << message << std::endl;
     m_view->update(message);
+  }
+
+  void OpenDocumentsController::notify(View::Events::FocusDocumentChangedEvent e) {
+    std::cout << "focus doc handle: " << e.newFocusDocumentHandle << std::endl;
+    m_focusDocumentSelector->setFocusDocument(e.newFocusDocumentHandle);
   }
 }

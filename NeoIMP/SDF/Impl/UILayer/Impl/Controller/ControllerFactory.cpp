@@ -38,11 +38,15 @@
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   ControllerFactory::ControllerFactory(
+    AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector,
     AbstractModel::Services::IDocumentCreationService *documentCreationService,
-    AbstractModel::Services::IDocumentStorageService *documentStorageService
+    AbstractModel::Services::IDocumentStorageService *documentStorageService,
+    AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService
   )
-    : m_documentCreationService(documentCreationService),
-      m_documentStorageService(documentStorageService)
+    : m_focusDocumentSelector(focusDocumentSelector),
+      m_documentCreationService(documentCreationService),
+      m_documentStorageService(documentStorageService),
+      m_imageBaseEditingService(imageBaseEditingService)
   {}
 
   ControllerFactory::~ControllerFactory() {}
@@ -58,7 +62,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   std::unique_ptr<Application::OpenDocumentsController> ControllerFactory::createApplicationOpenDocumentsController(
     Framework::IMVCView *view
   ) {
-    return std::make_unique<Application::OpenDocumentsController>(view);
+    return std::make_unique<Application::OpenDocumentsController>(m_focusDocumentSelector, view);
   }
 
   std::unique_ptr<NewDocumentDlg::Controller> ControllerFactory::createNewDocumentDlgController() {
@@ -66,6 +70,10 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   }
 
   std::unique_ptr<SaveDocumentDlg::Controller> ControllerFactory::createSaveDocumentDlgController() {
-    return std::make_unique<SaveDocumentDlg::Controller>(m_documentStorageService);
+    return std::make_unique<SaveDocumentDlg::Controller>(
+      m_documentStorageService,
+      m_imageBaseEditingService,
+      m_focusDocumentSelector
+    );
   }
 }

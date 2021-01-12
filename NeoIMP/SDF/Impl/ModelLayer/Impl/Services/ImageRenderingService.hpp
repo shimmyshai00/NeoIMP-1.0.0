@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageRenderingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageRenderingService.hpp>
 
 #include <fruit/fruit.h>
 
@@ -39,11 +39,14 @@ namespace SDF::Impl::ModelLayer {
     }
 
     namespace Services {
-      class ImageRenderingService : public UILayer::AbstractModel::Services::IImageRenderingService {
+      class ImageRenderingService : public AppModelLayer::AbstractModel::Services::IImageRenderingService {
       public:
         INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-        const unsigned char *renderImageRegion(UILayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2);
+        const unsigned char *renderImageRegion(
+          AppModelLayer::AbstractModel::Handle handle,
+          int x1, int y1, int x2, int y2
+        );
       private:
         AbstractMemory::Repositories::IImageRepository *m_imageRepository;
         DomainObjects::Algorithms::Renderer::Visitor *m_visitor;

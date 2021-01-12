@@ -24,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Handle.hpp>
 
 namespace SDF::Impl::ModelLayer::AbstractMemory::Persistence {
   class IImagePersister {
   public:
     virtual ~IImagePersister() = default;
 
-    virtual void persistImage(UILayer::AbstractModel::Handle handle) = 0;
-    virtual void retrieveImage(UILayer::AbstractModel::Handle handle) = 0;
+    virtual void persistImage(Handle handle) = 0;
+    virtual void retrieveImage(Handle handle) = 0;
   };
 }
 

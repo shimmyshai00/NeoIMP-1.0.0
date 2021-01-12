@@ -70,7 +70,7 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
   }
 
   std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> PNGImageMapper::loadImage(
-    std::string fileSpec, UILayer::AbstractModel::Handle handle
+    std::string fileSpec
   ) {
     // TBA
     return std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>();

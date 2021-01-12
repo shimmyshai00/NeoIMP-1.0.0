@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Handle.hpp>
 
 #include <memory>
 
@@ -38,13 +38,9 @@ namespace SDF::Impl::ModelLayer {
     public:
       virtual ~IImageRepository() = default;
 
-      virtual void add(
-        UILayer::AbstractModel::Handle handle,
-        std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> imageDocument
-      ) = 0;
-
-      virtual Impl::DomainObjects::Image::AbstractImage &access(UILayer::AbstractModel::Handle handle) = 0;
-      virtual void remove(UILayer::AbstractModel::Handle handle) = 0;
+      virtual void add(Handle handle, std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> imageDocument) = 0;
+      virtual Impl::DomainObjects::Image::AbstractImage &access(Handle handle) = 0;
+      virtual void remove(Handle handle) = 0;
     };
   }
 }

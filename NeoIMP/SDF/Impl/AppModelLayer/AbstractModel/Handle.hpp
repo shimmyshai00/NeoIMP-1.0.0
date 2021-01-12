@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_BITDEPTH_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_BITDEPTH_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_HANDLE_HPP
+#define SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_HANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BitDepth.hpp
- * PURPOSE: Enumeration of the available per-channel bit depths.
+ * FILE:    Handle.hpp
+ * PURPOSE: Definition of a type holding handles for objects in the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractModel::Properties {
-  enum BitDepth {
-    BIT_DEPTH_8,
-    BIT_DEPTH_10,
-    BIT_DEPTH_12,
-    BIT_DEPTH_16,
-    BIT_DEPTH_MAX
-  };
+namespace SDF::Impl::AppModelLayer::AbstractModel {
+  typedef int Handle;
 }
 
 #endif

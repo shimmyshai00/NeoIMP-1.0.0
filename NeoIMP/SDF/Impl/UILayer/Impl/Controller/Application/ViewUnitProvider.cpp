@@ -52,6 +52,10 @@ namespace SDF::Impl::UILayer::Impl::Controller::Application {
     fileSubView->Framework::MVCObservable<View::Events::NewCommandEvent>::attachObserver(fileController.get());
     fileSubView->Framework::MVCObservable<View::Events::SaveAsCommandEvent>::attachObserver(fileController.get());
 
+    openDocumentsSubView->Framework::MVCObservable<View::Events::FocusDocumentChangedEvent>::attachObserver(
+      openDocumentsController.get()
+    );
+
     return Framework::MVCViewUnit::Builder(std::move(view))
       .addController(std::move(controller))
       .addController(std::move(fileController))

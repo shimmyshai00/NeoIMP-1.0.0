@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IDOCUMENTSTORAGESERVICE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IDOCUMENTSTORAGESERVICE_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_DATA_DOCUMENTSPEC_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTMODEL_DATA_DOCUMENTSPEC_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentStorageService.hpp
- * PURPOSE: Defines an interface for an MVC service that loads and saves documents from/to persistent storage.
+ * FILE:    DocumentSpec.hpp
+ * PURPOSE: A POD struct for giving the parameters needed to create a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
+#include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
+#include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 
 #include <string>
 
-namespace SDF::Impl::UILayer::AbstractModel::Services {
-  class IDocumentStorageService {
-  public:
-    virtual ~IDocumentStorageService() = default;
+namespace SDF::Impl::UILayer::AbstractAppModel::Data {
+  struct DocumentSpec {
+    std::string documentName;
 
-    virtual void saveDocument(std::string fileSpec, Properties::FileFormat fileFormat, Handle handle) = 0;
-    virtual Handle loadDocument(std::string fileSpec, Properties::FileFormat fileFormat) = 0;
+    int documentWidthPx;
+    int documentHeightPx;
+    float documentResolutionPpi;
+
+    ModelLayer::Properties::ColorModel colorModel;
+    ModelLayer::Properties::BitDepth bitDepth;
   };
 }
 

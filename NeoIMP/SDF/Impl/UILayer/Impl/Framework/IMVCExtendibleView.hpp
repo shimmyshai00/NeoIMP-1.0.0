@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMAT_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_FILEFORMAT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCEXTENDIBLEVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCEXTENDIBLEVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FileFormat.hpp
- * PURPOSE: Enumeration of the available image file formats.
+ * FILE:    IMVCExtendibleView.hpp
+ * PURPOSE: Provides a general interface for MVC views that can have further child views added to them.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractModel::Properties {
-  enum FileFormat {
-    FILE_FORMAT_PNG,
-    FILE_FORMAT_MAX
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <memory>
+
+namespace SDF::Impl::UILayer::Impl::Framework {
+  class IMVCController;
+
+  template<class EventType, class ExtensionViewType>
+  class IMVCExtendibleView : public virtual IMVCView<ExtensionViewType> {
+  public:
+    virtual ~IMVCExtendibleView() = default;
+
+    virtual void addChildView(std::unique_ptr<ExtensionViewType> newChild) = 0;
   };
 }
 

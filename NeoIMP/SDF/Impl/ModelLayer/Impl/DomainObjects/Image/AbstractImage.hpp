@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
+#include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
@@ -46,8 +46,8 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     virtual Math::Rect<std::size_t> getImageRect() const = 0;
     virtual float getImageResolutionPpi() const = 0;
 
-    virtual UILayer::AbstractModel::Properties::ColorModel getColorModel() const = 0;
-    virtual UILayer::AbstractModel::Properties::BitDepth getBitDepth() const = 0;
+    virtual ModelLayer::Properties::ColorModel getColorModel() const = 0;
+    virtual ModelLayer::Properties::BitDepth getBitDepth() const = 0;
 
     virtual std::size_t getNumImageLayers() const = 0;
 

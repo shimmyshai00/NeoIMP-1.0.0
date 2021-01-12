@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IDOCUMENTCREATIONSERVICE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IDOCUMENTCREATIONSERVICE_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IEDITORSTATE_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IEDITORSTATE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentCreationService.hpp
- * PURPOSE: Defines an interface for an MVC service that creates new documents.
+ * FILE:    IEditorState.hpp
+ * PURPOSE: Provides an interface to obtain basic editor state like what documents are open and which document is
+ *          selected for editing.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +25,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 
-namespace SDF::Impl::UILayer::AbstractModel::Services {
-  class IDocumentCreationService {
+#include <vector>
+
+namespace SDF::Impl::UILayer::AbstractAppModel {
+  class IEditorState {
   public:
-    virtual ~IDocumentCreationService() = default;
+    virtual ~IEditorState() = default;
 
-    virtual Handle createDocument(Data::DocumentSpec spec) = 0;
+    virtual std::vector<DocumentHandle> getOpenDocuments() = 0;
+    virtual DocumentHandle getEditingFocusDocument() = 0;
+    virtual void setEditingFocusDocument(DocumentHandle focusDocument) = 0;
   };
 }
 

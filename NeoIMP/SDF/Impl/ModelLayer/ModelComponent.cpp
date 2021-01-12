@@ -27,6 +27,7 @@
 #include <Impl/Services/DocumentStorageService.hpp>
 #include <Impl/Services/ImageInformationService.hpp>
 #include <Impl/Services/ImageRenderingService.hpp>
+#include <Impl/Services/ImageBaseEditingService.hpp>
 
 #include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
@@ -35,10 +36,11 @@
 namespace SDF::Impl::ModelLayer {
   DIComponent getModelComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractModel::Services::IDocumentCreationService, Impl::Services::DocumentCreationService>()
-      .bind<UILayer::AbstractModel::Services::IDocumentStorageService, Impl::Services::DocumentStorageService>()
-      .bind<UILayer::AbstractModel::Services::IImageInformationService, Impl::Services::ImageInformationService>()
-      .bind<UILayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>()
+      .bind<AppModelLayer::AbstractModel::Services::IDocumentCreationService, Impl::Services::DocumentCreationService>()
+      .bind<AppModelLayer::AbstractModel::Services::IDocumentStorageService, Impl::Services::DocumentStorageService>()
+      .bind<AppModelLayer::AbstractModel::Services::IImageInformationService, Impl::Services::ImageInformationService>()
+      .bind<AppModelLayer::AbstractModel::Services::IImageRenderingService, Impl::Services::ImageRenderingService>()
+      .bind<AppModelLayer::AbstractModel::Services::IImageBaseEditingService, Impl::Services::ImageBaseEditingService>()
       .install(MemoryLayer::getMemoryComponent);
   }
 }

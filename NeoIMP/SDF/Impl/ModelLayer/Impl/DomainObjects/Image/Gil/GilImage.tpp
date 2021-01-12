@@ -70,15 +70,15 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
-  UILayer::AbstractModel::Properties::ColorModel GilImage<GilAlphaType, GilImageType>::getColorModel() const {
+  ModelLayer::Properties::ColorModel GilImage<GilAlphaType, GilImageType>::getColorModel() const {
     // TBA until figuring out a good way to integrate this w/Boost templates
-    return UILayer::AbstractModel::Properties::COLOR_MODEL_MAX;
+    return ModelLayer::Properties::COLOR_MODEL_MAX;
   }
 
   template<class GilAlphaType, class GilImageType>
-  UILayer::AbstractModel::Properties::BitDepth GilImage<GilAlphaType, GilImageType>::getBitDepth() const {
+  ModelLayer::Properties::BitDepth GilImage<GilAlphaType, GilImageType>::getBitDepth() const {
     // TBA
-    return UILayer::AbstractModel::Properties::BIT_DEPTH_MAX;
+    return ModelLayer::Properties::BIT_DEPTH_MAX;
   }
 
   template<class GilAlphaType, class GilImageType>

@@ -25,19 +25,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/FileFormat.hpp>
+#include <SDF/Impl/ModelLayer/AbstractMemory/Handle.hpp>
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
 
 namespace SDF::Impl::ModelLayer::AbstractMemory::Persistence {
   class IImagePersistenceMap {
   public:
     virtual ~IImagePersistenceMap() = default;
 
-    virtual void assignFileSpec(UILayer::AbstractModel::Handle handle, std::string fileSpec) = 0;
-    virtual void assignFileFormat(
-      UILayer::AbstractModel::Handle handle,
-      UILayer::AbstractModel::Properties::FileFormat fileFormat
-    ) = 0;
+    virtual void assignFileSpec(Handle handle, std::string fileSpec) = 0;
+    virtual void assignFileFormat(Handle handle, DataLayer::Properties::FileFormat fileFormat) = 0;
   };
 }
 

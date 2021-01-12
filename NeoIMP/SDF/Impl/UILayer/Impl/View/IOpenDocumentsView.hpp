@@ -25,12 +25,17 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCObservable.hpp>
+
+#include <SDF/Impl/UILayer/Impl/View/Events/FocusDocumentChangedEvent.hpp>
 #include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
   class IDocumentView;
 
-  class IOpenDocumentsView : public Framework::IMVCView {
+  class IOpenDocumentsView : public Framework::IMVCView,
+    public Framework::MVCObservable<Events::FocusDocumentChangedEvent>
+  {
   public:
     virtual ~IOpenDocumentsView() = default;
 

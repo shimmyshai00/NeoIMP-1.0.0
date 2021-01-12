@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IMVCController.hpp
- * PURPOSE: An interface for MVC controllers.
+ * PURPOSE: Provides a general interface for MVC controllers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageEmitter.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCMessageReceiver.hpp>
-
-#include <string>
-
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCViewUnit;
-
-  class IMVCController : public IMVCMessageEmitter, public IMVCMessageReceiver {
+  template<class EventType>
+  class IMVCController {
   public:
     virtual ~IMVCController() = default;
 
-    virtual void addMessageReceiver(IMVCMessageReceiver *receiver) = 0;
-    virtual void removeMessageReceiver(IMVCMessageReceiver *receiver) = 0;
-
-    virtual void receiveMessage(void *sender, std::string message) = 0;
+    virtual void handleEvent(EventType &event) = 0;
   };
 }
 

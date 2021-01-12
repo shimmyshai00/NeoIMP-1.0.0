@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageInformationService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageInformationService.hpp>
 
 #include <fruit/fruit.h>
 #include <string>
@@ -35,14 +35,14 @@ namespace SDF::Impl::ModelLayer {
   }
 
   namespace Impl::Services {
-    class ImageInformationService : public UILayer::AbstractModel::Services::IImageInformationService {
+    class ImageInformationService : public AppModelLayer::AbstractModel::Services::IImageInformationService {
     public:
       INJECT(ImageInformationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-      std::string getImageName(UILayer::AbstractModel::Handle handle);
+      std::string getImageName(AppModelLayer::AbstractModel::Handle handle);
 
-      int getImageWidth(UILayer::AbstractModel::Handle handle);
-      int getImageHeight(UILayer::AbstractModel::Handle handle);
+      int getImageWidth(AppModelLayer::AbstractModel::Handle handle);
+      int getImageHeight(AppModelLayer::AbstractModel::Handle handle);
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };

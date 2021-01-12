@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_COLORMODEL_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_PROPERTIES_COLORMODEL_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
+#define SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorModel.hpp
- * PURPOSE: Enumeration of the available color model types.
+ * FILE:    IImageInformationService.hpp
+ * PURPOSE: Defines an interface for an MVC service that provides information about images (not the image data itself).
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractModel::Properties {
-  enum ColorModel {
-    COLOR_MODEL_RGB,
-    COLOR_MODEL_CMYK,
-    COLOR_MODEL_MAX
+#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
+#include <string>
+
+namespace SDF::Impl::AppModelLayer::AbstractModel::Services {
+  class IImageInformationService {
+  public:
+    virtual ~IImageInformationService() = default;
+
+    virtual std::string getImageName(Handle handle) = 0;
+
+    virtual int getImageWidth(Handle handle) = 0;
+    virtual int getImageHeight(Handle handle) = 0;
   };
 }
 

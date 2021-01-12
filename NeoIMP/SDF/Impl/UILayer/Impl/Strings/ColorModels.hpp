@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
+#include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::Strings {
-  static std::string colorModelNames[AbstractModel::Properties::COLOR_MODEL_MAX] = {
+  static std::string colorModelNames[ModelLayer::Properties::COLOR_MODEL_MAX] = {
     "RGB",
     "CMYK"
   };

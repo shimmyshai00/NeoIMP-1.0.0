@@ -50,11 +50,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
     m_ui->imageResolutionInput->setQuantityType(QUANTITY_RESOLUTION);
     m_ui->imageResolutionInput->setResolutionQuantity(120.0 * Metrics::Resolution::Units::PixelsPerInch);
 
-    for(int i(0); i < AbstractModel::Properties::COLOR_MODEL_MAX; ++i) {
+    for(int i(0); i < ModelLayer::Properties::COLOR_MODEL_MAX; ++i) {
       m_ui->colorModelComboBox->addItem(QString(Strings::colorModelNames[i].c_str()), i);
     }
 
-    for(int i(0); i < AbstractModel::Properties::BIT_DEPTH_MAX; ++i) {
+    for(int i(0); i < ModelLayer::Properties::BIT_DEPTH_MAX; ++i) {
       m_ui->bitsPerChannelComboBox->addItem(QString(Strings::bitDepthNames[i].c_str()), i);
     }
 
@@ -85,11 +85,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
     return m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Resolution::Units::PixelsPerInch);
   }
 
-  AbstractModel::Properties::ColorModel NewDocumentDialog::getDocumentColorModel() {
-    return static_cast<AbstractModel::Properties::ColorModel>(m_ui->colorModelComboBox->currentData().toInt());
+  ModelLayer::Properties::ColorModel NewDocumentDialog::getDocumentColorModel() {
+    return static_cast<ModelLayer::Properties::ColorModel>(m_ui->colorModelComboBox->currentData().toInt());
   }
 
-  AbstractModel::Properties::BitDepth NewDocumentDialog::getDocumentBitDepth() {
-    return static_cast<AbstractModel::Properties::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt());
+  ModelLayer::Properties::BitDepth NewDocumentDialog::getDocumentBitDepth() {
+    return static_cast<ModelLayer::Properties::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt());
   }
 }

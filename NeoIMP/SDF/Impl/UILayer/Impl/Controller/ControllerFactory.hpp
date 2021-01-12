@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IDocumentCreationService;
     class IDocumentStorageService;
+    class IImageBaseEditingService;
   }
 
   namespace Impl {
@@ -42,6 +43,10 @@ namespace SDF::Impl::UILayer {
     }
 
     namespace Controller {
+      namespace AbstractAppModel {
+        class IFocusDocumentSelector;
+      }
+
       namespace Application {
         class Controller;
         class FileController;
@@ -59,8 +64,10 @@ namespace SDF::Impl::UILayer {
       class ControllerFactory {
       public:
         INJECT(ControllerFactory(
+          AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector,
           AbstractModel::Services::IDocumentCreationService *documentCreationService,
-          AbstractModel::Services::IDocumentStorageService *documentStorageService
+          AbstractModel::Services::IDocumentStorageService *documentStorageService,
+          AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService
         ));
         ~ControllerFactory();
 
@@ -72,8 +79,10 @@ namespace SDF::Impl::UILayer {
         std::unique_ptr<NewDocumentDlg::Controller> createNewDocumentDlgController();
         std::unique_ptr<SaveDocumentDlg::Controller> createSaveDocumentDlgController();
       private:
+        AbstractAppModel::IFocusDocumentSelector *m_focusDocumentSelector;
         AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
         AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
+        AbstractModel::Services::IImageBaseEditingService *m_imageBaseEditingService;
       };
     }
   }

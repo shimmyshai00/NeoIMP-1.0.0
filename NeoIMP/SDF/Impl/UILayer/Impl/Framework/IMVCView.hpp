@@ -6,7 +6,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IMVCView.hpp
- * PURPOSE: An interface for MVC views.
+ * PURPOSE: Provides a general interface for MVC views with basic functionality such as view hierarchy and update
+ *          messaging in an abstract, widget system-independent manner.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +25,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <string>
+#include <memory>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
+  template<class EventType>
+  class IMVCController;
+
+  template<class EventType>
   class IMVCView {
   public:
     virtual ~IMVCView() = default;
 
-    virtual void activate() = 0;
-    virtual void update(std::string updateEvent) = 0;
-    virtual void shutdown() = 0;
+    virtual IMVCView<EventType> *getParent() = 0;
+    virtual IMVCView<EventType> *getFirstChild() = 0;
+    virtual IMVCView<EventType> *getNextSibling() = 0;
+
+    // This ownership ensures that when or if the view is destroyed dynamically, the relevant controllers are
+    // destroyed along with it, so that both views and controllers can be added and removed dynamically.
+    virtual void addController(std::unique_ptr<IMVCController<EventType>> controller) = 0;
   };
 }
 

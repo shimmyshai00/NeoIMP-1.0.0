@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageBaseEditingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageBaseEditingService.hpp>
 
 #include <fruit/fruit.h>
 #include <string>
@@ -35,11 +35,11 @@ namespace SDF::Impl::ModelLayer {
   }
 
   namespace Impl::Services {
-    class ImageBaseEditingService : public UILayer::AbstractModel::Services::IImageBaseEditingService {
+    class ImageBaseEditingService : public AppModelLayer::AbstractModel::Services::IImageBaseEditingService {
     public:
       INJECT(ImageBaseEditingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-      void setImageName(UILayer::AbstractModel::Handle handle, std::string newImageName);
+      void setImageName(AppModelLayer::AbstractModel::Handle handle, std::string newImageName);
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };

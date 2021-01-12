@@ -33,24 +33,39 @@
 namespace SDF::Impl::UILayer {
   namespace AbstractModel::Services {
     class IDocumentStorageService;
+    class IImageBaseEditingService;
   }
 
-  namespace Impl::Controller::SaveDocumentDlg {
-    class Controller : public Framework::MVCBaseController,
-      public Framework::IMVCObserver<View::Events::AcceptSaveParametersEvent>,
-      public Framework::IMVCObserver<View::Events::ViewDismissedEvent>
-    {
-    public:
-      Controller(AbstractModel::Services::IDocumentStorageService *documentStorageService);
-      ~Controller();
+  namespace Impl::Controller {
+    namespace AbstractAppModel {
+      class IFocusDocumentSelector;
+    }
 
-      void receiveMessage(void *sender, std::string message);
+    namespace SaveDocumentDlg {
+      class Controller : public Framework::MVCBaseController,
+        public Framework::IMVCObserver<View::Events::AcceptSaveParametersEvent>,
+        public Framework::IMVCObserver<View::Events::ViewDismissedEvent>
+      {
+      public:
+        Controller(
+          AbstractModel::Services::IDocumentStorageService *documentStorageService,
+          AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService,
+          AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector
+        );
 
-      void notify(View::Events::AcceptSaveParametersEvent e);
-      void notify(View::Events::ViewDismissedEvent e);
-    private:
-      AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
-    };
+        ~Controller();
+
+        void receiveMessage(void *sender, std::string message);
+
+        void notify(View::Events::AcceptSaveParametersEvent e);
+        void notify(View::Events::ViewDismissedEvent e);
+      private:
+        AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
+        AbstractModel::Services::IImageBaseEditingService *m_imageBaseEditingService;
+        
+        AbstractAppModel::IFocusDocumentSelector *m_focusDocumentSelector;
+      };
+    }
   }
 }
 

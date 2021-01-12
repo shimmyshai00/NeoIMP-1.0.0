@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
+#include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 
 #include <string>
 #include <memory>
@@ -37,7 +37,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     std::unique_ptr<AbstractImage> createImage(
       std::string imageName,
       int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
-      UILayer::AbstractModel::Properties::ColorModel colorModel, UILayer::AbstractModel::Properties::BitDepth bitDepth
+      ModelLayer::Properties::ColorModel colorModel, ModelLayer::Properties::BitDepth bitDepth
     );
   }
 }

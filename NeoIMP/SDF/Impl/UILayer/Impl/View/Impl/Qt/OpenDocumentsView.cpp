@@ -33,6 +33,7 @@
 
 #include <IDocumentView.hpp>
 
+#include <CustomWidgets/DocumentWidget.hpp>
 #include <Windows/MainWindow.hpp>
 
 #include <DocumentView.hpp>
@@ -50,6 +51,25 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_tabWidget(new QTabWidget)
   {
     mainWindow->addPrincipalWidget(m_tabWidget);
+
+    QObject::connect(m_tabWidget, &QTabWidget::currentChanged, [=](int index) {
+      AbstractModel::Handle handle(-1);
+
+      if(index == -1) {
+        handle = -1;
+      } else {
+        for(auto &view : m_documentViews) {
+          if(view.second->getDetail() == m_tabWidget->widget(index)) {
+            handle = view.first;
+            break;
+          }
+        }
+      }
+
+      Framework::MVCObservable<Events::FocusDocumentChangedEvent>::notifyObservers(Events::FocusDocumentChangedEvent {
+        handle
+      });
+    });
   }
 
   OpenDocumentsView::~OpenDocumentsView() {
@@ -77,6 +97,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
           m_imageInformationService, m_imageRenderingService,
           handle
         );
+      }
+
+      if(m_documentViews.size() == 1) { // first document added gets the focus
+        Framework::MVCObservable<Events::FocusDocumentChangedEvent>::notifyObservers(Events::FocusDocumentChangedEvent {
+          handle
+        });
       }
     } else if(decodedMessage.first == Controller::Messages::DocumentRemoved) {
       AbstractModel::Handle handle(decodedMessage.second);

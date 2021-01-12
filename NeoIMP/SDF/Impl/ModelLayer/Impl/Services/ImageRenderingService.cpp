@@ -23,7 +23,7 @@
 
 #include <ImageRenderingService.hpp>
 
-#include <UILayer/AbstractModel/Handle.hpp>
+#include <AppModelLayer/AbstractModel/Handle.hpp>
 
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/ImageDataVisitor.hpp>
@@ -43,7 +43,7 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
   {}
 
   const unsigned char *ImageRenderingService::renderImageRegion(
-    UILayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2
+    AppModelLayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2
   ) {
     try {
       // NB: needs to be made threadsafe

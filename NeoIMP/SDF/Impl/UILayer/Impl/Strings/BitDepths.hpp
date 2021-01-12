@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 #include <string>
 
 namespace SDF::Impl::UILayer::Impl::Strings {
-  static std::string bitDepthNames[AbstractModel::Properties::BIT_DEPTH_MAX] = {
+  static std::string bitDepthNames[ModelLayer::Properties::BIT_DEPTH_MAX] = {
     "8",
     "10",
     "12",

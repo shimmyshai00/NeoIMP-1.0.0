@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
 #include <memory>
 #include <string>
@@ -39,9 +38,7 @@ namespace SDF::Impl::MemoryLayer::AbstractData {
       std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
     ) = 0;
 
-    virtual std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(
-      std::string fileSpec, UILayer::AbstractModel::Handle handle
-    ) = 0;
+    virtual std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileSpec) = 0;
   };
 }
 

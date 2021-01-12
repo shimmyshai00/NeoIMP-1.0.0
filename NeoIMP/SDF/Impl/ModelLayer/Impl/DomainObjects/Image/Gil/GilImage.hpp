@@ -49,8 +49,8 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
       Math::Rect<std::size_t> getImageRect() const;
       float getImageResolutionPpi() const;
 
-      UILayer::AbstractModel::Properties::ColorModel getColorModel() const;
-      UILayer::AbstractModel::Properties::BitDepth getBitDepth() const;
+      ModelLayer::Properties::ColorModel getColorModel() const;
+      ModelLayer::Properties::BitDepth getBitDepth() const;
 
       std::size_t getNumImageLayers() const;
 

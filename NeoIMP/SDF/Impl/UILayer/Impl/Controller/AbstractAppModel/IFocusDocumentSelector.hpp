@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_DATA_DOCUMENTSPEC_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_DATA_DOCUMENTSPEC_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTAPPMODEL_IFOCUSDOCUMENTSELECTOR_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_ABSTRACTAPPMODEL_IFOCUSDOCUMENTSELECTOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentSpec.hpp
- * PURPOSE: A POD struct for giving the parameters needed to create a new document.
+ * FILE:    IFocusDocumentSelector.hpp
+ * PURPOSE: Provides an interface to the application model for selecting a document as focused for editing.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
 
-#include <string>
+namespace SDF::Impl::UILayer::Impl::Controller::AbstractAppModel {
+  class IFocusDocumentSelector {
+  public:
+    virtual ~IFocusDocumentSelector() = default;
 
-namespace SDF::Impl::UILayer::AbstractModel::Data {
-  struct DocumentSpec {
-    std::string documentName;
-
-    int documentWidthPx;
-    int documentHeightPx;
-    float documentResolutionPpi;
-
-    Properties::ColorModel colorModel;
-    Properties::BitDepth bitDepth;
+    virtual void setFocusDocument(AbstractModel::Handle handle) = 0;
+    virtual AbstractModel::Handle getFocusDocument() = 0;
   };
 }
 

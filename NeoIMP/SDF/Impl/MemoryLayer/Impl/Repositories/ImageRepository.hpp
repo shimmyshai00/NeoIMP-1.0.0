@@ -47,28 +47,23 @@ namespace SDF::Impl::MemoryLayer {
       ~ImageRepository();
 
       void add(
-        UILayer::AbstractModel::Handle handle,
+        ModelLayer::AbstractMemory::Handle handle,
         std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
       );
 
-      ModelLayer::Impl::DomainObjects::Image::AbstractImage &access(UILayer::AbstractModel::Handle handle);
-      void remove(UILayer::AbstractModel::Handle handle);
+      ModelLayer::Impl::DomainObjects::Image::AbstractImage &access(ModelLayer::AbstractMemory::Handle handle);
+      void remove(ModelLayer::AbstractMemory::Handle handle);
 
       // Persistence methods.
-      void assignFileSpec(UILayer::AbstractModel::Handle handle, std::string fileSpec);
-      void assignFileFormat(
-        UILayer::AbstractModel::Handle handle,
-        UILayer::AbstractModel::Properties::FileFormat fileFormat
-      );
+      void assignFileSpec(ModelLayer::AbstractMemory::Handle handle, std::string fileSpec);
+      void assignFileFormat(ModelLayer::AbstractMemory::Handle handle, DataLayer::Properties::FileFormat fileFormat);
 
-      void persistImage(UILayer::AbstractModel::Handle handle);
-      void retrieveImage(UILayer::AbstractModel::Handle handle);
+      void persistImage(ModelLayer::AbstractMemory::Handle handle);
+      void retrieveImage(ModelLayer::AbstractMemory::Handle handle);
     private:
-      std::map<UILayer::AbstractModel::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>>
-        m_imageMap;
-
-      std::map<UILayer::AbstractModel::Handle, std::string> m_imageFileSpecMap;
-      std::map<UILayer::AbstractModel::Handle, UILayer::AbstractModel::Properties::FileFormat> m_imageFileFormatMap;
+      std::map<ModelLayer::AbstractMemory::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>> m_imageMap;
+      std::map<ModelLayer::AbstractMemory::Handle, std::string> m_imageFileSpecMap;
+      std::map<ModelLayer::AbstractMemory::Handle, DataLayer::Properties::FileFormat> m_imageFileFormatMap;
 
       AbstractData::IImageDataMapper *m_dataMapper;
     };

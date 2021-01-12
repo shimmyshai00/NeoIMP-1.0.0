@@ -35,9 +35,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   std::unique_ptr<AbstractImage> createImage(
     std::string imageName,
     int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
-    UILayer::AbstractModel::Properties::ColorModel colorModel, UILayer::AbstractModel::Properties::BitDepth bitDepth
+    ModelLayer::Properties::ColorModel colorModel, ModelLayer::Properties::BitDepth bitDepth
   ) {
-    using namespace UILayer::AbstractModel::Properties;
+    using namespace ModelLayer::Properties;
 
     if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_8)) {
       return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray8_image_t, boost::gil::rgb8_image_t>(

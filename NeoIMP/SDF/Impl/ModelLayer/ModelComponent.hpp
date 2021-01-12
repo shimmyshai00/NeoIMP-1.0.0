@@ -24,19 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentCreationService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentStorageService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageInformationService.hpp>
-#include <SDF/Impl/UILayer/AbstractModel/Services/IImageRenderingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentCreationService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentStorageService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageInformationService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageRenderingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageBaseEditingService.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::ModelLayer {
   typedef fruit::Component<
-    UILayer::AbstractModel::Services::IDocumentCreationService,
-    UILayer::AbstractModel::Services::IDocumentStorageService,
-    UILayer::AbstractModel::Services::IImageInformationService,
-    UILayer::AbstractModel::Services::IImageRenderingService
+    AppModelLayer::AbstractModel::Services::IDocumentCreationService,
+    AppModelLayer::AbstractModel::Services::IDocumentStorageService,
+    AppModelLayer::AbstractModel::Services::IImageInformationService,
+    AppModelLayer::AbstractModel::Services::IImageRenderingService,
+    AppModelLayer::AbstractModel::Services::IImageBaseEditingService
   > DIComponent;
 
   DIComponent getModelComponent();

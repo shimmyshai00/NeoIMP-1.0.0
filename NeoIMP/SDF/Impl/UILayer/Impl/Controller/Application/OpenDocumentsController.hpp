@@ -28,16 +28,22 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCObserver.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 
-#include <SDF/Impl/UILayer/Impl/View/Events/NewCommandEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/Controller/AbstractAppModel/IFocusDocumentSelector.hpp>
+#include <SDF/Impl/UILayer/Impl/View/Events/FocusDocumentChangedEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller::Application {
-  class OpenDocumentsController : public Framework::MVCBaseController {
+  class OpenDocumentsController : public Framework::MVCBaseController,
+    public Framework::IMVCObserver<View::Events::FocusDocumentChangedEvent>
+  {
   public:
-    OpenDocumentsController(Framework::IMVCView *view);
+    OpenDocumentsController(AbstractAppModel::IFocusDocumentSelector *focusDocumentSelector, Framework::IMVCView *view);
     ~OpenDocumentsController();
 
     void receiveMessage(void *sender, std::string message);
+
+    void notify(View::Events::FocusDocumentChangedEvent e);
   private:
+    AbstractAppModel::IFocusDocumentSelector *m_focusDocumentSelector;
     Framework::IMVCView *m_view;
   };
 }

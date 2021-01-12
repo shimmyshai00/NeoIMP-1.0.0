@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageInformationService.hpp
- * PURPOSE: Defines an interface for an MVC service that provides information about images (not the image data itself).
+ * FILE:    DocumentController.hpp
+ * PURPOSE: The controller for the document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +21,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-#include <string>
+#include <DocumentController.hpp>
 
-namespace SDF::Impl::UILayer::AbstractModel::Services {
-  class IImageInformationService {
-  public:
-    virtual ~IImageInformationService() = default;
+namespace SDF::Impl::UILayer::Impl::Controller::Application {
+  DocumentController::DocumentController(Framework::IMVCView *view) : m_view(view) {}
+  DocumentController::~DocumentController() {}
 
-    virtual std::string getImageName(Handle handle) = 0;
-
-    virtual int getImageWidth(Handle handle) = 0;
-    virtual int getImageHeight(Handle handle) = 0;
-  };
+  void DocumentController::receiveMessage(void *sender, std::string message) {
+    m_view->update(message);
+  }
 }
-
-#endif

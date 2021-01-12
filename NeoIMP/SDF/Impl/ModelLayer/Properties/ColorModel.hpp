@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEBASEEDITINGSERVICE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTMODEL_SERVICES_IIMAGEBASEEDITINGSERVICE_HPP
+#ifndef SDF_IMPL_MODELLAYER_PROPERTIES_COLORMODEL_HPP
+#define SDF_IMPL_MODELLAYER_PROPERTIES_COLORMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageBaseEditingService.hpp
- * PURPOSE: Defines an interface for an MVC service that provides editing of basic image properties.
+ * FILE:    ColorModel.hpp
+ * PURPOSE: Enumeration of the available color model types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Handle.hpp>
-
-#include <string>
-
-namespace SDF::Impl::UILayer::AbstractModel::Services {
-  class IImageBaseEditingService {
-  public:
-    virtual ~IImageBaseEditingService() = default;
-
-    virtual void setImageName(Handle handle, std::string newImageName) = 0;
+namespace SDF::Impl::ModelLayer::Properties {
+  enum ColorModel {
+    COLOR_MODEL_RGB,
+    COLOR_MODEL_CMYK,
+    COLOR_MODEL_MAX
   };
 }
 

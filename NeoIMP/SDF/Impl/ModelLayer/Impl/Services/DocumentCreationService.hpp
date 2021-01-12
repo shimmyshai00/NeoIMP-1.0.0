@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractModel/Services/IDocumentCreationService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentCreationService.hpp>
 
 #include <fruit/fruit.h>
 
@@ -34,14 +34,14 @@ namespace SDF::Impl::ModelLayer {
   }
 
   namespace Impl::Services {
-    class DocumentCreationService : public UILayer::AbstractModel::Services::IDocumentCreationService {
+    class DocumentCreationService : public AppModelLayer::AbstractModel::Services::IDocumentCreationService {
     public:
       INJECT(DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-      UILayer::AbstractModel::Handle createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
+      AppModelLayer::AbstractModel::Handle createDocument(AppModelLayer::AbstractModel::Data::DocumentSpec spec);
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-      UILayer::AbstractModel::Handle m_nextHandle;
+      AppModelLayer::AbstractModel::Handle m_nextHandle;
     };
   }
 }
