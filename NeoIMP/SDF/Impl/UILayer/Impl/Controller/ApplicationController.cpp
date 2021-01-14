@@ -37,10 +37,6 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       m_viewFactory(viewFactory)
   {}
 
-  void ApplicationController::startApplication() {
-
-  }
-
   void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
     if(e.m_eventDescription == View::Events::ExitCommand) {
       m_uiManager->closeUI();

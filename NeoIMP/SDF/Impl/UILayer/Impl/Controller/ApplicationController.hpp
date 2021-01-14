@@ -40,7 +40,6 @@ namespace SDF::Impl::UILayer::Impl {
     public:
       ApplicationController(IUIManager *uiManager, View::IViewFactory *viewFactory);
 
-      void startApplication();
       void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
     private:
       IUIManager *m_uiManager;
