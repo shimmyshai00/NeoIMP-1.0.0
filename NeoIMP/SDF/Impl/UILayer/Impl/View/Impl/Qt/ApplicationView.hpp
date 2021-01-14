@@ -24,20 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCViewDetail.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/BaseApplicationView.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   namespace Windows {
     class MainWindow;
   }
 
-  class ApplicationView : public Framework::IMVCViewDetail<Windows::MainWindow>, public IApplicationView {
+  class ApplicationView : public BaseApplicationView {
   public:
     ApplicationView();
     ~ApplicationView();
 
-    Windows::MainWindow *getDetail();
+    void show();
+    void close();
   private:
     Windows::MainWindow *m_mainWindow;
   };

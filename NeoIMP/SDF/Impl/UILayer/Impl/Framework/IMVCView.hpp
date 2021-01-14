@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMVCVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IMVCView.hpp
- * PURPOSE: Provides a general interface for MVC views with basic functionality such as view hierarchy and update
- *          messaging in an abstract, widget system-independent manner.
+ * PURPOSE: Provides an interface for MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,23 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+ #include <memory>
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  class IMVCController;
+ namespace SDF::Impl::UILayer::Impl::Framework {
+   class IMVCController;
 
-  class IMVCView {
-  public:
-    virtual ~IMVCView() = default;
+   class IMVCView {
+   public:
+     virtual ~IMVCView() = default;
 
-    virtual IMVCView *getParent() = 0;
-    virtual IMVCView *getFirstChild() = 0;
-    virtual IMVCView *getNextSibling() = 0;
+     virtual IMVCView *getParent() = 0;
+     virtual IMVCView *getFirstChild() = 0;
+     virtual IMVCView *getNextSibling() = 0;
 
-    // This ownership ensures that when or if the view is destroyed dynamically, the relevant controllers are
-    // destroyed along with it, so that both views and controllers can be added and removed dynamically.
-    virtual void addController(std::unique_ptr<IMVCController> controller) = 0;
-  };
-}
+     virtual void show() = 0;
+     virtual void close() = 0;
+
+     virtual void addController(std::unique_ptr<IMVCController> controller) = 0;
+   };
+ }
 
 #endif

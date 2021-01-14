@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IViewFactory.hpp
- * PURPOSE: An interface for view factories.
+ * PURPOSE: The interface for the view factory.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,13 +27,13 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IApplicationView;
+  class BaseApplicationView;
 
   class IViewFactory {
   public:
     virtual ~IViewFactory() = default;
 
-    virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
+    virtual std::unique_ptr<BaseApplicationView> createApplicationView() = 0;
   };
 }
 

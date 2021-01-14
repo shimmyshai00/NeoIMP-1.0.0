@@ -28,7 +28,7 @@
 #include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::AppModelLayer {
-  DIComponent getMemoryComponent() {
+  DIComponent getAppModelComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractAppModel::ICreateDocumentCommand, Impl::EditorModel>()
       .bind<UILayer::AbstractAppModel::IEditorState, Impl::EditorModel>()

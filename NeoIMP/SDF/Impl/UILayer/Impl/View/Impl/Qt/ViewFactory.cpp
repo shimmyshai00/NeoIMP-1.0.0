@@ -23,18 +23,16 @@
 
 #include <ViewFactory.hpp>
 
-#include <IUIManager.hpp>
-
 #include <ApplicationView.hpp>
 
 #include <Controller/ApplicationController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory(IUIManager *uiManager) : m_uiManager(uiManager) {}
+  ViewFactory::ViewFactory() {}
 
-  std::unique_ptr<IApplicationView> ViewFactory::createApplicationView() {
-    std::unique_ptr<IApplicationView> view(new ApplicationView());
-    view->addController(std::make_unique<Controller::ApplicationController>(m_uiManager, this));
+  std::unique_ptr<BaseApplicationView> ViewFactory::createApplicationView() {
+    std::unique_ptr<BaseApplicationView> view(new ApplicationView());
+    view->addController(std::make_unique<Controller::ApplicationController>(this));
 
     return std::move(view);
   }

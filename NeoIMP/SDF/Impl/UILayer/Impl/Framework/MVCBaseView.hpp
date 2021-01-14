@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_MVCBASEVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_MVCBASEVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCBASEVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCBASEVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MVCBaseView.hpp
- * PURPOSE: The base class for MVC views.
+ * PURPOSE: Provides a base for all MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,34 +25,28 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCEvent.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
 #include <memory>
 #include <vector>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class IMVCController;
-
   class MVCBaseView : public IMVCView {
   public:
     MVCBaseView();
-    virtual ~MVCBaseView() = 0;
+    ~MVCBaseView();
 
-    IMVCView *getParent();
-    IMVCView *getFirstChild();
-    IMVCView *getNextSibling();
+    virtual IMVCView *getParent() = 0;
+    virtual IMVCView *getFirstChild() = 0;
+    virtual IMVCView *getNextSibling() = 0;
+
+    virtual void show() = 0;
+    virtual void close() = 0;
 
     void addController(std::unique_ptr<IMVCController> controller);
   protected:
-    void addChild(std::unique_ptr<MVCBaseView> child);
-    std::unique_ptr<MVCBaseView> removeSelf();
-
-    void dispatchEvent(const MVCEvent &event);
+    void dispatchEvent(const MVCViewEvent &e);
   private:
-    MVCBaseView *m_parent;
-    std::unique_ptr<MVCBaseView> m_firstChild;
-    std::unique_ptr<MVCBaseView> m_nextSibling;
-
     std::vector<std::unique_ptr<IMVCController>> m_controllers;
   };
 }

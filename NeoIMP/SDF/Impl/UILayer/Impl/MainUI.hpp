@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
+#include <SDF/Impl/UILayer/Impl/IUIManager.hpp>
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -34,7 +35,7 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewFactory;
-      class IApplicationView;
+      class BaseApplicationView;
     }
 
     class MainUI : public IUIEntryPoint, public IUIManager {
@@ -43,6 +44,7 @@ namespace SDF::Impl::UILayer {
 
       ~MainUI();
 
+      void start();
       void closeUI();
 
       void viewRemoved(std::unique_ptr<Framework::IMVCView> view);
@@ -50,7 +52,7 @@ namespace SDF::Impl::UILayer {
     private:
       View::IViewFactory *m_viewFactory;
 
-      std::unique_ptr<View::IApplicationView> m_applicationView;
+      std::unique_ptr<View::BaseApplicationView> m_applicationView;
       std::vector<std::unique_ptr<Framework::IMVCView>> m_discardedViews;
     };
   }

@@ -23,26 +23,27 @@
 
 #include <ApplicationController.hpp>
 
-#include <IUIManager.hpp>
-
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
 
-#include <View/Events/ExitCommandEvent.hpp>
+#include <View/Events/Events.hpp>
 
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
-    IUIManager *uiManager, View::IViewFactory *viewFactory
-  )
-    : m_uiManager(uiManager),
-      m_viewFactory(viewFactory)
+  ApplicationController::ApplicationController(View::IViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
   {}
 
-  void ApplicationController::handleEvent(const Framework::MVCEvent &event) {
-    if(auto *e = dynamic_cast<const Events::ExitCommandEvent *>(&event)) {
-      m_uiManager->closeUI();
+  void ApplicationController::startApplication() {
+
+  }
+
+  void ApplicationController::onViewEvent(Framework::IMVCView *view, const Framework::MVCViewEvent &e) {
+    /*
+    if(auto &ev = dynamic_cast<const View::Events::ExitCommandEvent &>(e)) {
+      // TBA
+      std::cout << "quitting" << std::endl;
     }
+    */
   }
 }

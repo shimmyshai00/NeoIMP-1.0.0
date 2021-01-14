@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_NEWCOMMANDEVENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_EVENTS_NEWCOMMANDEVENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCVIEWEVENT_HPP
+#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCVIEWEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewCommandEvent.hpp
- * PURPOSE: Defines an interface for an event representing the "new" command.
+ * FILE:    MVCViewEvent.hpp
+ * PURPOSE: The base class for MVC view events.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct NewCommandEvent {};
+namespace SDF::Impl::UILayer::Impl::Framework {
+  struct MVCViewEvent {};
 }
 
 #endif

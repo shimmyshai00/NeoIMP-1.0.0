@@ -25,10 +25,9 @@
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 #include <Impl/View/IViewFactory.hpp>
-#include <Impl/Controller/ControllerFactory.hpp>
 
 #include <Impl/MainUI.hpp>
-#include <Impl/AppModel/AppModelComponent.hpp>
+#include <Impl/AppModelLayer/AppModelComponent.hpp>
 #include <Impl/View/Qt/ViewComponent.hpp>
 
 namespace SDF::Impl::UILayer {

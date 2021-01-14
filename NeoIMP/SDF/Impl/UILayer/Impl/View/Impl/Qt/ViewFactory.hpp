@@ -28,16 +28,14 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
+  class BaseApplicationView;
 
   namespace View::Impl::Qt {
     class ViewFactory : public IViewFactory {
     public:
-      INJECT(ViewFactory(IUIManager *uiManager));
+      INJECT(ViewFactory());
 
-      std::unique_ptr<IApplicationView> createApplicationView();
-    private:
-      IUIManager *m_uiManager;
+      std::unique_ptr<BaseApplicationView> createApplicationView();
     };
   }
 }

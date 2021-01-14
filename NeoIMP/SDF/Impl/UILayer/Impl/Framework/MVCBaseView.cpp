@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MVCBaseView.cpp
- * PURPOSE: The base class for MVC views.
+ * PURPOSE: Provides a base for all MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -22,75 +22,19 @@
  */
 
 #include <MVCBaseView.hpp>
-
-#include <SDF/Impl/UILayer/Exceptions/Exceptions.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCController.hpp>
+#include <IMVCController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  MVCBaseView::MVCBaseView() : m_parent(nullptr) {}
+  MVCBaseView::MVCBaseView() {}
   MVCBaseView::~MVCBaseView() {}
-
-  IMVCView *MVCBaseView::getParent() {
-    return m_parent;
-  }
-
-  IMVCView *MVCBaseView::getFirstChild() {
-    return m_firstChild.get();
-  }
-
-  IMVCView *MVCBaseView::getNextSibling() {
-    return m_nextSibling.get();
-  }
 
   void MVCBaseView::addController(std::unique_ptr<IMVCController> controller) {
     m_controllers.push_back(std::move(controller));
   }
 
-  void MVCBaseView::addChild(std::unique_ptr<MVCBaseView> child) {
-    child->m_parent = this;
-
-    if(!m_firstChild) {
-      m_firstChild = std::move(child);
-    } else {
-      MVCBaseView *curChild(m_firstChild.get());
-      while(curChild->m_nextSibling) {
-        curChild = curChild->m_nextSibling.get();
-      }
-
-      curChild->m_nextSibling = std::move(child);
-    }
-  }
-
-  std::unique_ptr<MVCBaseView> MVCBaseView::removeSelf() {
-    if(m_parent == nullptr) {
-      throw UILayer::Exceptions::RemovedRootException();
-    } else {
-      if(m_parent->m_firstChild.get() == this) {
-        std::unique_ptr<MVCBaseView> rv(std::move(m_parent->m_firstChild));
-        m_parent->m_firstChild = std::move(rv->m_nextSibling);
-
-        rv->m_parent = nullptr;
-
-        return std::move(rv);
-      } else {
-        MVCBaseView *curChild(m_firstChild.get());
-        while(curChild->m_nextSibling.get() != this) {
-          curChild = curChild->m_nextSibling.get();
-        }
-
-        std::unique_ptr<MVCBaseView> rv(std::move(curChild->m_nextSibling));
-        curChild->m_nextSibling = std::move(rv->m_nextSibling);
-
-        rv->m_parent = nullptr;
-
-        return std::move(rv);
-      }
-    }
-  }
-
-  void MVCBaseView::dispatchEvent(const MVCEvent &event) {
+  void MVCBaseView::dispatchEvent(const MVCViewEvent &e) {
     for(auto &controller : m_controllers) {
-      controller->handleEvent(event);
+      controller->onViewEvent(this, e);
     }
   }
 }

@@ -24,7 +24,7 @@
 #include <ApplicationView.hpp>
 
 #include <Windows/MainWindow.hpp>
-#include <Events/ExitCommandEvent.hpp>
+#include <Events/Events.hpp>
 
 #include <QObject>
 
@@ -36,16 +36,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
       dispatchEvent(Events::ExitCommandEvent {});
     });
-
-    m_mainWindow->show();
   }
 
   ApplicationView::~ApplicationView() {
-    m_mainWindow->close();
     delete m_mainWindow;
   }
 
-  Windows::MainWindow *ApplicationView::getDetail() {
-    return m_mainWindow;
+  void ApplicationView::show() {
+    m_mainWindow->show();
+  }
+
+  void ApplicationView::close() {
+    m_mainWindow->close();
   }
 }

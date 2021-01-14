@@ -24,7 +24,7 @@
 #include <MainUI.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
+#include <View/BaseApplicationView.hpp>
 
 #include <Controller/ApplicationController.hpp>
 
@@ -37,10 +37,11 @@ namespace SDF::Impl::UILayer::Impl {
 
   void MainUI::start() {
     m_applicationView = m_viewFactory->createApplicationView();
-    m_applicationView->addController(std::make_unique<Controller::ApplicationController>(this, m_viewFactory));
+    m_applicationView->show();
   }
 
   void MainUI::closeUI() {
+    m_applicationView->close();
     m_applicationView.release();
   }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCEXTENDIBLEVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_IMVCEXTENDIBLEVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_MVCCOMPOSABLEVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_MVCCOMPOSABLEVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCExtendibleView.hpp
- * PURPOSE: Provides a general interface for MVC views that can have further child views added to them.
+ * FILE:    MVCComposableView.hpp
+ * PURPOSE: Provides a base for MVC views that can be composed with other views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,31 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseView.hpp>
+
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class IMVCController;
-
-  template<class EventType, class ExtensionViewType>
-  class IMVCExtendibleView : public virtual IMVCView<ExtensionViewType> {
+  class MVCComposableView : public MVCBaseView {
   public:
-    virtual ~IMVCExtendibleView() = default;
+    MVCComposableView();
+    ~MVCComposableView();
 
-    virtual void addChildView(std::unique_ptr<ExtensionViewType> newChild) = 0;
+    IMVCView *getParent();
+    IMVCView *getFirstChild();
+    IMVCView *getNextSibling();
+
+    virtual void show() = 0;
+    virtual void close() = 0;
+
+    void attachChild(std::unique_ptr<MVCComposableView> child);
+    void attachSibling(std::unique_ptr<MVCComposableView> sibling);
+
+    std::unique_ptr<MVCComposableView> removeSelf();
+  private:
+    MVCComposableView *m_parent;
+    std::unique_ptr<MVCComposableView> m_firstChild;
+    std::unique_ptr<MVCComposableView> m_nextSibling;
   };
 }
 

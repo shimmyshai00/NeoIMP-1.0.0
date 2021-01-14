@@ -25,27 +25,23 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCController.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
-
   namespace View {
     class IViewFactory;
-    class IApplicationView;
   }
 
   namespace Controller {
     class ApplicationController : public Framework::IMVCController {
     public:
-      ApplicationController(IUIManager *uiManager, View::IViewFactory *viewFactory);
+      ApplicationController(View::IViewFactory *viewFactory);
 
       void startApplication();
-      void handleEvent(const Framework::MVCEvent &event);
+      void onViewEvent(Framework::IMVCView *view, const Framework::MVCViewEvent &e);
     private:
-      IUIManager *m_uiManager;
       View::IViewFactory *m_viewFactory;
-
-      std::unique_ptr<View::IApplicationView> m_applicationView;
     };
   }
 }

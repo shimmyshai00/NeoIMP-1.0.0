@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IMVCController.hpp
- * PURPOSE: Provides a general interface for MVC controllers.
+ * PURPOSE: The interface for MVC controllers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCEvent.hpp>
-
 namespace SDF::Impl::UILayer::Impl::Framework {
+  class IMVCView;
+  struct MVCViewEvent;
+
   class IMVCController {
   public:
     virtual ~IMVCController() = default;
 
-    virtual void handleEvent(const MVCEvent &event) = 0;
+    virtual void onViewEvent(IMVCView *view, const MVCViewEvent &e) = 0;
   };
 }
 
