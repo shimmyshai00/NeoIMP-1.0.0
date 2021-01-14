@@ -33,9 +33,9 @@ namespace SDF::Impl::UILayer::Exceptions {
     RemovedRootException() : Exception("Tried to remove a root MVC object from its hierarchy.") {}
   };
 
-  struct IncompatibleContextException : public SDF::Exception::Exception {
-    IncompatibleContextException(const char *viewType)
-      : Exception("Tried to create a '%s' view with the wrong type of context view", viewType)
+  struct IncompatibleWidgetSystemException : public SDF::Exception::Exception {
+    IncompatibleWidgetSystemException(const char *wType)
+      : Exception("Tried to compose a view from a different widget system into a %s view. This is likely a bug.", wType)
     {}
   };
 

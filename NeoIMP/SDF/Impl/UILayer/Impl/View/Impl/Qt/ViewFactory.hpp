@@ -33,6 +33,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class BaseApplicationView;
     class BaseNewDocumentView;
+    class BaseDocumentView;
 
     namespace Impl::Qt {
       class ViewFactory : public IViewFactory {
@@ -41,6 +42,7 @@ namespace SDF::Impl::UILayer::Impl {
 
         std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager);
         std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager);
+        std::unique_ptr<BaseDocumentView> createDocumentView(IUIManager *uiManager);
       };
     }
   }

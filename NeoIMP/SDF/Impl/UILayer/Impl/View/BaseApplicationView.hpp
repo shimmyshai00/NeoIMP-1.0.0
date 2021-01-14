@@ -25,14 +25,20 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/MVCComposableView.hpp>
+#include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
+  class BaseDocumentView;
+
   class BaseApplicationView : public Framework::MVCComposableView {
   public:
     virtual ~BaseApplicationView() = default;
 
     virtual void show() = 0;
     virtual void close() = 0;
+
+    // Note: Use this to add a document view, instead of adding a child directly
+    virtual void addDocumentView(std::unique_ptr<BaseDocumentView> documentView) = 0;
   };
 }
 

@@ -26,6 +26,7 @@
 #include <IUIManager.hpp>
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <DocumentView.hpp>
 
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentDialogController.hpp>
@@ -43,6 +44,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   std::unique_ptr<BaseNewDocumentView> ViewFactory::createNewDocumentView(IUIManager *uiManager) {
     std::unique_ptr<BaseNewDocumentView> view(new NewDocumentView());
     view->addController(std::make_unique<Controller::NewDocumentDialogController>(uiManager, view.get()));
+
+    return std::move(view);
+  }
+
+  std::unique_ptr<BaseDocumentView> ViewFactory::createDocumentView(IUIManager *uiManager) {
+    std::unique_ptr<BaseDocumentView> view(new DocumentView());
 
     return std::move(view);
   }

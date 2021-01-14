@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_BASEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_BASEDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationView.hpp
- * PURPOSE: The Qt-based application view.
+ * FILE:    BaseDocumentView.hpp
+ * PURPOSE: The base class for the document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/BaseApplicationView.hpp>
-#include <QTabWidget>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCComposableView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
-  }
-
-  class ApplicationView : public BaseApplicationView {
+namespace SDF::Impl::UILayer::Impl::View {
+  class BaseDocumentView : public Framework::MVCComposableView {
   public:
-    ApplicationView();
-    ~ApplicationView();
+    virtual ~BaseDocumentView() = default;
 
-    void show();
-    void close();
+    virtual void show() = 0;
+    virtual void close() = 0;
 
-    void addDocumentView(std::unique_ptr<BaseDocumentView> documentView);
-  private:
-    Windows::MainWindow *m_mainWindow;
-    QTabWidget *m_documentTabs;
+    virtual void setDocumentTitle(std::string documentTitle) = 0;
+    virtual void setActiveDocument(AbstractAppModel::DocumentHandle handle) = 0;
   };
 }
 

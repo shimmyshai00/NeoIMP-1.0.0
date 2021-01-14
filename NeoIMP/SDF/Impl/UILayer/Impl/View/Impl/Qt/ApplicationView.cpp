@@ -23,23 +23,30 @@
 
 #include <ApplicationView.hpp>
 
+#include <UILayer/Exceptions/Exceptions.hpp>
+
 #include <Windows/MainWindow.hpp>
 #include <Events/Events.hpp>
+
+#include <DocumentView.hpp>
 
 #include <QObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::ApplicationView()
-    : m_mainWindow(new Windows::MainWindow)
+    : m_mainWindow(new Windows::MainWindow),
+      m_documentTabs(new QTabWidget)
   {
     // Hook events.
     QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
       dispatchEvent(Framework::MVCViewEvent { Events::NewCommand, 0 });
     });
-    
+
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
       dispatchEvent(Framework::MVCViewEvent { Events::ExitCommand, 0 });
     });
+
+    m_mainWindow->addPrincipalWidget(m_documentTabs);
   }
 
   ApplicationView::~ApplicationView() {
@@ -52,5 +59,18 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void ApplicationView::close() {
     m_mainWindow->close();
+  }
+
+  void ApplicationView::addDocumentView(std::unique_ptr<BaseDocumentView> documentView) {
+    // NB: don't like the use of downcast here, but it seems unavoidable without making the code messier
+    auto *qtDocumentView = dynamic_cast<Qt::DocumentView *>(documentView.get());
+    if(qtDocumentView == nullptr) {
+      throw UILayer::Exceptions::IncompatibleWidgetSystemException("Qt");
+    } else {
+      qtDocumentView->addToTabWidget(m_documentTabs);
+    }
+
+    // Absorb the document view into this view's view hierarchy.
+    attachChild(std::move(documentView));
   }
 }

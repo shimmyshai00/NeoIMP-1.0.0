@@ -32,6 +32,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class BaseApplicationView;
     class BaseNewDocumentView;
+    class BaseDocumentView;
 
     class IViewFactory {
     public:
@@ -39,6 +40,7 @@ namespace SDF::Impl::UILayer::Impl {
 
       virtual std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager) = 0;
       virtual std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager) = 0;
+      virtual std::unique_ptr<BaseDocumentView> createDocumentView(IUIManager *uiManager) = 0;
     };
   }
 }
