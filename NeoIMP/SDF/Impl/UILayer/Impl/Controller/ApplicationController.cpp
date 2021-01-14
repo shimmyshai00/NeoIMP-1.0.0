@@ -23,6 +23,8 @@
 
 #include <ApplicationController.hpp>
 
+#include <IUIManager.hpp>
+
 #include <View/IViewFactory.hpp>
 
 #include <View/Events/Events.hpp>
@@ -30,8 +32,9 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(View::IViewFactory *viewFactory)
-    : m_viewFactory(viewFactory)
+  ApplicationController::ApplicationController(IUIManager *uiManager, View::IViewFactory *viewFactory)
+    : m_uiManager(uiManager),
+      m_viewFactory(viewFactory)
   {}
 
   void ApplicationController::startApplication() {
@@ -40,8 +43,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
     if(e.m_eventDescription == View::Events::ExitCommand) {
-      // TBA
-      std::cout << "quitting" << std::endl;
+      m_uiManager->closeUI();
     }
   }
 }

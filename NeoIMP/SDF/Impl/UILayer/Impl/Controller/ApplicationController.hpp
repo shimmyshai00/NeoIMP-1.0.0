@@ -29,6 +29,8 @@
 #include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
+  class IUIManager;
+
   namespace View {
     class IViewFactory;
   }
@@ -36,11 +38,12 @@ namespace SDF::Impl::UILayer::Impl {
   namespace Controller {
     class ApplicationController : public Framework::IMVCController {
     public:
-      ApplicationController(View::IViewFactory *viewFactory);
+      ApplicationController(IUIManager *uiManager, View::IViewFactory *viewFactory);
 
       void startApplication();
       void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
     private:
+      IUIManager *m_uiManager;
       View::IViewFactory *m_viewFactory;
     };
   }

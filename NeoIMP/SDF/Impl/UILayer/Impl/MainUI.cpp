@@ -36,7 +36,7 @@ namespace SDF::Impl::UILayer::Impl {
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    m_applicationView = m_viewFactory->createApplicationView();
+    m_applicationView = m_viewFactory->createApplicationView(this);
     m_applicationView->show();
   }
 

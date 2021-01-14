@@ -26,15 +26,19 @@
 
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl::View {
-  class BaseApplicationView;
+namespace SDF::Impl::UILayer::Impl {
+  class IUIManager;
 
-  class IViewFactory {
-  public:
-    virtual ~IViewFactory() = default;
+  namespace View {
+    class BaseApplicationView;
 
-    virtual std::unique_ptr<BaseApplicationView> createApplicationView() = 0;
-  };
+    class IViewFactory {
+    public:
+      virtual ~IViewFactory() = default;
+
+      virtual std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager) = 0;
+    };
+  }
 }
 
 #endif
