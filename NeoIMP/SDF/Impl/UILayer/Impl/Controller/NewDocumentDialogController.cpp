@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: The controller for the application view.
+ * FILE:    NewDocumentDialogController.cpp
+ * PURPOSE: The controller for the new-document dialog view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
+#include <NewDocumentDialogController.hpp>
 
 #include <IUIManager.hpp>
 
-#include <View/IViewFactory.hpp>
 #include <View/BaseApplicationView.hpp>
 #include <View/BaseNewDocumentView.hpp>
 
@@ -34,28 +33,23 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
+  NewDocumentDialogController::NewDocumentDialogController(
     IUIManager *uiManager,
-    View::IViewFactory *viewFactory,
-    View::BaseApplicationView *applicationView
+    View::BaseNewDocumentView *newDocumentView
   )
     : m_uiManager(uiManager),
-      m_viewFactory(viewFactory),
-      m_applicationView(applicationView)
+      m_newDocumentView(newDocumentView)
   {}
 
-  void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    std::unique_ptr<Framework::MVCComposableView> newView;
-    Framework::MVCComposableView *newViewPtr;
-
-    if(e.m_eventDescription == View::Events::NewCommand) {
-      newView = m_viewFactory->createNewDocumentView(m_uiManager);
-      newViewPtr = newView.get();
-
-      m_applicationView->attachChild(std::move(newView));
-      newViewPtr->show();
-    } else if(e.m_eventDescription == View::Events::ExitCommand) {
-      m_uiManager->closeUI();
+  void NewDocumentDialogController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
+    if(e.m_eventDescription == View::Events::DialogAccepted) {
+      // TBA
+      std::cout << "OK" << std::endl;
+      m_uiManager->viewRemoved(m_newDocumentView->removeSelf());
+    } else if(e.m_eventDescription == View::Events::DialogDismissed) {
+      // TBA
+      std::cout << "Dismissed" << std::endl;
+      m_uiManager->viewRemoved(m_newDocumentView->removeSelf());
     }
   }
 }

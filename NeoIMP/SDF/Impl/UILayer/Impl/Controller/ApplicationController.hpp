@@ -33,17 +33,24 @@ namespace SDF::Impl::UILayer::Impl {
 
   namespace View {
     class IViewFactory;
+    class BaseApplicationView;
   }
 
   namespace Controller {
     class ApplicationController : public Framework::IMVCController {
     public:
-      ApplicationController(IUIManager *uiManager, View::IViewFactory *viewFactory);
+      ApplicationController(
+        IUIManager *uiManager,
+        View::IViewFactory *viewFactory,
+        View::BaseApplicationView *applicationView
+      );
 
       void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
     private:
       IUIManager *m_uiManager;
+
       View::IViewFactory *m_viewFactory;
+      View::BaseApplicationView *m_applicationView;
     };
   }
 }

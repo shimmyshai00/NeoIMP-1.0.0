@@ -31,12 +31,14 @@ namespace SDF::Impl::UILayer::Impl {
 
   namespace View {
     class BaseApplicationView;
+    class BaseNewDocumentView;
 
     class IViewFactory {
     public:
       virtual ~IViewFactory() = default;
 
       virtual std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager) = 0;
+      virtual std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager) = 0;
     };
   }
 }

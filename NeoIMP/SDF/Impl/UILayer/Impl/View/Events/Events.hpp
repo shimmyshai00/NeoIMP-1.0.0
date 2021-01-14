@@ -31,6 +31,9 @@ namespace SDF::Impl::UILayer::Impl::View::Events {
   static const std::string NewCommand = "command.new";
   static const std::string ExitCommand = "command.exit";
   static const std::string SaveAsCommand = "command.save.as";
+
+  static const std::string DialogAccepted = "dialog.accepted";
+  static const std::string DialogDismissed = "dialog.dismissed";
 }
 
 #endif

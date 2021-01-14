@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMP_VIEW_BASENEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMP_VIEW_BASENEWDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewFactory.hpp
- * PURPOSE: The Qt-based view factory.
+ * FILE:    BaseNewDocumentView.hpp
+ * PURPOSE: The base class for the new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
-#include <fruit/fruit.h>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCComposableView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
+namespace SDF::Impl::UILayer::Impl::View {
+  class BaseNewDocumentView : public Framework::MVCComposableView {
+  public:
+    virtual ~BaseNewDocumentView() = default;
 
-  namespace View {
-    class BaseApplicationView;
-    class BaseNewDocumentView;
+    virtual void show() = 0;
+    virtual void close() = 0;
 
-    namespace Impl::Qt {
-      class ViewFactory : public IViewFactory {
-      public:
-        INJECT(ViewFactory());
-
-        std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager);
-        std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager);
-      };
-    }
-  }
+    virtual AbstractAppModel::Data::DocumentSpec getEnteredSpec() const = 0;
+  };
 }
 
 #endif
