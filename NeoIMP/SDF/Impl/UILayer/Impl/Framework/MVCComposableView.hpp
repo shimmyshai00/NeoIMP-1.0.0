@@ -42,8 +42,8 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     virtual void show() = 0;
     virtual void close() = 0;
 
-    void attachChild(std::unique_ptr<MVCComposableView> child);
-    void attachSibling(std::unique_ptr<MVCComposableView> sibling);
+    MVCComposableView *attachChild(std::unique_ptr<MVCComposableView> child);
+    MVCComposableView *attachSibling(std::unique_ptr<MVCComposableView> sibling);
 
     std::unique_ptr<MVCComposableView> removeSelf();
   private:

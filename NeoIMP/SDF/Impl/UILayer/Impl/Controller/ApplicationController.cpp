@@ -49,11 +49,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     Framework::MVCComposableView *newViewPtr;
 
     if(e.m_eventDescription == View::Events::NewCommand) {
-      newView = m_viewFactory->createNewDocumentView(m_uiManager);
-      newViewPtr = newView.get();
-
-      m_applicationView->attachChild(std::move(newView));
-      newViewPtr->show();
+      m_applicationView->attachChild(m_viewFactory->createNewDocumentView(m_uiManager))->show();
     } else if(e.m_eventDescription == View::Events::ExitCommand) {
       m_uiManager->closeUI();
     }

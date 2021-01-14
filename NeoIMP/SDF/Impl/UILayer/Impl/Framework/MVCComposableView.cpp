@@ -41,22 +41,30 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     return m_nextSibling.get();
   }
 
-  void MVCComposableView::attachChild(std::unique_ptr<MVCComposableView> child) {
+  MVCComposableView *MVCComposableView::attachChild(std::unique_ptr<MVCComposableView> child) {
+    MVCComposableView *rv(child.get());
+
     if(!m_firstChild) {
       m_firstChild = std::move(child);
       m_firstChild->m_parent = this;
     } else {
       m_firstChild->attachSibling(std::move(child));
     }
+
+    return rv;
   }
 
-  void MVCComposableView::attachSibling(std::unique_ptr<MVCComposableView> sibling) {
+  MVCComposableView *MVCComposableView::attachSibling(std::unique_ptr<MVCComposableView> sibling) {
+    MVCComposableView *rv(sibling.get());
+
     if(!m_nextSibling) {
       m_nextSibling = std::move(sibling);
       m_nextSibling->m_parent = m_parent;
     } else {
       m_nextSibling->attachSibling(std::move(sibling));
     }
+
+    return rv;
   }
 
   std::unique_ptr<MVCComposableView> MVCComposableView::removeSelf() {
