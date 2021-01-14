@@ -24,15 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
   class IMVCView;
-  struct MVCViewEvent;
 
   class IMVCController {
   public:
     virtual ~IMVCController() = default;
 
-    virtual void onViewEvent(IMVCView *view, const MVCViewEvent &e) = 0;
+    virtual void onViewEvent(IMVCView *view, MVCViewEvent e) = 0;
   };
 }
 

@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Events.hpp
- * PURPOSE: The view events.
+ * PURPOSE: Provides the event strings for all view events.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,11 +25,12 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
+#include <string>
 
 namespace SDF::Impl::UILayer::Impl::View::Events {
-  struct NewCommandEvent : public Framework::MVCViewEvent {};
-  struct ExitCommandEvent : public Framework::MVCViewEvent {};
-  struct SaveAsCommandEvent : public Framework::MVCViewEvent {};
+  static const std::string NewCommand = "command.new";
+  static const std::string ExitCommand = "command.exit";
+  static const std::string SaveAsCommand = "command.save.as";
 }
 
 #endif

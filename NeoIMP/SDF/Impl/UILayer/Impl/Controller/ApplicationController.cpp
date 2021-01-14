@@ -38,12 +38,10 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   }
 
-  void ApplicationController::onViewEvent(Framework::IMVCView *view, const Framework::MVCViewEvent &e) {
-    /*
-    if(auto &ev = dynamic_cast<const View::Events::ExitCommandEvent &>(e)) {
+  void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
+    if(e.m_eventDescription == View::Events::ExitCommand) {
       // TBA
       std::cout << "quitting" << std::endl;
     }
-    */
   }
 }

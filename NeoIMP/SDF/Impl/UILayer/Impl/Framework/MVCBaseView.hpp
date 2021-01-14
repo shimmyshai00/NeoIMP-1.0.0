@@ -45,7 +45,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
 
     void addController(std::unique_ptr<IMVCController> controller);
   protected:
-    void dispatchEvent(const MVCViewEvent &e);
+    void dispatchEvent(MVCViewEvent e);
   private:
     std::vector<std::unique_ptr<IMVCController>> m_controllers;
   };

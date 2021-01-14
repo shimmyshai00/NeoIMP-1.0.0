@@ -24,8 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <string>
+
 namespace SDF::Impl::UILayer::Impl::Framework {
-  struct MVCViewEvent {};
+  struct MVCViewEvent {
+    std::string m_eventDescription;
+    int m_eventExtra;
+  };
 }
 
 #endif

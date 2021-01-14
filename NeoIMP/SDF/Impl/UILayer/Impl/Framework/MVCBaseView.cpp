@@ -32,7 +32,7 @@ namespace SDF::Impl::UILayer::Impl::Framework {
     m_controllers.push_back(std::move(controller));
   }
 
-  void MVCBaseView::dispatchEvent(const MVCViewEvent &e) {
+  void MVCBaseView::dispatchEvent(MVCViewEvent e) {
     for(auto &controller : m_controllers) {
       controller->onViewEvent(this, e);
     }

@@ -39,7 +39,7 @@ namespace SDF::Impl::UILayer::Impl {
       ApplicationController(View::IViewFactory *viewFactory);
 
       void startApplication();
-      void onViewEvent(Framework::IMVCView *view, const Framework::MVCViewEvent &e);
+      void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
     private:
       View::IViewFactory *m_viewFactory;
     };

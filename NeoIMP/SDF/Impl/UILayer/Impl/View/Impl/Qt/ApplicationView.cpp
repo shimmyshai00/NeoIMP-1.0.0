@@ -34,7 +34,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   {
     // Hook events.
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
-      dispatchEvent(Events::ExitCommandEvent {});
+      dispatchEvent(Framework::MVCViewEvent { Events::ExitCommand, 0 });
     });
   }
 
