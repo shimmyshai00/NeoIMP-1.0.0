@@ -23,7 +23,8 @@
 
 #include <NewDocumentDialogController.hpp>
 
-#include <IUIManager.hpp>
+#include <IViewSink.hpp>
+#include <AbstractAppModel/IDocumentCreator.hpp>
 
 #include <View/BaseApplicationView.hpp>
 #include <View/BaseNewDocumentView.hpp>
@@ -34,22 +35,21 @@
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   NewDocumentDialogController::NewDocumentDialogController(
-    IUIManager *uiManager,
-    View::BaseNewDocumentView *newDocumentView
+    IViewSink *viewSink,
+    AbstractAppModel::IDocumentCreator *documentCreator
   )
-    : m_uiManager(uiManager),
-      m_newDocumentView(newDocumentView)
+    : m_viewSink(viewSink),
+      m_documentCreator(documentCreator)
   {}
 
   void NewDocumentDialogController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    if(e.m_eventDescription == View::Events::DialogAccepted) {
-      // TBA
-      std::cout << "OK" << std::endl;
-      m_uiManager->viewRemoved(m_newDocumentView->removeSelf());
-    } else if(e.m_eventDescription == View::Events::DialogDismissed) {
-      // TBA
-      std::cout << "Dismissed" << std::endl;
-      m_uiManager->viewRemoved(m_newDocumentView->removeSelf());
+    if(auto *newDocumentView = dynamic_cast<View::BaseNewDocumentView *>(view)) {
+      if(e.m_eventDescription == View::Events::DialogAccepted) {
+        m_documentCreator->createDocument(newDocumentView->getEnteredSpec());
+        m_viewSink->viewRemoved(newDocumentView->removeSelf());
+      } else if(e.m_eventDescription == View::Events::DialogDismissed) {
+        m_viewSink->viewRemoved(newDocumentView->removeSelf());
+      }
     }
   }
 }

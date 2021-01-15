@@ -28,24 +28,33 @@
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
-
-  namespace View {
-    class BaseNewDocumentView;
+namespace SDF::Impl::UILayer {
+  namespace AbstractAppModel {
+    class IDocumentCreator;
   }
 
-  namespace Controller {
-    class NewDocumentDialogController : public Framework::IMVCController {
-    public:
-      NewDocumentDialogController(IUIManager *uiManager, View::BaseNewDocumentView *newDocumentView);
+  namespace Impl {
+    class IViewSink;
 
-      void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
-    private:
-      IUIManager *m_uiManager;
+    namespace View {
+      class BaseNewDocumentView;
+    }
 
-      View::BaseNewDocumentView *m_newDocumentView;
-    };
+    namespace Controller {
+      class NewDocumentDialogController : public Framework::IMVCController {
+      public:
+        NewDocumentDialogController(
+          IViewSink *viewSink,
+          AbstractAppModel::IDocumentCreator *documentCreator
+        );
+
+        void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
+      private:
+        IViewSink *m_viewSink;
+
+        AbstractAppModel::IDocumentCreator *m_documentCreator;
+      };
+    }
   }
 }
 

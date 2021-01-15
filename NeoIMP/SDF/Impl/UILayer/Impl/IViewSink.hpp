@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IEDITORSTATE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IEDITORSTATE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_IVIEWSINK_HPP
+#define SDF_IMPL_UILAYER_IMPL_IVIEWSINK_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IEditorState.hpp
- * PURPOSE: Provides an interface to obtain basic editor state like what documents are open and which document is
- *          selected for editing.
+ * FILE:    IViewSink.hpp
+ * PURPOSE: An interface for objects which manage the safe disposal of views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,18 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <memory>
 
-#include <vector>
-
-namespace SDF::Impl::UILayer::AbstractAppModel {
-  class IEditorState {
+namespace SDF::Impl::UILayer::Impl {
+  class IViewSink {
   public:
-    virtual ~IEditorState() = default;
+    virtual ~IViewSink() = default;
 
-    virtual std::vector<DocumentHandle> getOpenDocuments() = 0;
-    virtual DocumentHandle getEditingFocusDocument() = 0;
-    virtual void setEditingFocusDocument(DocumentHandle focusDocument) = 0;
+    virtual void viewRemoved(std::unique_ptr<Framework::IMVCView> view) = 0;
   };
 }
 

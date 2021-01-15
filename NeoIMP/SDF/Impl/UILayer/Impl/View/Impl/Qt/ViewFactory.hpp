@@ -25,25 +25,43 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
+
 #include <fruit/fruit.h>
+#include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
+namespace SDF::Impl::UILayer {
+  namespace AbstractAppModel {
+    class IDocumentCreator;
+  }
 
-  namespace View {
-    class BaseApplicationView;
-    class BaseNewDocumentView;
-    class BaseDocumentView;
+  namespace Impl {
+    class IUIControl;
+    class IViewSink;
 
-    namespace Impl::Qt {
-      class ViewFactory : public IViewFactory {
-      public:
-        INJECT(ViewFactory());
+    namespace Controller {
+      class ControllerFactory;
+    }
 
-        std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager);
-        std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager);
-        std::unique_ptr<BaseDocumentView> createDocumentView(IUIManager *uiManager);
-      };
+    namespace View {
+      class BaseApplicationView;
+      class BaseNewDocumentView;
+      class BaseDocumentView;
+
+      namespace Impl::Qt {
+        class ViewFactory : public IViewFactory {
+        public:
+          INJECT(ViewFactory(AbstractAppModel::IDocumentCreator *documentCreator));
+          ~ViewFactory();
+
+          void setUI(MainUI *ui);
+
+          std::unique_ptr<BaseApplicationView> createApplicationView();
+          std::unique_ptr<BaseNewDocumentView> createNewDocumentView();
+          std::unique_ptr<BaseDocumentView> createDocumentView();
+        private:
+          std::unique_ptr<Controller::ControllerFactory> m_controllerFactory;
+        };
+      }
     }
   }
 }

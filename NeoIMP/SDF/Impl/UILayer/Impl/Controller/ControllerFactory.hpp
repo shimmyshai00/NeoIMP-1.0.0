@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
-#define SDF_IMPL_UILAYER_IMPL_MAINUI_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_CONTROLLERFACTORY_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_CONTROLLERFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainUI.hpp
- * PURPOSE: The main UI layer object. This effectively acts as a "back end" for all the MVC views and controllers.
+ * FILE:    ControllerFactory.hpp
+ * PURPOSE: The controller factory.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,37 +24,45 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
-#include <SDF/Impl/UILayer/Impl/IUIControl.hpp>
-#include <SDF/Impl/UILayer/Impl/IViewSink.hpp>
-
-#include <fruit/fruit.h>
 #include <memory>
-#include <map>
 
 namespace SDF::Impl::UILayer {
+  namespace AbstractAppModel {
+    class IDocumentCreator;
+  }
+
   namespace Impl {
+    class MainUI;
+
     namespace View {
       class IViewFactory;
       class BaseApplicationView;
+      class BaseNewDocumentView;
     }
 
-    class MainUI : public IUIEntryPoint, public IUIControl, public IViewSink {
-    public:
-      INJECT(MainUI(View::IViewFactory *viewFactory));
-      ~MainUI();
+    namespace Controller {
+      class ApplicationController;
+      class NewDocumentDialogController;
 
-      void start();
-      void closeUI();
+      class ControllerFactory {
+      public:
+        ControllerFactory(
+          AbstractAppModel::IDocumentCreator *documentCreator,
+          View::IViewFactory *viewFactory
+        );
 
-      void viewRemoved(std::unique_ptr<Framework::IMVCView> view);
-      void pump();
-    private:
-      View::IViewFactory *m_viewFactory;
+        void setUI(MainUI *ui);
 
-      std::unique_ptr<View::BaseApplicationView> m_applicationView;
-      std::vector<std::unique_ptr<Framework::IMVCView>> m_discardedViews;
-    };
+        std::unique_ptr<ApplicationController> createApplicationController();
+        std::unique_ptr<NewDocumentDialogController> createNewDocumentDlgController();
+      private:
+        View::IViewFactory *m_viewFactory;
+
+        AbstractAppModel::IDocumentCreator *m_documentCreator;
+
+        MainUI *m_parentUi;
+      };
+    }
   }
 }
 

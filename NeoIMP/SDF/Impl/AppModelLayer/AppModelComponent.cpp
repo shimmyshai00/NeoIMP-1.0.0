@@ -30,8 +30,7 @@
 namespace SDF::Impl::AppModelLayer {
   DIComponent getAppModelComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractAppModel::ICreateDocumentCommand, Impl::EditorModel>()
-      .bind<UILayer::AbstractAppModel::IEditorState, Impl::EditorModel>()
+      .bind<UILayer::AbstractAppModel::IDocumentCreator, Impl::EditorModel>()
       .install(ModelLayer::getModelComponent);
   }
 }

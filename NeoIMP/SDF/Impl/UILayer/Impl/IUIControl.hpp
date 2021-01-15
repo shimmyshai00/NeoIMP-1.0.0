@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUIMANAGER_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUIMANAGER_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
+#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIManager.hpp
- * PURPOSE: The interface for the UI manager. This object handles the dynamic creation and destruction of views and
- *          controllers in a safe manner.
+ * FILE:    IUIControl.hpp
+ * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -29,15 +28,11 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl {
-  class IUIManager {
+  class IUIControl {
   public:
-    virtual ~IUIManager() = default;
+    virtual ~IUIControl() = default;
 
     virtual void closeUI() = 0;
-
-    // Safely dispose of a view.
-    virtual void viewRemoved(std::unique_ptr<Framework::IMVCView> view) = 0;
-    virtual void pump() = 0;
   };
 }
 

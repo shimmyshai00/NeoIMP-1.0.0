@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationController.cpp
- * PURPOSE: The controller for the application view.
+ * FILE:    ControllerFactory.cpp
+ * PURPOSE: The controller factory.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,34 +21,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationController.hpp>
-
-#include <IUIControl.hpp>
+#include <ControllerFactory.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/BaseApplicationView.hpp>
-#include <View/BaseNewDocumentView.hpp>
 
-#include <View/Events/Events.hpp>
+#include <MainUI.hpp>
 
-#include <iostream>
+#include <ApplicationController.hpp>
+#include <NewDocumentDialogController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
-    IUIControl *uiControl,
+  ControllerFactory::ControllerFactory(
+    AbstractAppModel::IDocumentCreator *documentCreator,
     View::IViewFactory *viewFactory
   )
-    : m_uiControl(uiControl),
-      m_viewFactory(viewFactory)
+    : m_viewFactory(viewFactory),
+      m_documentCreator(documentCreator),
+      m_parentUi(nullptr)
   {}
 
-  void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    if(auto *owner = dynamic_cast<Framework::MVCComposableView *>(view)) {
-      if(e.m_eventDescription == View::Events::NewCommand) {
-        owner->attachChild(m_viewFactory->createNewDocumentView())->show();
-      } else if(e.m_eventDescription == View::Events::ExitCommand) {
-        m_uiControl->closeUI();
-      }
-    }
+  void ControllerFactory::setUI(MainUI *ui) {
+    m_parentUi = ui;
+  }
+
+  std::unique_ptr<ApplicationController> ControllerFactory::createApplicationController() {
+    return std::make_unique<ApplicationController>(m_parentUi, m_viewFactory);
+  }
+
+  std::unique_ptr<NewDocumentDialogController> ControllerFactory::createNewDocumentDlgController() {
+    return std::make_unique<NewDocumentDialogController>(m_parentUi, m_documentCreator);
   }
 }

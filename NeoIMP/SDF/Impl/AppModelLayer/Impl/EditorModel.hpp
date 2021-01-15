@@ -26,8 +26,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/IEditorState.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/ICreateDocumentCommand.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/IDocumentCreator.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
@@ -45,8 +44,7 @@ namespace SDF::Impl::AppModelLayer {
   }
 
   namespace Impl {
-    class EditorModel : public UILayer::AbstractAppModel::IEditorState,
-      public UILayer::AbstractAppModel::ICreateDocumentCommand
+    class EditorModel : public UILayer::AbstractAppModel::IDocumentCreator
     {
     public:
       INJECT(EditorModel(

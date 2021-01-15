@@ -27,7 +27,11 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl {
-  class IUIManager;
+  class MainUI;
+  
+  namespace Controller {
+    class ControllerFactory;
+  }
 
   namespace View {
     class BaseApplicationView;
@@ -38,9 +42,11 @@ namespace SDF::Impl::UILayer::Impl {
     public:
       virtual ~IViewFactory() = default;
 
-      virtual std::unique_ptr<BaseApplicationView> createApplicationView(IUIManager *uiManager) = 0;
-      virtual std::unique_ptr<BaseNewDocumentView> createNewDocumentView(IUIManager *uiManager) = 0;
-      virtual std::unique_ptr<BaseDocumentView> createDocumentView(IUIManager *uiManager) = 0;
+      virtual void setUI(MainUI *ui) = 0;
+
+      virtual std::unique_ptr<BaseApplicationView> createApplicationView() = 0;
+      virtual std::unique_ptr<BaseNewDocumentView> createNewDocumentView() = 0;
+      virtual std::unique_ptr<BaseDocumentView> createDocumentView() = 0;
     };
   }
 }

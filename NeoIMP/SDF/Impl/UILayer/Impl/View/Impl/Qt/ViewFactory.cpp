@@ -23,32 +23,45 @@
 
 #include <ViewFactory.hpp>
 
-#include <IUIManager.hpp>
+#include <AbstractAppModel/IDocumentCreator.hpp>
+
+#include <IUIControl.hpp>
+#include <IViewSink.hpp>
+
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
 #include <DocumentView.hpp>
 
+#include <Controller/ControllerFactory.hpp>
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentDialogController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory() {}
+  ViewFactory::ViewFactory(AbstractAppModel::IDocumentCreator *documentCreator)
+    : m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
+  {}
 
-  std::unique_ptr<BaseApplicationView> ViewFactory::createApplicationView(IUIManager *uiManager) {
+  ViewFactory::~ViewFactory() {}
+
+  void ViewFactory::setUI(MainUI *ui) {
+    m_controllerFactory->setUI(ui);
+  }
+
+  std::unique_ptr<BaseApplicationView> ViewFactory::createApplicationView() {
     std::unique_ptr<BaseApplicationView> view(new ApplicationView());
-    view->addController(std::make_unique<Controller::ApplicationController>(uiManager, this, view.get()));
+    view->addController(m_controllerFactory->createApplicationController());
 
     return std::move(view);
   }
 
-  std::unique_ptr<BaseNewDocumentView> ViewFactory::createNewDocumentView(IUIManager *uiManager) {
+  std::unique_ptr<BaseNewDocumentView> ViewFactory::createNewDocumentView() {
     std::unique_ptr<BaseNewDocumentView> view(new NewDocumentView());
-    view->addController(std::make_unique<Controller::NewDocumentDialogController>(uiManager, view.get()));
+    view->addController(m_controllerFactory->createNewDocumentDlgController());
 
     return std::move(view);
   }
 
-  std::unique_ptr<BaseDocumentView> ViewFactory::createDocumentView(IUIManager *uiManager) {
+  std::unique_ptr<BaseDocumentView> ViewFactory::createDocumentView() {
     std::unique_ptr<BaseDocumentView> view(new DocumentView());
 
     return std::move(view);

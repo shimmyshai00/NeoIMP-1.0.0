@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ICREATEDOCUMENTCOMMAND_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ICREATEDOCUMENTCOMMAND_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IDOCUMENTCREATOR_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IDOCUMENTCREATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateDocumentCommand.hpp
- * PURPOSE: Provides an interface for the editor command to create a new document.
+ * FILE:    IDocumentCreator.hpp
+ * PURPOSE: Provides an interface for creating a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,9 @@
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::UILayer::AbstractAppModel {
-  class ICreateDocumentCommand {
+  class IDocumentCreator {
   public:
-    virtual ~ICreateDocumentCommand() = default;
+    virtual ~IDocumentCreator() = default;
 
     virtual DocumentHandle createDocument(Data::DocumentSpec spec) = 0;
   };

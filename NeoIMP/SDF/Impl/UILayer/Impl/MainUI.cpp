@@ -31,12 +31,14 @@
 namespace SDF::Impl::UILayer::Impl {
   MainUI::MainUI(View::IViewFactory *viewFactory)
     : m_viewFactory(viewFactory)
-  {}
+  {
+    m_viewFactory->setUI(this);
+  }
 
   MainUI::~MainUI() {}
 
   void MainUI::start() {
-    m_applicationView = m_viewFactory->createApplicationView(this);
+    m_applicationView = m_viewFactory->createApplicationView();
     m_applicationView->show();
   }
 
