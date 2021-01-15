@@ -35,11 +35,11 @@
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   NewDocumentDialogController::NewDocumentDialogController(
-    IViewSink *viewSink,
-    AbstractAppModel::IDocumentCreator *documentCreator
+    AbstractAppModel::IDocumentCreator *documentCreator,
+    IViewSink *viewSink
   )
-    : m_viewSink(viewSink),
-      m_documentCreator(documentCreator)
+    : m_documentCreator(documentCreator),
+      m_viewSink(viewSink)
   {}
 
   void NewDocumentDialogController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {

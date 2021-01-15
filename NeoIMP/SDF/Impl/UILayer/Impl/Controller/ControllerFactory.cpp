@@ -49,6 +49,6 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   }
 
   std::unique_ptr<NewDocumentDialogController> ControllerFactory::createNewDocumentDlgController() {
-    return std::make_unique<NewDocumentDialogController>(m_parentUi, m_documentCreator);
+    return std::make_unique<NewDocumentDialogController>(m_documentCreator, m_parentUi);
   }
 }

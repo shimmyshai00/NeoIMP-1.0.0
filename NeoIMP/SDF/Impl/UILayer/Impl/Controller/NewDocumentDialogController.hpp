@@ -43,16 +43,13 @@ namespace SDF::Impl::UILayer {
     namespace Controller {
       class NewDocumentDialogController : public Framework::IMVCController {
       public:
-        NewDocumentDialogController(
-          IViewSink *viewSink,
-          AbstractAppModel::IDocumentCreator *documentCreator
-        );
+        NewDocumentDialogController(AbstractAppModel::IDocumentCreator *documentCreator, IViewSink *viewSink);
 
         void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
       private:
-        IViewSink *m_viewSink;
-
         AbstractAppModel::IDocumentCreator *m_documentCreator;
+        
+        IViewSink *m_viewSink;
       };
     }
   }
