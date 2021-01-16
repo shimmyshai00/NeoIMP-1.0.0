@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_MVCCOMPOSABLEVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_MVCCOMPOSABLEVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_MVCVIEWBASE_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_MVCVIEWBASE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCComposableView.hpp
- * PURPOSE: Provides a base for MVC views that can be composed with other views.
+ * FILE:    MVCViewBase.hpp
+ * PURPOSE: Provides a base for MVC views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,31 +25,37 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCBaseView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
 #include <memory>
+#include <vector>
 
 namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCComposableView : public MVCBaseView {
+  class IMVCController;
+
+  class MVCViewBase : public virtual IMVCView {
   public:
-    MVCComposableView();
-    ~MVCComposableView();
+    MVCViewBase();
+    ~MVCViewBase();
 
     IMVCView *getParent();
     IMVCView *getFirstChild();
     IMVCView *getNextSibling();
 
-    virtual void show() = 0;
-    virtual void close() = 0;
+    IMVCView *addChildAtBeginning(std::unique_ptr<IMVCView> child);
+    IMVCView *addSiblingAfter(std::unique_ptr<IMVCView> sibling);
 
-    MVCComposableView *attachChild(std::unique_ptr<MVCComposableView> child);
-    MVCComposableView *attachSibling(std::unique_ptr<MVCComposableView> sibling);
+    std::unique_ptr<IMVCView> removeChild(IMVCView *child);
 
-    std::unique_ptr<MVCComposableView> removeSelf();
+    void addController(std::unique_ptr<IMVCController> controller);
+  protected:
+    void dispatchEvent(MVCViewEvent e);
   private:
-    MVCComposableView *m_parent;
-    std::unique_ptr<MVCComposableView> m_firstChild;
-    std::unique_ptr<MVCComposableView> m_nextSibling;
+    IMVCView *m_parent;
+    std::unique_ptr<IMVCView> m_firstChild;
+    std::unique_ptr<IMVCView> m_nextSibling;
+
+    std::vector<std::unique_ptr<IMVCController>> m_controllers;
   };
 }
 

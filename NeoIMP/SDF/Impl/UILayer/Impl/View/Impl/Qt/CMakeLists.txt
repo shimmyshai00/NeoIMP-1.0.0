@@ -10,4 +10,5 @@ target_sources(neoimp PUBLIC
   NewDocumentView.cpp
   DocumentView.cpp
   ViewFactory.cpp
+  ViewComposer.cpp
 )

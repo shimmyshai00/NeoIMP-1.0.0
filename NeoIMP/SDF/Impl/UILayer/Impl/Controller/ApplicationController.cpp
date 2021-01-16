@@ -26,8 +26,8 @@
 #include <IUIControl.hpp>
 
 #include <View/IViewFactory.hpp>
-#include <View/BaseApplicationView.hpp>
-#include <View/BaseNewDocumentView.hpp>
+#include <View/IApplicationView.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <View/Events/Events.hpp>
 
@@ -43,12 +43,10 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   {}
 
   void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    if(auto *owner = dynamic_cast<Framework::MVCComposableView *>(view)) {
-      if(e.m_eventDescription == View::Events::NewCommand) {
-        owner->attachChild(m_viewFactory->createNewDocumentView())->show();
-      } else if(e.m_eventDescription == View::Events::ExitCommand) {
-        m_uiControl->closeUI();
-      }
+    if(e.m_eventDescription == View::Events::NewCommand) {
+      view->addChildAtBeginning(m_viewFactory->createNewDocumentView());
+    } else if(e.m_eventDescription == View::Events::ExitCommand) {
+      m_uiControl->closeUI();
     }
   }
 }

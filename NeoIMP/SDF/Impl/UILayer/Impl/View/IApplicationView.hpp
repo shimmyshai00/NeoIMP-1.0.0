@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMP_VIEW_BASENEWDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMP_VIEW_BASENEWDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IAPPLICATIONVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BaseNewDocumentView.hpp
- * PURPOSE: The base class for the new-document view.
+ * FILE:    BaseApplicationView.hpp
+ * PURPOSE: The interface for the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCComposableView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class BaseNewDocumentView : public Framework::MVCComposableView {
+  class IApplicationView : public virtual Framework::IMVCView {
   public:
-    virtual ~BaseNewDocumentView() = default;
-
-    virtual void show() = 0;
-    virtual void close() = 0;
-
-    virtual AbstractAppModel::Data::DocumentSpec getEnteredSpec() const = 0;
+    virtual ~IApplicationView() = default;
   };
 }
 

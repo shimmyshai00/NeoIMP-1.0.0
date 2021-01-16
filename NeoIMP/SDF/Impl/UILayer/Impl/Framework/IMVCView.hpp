@@ -37,8 +37,9 @@
      virtual IMVCView *getFirstChild() = 0;
      virtual IMVCView *getNextSibling() = 0;
 
-     virtual void show() = 0;
-     virtual void close() = 0;
+     virtual IMVCView *addChildAtBeginning(std::unique_ptr<IMVCView> child) = 0;
+     virtual IMVCView *addSiblingAfter(std::unique_ptr<IMVCView> sibling) = 0;
+     virtual std::unique_ptr<IMVCView> removeChild(IMVCView *child) = 0;
 
      virtual void addController(std::unique_ptr<IMVCController> controller) = 0;
    };

@@ -40,18 +40,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::rejected, [=]() {
       dispatchEvent(Framework::MVCViewEvent { Events::DialogDismissed, 0 });
     });
+
+    m_newDocumentDialog->show();
   }
 
   NewDocumentView::~NewDocumentView() {
-    delete m_newDocumentDialog;
-  }
-
-  void NewDocumentView::show() {
-    m_newDocumentDialog->open();
-  }
-
-  void NewDocumentView::close() {
     m_newDocumentDialog->close();
+    delete m_newDocumentDialog;
   }
 
   AbstractAppModel::Data::DocumentSpec NewDocumentView::getEnteredSpec() const {

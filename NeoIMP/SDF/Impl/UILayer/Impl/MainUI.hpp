@@ -36,7 +36,7 @@ namespace SDF::Impl::UILayer {
   namespace Impl {
     namespace View {
       class IViewFactory;
-      class BaseApplicationView;
+      class IApplicationView;
     }
 
     class MainUI : public IUIEntryPoint, public IUIControl, public IViewSink {
@@ -52,7 +52,7 @@ namespace SDF::Impl::UILayer {
     private:
       View::IViewFactory *m_viewFactory;
 
-      std::unique_ptr<View::BaseApplicationView> m_applicationView;
+      std::unique_ptr<View::IApplicationView> m_applicationView;
       std::vector<std::unique_ptr<Framework::IMVCView>> m_discardedViews;
     };
   }

@@ -1,5 +1,4 @@
 target_include_directories(neoimp PUBLIC .)
 target_sources(neoimp PUBLIC
-  MVCBaseView.cpp
-  MVCComposableView.cpp
+  MVCViewBase.cpp
 )

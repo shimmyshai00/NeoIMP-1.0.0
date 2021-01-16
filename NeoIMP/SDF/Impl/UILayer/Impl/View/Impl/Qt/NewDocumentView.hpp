@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/BaseNewDocumentView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewBase.hpp>
+#include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
+
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
@@ -32,13 +34,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class NewDocumentDialog;
   }
 
-  class NewDocumentView : public BaseNewDocumentView {
+  class NewDocumentView : public Framework::MVCViewBase, public INewDocumentView {
   public:
     NewDocumentView();
     ~NewDocumentView();
-
-    void show();
-    void close();
 
     AbstractAppModel::Data::DocumentSpec getEnteredSpec() const;
   private:

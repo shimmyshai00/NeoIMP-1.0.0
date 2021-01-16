@@ -24,12 +24,15 @@
 #include <ViewComponent.hpp>
 
 #include <View/Impl/Qt/ViewFactory.hpp>
+#include <View/Impl/Qt/ViewComposer.hpp>
+
 #include <AppModelLayer/AppModelComponent.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewFactory> getViewComponent() {
+  fruit::Component<IViewFactory, IViewComposer> getViewComponent() {
     return fruit::createComponent()
       .bind<IViewFactory, View::Impl::Qt::ViewFactory>()
+      .bind<IViewComposer, View::Impl::Qt::ViewComposer>()
       .install(AppModelLayer::getAppModelComponent);
   }
 }

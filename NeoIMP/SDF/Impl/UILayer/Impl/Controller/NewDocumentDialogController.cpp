@@ -26,8 +26,8 @@
 #include <IViewSink.hpp>
 #include <AbstractAppModel/IDocumentCreator.hpp>
 
-#include <View/BaseApplicationView.hpp>
-#include <View/BaseNewDocumentView.hpp>
+#include <View/IApplicationView.hpp>
+#include <View/INewDocumentView.hpp>
 
 #include <View/Events/Events.hpp>
 
@@ -43,12 +43,12 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   {}
 
   void NewDocumentDialogController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    if(auto *newDocumentView = dynamic_cast<View::BaseNewDocumentView *>(view)) {
+    if(auto *newDocumentView = dynamic_cast<View::INewDocumentView *>(view)) {
       if(e.m_eventDescription == View::Events::DialogAccepted) {
         m_documentCreator->createDocument(newDocumentView->getEnteredSpec());
-        m_viewSink->viewRemoved(newDocumentView->removeSelf());
+        m_viewSink->viewRemoved(newDocumentView->getParent()->removeChild(newDocumentView));
       } else if(e.m_eventDescription == View::Events::DialogDismissed) {
-        m_viewSink->viewRemoved(newDocumentView->removeSelf());
+        m_viewSink->viewRemoved(newDocumentView->getParent()->removeChild(newDocumentView));
       }
     }
   }

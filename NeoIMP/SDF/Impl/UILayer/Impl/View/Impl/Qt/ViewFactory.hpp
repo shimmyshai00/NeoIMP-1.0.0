@@ -43,9 +43,9 @@ namespace SDF::Impl::UILayer {
     }
 
     namespace View {
-      class BaseApplicationView;
-      class BaseNewDocumentView;
-      class BaseDocumentView;
+      class IApplicationView;
+      class INewDocumentView;
+      class IDocumentView;
 
       namespace Impl::Qt {
         class ViewFactory : public IViewFactory {
@@ -55,9 +55,9 @@ namespace SDF::Impl::UILayer {
 
           void setUI(MainUI *ui);
 
-          std::unique_ptr<BaseApplicationView> createApplicationView();
-          std::unique_ptr<BaseNewDocumentView> createNewDocumentView();
-          std::unique_ptr<BaseDocumentView> createDocumentView();
+          std::unique_ptr<IApplicationView> createApplicationView();
+          std::unique_ptr<INewDocumentView> createNewDocumentView();
+          std::unique_ptr<IDocumentView> createDocumentView();
         private:
           std::unique_ptr<Controller::ControllerFactory> m_controllerFactory;
         };

@@ -28,15 +28,15 @@
 
 namespace SDF::Impl::UILayer::Impl {
   class MainUI;
-  
+
   namespace Controller {
     class ControllerFactory;
   }
 
   namespace View {
-    class BaseApplicationView;
-    class BaseNewDocumentView;
-    class BaseDocumentView;
+    class IApplicationView;
+    class INewDocumentView;
+    class IDocumentView;
 
     class IViewFactory {
     public:
@@ -44,9 +44,9 @@ namespace SDF::Impl::UILayer::Impl {
 
       virtual void setUI(MainUI *ui) = 0;
 
-      virtual std::unique_ptr<BaseApplicationView> createApplicationView() = 0;
-      virtual std::unique_ptr<BaseNewDocumentView> createNewDocumentView() = 0;
-      virtual std::unique_ptr<BaseDocumentView> createDocumentView() = 0;
+      virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
+      virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
+      virtual std::unique_ptr<IDocumentView> createDocumentView() = 0;
     };
   }
 }

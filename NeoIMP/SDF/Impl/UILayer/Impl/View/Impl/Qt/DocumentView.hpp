@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/BaseDocumentView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewBase.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
 #include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 
@@ -40,15 +41,12 @@ namespace SDF::Impl::UILayer {
       class IImageDataSource;
     }
 
-    class DocumentView : public BaseDocumentView {
+    class DocumentView : public Framework::MVCViewBase, public IDocumentView {
     public:
       DocumentView();
       ~DocumentView();
 
       void addToTabWidget(QPointer<QTabWidget> tabWidget);
-
-      void show();
-      void close();
 
       void setDocumentTitle(std::string documentTitle);
       void setActiveDocument(AbstractAppModel::DocumentHandle handle);

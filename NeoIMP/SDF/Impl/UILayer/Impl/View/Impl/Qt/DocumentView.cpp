@@ -89,9 +89,6 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     }
   }
 
-  void DocumentView::show() {}
-  void DocumentView::close() {}
-
   void DocumentView::setDocumentTitle(std::string documentTitle) {
     m_documentTitle = documentTitle;
     if(m_tabWidget) {

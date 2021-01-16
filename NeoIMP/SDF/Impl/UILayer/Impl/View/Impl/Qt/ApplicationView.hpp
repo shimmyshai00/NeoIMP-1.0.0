@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/BaseApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/MVCViewBase.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+
 #include <QTabWidget>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
@@ -32,15 +34,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public BaseApplicationView {
+  class DocumentView;
+
+  class ApplicationView : public Framework::MVCViewBase, public IApplicationView {
   public:
     ApplicationView();
     ~ApplicationView();
 
-    void show();
-    void close();
-
-    void addDocumentView(std::unique_ptr<BaseDocumentView> documentView);
+    // Composition routines.
+    void composeWithDocumentView(DocumentView *documentView);
   private:
     Windows::MainWindow *m_mainWindow;
     QTabWidget *m_documentTabs;

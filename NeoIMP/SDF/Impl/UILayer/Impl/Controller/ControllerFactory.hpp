@@ -36,8 +36,6 @@ namespace SDF::Impl::UILayer {
 
     namespace View {
       class IViewFactory;
-      class BaseApplicationView;
-      class BaseNewDocumentView;
     }
 
     namespace Controller {

@@ -47,22 +47,22 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     m_controllerFactory->setUI(ui);
   }
 
-  std::unique_ptr<BaseApplicationView> ViewFactory::createApplicationView() {
-    std::unique_ptr<BaseApplicationView> view(new ApplicationView());
+  std::unique_ptr<IApplicationView> ViewFactory::createApplicationView() {
+    std::unique_ptr<IApplicationView> view(new ApplicationView());
     view->addController(m_controllerFactory->createApplicationController());
 
     return std::move(view);
   }
 
-  std::unique_ptr<BaseNewDocumentView> ViewFactory::createNewDocumentView() {
-    std::unique_ptr<BaseNewDocumentView> view(new NewDocumentView());
+  std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
+    std::unique_ptr<INewDocumentView> view(new NewDocumentView());
     view->addController(m_controllerFactory->createNewDocumentDlgController());
 
     return std::move(view);
   }
 
-  std::unique_ptr<BaseDocumentView> ViewFactory::createDocumentView() {
-    std::unique_ptr<BaseDocumentView> view(new DocumentView());
+  std::unique_ptr<IDocumentView> ViewFactory::createDocumentView() {
+    std::unique_ptr<IDocumentView> view(new DocumentView());
 
     return std::move(view);
   }

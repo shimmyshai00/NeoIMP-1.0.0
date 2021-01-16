@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_BASEAPPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_BASEAPPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BaseApplicationView.hpp
- * PURPOSE: The base class for the application view.
+ * FILE:    IDocumentView.hpp
+ * PURPOSE: The interface for the document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCComposableView.hpp>
-#include <memory>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class BaseDocumentView;
-
-  class BaseApplicationView : public Framework::MVCComposableView {
+  class IDocumentView : public virtual Framework::IMVCView {
   public:
-    virtual ~BaseApplicationView() = default;
+    virtual ~IDocumentView() = default;
 
-    virtual void show() = 0;
-    virtual void close() = 0;
-
-    // Note: Use this to add a document view, instead of adding a child directly
-    virtual void addDocumentView(std::unique_ptr<BaseDocumentView> documentView) = 0;
+    virtual void setDocumentTitle(std::string documentTitle) = 0;
+    virtual void setActiveDocument(AbstractAppModel::DocumentHandle handle) = 0;
   };
 }
 

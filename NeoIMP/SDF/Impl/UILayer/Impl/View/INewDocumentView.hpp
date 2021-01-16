@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMP_VIEW_INEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMP_VIEW_INEWDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCBaseView.cpp
- * PURPOSE: Provides a base for all MVC views.
+ * FILE:    INewDocumentView.hpp
+ * PURPOSE: The interface for the new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MVCBaseView.hpp>
-#include <IMVCController.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  MVCBaseView::MVCBaseView() {}
-  MVCBaseView::~MVCBaseView() {}
+namespace SDF::Impl::UILayer::Impl::View {
+  class INewDocumentView : public virtual Framework::IMVCView {
+  public:
+    virtual ~INewDocumentView() = default;
 
-  void MVCBaseView::addController(std::unique_ptr<IMVCController> controller) {
-    m_controllers.push_back(std::move(controller));
-  }
-
-  void MVCBaseView::dispatchEvent(MVCViewEvent e) {
-    for(auto &controller : m_controllers) {
-      controller->onViewEvent(this, e);
-    }
-  }
+    virtual AbstractAppModel::Data::DocumentSpec getEnteredSpec() const = 0;
+  };
 }
+
+#endif

@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_QT_VIEWCOMPONENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWCOMPOSER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWCOMPOSER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewComponent.hpp
- * PURPOSE: The DI component for the Qt-based view subsystem.
+ * FILE:    IViewComposer.hpp
+ * PURPOSE: The interface for view composers. Each view composer composites two views together in the way that the
+ *          particular GUI layout and widget system it comes from represents.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +25,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IViewComposer.hpp>
+#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
 
-#include <fruit/fruit.h>
+namespace SDF::Impl::UILayer::Impl::View {
+  class IViewComposer {
+  public:
+    virtual ~IViewComposer() = default;
 
-namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewFactory, IViewComposer> getViewComponent();
+    virtual void composeViews(Framework::IMVCView *parent, Framework::IMVCView *child) = 0;
+  };
 }
 
 #endif

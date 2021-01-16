@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCBASEVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_FRAMEWORK_MVCBASEVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWCOMPOSER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWCOMPOSER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCBaseView.hpp
- * PURPOSE: Provides a base for all MVC views.
+ * FILE:    ViewComposer.hpp
+ * PURPOSE: Composes Qt-based views.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/UILayer/Impl/View/IViewComposer.hpp>
 #include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
 
-#include <memory>
-#include <vector>
+#include <fruit/fruit.h>
 
-namespace SDF::Impl::UILayer::Impl::Framework {
-  class MVCBaseView : public IMVCView {
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class ViewComposer : public IViewComposer {
   public:
-    MVCBaseView();
-    ~MVCBaseView();
+    INJECT(ViewComposer());
 
-    virtual IMVCView *getParent() = 0;
-    virtual IMVCView *getFirstChild() = 0;
-    virtual IMVCView *getNextSibling() = 0;
-
-    virtual void show() = 0;
-    virtual void close() = 0;
-
-    void addController(std::unique_ptr<IMVCController> controller);
-  protected:
-    void dispatchEvent(MVCViewEvent e);
-  private:
-    std::vector<std::unique_ptr<IMVCController>> m_controllers;
+    void composeViews(Framework::IMVCView *parent, Framework::IMVCView *child);
   };
 }
 

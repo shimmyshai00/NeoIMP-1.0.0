@@ -47,30 +47,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     });
 
     m_mainWindow->addPrincipalWidget(m_documentTabs);
-  }
-
-  ApplicationView::~ApplicationView() {
-    delete m_mainWindow;
-  }
-
-  void ApplicationView::show() {
     m_mainWindow->show();
   }
 
-  void ApplicationView::close() {
+  ApplicationView::~ApplicationView() {
     m_mainWindow->close();
+    delete m_mainWindow;
   }
 
-  void ApplicationView::addDocumentView(std::unique_ptr<BaseDocumentView> documentView) {
-    // NB: don't like the use of downcast here, but it seems unavoidable without making the code messier
-    auto *qtDocumentView = dynamic_cast<Qt::DocumentView *>(documentView.get());
-    if(qtDocumentView == nullptr) {
-      throw UILayer::Exceptions::IncompatibleWidgetSystemException("Qt");
-    } else {
-      qtDocumentView->addToTabWidget(m_documentTabs);
-    }
-
-    // Absorb the document view into this view's view hierarchy.
-    attachChild(std::move(documentView));
+  void ApplicationView::composeWithDocumentView(DocumentView *documentView) {
+    documentView->addToTabWidget(m_documentTabs);
   }
 }
