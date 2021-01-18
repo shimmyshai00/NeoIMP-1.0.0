@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationView.cpp
- * PURPOSE: The Qt-based application view.
+ * FILE:    NewDocumntView.hpp
+ * PURPOSE: The Qt-based new-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ApplicationView.hpp>
+#include <SDF/Impl/Framework/MVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
 
-#include <Windows/MainWindow.hpp>
-
-#include <QObject>
-
-#include <iostream>
+#include <vector>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView() : m_mainWindow(new Windows::MainWindow) {
-    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_viewObservables.onNewClicked(); });
-    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_viewObservables.onExitClicked(); });
-    m_mainWindow->show();
+  namespace Dialogs {
+    class NewDocumentDialog;
   }
 
-  ApplicationView::~ApplicationView() {
-    m_mainWindow->close();
-    delete m_mainWindow;
-  }
+  class NewDocumentView : public Framework::MVCViewExt<AbstractAppModel::EditorModelObservables,
+                                                       NewDocumentViewObservables>,
+                          public INewDocumentView
+  {
+  public:
+    NewDocumentView();
+    ~NewDocumentView();
 
-  void ApplicationView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {}
-
-  void ApplicationView::onChildAdded(MVCViewNode *child) {}
-  void ApplicationView::onChildRemoved(MVCViewNode *child) {}
+    void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables);
+  private:
+    Dialogs::NewDocumentDialog *m_newDocumentDialog;
+  };
 }
+#endif

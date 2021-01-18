@@ -22,12 +22,33 @@
  */
 
 #include <ApplicationController.hpp>
+
+#include <IUIControl.hpp>
+#include <View/IViewFactory.hpp>
+#include <View/INewDocumentView.hpp>
+
+#include <Framework/MVCViewCast.hpp>
+
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(IUIControl *uiControl) : m_uiControl(uiControl) {}
+  ApplicationController::ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory)
+    : m_uiControl(uiControl),
+      m_viewFactory(viewFactory),
+      m_applicationView(nullptr)
+  {}
+
+  void ApplicationController::setView(View::IApplicationView *applicationView) {
+    m_applicationView = applicationView;
+  }
 
   void ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
+    safeConnect(observables.onNewClicked, [=]() {
+      m_applicationView->getViewHierarchy().addChildAtEnd(
+        Framework::MVCViewCast(m_viewFactory->createNewDocumentView())
+      );
+    });
+
     safeConnect(observables.onExitClicked, [=]() { m_uiControl->closeUI(); });
   }
 }

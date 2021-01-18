@@ -41,6 +41,7 @@ namespace SDF::Impl::Framework {
   }
 
   void MVCViewNode::addChildAtBeginning(std::unique_ptr<MVCViewNode> child) {
+    child->m_parent = this;
     child->m_nextSibling = std::move(m_firstChild);
     m_firstChild = std::move(child);
 
@@ -48,6 +49,7 @@ namespace SDF::Impl::Framework {
   }
 
   void MVCViewNode::addChildAfter(MVCViewNode *addAfter, std::unique_ptr<MVCViewNode> child) {
+    child->m_parent = this;
     child->m_nextSibling = std::move(addAfter->m_nextSibling);
     addAfter->m_nextSibling = std::move(child);
 
@@ -56,11 +58,15 @@ namespace SDF::Impl::Framework {
 
   void MVCViewNode::addChildAtEnd(std::unique_ptr<MVCViewNode> child) {
     MVCViewNode *curChild(m_firstChild.get());
-    while(curChild->m_nextSibling) {
-      curChild = curChild->m_nextSibling.get();
-    }
+    if(curChild == nullptr) {
+      addChildAtBeginning(std::move(child));
+    } else {
+      while(curChild->m_nextSibling) {
+        curChild = curChild->m_nextSibling.get();
+      }
 
-    addChildAfter(curChild, std::move(child));
+      addChildAfter(curChild, std::move(child));
+    }
   }
 
   std::unique_ptr<MVCViewNode> MVCViewNode::removeSelf() {

@@ -26,17 +26,29 @@
 
 #include <SDF/Impl/Framework/MVCController.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/Impl/IUIControl.hpp>
 
-namespace SDF::Impl::UILayer::Impl::Controller {
-  class ApplicationController : public Framework::MVCController<View::ApplicationViewObservables> {
-  public:
-    ApplicationController(IUIControl *uiControl);
+namespace SDF::Impl::UILayer::Impl {
+  class IUIControl;
 
-    void connectToViewObservables(View::ApplicationViewObservables &observables);
-  private:
-    IUIControl *m_uiControl;
+  namespace View {
+    class IViewFactory;
+    class IApplicationView;
   };
+
+  namespace Controller {
+    class ApplicationController : public Framework::MVCController<View::ApplicationViewObservables> {
+    public:
+      ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory);
+
+      void setView(View::IApplicationView *applicationView);
+      void connectToViewObservables(View::ApplicationViewObservables &observables);
+    private:
+      IUIControl *m_uiControl;
+
+      View::IViewFactory *m_viewFactory;
+      View::IApplicationView *m_applicationView;
+    };
+  }
 }
 
 #endif
