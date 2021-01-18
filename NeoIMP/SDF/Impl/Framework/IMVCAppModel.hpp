@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
+#ifndef SDF_IMPL_FRAMEWORK_IMVCAPPMODEL_HPP
+#define SDF_IMPL_FRAMEWORK_IMVCAPPMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIControl.hpp
- * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
+ * FILE:    IMVCAppModel.hpp
+ * PURPOSE: Used to define interfaces for MVC application model objects to provide access to their common functionality.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
-#include <memory>
+namespace SDF::Impl::Framework {
+  template<class MObs>
+  class MVCView;
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl {
+  template<class MObs>
+  class IMVCAppModel {
   public:
-    virtual ~IUIControl() = default;
+    virtual ~IMVCAppModel() = default;
 
-    virtual void closeUI() = 0;
+    virtual void attachView(MVCView<MObs> *view) = 0;
   };
 }
 

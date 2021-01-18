@@ -27,26 +27,21 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl {
-  class MainUI;
+  class IUIControl;
 
   namespace Controller {
     class ControllerFactory;
   }
 
   namespace View {
+    class IViewSink;
     class IApplicationView;
-    class INewDocumentView;
-    class IDocumentView;
 
     class IViewFactory {
     public:
       virtual ~IViewFactory() = default;
 
-      virtual void setUI(MainUI *ui) = 0;
-
-      virtual std::unique_ptr<IApplicationView> createApplicationView() = 0;
-      virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-      virtual std::unique_ptr<IDocumentView> createDocumentView() = 0;
+      virtual std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl) = 0;
     };
   }
 }

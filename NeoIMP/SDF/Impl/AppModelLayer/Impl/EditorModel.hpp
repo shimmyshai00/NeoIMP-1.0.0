@@ -26,7 +26,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/IDocumentCreator.hpp>
+#include <SDF/Impl/Framework/MVCAppModel.hpp>
+
+#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
@@ -44,7 +46,8 @@ namespace SDF::Impl::AppModelLayer {
   }
 
   namespace Impl {
-    class EditorModel : public UILayer::AbstractAppModel::IDocumentCreator
+    class EditorModel : public Framework::MVCAppModel<UILayer::AbstractAppModel::EditorModelObservables>,
+     public UILayer::AbstractAppModel::IEditorModel
     {
     public:
       INJECT(EditorModel(
@@ -54,6 +57,8 @@ namespace SDF::Impl::AppModelLayer {
         AbstractModel::Services::IImageBaseEditingService *imageBaseEditingService
       ));
       ~EditorModel();
+
+      void attachView(Framework::IMVCView<UILayer::AbstractAppModel::EditorModelObservables> *view);
 
       UILayer::AbstractAppModel::DocumentHandle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
       void saveDocument(
@@ -75,6 +80,8 @@ namespace SDF::Impl::AppModelLayer {
 
       std::vector<UILayer::AbstractAppModel::DocumentHandle> m_openDocuments;
       UILayer::AbstractAppModel::DocumentHandle m_focusDocumentHandle;
+
+      UILayer::AbstractAppModel::EditorModelObservables m_observables;
     };
   }
 }

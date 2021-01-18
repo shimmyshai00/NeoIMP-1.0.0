@@ -31,35 +31,29 @@
 
 namespace SDF::Impl::UILayer {
   namespace AbstractAppModel {
-    class IDocumentCreator;
+    //class IDocumentCreator;
   }
 
   namespace Impl {
     class IUIControl;
-    class IViewSink;
 
     namespace Controller {
       class ControllerFactory;
     }
 
     namespace View {
+      class IViewSink;
       class IApplicationView;
-      class INewDocumentView;
-      class IDocumentView;
 
       namespace Impl::Qt {
         class ViewFactory : public IViewFactory {
         public:
-          INJECT(ViewFactory(AbstractAppModel::IDocumentCreator *documentCreator));
+          INJECT(ViewFactory(IViewSink *viewSink));
           ~ViewFactory();
 
-          void setUI(MainUI *ui);
-
-          std::unique_ptr<IApplicationView> createApplicationView();
-          std::unique_ptr<INewDocumentView> createNewDocumentView();
-          std::unique_ptr<IDocumentView> createDocumentView();
+          std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl);
         private:
-          std::unique_ptr<Controller::ControllerFactory> m_controllerFactory;
+          IViewSink *m_viewSink;
         };
       }
     }

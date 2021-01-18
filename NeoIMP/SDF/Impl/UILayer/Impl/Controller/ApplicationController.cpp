@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.cpp
- * PURPOSE: The controller for the application view.
+ * PURPOSE: The controller associated with the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -22,31 +22,12 @@
  */
 
 #include <ApplicationController.hpp>
-
-#include <IUIControl.hpp>
-
-#include <View/IViewFactory.hpp>
-#include <View/IApplicationView.hpp>
-#include <View/INewDocumentView.hpp>
-
-#include <View/Events/Events.hpp>
-
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(
-    IUIControl *uiControl,
-    View::IViewFactory *viewFactory
-  )
-    : m_uiControl(uiControl),
-      m_viewFactory(viewFactory)
-  {}
+  ApplicationController::ApplicationController(IUIControl *uiControl) : m_uiControl(uiControl) {}
 
-  void ApplicationController::onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e) {
-    if(e.m_eventDescription == View::Events::NewCommand) {
-      view->addChildAtBeginning(m_viewFactory->createNewDocumentView());
-    } else if(e.m_eventDescription == View::Events::ExitCommand) {
-      m_uiControl->closeUI();
-    }
+  void ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
+    safeConnect(observables.onExitClicked, [=]() { m_uiControl->closeUI(); });
   }
 }

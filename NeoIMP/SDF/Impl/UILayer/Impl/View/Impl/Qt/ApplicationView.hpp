@@ -24,25 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/MVCViewBase.hpp>
+#include <SDF/Impl/Framework/MVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
 
 #include <QTabWidget>
+#include <vector>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   namespace Windows {
     class MainWindow;
   }
 
-  class DocumentView;
-
-  class ApplicationView : public Framework::MVCViewBase, public IApplicationView {
+  class ApplicationView : public Framework::MVCViewExt<AbstractAppModel::EditorModelObservables,
+                                                       ApplicationViewObservables>,
+                          public IApplicationView
+  {
   public:
     ApplicationView();
     ~ApplicationView();
 
-    // Composition routines.
-    void composeWithDocumentView(DocumentView *documentView);
+    void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables);
+
+    void onChildAdded(MVCViewNode *child);
+    void onChildRemoved(MVCViewNode *child);
   private:
     Windows::MainWindow *m_mainWindow;
     QTabWidget *m_documentTabs;

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWSINK_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_VIEWSINK_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIControl.hpp
- * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
+ * FILE:    ViewSink.hpp
+ * PURPOSE: The Qt-based view sink.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IViewSink.hpp>
+#include <SDF/Impl/Framework/MVCViewNode.hpp>
+
+#include <fruit/fruit.h>
+#include <vector>
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl {
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class ViewSink : public IViewSink {
   public:
-    virtual ~IUIControl() = default;
+    INJECT(ViewSink());
 
-    virtual void closeUI() = 0;
+    void disposeView(std::unique_ptr<Framework::MVCViewNode> view);
+  private:
+    std::vector<std::unique_ptr<Framework::MVCViewNode>> m_discardBuffer;
   };
 }
 

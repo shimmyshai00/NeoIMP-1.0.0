@@ -46,6 +46,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
   EditorModel::~EditorModel() {}
 
+  void EditorModel::attachView(Framework::IMVCView<UILayer::AbstractAppModel::EditorModelObservables> *view) {
+    view->connectToModelObservables(m_observables);
+  }
+
   UILayer::AbstractAppModel::DocumentHandle EditorModel::createDocument(
     UILayer::AbstractAppModel::Data::DocumentSpec spec)
   {
@@ -59,6 +63,9 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
     m_openDocuments.push_back(handle);
     m_focusDocumentHandle = handle;
+
+    m_observables.documentAdded(handle);
+    m_observables.focusDocumentChanged(handle);
 
     return handle;
   }
@@ -78,6 +85,9 @@ namespace SDF::Impl::AppModelLayer::Impl {
     m_openDocuments.push_back(handle);
     m_focusDocumentHandle = handle;
 
+    m_observables.documentAdded(handle);
+    m_observables.focusDocumentChanged(handle);
+
     return handle;
   }
 
@@ -91,5 +101,6 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
   void EditorModel::setEditingFocusDocument(UILayer::AbstractAppModel::DocumentHandle focusDocument) {
     m_focusDocumentHandle = focusDocument;
+    m_observables.focusDocumentChanged(focusDocument);
   }
 }

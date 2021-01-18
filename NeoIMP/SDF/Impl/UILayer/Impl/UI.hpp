@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_QT_UI_HPP
+#define SDF_IMPL_UILAYER_IMPL_QT_UI_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIControl.hpp
- * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
+ * FILE:    UI.hpp
+ * PURPOSE: The UI manager.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,36 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/IUIEntryPoint.hpp>
+#include <SDF/Impl/UILayer/Impl/IUIControl.hpp>
+
+#include <fruit/fruit.h>
 #include <memory>
+#include <map>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl {
-  public:
-    virtual ~IUIControl() = default;
+namespace SDF::Impl::UILayer {
+  namespace Impl {
+    namespace View {
+      class IViewFactory;
+      class IViewSink;
 
-    virtual void closeUI() = 0;
-  };
+      class IApplicationView;
+    }
+
+    class UI : public IUIEntryPoint, public IUIControl {
+    public:
+      INJECT(UI(View::IViewFactory *viewFactory, View::IViewSink *viewSink));
+      ~UI();
+
+      void start();
+      void closeUI();
+    private:
+      View::IViewFactory *m_viewFactory;
+      View::IViewSink *m_viewSink;
+
+      std::unique_ptr<View::IApplicationView> m_applicationView;
+    };
+  }
 }
 
 #endif

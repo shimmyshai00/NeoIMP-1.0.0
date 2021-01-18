@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIControl.hpp
- * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
+ * FILE:    ViewSink.cpp
+ * PURPOSE: The Qt-based view sink.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
-#include <memory>
+#include <ViewSink.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl {
-  public:
-    virtual ~IUIControl() = default;
+#include <QTimer>
 
-    virtual void closeUI() = 0;
-  };
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  ViewSink::ViewSink() {}
+
+  void ViewSink::disposeView(std::unique_ptr<Framework::MVCViewNode> view) {
+    // Defer deletion of a view until called in the Qt event loop.
+    m_discardBuffer.push_back(std::move(view));
+    QTimer::singleShot(0, [=]() { m_discardBuffer.clear(); });
+  }
 }
-
-#endif

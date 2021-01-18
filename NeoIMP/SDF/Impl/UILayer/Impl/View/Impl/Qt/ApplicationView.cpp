@@ -23,30 +23,15 @@
 
 #include <ApplicationView.hpp>
 
-#include <UILayer/Exceptions/Exceptions.hpp>
-
 #include <Windows/MainWindow.hpp>
-#include <Events/Events.hpp>
-
-#include <DocumentView.hpp>
 
 #include <QObject>
 
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView()
-    : m_mainWindow(new Windows::MainWindow),
-      m_documentTabs(new QTabWidget)
-  {
-    // Hook events.
-    QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() {
-      dispatchEvent(Framework::MVCViewEvent { Events::NewCommand, 0 });
-    });
-
-    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() {
-      dispatchEvent(Framework::MVCViewEvent { Events::ExitCommand, 0 });
-    });
-
-    m_mainWindow->addPrincipalWidget(m_documentTabs);
+  ApplicationView::ApplicationView() : m_mainWindow(new Windows::MainWindow) {
+    QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_viewObservables.onExitClicked(); });
     m_mainWindow->show();
   }
 
@@ -55,7 +40,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     delete m_mainWindow;
   }
 
-  void ApplicationView::composeWithDocumentView(DocumentView *documentView) {
-    documentView->addToTabWidget(m_documentTabs);
-  }
+  void ApplicationView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {}
+
+  void ApplicationView::onChildAdded(MVCViewNode *child) {}
+  void ApplicationView::onChildRemoved(MVCViewNode *child) {}
 }

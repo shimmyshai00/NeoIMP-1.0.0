@@ -25,12 +25,12 @@
  */
 
 #include <SDF/Impl/UILayer/Impl/View/IViewFactory.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IViewComposer.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IViewSink.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::UILayer::Impl::View::Qt {
-  fruit::Component<IViewFactory, IViewComposer> getViewComponent();
+  fruit::Component<IViewFactory, IViewSink> getViewComponent();
 }
 
 #endif

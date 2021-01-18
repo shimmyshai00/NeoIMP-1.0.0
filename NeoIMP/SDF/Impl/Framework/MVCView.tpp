@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-#define SDF_IMPL_UILAYER_IMPL_IUICONTROL_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUIControl.hpp
- * PURPOSE: Provides access to commands to start and shutdown the user interface as a whole.
+ * FILE:    MVCView.tpp
+ * PURPOSE: The base for MVC view objects that implements the relevant boilerplate.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
-#include <memory>
+#include <SDF/Impl/Framework/IMVCController.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl {
-  public:
-    virtual ~IUIControl() = default;
+namespace SDF::Impl::Framework {
+  template<class MObs>
+  MVCView<MObs>::~MVCView() {}
 
-    virtual void closeUI() = 0;
-  };
+  template<class MObs>
+  MVCViewNode &MVCView<MObs>::getViewHierarchy() {
+    return *this;
+  }
 }
 
-#endif
+namespace SDF::Impl::Framework {
+  template<class MObs, class VObs>
+  MVCViewExt<MObs, VObs>::~MVCViewExt() {}
+
+  template<class MObs, class VObs>
+  void MVCViewExt<MObs, VObs>::addController(std::unique_ptr<IMVCController<VObs>> controller) {
+    controller->connectToViewObservables(m_viewObservables);
+    m_controllers.push_back(std::move(controller));
+  }
+}

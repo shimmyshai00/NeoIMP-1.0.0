@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ApplicationController.hpp
- * PURPOSE: The controller for the application view.
+ * PURPOSE: The controller associated with the application view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCController.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/Framework/MVCViewEvent.hpp>
+#include <SDF/Impl/Framework/MVCController.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
+#include <SDF/Impl/UILayer/Impl/IUIControl.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl;
-  class IViewSink;
+namespace SDF::Impl::UILayer::Impl::Controller {
+  class ApplicationController : public Framework::MVCController<View::ApplicationViewObservables> {
+  public:
+    ApplicationController(IUIControl *uiControl);
 
-  namespace View {
-    class IViewFactory;
-    class BaseApplicationView;
-  }
-
-  namespace Controller {
-    class ApplicationController : public Framework::IMVCController {
-    public:
-      ApplicationController(
-        IUIControl *uiControl,
-        View::IViewFactory *viewFactory
-      );
-
-      void onViewEvent(Framework::IMVCView *view, Framework::MVCViewEvent e);
-    private:
-      IUIControl *m_uiControl;
-      IViewSink *m_viewSink;
-
-      View::IViewFactory *m_viewFactory;
-    };
-  }
+    void connectToViewObservables(View::ApplicationViewObservables &observables);
+  private:
+    IUIControl *m_uiControl;
+  };
 }
 
 #endif
