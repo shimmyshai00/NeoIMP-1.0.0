@@ -25,20 +25,15 @@
 
 namespace SDF::Impl::Framework {
   template<class MObs>
-  MVCView<MObs>::~MVCView() {}
-
-  template<class MObs>
-  MVCViewNode &MVCView<MObs>::getViewHierarchy() {
-    return *this;
-  }
+  MVCStateView<MObs>::~MVCStateView() {}
 }
 
 namespace SDF::Impl::Framework {
-  template<class MObs, class VObs>
-  MVCViewExt<MObs, VObs>::~MVCViewExt() {}
+  template<class VObs>
+  MVCInteractiveView<VObs>::~MVCInteractiveView() {}
 
-  template<class MObs, class VObs>
-  void MVCViewExt<MObs, VObs>::addController(std::unique_ptr<IMVCController<VObs>> controller) {
+  template<class VObs>
+  void MVCInteractiveView<VObs>::addController(std::unique_ptr<IMVCController<VObs>> controller) {
     controller->connectToViewObservables(m_viewObservables);
     m_controllers.push_back(std::move(controller));
   }

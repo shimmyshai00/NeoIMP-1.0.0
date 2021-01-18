@@ -30,21 +30,23 @@
 #include <SDF/Impl/UILayer/Impl/View/IViewSink.hpp>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractAppModel {
-    class IDocumentCreator;
+  namespace AbstractAppModel::Actions {
+    class ICreateDocumentAction;
   }
 
   namespace Impl::Controller {
     class NewDocumentDialogController : public Framework::MVCController<View::NewDocumentViewObservables> {
     public:
-      NewDocumentDialogController(View::IViewSink *viewSink, AbstractAppModel::IDocumentCreator *documentCreator);
+      NewDocumentDialogController(View::IViewSink *viewSink,
+                                  AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
+                                 );
 
       void setView(View::INewDocumentView *newDocumentView);
       void connectToViewObservables(View::NewDocumentViewObservables &observables);
     private:
       View::IViewSink *m_viewSink;
 
-      AbstractAppModel::IDocumentCreator *m_documentCreator;
+      AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
       View::INewDocumentView *m_newDocumentView;
     };
   }

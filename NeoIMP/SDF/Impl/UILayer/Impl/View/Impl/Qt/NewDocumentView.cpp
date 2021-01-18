@@ -45,7 +45,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::rejected, [=]() {
       m_viewObservables.onDismissed();
     });
-    
+
     m_newDocumentDialog->show();
   }
 
@@ -53,6 +53,4 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     m_newDocumentDialog->close();
     delete m_newDocumentDialog;
   }
-
-  void NewDocumentView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {}
 }

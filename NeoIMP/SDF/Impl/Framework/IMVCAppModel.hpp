@@ -26,14 +26,14 @@
 
 namespace SDF::Impl::Framework {
   template<class MObs>
-  class MVCView;
+  class IMVCStateView;
 
   template<class MObs>
   class IMVCAppModel {
   public:
     virtual ~IMVCAppModel() = default;
 
-    virtual void attachView(MVCView<MObs> *view) = 0;
+    virtual void attachStateView(IMVCStateView<MObs> *view) = 0;
   };
 }
 

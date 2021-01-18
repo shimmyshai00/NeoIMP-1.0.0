@@ -24,13 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/IDocumentCreator.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::AppModelLayer {
   typedef fruit::Component<
-    UILayer::AbstractAppModel::IDocumentCreator
+    UILayer::AbstractAppModel::State::IOpenDocumentsModel,
+    UILayer::AbstractAppModel::Actions::ICreateDocumentAction
   > DIComponent;
 
   DIComponent getAppModelComponent();

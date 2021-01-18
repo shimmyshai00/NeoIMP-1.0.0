@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
 
 #include <boost/signals2/signal.hpp>
 #include <memory>
@@ -36,13 +36,13 @@ namespace SDF::Impl::UILayer::Impl::View {
     boost::signals2::signal<void ()> onExitClicked;
   };
 
-  class IApplicationView : public virtual Framework::IMVCViewExt<AbstractAppModel::EditorModelObservables,
-                                                                 ApplicationViewObservables> {
+  class IApplicationView : public Framework::IMVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
+                           public virtual Framework::IMVCInteractiveView<ApplicationViewObservables> {
   public:
     virtual ~IApplicationView() = default;
 
     // other methods come from Framework::MVCViewExt in implementations
-    virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
+    virtual void connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) = 0;
   };
 }
 

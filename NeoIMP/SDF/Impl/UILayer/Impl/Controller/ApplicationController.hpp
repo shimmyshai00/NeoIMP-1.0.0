@@ -25,6 +25,8 @@
  */
 
 #include <SDF/Impl/Framework/MVCController.hpp>
+#include <SDF/Impl/Framework/MVCViewNode.hpp>
+
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
 namespace SDF::Impl::UILayer::Impl {
@@ -32,7 +34,6 @@ namespace SDF::Impl::UILayer::Impl {
 
   namespace View {
     class IViewFactory;
-    class IApplicationView;
   };
 
   namespace Controller {
@@ -40,13 +41,13 @@ namespace SDF::Impl::UILayer::Impl {
     public:
       ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory);
 
-      void setView(View::IApplicationView *applicationView);
+      void setViewParent(Framework::MVCViewNode *viewParent);
       void connectToViewObservables(View::ApplicationViewObservables &observables);
     private:
       IUIControl *m_uiControl;
 
       View::IViewFactory *m_viewFactory;
-      View::IApplicationView *m_applicationView;
+      Framework::MVCViewNode *m_viewParent;
     };
   }
 }

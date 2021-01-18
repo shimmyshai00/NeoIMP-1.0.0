@@ -26,7 +26,7 @@
 #include <IUIControl.hpp>
 #include <IViewSink.hpp>
 
-#include <AbstractAppModel/IDocumentCreator.hpp>
+#include <AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
@@ -38,10 +38,10 @@
 #include <Controller/DocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory(IViewSink *viewSink, AbstractAppModel::IDocumentCreator *documentCreator)
+  ViewFactory::ViewFactory(IViewSink *viewSink, AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction)
     //: m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
     : m_viewSink(viewSink),
-      m_documentCreator(documentCreator)
+      m_createDocumentAction(createDocumentAction)
   {}
 
   ViewFactory::~ViewFactory() {}
@@ -52,7 +52,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       new Controller::ApplicationController(uiControl, this)
     );
 
-    controller->setView(view.get());
+    controller->setViewParent(&view->getViewHierarchy());
     view->addController(std::move(controller));
 
     return std::move(view);
@@ -61,7 +61,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
     std::unique_ptr<INewDocumentView> view(new NewDocumentView());
     std::unique_ptr<Controller::NewDocumentDialogController> controller(
-      new Controller::NewDocumentDialogController(m_viewSink, m_documentCreator)
+      new Controller::NewDocumentDialogController(m_viewSink, m_createDocumentAction)
     );
 
     controller->setView(view.get());
@@ -70,12 +70,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return std::move(view);
   }
 
-  std::unique_ptr<IDocumentView> ViewFactory::createDocumentView(AbstractAppModel::DocumentHandle handle) {
+  std::unique_ptr<IDocumentView> ViewFactory::createDocumentView(AbstractAppModel::Handle handle) {
     std::unique_ptr<IDocumentView> view(new DocumentView(handle));
     std::unique_ptr<Controller::DocumentController> controller(new Controller::DocumentController());
 
     controller->setView(view.get());
-    view->addController(std::move(controller));
+    //view->addController(std::move(controller));
 
     return std::move(view);
   }

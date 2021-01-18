@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_DOCUMENTHANDLE_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_DOCUMENTHANDLE_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IUIMANAGER_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IUIMANAGER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentHandle.hpp
- * PURPOSE: Definition of a type holding handles for documents.
+ * FILE:    IUIManager.hpp
+ * PURPOSE: Provides an interface for the UI manager.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::UILayer::AbstractAppModel {
-  typedef int DocumentHandle;
+#include <SDF/Impl/Framework/IMVCView.hpp>
+#include <memory>
+
+namespace SDF::Impl::UILayer::Impl {
+  class IUIControl {
+  public:
+    virtual ~IUIControl() = default;
+
+    virtual void closeUI() = 0;
+  };
 }
 
 #endif

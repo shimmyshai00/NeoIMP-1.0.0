@@ -41,8 +41,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     delete m_mainWindow;
   }
 
-  void ApplicationView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {
-    safeConnect(observables.documentAdded, [=](AbstractAppModel::DocumentHandle handle) {
+  void ApplicationView::connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) {
+    safeConnect(observables.onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       std::cout << "document added" << std::endl;
     });
   }

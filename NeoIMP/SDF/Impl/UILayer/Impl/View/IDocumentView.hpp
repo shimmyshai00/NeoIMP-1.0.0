@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
 
 #include <boost/signals2/signal.hpp>
 #include <memory>
@@ -34,13 +33,12 @@ namespace SDF::Impl::UILayer::Impl::View {
   struct DocumentViewObservables {
   };
 
-  class IDocumentView : public virtual Framework::IMVCViewExt<AbstractAppModel::EditorModelObservables,
-                                                              DocumentViewObservables> {
+  class IDocumentView : public virtual Framework::IMVCView {
   public:
     virtual ~IDocumentView() = default;
 
     // other methods come from Framework::MVCViewExt in implementations
-    virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
+    //virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
   };
 }
 

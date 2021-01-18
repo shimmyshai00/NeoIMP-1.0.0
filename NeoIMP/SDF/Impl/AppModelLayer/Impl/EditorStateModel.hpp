@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_APPLICATIONVIEW_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_IMPL_EDITORSTATEMODEL_HPP
+#define SDF_IMPL_APPMODELLAYER_IMPL_EDITORSTATEMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ApplicationView.hpp
- * PURPOSE: The Qt-based application view.
+ * FILE:    EditorStateModel.hpp
+ * PURPOSE: Centralizes all the editor UI state.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/MVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <SDF/Impl/Framework/IMVCView.hpp>
 
-#include <QTabWidget>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+
+#include <fruit/fruit.h>
 #include <vector>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Windows {
-    class MainWindow;
-  }
-
-  class ApplicationView : public Framework::MVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
-                          public Framework::MVCInteractiveView<ApplicationViewObservables>,
-                          public IApplicationView
-  {
+namespace SDF::Impl::AppModelLayer::Impl {
+  class EditorStateModel : public UILayer::AbstractAppModel::State::IOpenDocumentsModel {
   public:
-    ApplicationView();
-    ~ApplicationView();
+    INJECT(EditorStateModel());
 
-    void connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables);
+    // State manipulation.
+    void addDocument(UILayer::AbstractAppModel::Handle handle);
+    void removeDocument(UILayer::AbstractAppModel::Handle handle);
 
-    void onChildAdded(MVCViewNode *child);
-    void onChildRemoved(MVCViewNode *child);
+    // View access.
+    void attachStateView(Framework::IMVCStateView<UILayer::AbstractAppModel::State::OpenDocumentsObservables> *view);
   private:
-    Windows::MainWindow *m_mainWindow;
-    QTabWidget *m_documentTabs;
+    // State.
+    std::vector<UILayer::AbstractAppModel::Handle> m_openDocumentHandles;
+
+    // Observables.
+    UILayer::AbstractAppModel::State::OpenDocumentsObservables m_openDocumentsObservables;
   };
 }
 

@@ -30,8 +30,8 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractAppModel {
-    class IDocumentCreator;
+  namespace AbstractAppModel::Actions {
+    class ICreateDocumentAction;
   }
 
   namespace Impl {
@@ -51,16 +51,18 @@ namespace SDF::Impl::UILayer {
       namespace Impl::Qt {
         class ViewFactory : public IViewFactory {
         public:
-          INJECT(ViewFactory(IViewSink *viewSink, AbstractAppModel::IDocumentCreator *documentCreator));
+          INJECT(ViewFactory(IViewSink *viewSink,
+                             AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
+                            ));
           ~ViewFactory();
 
           std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl);
           std::unique_ptr<INewDocumentView> createNewDocumentView();
-          std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::DocumentHandle handle);
+          std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::Handle handle);
         private:
           IViewSink *m_viewSink;
 
-          AbstractAppModel::IDocumentCreator *m_documentCreator;
+          AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
         };
       }
     }

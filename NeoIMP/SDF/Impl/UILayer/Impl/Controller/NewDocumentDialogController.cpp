@@ -23,16 +23,16 @@
 
 #include <SDF/Impl/UILayer/Impl/Controller/NewDocumentDialogController.hpp>
 
-#include <SDF/Impl/UILayer/AbstractAppModel/IDocumentCreator.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   NewDocumentDialogController::NewDocumentDialogController(
     View::IViewSink *viewSink,
-    AbstractAppModel::IDocumentCreator *documentCreator
+    AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
   )
     : m_viewSink(viewSink),
-      m_documentCreator(documentCreator),
+      m_createDocumentAction(createDocumentAction),
       m_newDocumentView(nullptr)
   {}
 
@@ -42,7 +42,7 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
   void NewDocumentDialogController::connectToViewObservables(View::NewDocumentViewObservables &observables) {
     safeConnect(observables.onAccepted, [=](AbstractAppModel::Data::DocumentSpec spec) {
-      m_documentCreator->createDocument(spec);
+      m_createDocumentAction->createDocument(spec);
       m_viewSink->disposeView(m_newDocumentView->getViewHierarchy().removeSelf());
     });
 

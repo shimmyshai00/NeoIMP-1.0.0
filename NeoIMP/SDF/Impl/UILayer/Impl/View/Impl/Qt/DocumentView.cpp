@@ -75,13 +75,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 */
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  DocumentView::DocumentView(AbstractAppModel::DocumentHandle handle)
+  DocumentView::DocumentView(AbstractAppModel::Handle handle)
     : m_documentWidget(new CustomWidgets::DocumentWidget)
   {}
 
   DocumentView::~DocumentView() {}
-
-  void DocumentView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {}
 
   void DocumentView::addToTabWidget(QPointer<QTabWidget> tabWidget) {
     if(!m_tabWidget) {

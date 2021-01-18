@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IDOCUMENTCREATOR_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_IDOCUMENTCREATOR_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ICREATEDOCUMENTACTION_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ICREATEDOCUMENTACTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentCreator.hpp
- * PURPOSE: Provides an interface for creating a new document.
+ * FILE:    ICreateDocumentAction.hpp
+ * PURPOSE: Provides an interface for the action to create a new document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
-namespace SDF::Impl::UILayer::AbstractAppModel {
-  class IDocumentCreator {
+namespace SDF::Impl::UILayer::AbstractAppModel::Actions {
+  class ICreateDocumentAction {
   public:
-    virtual ~IDocumentCreator() = default;
-
-    virtual DocumentHandle createDocument(Data::DocumentSpec spec) = 0;
+    virtual ~ICreateDocumentAction() = default;
+    virtual Handle createDocument(Data::DocumentSpec spec) = 0;
   };
 }
 

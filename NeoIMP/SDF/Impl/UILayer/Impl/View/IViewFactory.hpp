@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl {
@@ -45,7 +45,7 @@ namespace SDF::Impl::UILayer::Impl {
 
       virtual std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl) = 0;
       virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-      virtual std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::DocumentHandle handle) = 0;
+      virtual std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::Handle handle) = 0;
     };
   }
 }

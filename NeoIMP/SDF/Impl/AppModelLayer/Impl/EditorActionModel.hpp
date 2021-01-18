@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_NEWDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_IMPL_EDITORACTIONMODEL_HPP
+#define SDF_IMPL_APPMODELLAYER_IMPL_EDITORACTIONMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumntView.hpp
- * PURPOSE: The Qt-based new-document view.
+ * FILE:    EditorActionModel.hpp
+ * PURPOSE: Delegates all the actions possible in the editor to the appropriate (domain) model-layer services.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/MVCView.hpp>
-#include <SDF/Impl/UILayer/Impl/View/INewDocumentView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
-#include <vector>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  namespace Dialogs {
-    class NewDocumentDialog;
-  }
+#include <fruit/fruit.h>
 
-  class NewDocumentView : public Framework::MVCInteractiveView<NewDocumentViewObservables>,
-                          public INewDocumentView
-  {
+namespace SDF::Impl::AppModelLayer::Impl {
+  class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction {
   public:
-    NewDocumentView();
-    ~NewDocumentView();
+    INJECT(EditorActionModel());
+
+    UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
   private:
-    Dialogs::NewDocumentDialog *m_newDocumentDialog;
   };
 }
+
 #endif

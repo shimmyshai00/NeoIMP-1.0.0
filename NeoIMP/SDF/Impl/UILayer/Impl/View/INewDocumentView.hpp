@@ -25,7 +25,6 @@
  */
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 #include <boost/signals2/signal.hpp>
@@ -37,13 +36,9 @@ namespace SDF::Impl::UILayer::Impl::View {
     boost::signals2::signal<void ()> onDismissed;
   };
 
-  class INewDocumentView : public virtual Framework::IMVCViewExt<AbstractAppModel::EditorModelObservables,
-                                                                 NewDocumentViewObservables> {
+  class INewDocumentView : public virtual Framework::IMVCInteractiveView<NewDocumentViewObservables> {
   public:
     virtual ~INewDocumentView() = default;
-
-    // other methods come from Framework::MVCViewExt in implementations
-    virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
   };
 }
 

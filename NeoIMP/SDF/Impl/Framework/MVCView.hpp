@@ -35,21 +35,29 @@ namespace SDF::Impl::Framework {
   template<class VObs>
   class MVCController;
 
-  template<class MObs>
-  class MVCView : public virtual IMVCView<MObs>, public MVCViewNode, public MVCDynamicObserver {
+  class MVCView : public virtual IMVCView, public MVCViewNode {
   public:
     virtual ~MVCView() = 0;
 
     MVCViewNode &getViewHierarchy();
+  };
+
+  template<class MObs>
+  class MVCStateView : public IMVCStateView<MObs>, public virtual MVCView {
+  public:
+    virtual ~MVCStateView() = 0;
+
     virtual void connectToModelObservables(MObs &observables) = 0;
   };
 
-  template<class MObs, class VObs>
-  class MVCViewExt : public virtual IMVCViewExt<MObs, VObs>, public MVCView<MObs> {
+  template<class VObs>
+  class MVCInteractiveView : public virtual IMVCInteractiveView<VObs>,
+                             public virtual MVCView,
+                             public MVCDynamicObserver
+  {
   public:
-    virtual ~MVCViewExt() = 0;
+    virtual ~MVCInteractiveView() = 0;
 
-    virtual void connectToModelObservables(MObs &observables) = 0;
     void addController(std::unique_ptr<IMVCController<VObs>> controller);
   protected:
     VObs m_viewObservables;

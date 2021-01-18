@@ -32,21 +32,27 @@ namespace SDF::Impl::Framework {
   template<class VObs>
   class IMVCController;
 
-  template<class MObs>
+  // The common interface for all view types.
   class IMVCView {
   public:
     virtual ~IMVCView() = default;
 
     virtual MVCViewNode &getViewHierarchy() = 0;
+  };
+
+  // For views that show model state.
+  template<class MObs>
+  class IMVCStateView : public virtual IMVCView {
+  public:
+    virtual ~IMVCStateView() = default;
     virtual void connectToModelObservables(MObs &observables) = 0;
   };
 
-  template<class MObs, class VObs>
-  class IMVCViewExt : public virtual IMVCView<MObs> {
+  // For views that provide interaction.
+  template<class VObs>
+  class IMVCInteractiveView : public virtual IMVCView {
   public:
-    virtual ~IMVCViewExt() = default;
-
-    virtual void connectToModelObservables(MObs &observables) = 0;
+    virtual ~IMVCInteractiveView() = default;
     virtual void addController(std::unique_ptr<IMVCController<VObs>> controller) = 0;
   };
 }

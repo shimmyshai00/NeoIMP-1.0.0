@@ -35,18 +35,16 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory)
     : m_uiControl(uiControl),
       m_viewFactory(viewFactory),
-      m_applicationView(nullptr)
+      m_viewParent(nullptr)
   {}
 
-  void ApplicationController::setView(View::IApplicationView *applicationView) {
-    m_applicationView = applicationView;
+  void ApplicationController::setViewParent(Framework::MVCViewNode *viewParent) {
+    m_viewParent = viewParent;
   }
 
   void ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
     safeConnect(observables.onNewClicked, [=]() {
-      m_applicationView->getViewHierarchy().addChildAtEnd(
-        Framework::MVCViewCast(m_viewFactory->createNewDocumentView())
-      );
+      m_viewParent->addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createNewDocumentView()));
     });
 
     safeConnect(observables.onExitClicked, [=]() { m_uiControl->closeUI(); });

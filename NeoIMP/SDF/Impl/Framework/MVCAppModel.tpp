@@ -28,7 +28,7 @@ namespace SDF::Impl::Framework {
   MVCAppModel<MObs>::~MVCAppModel() {}
 
   template<class MObs>
-  void MVCAppModel<MObs>::attachView(MVCView<MObs> *view) {
+  void MVCAppModel<MObs>::attachStateView(IMVCStateView<MObs> *view) {
     view->connectToModelObservables(m_observables);
   }
 }
