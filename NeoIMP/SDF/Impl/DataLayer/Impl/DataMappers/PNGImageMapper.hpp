@@ -25,8 +25,10 @@
  */
 
 #include <SDF/Impl/MemoryLayer/AbstractData/IImageDataMapper.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
 
 #include <fruit/fruit.h>
+#include <string>
 
 namespace SDF::Impl::DataLayer::Impl::DataMappers {
   class PNGImageMapper : public MemoryLayer::AbstractData::IImageDataMapper {

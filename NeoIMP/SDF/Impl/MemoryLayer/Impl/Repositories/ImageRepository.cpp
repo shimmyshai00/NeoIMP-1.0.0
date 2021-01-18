@@ -24,10 +24,7 @@
 #include <ImageRepository.hpp>
 
 #include <MemoryLayer/Exceptions/Exceptions.hpp>
-
-#include <ModelLayer/AbstractMemory/Handle.hpp>
 #include <ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
-
 #include <AbstractData/IImageDataMapper.hpp>
 
 namespace SDF::Impl::MemoryLayer::Impl::Repositories {

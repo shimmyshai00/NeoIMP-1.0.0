@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Exception/SafeString.hpp>
+
 #include <cstdarg>
 
 namespace SDF::Exception {

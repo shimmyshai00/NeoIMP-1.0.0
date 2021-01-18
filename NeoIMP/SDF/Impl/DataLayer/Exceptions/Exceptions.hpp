@@ -26,6 +26,8 @@
 
 #include <SDF/Exception/Exception.hpp>
 
+#include <string>
+
 namespace SDF::Impl::DataLayer::Exceptions {
   struct MultilayerImageNotSupportedException : public SDF::Exception::Exception {
     MultilayerImageNotSupportedException(std::string formatName)
