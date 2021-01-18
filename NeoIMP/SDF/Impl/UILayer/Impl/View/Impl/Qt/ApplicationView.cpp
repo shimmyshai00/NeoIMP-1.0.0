@@ -41,7 +41,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     delete m_mainWindow;
   }
 
-  void ApplicationView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {}
+  void ApplicationView::connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) {
+    safeConnect(observables.documentAdded, [=](AbstractAppModel::DocumentHandle handle) {
+      std::cout << "document added" << std::endl;
+    });
+  }
 
   void ApplicationView::onChildAdded(MVCViewNode *child) {}
   void ApplicationView::onChildRemoved(MVCViewNode *child) {}

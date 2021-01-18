@@ -43,8 +43,10 @@ namespace SDF::Impl::UILayer {
 
     namespace View {
       class IViewSink;
+
       class IApplicationView;
       class INewDocumentView;
+      class IDocumentView;
 
       namespace Impl::Qt {
         class ViewFactory : public IViewFactory {
@@ -54,6 +56,7 @@ namespace SDF::Impl::UILayer {
 
           std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl);
           std::unique_ptr<INewDocumentView> createNewDocumentView();
+          std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::DocumentHandle handle);
         private:
           IViewSink *m_viewSink;
 

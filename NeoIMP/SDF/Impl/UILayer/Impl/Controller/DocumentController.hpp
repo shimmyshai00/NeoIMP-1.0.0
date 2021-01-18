@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_CONTROLLER_DOCUMENTCONTROLLER_HPP
+#define SDF_IMPL_UILAYER_IMPL_CONTROLLER_DOCUMENTCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    DocumentController.hpp
+ * PURPOSE: The controller associated with the document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
-#include <memory>
+#include <SDF/Impl/Framework/MVCController.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl;
+#include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
-  namespace Controller {
-    class ControllerFactory;
+namespace SDF::Impl::UILayer {
+  namespace AbstractAppModel {
   }
 
-  namespace View {
-    class IApplicationView;
-    class INewDocumentView;
-    class IDocumentView;
-
-    class IViewFactory {
+  namespace Impl::Controller {
+    class DocumentController : public Framework::MVCController<View::DocumentViewObservables> {
     public:
-      virtual ~IViewFactory() = default;
+      DocumentController();
 
-      virtual std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl) = 0;
-      virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-      virtual std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::DocumentHandle handle) = 0;
+      void setView(View::IDocumentView *documentView);
+      void connectToViewObservables(View::DocumentViewObservables &observables);
+    private:
+      View::IDocumentView *m_documentView;
     };
   }
 }
-
 #endif

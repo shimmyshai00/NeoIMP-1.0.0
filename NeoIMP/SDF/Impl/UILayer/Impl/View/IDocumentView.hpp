@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IVIEWFACTORY_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IViewFactory.hpp
- * PURPOSE: The interface for the view factory.
+ * FILE:    IDocumentView.hpp
+ * PURPOSE: The interface for the document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/DocumentHandle.hpp>
+#include <SDF/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/IEditorModel.hpp>
+
+#include <boost/signals2/signal.hpp>
 #include <memory>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl;
+namespace SDF::Impl::UILayer::Impl::View {
+  struct DocumentViewObservables {
+  };
 
-  namespace Controller {
-    class ControllerFactory;
-  }
+  class IDocumentView : public virtual Framework::IMVCViewExt<AbstractAppModel::EditorModelObservables,
+                                                              DocumentViewObservables> {
+  public:
+    virtual ~IDocumentView() = default;
 
-  namespace View {
-    class IApplicationView;
-    class INewDocumentView;
-    class IDocumentView;
-
-    class IViewFactory {
-    public:
-      virtual ~IViewFactory() = default;
-
-      virtual std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl) = 0;
-      virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
-      virtual std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::DocumentHandle handle) = 0;
-    };
-  }
+    // other methods come from Framework::MVCViewExt in implementations
+    virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
+  };
 }
 
 #endif
