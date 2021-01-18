@@ -34,7 +34,6 @@ namespace SDF::Impl::UILayer::Impl {
   }
 
   namespace View {
-    class IViewSink;
     class IApplicationView;
 
     class IViewFactory {
