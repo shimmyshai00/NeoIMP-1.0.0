@@ -32,7 +32,8 @@ NOTE: this is the ideal; the real thing might not 100% conform to these rules of
             relative to the project root (e.g. "SDF/Impl/ModelLayer/...") should be employed. Moreover, with the
             exceptions of classes defined under "Framework", or value classes/structs, all includes should forward-
             declare classes they use. To make this possible, define class members to be pointers (typically
-            std::unique_ptr) and pass arguments to functions by reference or pointer.
+            std::unique_ptr) and pass arguments to functions by reference or pointer. Namespace blocks should be
+            organized (see files) to make clear where the forward declarations are coming from.
 
 * Identifiers: Type (class, struct, etc.) names should have all constituent words first-letter capitalized (e.g.
                SomeClass). Methods and variables should be named in camelCase, and internal class member variables
