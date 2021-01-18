@@ -29,7 +29,8 @@
 #include <ModelLayer/ModelComponent.hpp>
 
 namespace SDF::Impl::AppModelLayer {
-  DIComponent getAppModelComponent() {
+  DIComponent
+  getAppModelComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractAppModel::State::IOpenDocumentsModel, Impl::EditorStateModel>()
       .bind<UILayer::AbstractAppModel::Actions::ICreateDocumentAction, Impl::EditorActionModel>()

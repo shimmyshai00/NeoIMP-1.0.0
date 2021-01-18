@@ -36,11 +36,13 @@ namespace SDF::Impl::UILayer::Impl::Controller {
       m_newDocumentView(nullptr)
   {}
 
-  void NewDocumentDialogController::setView(View::INewDocumentView *newDocumentView) {
+  void
+  NewDocumentDialogController::setView(View::INewDocumentView *newDocumentView) {
     m_newDocumentView = newDocumentView;
   }
 
-  void NewDocumentDialogController::connectToViewObservables(View::NewDocumentViewObservables &observables) {
+  void
+  NewDocumentDialogController::connectToViewObservables(View::NewDocumentViewObservables &observables) {
     safeConnect(observables.onAccepted, [=](AbstractAppModel::Data::DocumentSpec spec) {
       m_createDocumentAction->createDocument(spec);
       m_viewSink->disposeView(m_newDocumentView->getViewHierarchy().removeSelf());

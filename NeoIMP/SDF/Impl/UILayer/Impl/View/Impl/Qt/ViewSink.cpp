@@ -28,7 +28,8 @@
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewSink::ViewSink() {}
 
-  void ViewSink::disposeView(std::unique_ptr<Framework::MVCViewNode> view) {
+  void 
+  ViewSink::disposeView(std::unique_ptr<Framework::MVCViewNode> view) {
     // Defer deletion of a view until called in the Qt event loop.
     m_discardBuffer.push_back(std::move(view));
     QTimer::singleShot(0, [=]() { m_discardBuffer.clear(); });

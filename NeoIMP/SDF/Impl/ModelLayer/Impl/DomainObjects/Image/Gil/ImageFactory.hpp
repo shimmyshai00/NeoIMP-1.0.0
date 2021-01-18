@@ -34,11 +34,13 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   class AbstractImage;
 
   namespace Gil {
-    std::unique_ptr<AbstractImage> createImage(
-      std::string imageName,
-      int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
-      ModelLayer::Properties::ColorModel colorModel, ModelLayer::Properties::BitDepth bitDepth
-    );
+    std::unique_ptr<AbstractImage> createImage(std::string imageName,
+                                               int imageWidthPx,
+                                               int imageHeightPx,
+                                               float imageResolutionPpi,
+                                               ModelLayer::Properties::ColorModel colorModel,
+                                               ModelLayer::Properties::BitDepth bitDepth
+                                              );
   }
 }
 

@@ -31,13 +31,17 @@
 #include <AbstractData/IImageDataMapper.hpp>
 
 namespace SDF::Impl::MemoryLayer::Impl::Repositories {
-  ImageRepository::ImageRepository(AbstractData::IImageDataMapper *dataMapper) : m_dataMapper(dataMapper) {}
+  ImageRepository::ImageRepository(AbstractData::IImageDataMapper *dataMapper)
+    : m_dataMapper(dataMapper)
+  {}
+
   ImageRepository::~ImageRepository() {}
 
-  void ImageRepository::add(
-    ModelLayer::AbstractMemory::Handle handle,
-    std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
-  ) {
+  void
+  ImageRepository::add(ModelLayer::AbstractMemory::Handle handle,
+                       std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
+                      )
+  {
     if(m_imageMap.find(handle) != m_imageMap.end()) {
       throw MemoryLayer::Exceptions::DuplicateObjectException(handle);
     }
@@ -45,9 +49,8 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     m_imageMap[handle] = std::move(imageDocument);
   }
 
-  ModelLayer::Impl::DomainObjects::Image::AbstractImage &ImageRepository::access(
-    ModelLayer::AbstractMemory::Handle handle
-  ) {
+  ModelLayer::Impl::DomainObjects::Image::AbstractImage &
+  ImageRepository::access(ModelLayer::AbstractMemory::Handle handle) {
     if(m_imageMap.find(handle) == m_imageMap.end()) {
       throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
     }
@@ -55,7 +58,9 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     return *m_imageMap[handle];
   }
 
-  void ImageRepository::remove(ModelLayer::AbstractMemory::Handle handle) {
+  void
+  ImageRepository::remove(ModelLayer::AbstractMemory::Handle handle)
+  {
     if(m_imageMap.find(handle) == m_imageMap.end()) {
       throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
     }
@@ -63,7 +68,11 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     m_imageMap.erase(handle);
   }
 
-  void ImageRepository::assignFileSpec(ModelLayer::AbstractMemory::Handle handle, std::string fileSpec) {
+  void
+  ImageRepository::assignFileSpec(ModelLayer::AbstractMemory::Handle handle,
+                                  std::string fileSpec
+                                 )
+  {
     if(m_imageMap.find(handle) == m_imageMap.end()) {
       throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
     }
@@ -71,10 +80,11 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     m_imageFileSpecMap[handle] = fileSpec;
   }
 
-  void ImageRepository::assignFileFormat(
-    ModelLayer::AbstractMemory::Handle handle,
-    DataLayer::Properties::FileFormat fileFormat
-  ) {
+  void
+  ImageRepository::assignFileFormat(ModelLayer::AbstractMemory::Handle handle,
+                                    DataLayer::Properties::FileFormat fileFormat
+                                   )
+  {
     if(m_imageMap.find(handle) == m_imageMap.end()) {
       throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
     }
@@ -82,7 +92,8 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     m_imageFileFormatMap[handle] = fileFormat;
   }
 
-  void ImageRepository::persistImage(ModelLayer::AbstractMemory::Handle handle) {
+  void
+  ImageRepository::persistImage(ModelLayer::AbstractMemory::Handle handle) {
     if(m_imageMap.find(handle) == m_imageMap.end()) {
       throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
     }
@@ -94,7 +105,8 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
     m_dataMapper->saveImage(m_imageFileSpecMap[handle], m_imageMap[handle].get());
   }
 
-  void ImageRepository::retrieveImage(ModelLayer::AbstractMemory::Handle handle) {
+  void
+  ImageRepository::retrieveImage(ModelLayer::AbstractMemory::Handle handle) {
     // TBA
   }
 }

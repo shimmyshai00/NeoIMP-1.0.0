@@ -34,7 +34,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     : m_imageRepository(imageRepository)
   {}
 
-  std::string ImageInformationService::getImageName(AppModelLayer::AbstractModel::Handle handle) {
+  std::string
+  ImageInformationService::getImageName(AppModelLayer::AbstractModel::Handle handle) {
     try {
       return m_imageRepository->access(handle).getImageName();
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
@@ -42,7 +43,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     }
   }
 
-  int ImageInformationService::getImageWidth(AppModelLayer::AbstractModel::Handle handle) {
+  int
+  ImageInformationService::getImageWidth(AppModelLayer::AbstractModel::Handle handle) {
     try {
       return m_imageRepository->access(handle).getImageWidth();
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
@@ -50,7 +52,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     }
   }
 
-  int ImageInformationService::getImageHeight(AppModelLayer::AbstractModel::Handle handle) {
+  int
+  ImageInformationService::getImageHeight(AppModelLayer::AbstractModel::Handle handle) {
     try {
       return m_imageRepository->access(handle).getImageHeight();
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {

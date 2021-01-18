@@ -33,7 +33,9 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl {
-  UI::UI(View::IViewFactory *viewFactory, View::IViewSink *viewSink)
+  UI::UI(View::IViewFactory *viewFactory,
+         View::IViewSink *viewSink
+        )
     : m_viewFactory(viewFactory),
       m_viewSink(viewSink)
   {
@@ -41,11 +43,13 @@ namespace SDF::Impl::UILayer::Impl {
 
   UI::~UI() {}
 
-  void UI::start() {
+  void
+  UI::start() {
     m_applicationView = m_viewFactory->createApplicationView(this);
   }
 
-  void UI::closeUI() {
+  void
+  UI::closeUI() {
     std::unique_ptr<Framework::MVCViewNode> viewNode(&m_applicationView.release()->getViewHierarchy());
     m_applicationView = std::unique_ptr<View::IApplicationView>();
     m_viewSink->disposeView(std::move(viewNode));

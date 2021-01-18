@@ -30,10 +30,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::AppModelLayer {
-  typedef fruit::Component<
-    UILayer::AbstractAppModel::State::IOpenDocumentsModel,
-    UILayer::AbstractAppModel::Actions::ICreateDocumentAction
-  > DIComponent;
+  typedef fruit::Component<UILayer::AbstractAppModel::State::IOpenDocumentsModel,
+                           UILayer::AbstractAppModel::Actions::ICreateDocumentAction
+                          > DIComponent;
 
   DIComponent getAppModelComponent();
 }

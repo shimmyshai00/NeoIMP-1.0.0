@@ -38,7 +38,9 @@
 #include <Controller/DocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ViewFactory::ViewFactory(IViewSink *viewSink, AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction)
+  ViewFactory::ViewFactory(IViewSink *viewSink,
+                           AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
+                          )
     //: m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
     : m_viewSink(viewSink),
       m_createDocumentAction(createDocumentAction)
@@ -46,7 +48,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   ViewFactory::~ViewFactory() {}
 
-  std::unique_ptr<IApplicationView> ViewFactory::createApplicationView(IUIControl *uiControl) {
+  std::unique_ptr<IApplicationView>
+  ViewFactory::createApplicationView(IUIControl *uiControl) {
     std::unique_ptr<IApplicationView> view(new ApplicationView());
     std::unique_ptr<Controller::ApplicationController> controller(
       new Controller::ApplicationController(uiControl, this)
@@ -58,7 +61,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return std::move(view);
   }
 
-  std::unique_ptr<INewDocumentView> ViewFactory::createNewDocumentView() {
+  std::unique_ptr<INewDocumentView>
+  ViewFactory::createNewDocumentView() {
     std::unique_ptr<INewDocumentView> view(new NewDocumentView());
     std::unique_ptr<Controller::NewDocumentDialogController> controller(
       new Controller::NewDocumentDialogController(m_viewSink, m_createDocumentAction)
@@ -70,7 +74,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return std::move(view);
   }
 
-  std::unique_ptr<IDocumentView> ViewFactory::createDocumentView(AbstractAppModel::Handle handle) {
+  std::unique_ptr<IDocumentView>
+  ViewFactory::createDocumentView(AbstractAppModel::Handle handle) {
     std::unique_ptr<IDocumentView> view(new DocumentView(handle));
     std::unique_ptr<Controller::DocumentController> controller(new Controller::DocumentController());
 

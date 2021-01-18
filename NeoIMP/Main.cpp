@@ -26,7 +26,8 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-int main(int argc, char **argv) {
+int
+main(int argc, char **argv) {
   fruit::Injector<SDF::IApplication> appInjector(SDF::getApplicationComponent);
   SDF::IApplication *application(appInjector.get<SDF::IApplication *>());
 

@@ -34,8 +34,14 @@ namespace SDF::Impl::AppModelLayer::AbstractModel::Services {
   public:
     virtual ~IDocumentStorageService() = default;
 
-    virtual void saveDocument(std::string fileSpec, DataLayer::Properties::FileFormat fileFormat, Handle handle) = 0;
-    virtual Handle loadDocument(std::string fileSpec, DataLayer::Properties::FileFormat fileFormat) = 0;
+    virtual void saveDocument(std::string fileSpec,
+                              DataLayer::Properties::FileFormat fileFormat,
+                              Handle handle
+                             ) = 0;
+                             
+    virtual Handle loadDocument(std::string fileSpec,
+                                DataLayer::Properties::FileFormat fileFormat
+                               ) = 0;
   };
 }
 

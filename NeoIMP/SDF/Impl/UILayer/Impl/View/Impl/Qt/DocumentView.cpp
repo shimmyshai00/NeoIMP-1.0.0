@@ -81,7 +81,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   DocumentView::~DocumentView() {}
 
-  void DocumentView::addToTabWidget(QPointer<QTabWidget> tabWidget) {
+  void
+  DocumentView::addToTabWidget(QPointer<QTabWidget> tabWidget) {
     if(!m_tabWidget) {
       // TBA
       m_tabWidget = tabWidget;

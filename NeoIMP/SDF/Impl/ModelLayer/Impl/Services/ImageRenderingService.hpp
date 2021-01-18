@@ -43,10 +43,9 @@ namespace SDF::Impl::ModelLayer {
       public:
         INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-        const unsigned char *renderImageRegion(
-          AppModelLayer::AbstractModel::Handle handle,
-          int x1, int y1, int x2, int y2
-        );
+        const unsigned char *renderImageRegion(AppModelLayer::AbstractModel::Handle handle,
+                                               int x1, int y1, int x2, int y2
+                                              );
       private:
         AbstractMemory::Repositories::IImageRepository *m_imageRepository;
         DomainObjects::Algorithms::Renderer::Visitor *m_visitor;

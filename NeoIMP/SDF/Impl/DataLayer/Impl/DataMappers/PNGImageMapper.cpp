@@ -31,29 +31,37 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
   // Helper visitor class to save images.
   class PNGSaveVisitor : public ModelLayer::Impl::DomainObjects::Image::ImageDataVisitor {
   public:
-    PNGSaveVisitor(std::string fileSpec) : m_fileSpec(fileSpec) {}
+    PNGSaveVisitor(std::string fileSpec)
+      : m_fileSpec(fileSpec)
+    {}
 
-    void visitGilRegion(boost::gil::gray8_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::gray8_view_t regionView) {
       // TBA
     }
 
-    void visitGilRegion(boost::gil::gray16_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::gray16_view_t regionView) {
       // TBA
     }
 
-    void visitGilRegion(boost::gil::rgb8_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::rgb8_view_t regionView) {
       boost::gil::write_view(m_fileSpec, regionView, boost::gil::png_tag{});
     }
 
-    void visitGilRegion(boost::gil::rgb16_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::rgb16_view_t regionView) {
       boost::gil::write_view(m_fileSpec, regionView, boost::gil::png_tag{});
     }
 
-    void visitGilRegion(boost::gil::cmyk8_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::cmyk8_view_t regionView) {
       // TBA
     }
 
-    void visitGilRegion(boost::gil::cmyk16_view_t regionView) {
+    void
+    visitGilRegion(boost::gil::cmyk16_view_t regionView) {
       // TBA
     }
   private:
@@ -64,14 +72,17 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
 namespace SDF::Impl::DataLayer::Impl::DataMappers {
   PNGImageMapper::PNGImageMapper() {}
 
-  void PNGImageMapper::saveImage(std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image) {
+  void
+  PNGImageMapper::saveImage(std::string fileSpec,
+                            ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
+                           )
+  {
     PNGSaveVisitor saveVisitor(fileSpec);
     image->acceptLayerPixelVisitor(0, image->getImageRect(), &saveVisitor);
   }
 
-  std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> PNGImageMapper::loadImage(
-    std::string fileSpec
-  ) {
+  std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>
+  PNGImageMapper::loadImage(std::string fileSpec) {
     // TBA
     return std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>();
   }

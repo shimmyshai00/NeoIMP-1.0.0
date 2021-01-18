@@ -39,7 +39,9 @@ namespace SDF::Impl::UILayer::Impl {
   namespace Controller {
     class ApplicationController : public Framework::MVCController<View::ApplicationViewObservables> {
     public:
-      ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory);
+      ApplicationController(IUIControl *uiControl,
+                            View::IViewFactory *viewFactory
+                           );
 
       void setViewParent(Framework::MVCViewNode *viewParent);
       void connectToViewObservables(View::ApplicationViewObservables &observables);

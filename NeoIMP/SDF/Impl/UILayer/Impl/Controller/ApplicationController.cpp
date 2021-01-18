@@ -32,17 +32,21 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  ApplicationController::ApplicationController(IUIControl *uiControl, View::IViewFactory *viewFactory)
+  ApplicationController::ApplicationController(IUIControl *uiControl,
+                                               View::IViewFactory *viewFactory
+                                              )
     : m_uiControl(uiControl),
       m_viewFactory(viewFactory),
       m_viewParent(nullptr)
   {}
 
-  void ApplicationController::setViewParent(Framework::MVCViewNode *viewParent) {
+  void
+  ApplicationController::setViewParent(Framework::MVCViewNode *viewParent) {
     m_viewParent = viewParent;
   }
 
-  void ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
+  void
+  ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
     safeConnect(observables.onNewClicked, [=]() {
       m_viewParent->addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createNewDocumentView()));
     });

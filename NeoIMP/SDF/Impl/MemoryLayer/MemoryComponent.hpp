@@ -31,11 +31,10 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::MemoryLayer {
-  typedef fruit::Component<
-    ModelLayer::AbstractMemory::Repositories::IImageRepository,
-    ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap,
-    ModelLayer::AbstractMemory::Persistence::IImagePersister
-  > DIComponent;
+  typedef fruit::Component<ModelLayer::AbstractMemory::Repositories::IImageRepository,
+                           ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap,
+                           ModelLayer::AbstractMemory::Persistence::IImagePersister
+                          > DIComponent;
 
   DIComponent getMemoryComponent();
 }

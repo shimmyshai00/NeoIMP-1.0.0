@@ -29,18 +29,21 @@ namespace SDF::Impl::AppModelLayer::Impl {
   EditorStateModel::EditorStateModel() {}
 
   // State manipulation.
-  void EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle) {
+  void
+  EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.push_back(handle);
     m_openDocumentsObservables.onDocumentAdded(handle);
   }
 
-  void EditorStateModel::removeDocument(UILayer::AbstractAppModel::Handle handle) {
+  void
+  EditorStateModel::removeDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.erase(std::find(m_openDocumentHandles.begin(), m_openDocumentHandles.end(), handle));
     m_openDocumentsObservables.onDocumentRemoved(handle);
   }
 
   // View access.
-  void EditorStateModel::attachStateView(Framework::IMVCStateView<UILayer::AbstractAppModel::State::OpenDocumentsObservables> *view) {
+  void
+  EditorStateModel::attachStateView(Framework::IMVCStateView<UILayer::AbstractAppModel::State::OpenDocumentsObservables> *view) {
     view->connectToModelObservables(m_openDocumentsObservables);
   }
 }

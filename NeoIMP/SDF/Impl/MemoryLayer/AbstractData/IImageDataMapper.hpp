@@ -34,9 +34,9 @@ namespace SDF::Impl::MemoryLayer::AbstractData {
   public:
     virtual ~IImageDataMapper() = default;
 
-    virtual void saveImage(
-      std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
-    ) = 0;
+    virtual void saveImage(std::string fileSpec,
+                           ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
+                          ) = 0;
 
     virtual std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileSpec) = 0;
   };

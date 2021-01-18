@@ -56,17 +56,15 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     virtual void addNewLayer(std::size_t layerNumToInsertBefore) = 0;
     virtual void deleteLayer(std::size_t layerNum) = 0;
 
-    virtual void acceptLayerAlphaVisitor(
-      std::size_t layerNum,
-      Math::Rect<std::size_t> rect,
-      ImageDataVisitor *visitor
-    ) = 0;
+    virtual void acceptLayerAlphaVisitor(std::size_t layerNum,
+                                         Math::Rect<std::size_t> rect,
+                                         ImageDataVisitor *visitor
+                                        ) = 0;
 
-    virtual void acceptLayerPixelVisitor(
-      std::size_t layerNum,
-      Math::Rect<std::size_t> rect,
-      ImageDataVisitor *visitor
-    ) = 0;
+    virtual void acceptLayerPixelVisitor(std::size_t layerNum,
+                                         Math::Rect<std::size_t> rect,
+                                         ImageDataVisitor *visitor
+                                        ) = 0;
   };
 }
 

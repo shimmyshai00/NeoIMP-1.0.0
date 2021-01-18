@@ -24,13 +24,17 @@
 #include <SDF/Impl/UILayer/Impl/Controller/DocumentController.hpp>
 
 namespace SDF::Impl::UILayer::Impl::Controller {
-  DocumentController::DocumentController() : m_documentView(nullptr) {}
+  DocumentController::DocumentController()
+    : m_documentView(nullptr)
+  {}
 
-  void DocumentController::setView(View::IDocumentView *documentView) {
+  void
+  DocumentController::setView(View::IDocumentView *documentView) {
     m_documentView = documentView;
   }
 
-  void DocumentController::connectToViewObservables(View::DocumentViewObservables &observables) {
+  void
+  DocumentController::connectToViewObservables(View::DocumentViewObservables &observables) {
     // TBA
   }
 }

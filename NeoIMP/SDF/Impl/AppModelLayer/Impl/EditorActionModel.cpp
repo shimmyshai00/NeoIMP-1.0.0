@@ -28,7 +28,8 @@
 namespace SDF::Impl::AppModelLayer::Impl {
   EditorActionModel::EditorActionModel() {}
 
-  UILayer::AbstractAppModel::Handle EditorActionModel::createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec) {
+  UILayer::AbstractAppModel::Handle
+  EditorActionModel::createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec) {
     // TBA
     std::cout << "create document" << std::endl;
   }

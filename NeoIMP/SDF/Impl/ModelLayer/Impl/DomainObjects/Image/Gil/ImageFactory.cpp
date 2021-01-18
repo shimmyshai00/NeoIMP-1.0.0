@@ -32,11 +32,15 @@
 #include <boost/gil.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
-  std::unique_ptr<AbstractImage> createImage(
-    std::string imageName,
-    int imageWidthPx, int imageHeightPx, float imageResolutionPpi,
-    ModelLayer::Properties::ColorModel colorModel, ModelLayer::Properties::BitDepth bitDepth
-  ) {
+  std::unique_ptr<AbstractImage>
+  createImage(std::string imageName,
+              int imageWidthPx,
+              int imageHeightPx,
+              float imageResolutionPpi,
+              ModelLayer::Properties::ColorModel colorModel,
+              ModelLayer::Properties::BitDepth bitDepth
+             )
+  {
     using namespace ModelLayer::Properties;
 
     if((colorModel == COLOR_MODEL_RGB) && (bitDepth == BIT_DEPTH_8)) {

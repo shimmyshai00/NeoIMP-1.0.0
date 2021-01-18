@@ -36,9 +36,8 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       m_nextHandle(0)
   {}
 
-  AppModelLayer::AbstractModel::Handle DocumentCreationService::createDocument(
-    AppModelLayer::AbstractModel::Data::DocumentSpec spec
-  ) {
+  AppModelLayer::AbstractModel::Handle
+  DocumentCreationService::createDocument(AppModelLayer::AbstractModel::Data::DocumentSpec spec) {
     std::unique_ptr<DomainObjects::Image::AbstractImage> image(DomainObjects::Image::Gil::createImage(
       spec.documentName, spec.documentWidthPx, spec.documentHeightPx, spec.documentResolutionPpi,
       spec.colorModel, spec.bitDepth

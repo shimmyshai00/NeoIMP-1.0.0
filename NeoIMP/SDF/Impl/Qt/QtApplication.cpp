@@ -35,7 +35,8 @@ namespace SDF::Impl::Qt {
   {
   }
 
-  int QtApplication::exec(int argc, char **argv) {
+  int
+  QtApplication::exec(int argc, char **argv) {
     QApplication q(argc, argv);
 
     fruit::Injector<UILayer::IUIEntryPoint> uiInjector(UILayer::getUIComponent);

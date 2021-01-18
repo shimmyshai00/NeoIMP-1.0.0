@@ -42,9 +42,11 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       m_visitor(new DomainObjects::Algorithms::Renderer::Visitor)
   {}
 
-  const unsigned char *ImageRenderingService::renderImageRegion(
-    AppModelLayer::AbstractModel::Handle handle, int x1, int y1, int x2, int y2
-  ) {
+  const unsigned char *
+  ImageRenderingService::renderImageRegion(AppModelLayer::AbstractModel::Handle handle,
+                                           int x1, int y1, int x2, int y2
+                                          )
+  {
     try {
       // NB: needs to be made threadsafe
       DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->access(handle));

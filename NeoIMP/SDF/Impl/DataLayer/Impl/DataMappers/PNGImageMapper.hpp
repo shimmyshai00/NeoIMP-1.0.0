@@ -33,7 +33,9 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
   public:
     INJECT(PNGImageMapper());
 
-    void saveImage(std::string fileSpec, ModelLayer::Impl::DomainObjects::Image::AbstractImage *image);
+    void saveImage(std::string fileSpec,
+                   ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
+                  );
     std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileSpec);
   };
 }

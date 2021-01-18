@@ -40,9 +40,13 @@ namespace SDF::Impl::UILayer {
       class IApplicationView;
     }
 
-    class UI : public IUIEntryPoint, public IUIControl {
+    class UI : public IUIEntryPoint,
+               public IUIControl
+    {
     public:
-      INJECT(UI(View::IViewFactory *viewFactory, View::IViewSink *viewSink));
+      INJECT(UI(View::IViewFactory *viewFactory,
+                View::IViewSink *viewSink
+               ));
       ~UI();
 
       void start();

@@ -27,9 +27,9 @@
 #include <QSizePolicy>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
+  MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      m_ui(new Ui::MainWindow)
   {
     m_ui->setupUi(this);
 
@@ -40,7 +40,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
 
   MainWindow::~MainWindow() {}
 
-  void MainWindow::addPrincipalWidget(QWidget *widget) {
+  void
+  MainWindow::addPrincipalWidget(QWidget *widget) {
     m_ui->tabLayout->addWidget(widget, 0, 0);
   }
 }

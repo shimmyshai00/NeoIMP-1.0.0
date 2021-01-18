@@ -31,7 +31,8 @@
 #include <Impl/View/Qt/ViewComponent.hpp>
 
 namespace SDF::Impl::UILayer {
-  fruit::Component<IUIEntryPoint> getUIComponent() {
+  fruit::Component<IUIEntryPoint>
+  getUIComponent() {
     return fruit::createComponent()
       .bind<IUIEntryPoint, Impl::UI>()
       .install(Impl::View::Qt::getViewComponent)

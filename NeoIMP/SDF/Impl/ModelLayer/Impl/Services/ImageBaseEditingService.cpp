@@ -36,7 +36,11 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     : m_imageRepository(imageRepository)
   {}
 
-  void ImageBaseEditingService::setImageName(AppModelLayer::AbstractModel::Handle handle, std::string newImageName) {
+  void
+  ImageBaseEditingService::setImageName(AppModelLayer::AbstractModel::Handle handle,
+                                        std::string newImageName
+                                       )
+  {
     try {
       m_imageRepository->access(handle).setImageName(newImageName);
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {

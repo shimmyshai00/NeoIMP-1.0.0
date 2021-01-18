@@ -30,7 +30,9 @@
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView() : m_mainWindow(new Windows::MainWindow) {
+  ApplicationView::ApplicationView()
+    : m_mainWindow(new Windows::MainWindow)
+  {
     QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_viewObservables.onNewClicked(); });
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_viewObservables.onExitClicked(); });
     m_mainWindow->show();
@@ -41,12 +43,16 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     delete m_mainWindow;
   }
 
-  void ApplicationView::connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) {
+  void
+  ApplicationView::connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) {
     safeConnect(observables.onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       std::cout << "document added" << std::endl;
     });
   }
 
-  void ApplicationView::onChildAdded(MVCViewNode *child) {}
-  void ApplicationView::onChildRemoved(MVCViewNode *child) {}
+  void
+  ApplicationView::onChildAdded(MVCViewNode *child) {}
+
+  void
+  ApplicationView::onChildRemoved(MVCViewNode *child) {}
 }

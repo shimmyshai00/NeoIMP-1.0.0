@@ -36,20 +36,21 @@
 #include <DataLayer/Properties/FileFormat.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  DocumentStorageService::DocumentStorageService(
-    AbstractMemory::Repositories::IImageRepository *imageRepository,
-    AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
-    AbstractMemory::Persistence::IImagePersister *imagePersister
-  )
+  DocumentStorageService::DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                                 AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
+                                                 AbstractMemory::Persistence::IImagePersister *imagePersister
+                                                )
     : m_imageRepository(imageRepository),
       m_imagePersistenceMap(imagePersistenceMap),
       m_imagePersister(imagePersister)
   {}
 
-  void DocumentStorageService::saveDocument(
-    std::string fileSpec, DataLayer::Properties::FileFormat fileFormat,
-    AppModelLayer::AbstractModel::Handle handle
-  ) {
+  void
+  DocumentStorageService::saveDocument(std::string fileSpec,
+                                       DataLayer::Properties::FileFormat fileFormat,
+                                       AppModelLayer::AbstractModel::Handle handle
+                                      )
+  {
     try {
       m_imagePersistenceMap->assignFileSpec(handle, fileSpec);
       m_imagePersistenceMap->assignFileFormat(handle, fileFormat);
@@ -60,9 +61,11 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
     }
   }
 
-  AppModelLayer::AbstractModel::Handle DocumentStorageService::loadDocument(
-    std::string fileSpec, DataLayer::Properties::FileFormat fileFormat
-  ) {
+  AppModelLayer::AbstractModel::Handle
+  DocumentStorageService::loadDocument(std::string fileSpec,
+                                       DataLayer::Properties::FileFormat fileFormat
+                                      )
+  {
     // TBA
     return -1;
   }

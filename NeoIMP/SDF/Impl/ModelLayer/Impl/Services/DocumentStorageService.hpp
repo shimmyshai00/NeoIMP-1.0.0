@@ -44,20 +44,19 @@ namespace SDF::Impl::ModelLayer {
   namespace Impl::Services {
     class DocumentStorageService : public AppModelLayer::AbstractModel::Services::IDocumentStorageService {
     public:
-      INJECT(DocumentStorageService(
-        AbstractMemory::Repositories::IImageRepository *imageRepository,
-        AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
-        AbstractMemory::Persistence::IImagePersister *imagePersister
-      ));
+      INJECT(DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                    AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
+                                    AbstractMemory::Persistence::IImagePersister *imagePersister
+                                   ));
 
-      void saveDocument(
-        std::string fileSpec, DataLayer::Properties::FileFormat fileFormat,
-        AppModelLayer::AbstractModel::Handle handle
-      );
+      void saveDocument(std::string fileSpec,
+                        DataLayer::Properties::FileFormat fileFormat,
+                        AppModelLayer::AbstractModel::Handle handle
+                       );
 
-      AppModelLayer::AbstractModel::Handle loadDocument(
-        std::string fileSpec, DataLayer::Properties::FileFormat fileFormat
-      );
+      AppModelLayer::AbstractModel::Handle loadDocument(std::string fileSpec,
+                                                        DataLayer::Properties::FileFormat fileFormat
+                                                       );
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
       AbstractMemory::Persistence::IImagePersistenceMap *m_imagePersistenceMap;

@@ -27,12 +27,11 @@
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
-  GilImage<GilAlphaType, GilImageType>::GilImage(
-    std::string imageName,
-    std::size_t imageWidthPx,
-    std::size_t imageHeightPx,
-    float imageResolutionPpi
-  )
+  GilImage<GilAlphaType, GilImageType>::GilImage(std::string imageName,
+                                                 std::size_t imageWidthPx,
+                                                 std::size_t imageHeightPx,
+                                                 float imageResolutionPpi
+                                                )
     : m_imageName(imageName),
       m_imageWidthPx(imageWidthPx),
       m_imageHeightPx(imageHeightPx),
@@ -45,59 +44,70 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   GilImage<GilAlphaType, GilImageType>::~GilImage() {}
 
   template<class GilAlphaType, class GilImageType>
-  std::string GilImage<GilAlphaType, GilImageType>::getImageName() const {
+  std::string
+  GilImage<GilAlphaType, GilImageType>::getImageName() const {
     return m_imageName;
   }
 
   template<class GilAlphaType, class GilImageType>
-  std::size_t GilImage<GilAlphaType, GilImageType>::getImageWidth() const {
+  std::size_t
+  GilImage<GilAlphaType, GilImageType>::getImageWidth() const {
     return m_imageWidthPx;
   }
 
   template<class GilAlphaType, class GilImageType>
-  std::size_t GilImage<GilAlphaType, GilImageType>::getImageHeight() const {
+  std::size_t
+  GilImage<GilAlphaType, GilImageType>::getImageHeight() const {
     return m_imageHeightPx;
   }
 
   template<class GilAlphaType, class GilImageType>
-  Math::Rect<std::size_t> GilImage<GilAlphaType, GilImageType>::getImageRect() const {
+  Math::Rect<std::size_t>
+  GilImage<GilAlphaType, GilImageType>::getImageRect() const {
     return Math::Rect<std::size_t>(0, 0, m_imageWidthPx-1, m_imageHeightPx-1);
   }
 
   template<class GilAlphaType, class GilImageType>
-  float GilImage<GilAlphaType, GilImageType>::getImageResolutionPpi() const {
+  float
+  GilImage<GilAlphaType, GilImageType>::getImageResolutionPpi() const {
     return m_imageResolutionPpi;
   }
 
   template<class GilAlphaType, class GilImageType>
-  ModelLayer::Properties::ColorModel GilImage<GilAlphaType, GilImageType>::getColorModel() const {
+  ModelLayer::Properties::ColorModel
+  GilImage<GilAlphaType, GilImageType>::getColorModel() const {
     // TBA until figuring out a good way to integrate this w/Boost templates
     return ModelLayer::Properties::COLOR_MODEL_MAX;
   }
 
   template<class GilAlphaType, class GilImageType>
-  ModelLayer::Properties::BitDepth GilImage<GilAlphaType, GilImageType>::getBitDepth() const {
+  ModelLayer::Properties::BitDepth
+  GilImage<GilAlphaType, GilImageType>::getBitDepth() const {
     // TBA
     return ModelLayer::Properties::BIT_DEPTH_MAX;
   }
 
   template<class GilAlphaType, class GilImageType>
-  std::size_t GilImage<GilAlphaType, GilImageType>::getNumImageLayers() const {
+  std::size_t
+  GilImage<GilAlphaType, GilImageType>::getNumImageLayers() const {
     return m_layers.size();
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilImage<GilAlphaType, GilImageType>::setImageName(std::string newImageName) {
+  void
+  GilImage<GilAlphaType, GilImageType>::setImageName(std::string newImageName) {
     m_imageName = newImageName;
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilImage<GilAlphaType, GilImageType>::addNewLayer(std::size_t layerNumToInsertBefore) {
+  void
+  GilImage<GilAlphaType, GilImageType>::addNewLayer(std::size_t layerNumToInsertBefore) {
     m_layers.push_back(std::make_unique<GilLayer<GilAlphaType, GilImageType>>(m_imageWidthPx, m_imageHeightPx));
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilImage<GilAlphaType, GilImageType>::deleteLayer(std::size_t layerNum) {
+  void
+  GilImage<GilAlphaType, GilImageType>::deleteLayer(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
       throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }
@@ -106,11 +116,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilImage<GilAlphaType, GilImageType>::acceptLayerAlphaVisitor(
-    std::size_t layerNum,
-    Math::Rect<std::size_t> rect,
-    ImageDataVisitor *visitor
-  ) {
+  void
+  GilImage<GilAlphaType, GilImageType>::acceptLayerAlphaVisitor(std::size_t layerNum,
+                                                                Math::Rect<std::size_t> rect,
+                                                                ImageDataVisitor *visitor
+                                                               )
+  {
     if(layerNum >= m_layers.size()) {
       throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }
@@ -119,11 +130,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilImage<GilAlphaType, GilImageType>::acceptLayerPixelVisitor(
-    std::size_t layerNum,
-    Math::Rect<std::size_t> rect,
-    ImageDataVisitor *visitor
-  ) {
+  void
+  GilImage<GilAlphaType, GilImageType>::acceptLayerPixelVisitor(std::size_t layerNum,
+                                                                Math::Rect<std::size_t> rect,
+                                                                ImageDataVisitor *visitor
+                                                               )
+  {
     if(layerNum >= m_layers.size()) {
       throw ModelLayer::Exceptions::NonexistentLayerException(layerNum);
     }

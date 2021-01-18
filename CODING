@@ -6,60 +6,84 @@ author suggests sie follow the following recommendations while coding to help ke
 author edits using Atom with close-to-default settings, in case that helps; the indentation settings below come from
 such.
 
-Code Styling
-------------
+Coding Style and Organization Guidelines
+----------------------------------------
 
 NOTE: this is the ideal; the real thing might not 100% conform to these rules ofc :)
 
-* Indentation: Each indent should be 2 characters.
+* Indentation: Each indent should be by 2 characters.
 
-* Brackets: Brackets should be on the same line as the specifier for the section they enclose. The exception is when
-            we're dealing with class constructors with initializer lists not on the same line as the constructor: then,
-            the first bracket should be on its own line and indented same as the constructor signature.
+* Brackets: The open bracket should be on the same line as the specifier for the section it encloses, except for
+            function definitions where that the function signature takes more than one line (see below). In that case,
+            they should be started on a new line and flush with the beginning of the function signature (e.g. the "v"
+            in "void f()").
 
 * Expressions: Infix operators (e.g. "=", "+", etc.) should be single-spaced apart from their operands, with the
-               possible exception of the multiplication operator (*).
+               possible exception of the multiplication operator (*) if appropriate (e.g. when multiplying on the left
+               by a number).
 
-* Namespaces: Namespaces are used extensively and should mirror the directory structure for the most part.
-              Implementation details of modules should be put in separate "Impl" folders and namespace headings and
-              should generally not be accessed from outside those modules.
+* Namespaces and modularity: Namespaces are used extensively and should mirror the directory structure for the most
+                             part. Implementation details of modules should be put in separate "Impl" folders and
+                             namespace headings and should generally not be accessed from outside those modules.
+                             Instead, modules should define interfaces outside those folders and hide their
+                             implementation details behind them.
 
 * Includes: Header include guidelines are that when including other headers of this program in a header, the full path
-            relative to the project root (e.g. "SDF/Impl/ModelLayer/...") should be employed. Moreover, headers should
-            not include other headers to get objects referenced only by pointer; these should be forward-declared
-            instead to reduce header dependencies.
+            relative to the project root (e.g. "SDF/Impl/ModelLayer/...") should be employed. Moreover, with the
+            exception of classes defined under "Framework", all includes should forward-declare classes they use. To
+            make this possible, define class members to be pointers (typically std::unique_ptr) and pass arguments to
+            functions by reference or pointer.
 
-* Identifiers: Class names should begin with "C", interface names with "I", enums with "E" and structs with "S". Class,
-               enum, etc. names should have all words first-letter capitalized (e.g. CSomeClass). Methods and variables
-               should be named in camelCase, and internal class member variables prefixed with "m_", while constants
-               should have "c_" and globals "g_".
+* Identifiers: Type (class, struct, etc.) names should have all constituent words first-letter capitalized (e.g.
+               SomeClass). Methods and variables should be named in camelCase, and internal class member variables
+               prefixed with "m_", while constants should have "c_" and globals (if any!) "g_".
 
-* Wrapping: When wrapping long function declarations, particularly in headers, one should chiefly wrap the argument
-            list, and to do so in logical chunks as much as possible.
+* Wrapping: Multi-argument function declarations (not usages) should have their arguments put on separate lines unless
+            very trivial (e.g. single-letter variable names), and should be indented so as to form a column from the
+            function brace, e.g.
+
+               void f(int someLongArgument1,
+                      int someLongArgument2
+                     );
+
+            Note that the closing paren should also be on its own line and at the same column as the opening paren. A
+            similar style should also be followed for class inheritance lists and initializer lists: Initializer lists
+            should begin with their ":" on a new line following the constructor signature's closing paren and indented
+            once, with multiple initialized variables on separate lines in all cases and their first letters flush.
+            Inheritance lists should list the first class and access specifier to be inherited immediately after the
+            ":" without wrap, and then wrap with succeeding class mentions flush to the access specifier's first letter.
+
+* Pointers: The pointer standards used are as follows. When a class member variable is to be a pointer, it should be
+            a raw (*) pointer when it is a non-owning reference, unless it's in some core, performance-critical code.
+            Otherwise, std::unique_ptr should be preferably used, and with rare exception, std::shared_ptr - each
+            object should have a definite owner at any given time (std::shared_ptr should be preferred for small
+            throwaway objects like messages, for example, that need adding to multiple message queues, or other
+            very generic, container-based situations). For passing by reference to functions, only use a *-raw pointer
+            if it must be nullable _or_ the function is going to store that pointer, otherwise use an &-reference.
+            Only pass a smart pointer if there is intent to transfer ownership. Pointer arithmetic should be avoided
+            except in core areas of the program.
+
+* USING: "Using" statements should not be used at any place in headers, but are welcome (and encouraged) to be used
+         inside function definitions.
 
 Program Design
 --------------
 
-The design of the code is intended to be such as to keep things modular and easily extensible. It is a standard "three
-tier" architecture divided into 4 layers, where the list below is organized to indicate that each layer can (and
-usually, must) depend on the one mentioned immediately before it, but it should not depend on one two or more layers
-back. (NEW) In addition, the Model-View-Controller (MVC) triad should be followed, in that the UI layer should be
-segregated into View and Controller components, which are separate categories containing multiple objects, NOT single
-objects, with the former abstracting away the bits that depend on the particular third-party widget system used.
+The design of the code is intended to be such as to keep things modular and easily extensible. It is a multi-tier
+architecture with five tiers, or layers, of higher and lower level modules. For the separation of the user interface
+and program logic specifically, a model-view-controller (MVC) pattern is followed, with view objects handling UI
+presentation and controllers handling events generated by the views. Object and interface design should try to follow
+"SOLID" rules, and with regard to teh last rule in particular, the higher-level layers own and define the interfaces
+that are used by the lower-level layers in a folder named "Abstract(next lower-level layer)", e.g. "AbstractModel" is
+where the interface for the domain model layer is stored. Each layer should compile on its own and should link
+successfully without its higher-level layers.
 
-For encapsulation purposes, each layer should consist of a number of modules, which in turn may consist of submodules.
-Every module and submodule has an interface and implementation packaged physically separate from each other: in
-particular, the implementation goes in a separate folder named "Impl", which also has a corresponding namespace
-hierarchy entry. Generally speaking, the "SOLID" rules are to be followed, though this is not necessarily applied
-religiously, at least the I and D parts, but those last two parts should be especially followed for inter-layer
-dependencies.
+Finally, the five layers are:
 
-Finally, the four layers are:
-
-* Persistence layer: This should contain all code related to saving and loading image files. This should expose in its
-                     public interface a set of "transfer objects" which are basically just structs that should be
-                     comprehensive enough to allow for the full transfer of image data but should not require
-                     restriction to a particular file format, as best as possible.
+* Data layer: This should contain all code related to saving and loading image files. This should expose in its
+              public interface a set of "transfer objects" which are basically just structs that should be
+              comprehensive enough to allow for the full transfer of image data but should not require
+              restriction to a particular file format, as best as possible.
 
 * Memory layer: This is a new layer that is meant to separate out the in-memory retention of multiple active image
                 documents. The in-memory document repository is defined in this layer.
@@ -73,12 +97,17 @@ Finally, the four layers are:
                              computational logic should go, the services should be strictly about inter-subsystem
                              communication.
 
+* Application model layer: This is an intermediate layer for storing the user interface state. It should not contain
+                           any business logic, though it will necessarily contain delegates to the model layer.
+                           Generally, the user interface state and actions should be logically grouped into container
+                           and delegate classes representing single, well-defined blocks of functionality.
+
 * User interface layer: This layer is where that the GUI-related code, including the code to draw images on screen,
                         is & will be located. Currently this is implemented using Qt, but the point of this design is
                         that GUIs could be written for other widget systems as well (e.g. wxWidgets) with minimal to
                         (ideally) no changes to the other layers. In line with the MVC pattern, the parts that
                         correspond to windows and logical widget groups shown to the user are in the View submodule,
-                        and are constructed by an associated ViewManager. Views are passed by interface to the
+                        and are constructed by an associated ViewFactory. Views are passed by interface to the
                         Controllers, which handle events generated thereby and pass responses back to them, and these
                         interfaces should not expose any details of the widget framework thereto, though exposure of
                         the broad layout of the GUI is acceptable if not necessary.
@@ -93,3 +122,4 @@ above.
 ADD (2020 Aug 24): This document and the general layout have been considerably revised to hopefully make them neater.
 ADD (2020 Sep 4): Considerable revision of overall coding standard.
 ADD (2020 Dec 9): Coding standard revised again in light of second major rebuild of the program sources.
+ADD (2021 Jan 18): Substantially revised the document in light of further revision of the program structure and sources.

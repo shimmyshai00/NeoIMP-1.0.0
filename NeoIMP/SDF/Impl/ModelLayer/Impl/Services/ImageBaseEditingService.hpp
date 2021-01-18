@@ -39,7 +39,9 @@ namespace SDF::Impl::ModelLayer {
     public:
       INJECT(ImageBaseEditingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
 
-      void setImageName(AppModelLayer::AbstractModel::Handle handle, std::string newImageName);
+      void setImageName(AppModelLayer::AbstractModel::Handle handle,
+                        std::string newImageName
+                       );
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };

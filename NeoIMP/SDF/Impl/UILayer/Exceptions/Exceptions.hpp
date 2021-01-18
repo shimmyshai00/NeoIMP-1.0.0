@@ -30,7 +30,9 @@
 
 namespace SDF::Impl::UILayer::Exceptions {
   struct RemovedRootException : public SDF::Exception::Exception {
-    RemovedRootException() : Exception("Tried to remove a root MVC object from its hierarchy.") {}
+    RemovedRootException()
+      : Exception("Tried to remove a root MVC object from its hierarchy.")
+    {}
   };
 
   struct IncompatibleWidgetSystemException : public SDF::Exception::Exception {

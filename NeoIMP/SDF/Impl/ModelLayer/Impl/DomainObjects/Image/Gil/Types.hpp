@@ -28,23 +28,21 @@
 #include <tuple>
 
 namespace SDF::Impl::ModelLayer::Services::Impl::DomainObjects::Image::Gil {
-  typedef std::tuple<
-    boost::gil::gray8_image_t,
-    boost::gil::gray16_image_t,
-    boost::gil::rgb8_image_t,
-    boost::gil::rgb16_image_t,
-    boost::gil::cmyk8_image_t,
-    boost::gil::cmyk16_image_t
-  > SupportedImageTypes;
+  typedef std::tuple<boost::gil::gray8_image_t,
+                     boost::gil::gray16_image_t,
+                     boost::gil::rgb8_image_t,
+                     boost::gil::rgb16_image_t,
+                     boost::gil::cmyk8_image_t,
+                     boost::gil::cmyk16_image_t
+                    > SupportedImageTypes;
 
-  typedef std::tuple<
-    boost::gil::gray8_view_t,
-    boost::gil::gray16_view_t,
-    boost::gil::rgb8_view_t,
-    boost::gil::rgb16_view_t,
-    boost::gil::cmyk8_view_t,
-    boost::gil::cmyk16_view_t
-  > SupportedViewTypes;
+  typedef std::tuple<boost::gil::gray8_view_t,
+                     boost::gil::gray16_view_t,
+                     boost::gil::rgb8_view_t,
+                     boost::gil::rgb16_view_t,
+                     boost::gil::cmyk8_view_t,
+                     boost::gil::cmyk16_view_t
+                    > SupportedViewTypes;
 }
 
 #endif

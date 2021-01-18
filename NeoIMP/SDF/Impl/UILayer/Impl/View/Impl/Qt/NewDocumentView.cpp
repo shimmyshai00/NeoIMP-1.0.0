@@ -28,7 +28,9 @@
 #include <QObject>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  NewDocumentView::NewDocumentView() : m_newDocumentDialog(new Dialogs::NewDocumentDialog) {
+  NewDocumentView::NewDocumentView()
+    : m_newDocumentDialog(new Dialogs::NewDocumentDialog)
+  {
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::accepted, [=]() {
       AbstractAppModel::Data::DocumentSpec spec {
         "Untitled",

@@ -26,7 +26,8 @@
 #include <Impl/DataMappers/PNGImageMapper.hpp>
 
 namespace SDF::Impl::DataLayer {
-  DIComponent getDataComponent() {
+  DIComponent
+  getDataComponent() {
     return fruit::createComponent()
       .bind<MemoryLayer::AbstractData::IImageDataMapper, Impl::DataMappers::PNGImageMapper>();
   }

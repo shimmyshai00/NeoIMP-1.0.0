@@ -36,9 +36,10 @@
 #include <Strings/BitDepths.hpp>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
-  NewDocumentDialog::NewDocumentDialog(QWidget *parent) :
-  QDialog(parent),
-  m_ui(new Ui::NewDocumentDialog) {
+  NewDocumentDialog::NewDocumentDialog(QWidget *parent)
+    : QDialog(parent),
+      m_ui(new Ui::NewDocumentDialog)
+  {
     using namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets;
 
     m_ui->setupUi(this);
@@ -73,23 +74,28 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Dialogs {
     delete m_ui;
   }
 
-  int NewDocumentDialog::getDocumentWidthPx() {
+  int
+  NewDocumentDialog::getDocumentWidthPx() {
     return m_ui->imageWidthInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One);
   }
 
-  int NewDocumentDialog::getDocumentHeightPx() {
+  int
+  NewDocumentDialog::getDocumentHeightPx() {
     return m_ui->imageHeightInput->pixelsQuantity().inUnitsOf(Metrics::Dimensionless::Units::One);
   }
 
-  float NewDocumentDialog::getDocumentResolutionPpi() {
+  float
+  NewDocumentDialog::getDocumentResolutionPpi() {
     return m_ui->imageResolutionInput->resolutionQuantity().inUnitsOf(Metrics::Resolution::Units::PixelsPerInch);
   }
 
-  ModelLayer::Properties::ColorModel NewDocumentDialog::getDocumentColorModel() {
+  ModelLayer::Properties::ColorModel
+  NewDocumentDialog::getDocumentColorModel() {
     return static_cast<ModelLayer::Properties::ColorModel>(m_ui->colorModelComboBox->currentData().toInt());
   }
 
-  ModelLayer::Properties::BitDepth NewDocumentDialog::getDocumentBitDepth() {
+  ModelLayer::Properties::BitDepth
+  NewDocumentDialog::getDocumentBitDepth() {
     return static_cast<ModelLayer::Properties::BitDepth>(m_ui->bitsPerChannelComboBox->currentData().toInt());
   }
 }

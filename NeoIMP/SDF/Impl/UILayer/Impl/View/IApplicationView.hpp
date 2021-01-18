@@ -37,7 +37,8 @@ namespace SDF::Impl::UILayer::Impl::View {
   };
 
   class IApplicationView : public Framework::IMVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
-                           public virtual Framework::IMVCInteractiveView<ApplicationViewObservables> {
+                           public virtual Framework::IMVCInteractiveView<ApplicationViewObservables>
+  {
   public:
     virtual ~IApplicationView() = default;
 

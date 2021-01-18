@@ -28,7 +28,8 @@
 #include <DataLayer/DataComponent.hpp>
 
 namespace SDF::Impl::MemoryLayer {
-  DIComponent getMemoryComponent() {
+  DIComponent
+  getMemoryComponent() {
     return fruit::createComponent()
       .bind<ModelLayer::AbstractMemory::Repositories::IImageRepository, Impl::Repositories::ImageRepository>()
       .bind<ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap, Impl::Repositories::ImageRepository>()

@@ -27,26 +27,31 @@
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   template<class GilAlphaType, class GilImageType>
-  GilLayer<GilAlphaType, GilImageType>::GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx)
+  GilLayer<GilAlphaType, GilImageType>::GilLayer(std::size_t layerWidthPx,
+                                                 std::size_t layerHeightPx
+                                                )
     : m_alpha(layerWidthPx, layerHeightPx),
       m_image(layerWidthPx, layerHeightPx)
   {}
 
   template<class GilAlphaType, class GilImageType>
-  std::size_t GilLayer<GilAlphaType, GilImageType>::getLayerWidth() const {
+  std::size_t
+  GilLayer<GilAlphaType, GilImageType>::getLayerWidth() const {
     return m_alpha.width();
   }
 
   template<class GilAlphaType, class GilImageType>
-  std::size_t GilLayer<GilAlphaType, GilImageType>::getLayerHeight() const {
+  std::size_t
+  GilLayer<GilAlphaType, GilImageType>::getLayerHeight() const {
     return m_alpha.height();
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilLayer<GilAlphaType, GilImageType>::acceptAlphaVisitor(
-    Math::Rect<std::size_t> rect,
-    ImageDataVisitor *visitor
-  ) {
+  void
+  GilLayer<GilAlphaType, GilImageType>::acceptAlphaVisitor(Math::Rect<std::size_t> rect,
+                                                           ImageDataVisitor *visitor
+                                                          )
+  {
     typename GilAlphaType::view_t masterView(boost::gil::view(m_alpha));
     typename GilAlphaType::view_t view(
       rect.getWidth(), rect.getHeight(),
@@ -57,10 +62,11 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
-  void GilLayer<GilAlphaType, GilImageType>::acceptPixelVisitor(
-    Math::Rect<std::size_t> rect,
-    ImageDataVisitor *visitor
-  ) {
+  void
+  GilLayer<GilAlphaType, GilImageType>::acceptPixelVisitor(Math::Rect<std::size_t> rect,
+                                                           ImageDataVisitor *visitor
+                                                          )
+  {
     typename GilImageType::view_t masterView(boost::gil::view(m_image));
     typename GilImageType::view_t view(
       rect.getWidth(), rect.getHeight(),

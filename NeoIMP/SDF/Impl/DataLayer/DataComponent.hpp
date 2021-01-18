@@ -29,9 +29,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::DataLayer {
-  typedef fruit::Component<
-    MemoryLayer::AbstractData::IImageDataMapper
-  > DIComponent;
+  typedef fruit::Component<MemoryLayer::AbstractData::IImageDataMapper> DIComponent;
 
   DIComponent getDataComponent();
 }

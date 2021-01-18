@@ -40,30 +40,42 @@ namespace SDF::Impl::MemoryLayer {
 
   namespace Impl::Repositories {
     class ImageRepository : public ModelLayer::AbstractMemory::Repositories::IImageRepository,
-      public ModelLayer::AbstractMemory::Persistence::IImagePersister,
-      public ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap {
+                            public ModelLayer::AbstractMemory::Persistence::IImagePersister,
+                            public ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap
+    {
     public:
       INJECT(ImageRepository(AbstractData::IImageDataMapper *dataMapper));
       ~ImageRepository();
 
-      void add(
-        ModelLayer::AbstractMemory::Handle handle,
-        std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
-      );
+      void add(ModelLayer::AbstractMemory::Handle handle,
+               std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> imageDocument
+              );
 
       ModelLayer::Impl::DomainObjects::Image::AbstractImage &access(ModelLayer::AbstractMemory::Handle handle);
       void remove(ModelLayer::AbstractMemory::Handle handle);
 
       // Persistence methods.
-      void assignFileSpec(ModelLayer::AbstractMemory::Handle handle, std::string fileSpec);
-      void assignFileFormat(ModelLayer::AbstractMemory::Handle handle, DataLayer::Properties::FileFormat fileFormat);
+      void assignFileSpec(ModelLayer::AbstractMemory::Handle handle,
+                          std::string fileSpec
+                         );
+      void assignFileFormat(ModelLayer::AbstractMemory::Handle handle,
+                            DataLayer::Properties::FileFormat fileFormat
+                           );
 
       void persistImage(ModelLayer::AbstractMemory::Handle handle);
       void retrieveImage(ModelLayer::AbstractMemory::Handle handle);
     private:
-      std::map<ModelLayer::AbstractMemory::Handle, std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>> m_imageMap;
-      std::map<ModelLayer::AbstractMemory::Handle, std::string> m_imageFileSpecMap;
-      std::map<ModelLayer::AbstractMemory::Handle, DataLayer::Properties::FileFormat> m_imageFileFormatMap;
+      std::map<ModelLayer::AbstractMemory::Handle,
+               std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>
+              > m_imageMap;
+
+      std::map<ModelLayer::AbstractMemory::Handle,
+               std::string
+              > m_imageFileSpecMap;
+
+      std::map<ModelLayer::AbstractMemory::Handle,
+               DataLayer::Properties::FileFormat
+              > m_imageFileFormatMap;
 
       AbstractData::IImageDataMapper *m_dataMapper;
     };

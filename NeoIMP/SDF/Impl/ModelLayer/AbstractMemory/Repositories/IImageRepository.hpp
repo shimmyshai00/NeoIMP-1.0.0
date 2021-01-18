@@ -38,7 +38,9 @@ namespace SDF::Impl::ModelLayer {
     public:
       virtual ~IImageRepository() = default;
 
-      virtual void add(Handle handle, std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> imageDocument) = 0;
+      virtual void add(Handle handle,
+                       std::unique_ptr<Impl::DomainObjects::Image::AbstractImage> imageDocument
+                      ) = 0;
       virtual Impl::DomainObjects::Image::AbstractImage &access(Handle handle) = 0;
       virtual void remove(Handle handle) = 0;
     };

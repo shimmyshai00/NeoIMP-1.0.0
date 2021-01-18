@@ -33,13 +33,12 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Impl::ModelLayer {
-  typedef fruit::Component<
-    AppModelLayer::AbstractModel::Services::IDocumentCreationService,
-    AppModelLayer::AbstractModel::Services::IDocumentStorageService,
-    AppModelLayer::AbstractModel::Services::IImageInformationService,
-    AppModelLayer::AbstractModel::Services::IImageRenderingService,
-    AppModelLayer::AbstractModel::Services::IImageBaseEditingService
-  > DIComponent;
+  typedef fruit::Component<AppModelLayer::AbstractModel::Services::IDocumentCreationService,
+                           AppModelLayer::AbstractModel::Services::IDocumentStorageService,
+                           AppModelLayer::AbstractModel::Services::IImageInformationService,
+                           AppModelLayer::AbstractModel::Services::IImageRenderingService,
+                           AppModelLayer::AbstractModel::Services::IImageBaseEditingService
+                          > DIComponent;
 
   DIComponent getModelComponent();
 }

@@ -26,7 +26,8 @@
 #include <Impl/Qt/QtApplication.hpp>
 
 namespace SDF {
-  fruit::Component<IApplication> getApplicationComponent() {
+  fruit::Component<IApplication>
+  getApplicationComponent() {
     return fruit::createComponent()
       .bind<IApplication, Impl::Qt::QtApplication>();
   }

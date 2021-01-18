@@ -34,7 +34,8 @@
 #include <MemoryLayer/MemoryComponent.hpp>
 
 namespace SDF::Impl::ModelLayer {
-  DIComponent getModelComponent() {
+  DIComponent
+  getModelComponent() {
     return fruit::createComponent()
       .bind<AppModelLayer::AbstractModel::Services::IDocumentCreationService, Impl::Services::DocumentCreationService>()
       .bind<AppModelLayer::AbstractModel::Services::IDocumentStorageService, Impl::Services::DocumentStorageService>()
