@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageRenderingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 

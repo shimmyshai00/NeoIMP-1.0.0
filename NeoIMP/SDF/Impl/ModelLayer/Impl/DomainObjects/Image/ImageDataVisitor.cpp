@@ -22,7 +22,6 @@
  */
 
 #include <ImageDataVisitor.hpp>
-#include <Gil/GilImage.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   ImageDataVisitor::~ImageDataVisitor() {}

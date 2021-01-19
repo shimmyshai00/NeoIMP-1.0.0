@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/AppModelLayer/AbstractModel/Services/IImageBaseEditingService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 #include <string>

@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/AbstractImage.hpp>
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/Gil/GilLayer.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 
 #include <string>
 #include <cstdlib>

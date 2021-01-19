@@ -27,9 +27,6 @@
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
-#include <AppModelLayer/AbstractModel/Handle.hpp>
-#include <AppModelLayer/AbstractModel/Data/DocumentSpec.hpp>
-
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository),

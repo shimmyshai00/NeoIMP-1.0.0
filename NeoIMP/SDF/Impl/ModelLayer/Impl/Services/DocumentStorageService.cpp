@@ -32,9 +32,6 @@
 
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <AppModelLayer/AbstractModel/Handle.hpp>
-#include <DataLayer/Properties/FileFormat.hpp>
-
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
                                                  AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,

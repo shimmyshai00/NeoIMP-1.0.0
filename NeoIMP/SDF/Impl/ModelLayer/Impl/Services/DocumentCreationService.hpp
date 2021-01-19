@@ -25,6 +25,8 @@
  */
 
 #include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentCreationService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 

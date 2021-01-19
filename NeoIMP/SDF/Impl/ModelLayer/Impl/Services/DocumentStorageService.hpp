@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
 #include <SDF/Impl/AppModelLayer/AbstractModel/Services/IDocumentStorageService.hpp>
+#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 #include <string>

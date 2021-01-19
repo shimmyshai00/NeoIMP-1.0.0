@@ -23,8 +23,6 @@
 
 #include <ImageRenderingService.hpp>
 
-#include <AppModelLayer/AbstractModel/Handle.hpp>
-
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/ImageDataVisitor.hpp>
 #include <DomainObjects/Algorithms/Renderer/Visitor.hpp>

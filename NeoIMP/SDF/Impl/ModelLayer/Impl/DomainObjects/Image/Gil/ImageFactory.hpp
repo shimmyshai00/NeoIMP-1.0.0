@@ -29,6 +29,7 @@
 
 #include <string>
 #include <memory>
+#include <cstdlib>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
   class AbstractImage;

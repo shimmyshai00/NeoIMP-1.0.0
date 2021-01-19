@@ -25,8 +25,9 @@
  */
 
 #include <SDF/Exception/Exception.hpp>
-
 #include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
+
+#include <cstdlib>
 
 namespace SDF::Impl::ModelLayer::Exceptions {
   struct InvalidHandleException : public SDF::Exception::Exception {

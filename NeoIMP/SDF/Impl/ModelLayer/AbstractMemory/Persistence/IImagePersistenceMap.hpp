@@ -28,6 +28,8 @@
 #include <SDF/Impl/ModelLayer/AbstractMemory/Handle.hpp>
 #include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
 
+#include <string>
+
 namespace SDF::Impl::ModelLayer::AbstractMemory::Persistence {
   class IImagePersistenceMap {
   public:

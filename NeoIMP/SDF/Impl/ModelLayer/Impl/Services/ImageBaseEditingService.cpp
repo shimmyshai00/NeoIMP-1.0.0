@@ -29,8 +29,6 @@
 #include <AbstractMemory/Repositories/IImageRepository.hpp>
 #include <DomainObjects/Image/AbstractImage.hpp>
 
-#include <AppModelLayer/AbstractModel/Handle.hpp>
-
 namespace SDF::Impl::ModelLayer::Impl::Services {
   ImageBaseEditingService::ImageBaseEditingService(AbstractMemory::Repositories::IImageRepository *imageRepository)
     : m_imageRepository(imageRepository)
