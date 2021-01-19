@@ -36,7 +36,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     boost::signals2::signal<void ()> onExitClicked;
   };
 
-  class IApplicationView : public Framework::IMVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
+  class IApplicationView : public virtual Framework::IMVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
                            public virtual Framework::IMVCInteractiveView<ApplicationViewObservables>
   {
   public:
