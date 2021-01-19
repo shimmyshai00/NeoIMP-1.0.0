@@ -27,6 +27,7 @@
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 #include <fruit/fruit.h>
 
