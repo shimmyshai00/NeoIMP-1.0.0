@@ -31,14 +31,27 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Impl::AppModelLayer::Impl {
-  class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction {
-  public:
-    INJECT(EditorActionModel());
+namespace SDF::Impl::AppModelLayer {
+  namespace AbstractModel::Services {
+    class IDocumentCreationService;
+  }
 
-    UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
-  private:
-  };
+  namespace Impl {
+    class IEditorStateModelMutation;
+    
+    class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction {
+    public:
+      INJECT(EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                               IEditorStateModelMutation *editorStateModelMutation
+                              ));
+
+      UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
+    private:
+      AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+
+      IEditorStateModelMutation *m_editorStateModelMutation;
+    };
+  }
 }
 
 #endif

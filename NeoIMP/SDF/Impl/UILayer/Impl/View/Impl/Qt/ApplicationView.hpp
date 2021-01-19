@@ -32,6 +32,8 @@
 #include <vector>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class ViewFactory;
+
   namespace Windows {
     class MainWindow;
   }
@@ -41,7 +43,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
                           public IApplicationView
   {
   public:
-    ApplicationView();
+    ApplicationView(ViewFactory *viewFactory);
     ~ApplicationView();
 
     void connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables);
@@ -51,6 +53,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   private:
     Windows::MainWindow *m_mainWindow;
     QTabWidget *m_documentTabs;
+
+    ViewFactory *m_viewFactory;
   };
 }
 

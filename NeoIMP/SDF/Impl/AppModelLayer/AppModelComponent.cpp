@@ -23,6 +23,7 @@
 
 #include <AppModelComponent.hpp>
 
+#include <Impl/IEditorStateModelMutation.hpp>
 #include <Impl/EditorStateModel.hpp>
 #include <Impl/EditorActionModel.hpp>
 
@@ -34,6 +35,7 @@ namespace SDF::Impl::AppModelLayer {
     return fruit::createComponent()
       .bind<UILayer::AbstractAppModel::State::IOpenDocumentsModel, Impl::EditorStateModel>()
       .bind<UILayer::AbstractAppModel::Actions::ICreateDocumentAction, Impl::EditorActionModel>()
+      .bind<Impl::IEditorStateModelMutation, Impl::EditorStateModel>()
       .install(ModelLayer::getModelComponent);
   }
 }

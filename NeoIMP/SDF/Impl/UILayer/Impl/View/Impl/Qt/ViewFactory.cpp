@@ -28,6 +28,8 @@
 
 #include <AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
+#include <AbstractAppModel/State/IOpenDocumentsModel.hpp>
+
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
 #include <DocumentView.hpp>
@@ -39,24 +41,28 @@
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(IViewSink *viewSink,
-                           AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
+                           AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
+                           AbstractAppModel::State::IOpenDocumentsModel *openDocumentsModel
                           )
     //: m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
     : m_viewSink(viewSink),
-      m_createDocumentAction(createDocumentAction)
+      m_createDocumentAction(createDocumentAction),
+      m_openDocumentsModel(openDocumentsModel)
   {}
 
   ViewFactory::~ViewFactory() {}
 
   std::unique_ptr<IApplicationView>
   ViewFactory::createApplicationView(IUIControl *uiControl) {
-    std::unique_ptr<IApplicationView> view(new ApplicationView());
+    std::unique_ptr<IApplicationView> view(new ApplicationView(this));
     std::unique_ptr<Controller::ApplicationController> controller(
       new Controller::ApplicationController(uiControl, this)
     );
 
     controller->setViewParent(&view->getViewHierarchy());
     view->addController(std::move(controller));
+
+    m_openDocumentsModel->attachStateView(view.get());
 
     return std::move(view);
   }

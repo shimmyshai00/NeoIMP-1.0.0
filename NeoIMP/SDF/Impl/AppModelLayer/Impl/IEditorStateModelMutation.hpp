@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_STATE_IOPENDOCUMENTSMODEL_HPP
-#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_STATE_IOPENDOCUMENTSMODEL_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_IMPL_IEDITORSTATEMODELMUTATION_HPP
+#define SDF_IMPL_APPMODELLAYER_IMPL_IEDITORSTATEMODELMUTATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IOpenDocumentsModel.hpp
- * PURPOSE: Provides an interface for accessing the editor state information about which documents are open.
+ * FILE:    IEditorStateModelMutation.hpp
+ * PURPOSE: Provides the mutation interface for the editor state model.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
-#include <boost/signals2/signal.hpp>
-
-namespace SDF::Impl::UILayer::AbstractAppModel::State {
-  struct OpenDocumentsObservables {
-    boost::signals2::signal<void (Handle)> onDocumentAdded;
-    boost::signals2::signal<void (Handle)> onDocumentRemoved;
-  };
-
-  class IOpenDocumentsModel : public Framework::IMVCAppModel<OpenDocumentsObservables> {
+namespace SDF::Impl::AppModelLayer::Impl {
+  class IEditorStateModelMutation {
   public:
-    virtual ~IOpenDocumentsModel() = default;
+    virtual ~IEditorStateModelMutation() = default;
+
+    virtual void addDocument(UILayer::AbstractAppModel::Handle handle) = 0;
+    virtual void removeDocument(UILayer::AbstractAppModel::Handle handle) = 0;
   };
 }
 

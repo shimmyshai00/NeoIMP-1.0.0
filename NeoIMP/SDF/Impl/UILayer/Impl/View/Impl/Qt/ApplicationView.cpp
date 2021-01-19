@@ -23,18 +23,26 @@
 
 #include <ApplicationView.hpp>
 
+#include <Framework/MVCViewCast.hpp>
+
 #include <Windows/MainWindow.hpp>
 
-#include <QObject>
+#include <ViewFactory.hpp>
+#include <DocumentView.hpp>
 
+#include <QObject>
 #include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  ApplicationView::ApplicationView()
-    : m_mainWindow(new Windows::MainWindow)
+  ApplicationView::ApplicationView(ViewFactory *viewFactory)
+    : m_mainWindow(new Windows::MainWindow),
+      m_documentTabs(new QTabWidget),
+      m_viewFactory(viewFactory)
   {
     QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { m_viewObservables.onNewClicked(); });
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { m_viewObservables.onExitClicked(); });
+
+    m_mainWindow->addPrincipalWidget(m_documentTabs);
     m_mainWindow->show();
   }
 
@@ -47,11 +55,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) {
     safeConnect(observables.onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       std::cout << "document added" << std::endl;
+      getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
     });
   }
 
   void
-  ApplicationView::onChildAdded(MVCViewNode *child) {}
+  ApplicationView::onChildAdded(MVCViewNode *child) {
+    if(auto *v = dynamic_cast<DocumentView *>(child)) {
+      // Add this document view to the tab widget.
+      v->addToTabWidget(m_documentTabs);
+    }
+  }
 
   void
   ApplicationView::onChildRemoved(MVCViewNode *child) {}

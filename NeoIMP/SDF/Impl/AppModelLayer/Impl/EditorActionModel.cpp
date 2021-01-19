@@ -23,14 +23,33 @@
 
 #include <EditorActionModel.hpp>
 
+#include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <IEditorStateModelMutation.hpp>
+
 #include <iostream>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  EditorActionModel::EditorActionModel() {}
+  EditorActionModel::EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                                       IEditorStateModelMutation *editorStateModelMutation
+                                      )
+    : m_documentCreationService(documentCreationService),
+      m_editorStateModelMutation(editorStateModelMutation)
+  {}
 
   UILayer::AbstractAppModel::Handle
   EditorActionModel::createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec) {
-    // TBA
-    std::cout << "create document" << std::endl;
+    AbstractModel::Data::DocumentSpec modelSpec {
+      spec.documentName,
+      spec.documentWidthPx,
+      spec.documentHeightPx,
+      spec.documentResolutionPpi,
+      spec.colorModel,
+      spec.bitDepth
+    };
+
+    UILayer::AbstractAppModel::Handle handle(m_documentCreationService->createDocument(modelSpec));
+    m_editorStateModelMutation->addDocument(handle);
+
+    return handle;
   }
 }

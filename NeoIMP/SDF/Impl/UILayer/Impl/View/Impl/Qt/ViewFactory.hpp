@@ -30,8 +30,14 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractAppModel::Actions {
-    class ICreateDocumentAction;
+  namespace AbstractAppModel {
+    namespace Actions {
+      class ICreateDocumentAction;
+    }
+
+    namespace State {
+      class IOpenDocumentsModel;
+    }
   }
 
   namespace Impl {
@@ -52,7 +58,8 @@ namespace SDF::Impl::UILayer {
         class ViewFactory : public IViewFactory {
         public:
           INJECT(ViewFactory(IViewSink *viewSink,
-                             AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
+                             AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
+                             AbstractAppModel::State::IOpenDocumentsModel *openDocumentsModel
                             ));
           ~ViewFactory();
 
@@ -63,6 +70,7 @@ namespace SDF::Impl::UILayer {
           IViewSink *m_viewSink;
 
           AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
+          AbstractAppModel::State::IOpenDocumentsModel *m_openDocumentsModel;
         };
       }
     }

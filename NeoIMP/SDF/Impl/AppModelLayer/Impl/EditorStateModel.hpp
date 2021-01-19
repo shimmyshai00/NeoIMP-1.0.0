@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
 
+#include <SDF/Impl/AppModelLayer/Impl/IEditorStateModelMutation.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
@@ -33,7 +34,9 @@
 #include <vector>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  class EditorStateModel : public UILayer::AbstractAppModel::State::IOpenDocumentsModel {
+  class EditorStateModel : public IEditorStateModelMutation,
+                           public UILayer::AbstractAppModel::State::IOpenDocumentsModel
+  {
   public:
     INJECT(EditorStateModel());
 
