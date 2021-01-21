@@ -55,23 +55,19 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::connectToModelObservables() {
     safeConnect(getAppModel()->onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       std::cout << "document added" << std::endl;
-      /*
       std::unique_ptr<IDocumentView> documentView(m_viewFactory->createDocumentView(handle));
 
       getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
-      */
     });
   }
 
   // Protected members.
   void
   ApplicationView::onChildAdded(MVCViewNode *child) {
-    /*
     if(auto *v = dynamic_cast<DocumentView *>(child)) {
       // Add this document view to the tab widget.
       v->addToTabWidget(m_documentTabs);
     }
-    */
   }
 
   void
