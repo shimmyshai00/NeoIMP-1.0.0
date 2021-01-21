@@ -24,35 +24,44 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
-
 #include <SDF/Impl/AppModelLayer/Impl/IEditorStateModelMutation.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 #include <vector>
+#include <memory>
 
-namespace SDF::Impl::AppModelLayer::Impl {
-  class EditorStateModel : public IEditorStateModelMutation,
-                           public UILayer::AbstractAppModel::State::IOpenDocumentsModel
-  {
-  public:
-    INJECT(EditorStateModel());
+namespace SDF::Impl {
+  namespace UILayer::AbstractAppModel::State {
+    class IDocumentAppModel;
+  }
 
-    // State manipulation.
-    void addDocument(UILayer::AbstractAppModel::Handle handle);
-    void removeDocument(UILayer::AbstractAppModel::Handle handle);
+  namespace AppModelLayer::Impl {
+    class IDocumentStateModelMutation;
+    class DocumentStateModel;
 
-    // View access.
-    void attachStateView(Framework::IMVCStateView<UILayer::AbstractAppModel::State::OpenDocumentsObservables> *view);
-  private:
-    // State.
-    std::vector<UILayer::AbstractAppModel::Handle> m_openDocumentHandles;
+    class EditorStateModel : public IEditorStateModelMutation,
+                             public UILayer::AbstractAppModel::State::IOpenDocumentsAppModel
+    {
+    public:
+      INJECT(EditorStateModel());
+      ~EditorStateModel();
 
-    // Observables.
-    UILayer::AbstractAppModel::State::OpenDocumentsObservables m_openDocumentsObservables;
-  };
+      // State manipulation.
+      void addDocument(UILayer::AbstractAppModel::Handle handle);
+      void removeDocument(UILayer::AbstractAppModel::Handle handle);
+      IDocumentStateModelMutation *getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle);
+
+      // State access.
+      std::vector<UILayer::AbstractAppModel::Handle> getOpenDocumentHandles() const;
+      UILayer::AbstractAppModel::State::IDocumentAppModel *getDocumentModel(UILayer::AbstractAppModel::Handle handle);
+    private:
+      // State.
+      std::vector<UILayer::AbstractAppModel::Handle> m_openDocumentHandles;
+      std::map<UILayer::AbstractAppModel::Handle, std::unique_ptr<DocumentStateModel>> m_documentModels;
+    };
+  }
 }
 
 #endif

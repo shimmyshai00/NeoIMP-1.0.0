@@ -41,11 +41,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
         m_newDocumentDialog->getDocumentBitDepth()
       };
 
-      m_viewObservables.onAccepted(spec);
+      onAccepted(spec);
     });
 
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::rejected, [=]() {
-      m_viewObservables.onDismissed();
+      onDismissed();
     });
 
     m_newDocumentDialog->show();

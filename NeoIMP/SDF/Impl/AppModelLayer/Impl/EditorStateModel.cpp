@@ -22,28 +22,50 @@
  */
 
 #include <EditorStateModel.hpp>
+#include <DocumentStateModel.hpp>
+
+#include <UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 
 #include <algorithm>
 
 namespace SDF::Impl::AppModelLayer::Impl {
   EditorStateModel::EditorStateModel() {}
+  EditorStateModel::~EditorStateModel() {}
 
   // State manipulation.
   void
   EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.push_back(handle);
-    m_openDocumentsObservables.onDocumentAdded(handle);
+    onDocumentAdded(handle);
   }
 
   void
   EditorStateModel::removeDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.erase(std::find(m_openDocumentHandles.begin(), m_openDocumentHandles.end(), handle));
-    m_openDocumentsObservables.onDocumentRemoved(handle);
+    onDocumentRemoved(handle);
   }
 
-  // View access.
-  void
-  EditorStateModel::attachStateView(Framework::IMVCStateView<UILayer::AbstractAppModel::State::OpenDocumentsObservables> *view) {
-    view->connectToModelObservables(m_openDocumentsObservables);
+  // State access.
+  std::vector<UILayer::AbstractAppModel::Handle>
+  EditorStateModel::getOpenDocumentHandles() const {
+    return m_openDocumentHandles;
+  }
+
+  UILayer::AbstractAppModel::State::IDocumentAppModel *
+  EditorStateModel::getDocumentModel(UILayer::AbstractAppModel::Handle handle) {
+    if(m_documentModels.find(handle) != m_documentModels.end()) {
+      return m_documentModels[handle].get();
+    } else {
+      return nullptr;
+    }
+  }
+
+  IDocumentStateModelMutation *
+  EditorStateModel::getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle) {
+    if(m_documentModels.find(handle) != m_documentModels.end()) {
+      return m_documentModels[handle].get();
+    } else {
+      return nullptr;
+    }
   }
 }

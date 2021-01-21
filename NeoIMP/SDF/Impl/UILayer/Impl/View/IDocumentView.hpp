@@ -30,15 +30,9 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  struct DocumentViewObservables {
-  };
-
   class IDocumentView : public virtual Framework::IMVCView {
   public:
     virtual ~IDocumentView() = default;
-
-    // other methods come from Framework::MVCViewExt in implementations
-    //virtual void connectToModelObservables(AbstractAppModel::EditorModelObservables &observables) = 0;
   };
 }
 

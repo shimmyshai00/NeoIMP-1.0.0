@@ -28,7 +28,7 @@
 
 #include <AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 
-#include <AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
@@ -42,12 +42,12 @@
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(IViewSink *viewSink,
                            AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
-                           AbstractAppModel::State::IOpenDocumentsModel *openDocumentsModel
+                           AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                           )
     //: m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
     : m_viewSink(viewSink),
       m_createDocumentAction(createDocumentAction),
-      m_openDocumentsModel(openDocumentsModel)
+      m_openDocumentsAppModel(openDocumentsAppModel)
   {}
 
   ViewFactory::~ViewFactory() {}
@@ -59,10 +59,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       new Controller::ApplicationController(uiControl, this)
     );
 
-    controller->setViewParent(&view->getViewHierarchy());
+    view->setAppModel(m_openDocumentsAppModel);
     view->addController(std::move(controller));
-
-    m_openDocumentsModel->attachStateView(view.get());
 
     return std::move(view);
   }

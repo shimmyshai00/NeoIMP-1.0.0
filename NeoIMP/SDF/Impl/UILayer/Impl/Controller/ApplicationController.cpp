@@ -36,21 +36,15 @@ namespace SDF::Impl::UILayer::Impl::Controller {
                                                View::IViewFactory *viewFactory
                                               )
     : m_uiControl(uiControl),
-      m_viewFactory(viewFactory),
-      m_viewParent(nullptr)
+      m_viewFactory(viewFactory)
   {}
 
   void
-  ApplicationController::setViewParent(Framework::MVCViewNode *viewParent) {
-    m_viewParent = viewParent;
-  }
-
-  void
-  ApplicationController::connectToViewObservables(View::ApplicationViewObservables &observables) {
-    safeConnect(observables.onNewClicked, [=]() {
-      m_viewParent->addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createNewDocumentView()));
+  ApplicationController::onAttachView() {
+    safeConnect(m_view->onNewClicked, [=]() {
+      m_view->getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createNewDocumentView()));
     });
 
-    safeConnect(observables.onExitClicked, [=]() { m_uiControl->closeUI(); });
+    safeConnect(m_view->onExitClicked, [=]() { m_uiControl->closeUI(); });
   }
 }

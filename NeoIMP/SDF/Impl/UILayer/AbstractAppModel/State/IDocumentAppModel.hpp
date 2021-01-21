@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_STATE_IDOCUMENTAPPMODEL_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_STATE_IDOCUMENTAPPMODEL_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCAppModel.tpp
- * PURPOSE: The base for MVC application model objects that implements the relevant boilerplate.
+ * FILE:    IDocumentAppModel.hpp
+ * PURPOSE: Provides an interface for accessing the editor state information of a single open document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/MVCView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
-namespace SDF::Impl::Framework {
-  template<class MObs>
-  MVCAppModel<MObs>::~MVCAppModel() {}
+#include <boost/signals2/signal.hpp>
 
-  template<class MObs>
-  void MVCAppModel<MObs>::attachStateView(IMVCStateView<MObs> *view) {
-    view->connectToModelObservables(m_observables);
-  }
+namespace SDF::Impl::UILayer::AbstractAppModel::State {
+  class IDocumentAppModel {
+  public:
+    virtual ~IDocumentAppModel() = default;
+
+    virtual std::string getDocumentName() = 0;
+  public:
+    boost::signals2::signal<void (std::string)> onDocumentNameChanged;
+  };
 }
+
+#endif

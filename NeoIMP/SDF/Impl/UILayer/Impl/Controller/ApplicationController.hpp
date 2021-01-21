@@ -37,19 +37,17 @@ namespace SDF::Impl::UILayer::Impl {
   };
 
   namespace Controller {
-    class ApplicationController : public Framework::MVCController<View::ApplicationViewObservables> {
+    class ApplicationController : public Framework::MVCController<View::IApplicationView> {
     public:
       ApplicationController(IUIControl *uiControl,
                             View::IViewFactory *viewFactory
                            );
-
-      void setViewParent(Framework::MVCViewNode *viewParent);
-      void connectToViewObservables(View::ApplicationViewObservables &observables);
+    protected:
+      void onAttachView();
     private:
       IUIControl *m_uiControl;
 
       View::IViewFactory *m_viewFactory;
-      Framework::MVCViewNode *m_viewParent;
     };
   }
 }

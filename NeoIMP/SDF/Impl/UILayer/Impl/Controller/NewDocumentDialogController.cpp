@@ -32,24 +32,18 @@ namespace SDF::Impl::UILayer::Impl::Controller {
     AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
   )
     : m_viewSink(viewSink),
-      m_createDocumentAction(createDocumentAction),
-      m_newDocumentView(nullptr)
+      m_createDocumentAction(createDocumentAction)
   {}
 
   void
-  NewDocumentDialogController::setView(View::INewDocumentView *newDocumentView) {
-    m_newDocumentView = newDocumentView;
-  }
-
-  void
-  NewDocumentDialogController::connectToViewObservables(View::NewDocumentViewObservables &observables) {
-    safeConnect(observables.onAccepted, [=](AbstractAppModel::Data::DocumentSpec spec) {
+  NewDocumentDialogController::onAttachView() {
+    safeConnect(m_view->onAccepted, [=](AbstractAppModel::Data::DocumentSpec spec) {
       m_createDocumentAction->createDocument(spec);
-      m_viewSink->disposeView(m_newDocumentView->getViewHierarchy().removeSelf());
+      m_viewSink->disposeView(m_view->getViewHierarchy().removeSelf());
     });
 
-    safeConnect(observables.onDismissed, [=]() {
-      m_viewSink->disposeView(m_newDocumentView->getViewHierarchy().removeSelf());
+    safeConnect(m_view->onDismissed, [=]() {
+      m_viewSink->disposeView(m_view->getViewHierarchy().removeSelf());
     });
   }
 }

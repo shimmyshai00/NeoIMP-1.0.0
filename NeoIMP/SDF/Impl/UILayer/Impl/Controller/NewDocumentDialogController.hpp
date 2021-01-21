@@ -35,19 +35,17 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::Controller {
-    class NewDocumentDialogController : public Framework::MVCController<View::NewDocumentViewObservables> {
+    class NewDocumentDialogController : public Framework::MVCController<View::INewDocumentView> {
     public:
       NewDocumentDialogController(View::IViewSink *viewSink,
                                   AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction
                                  );
-
-      void setView(View::INewDocumentView *newDocumentView);
-      void connectToViewObservables(View::NewDocumentViewObservables &observables);
+    protected:
+      void onAttachView();
     private:
       View::IViewSink *m_viewSink;
 
       AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
-      View::INewDocumentView *m_newDocumentView;
     };
   }
 }

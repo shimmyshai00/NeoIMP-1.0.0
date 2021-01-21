@@ -33,14 +33,11 @@ namespace SDF::Impl::UILayer {
   }
 
   namespace Impl::Controller {
-    class DocumentController : public Framework::MVCController<View::DocumentViewObservables> {
+    class DocumentController : public Framework::MVCController<View::IDocumentView> {
     public:
       DocumentController();
-
-      void setView(View::IDocumentView *documentView);
-      void connectToViewObservables(View::DocumentViewObservables &observables);
-    private:
-      View::IDocumentView *m_documentView;
+    protected:
+      void onAttachView();
     };
   }
 }

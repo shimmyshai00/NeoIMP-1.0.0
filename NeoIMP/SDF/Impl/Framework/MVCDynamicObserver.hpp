@@ -34,6 +34,12 @@ namespace SDF::Impl::Framework {
     void safeConnect(boost::signals2::signal<void (Args...)> &sig, F func) {
       m_conns.push_back(sig.connect(func));
     }
+
+    void disconnectAll() {
+      for(auto &conn : m_conns) {
+        conn.disconnect();
+      }
+    }
   private:
     std::vector<boost::signals2::scoped_connection> m_conns;
   };

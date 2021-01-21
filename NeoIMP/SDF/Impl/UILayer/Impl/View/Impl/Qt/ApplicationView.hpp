@@ -25,8 +25,10 @@
  */
 
 #include <SDF/Impl/Framework/MVCView.hpp>
+#include <SDF/Impl/Framework/MVCViewNode.hpp>
+
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
 
 #include <QTabWidget>
 #include <vector>
@@ -38,16 +40,16 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class MainWindow;
   }
 
-  class ApplicationView : public Framework::MVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
-                          public Framework::MVCInteractiveView<ApplicationViewObservables>,
-                          public IApplicationView
+  class ApplicationView : public Framework::MVCStateView<AbstractAppModel::State::IOpenDocumentsAppModel>,
+                          public Framework::MVCInteractiveView<IApplicationView>,
+                          public virtual IApplicationView
   {
   public:
     ApplicationView(ViewFactory *viewFactory);
     ~ApplicationView();
 
-    void connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables);
-
+    void connectToModelObservables();
+  protected:
     void onChildAdded(MVCViewNode *child);
     void onChildRemoved(MVCViewNode *child);
   private:

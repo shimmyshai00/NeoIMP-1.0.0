@@ -25,12 +25,12 @@
  */
 
 namespace SDF::Impl::Framework {
-  template<class VObs>
+  template<class V>
   class IMVCController {
   public:
     virtual ~IMVCController() = default;
 
-    virtual void connectToViewObservables(VObs &observables) = 0;
+    virtual void setView(V *view) = 0;
   };
 }
 

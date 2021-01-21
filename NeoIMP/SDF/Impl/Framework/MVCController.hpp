@@ -28,12 +28,17 @@
 #include <SDF/Impl/Framework/MVCDynamicObserver.hpp>
 
 namespace SDF::Impl::Framework {
-  template<class VObs>
-  class MVCController : public virtual IMVCController<VObs>, public MVCDynamicObserver {
+  template<class V>
+  class MVCController : public virtual IMVCController<V>, public MVCDynamicObserver {
   public:
+    MVCController();
     virtual ~MVCController() = 0;
 
-    virtual void connectToViewObservables(VObs &observables) = 0;
+    void setView(V *view);
+  protected:
+    V *m_view;
+
+    virtual void onAttachView() = 0;
   };
 }
 

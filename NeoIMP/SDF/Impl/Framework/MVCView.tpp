@@ -24,17 +24,37 @@
 #include <SDF/Impl/Framework/IMVCController.hpp>
 
 namespace SDF::Impl::Framework {
-  template<class MObs>
-  MVCStateView<MObs>::~MVCStateView() {}
+  template<class M>
+  MVCStateView<M>::MVCStateView()
+    : m_appModel(nullptr)
+  {}
+
+  template<class M>
+  MVCStateView<M>::~MVCStateView() {}
+
+  template<class M>
+  M *
+  MVCStateView<M>::getAppModel() {
+    return m_appModel;
+  }
+
+  template<class M>
+  void
+  MVCStateView<M>::setAppModel(M *appModel) {
+    disconnectAll();
+    m_appModel = appModel;
+    connectToModelObservables();
+  }
 }
 
 namespace SDF::Impl::Framework {
-  template<class VObs>
-  MVCInteractiveView<VObs>::~MVCInteractiveView() {}
+  template<class V>
+  MVCInteractiveView<V>::~MVCInteractiveView() {}
 
-  template<class VObs>
-  void MVCInteractiveView<VObs>::addController(std::unique_ptr<IMVCController<VObs>> controller) {
-    controller->connectToViewObservables(m_viewObservables);
+  template<class V>
+  void
+  MVCInteractiveView<V>::addController(std::unique_ptr<IMVCController<V>> controller) {
+    controller->setView(this);
     m_controllers.push_back(std::move(controller));
   }
 }

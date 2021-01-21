@@ -25,25 +25,20 @@
  */
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 
 #include <boost/signals2/signal.hpp>
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  struct ApplicationViewObservables {
-    boost::signals2::signal<void ()> onNewClicked;
-    boost::signals2::signal<void ()> onExitClicked;
-  };
-
-  class IApplicationView : public virtual Framework::IMVCStateView<AbstractAppModel::State::OpenDocumentsObservables>,
-                           public virtual Framework::IMVCInteractiveView<ApplicationViewObservables>
+  class IApplicationView : public virtual Framework::IMVCStateView<AbstractAppModel::State::IOpenDocumentsAppModel>,
+                           public virtual Framework::IMVCInteractiveView<IApplicationView>
   {
   public:
     virtual ~IApplicationView() = default;
-
-    // other methods come from Framework::MVCViewExt in implementations
-    virtual void connectToModelObservables(AbstractAppModel::State::OpenDocumentsObservables &observables) = 0;
+  public:
+    boost::signals2::signal<void ()> onNewClicked;
+    boost::signals2::signal<void ()> onExitClicked;
   };
 }
 

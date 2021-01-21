@@ -34,8 +34,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class NewDocumentDialog;
   }
 
-  class NewDocumentView : public Framework::MVCInteractiveView<NewDocumentViewObservables>,
-                          public INewDocumentView
+  class NewDocumentView : public Framework::MVCInteractiveView<INewDocumentView>,
+                          public virtual INewDocumentView
   {
   public:
     NewDocumentView();

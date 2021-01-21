@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_FRAMEWORK_MVCAPPMODEL_HPP
-#define SDF_IMPL_FRAMEWORK_MVCAPPMODEL_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_IMPL_DOCUMENTSTATEMODEL_HPP
+#define SDF_IMPL_APPMODELLAYER_IMPL_DOCUMENTSTATEMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MVCAppModel.hpp
- * PURPOSE: The base for MVC application model objects that implements the relevant boilerplate.
+ * FILE:    DocumentStateModel.hpp
+ * PURPOSE: Centralizes all the UI state for a single document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCAppModel.hpp>
+#include <SDF/Impl/AppModelLayer/Impl/IDocumentStateModelMutation.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 
-namespace SDF::Impl::Framework {
-  template<class MObs>
-  class IMVCStateView;
+#include <fruit/fruit.h>
+#include <vector>
+#include <string>
 
-  template<class MObs>
-  class MVCAppModel : public virtual IMVCAppModel<MObs> {
+namespace SDF::Impl::AppModelLayer::Impl {
+  class DocumentStateModel : public IDocumentStateModelMutation,
+                             public UILayer::AbstractAppModel::State::IDocumentAppModel
+  {
   public:
-    virtual ~MVCAppModel() = 0;
+    DocumentStateModel();
 
-    void attachStateView(IMVCStateView<MObs> *view);
+    // State manipulation.
+    void setDocumentName(std::string newName);
+
+    // State access.
+    std::string getDocumentName();
   private:
-    MObs m_observables;
+    // State.
+    std::string m_documentName;
   };
 }
-
-#include "SDF/Impl/Framework/MVCAppModel.tpp"
 
 #endif

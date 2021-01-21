@@ -36,7 +36,7 @@ namespace SDF::Impl::UILayer {
     }
 
     namespace State {
-      class IOpenDocumentsModel;
+      class IOpenDocumentsAppModel;
     }
   }
 
@@ -59,7 +59,7 @@ namespace SDF::Impl::UILayer {
         public:
           INJECT(ViewFactory(IViewSink *viewSink,
                              AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
-                             AbstractAppModel::State::IOpenDocumentsModel *openDocumentsModel
+                             AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                             ));
           ~ViewFactory();
 
@@ -70,7 +70,7 @@ namespace SDF::Impl::UILayer {
           IViewSink *m_viewSink;
 
           AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
-          AbstractAppModel::State::IOpenDocumentsModel *m_openDocumentsModel;
+          AbstractAppModel::State::IOpenDocumentsAppModel *m_openDocumentsAppModel;
         };
       }
     }

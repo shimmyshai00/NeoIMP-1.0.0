@@ -22,6 +22,19 @@
  */
 
 namespace SDF::Impl::Framework {
-  template<class VObs>
-  MVCController<VObs>::~MVCController() {}
+  template<class V>
+  MVCController<V>::MVCController()
+    : m_view(nullptr)
+  {}
+
+  template<class V>
+  MVCController<V>::~MVCController() {}
+
+  template<class V>
+  void
+  MVCController<V>::setView(V *view) {
+    disconnectAll();
+    m_view = view;
+    onAttachView();
+  }
 }

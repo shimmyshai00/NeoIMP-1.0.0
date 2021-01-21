@@ -1,12 +1,9 @@
-#ifndef SDF_IMPL_FRAMEWORK_IMVCAPPMODEL_HPP
-#define SDF_IMPL_FRAMEWORK_IMVCAPPMODEL_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMVCAppModel.hpp
- * PURPOSE: Used to define interfaces for MVC application model objects to provide access to their common functionality.
+ * FILE:    DocumentStateModel.cpp
+ * PURPOSE: Centralizes all the UI state for a single document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +21,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Impl::Framework {
-  template<class MObs>
-  class IMVCStateView;
+#include <DocumentStateModel.hpp>
 
-  template<class MObs>
-  class IMVCAppModel {
-  public:
-    virtual ~IMVCAppModel() = default;
+namespace SDF::Impl::AppModelLayer::Impl {
+  DocumentStateModel::DocumentStateModel() {}
 
-    virtual void attachStateView(IMVCStateView<MObs> *view) = 0;
-  };
+  void
+  DocumentStateModel::setDocumentName(std::string newName) {
+    m_documentName = newName;
+    onDocumentNameChanged(newName);
+  }
+
+  std::string
+  DocumentStateModel::getDocumentName() {
+    return m_documentName;
+  }
 }
-
-#endif

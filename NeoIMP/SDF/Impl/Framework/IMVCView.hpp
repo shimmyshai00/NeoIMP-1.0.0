@@ -29,6 +29,9 @@
 namespace SDF::Impl::Framework {
   class MVCViewNode;
 
+  template<class M>
+  class IMVCAppModel;
+
   template<class VObs>
   class IMVCController;
 
@@ -36,24 +39,24 @@ namespace SDF::Impl::Framework {
   class IMVCView {
   public:
     virtual ~IMVCView() = default;
-
     virtual MVCViewNode &getViewHierarchy() = 0;
   };
 
-  // For views that show model state.
-  template<class MObs>
+  // For views that show model state. The interface passed to this should only permit access and observation, not
+  // mutation.
+  template<class M>
   class IMVCStateView : public virtual IMVCView {
   public:
     virtual ~IMVCStateView() = default;
-    virtual void connectToModelObservables(MObs &observables) = 0;
+    virtual void setAppModel(M *appModel) = 0;
   };
 
-  // For views that provide interaction.
-  template<class VObs>
+  // For views that provide interaction. The VObs should only contain observables. It should not contain state.
+  template<class V>
   class IMVCInteractiveView : public virtual IMVCView {
   public:
     virtual ~IMVCInteractiveView() = default;
-    virtual void addController(std::unique_ptr<IMVCController<VObs>> controller) = 0;
+    virtual void addController(std::unique_ptr<IMVCController<V>> controller) = 0;
   };
 }
 

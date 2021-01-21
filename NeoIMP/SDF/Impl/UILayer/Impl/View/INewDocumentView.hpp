@@ -31,14 +31,12 @@
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  struct NewDocumentViewObservables {
-    boost::signals2::signal<void (AbstractAppModel::Data::DocumentSpec)> onAccepted;
-    boost::signals2::signal<void ()> onDismissed;
-  };
-
-  class INewDocumentView : public virtual Framework::IMVCInteractiveView<NewDocumentViewObservables> {
+  class INewDocumentView : public virtual Framework::IMVCInteractiveView<INewDocumentView> {
   public:
     virtual ~INewDocumentView() = default;
+  public:
+    boost::signals2::signal<void (AbstractAppModel::Data::DocumentSpec)> onAccepted;
+    boost::signals2::signal<void ()> onDismissed;
   };
 }
 
