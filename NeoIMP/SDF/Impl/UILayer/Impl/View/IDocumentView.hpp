@@ -25,12 +25,13 @@
  */
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 
 #include <boost/signals2/signal.hpp>
 #include <memory>
 
 namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView : public virtual Framework::IMVCView {
+  class IDocumentView : public virtual Framework::IMVCStateView<AbstractAppModel::State::IDocumentAppModel> {
   public:
     virtual ~IDocumentView() = default;
   };

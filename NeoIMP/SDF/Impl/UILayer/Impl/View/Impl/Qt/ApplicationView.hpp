@@ -47,11 +47,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   public:
     ApplicationView(ViewFactory *viewFactory);
     ~ApplicationView();
-
-    void connectToModelObservables();
   protected:
     void onChildAdded(MVCViewNode *child);
     void onChildRemoved(MVCViewNode *child);
+
+    void onAttachAppModel();
   private:
     Windows::MainWindow *m_mainWindow;
     QTabWidget *m_documentTabs;

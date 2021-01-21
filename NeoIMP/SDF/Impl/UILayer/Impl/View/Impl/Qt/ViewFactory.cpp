@@ -39,6 +39,8 @@
 #include <Controller/NewDocumentDialogController.hpp>
 #include <Controller/DocumentController.hpp>
 
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(IViewSink *viewSink,
                            AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
@@ -80,10 +82,12 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   std::unique_ptr<IDocumentView>
   ViewFactory::createDocumentView(AbstractAppModel::Handle handle) {
-    std::unique_ptr<IDocumentView> view(new DocumentView(handle));
+    std::unique_ptr<IDocumentView> view(new DocumentView());
     std::unique_ptr<Controller::DocumentController> controller(new Controller::DocumentController());
 
     controller->setView(view.get());
+    
+    view->setAppModel(m_openDocumentsAppModel->getDocumentModel(handle));
     //view->addController(std::move(controller));
 
     return std::move(view);

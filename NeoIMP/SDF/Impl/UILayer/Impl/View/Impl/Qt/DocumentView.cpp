@@ -40,6 +40,8 @@
 #include <CustomWidgets/DocumentWidget.hpp>
 #include <CustomWidgets/IImageDataSource.hpp>
 
+#include <iostream>
+
 /*
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   // Helper object
@@ -75,7 +77,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 */
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
-  DocumentView::DocumentView(AbstractAppModel::Handle handle)
+  DocumentView::DocumentView()
     : m_documentWidget(new CustomWidgets::DocumentWidget)
   {}
 
@@ -83,10 +85,15 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void
   DocumentView::addToTabWidget(QPointer<QTabWidget> tabWidget) {
-    if(!m_tabWidget) {
-      // TBA
+    if(!m_tabWidget && getAppModel()) {
       m_tabWidget = tabWidget;
-      m_tabWidget->addTab(new QWidget(), "Doc");
+      m_tabWidget->addTab(m_documentWidget, getAppModel()->getDocumentName().c_str());
     }
+  }
+
+  // Protected members.
+  void
+  DocumentView::onAttachAppModel() {
+    // TBA
   }
 }

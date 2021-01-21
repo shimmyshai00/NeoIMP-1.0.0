@@ -55,7 +55,7 @@ namespace SDF::Impl::Framework {
     void setAppModel(M *appModel);
   protected:
     M *getAppModel();
-    virtual void connectToModelObservables() = 0;
+    virtual void onAttachAppModel() = 0;
   private:
     M *m_appModel;
   };

@@ -43,7 +43,7 @@ namespace SDF::Impl::Framework {
   MVCStateView<M>::setAppModel(M *appModel) {
     disconnectAll();
     m_appModel = appModel;
-    connectToModelObservables();
+    onAttachAppModel();
   }
 }
 

@@ -27,7 +27,7 @@
 #include <SDF/Impl/Framework/MVCView.hpp>
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
-#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 
 #include <QPointer>
 #include <QTabWidget>
@@ -40,20 +40,21 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     class IImageDataSource;
   }
 
-  class DocumentView : public Framework::MVCView,
+  class DocumentView : public Framework::MVCStateView<AbstractAppModel::State::IDocumentAppModel>,
                        public IDocumentView
   {
   public:
-    DocumentView(AbstractAppModel::Handle handle);
+    DocumentView();
     ~DocumentView();
 
     void addToTabWidget(QPointer<QTabWidget> tabWidget);
+  protected:
+    void onAttachAppModel();
   private:
     QPointer<QTabWidget> m_tabWidget;
     QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
 
     std::string m_documentTitle;
-    AbstractAppModel::Handle m_documentHandle;
     std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
   };
 }

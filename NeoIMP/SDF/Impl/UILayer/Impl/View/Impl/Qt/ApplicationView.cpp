@@ -51,16 +51,6 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     delete m_mainWindow;
   }
 
-  void
-  ApplicationView::connectToModelObservables() {
-    safeConnect(getAppModel()->onDocumentAdded, [=](AbstractAppModel::Handle handle) {
-      std::cout << "document added" << std::endl;
-      std::unique_ptr<IDocumentView> documentView(m_viewFactory->createDocumentView(handle));
-
-      getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
-    });
-  }
-
   // Protected members.
   void
   ApplicationView::onChildAdded(MVCViewNode *child) {
@@ -72,4 +62,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
 
   void
   ApplicationView::onChildRemoved(MVCViewNode *child) {}
+
+  void
+  ApplicationView::onAttachAppModel() {
+    safeConnect(getAppModel()->onDocumentAdded, [=](AbstractAppModel::Handle handle) {
+      getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
+    });
+  }
 }
