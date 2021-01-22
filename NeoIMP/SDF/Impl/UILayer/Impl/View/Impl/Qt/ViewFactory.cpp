@@ -32,11 +32,13 @@
 
 #include <ApplicationView.hpp>
 #include <NewDocumentView.hpp>
+#include <SaveDocumentView.hpp>
 #include <DocumentView.hpp>
 
 //#include <Controller/ControllerFactory.hpp>
 #include <Controller/ApplicationController.hpp>
 #include <Controller/NewDocumentDialogController.hpp>
+#include <Controller/SaveDocumentDialogController.hpp>
 #include <Controller/DocumentController.hpp>
 
 #include <iostream>
@@ -44,11 +46,13 @@
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(IViewSink *viewSink,
                            AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
+                           AbstractAppModel::Actions::ISaveDocumentAsAction *saveDocumentAsAction,
                            AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                           )
     //: m_controllerFactory(new Controller::ControllerFactory(documentCreator, this))
     : m_viewSink(viewSink),
       m_createDocumentAction(createDocumentAction),
+      m_saveDocumentAsAction(saveDocumentAsAction),
       m_openDocumentsAppModel(openDocumentsAppModel)
   {}
 
@@ -80,13 +84,26 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     return std::move(view);
   }
 
+  std::unique_ptr<ISaveDocumentView>
+  ViewFactory::createSaveDocumentView() {
+    std::unique_ptr<ISaveDocumentView> view(new SaveDocumentView());
+    std::unique_ptr<Controller::SaveDocumentDialogController> controller(
+      new Controller::SaveDocumentDialogController(m_viewSink, m_saveDocumentAsAction)
+    );
+
+    controller->setView(view.get());
+    view->addController(std::move(controller));
+
+    return std::move(view);
+  }
+
   std::unique_ptr<IDocumentView>
   ViewFactory::createDocumentView(AbstractAppModel::Handle handle) {
     std::unique_ptr<IDocumentView> view(new DocumentView());
     std::unique_ptr<Controller::DocumentController> controller(new Controller::DocumentController());
 
     controller->setView(view.get());
-    
+
     view->setAppModel(m_openDocumentsAppModel->getDocumentModel(handle));
     //view->addController(std::move(controller));
 

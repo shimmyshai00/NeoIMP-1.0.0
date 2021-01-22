@@ -33,6 +33,7 @@ namespace SDF::Impl::UILayer {
   namespace AbstractAppModel {
     namespace Actions {
       class ICreateDocumentAction;
+      class ISaveDocumentAsAction;
     }
 
     namespace State {
@@ -59,17 +60,21 @@ namespace SDF::Impl::UILayer {
         public:
           INJECT(ViewFactory(IViewSink *viewSink,
                              AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
+                             AbstractAppModel::Actions::ISaveDocumentAsAction *saveDocumentAsAction,
                              AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                             ));
           ~ViewFactory();
 
           std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl);
           std::unique_ptr<INewDocumentView> createNewDocumentView();
+          std::unique_ptr<ISaveDocumentView> createSaveDocumentView();
           std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::Handle handle);
         private:
           IViewSink *m_viewSink;
 
           AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
+          AbstractAppModel::Actions::ISaveDocumentAsAction *m_saveDocumentAsAction;
+          
           AbstractAppModel::State::IOpenDocumentsAppModel *m_openDocumentsAppModel;
         };
       }

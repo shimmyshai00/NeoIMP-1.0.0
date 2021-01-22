@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
@@ -41,7 +42,9 @@ namespace SDF::Impl::AppModelLayer {
   namespace Impl {
     class IEditorStateModelMutation;
 
-    class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction {
+    class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
+                              public UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction
+    {
     public:
       INJECT(EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
                                AbstractModel::Services::IImageInformationService *imageInformationService,
@@ -50,6 +53,7 @@ namespace SDF::Impl::AppModelLayer {
                               ));
 
       UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
+      void saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat);
     private:
       AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
       AbstractModel::Services::IImageInformationService *m_imageInformationService;

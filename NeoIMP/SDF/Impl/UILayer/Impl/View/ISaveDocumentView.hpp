@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_APPMODELLAYER_APPMODELCOMPONENT_HPP
-#define SDF_IMPL_APPMODELLAYER_APPMODELCOMPONENT_HPP
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_ISAVEDOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AppModelComponent.hpp
- * PURPOSE: Headers for the DI component for the application model layer.
+ * FILE:    ISaveDocumentView.hpp
+ * PURPOSE: The interface for the save-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
+#include <SDF/Impl/Framework/IMVCView.hpp>
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
 
-#include <fruit/fruit.h>
+#include <boost/signals2/signal.hpp>
+#include <memory>
 
-namespace SDF::Impl::AppModelLayer {
-  typedef fruit::Component<UILayer::AbstractAppModel::State::IOpenDocumentsAppModel,
-                           UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
-                           UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction
-                          > DIComponent;
-
-  DIComponent getAppModelComponent();
+namespace SDF::Impl::UILayer::Impl::View {
+  class ISaveDocumentView : public virtual Framework::IMVCInteractiveView<ISaveDocumentView> {
+  public:
+    virtual ~ISaveDocumentView() = default;
+  public:
+    boost::signals2::signal<void (std::string, DataLayer::Properties::FileFormat)> onAccepted;
+    boost::signals2::signal<void ()> onDismissed;
+  };
 }
 
 #endif

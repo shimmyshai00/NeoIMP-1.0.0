@@ -37,6 +37,7 @@ namespace SDF::Impl::UILayer::Impl {
   namespace View {
     class IApplicationView;
     class INewDocumentView;
+    class ISaveDocumentView;
     class IDocumentView;
 
     class IViewFactory {
@@ -45,6 +46,7 @@ namespace SDF::Impl::UILayer::Impl {
 
       virtual std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl) = 0;
       virtual std::unique_ptr<INewDocumentView> createNewDocumentView() = 0;
+      virtual std::unique_ptr<ISaveDocumentView> createSaveDocumentView() = 0;
       virtual std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::Handle handle) = 0;
     };
   }

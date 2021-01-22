@@ -75,4 +75,9 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
     return handle;
   }
+
+  void
+  EditorActionModel::saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
+    // TBA
+  }
 }

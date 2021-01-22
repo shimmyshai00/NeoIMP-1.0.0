@@ -40,6 +40,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       m_viewFactory(viewFactory)
   {
     QObject::connect(m_mainWindow, &Windows::MainWindow::newClicked, [=]() { onNewClicked(); });
+    QObject::connect(m_mainWindow, &Windows::MainWindow::saveAsClicked, [=]() { onSaveAsClicked(); });
     QObject::connect(m_mainWindow, &Windows::MainWindow::exitClicked, [=]() { onExitClicked(); });
 
     m_mainWindow->addPrincipalWidget(m_documentTabs);

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_APPMODELLAYER_APPMODELCOMPONENT_HPP
-#define SDF_IMPL_APPMODELLAYER_APPMODELCOMPONENT_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISAVEDOCUMENTASACTION_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISAVEDOCUMENTASACTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AppModelComponent.hpp
- * PURPOSE: Headers for the DI component for the application model layer.
+ * FILE:    ISaveDocumentAsAction.hpp
+ * PURPOSE: Provides an interface for the action to save a document with a given file name and format.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
+#include <string>
 
-#include <fruit/fruit.h>
-
-namespace SDF::Impl::AppModelLayer {
-  typedef fruit::Component<UILayer::AbstractAppModel::State::IOpenDocumentsAppModel,
-                           UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
-                           UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction
-                          > DIComponent;
-
-  DIComponent getAppModelComponent();
+namespace SDF::Impl::UILayer::AbstractAppModel::Actions {
+  class ISaveDocumentAsAction {
+  public:
+    virtual ~ISaveDocumentAsAction() = default;
+    virtual void saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat) = 0;
+  };
 }
 
 #endif

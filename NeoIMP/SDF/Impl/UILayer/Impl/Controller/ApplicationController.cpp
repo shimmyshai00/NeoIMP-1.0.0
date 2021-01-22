@@ -26,6 +26,7 @@
 #include <IUIControl.hpp>
 #include <View/IViewFactory.hpp>
 #include <View/INewDocumentView.hpp>
+#include <View/ISaveDocumentView.hpp>
 
 #include <Framework/MVCViewCast.hpp>
 
@@ -43,6 +44,10 @@ namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::onAttachView() {
     safeConnect(m_view->onNewClicked, [=]() {
       m_view->getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createNewDocumentView()));
+    });
+
+    safeConnect(m_view->onSaveAsClicked, [=]() {
+      m_view->getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createSaveDocumentView()));
     });
 
     safeConnect(m_view->onExitClicked, [=]() { m_uiControl->closeUI(); });

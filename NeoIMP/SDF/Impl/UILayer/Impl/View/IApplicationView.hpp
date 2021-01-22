@@ -38,6 +38,7 @@ namespace SDF::Impl::UILayer::Impl::View {
     virtual ~IApplicationView() = default;
   public:
     boost::signals2::signal<void ()> onNewClicked;
+    boost::signals2::signal<void ()> onSaveAsClicked;
     boost::signals2::signal<void ()> onExitClicked;
   };
 }
