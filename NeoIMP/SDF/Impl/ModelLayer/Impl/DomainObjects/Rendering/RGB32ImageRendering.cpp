@@ -26,7 +26,8 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Rendering {
   RGB32ImageRendering::RGB32ImageRendering(std::size_t width, std::size_t height)
     : m_renderingWidthPx(width),
-      m_renderingHeightPx(height)
+      m_renderingHeightPx(height),
+      m_dataBuffer(4*width*height, 0)
   {}
 
   std::size_t RGB32ImageRendering::getRenderingWidthPx() {

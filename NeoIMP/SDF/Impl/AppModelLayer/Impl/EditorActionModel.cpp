@@ -46,6 +46,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
   UILayer::AbstractAppModel::Handle
   EditorActionModel::createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec) {
+    std::cout << "create" << std::endl;
     AbstractModel::Data::DocumentSpec modelSpec {
       spec.documentName,
       spec.documentWidthPx,
@@ -65,6 +66,9 @@ namespace SDF::Impl::AppModelLayer::Impl {
       renderingHandle,
       0, 0, spec.documentWidthPx-1, spec.documentHeightPx-1
     );
+
+    std::cout << "rz" << std::endl;
+    std::cout << (const void *)renderedDataPtr << std::endl;
 
     // NB: upgrade to reflect new rendering system setup w/different data access interface?
     m_editorStateModelMutation->addDocument(handle, spec, renderedDataPtr);
