@@ -27,8 +27,8 @@
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 
-#include <IEditorStateModelMutation.hpp>
-#include <IDocumentStateModelMutation.hpp>
+#include <EditorStateModel.hpp>
+#include <DocumentStateModel.hpp>
 
 #include <iostream>
 
@@ -36,12 +36,12 @@ namespace SDF::Impl::AppModelLayer::Impl {
   EditorActionModel::EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
                                        AbstractModel::Services::IImageInformationService *imageInformationService,
                                        AbstractModel::Services::IImageRenderingService *imageRenderingService,
-                                       IEditorStateModelMutation *editorStateModelMutation
+                                       EditorStateModel *editorStateModel
                                       )
     : m_documentCreationService(documentCreationService),
       m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
-      m_editorStateModelMutation(editorStateModelMutation)
+      m_editorStateModel(editorStateModel)
   {}
 
   UILayer::AbstractAppModel::Handle
@@ -71,7 +71,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
     std::cout << (const void *)renderedDataPtr << std::endl;
 
     // NB: upgrade to reflect new rendering system setup w/different data access interface?
-    m_editorStateModelMutation->addDocument(handle, spec, renderedDataPtr);
+    m_editorStateModel->addDocument(handle, spec, renderedDataPtr);
 
     return handle;
   }
@@ -79,5 +79,6 @@ namespace SDF::Impl::AppModelLayer::Impl {
   void
   EditorActionModel::saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
     // TBA
+    std::cout << "saving to " << fileName << " with format " << fileFormat << "..." << std::endl;
   }
 }

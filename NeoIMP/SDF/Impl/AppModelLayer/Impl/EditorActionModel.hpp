@@ -40,7 +40,7 @@ namespace SDF::Impl::AppModelLayer {
   }
 
   namespace Impl {
-    class IEditorStateModelMutation;
+    class EditorStateModel;
 
     class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
                               public UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction
@@ -49,7 +49,7 @@ namespace SDF::Impl::AppModelLayer {
       INJECT(EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
                                AbstractModel::Services::IImageInformationService *imageInformationService,
                                AbstractModel::Services::IImageRenderingService *imageRenderingService,
-                               IEditorStateModelMutation *editorStateModelMutation
+                               EditorStateModel *editorStateModel
                               ));
 
       UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
@@ -59,7 +59,7 @@ namespace SDF::Impl::AppModelLayer {
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
-      IEditorStateModelMutation *m_editorStateModelMutation;
+      EditorStateModel *m_editorStateModel;
     };
   }
 }

@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/AppModelLayer/Impl/IDocumentStateModelMutation.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
@@ -34,9 +33,7 @@
 #include <cstdlib>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  class DocumentStateModel : public IDocumentStateModelMutation,
-                             public UILayer::AbstractAppModel::State::IDocumentAppModel
-  {
+  class DocumentStateModel : public UILayer::AbstractAppModel::State::IDocumentAppModel {
   public:
     DocumentStateModel(UILayer::AbstractAppModel::Data::DocumentSpec spec,
                        const unsigned char *renderedDataPtr

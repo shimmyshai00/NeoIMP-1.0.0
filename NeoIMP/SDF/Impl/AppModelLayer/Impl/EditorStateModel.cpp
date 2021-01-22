@@ -65,8 +65,8 @@ namespace SDF::Impl::AppModelLayer::Impl {
     }
   }
 
-  IDocumentStateModelMutation *
-  EditorStateModel::getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle) {
+  DocumentStateModel *
+  EditorStateModel::getDocumentStateModel(UILayer::AbstractAppModel::Handle handle) {
     if(m_documentModels.find(handle) != m_documentModels.end()) {
       return m_documentModels[handle].get();
     } else {

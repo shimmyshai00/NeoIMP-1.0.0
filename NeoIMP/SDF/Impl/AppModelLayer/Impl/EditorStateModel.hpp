@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/AppModelLayer/Impl/IEditorStateModelMutation.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
@@ -39,12 +38,9 @@ namespace SDF::Impl {
   }
 
   namespace AppModelLayer::Impl {
-    class IDocumentStateModelMutation;
     class DocumentStateModel;
 
-    class EditorStateModel : public IEditorStateModelMutation,
-                             public UILayer::AbstractAppModel::State::IOpenDocumentsAppModel
-    {
+    class EditorStateModel : public UILayer::AbstractAppModel::State::IOpenDocumentsAppModel {
     public:
       INJECT(EditorStateModel());
       ~EditorStateModel();
@@ -55,11 +51,11 @@ namespace SDF::Impl {
                        const unsigned char *initialRenderingPtr
                       );
       void removeDocument(UILayer::AbstractAppModel::Handle handle);
-      IDocumentStateModelMutation *getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle);
 
       // State access.
       std::vector<UILayer::AbstractAppModel::Handle> getOpenDocumentHandles() const;
       UILayer::AbstractAppModel::State::IDocumentAppModel *getDocumentModel(UILayer::AbstractAppModel::Handle handle);
+      DocumentStateModel *getDocumentStateModel(UILayer::AbstractAppModel::Handle handle);
     private:
       // State.
       std::vector<UILayer::AbstractAppModel::Handle> m_openDocumentHandles;
