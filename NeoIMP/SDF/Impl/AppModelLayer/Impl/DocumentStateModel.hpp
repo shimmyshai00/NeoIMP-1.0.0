@@ -35,7 +35,8 @@
 namespace SDF::Impl::AppModelLayer::Impl {
   class DocumentStateModel : public UILayer::AbstractAppModel::State::IDocumentAppModel {
   public:
-    DocumentStateModel(UILayer::AbstractAppModel::Data::DocumentSpec spec,
+    DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
+                       UILayer::AbstractAppModel::Data::DocumentSpec spec,
                        const unsigned char *renderedDataPtr
                       );
 
@@ -49,6 +50,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
     void setRenderedImageDataPtr(const unsigned char *renderedDataPtr);
 
     // State access.
+    UILayer::AbstractAppModel::Handle getDocumentHandle();
     std::string getDocumentName();
 
     int getDocumentWidthPx();
@@ -61,6 +63,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
                              );
   private:
     // State.
+    UILayer::AbstractAppModel::Handle m_documentHandle; // NB: is this the best place to keep this back reference?
     std::string m_documentName;
 
     int m_documentWidthPx;

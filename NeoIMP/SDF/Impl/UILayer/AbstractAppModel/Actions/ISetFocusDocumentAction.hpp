@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IDOCUMENTVIEW_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISETFOCUSDOCUMENTACTION_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISETFOCUSDOCUMENTACTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentView.hpp
- * PURPOSE: The interface for the document view.
+ * FILE:    ISetFocusDocumentAction.hpp
+ * PURPOSE: Provides an interface for the action to set the focus document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/Framework/IMVCView.hpp>
-#include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+#include <string>
 
-#include <boost/signals2/signal.hpp>
-#include <memory>
-
-namespace SDF::Impl::UILayer::Impl::View {
-  class IDocumentView : public virtual Framework::IMVCStateView<AbstractAppModel::State::IDocumentAppModel>,
-                        public virtual Framework::IMVCInteractiveView<IDocumentView>
-  {
+namespace SDF::Impl::UILayer::AbstractAppModel::Actions {
+  class ISetFocusDocumentAction {
   public:
-    virtual ~IDocumentView() = default;
-  public:
-    boost::signals2::signal<void (AbstractAppModel::Handle)> onGetFocus;
+    virtual ~ISetFocusDocumentAction() = default;
+    virtual void setFocusDocument(Handle handle) = 0;
   };
 }
 

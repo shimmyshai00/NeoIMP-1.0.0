@@ -82,6 +82,13 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     if(!m_tabWidget && getAppModel()) {
       m_tabWidget = tabWidget;
       m_tabWidget->addTab(m_documentWidget, getAppModel()->getDocumentName().c_str());
+
+      QObject::connect(m_tabWidget, &QTabWidget::currentChanged, [=](int newIndex) {
+        if(m_tabWidget->widget(newIndex) == static_cast<QWidget *>(m_documentWidget)) {
+          // this widget got focus
+          onGetFocus(getAppModel()->getDocumentHandle());
+        }
+      });
     }
   }
 

@@ -29,7 +29,10 @@
 #include <algorithm>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  EditorStateModel::EditorStateModel() {}
+  EditorStateModel::EditorStateModel()
+    : m_focusDocumentHandle(-1)
+  {}
+
   EditorStateModel::~EditorStateModel() {}
 
   // State manipulation.
@@ -40,7 +43,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
                                )
   {
     m_openDocumentHandles.push_back(handle);
-    m_documentModels[handle] = std::make_unique<DocumentStateModel>(spec, initialRenderingPtr);
+    m_documentModels[handle] = std::make_unique<DocumentStateModel>(handle, spec, initialRenderingPtr);
     onDocumentAdded(handle);
   }
 
@@ -48,6 +51,12 @@ namespace SDF::Impl::AppModelLayer::Impl {
   EditorStateModel::removeDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.erase(std::find(m_openDocumentHandles.begin(), m_openDocumentHandles.end(), handle));
     onDocumentRemoved(handle);
+  }
+
+  void
+  EditorStateModel::setFocusDocument(UILayer::AbstractAppModel::Handle handle) {
+    m_focusDocumentHandle = handle;
+    onFocusDocumentChanged(handle);
   }
 
   // State access.
@@ -72,5 +81,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
     } else {
       return nullptr;
     }
+  }
+
+  UILayer::AbstractAppModel::Handle
+  EditorStateModel::getFocusDocument() {
+    return m_focusDocumentHandle;
   }
 }

@@ -23,11 +23,19 @@
 
 #include <SDF/Impl/UILayer/Impl/Controller/DocumentController.hpp>
 
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISetFocusDocumentAction.hpp>
+#include <iostream>
+
 namespace SDF::Impl::UILayer::Impl::Controller {
-  DocumentController::DocumentController() {}
+  DocumentController::DocumentController(AbstractAppModel::Actions::ISetFocusDocumentAction *setFocusDocumentAction)
+    : m_setFocusDocumentAction(setFocusDocumentAction)
+  {}
 
   void
   DocumentController::onAttachView() {
-    // TBA
+    safeConnect(m_view->onGetFocus, [=](AbstractAppModel::Handle handle) {
+      std::cout << "focused" << std::endl;
+      m_setFocusDocumentAction->setFocusDocument(handle);
+    });
   }
 }

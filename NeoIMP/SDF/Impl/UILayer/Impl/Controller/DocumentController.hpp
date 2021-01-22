@@ -29,15 +29,18 @@
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
 namespace SDF::Impl::UILayer {
-  namespace AbstractAppModel {
+  namespace AbstractAppModel::Actions {
+    class ISetFocusDocumentAction;
   }
 
   namespace Impl::Controller {
     class DocumentController : public Framework::MVCController<View::IDocumentView> {
     public:
-      DocumentController();
+      DocumentController(AbstractAppModel::Actions::ISetFocusDocumentAction *setFocusDocumentAction);
     protected:
       void onAttachView();
+    private:
+      AbstractAppModel::Actions::ISetFocusDocumentAction *m_setFocusDocumentAction;
     };
   }
 }

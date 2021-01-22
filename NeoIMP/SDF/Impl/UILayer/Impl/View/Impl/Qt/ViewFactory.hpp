@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer {
     namespace Actions {
       class ICreateDocumentAction;
       class ISaveDocumentAsAction;
+      class ISetFocusDocumentAction;
     }
 
     namespace State {
@@ -61,6 +62,7 @@ namespace SDF::Impl::UILayer {
           INJECT(ViewFactory(IViewSink *viewSink,
                              AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
                              AbstractAppModel::Actions::ISaveDocumentAsAction *saveDocumentAsAction,
+                             AbstractAppModel::Actions::ISetFocusDocumentAction *setFocusDocumentAction,
                              AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                             ));
           ~ViewFactory();
@@ -74,7 +76,8 @@ namespace SDF::Impl::UILayer {
 
           AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
           AbstractAppModel::Actions::ISaveDocumentAsAction *m_saveDocumentAsAction;
-          
+          AbstractAppModel::Actions::ISetFocusDocumentAction *m_setFocusDocumentAction;
+
           AbstractAppModel::State::IOpenDocumentsAppModel *m_openDocumentsAppModel;
         };
       }

@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/Framework/IMVCView.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
 #include <boost/signals2/signal.hpp>
 #include <memory>

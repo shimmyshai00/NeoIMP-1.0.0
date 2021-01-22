@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer::AbstractAppModel::State {
   public:
     virtual ~IDocumentAppModel() = default;
 
+    virtual Handle getDocumentHandle() = 0;
     virtual std::string getDocumentName() = 0;
 
     virtual int getDocumentWidthPx() = 0;

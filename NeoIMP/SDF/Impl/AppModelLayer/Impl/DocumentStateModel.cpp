@@ -24,10 +24,12 @@
 #include <DocumentStateModel.hpp>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Data::DocumentSpec spec,
+  DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
+                                         UILayer::AbstractAppModel::Data::DocumentSpec spec,
                                          const unsigned char *renderedDataPtr
                                         )
-    : m_documentName(spec.documentName),
+    : m_documentHandle(documentHandle),
+      m_documentName(spec.documentName),
       m_documentWidthPx(spec.documentWidthPx),
       m_documentHeightPx(spec.documentHeightPx),
       m_documentResolutionPpi(spec.documentResolutionPpi),
@@ -58,6 +60,11 @@ namespace SDF::Impl::AppModelLayer::Impl {
   void
   DocumentStateModel::setRenderedImageDataPtr(const unsigned char *renderedDataPtr) {
     m_renderedDataPtr = renderedDataPtr;
+  }
+
+  UILayer::AbstractAppModel::Handle
+  DocumentStateModel::getDocumentHandle() {
+    return m_documentHandle;
   }
 
   std::string

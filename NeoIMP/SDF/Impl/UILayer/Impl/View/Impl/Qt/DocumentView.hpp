@@ -41,7 +41,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   }
 
   class DocumentView : public Framework::MVCStateView<AbstractAppModel::State::IDocumentAppModel>,
-                       public IDocumentView
+                       public Framework::MVCInteractiveView<IDocumentView>,
+                       public virtual IDocumentView
   {
   public:
     DocumentView();
@@ -55,6 +56,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     QPointer<CustomWidgets::DocumentWidget> m_documentWidget;
 
     std::string m_documentTitle;
+
     std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
   };
 }

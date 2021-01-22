@@ -51,7 +51,7 @@ namespace SDF::Impl::Framework {
     virtual void setAppModel(M *appModel) = 0;
   };
 
-  // For views that provide interaction. The VObs should only contain observables. It should not contain state.
+  // For views that provide interaction.
   template<class V>
   class IMVCInteractiveView : public virtual IMVCView {
   public:

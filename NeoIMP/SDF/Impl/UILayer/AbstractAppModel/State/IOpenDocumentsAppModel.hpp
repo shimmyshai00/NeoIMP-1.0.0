@@ -30,19 +30,23 @@
 
 namespace SDF::Impl::UILayer::AbstractAppModel::State {
   class IDocumentAppModel;
-  
+
   class IOpenDocumentsAppModel {
   public:
     virtual ~IOpenDocumentsAppModel() = default;
 
     virtual std::vector<Handle> getOpenDocumentHandles() const = 0;
     virtual IDocumentAppModel *getDocumentModel(Handle handle) = 0;
+
+    virtual Handle getFocusDocument() = 0;
   public:
     // Note that these are technically member variables, so this is technically not a "pure" interface - nonetheless,
     // we make an exception here because they are just meant to be hooked for observation and it keeps the code simple
     // and free of boilerplate.
     boost::signals2::signal<void (Handle)> onDocumentAdded;
     boost::signals2::signal<void (Handle)> onDocumentRemoved;
+
+    boost::signals2::signal<void (Handle)> onFocusDocumentChanged;
   };
 }
 

@@ -52,14 +52,20 @@ namespace SDF::Impl {
                       );
       void removeDocument(UILayer::AbstractAppModel::Handle handle);
 
+      void setFocusDocument(UILayer::AbstractAppModel::Handle handle);
+
       // State access.
       std::vector<UILayer::AbstractAppModel::Handle> getOpenDocumentHandles() const;
       UILayer::AbstractAppModel::State::IDocumentAppModel *getDocumentModel(UILayer::AbstractAppModel::Handle handle);
       DocumentStateModel *getDocumentStateModel(UILayer::AbstractAppModel::Handle handle);
+
+      UILayer::AbstractAppModel::Handle getFocusDocument();
     private:
       // State.
       std::vector<UILayer::AbstractAppModel::Handle> m_openDocumentHandles;
       std::map<UILayer::AbstractAppModel::Handle, std::unique_ptr<DocumentStateModel>> m_documentModels;
+
+      UILayer::AbstractAppModel::Handle m_focusDocumentHandle; // yay! FINALLY can handle this in a clean way!
     };
   }
 }

@@ -81,4 +81,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
     // TBA
     std::cout << "saving to " << fileName << " with format " << fileFormat << "..." << std::endl;
   }
+
+  void
+  EditorActionModel::setFocusDocument(UILayer::AbstractAppModel::Handle handle) {
+    std::cout << "focus document changing to " << handle << "..." << std::endl;
+    m_editorStateModel->setFocusDocument(handle);
+  }
 }
