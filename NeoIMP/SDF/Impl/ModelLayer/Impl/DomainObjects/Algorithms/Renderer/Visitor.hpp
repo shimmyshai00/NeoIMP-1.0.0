@@ -27,6 +27,7 @@
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Rendering/RGB32ImageRendering.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Coord.hpp>
 
 #include <boost/gil.hpp>
 #include <vector>
@@ -38,6 +39,9 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
     // visitation methods below will render into this at the desired regions.
     Visitor(Rendering::RGB32ImageRendering *renderBuffer);
 
+    // Because Gil regions do not specify where in the image they come from, we have to specify this upfront.
+    void setOrigin(Math::Coord<std::size_t> originPos);
+
     // Visitation methods. For this algorithm, we have to process each pixel type separately, as each has its own
     // distinct conversion. We cannot just use a boost::gil::any_image_view.
     void visitGilRegion(boost::gil::gray8_view_t regionView);
@@ -47,6 +51,8 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
     void visitGilRegion(boost::gil::cmyk8_view_t regionView);
     void visitGilRegion(boost::gil::cmyk16_view_t regionView);
   private:
+    Math::Coord<std::size_t> m_originPos;
+
     // Right now, the sole supported target render format is a conventional 24-bit RGB style format, similar to the
     // HTML Hex representation. (Namely, it is an ARGB32 format with the alpha always at 255.) THIS IS RESTRICTIVE,
     // because this program is designed to support greater color depths internally, and thus this prohibits the display

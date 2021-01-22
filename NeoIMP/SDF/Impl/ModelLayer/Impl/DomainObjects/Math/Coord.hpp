@@ -46,11 +46,13 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Math {
     Coord<T> &operator+=(const Vec2D<T> &rhs) {
       m_x += rhs.getX();
       m_y += rhs.getY();
+      return *this;
     }
 
     Coord<T> &operator-=(const Vec2D<T> &rhs) {
       m_x -= rhs.getX();
       m_y -= rhs.getY();
+      return *this;
     }
   private:
     T m_x;

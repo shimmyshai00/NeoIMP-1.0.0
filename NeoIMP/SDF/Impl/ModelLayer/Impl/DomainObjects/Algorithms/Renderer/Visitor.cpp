@@ -23,10 +23,19 @@
 
 #include <Visitor.hpp>
 
+#include <Math/Coord.hpp>
+#include <Math/Vec2D.hpp>
+
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
   Visitor::Visitor(Rendering::RGB32ImageRendering *renderBuffer)
-    : m_renderBuffer(renderBuffer)
+    : m_originPos(0, 0),
+      m_renderBuffer(renderBuffer)
   {}
+
+  void
+  Visitor::setOrigin(Math::Coord<std::size_t> originPos) {
+    m_originPos = originPos;
+  }
 
   void
   Visitor::visitGilRegion(boost::gil::gray8_view_t regionView) {
@@ -58,17 +67,21 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
 
   void
   Visitor::visitGilRegion(boost::gil::rgb8_view_t regionView) {
-    /*
-    m_renderBuffer.resize(regionView.size() * 4);
+    // NB: cleanup
+    std::size_t x(0), y(0);
+    for(auto it = regionView.begin(); it != regionView.end(); ++it, ++x) {
+      m_renderBuffer->setPixelAt(
+        m_originPos + Math::Vec2D<std::size_t>(x, y),
+        boost::gil::semantic_at_c<0>(*it),
+        boost::gil::semantic_at_c<1>(*it),
+        boost::gil::semantic_at_c<2>(*it)
+      );
 
-    std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
-    for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
-      (*(resultIt + 3)) = 0xFF;
-      (*(resultIt + 2)) = boost::gil::semantic_at_c<0>(*it);
-      (*(resultIt + 1)) = boost::gil::semantic_at_c<1>(*it);
-      (*(resultIt    )) = boost::gil::semantic_at_c<2>(*it);
+      if(x >= regionView.width()) {
+        x = 0;
+        ++y;
+      }
     }
-    */
   }
 
   void
