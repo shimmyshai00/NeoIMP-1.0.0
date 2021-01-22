@@ -24,15 +24,23 @@
 #include <EditorActionModel.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Services/IImageInformationService.hpp>
+#include <AbstractModel/Services/IImageRenderingService.hpp>
+
 #include <IEditorStateModelMutation.hpp>
+#include <IDocumentStateModelMutation.hpp>
 
 #include <iostream>
 
 namespace SDF::Impl::AppModelLayer::Impl {
   EditorActionModel::EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                                       AbstractModel::Services::IImageInformationService *imageInformationService,
+                                       AbstractModel::Services::IImageRenderingService *imageRenderingService,
                                        IEditorStateModelMutation *editorStateModelMutation
                                       )
     : m_documentCreationService(documentCreationService),
+      m_imageInformationService(imageInformationService),
+      m_imageRenderingService(imageRenderingService),
       m_editorStateModelMutation(editorStateModelMutation)
   {}
 
@@ -48,7 +56,13 @@ namespace SDF::Impl::AppModelLayer::Impl {
     };
 
     UILayer::AbstractAppModel::Handle handle(m_documentCreationService->createDocument(modelSpec));
-    m_editorStateModelMutation->addDocument(handle);
+    const unsigned char *renderedDataPtr(m_imageRenderingService->renderImageRegion(handle,
+                                                                                    0,
+                                                                                    0,
+                                                                                    spec.documentWidthPx-1,
+                                                                                    spec.documentHeightPx-1
+                                                                                   ));
+    m_editorStateModelMutation->addDocument(handle, spec, renderedDataPtr);
 
     return handle;
   }

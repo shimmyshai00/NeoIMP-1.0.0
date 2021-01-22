@@ -42,39 +42,33 @@
 
 #include <iostream>
 
-/*
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   // Helper object
   class ImageDataSource : public CustomWidgets::IImageDataSource {
   public:
-    ImageDataSource(
-      AbstractModel::Services::IImageInformationService *imageInformationService,
-      AbstractModel::Services::IImageRenderingService *imageRenderingService,
-      AbstractModel::Handle imageHandle
-    ) : m_imageInformationService(imageInformationService),
-        m_imageRenderingService(imageRenderingService),
-        m_imageHandle(imageHandle)
+    ImageDataSource(AbstractAppModel::State::IDocumentAppModel *documentAppModel)
+      : m_documentAppModel(documentAppModel)
     {}
 
     int getImageWidth() {
-      return m_imageInformationService->getImageWidth(m_imageHandle);
+      return m_documentAppModel->getDocumentWidthPx();
     }
 
     int getImageHeight() {
-      return m_imageInformationService->getImageHeight(m_imageHandle);
+      return m_documentAppModel->getDocumentHeightPx();
     }
 
-    const unsigned char *accessImageData(int x1, int y1, int x2, int y2) {
-      return m_imageRenderingService->renderImageRegion(m_imageHandle, x1, y1, x2, y2);
+    void accessImageData(const unsigned char *&origin,
+                         std::ptrdiff_t &rowStride,
+                         int x1, int y1, int x2, int y2
+                        )
+    {
+      m_documentAppModel->getRenderedImageData(origin, rowStride, x1, y1, x2, y2);
     }
   private:
-    AbstractModel::Services::IImageInformationService *m_imageInformationService;
-    AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
-
-    AbstractModel::Handle m_imageHandle;
+    AbstractAppModel::State::IDocumentAppModel *m_documentAppModel;
   };
 }
-*/
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   DocumentView::DocumentView()
@@ -94,6 +88,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   // Protected members.
   void
   DocumentView::onAttachAppModel() {
-    // TBA
+    m_imageDataSource = std::make_unique<ImageDataSource>(getAppModel());
+    m_documentWidget->setDataSource(m_imageDataSource.get());
   }
 }

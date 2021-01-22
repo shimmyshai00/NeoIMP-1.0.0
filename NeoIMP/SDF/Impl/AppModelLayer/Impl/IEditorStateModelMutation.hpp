@@ -25,15 +25,19 @@
  */
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 namespace SDF::Impl::AppModelLayer::Impl {
   class IDocumentStateModelMutation;
-  
+
   class IEditorStateModelMutation {
   public:
     virtual ~IEditorStateModelMutation() = default;
 
-    virtual void addDocument(UILayer::AbstractAppModel::Handle handle) = 0;
+    virtual void addDocument(UILayer::AbstractAppModel::Handle handle,
+                             UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                             const unsigned char *initialRenderingPtr
+                            ) = 0;
     virtual void removeDocument(UILayer::AbstractAppModel::Handle handle) = 0;
 
     virtual IDocumentStateModelMutation *getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle) = 0;

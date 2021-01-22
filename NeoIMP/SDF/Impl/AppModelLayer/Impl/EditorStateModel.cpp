@@ -34,10 +34,13 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
   // State manipulation.
   void
-  EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle) {
+  EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle,
+                                UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                                const unsigned char *initialRenderingPtr
+                               )
+  {
     m_openDocumentHandles.push_back(handle);
-    m_documentModels[handle] = std::make_unique<DocumentStateModel>();
-    m_documentModels[handle]->setDocumentName("TEST");
+    m_documentModels[handle] = std::make_unique<DocumentStateModel>(spec, initialRenderingPtr);
     onDocumentAdded(handle);
   }
 

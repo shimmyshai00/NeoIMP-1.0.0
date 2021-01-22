@@ -27,6 +27,7 @@
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
 #include <boost/signals2/signal.hpp>
+#include <cstdlib>
 
 namespace SDF::Impl::UILayer::AbstractAppModel::State {
   class IDocumentAppModel {
@@ -34,6 +35,15 @@ namespace SDF::Impl::UILayer::AbstractAppModel::State {
     virtual ~IDocumentAppModel() = default;
 
     virtual std::string getDocumentName() = 0;
+
+    virtual int getDocumentWidthPx() = 0;
+    virtual int getDocumentHeightPx() = 0;
+    virtual float getDocumentResolutionPpi() = 0;
+
+    virtual void getRenderedImageData(const unsigned char *&origin,
+                                      std::ptrdiff_t &rowStride,
+                                      int x1, int y1, int x2, int y2
+                                     ) = 0;
   public:
     boost::signals2::signal<void (std::string)> onDocumentNameChanged;
   };

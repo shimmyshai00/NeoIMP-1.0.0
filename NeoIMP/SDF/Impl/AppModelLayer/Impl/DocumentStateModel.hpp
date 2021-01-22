@@ -26,26 +26,51 @@
 
 #include <SDF/Impl/AppModelLayer/Impl/IDocumentStateModelMutation.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 #include <fruit/fruit.h>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 namespace SDF::Impl::AppModelLayer::Impl {
   class DocumentStateModel : public IDocumentStateModelMutation,
                              public UILayer::AbstractAppModel::State::IDocumentAppModel
   {
   public:
-    DocumentStateModel();
+    DocumentStateModel(UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                       const unsigned char *renderedDataPtr
+                      );
 
     // State manipulation.
     void setDocumentName(std::string newName);
 
+    void setDocumentWidthPx(int documentWidthPx);
+    void setDocumentHeightPx(int documentHeightPx);
+    void setDocumentResolutionPpi(float documentResolutionPpi);
+
+    void setRenderedImageDataPtr(const unsigned char *renderedDataPtr);
+
     // State access.
     std::string getDocumentName();
+
+    int getDocumentWidthPx();
+    int getDocumentHeightPx();
+    float getDocumentResolutionPpi();
+
+    void getRenderedImageData(const unsigned char *&origin,
+                              std::ptrdiff_t &rowStride,
+                              int x1, int y1, int x2, int y2
+                             );
   private:
     // State.
     std::string m_documentName;
+
+    int m_documentWidthPx;
+    int m_documentHeightPx;
+    float m_documentResolutionPpi;
+
+    const unsigned char *m_renderedDataPtr;
   };
 }
 

@@ -34,20 +34,26 @@
 namespace SDF::Impl::AppModelLayer {
   namespace AbstractModel::Services {
     class IDocumentCreationService;
+    class IImageInformationService;
+    class IImageRenderingService;
   }
 
   namespace Impl {
     class IEditorStateModelMutation;
-    
+
     class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction {
     public:
       INJECT(EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                               AbstractModel::Services::IImageInformationService *imageInformationService,
+                               AbstractModel::Services::IImageRenderingService *imageRenderingService,
                                IEditorStateModelMutation *editorStateModelMutation
                               ));
 
       UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
     private:
       AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+      AbstractModel::Services::IImageInformationService *m_imageInformationService;
+      AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 
       IEditorStateModelMutation *m_editorStateModelMutation;
     };

@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cstdlib>
+
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   class IImageDataSource {
   public:
@@ -32,9 +34,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     virtual int getImageWidth() = 0;
     virtual int getImageHeight() = 0;
 
-    // Right now, expects to receive RGB32 format pixels only. This should get a pointer to a region buffer describing
-    // the given rectangular region.
-    virtual const unsigned char *accessImageData(int x1, int y1, int x2, int y2) = 0;
+    // Right now, expects to receive RGB32 format pixels only.
+    virtual void accessImageData(const unsigned char *&origin,
+                                 std::ptrdiff_t &rowStride,
+                                 int x1, int y1, int x2, int y2
+                                ) = 0;
   };
 }
 

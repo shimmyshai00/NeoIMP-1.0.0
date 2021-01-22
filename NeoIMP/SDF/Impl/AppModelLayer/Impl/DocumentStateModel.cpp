@@ -24,7 +24,15 @@
 #include <DocumentStateModel.hpp>
 
 namespace SDF::Impl::AppModelLayer::Impl {
-  DocumentStateModel::DocumentStateModel() {}
+  DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                                         const unsigned char *renderedDataPtr
+                                        )
+    : m_documentName(spec.documentName),
+      m_documentWidthPx(spec.documentWidthPx),
+      m_documentHeightPx(spec.documentHeightPx),
+      m_documentResolutionPpi(spec.documentResolutionPpi),
+      m_renderedDataPtr(renderedDataPtr)
+  {}
 
   void
   DocumentStateModel::setDocumentName(std::string newName) {
@@ -32,8 +40,54 @@ namespace SDF::Impl::AppModelLayer::Impl {
     onDocumentNameChanged(newName);
   }
 
+  void
+  DocumentStateModel::setDocumentWidthPx(int documentWidthPx) {
+    m_documentWidthPx = documentWidthPx;
+  }
+
+  void
+  DocumentStateModel::setDocumentHeightPx(int documentHeightPx) {
+    m_documentHeightPx = documentHeightPx;
+  }
+
+  void
+  DocumentStateModel::setDocumentResolutionPpi(float documentResolutionPpi) {
+    m_documentResolutionPpi = documentResolutionPpi;
+  }
+
+  void
+  DocumentStateModel::setRenderedImageDataPtr(const unsigned char *renderedDataPtr) {
+    m_renderedDataPtr = renderedDataPtr;
+  }
+
   std::string
   DocumentStateModel::getDocumentName() {
     return m_documentName;
+  }
+
+  int
+  DocumentStateModel::getDocumentWidthPx() {
+    return m_documentWidthPx;
+  }
+
+  int
+  DocumentStateModel::getDocumentHeightPx() {
+    return m_documentHeightPx;
+  }
+
+  float
+  DocumentStateModel::getDocumentResolutionPpi() {
+    return m_documentResolutionPpi;
+  }
+
+  void
+  DocumentStateModel::getRenderedImageData(const unsigned char *&origin,
+                                           std::ptrdiff_t &rowStride,
+                                           int x1, int y1, int x2, int y2
+                                          )
+  {
+    origin = m_renderedDataPtr + (4*(y1*m_documentWidthPx + x1)); // TBA: "4" is from RGB32 = 4 bytes - may need to
+                                                                  // generalize?
+    rowStride = 4*m_documentWidthPx;
   }
 }

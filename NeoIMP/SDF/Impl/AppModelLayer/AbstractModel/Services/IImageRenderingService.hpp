@@ -31,6 +31,7 @@
 namespace SDF::Impl::AppModelLayer::AbstractModel::Services {
   class IImageRenderingService {
   public:
+    // NB: needs revamping
     virtual ~IImageRenderingService() = default;
 
     virtual const unsigned char *renderImageRegion(Handle handle, int x1, int y1, int x2, int y2) = 0;

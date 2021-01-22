@@ -32,6 +32,12 @@ namespace SDF::Impl::AppModelLayer::Impl {
     virtual ~IDocumentStateModelMutation() = default;
 
     virtual void setDocumentName(std::string newName) = 0;
+
+    virtual void setDocumentWidthPx(int documentWidthPx) = 0;
+    virtual void setDocumentHeightPx(int documentHeightPx) = 0;
+    virtual void setDocumentResolutionPpi(float documentResolutionPpi) = 0;
+
+    virtual void setRenderedImageDataPtr(const unsigned char *renderedDataPtr) = 0;
   };
 }
 

@@ -57,12 +57,16 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
       // Draw the image data within the clipped rectangle.
       std::cout << clipped.width() << " " << clipped.height() << std::endl;
       if((clipped.width() > 0) && (clipped.height() > 0)) {
-        const unsigned char *imageData(m_dataSource->accessImageData(
+        const unsigned char *imageData(nullptr);
+        std::ptrdiff_t rowStride(0);
+
+        m_dataSource->accessImageData(
+          imageData, rowStride,
           clipped.x(), clipped.y(),
           clipped.x() + clipped.width() - 1, clipped.y() + clipped.height() - 1
-        ));
+        );
 
-        QImage qImage(imageData, clipped.width(), clipped.height(), 4*clipped.width(), QImage::Format_RGB32);
+        QImage qImage(imageData, clipped.width(), clipped.height(), rowStride, QImage::Format_RGB32);
         qp.drawImage(clipped, qImage);
       }
     }

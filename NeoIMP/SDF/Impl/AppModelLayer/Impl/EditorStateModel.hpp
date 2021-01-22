@@ -27,6 +27,7 @@
 #include <SDF/Impl/AppModelLayer/Impl/IEditorStateModelMutation.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
 
 #include <fruit/fruit.h>
 #include <vector>
@@ -49,7 +50,10 @@ namespace SDF::Impl {
       ~EditorStateModel();
 
       // State manipulation.
-      void addDocument(UILayer::AbstractAppModel::Handle handle);
+      void addDocument(UILayer::AbstractAppModel::Handle handle,
+                       UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                       const unsigned char *initialRenderingPtr
+                      );
       void removeDocument(UILayer::AbstractAppModel::Handle handle);
       IDocumentStateModelMutation *getDocumentModelMutable(UILayer::AbstractAppModel::Handle handle);
 
