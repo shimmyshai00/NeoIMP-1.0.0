@@ -26,6 +26,7 @@
  */
 
 #include <SDF/Impl/ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Rendering/RGB32ImageRendering.hpp>
 
 #include <boost/gil.hpp>
 #include <vector>
@@ -33,12 +34,9 @@
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
   class Visitor : public Image::ImageDataVisitor {
   public:
-    Visitor();
-
-    // Access the rendering. For the format, see below. The visitor owns this data, so it should not be discarded
-    // until one is done using it! Note, this will return a NULL pointer until a region has been rendered by visiting
-    // an image.
-    const unsigned char *getRenderData();
+    // The visitor must be supplied with a buffer large enough to receive a full image rendering. The region rendering
+    // visitation methods below will render into this at the desired regions.
+    Visitor(Rendering::RGB32ImageRendering *renderBuffer);
 
     // Visitation methods. For this algorithm, we have to process each pixel type separately, as each has its own
     // distinct conversion. We cannot just use a boost::gil::any_image_view.
@@ -56,7 +54,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
     // TESTING - this author does not have the money to purchase a monitor with a color depth surpassing 8 bits per
     // channel (24 bits total). Thus it would be impossible to debug properly. This is thus a large FIXME for any
     // potential future contributors who happen to have the relevant hardware.
-    std::vector<unsigned char> m_renderBuffer;
+    Rendering::RGB32ImageRendering *m_renderBuffer;
   };
 }
 

@@ -56,12 +56,17 @@ namespace SDF::Impl::AppModelLayer::Impl {
     };
 
     UILayer::AbstractAppModel::Handle handle(m_documentCreationService->createDocument(modelSpec));
-    const unsigned char *renderedDataPtr(m_imageRenderingService->renderImageRegion(handle,
-                                                                                    0,
-                                                                                    0,
-                                                                                    spec.documentWidthPx-1,
-                                                                                    spec.documentHeightPx-1
-                                                                                   ));
+    AbstractModel::Handle renderingHandle(m_imageRenderingService->renderImage(handle));
+
+    const unsigned char *renderedDataPtr(nullptr);
+    std::ptrdiff_t rowStride(0);
+    m_imageRenderingService->getRenderedRegion(
+      renderedDataPtr, rowStride,
+      renderingHandle,
+      0, 0, spec.documentWidthPx-1, spec.documentHeightPx-1
+    );
+
+    // NB: upgrade to reflect new rendering system setup w/different data access interface?
     m_editorStateModelMutation->addDocument(handle, spec, renderedDataPtr);
 
     return handle;

@@ -6,7 +6,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Handle.hpp
- * PURPOSE: Definition of a type holding handles for objects in the model layer.
+ * PURPOSE: Definition of a type holding handles for objects in the model layer. Each handle uniquely identifies a
+ *          particular domain object.
  */
 
 /* This program is free software: you can redistribute it and/or modify

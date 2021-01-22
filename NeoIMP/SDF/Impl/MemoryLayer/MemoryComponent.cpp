@@ -24,6 +24,7 @@
 #include <MemoryComponent.hpp>
 
 #include <Impl/Repositories/ImageRepository.hpp>
+#include <Impl/Repositories/ImageRenderingRepository.hpp>
 
 #include <DataLayer/DataComponent.hpp>
 
@@ -32,6 +33,7 @@ namespace SDF::Impl::MemoryLayer {
   getMemoryComponent() {
     return fruit::createComponent()
       .bind<ModelLayer::AbstractMemory::Repositories::IImageRepository, Impl::Repositories::ImageRepository>()
+      .bind<ModelLayer::AbstractMemory::Repositories::IImageRenderingRepository, Impl::Repositories::ImageRenderingRepository>()
       .bind<ModelLayer::AbstractMemory::Persistence::IImagePersistenceMap, Impl::Repositories::ImageRepository>()
       .bind<ModelLayer::AbstractMemory::Persistence::IImagePersister, Impl::Repositories::ImageRepository>()
       .install(DataLayer::getDataComponent);

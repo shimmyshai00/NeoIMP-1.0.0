@@ -29,35 +29,56 @@
 #include <DomainObjects/Math/Rect.hpp>
 
 #include <AbstractMemory/Repositories/IImageRepository.hpp>
+#include <AbstractMemory/Repositories/IImageRenderingRepository.hpp>
+
 #include <DomainObjects/Image/AbstractImage.hpp>
+#include <DomainObjects/Rendering/AbstractImageRendering.hpp>
+#include <DomainObjects/Rendering/RGB32ImageRendering.hpp>
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 #include <MemoryLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  ImageRenderingService::ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository)
+  ImageRenderingService::ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                               AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository
+                                              )
     : m_imageRepository(imageRepository),
-      m_visitor(new DomainObjects::Algorithms::Renderer::Visitor)
+      m_imageRenderingRepository(imageRenderingRepository)
   {}
 
-  const unsigned char *
-  ImageRenderingService::renderImageRegion(AppModelLayer::AbstractModel::Handle handle,
-                                           int x1, int y1, int x2, int y2
-                                          )
-  {
+  AppModelLayer::AbstractModel::Handle ImageRenderingService::renderImage(AppModelLayer::AbstractModel::Handle imageHandle) {
+    // TBA: unique handle separate from passed handle - need "global" handle generator - clients don't know there are
+    // separate repositories
     try {
       // NB: needs to be made threadsafe
-      DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->access(handle));
+      DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->access(imageHandle));
+      std::unique_ptr<DomainObjects::Rendering::RGB32ImageRendering> imageRendering(
+        new DomainObjects::Rendering::RGB32ImageRendering(m_image->getImageWidth(), m_image->getImageHeight())
+      );
 
-      // Visit the desired region.
-      if((x1 < 0) || (y1 < 0) || (x2 >= m_image->getImageWidth()) || (y2 >= m_image->getImageHeight())) {
-        throw ModelLayer::Exceptions::RectangleOutOfBoundsException(x1, y1, x2, y2);
-      }
+      DomainObjects::Algorithms::Renderer::Visitor renderVisitor(imageRendering.get());
+      m_image->acceptLayerPixelVisitor(0, m_image->getImageRect(), &renderVisitor);
 
-      m_image->acceptLayerPixelVisitor(0, DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2), m_visitor);
-      return m_visitor->getRenderData();
+      m_imageRenderingRepository->add(imageHandle, std::move(imageRendering));
+      return imageHandle;
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
-      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+      throw ModelLayer::Exceptions::InvalidHandleException(imageHandle);
+    }
+  }
+
+  void ImageRenderingService::getRenderedRegion(const unsigned char *&origin,
+                                                std::ptrdiff_t &rowStride,
+                                                AppModelLayer::AbstractModel::Handle renderingHandle,
+                                                int x1, int y1, int x2, int y2
+                                               )
+  {
+    try {
+      m_imageRenderingRepository->access(renderingHandle).accessRenderingData(
+        origin, rowStride,
+        DomainObjects::Math::Rect<std::size_t>(x1, y1, x2, y2)
+      );
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
+      throw ModelLayer::Exceptions::InvalidHandleException(renderingHandle);
     }
   }
 }

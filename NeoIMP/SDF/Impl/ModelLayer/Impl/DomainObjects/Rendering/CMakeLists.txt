@@ -1,6 +1,4 @@
 target_include_directories(neoimp PUBLIC .)
-
 target_sources(neoimp PUBLIC
-  ImageRepository.cpp
-  ImageRenderingRepository.cpp
+  RGB32ImageRendering.cpp
 )

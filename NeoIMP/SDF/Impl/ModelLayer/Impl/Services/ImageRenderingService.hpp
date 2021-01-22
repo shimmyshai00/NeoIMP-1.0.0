@@ -32,6 +32,7 @@
 namespace SDF::Impl::ModelLayer {
   namespace AbstractMemory::Repositories {
     class IImageRepository;
+    class IImageRenderingRepository;
   }
 
   namespace Impl {
@@ -42,14 +43,19 @@ namespace SDF::Impl::ModelLayer {
     namespace Services {
       class ImageRenderingService : public AppModelLayer::AbstractModel::Services::IImageRenderingService {
       public:
-        INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+        INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                     AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository
+                                    ));
 
-        const unsigned char *renderImageRegion(AppModelLayer::AbstractModel::Handle handle,
-                                               int x1, int y1, int x2, int y2
-                                              );
+        AppModelLayer::AbstractModel::Handle renderImage(AppModelLayer::AbstractModel::Handle imageHandle);
+        void getRenderedRegion(const unsigned char *&origin,
+                               std::ptrdiff_t &rowStride,
+                               AppModelLayer::AbstractModel::Handle renderingHandle,
+                               int x1, int y1, int x2, int y2
+                              );
       private:
         AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-        DomainObjects::Algorithms::Renderer::Visitor *m_visitor;
+        AbstractMemory::Repositories::IImageRenderingRepository *m_imageRenderingRepository;
       };
     }
   }

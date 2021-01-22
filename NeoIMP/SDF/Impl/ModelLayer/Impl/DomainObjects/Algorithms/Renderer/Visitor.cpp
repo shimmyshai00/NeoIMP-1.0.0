@@ -24,17 +24,13 @@
 #include <Visitor.hpp>
 
 namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
-  Visitor::Visitor() {}
-
-  const unsigned char *
-  Visitor::getRenderData() {
-    return &(m_renderBuffer[0]);
-  }
+  Visitor::Visitor(Rendering::RGB32ImageRendering *renderBuffer)
+    : m_renderBuffer(renderBuffer)
+  {}
 
   void
   Visitor::visitGilRegion(boost::gil::gray8_view_t regionView) {
-    m_renderBuffer.resize(regionView.size() * 4);
-
+    /*
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
     for(auto it = regionView.begin(); it != regionView.end(); ++it, resultIt += 4) {
       (*(resultIt + 3)) = 0xFF; // nb: endianness matters here; need to make this more portable
@@ -42,10 +38,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = boost::gil::semantic_at_c<0>(*it);
       (*(resultIt    )) = boost::gil::semantic_at_c<0>(*it);
     }
+    */
   }
 
   void
   Visitor::visitGilRegion(boost::gil::gray16_view_t regionView) {
+    /*
     m_renderBuffer.resize(regionView.size() * 4);
 
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
@@ -55,10 +53,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = boost::gil::semantic_at_c<0>(*it) >> 8;
       (*(resultIt    )) = boost::gil::semantic_at_c<0>(*it) >> 8;
     }
+    */
   }
 
   void
   Visitor::visitGilRegion(boost::gil::rgb8_view_t regionView) {
+    /*
     m_renderBuffer.resize(regionView.size() * 4);
 
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
@@ -68,10 +68,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = boost::gil::semantic_at_c<1>(*it);
       (*(resultIt    )) = boost::gil::semantic_at_c<2>(*it);
     }
+    */
   }
 
   void
   Visitor::visitGilRegion(boost::gil::rgb16_view_t regionView) {
+    /*
     m_renderBuffer.resize(regionView.size() * 4);
 
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
@@ -81,10 +83,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = 0xFF; // TBA
       (*(resultIt    )) = 0xFF; // TBA
     }
+    */
   }
 
   void
   Visitor::visitGilRegion(boost::gil::cmyk8_view_t regionView) {
+    /*
     m_renderBuffer.resize(regionView.size() * 4);
 
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
@@ -94,10 +98,12 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = 0xFF; // TBA
       (*(resultIt    )) = 0xFF; // TBA
     }
+    */
   }
 
   void
   Visitor::visitGilRegion(boost::gil::cmyk16_view_t regionView) {
+    /*
     m_renderBuffer.resize(regionView.size() * 4);
 
     std::vector<unsigned char>::iterator resultIt(m_renderBuffer.begin());
@@ -107,5 +113,6 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Algorithms::Renderer {
       (*(resultIt + 1)) = 0xFF; // TBA
       (*(resultIt    )) = 0xFF; // TBA
     }
+    */
   }
 }

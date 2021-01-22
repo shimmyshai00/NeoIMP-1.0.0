@@ -1,13 +1,12 @@
-#ifndef SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
-#define SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGERENDERINGSERVICE_HPP
+#ifndef SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_RENDERING_ABSTRACTIMAGERENDERING_HPP
+#define SDF_IMPL_MODELLAYER_IMPL_DOMAINOBJECTS_RENDERING_ABSTRACTIMAGERENDERING_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageRenderingService.hpp
- * PURPOSE: Defines an interface for the MVC service for rendering parts of image documents so they can be displayed
- *          by the UI.
+ * FILE:    AbstractImageRendering.hpp
+ * PURPOSE: The abstract common base interface for image rendering outputs.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,20 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
+#include <SDF/Impl/ModelLayer/Impl/DomainObjects/Math/Rect.hpp>
 #include <cstdlib>
 
-namespace SDF::Impl::AppModelLayer::AbstractModel::Services {
-  class IImageRenderingService {
+namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Rendering {
+  class AbstractImageRendering {
   public:
-    virtual ~IImageRenderingService() = default;
+    virtual ~AbstractImageRendering() = default;
 
-    virtual Handle renderImage(Handle imageHandle) = 0;
-    virtual void getRenderedRegion(const unsigned char *&origin,
-                                   std::ptrdiff_t &rowStride,
-                                   Handle renderingHandle,
-                                   int x1, int y1, int x2, int y2
-                                  ) = 0;
+    virtual std::size_t getRenderingWidthPx() = 0;
+    virtual std::size_t getRenderingHeightPx() = 0;
+
+    // TBA: methods to get pixel format
+    virtual void accessRenderingData(const unsigned char *&origin,
+                                     std::ptrdiff_t rowStride,
+                                     Math::Rect<std::size_t> region
+                                    ) = 0;
   };
 }
 
