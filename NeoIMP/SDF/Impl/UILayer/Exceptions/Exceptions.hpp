@@ -31,19 +31,19 @@
 namespace SDF::Impl::UILayer::Exceptions {
   struct RemovedRootException : public SDF::Exception::Exception {
     RemovedRootException()
-      : Exception("Tried to remove a root MVC object from its hierarchy.")
+      : Exception(true, "Tried to remove a root MVC object from its hierarchy.")
     {}
   };
 
   struct IncompatibleWidgetSystemException : public SDF::Exception::Exception {
     IncompatibleWidgetSystemException(const char *wType)
-      : Exception("Tried to compose a view from a different widget system into a %s view. This is likely a bug.", wType)
+      : Exception(true, "Tried to compose a view from a different widget system into a %s view.", wType)
     {}
   };
 
   struct InvalidHandleException : public SDF::Exception::Exception {
     InvalidHandleException(UILayer::AbstractAppModel::DocumentHandle handle)
-      : Exception("Tried to access a document with handle '%d' that does not exist. This is likely a bug.", handle)
+      : Exception(true, "Tried to access a document with handle '%d' that does not exist.", handle)
     {}
   };
 }

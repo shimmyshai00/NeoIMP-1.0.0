@@ -32,19 +32,19 @@
 namespace SDF::Impl::ModelLayer::Exceptions {
   struct InvalidHandleException : public SDF::Exception::Exception {
     InvalidHandleException(AppModelLayer::AbstractModel::Handle handle)
-      : Exception("Tried to access a nonexistent object with handle '%d'.", handle)
+      : Exception(true, "Tried to access a nonexistent object with handle '%d'.", handle)
     {}
   };
 
   struct NonexistentLayerException : public SDF::Exception::Exception {
     NonexistentLayerException(std::size_t layerNum)
-      : Exception("Tried to access layer number %d, which does not exist in this image.", layerNum)
+      : Exception(true, "Tried to access layer number %d, which does not exist in this image.", layerNum)
     {}
   };
 
   struct RectangleOutOfBoundsException : public SDF::Exception::Exception {
     RectangleOutOfBoundsException(int x1, int y1, int x2, int y2)
-      : Exception("Tried to request access to an image region (%d, %d) - (%d, %d) that goes out of bounds",
+      : Exception(true, "Tried to request access to an image region (%d, %d) - (%d, %d) that goes out of bounds",
                   x1, y1, x2, y2
                  )
     {}

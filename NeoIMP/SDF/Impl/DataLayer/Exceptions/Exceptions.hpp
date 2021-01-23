@@ -30,14 +30,24 @@
 
 namespace SDF::Impl::DataLayer::Exceptions {
   struct MultilayerImageNotSupportedException : public SDF::Exception::Exception {
-    MultilayerImageNotSupportedException(std::string formatName)
-      : Exception("The %s format does not support saving images with multiple layers.", formatName)
+    MultilayerImageNotSupportedException(const char *formatName)
+      : Exception(false, "The %s format does not support saving images with multiple layers.", formatName)
     {}
   };
 
   struct ColorModelNotSupportedException : public SDF::Exception::Exception {
-    ColorModelNotSupportedException(std::string colorModelName)
-      : Exception("The %s color model is not supported by this file format.", colorModelName)
+    ColorModelNotSupportedException(const char *colorModelName)
+      : Exception(false, "The %s color model is not supported by this file format.", colorModelName)
+    {}
+  };
+
+  struct BadFileException : public SDF::Exception::Exception {
+    BadFileException(const char *formatName, const char *curLimitations)
+      : Exception(false,
+                  "This file does not appear to be a valid '%s' format file - or it is,\n"\
+                  "but of a kind the program currently does not support. Current limitations\n"\
+                  "on loading this type of file are:\n\n"\
+                  "%s", formatName, curLimitations)
     {}
   };
 }

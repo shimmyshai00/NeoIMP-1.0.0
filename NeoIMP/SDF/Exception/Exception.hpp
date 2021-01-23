@@ -31,12 +31,19 @@
 namespace SDF::Exception {
   class Exception : public std::exception {
 		public:
-			Exception(const char *whatFString, ...) noexcept {
+			Exception(bool likelyBug, const char *whatFString, ...) noexcept {
 				va_list vl;
+        SafeString preWhatString;
 
 				va_start(vl, whatFString);
-				whatString.vsPrintf(whatFString, vl);
-				va_end(vl);
+				preWhatString.vsPrintf(whatFString, vl);
+        va_end(vl);
+
+        if(likelyBug) {
+          whatString.sPrintf("%s\n\nThis likely means there is a bug in the program.", preWhatString.get());
+        } else {
+          whatString.sPrintf("%s", preWhatString.get());
+        }
 			}
 
 			virtual ~Exception() noexcept {}
@@ -45,6 +52,7 @@ namespace SDF::Exception {
 				return whatString.get();
 			}
 		private:
+      bool likelyBug;
 			SafeString whatString;
 	};
 }

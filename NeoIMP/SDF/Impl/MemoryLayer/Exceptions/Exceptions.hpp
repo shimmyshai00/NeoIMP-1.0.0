@@ -31,25 +31,25 @@
 namespace SDF::Impl::MemoryLayer::Exceptions {
   struct ObjectNotFoundException : public SDF::Exception::Exception {
     ObjectNotFoundException(ModelLayer::AbstractMemory::Handle handle)
-      : Exception("Object with handle '%d' not found in the repository", handle)
+      : Exception(true, "Object with handle '%d' not found in the repository", handle)
     {}
   };
 
   struct DuplicateObjectException : public SDF::Exception::Exception {
     DuplicateObjectException(ModelLayer::AbstractMemory::Handle handle)
-      : Exception("Tried to add object to repository with already-taken handle '%d'", handle)
+      : Exception(true, "Tried to add object to repository with already-taken handle '%d'", handle)
     {}
   };
 
   struct FileSpecNotAssignedException : public SDF::Exception::Exception {
     FileSpecNotAssignedException(ModelLayer::AbstractMemory::Handle handle)
-      : Exception("Tried to save/load object with handle '%d' without assigned file spec", handle)
+      : Exception(true, "Tried to save/load object with handle '%d' without assigned file spec", handle)
     {}
   };
 
   struct FileFormatNotAssignedException : public SDF::Exception::Exception {
     FileFormatNotAssignedException(ModelLayer::AbstractMemory::Handle handle)
-      : Exception("Tried to load object into handle '%d' without assigned file format", handle)
+      : Exception(true, "Tried to load object into handle '%d' without assigned file format", handle)
     {}
   };
 }

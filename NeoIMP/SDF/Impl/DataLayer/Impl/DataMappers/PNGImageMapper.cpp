@@ -26,6 +26,8 @@
 #include <ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
 #include <ModelLayer/Impl/DomainObjects/Image/Gil/ImageFactory.hpp>
 
+#include <DataLayer/Exceptions/Exceptions.hpp>
+
 #include <boost/gil/extension/io/png.hpp>
 
 namespace SDF::Impl::DataLayer::Impl::DataMappers {
@@ -84,11 +86,15 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
 
   std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>
   PNGImageMapper::loadImage(std::string fileSpec) {
-    // NB: only PNG format supported for now
-    boost::gil::rgb8_image_t pngImage;
-    boost::gil::read_image(fileSpec, pngImage, boost::gil::png_tag {});
+    try {
+      // NB: only PNG format supported for now
+      boost::gil::rgb8_image_t pngImage;
+      boost::gil::read_image(fileSpec, pngImage, boost::gil::png_tag {});
 
-    // NB: should name constant (image PPI default) somewhere / STUB for future import parameters specification
-    return std::move(ModelLayer::Impl::DomainObjects::Image::Gil::createImage(fileSpec, 120.0f, pngImage));
+      // NB: should name constant (image PPI default) somewhere / STUB for future import parameters specification
+      return std::move(ModelLayer::Impl::DomainObjects::Image::Gil::createImage(fileSpec, 120.0f, pngImage));
+    } catch(std::ios_base::failure &e) {
+      throw DataLayer::Exceptions::BadFileException("PNG", "Must be 8-bit-per-channel RGB format only. No alpha channels supported.");
+    }
   }
 }
