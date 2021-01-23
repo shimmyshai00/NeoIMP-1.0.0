@@ -40,7 +40,18 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     template<class GilAlphaType, class GilImageType>
     class GilImage : public AbstractImage {
     public:
+      // Purpose: Constructs a new GilImage container to a given specification.
       GilImage(std::string imageName, std::size_t imageWidthPx, std::size_t imageHeightPx, float imageResolutionPpi);
+
+      // Purpose: Constructs a new GilImage container from a stack of pre-provided GIL single-layer image buffers (no
+      //          layer masks). This constructor is designed to help facilitate rebuilding a GilImage object from
+      //          persistent storage.
+      GilImage(std::string imageName,
+               std::size_t imageWidthPx,
+               std::size_t imageHeightPx,
+               float imageResolutionPpi,
+               std::vector<GilImageType> &layerStack
+              );
       ~GilImage();
 
       std::string getImageName() const;

@@ -25,15 +25,31 @@
 
 namespace SDF::Impl::AppModelLayer::Impl {
   DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
-                                         UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                                         std::string documentName,
+                                         int documentWidthPx,
+                                         int documentHeightPx,
+                                         float documentResolutionPpi,
                                          const unsigned char *renderedDataPtr
                                         )
     : m_documentHandle(documentHandle),
-      m_documentName(spec.documentName),
-      m_documentWidthPx(spec.documentWidthPx),
-      m_documentHeightPx(spec.documentHeightPx),
-      m_documentResolutionPpi(spec.documentResolutionPpi),
+      m_documentName(documentName),
+      m_documentWidthPx(documentWidthPx),
+      m_documentHeightPx(documentHeightPx),
+      m_documentResolutionPpi(documentResolutionPpi),
       m_renderedDataPtr(renderedDataPtr)
+  {}
+
+  DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
+                                         UILayer::AbstractAppModel::Data::DocumentSpec spec,
+                                         const unsigned char *renderedDataPtr
+                                        )
+    : DocumentStateModel(documentHandle,
+                         spec.documentName,
+                         spec.documentWidthPx,
+                         spec.documentHeightPx,
+                         spec.documentResolutionPpi,
+                         renderedDataPtr
+                        )
   {}
 
   void

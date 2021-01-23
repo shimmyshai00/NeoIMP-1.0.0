@@ -50,6 +50,13 @@ namespace SDF::Impl {
                        UILayer::AbstractAppModel::Data::DocumentSpec spec,
                        const unsigned char *initialRenderingPtr
                       );
+      void addDocument(UILayer::AbstractAppModel::Handle handle,
+                       std::string documentName,
+                       int documentWidthPx,
+                       int documentHeightPx,
+                       float documentResolutionPpi,
+                       const unsigned char *initialRenderingPtr
+                      );
       void removeDocument(UILayer::AbstractAppModel::Handle handle);
 
       void setFocusDocument(UILayer::AbstractAppModel::Handle handle);

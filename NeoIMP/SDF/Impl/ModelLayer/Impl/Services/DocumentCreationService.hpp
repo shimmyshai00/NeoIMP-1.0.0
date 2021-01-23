@@ -35,16 +35,24 @@ namespace SDF::Impl::ModelLayer {
     class IImageRepository;
   }
 
-  namespace Impl::Services {
-    class DocumentCreationService : public AppModelLayer::AbstractModel::Services::IDocumentCreationService {
-    public:
-      INJECT(DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository));
+  namespace Impl {
+    namespace Support {
+      class HandleGenerator;
+    }
 
-      AppModelLayer::AbstractModel::Handle createDocument(AppModelLayer::AbstractModel::Data::DocumentSpec spec);
-    private:
-      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-      AppModelLayer::AbstractModel::Handle m_nextHandle;
-    };
+    namespace Services {
+      class DocumentCreationService : public AppModelLayer::AbstractModel::Services::IDocumentCreationService {
+      public:
+        INJECT(DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                       Support::HandleGenerator *handleGenerator
+                                      ));
+
+        AppModelLayer::AbstractModel::Handle createDocument(AppModelLayer::AbstractModel::Data::DocumentSpec spec);
+      private:
+        AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+        Support::HandleGenerator *m_handleGenerator;
+      };
+    }
   }
 }
 

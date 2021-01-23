@@ -35,6 +35,13 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   {}
 
   template<class GilAlphaType, class GilImageType>
+  GilLayer<GilAlphaType, GilImageType>::GilLayer(const GilImageType &gilImageBuffer
+                                                )
+    : m_alpha(gilImageBuffer.width(), gilImageBuffer.height()),
+      m_image(gilImageBuffer)
+  {}
+
+  template<class GilAlphaType, class GilImageType>
   std::size_t
   GilLayer<GilAlphaType, GilImageType>::getLayerWidth() const {
     return m_alpha.width();

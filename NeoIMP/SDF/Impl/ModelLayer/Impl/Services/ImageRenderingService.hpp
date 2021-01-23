@@ -40,11 +40,16 @@ namespace SDF::Impl::ModelLayer {
       class Visitor;
     }
 
+    namespace Support {
+      class HandleGenerator;
+    }
+
     namespace Services {
       class ImageRenderingService : public AppModelLayer::AbstractModel::Services::IImageRenderingService {
       public:
         INJECT(ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository,
-                                     AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository
+                                     AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository,
+                                     Support::HandleGenerator *handleGenerator
                                     ));
 
         AppModelLayer::AbstractModel::Handle renderImage(AppModelLayer::AbstractModel::Handle imageHandle);
@@ -56,6 +61,8 @@ namespace SDF::Impl::ModelLayer {
       private:
         AbstractMemory::Repositories::IImageRepository *m_imageRepository;
         AbstractMemory::Repositories::IImageRenderingRepository *m_imageRenderingRepository;
+
+        Support::HandleGenerator *m_handleGenerator;
       };
     }
   }

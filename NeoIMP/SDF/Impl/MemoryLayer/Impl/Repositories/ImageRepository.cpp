@@ -70,10 +70,6 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
                                   std::string fileSpec
                                  )
   {
-    if(m_imageMap.find(handle) == m_imageMap.end()) {
-      throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
-    }
-
     m_imageFileSpecMap[handle] = fileSpec;
   }
 
@@ -82,10 +78,6 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
                                     DataLayer::Properties::FileFormat fileFormat
                                    )
   {
-    if(m_imageMap.find(handle) == m_imageMap.end()) {
-      throw MemoryLayer::Exceptions::ObjectNotFoundException(handle);
-    }
-
     m_imageFileFormatMap[handle] = fileFormat;
   }
 
@@ -104,6 +96,14 @@ namespace SDF::Impl::MemoryLayer::Impl::Repositories {
 
   void
   ImageRepository::retrieveImage(ModelLayer::AbstractMemory::Handle handle) {
-    // TBA
+    if(m_imageFileSpecMap.find(handle) == m_imageFileSpecMap.end()) {
+      throw MemoryLayer::Exceptions::FileSpecNotAssignedException(handle);
+    }
+
+    if(m_imageFileFormatMap.find(handle) == m_imageFileFormatMap.end()) {
+      throw MemoryLayer::Exceptions::FileFormatNotAssignedException(handle);
+    }
+
+    m_imageMap[handle] = std::move(m_dataMapper->loadImage(m_imageFileSpecMap[handle]));
   }
 }

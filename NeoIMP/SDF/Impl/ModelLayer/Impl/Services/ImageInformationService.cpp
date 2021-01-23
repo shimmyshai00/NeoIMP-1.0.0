@@ -60,4 +60,13 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       throw ModelLayer::Exceptions::InvalidHandleException(handle);
     }
   }
+
+  float
+  ImageInformationService::getImageResolutionPpi(AppModelLayer::AbstractModel::Handle handle) {
+    try {
+      return m_imageRepository->access(handle).getImageResolutionPpi();
+    } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
+      throw ModelLayer::Exceptions::InvalidHandleException(handle);
+    }
+  }
 }

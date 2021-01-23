@@ -38,17 +38,19 @@
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 #include <MemoryLayer/Exceptions/Exceptions.hpp>
 
+#include <Support/HandleGenerator.hpp>
+
 namespace SDF::Impl::ModelLayer::Impl::Services {
   ImageRenderingService::ImageRenderingService(AbstractMemory::Repositories::IImageRepository *imageRepository,
-                                               AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository
+                                               AbstractMemory::Repositories::IImageRenderingRepository *imageRenderingRepository,
+                                               Support::HandleGenerator *handleGenerator
                                               )
     : m_imageRepository(imageRepository),
-      m_imageRenderingRepository(imageRenderingRepository)
+      m_imageRenderingRepository(imageRenderingRepository),
+      m_handleGenerator(handleGenerator)
   {}
 
   AppModelLayer::AbstractModel::Handle ImageRenderingService::renderImage(AppModelLayer::AbstractModel::Handle imageHandle) {
-    // TBA: unique handle separate from passed handle - need "global" handle generator - clients don't know there are
-    // separate repositories
     try {
       // NB: needs to be made threadsafe
       DomainObjects::Image::AbstractImage *m_image(&m_imageRepository->access(imageHandle));
@@ -59,8 +61,9 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       DomainObjects::Algorithms::Renderer::Visitor renderVisitor(imageRendering.get());
       m_image->acceptLayerPixelVisitor(0, m_image->getImageRect(), &renderVisitor);
 
-      m_imageRenderingRepository->add(imageHandle, std::move(imageRendering));
-      return imageHandle;
+      AppModelLayer::AbstractModel::Handle renderingHandle(m_handleGenerator->getNextHandle());
+      m_imageRenderingRepository->add(renderingHandle, std::move(imageRendering));
+      return renderingHandle;
     } catch(MemoryLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::InvalidHandleException(imageHandle);
     }

@@ -24,6 +24,7 @@
 #include <PNGImageMapper.hpp>
 
 #include <ModelLayer/Impl/DomainObjects/Image/ImageDataVisitor.hpp>
+#include <ModelLayer/Impl/DomainObjects/Image/Gil/ImageFactory.hpp>
 
 #include <boost/gil/extension/io/png.hpp>
 
@@ -83,7 +84,11 @@ namespace SDF::Impl::DataLayer::Impl::DataMappers {
 
   std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>
   PNGImageMapper::loadImage(std::string fileSpec) {
-    // TBA
-    return std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage>();
+    // NB: only PNG format supported for now
+    boost::gil::rgb8_image_t pngImage;
+    boost::gil::read_image(fileSpec, pngImage, boost::gil::png_tag {});
+
+    // NB: should name constant (image PPI default) somewhere / STUB for future import parameters specification
+    return std::move(ModelLayer::Impl::DomainObjects::Image::Gil::createImage(fileSpec, 120.0f, pngImage));
   }
 }

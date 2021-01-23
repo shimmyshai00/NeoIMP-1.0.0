@@ -27,10 +27,14 @@
 #include <DomainObjects/Image/AbstractImage.hpp>
 #include <DomainObjects/Image/Gil/ImageFactory.hpp>
 
+#include <Support/HandleGenerator.hpp>
+
 namespace SDF::Impl::ModelLayer::Impl::Services {
-  DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository)
+  DocumentCreationService::DocumentCreationService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                                   Support::HandleGenerator *handleGenerator
+                                                  )
     : m_imageRepository(imageRepository),
-      m_nextHandle(0)
+      m_handleGenerator(handleGenerator)
   {}
 
   AppModelLayer::AbstractModel::Handle
@@ -40,7 +44,7 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
       spec.colorModel, spec.bitDepth
     ));
 
-    AppModelLayer::AbstractModel::Handle imageHandle(m_nextHandle++);
+    AppModelLayer::AbstractModel::Handle imageHandle(m_handleGenerator->getNextHandle());
     m_imageRepository->add(imageHandle, std::move(image));
 
     return imageHandle;

@@ -41,6 +41,23 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
   }
 
   template<class GilAlphaType, class GilImageType>
+  GilImage<GilAlphaType, GilImageType>::GilImage(std::string imageName,
+                                                 std::size_t imageWidthPx,
+                                                 std::size_t imageHeightPx,
+                                                 float imageResolutionPpi,
+                                                 std::vector<GilImageType> &layerStack
+                                                )
+    : m_imageName(imageName),
+      m_imageWidthPx(imageWidthPx),
+      m_imageHeightPx(imageHeightPx),
+      m_imageResolutionPpi(imageResolutionPpi)
+  {
+    for(GilImageType &stackImage : layerStack) {
+      m_layers.push_back(std::make_unique<GilLayer<GilAlphaType, GilImageType>>(stackImage));
+    }
+  }
+
+  template<class GilAlphaType, class GilImageType>
   GilImage<GilAlphaType, GilImageType>::~GilImage() {}
 
   template<class GilAlphaType, class GilImageType>

@@ -43,27 +43,36 @@ namespace SDF::Impl::ModelLayer {
     }
   }
 
-  namespace Impl::Services {
-    class DocumentStorageService : public AppModelLayer::AbstractModel::Services::IDocumentStorageService {
-    public:
-      INJECT(DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
-                                    AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
-                                    AbstractMemory::Persistence::IImagePersister *imagePersister
-                                   ));
+  namespace Impl {
+    namespace Support {
+      class HandleGenerator;
+    }
 
-      void saveDocument(std::string fileSpec,
-                        DataLayer::Properties::FileFormat fileFormat,
-                        AppModelLayer::AbstractModel::Handle handle
-                       );
+    namespace Services {
+      class DocumentStorageService : public AppModelLayer::AbstractModel::Services::IDocumentStorageService {
+      public:
+        INJECT(DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
+                                      AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
+                                      AbstractMemory::Persistence::IImagePersister *imagePersister,
+                                      Support::HandleGenerator *handleGenerator
+                                     ));
 
-      AppModelLayer::AbstractModel::Handle loadDocument(std::string fileSpec,
-                                                        DataLayer::Properties::FileFormat fileFormat
-                                                       );
-    private:
-      AbstractMemory::Repositories::IImageRepository *m_imageRepository;
-      AbstractMemory::Persistence::IImagePersistenceMap *m_imagePersistenceMap;
-      AbstractMemory::Persistence::IImagePersister *m_imagePersister;
-    };
+        void saveDocument(std::string fileSpec,
+                          DataLayer::Properties::FileFormat fileFormat,
+                          AppModelLayer::AbstractModel::Handle handle
+                         );
+
+        AppModelLayer::AbstractModel::Handle loadDocument(std::string fileSpec,
+                                                          DataLayer::Properties::FileFormat fileFormat
+                                                         );
+      private:
+        AbstractMemory::Repositories::IImageRepository *m_imageRepository;
+        AbstractMemory::Persistence::IImagePersistenceMap *m_imagePersistenceMap;
+        AbstractMemory::Persistence::IImagePersister *m_imagePersister;
+
+        Support::HandleGenerator *m_handleGenerator;
+      };
+    }
   }
 }
 

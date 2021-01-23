@@ -43,7 +43,13 @@ namespace SDF::Impl::MemoryLayer::Exceptions {
 
   struct FileSpecNotAssignedException : public SDF::Exception::Exception {
     FileSpecNotAssignedException(ModelLayer::AbstractMemory::Handle handle)
-      : Exception("Tried to save object with handle '%d' without assigned file spec", handle)
+      : Exception("Tried to save/load object with handle '%d' without assigned file spec", handle)
+    {}
+  };
+
+  struct FileFormatNotAssignedException : public SDF::Exception::Exception {
+    FileFormatNotAssignedException(ModelLayer::AbstractMemory::Handle handle)
+      : Exception("Tried to load object into handle '%d' without assigned file format", handle)
     {}
   };
 }

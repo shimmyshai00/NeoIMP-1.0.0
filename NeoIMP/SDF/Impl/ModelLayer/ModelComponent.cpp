@@ -31,6 +31,8 @@
 
 #include <Impl/DomainObjects/Image/AbstractImage.hpp>
 
+#include <Impl/Support/HandleGenerator.hpp>
+
 #include <MemoryLayer/MemoryComponent.hpp>
 
 namespace SDF::Impl::ModelLayer {

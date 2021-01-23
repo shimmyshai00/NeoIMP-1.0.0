@@ -36,6 +36,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
     class GilLayer {
     public:
       GilLayer(std::size_t layerWidthPx, std::size_t layerHeightPx);
+      GilLayer(const GilImageType &gilImageBuffer);
       ~GilLayer() {}
 
       std::size_t getLayerWidth() const;

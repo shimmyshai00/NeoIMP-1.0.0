@@ -47,6 +47,25 @@ namespace SDF::Impl::AppModelLayer::Impl {
     onDocumentAdded(handle);
   }
 
+  void EditorStateModel::addDocument(UILayer::AbstractAppModel::Handle handle,
+                                     std::string documentName,
+                                     int documentWidthPx,
+                                     int documentHeightPx,
+                                     float documentResolutionPpi,
+                                     const unsigned char *initialRenderingPtr
+                                    )
+  {
+    m_openDocumentHandles.push_back(handle);
+    m_documentModels[handle] = std::make_unique<DocumentStateModel>(handle,
+                                                                    documentName,
+                                                                    documentWidthPx,
+                                                                    documentHeightPx,
+                                                                    documentResolutionPpi,
+                                                                    initialRenderingPtr
+                                                                   );
+    onDocumentAdded(handle);
+  }
+
   void
   EditorStateModel::removeDocument(UILayer::AbstractAppModel::Handle handle) {
     m_openDocumentHandles.erase(std::find(m_openDocumentHandles.begin(), m_openDocumentHandles.end(), handle));

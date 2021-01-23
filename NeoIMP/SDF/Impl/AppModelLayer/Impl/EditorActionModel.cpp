@@ -92,6 +92,25 @@ namespace SDF::Impl::AppModelLayer::Impl {
   EditorActionModel::openDocument(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
     // TBA
     std::cout << "opening document file " << fileName << " with format " << fileFormat << "..." << std::endl;
+    UILayer::AbstractAppModel::Handle handle(m_documentStorageService->loadDocument(fileName, fileFormat));
+    std::cout << "loaded" << std::endl;
+
+    // Render the image (Note: spin this off into a separate method? - DRAFT of this method)
+    AbstractModel::Handle renderingHandle(m_imageRenderingService->renderImage(handle));
+    int imageWidth(m_imageInformationService->getImageWidth(handle));
+    int imageHeight(m_imageInformationService->getImageHeight(handle));
+    float imageResolutionPpi(m_imageInformationService->getImageResolutionPpi(handle));
+
+    const unsigned char *renderedDataPtr(nullptr);
+    std::ptrdiff_t rowStride(0);
+    m_imageRenderingService->getRenderedRegion(
+      renderedDataPtr, rowStride,
+      renderingHandle,
+      0, 0, imageWidth-1, imageHeight-1
+    );
+
+    m_editorStateModel->addDocument(handle, fileName, imageWidth, imageHeight, imageResolutionPpi, renderedDataPtr);
+    m_editorStateModel->setFocusDocument(handle);
   }
 
   void

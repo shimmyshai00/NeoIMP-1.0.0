@@ -36,10 +36,17 @@ namespace SDF::Impl::AppModelLayer::Impl {
   class DocumentStateModel : public UILayer::AbstractAppModel::State::IDocumentAppModel {
   public:
     DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
+                       std::string documentName,
+                       int documentWidthPx,
+                       int documentHeightPx,
+                       float documentResolutionPpi,
+                       const unsigned char *renderedDataPtr
+                      );
+    DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
                        UILayer::AbstractAppModel::Data::DocumentSpec spec,
                        const unsigned char *renderedDataPtr
                       );
-
+                      
     // State manipulation.
     void setDocumentName(std::string newName);
 

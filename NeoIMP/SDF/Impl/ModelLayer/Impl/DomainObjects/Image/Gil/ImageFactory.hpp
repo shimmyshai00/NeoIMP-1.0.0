@@ -27,6 +27,8 @@
 #include <SDF/Impl/ModelLayer/Properties/ColorModel.hpp>
 #include <SDF/Impl/ModelLayer/Properties/BitDepth.hpp>
 
+#include <boost/gil.hpp>
+
 #include <string>
 #include <memory>
 #include <cstdlib>
@@ -41,6 +43,13 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image {
                                                float imageResolutionPpi,
                                                ModelLayer::Properties::ColorModel colorModel,
                                                ModelLayer::Properties::BitDepth bitDepth
+                                              );
+
+    // NB: move outside to interface? The situation of the lower data layers viz. interface/impl distinction on the
+    //     domain layer is as yet unresolved
+    std::unique_ptr<AbstractImage> createImage(std::string imageName,
+                                               float imageResolutionPpi,
+                                               boost::gil::rgb8_image_t &gilData
                                               );
   }
 }

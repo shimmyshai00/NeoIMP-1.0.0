@@ -32,14 +32,18 @@
 
 #include <DomainObjects/Image/AbstractImage.hpp>
 
+#include <Support/HandleGenerator.hpp>
+
 namespace SDF::Impl::ModelLayer::Impl::Services {
   DocumentStorageService::DocumentStorageService(AbstractMemory::Repositories::IImageRepository *imageRepository,
                                                  AbstractMemory::Persistence::IImagePersistenceMap *imagePersistenceMap,
-                                                 AbstractMemory::Persistence::IImagePersister *imagePersister
+                                                 AbstractMemory::Persistence::IImagePersister *imagePersister,
+                                                 Support::HandleGenerator *handleGenerator
                                                 )
     : m_imageRepository(imageRepository),
       m_imagePersistenceMap(imagePersistenceMap),
-      m_imagePersister(imagePersister)
+      m_imagePersister(imagePersister),
+      m_handleGenerator(handleGenerator)
   {}
 
   void
@@ -63,7 +67,13 @@ namespace SDF::Impl::ModelLayer::Impl::Services {
                                        DataLayer::Properties::FileFormat fileFormat
                                       )
   {
-    // TBA
-    return -1;
+    AppModelLayer::AbstractModel::Handle handle(m_handleGenerator->getNextHandle());
+
+    m_imagePersistenceMap->assignFileSpec(handle, fileSpec);
+    m_imagePersistenceMap->assignFileFormat(handle, fileFormat);
+
+    m_imagePersister->retrieveImage(handle);
+
+    return handle;
   }
 }

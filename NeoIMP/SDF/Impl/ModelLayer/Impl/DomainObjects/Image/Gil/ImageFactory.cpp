@@ -83,4 +83,18 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Image::Gil {
       ));
     }
   }
+
+  std::unique_ptr<AbstractImage>
+  createImage(std::string imageName,
+              float imageResolutionPpi,
+              boost::gil::rgb8_image_t &gilData
+             )
+  {
+    std::vector<boost::gil::rgb8_image_t> layerStack;
+    layerStack.push_back(gilData);
+
+    return std::unique_ptr<AbstractImage>(new GilImage<boost::gil::gray8_image_t, boost::gil::rgb8_image_t>(
+      imageName, gilData.width(), gilData.height(), imageResolutionPpi, layerStack
+    ));
+  }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
-#define SDF_IMPL_APPMODELLAYER_ABSTRACTMODEL_SERVICES_IIMAGEINFORMATIONSERVICE_HPP
+#ifndef SDF_IMPL_MODELLAYER_IMPL_SUPPORT_HANDLEGENERATOR_HPP
+#define SDF_IMPL_MODELLAYER_IMPL_SUPPORT_HANDLEGENERATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IImageInformationService.hpp
- * PURPOSE: Defines an interface for an MVC service that provides information about images (not the image data itself).
+ * FILE:    HandleGenerator.hpp
+ * PURPOSE: Generates unique handles for each domain object.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,18 +25,17 @@
  */
 
 #include <SDF/Impl/AppModelLayer/AbstractModel/Handle.hpp>
-#include <string>
 
-namespace SDF::Impl::AppModelLayer::AbstractModel::Services {
-  class IImageInformationService {
+#include <fruit/fruit.h>
+
+namespace SDF::Impl::ModelLayer::Impl::Support {
+  class HandleGenerator {
   public:
-    virtual ~IImageInformationService() = default;
+    INJECT(HandleGenerator());
 
-    virtual std::string getImageName(Handle handle) = 0;
-
-    virtual int getImageWidth(Handle handle) = 0;
-    virtual int getImageHeight(Handle handle) = 0;
-    virtual float getImageResolutionPpi(Handle handle) = 0;
+    AppModelLayer::AbstractModel::Handle getNextHandle();
+  private:
+    AppModelLayer::AbstractModel::Handle m_nextHandle;
   };
 }
 

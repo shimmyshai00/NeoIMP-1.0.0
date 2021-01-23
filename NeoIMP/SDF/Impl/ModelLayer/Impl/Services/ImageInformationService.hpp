@@ -44,6 +44,7 @@ namespace SDF::Impl::ModelLayer {
 
       int getImageWidth(AppModelLayer::AbstractModel::Handle handle);
       int getImageHeight(AppModelLayer::AbstractModel::Handle handle);
+      float getImageResolutionPpi(AppModelLayer::AbstractModel::Handle handle);
     private:
       AbstractMemory::Repositories::IImageRepository *m_imageRepository;
     };
