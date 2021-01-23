@@ -82,11 +82,16 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
   void
   EditorActionModel::saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
-    // TBA
     UILayer::AbstractAppModel::Handle handleOfDocumentToSave(m_editorStateModel->getFocusDocument());
     std::cout << "saving document " << handleOfDocumentToSave << " to " << fileName << " with format " << fileFormat << "..." << std::endl;
     m_documentStorageService->saveDocument(fileName, fileFormat, handleOfDocumentToSave);
     m_editorStateModel->getDocumentStateModel(handleOfDocumentToSave)->setDocumentName(fileName); // YES!!!!! Finally!
+  }
+
+  void
+  EditorActionModel::openDocument(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
+    // TBA
+    std::cout << "opening document file " << fileName << " with format " << fileFormat << "..." << std::endl;
   }
 
   void

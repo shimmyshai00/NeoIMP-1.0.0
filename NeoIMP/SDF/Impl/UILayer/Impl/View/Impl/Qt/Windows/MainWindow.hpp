@@ -45,6 +45,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     void addPrincipalWidget(QWidget *widget);
   signals:
     void newClicked();
+    void openClicked();
     void saveAsClicked();
     void exitClicked();
   private:

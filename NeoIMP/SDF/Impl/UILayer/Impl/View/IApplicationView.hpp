@@ -40,6 +40,7 @@ namespace SDF::Impl::UILayer::Impl::View {
   public:
     boost::signals2::signal<void ()> onNewClicked;
     boost::signals2::signal<void ()> onSaveAsClicked;
+    boost::signals2::signal<void ()> onOpenClicked;
     boost::signals2::signal<void ()> onExitClicked;
   };
 }

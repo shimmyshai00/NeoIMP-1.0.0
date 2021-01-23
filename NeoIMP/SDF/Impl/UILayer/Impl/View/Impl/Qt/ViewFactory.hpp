@@ -34,6 +34,7 @@ namespace SDF::Impl::UILayer {
     namespace Actions {
       class ICreateDocumentAction;
       class ISaveDocumentAsAction;
+      class IOpenDocumentAction;
       class ISetFocusDocumentAction;
     }
 
@@ -54,6 +55,8 @@ namespace SDF::Impl::UILayer {
 
       class IApplicationView;
       class INewDocumentView;
+      class ISaveDocumentView;
+      class IOpenDocumentView;
       class IDocumentView;
 
       namespace Impl::Qt {
@@ -62,6 +65,7 @@ namespace SDF::Impl::UILayer {
           INJECT(ViewFactory(IViewSink *viewSink,
                              AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
                              AbstractAppModel::Actions::ISaveDocumentAsAction *saveDocumentAsAction,
+                             AbstractAppModel::Actions::IOpenDocumentAction *openDocumentAction,
                              AbstractAppModel::Actions::ISetFocusDocumentAction *setFocusDocumentAction,
                              AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
                             ));
@@ -70,12 +74,14 @@ namespace SDF::Impl::UILayer {
           std::unique_ptr<IApplicationView> createApplicationView(IUIControl *uiControl);
           std::unique_ptr<INewDocumentView> createNewDocumentView();
           std::unique_ptr<ISaveDocumentView> createSaveDocumentView();
+          std::unique_ptr<IOpenDocumentView> createOpenDocumentView();
           std::unique_ptr<IDocumentView> createDocumentView(AbstractAppModel::Handle handle);
         private:
           IViewSink *m_viewSink;
 
           AbstractAppModel::Actions::ICreateDocumentAction *m_createDocumentAction;
           AbstractAppModel::Actions::ISaveDocumentAsAction *m_saveDocumentAsAction;
+          AbstractAppModel::Actions::IOpenDocumentAction *m_openDocumentAction;
           AbstractAppModel::Actions::ISetFocusDocumentAction *m_setFocusDocumentAction;
 
           AbstractAppModel::State::IOpenDocumentsAppModel *m_openDocumentsAppModel;

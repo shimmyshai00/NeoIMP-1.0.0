@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/IOpenDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISetFocusDocumentAction.hpp>
 
 #include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
@@ -46,6 +47,7 @@ namespace SDF::Impl::AppModelLayer {
 
     class EditorActionModel : public UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
                               public UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction,
+                              public UILayer::AbstractAppModel::Actions::IOpenDocumentAction,
                               public UILayer::AbstractAppModel::Actions::ISetFocusDocumentAction
     {
     public:
@@ -58,6 +60,7 @@ namespace SDF::Impl::AppModelLayer {
 
       UILayer::AbstractAppModel::Handle createDocument(UILayer::AbstractAppModel::Data::DocumentSpec spec);
       void saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat);
+      void openDocument(std::string fileName, DataLayer::Properties::FileFormat fileFormat);
       void setFocusDocument(UILayer::AbstractAppModel::Handle handle);
     private:
       AbstractModel::Services::IDocumentCreationService *m_documentCreationService;

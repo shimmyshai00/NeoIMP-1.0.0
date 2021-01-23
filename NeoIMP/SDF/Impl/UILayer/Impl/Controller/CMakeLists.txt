@@ -3,5 +3,6 @@ target_sources(neoimp PUBLIC
   ApplicationController.cpp
   NewDocumentDialogController.cpp
   SaveDocumentDialogController.cpp
+  OpenDocumentDialogController.cpp
   DocumentController.cpp
 )

@@ -1,9 +1,12 @@
+#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTVIEW_HPP
+#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_OPENDOCUMENTVIEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.cpp
- * PURPOSE: Implementation of the MainWindow class.
+ * FILE:    OpenDocumentView.hpp
+ * PURPOSE: The Qt-based open-document view.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindow.hpp>
-#include "../QtResources/ui_MainWindow.h"
+#include <SDF/Impl/Framework/MVCView.hpp>
+#include <SDF/Impl/UILayer/Impl/View/IOpenDocumentView.hpp>
 
-#include <QSizePolicy>
+#include <QFileDialog>
 
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      m_ui(new Ui::MainWindow)
+namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
+  class OpenDocumentView : public Framework::MVCInteractiveView<IOpenDocumentView>,
+                           public virtual IOpenDocumentView
   {
-    m_ui->setupUi(this);
-
-    connect(m_ui->action_New, &QAction::triggered, this, &MainWindow::newClicked);
-    connect(m_ui->action_Open, &QAction::triggered, this, &MainWindow::openClicked);
-    connect(m_ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAsClicked);
-    connect(m_ui->actionE_xit, &QAction::triggered, this, &MainWindow::exitClicked);
-  }
-
-  MainWindow::~MainWindow() {}
-
-  void
-  MainWindow::addPrincipalWidget(QWidget *widget) {
-    m_ui->tabLayout->addWidget(widget, 0, 0);
-  }
+  public:
+    OpenDocumentView();
+    ~OpenDocumentView();
+  private:
+    QFileDialog *m_fileDialog;
+  };
 }
+
+#endif

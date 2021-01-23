@@ -9,6 +9,7 @@ target_sources(neoimp PUBLIC
   ApplicationView.cpp
   NewDocumentView.cpp
   SaveDocumentView.cpp
+  OpenDocumentView.cpp
   DocumentView.cpp
   ViewFactory.cpp
   ViewSink.cpp

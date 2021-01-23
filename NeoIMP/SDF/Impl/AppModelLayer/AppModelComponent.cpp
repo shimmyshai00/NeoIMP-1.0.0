@@ -35,6 +35,7 @@ namespace SDF::Impl::AppModelLayer {
       .bind<UILayer::AbstractAppModel::State::IOpenDocumentsAppModel, Impl::EditorStateModel>()
       .bind<UILayer::AbstractAppModel::Actions::ICreateDocumentAction, Impl::EditorActionModel>()
       .bind<UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction, Impl::EditorActionModel>()
+      .bind<UILayer::AbstractAppModel::Actions::IOpenDocumentAction, Impl::EditorActionModel>()
       .bind<UILayer::AbstractAppModel::Actions::ISetFocusDocumentAction, Impl::EditorActionModel>()
       .install(ModelLayer::getModelComponent);
   }
