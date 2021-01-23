@@ -69,5 +69,20 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     safeConnect(getAppModel()->onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
     });
+
+    safeConnect(getAppModel()->onFocusDocumentChanged, [=](AbstractAppModel::Handle handle) {
+      // Loop through the children to find the one corresponding to this focus handle.
+      Framework::MVCViewNode *curChild(getViewHierarchy().getFirstChild());
+      while(curChild != nullptr) {
+        if(DocumentView *docView = dynamic_cast<DocumentView *>(curChild)) {
+          if(docView->getViewedDocumentHandle() == handle) {
+            docView->acquireTabFocus();
+            break;
+          }
+        }
+
+        curChild = curChild->getNextSibling();
+      }
+    });
   }
 }

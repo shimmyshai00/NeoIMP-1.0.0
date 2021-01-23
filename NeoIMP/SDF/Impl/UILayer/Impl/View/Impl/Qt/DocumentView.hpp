@@ -28,6 +28,7 @@
 #include <SDF/Impl/UILayer/Impl/View/IDocumentView.hpp>
 
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Handle.hpp>
 
 #include <QPointer>
 #include <QTabWidget>
@@ -49,6 +50,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     ~DocumentView();
 
     void addToTabWidget(QPointer<QTabWidget> tabWidget);
+    void acquireTabFocus();
+
+    AbstractAppModel::Handle getViewedDocumentHandle();
   protected:
     void onAttachAppModel();
   private:
@@ -58,6 +62,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     std::string m_documentTitle;
 
     std::unique_ptr<CustomWidgets::IImageDataSource> m_imageDataSource;
+
+    QMetaObject::Connection m_tabFocusConnection;
+
+    void hookTabFocusSignal();
+    void unhookTabFocusSignal();
   };
 }
 

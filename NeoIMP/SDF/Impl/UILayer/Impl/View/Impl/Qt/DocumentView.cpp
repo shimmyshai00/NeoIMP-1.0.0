@@ -82,14 +82,22 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     if(!m_tabWidget && getAppModel()) {
       m_tabWidget = tabWidget;
       m_tabWidget->addTab(m_documentWidget, getAppModel()->getDocumentName().c_str());
-
-      QObject::connect(m_tabWidget, &QTabWidget::currentChanged, [=](int newIndex) {
-        if(m_tabWidget->widget(newIndex) == static_cast<QWidget *>(m_documentWidget)) {
-          // this widget got focus
-          onGetFocus(getAppModel()->getDocumentHandle());
-        }
-      });
+      hookTabFocusSignal();
     }
+  }
+
+  void
+  DocumentView::acquireTabFocus() {
+    if(m_tabWidget) {
+      unhookTabFocusSignal();
+      m_tabWidget->setCurrentWidget(m_documentWidget);
+      hookTabFocusSignal();
+    }
+  }
+
+  AbstractAppModel::Handle
+  DocumentView::getViewedDocumentHandle() {
+    return getAppModel()->getDocumentHandle();
   }
 
   // Protected members.
@@ -97,5 +105,29 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   DocumentView::onAttachAppModel() {
     m_imageDataSource = std::make_unique<ImageDataSource>(getAppModel());
     m_documentWidget->setDataSource(m_imageDataSource.get());
+
+    safeConnect(getAppModel()->onDocumentNameChanged, [=](std::string newName) {
+      int ourDocumentWidgetIndex(m_tabWidget->indexOf(m_documentWidget));
+      m_tabWidget->setTabText(ourDocumentWidgetIndex, newName.c_str());
+    });
+  }
+
+  // Private members.
+  // These members are needed to prevent infinite recursive looping when this widget is asked by the acquireTabFocus
+  // method to get focus. That method is meant to be used for synchronizing the editor model focus state with the
+  // view focus state. (NB: perh. would be better to move all this handling into ApplicationView and similar?)
+  void
+  DocumentView::hookTabFocusSignal() {
+    m_tabFocusConnection = QObject::connect(m_tabWidget, &QTabWidget::currentChanged, [=](int newIndex) {
+      if(m_tabWidget->widget(newIndex) == static_cast<QWidget *>(m_documentWidget)) {
+        // this widget got focus
+        onGetFocus(getAppModel()->getDocumentHandle());
+      }
+    });
+  }
+
+  void
+  DocumentView::unhookTabFocusSignal() {
+    QObject::disconnect(m_tabFocusConnection);
   }
 }

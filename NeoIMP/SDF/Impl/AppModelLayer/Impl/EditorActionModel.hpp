@@ -36,6 +36,7 @@
 namespace SDF::Impl::AppModelLayer {
   namespace AbstractModel::Services {
     class IDocumentCreationService;
+    class IDocumentStorageService;
     class IImageInformationService;
     class IImageRenderingService;
   }
@@ -49,6 +50,7 @@ namespace SDF::Impl::AppModelLayer {
     {
     public:
       INJECT(EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                               AbstractModel::Services::IDocumentStorageService *documentStorageService,
                                AbstractModel::Services::IImageInformationService *imageInformationService,
                                AbstractModel::Services::IImageRenderingService *imageRenderingService,
                                EditorStateModel *editorStateModel
@@ -59,6 +61,7 @@ namespace SDF::Impl::AppModelLayer {
       void setFocusDocument(UILayer::AbstractAppModel::Handle handle);
     private:
       AbstractModel::Services::IDocumentCreationService *m_documentCreationService;
+      AbstractModel::Services::IDocumentStorageService *m_documentStorageService;
       AbstractModel::Services::IImageInformationService *m_imageInformationService;
       AbstractModel::Services::IImageRenderingService *m_imageRenderingService;
 

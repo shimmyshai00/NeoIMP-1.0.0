@@ -24,6 +24,7 @@
 #include <EditorActionModel.hpp>
 
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
+#include <AbstractModel/Services/IDocumentStorageService.hpp>
 #include <AbstractModel/Services/IImageInformationService.hpp>
 #include <AbstractModel/Services/IImageRenderingService.hpp>
 
@@ -34,11 +35,13 @@
 
 namespace SDF::Impl::AppModelLayer::Impl {
   EditorActionModel::EditorActionModel(AbstractModel::Services::IDocumentCreationService *documentCreationService,
+                                       AbstractModel::Services::IDocumentStorageService *documentStorageService,
                                        AbstractModel::Services::IImageInformationService *imageInformationService,
                                        AbstractModel::Services::IImageRenderingService *imageRenderingService,
                                        EditorStateModel *editorStateModel
                                       )
     : m_documentCreationService(documentCreationService),
+      m_documentStorageService(documentStorageService),
       m_imageInformationService(imageInformationService),
       m_imageRenderingService(imageRenderingService),
       m_editorStateModel(editorStateModel)
@@ -72,6 +75,7 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
     // NB: upgrade to reflect new rendering system setup w/different data access interface?
     m_editorStateModel->addDocument(handle, spec, renderedDataPtr);
+    m_editorStateModel->setFocusDocument(handle);
 
     return handle;
   }
@@ -79,7 +83,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
   void
   EditorActionModel::saveDocumentAs(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
     // TBA
-    std::cout << "saving to " << fileName << " with format " << fileFormat << "..." << std::endl;
+    UILayer::AbstractAppModel::Handle handleOfDocumentToSave(m_editorStateModel->getFocusDocument());
+    std::cout << "saving document " << handleOfDocumentToSave << " to " << fileName << " with format " << fileFormat << "..." << std::endl;
+    m_documentStorageService->saveDocument(fileName, fileFormat, handleOfDocumentToSave);
+    m_editorStateModel->getDocumentStateModel(handleOfDocumentToSave)->setDocumentName(fileName); // YES!!!!! Finally!
   }
 
   void
