@@ -23,9 +23,12 @@
 
 #include <OpenDocumentView.hpp>
 
+#include <SDF/Exception/Exception.hpp>
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QMessageBox>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   OpenDocumentView::OpenDocumentView()
@@ -38,7 +41,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
       QStringList selectedFiles(m_fileDialog->selectedFiles());
       QString fileNameQString(selectedFiles[0]);
 
-      onAccepted(fileNameQString.toStdString(), DataLayer::Properties::FILE_FORMAT_PNG);
+      try {
+        onAccepted(fileNameQString.toStdString(), DataLayer::Properties::FILE_FORMAT_PNG);
+      } catch(SDF::Exception::Exception &e) {
+        QMessageBox::critical(nullptr, "Error", e.what());
+      }
     });
 
     QObject::connect(m_fileDialog, &QFileDialog::rejected, [=]() {

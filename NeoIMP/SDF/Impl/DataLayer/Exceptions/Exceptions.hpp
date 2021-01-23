@@ -44,9 +44,9 @@ namespace SDF::Impl::DataLayer::Exceptions {
   struct BadFileException : public SDF::Exception::Exception {
     BadFileException(const char *formatName, const char *curLimitations)
       : Exception(false,
-                  "This file does not appear to be a valid '%s' format file - or it is,\n"\
-                  "but of a kind the program currently does not support. Current limitations\n"\
-                  "on loading this type of file are:\n\n"\
+                  "This file is either not a a valid '%s' format file, or is one, but of\
+                   a kind the program currently does not support. Current limitations\
+                   on loading this type of file are:\n\n"\
                   "%s", formatName, curLimitations)
     {}
   };
