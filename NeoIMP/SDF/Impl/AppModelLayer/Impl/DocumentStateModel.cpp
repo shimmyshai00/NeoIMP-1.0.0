@@ -22,9 +22,6 @@
  */
 
 #include <DocumentStateModel.hpp>
-//#include <cstdio>
-#include <fstream>
-#include <iostream>
 
 namespace SDF::Impl::AppModelLayer::Impl {
   DocumentStateModel::DocumentStateModel(UILayer::AbstractAppModel::Handle documentHandle,
@@ -112,23 +109,8 @@ namespace SDF::Impl::AppModelLayer::Impl {
                                            int x1, int y1, int x2, int y2
                                           )
   {
-    /*printf("%d %d\n", m_documentWidthPx, m_documentHeightPx);
-    FILE *fd = fopen("rawbufferout", "w+b");
-    printf("%p\n", fd);
-    printf("%d\n", fwrite(origin, 1, m_documentWidthPx*m_documentHeightPx*4, fd));
-    printf("%d\n", ferror(fd));
-    printf("%d\n", errno);
-    fclose(fd);
-    exit(1);*/
-
     origin = m_renderedDataPtr + (4*(y1*m_documentWidthPx + x1)); // TBA: "4" is from RGB32 = 4 bytes - may need to
                                                                   // generalize?
     rowStride = 4*m_documentWidthPx;
-    
-        std::ofstream ofile;
-        ofile.open("/home/shimmy/rawbufferout2", std::ios::binary | std::ios::out);
-        ofile.write((char *)origin, m_documentWidthPx*m_documentHeightPx*4);
-        std::cout << (int)origin[0] << std::endl;
-        exit(1);
   }
 }
