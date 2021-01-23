@@ -33,11 +33,18 @@
 namespace SDF::Impl::DataLayer::Impl::DataMappers {
   class PNGImageMapper : public MemoryLayer::AbstractData::IImageDataMapper {
   public:
+    // Function: PNGImageMapper
+    // Purpose:  Defaut constructor for this class.
     INJECT(PNGImageMapper());
 
+    // Function: saveImage
+    // Purpose:  Implementation of IImageDataMapper::saveImage.
     void saveImage(std::string fileSpec,
                    ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
                   );
+
+    // Function: loadImage
+    // Purpose:  Implementation of IImageDataMapper::loadImage.
     std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileSpec);
   };
 }

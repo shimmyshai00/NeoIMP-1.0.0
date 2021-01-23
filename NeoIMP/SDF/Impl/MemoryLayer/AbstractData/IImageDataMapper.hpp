@@ -32,12 +32,18 @@
 namespace SDF::Impl::MemoryLayer::AbstractData {
   class IImageDataMapper {
   public:
+    // Stub:     ~IImageDataMapper()
+    // Purpose:  Destructor
     virtual ~IImageDataMapper() = default;
 
+    // Stub:     saveImage
+    // Purpose:  Persists an image to a file system under the file specifier 'fileSpec'.
     virtual void saveImage(std::string fileSpec,
                            ModelLayer::Impl::DomainObjects::Image::AbstractImage *image
                           ) = 0;
 
+    // Stub:    loadImage
+    // Purpose: Attempts to retrieve an image from the file system through the file specifier 'fileSpec'.
     virtual std::unique_ptr<ModelLayer::Impl::DomainObjects::Image::AbstractImage> loadImage(std::string fileSpec) = 0;
   };
 }
