@@ -40,7 +40,7 @@ namespace SDF::Impl::ModelLayer::Impl::DomainObjects::Rendering {
 
     // note: inlined for speed
     void setPixelAt(Math::Coord<std::size_t> pos, unsigned char r, unsigned char g, unsigned char b) {
-      std::size_t bufferPos(4*(pos.getY()*m_renderingHeightPx + pos.getX()));
+      std::size_t bufferPos(4*(pos.getY()*m_renderingWidthPx + pos.getX()));
 
       m_dataBuffer[bufferPos+3] = 0xFF;
       m_dataBuffer[bufferPos+2] = r;
