@@ -43,6 +43,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     ~MainWindow();
 
     void addPrincipalWidget(QWidget *widget);
+
+    void enableOptionsThatOnlyWorkOnOpenDocuments();
+    void disableOptionsThatOnlyWorkOnOpenDocuments();
   signals:
     void newClicked();
     void openClicked();

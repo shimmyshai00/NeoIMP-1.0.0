@@ -70,6 +70,9 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ApplicationView::onAttachAppModel() {
     safeConnect(getAppModel()->onDocumentAdded, [=](AbstractAppModel::Handle handle) {
       getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createDocumentView(handle)));
+      if(!getAppModel()->getOpenDocumentHandles().empty()) {
+        m_mainWindow->enableOptionsThatOnlyWorkOnOpenDocuments();
+      }
     });
 
     safeConnect(getAppModel()->onFocusDocumentChanged, [=](AbstractAppModel::Handle handle) {

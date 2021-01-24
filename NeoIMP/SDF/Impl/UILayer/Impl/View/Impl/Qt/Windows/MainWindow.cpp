@@ -25,6 +25,7 @@
 #include "../QtResources/ui_MainWindow.h"
 
 #include <QSizePolicy>
+#include <QAction>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
   MainWindow::MainWindow(QWidget *parent)
@@ -45,5 +46,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
   void
   MainWindow::addPrincipalWidget(QWidget *widget) {
     m_ui->tabLayout->addWidget(widget, 0, 0);
+  }
+
+  void
+  MainWindow::enableOptionsThatOnlyWorkOnOpenDocuments() {
+    m_ui->actionSave_As->setEnabled(true);
+    m_ui->action_Save->setEnabled(true);
+  }
+
+  void
+  MainWindow::disableOptionsThatOnlyWorkOnOpenDocuments() {
+    m_ui->actionSave_As->setEnabled(false);
+    m_ui->action_Save->setEnabled(false);
   }
 }
