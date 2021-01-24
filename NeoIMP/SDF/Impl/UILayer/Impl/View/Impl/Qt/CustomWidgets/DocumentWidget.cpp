@@ -28,6 +28,7 @@
 #include <IImageDataSource.hpp>
 
 #include <QSizePolicy>
+#include <QScrollBar>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   DocumentWidget::DocumentWidget(QWidget *parent, ::Qt::WindowFlags f)
@@ -46,10 +47,19 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
     m_gridLayout->addWidget(m_scrollArea, 1, 1);
+
+    // Connect the rulers to the scroll bars.
+    QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::rangeChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
+    QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::valueChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
+    QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
+    QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
   }
 
   void DocumentWidget::setDataSource(IImageDataSource *dataSource) {
     m_documentEditorWidget->setDataSource(dataSource);
     m_documentEditorWidget->setMinimumSize(m_documentEditorWidget->sizeHint());
+
+    m_horizontalRuler->measureObject(0, dataSource->getImageWidth()-1);
+    m_verticalRuler->measureObject(0, dataSource->getImageHeight()-1);
   }
 }

@@ -43,15 +43,27 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     void setMajorTickInterval(int screenPixelsBetweenMajorTicks);
     void setNumMinorTicks(int numMinorTicksPerMajorTick);
 
-    void setImageSpaceInterval(float x1, float x2);
-    void setImageSpaceCenterMag(float center, float mag);
+    void setLeftOrigin(float leftOrigin);
+    void setMagnification(float magnification);
+
+    void measureObject(float objectH1, float objectH2);
+  public slots:
+    // for connecting to a scroll bar
+    void setScrollRange(int min, int max);
+    void setScrollPosition(int value);
   private:
     ::Qt::Orientation m_orientation;
 
     int m_rulerThickness;
 
-    float m_imageSpaceX1;
-    float m_imageSpaceX2;
+    float m_leftOrigin;
+    float m_magnification;
+
+    float m_objectH1;
+    float m_objectH2;
+
+    int m_scrollRangeMin;
+    int m_scrollRangeMax;
 
     int m_screenPixelsBetweenMajorTicks;
     int m_numMinorTicksPerMajorTick;

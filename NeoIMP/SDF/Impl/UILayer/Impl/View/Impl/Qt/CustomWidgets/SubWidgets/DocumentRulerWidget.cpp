@@ -23,15 +23,20 @@
 
 #include <DocumentRulerWidget.hpp>
 #include <cmath>
+#include <iostream>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
   DocumentRulerWidget::DocumentRulerWidget(::Qt::Orientation orientation, QWidget *parent)
   : QWidget(parent),
     m_orientation(orientation),
-    m_rulerThickness(24),
-    m_imageSpaceX1(0.0f),
-    m_imageSpaceX2(100.0f),
-    m_screenPixelsBetweenMajorTicks(100),
+    m_rulerThickness(20),
+    m_leftOrigin(0.0f),
+    m_magnification(1.0f),
+    m_objectH1(0.0f),
+    m_objectH2(0.0f),
+    m_scrollRangeMin(0),
+    m_scrollRangeMax(100),
+    m_screenPixelsBetweenMajorTicks(50),
     m_numMinorTicksPerMajorTick(5)
   {}
 
@@ -51,24 +56,58 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
 
   void DocumentRulerWidget::setRulerThickness(int rulerThickness) {
     m_rulerThickness = rulerThickness;
+    update();
   }
 
   void DocumentRulerWidget::setMajorTickInterval(int screenPixelsBetweenMajorTicks) {
     m_screenPixelsBetweenMajorTicks = screenPixelsBetweenMajorTicks;
+    update();
   }
 
   void DocumentRulerWidget::setNumMinorTicks(int numMinorTicksPerMajorTick) {
     m_numMinorTicksPerMajorTick = numMinorTicksPerMajorTick;
+    update();
   }
 
-  void DocumentRulerWidget::setImageSpaceInterval(float x1, float x2) {
-    m_imageSpaceX1 = x1;
-    m_imageSpaceX2 = x2;
+  void DocumentRulerWidget::setLeftOrigin(float leftOrigin) {
+    m_leftOrigin = leftOrigin;
+    update();
   }
 
-  void DocumentRulerWidget::setImageSpaceCenterMag(float center, float mag) {
-    m_imageSpaceX1 = center - ((0.0f + getRulerLength()) / (2.0 * mag));
-    m_imageSpaceX2 = center + ((0.0f + getRulerLength()) / (2.0 * mag));
+  void DocumentRulerWidget::setMagnification(float magnification) {
+    m_magnification = magnification;
+    update();
+  }
+
+  void DocumentRulerWidget::measureObject(float objectH1, float objectH2) {
+    m_objectH1 = objectH1;
+    m_objectH2 = objectH2;
+  }
+
+  // Slots.
+  void DocumentRulerWidget::setScrollRange(int min, int max) {
+    m_scrollRangeMin = min;
+    m_scrollRangeMax = max;
+  }
+
+  void DocumentRulerWidget::setScrollPosition(int value) {
+    std::cout << "scroll" << std::endl;
+
+    // At m_scrollRangeMin, the left origin should be such that m_objectH1 lies at the ruler left.
+    // At m_scrollRangeMax, the left origin should be such that m_objectH2 lies at the ruler right.
+    float rulerLength(getRulerLength());
+    float objectSize(m_objectH2 - m_objectH1);
+    int scrollRangeSize(m_scrollRangeMax - m_scrollRangeMin);
+    if(scrollRangeSize != 0) {
+      m_leftOrigin = m_objectH1 + ((objectSize - rulerLength)/scrollRangeSize)*(value - m_scrollRangeMin);
+    } else {
+      m_leftOrigin = m_objectH1;
+    }
+    
+    std::cout << "object: " << m_objectH1 << " - " << m_objectH2 << std::endl;
+    std::cout << "scrollRange: " << m_scrollRangeMin << " - " << m_scrollRangeMax << std::endl;
+    std::cout << "LeftOrigin: " << m_leftOrigin << std::endl;
+    update();
   }
 
   // Private members.
@@ -119,10 +158,8 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
 
     // Step 1: Figure out where the image coordinate origin is in screen space, relative to the left or topmost part of
     // the widget.
-    float viewportLength(m_imageSpaceX2 - m_imageSpaceX1);
     float widgetLength(getRulerLength());
-
-    float screenSpaceOrigin(-m_imageSpaceX1 / viewportLength * widgetLength);
+    float screenSpaceOrigin(-m_leftOrigin * m_magnification);
 
     // Step 2: Figure out where the first minor tick should go, and the number of ticks.
     float minorTickScreenInterval((0.0f + m_screenPixelsBetweenMajorTicks) / m_numMinorTicksPerMajorTick);
