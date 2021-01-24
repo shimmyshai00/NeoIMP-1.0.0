@@ -23,9 +23,12 @@
 
 #include <NewDocumentView.hpp>
 
+#include <SDF/Exception/Exception.hpp>
+
 #include <Dialogs/NewDocumentDialog.hpp>
 
 #include <QObject>
+#include <QMessageBox>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   NewDocumentView::NewDocumentView()
@@ -41,7 +44,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
         m_newDocumentDialog->getDocumentBitDepth()
       };
 
-      onAccepted(spec);
+      try {
+        onAccepted(spec);
+      } catch(SDF::Exception::Exception &e) {
+        QMessageBox::critical(nullptr, "Error", e.what());
+      }
     });
 
     QObject::connect(m_newDocumentDialog, &Dialogs::NewDocumentDialog::rejected, [=]() {
