@@ -1,11 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
+#ifndef SDF_IMPL_APPMODELLAYER_EXCEPTIONS_EXCEPTIONS_HPP
+#define SDF_IMPL_APPMODELLAYER_EXCEPTIONS_EXCEPTIONS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    Exceptions.hpp
+ * PURPOSE: The exceptions that can be thrown from the app model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,34 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
-#include <QMainWindow>
+#include <SDF/Exception/Exception.hpp>
 
-#include <QString>
-#include <QPointer>
-
-#include <memory>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
-  public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-    void addPrincipalWidget(QWidget *widget);
-  signals:
-    void newClicked();
-    void openClicked();
-    void saveAsClicked();
-    void saveClicked();
-    void exitClicked();
-  private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
+namespace SDF::Impl::AppModelLayer::Exceptions {
+  struct FileNameNotSetException : public SDF::Exception::Exception {
+    FileNameNotSetException()
+      : Exception(true, "The file name for this document was not set prior to saving.")
+    {}
   };
 }
 

@@ -23,6 +23,8 @@
 
 #include <EditorActionModel.hpp>
 
+#include <AppModelLayer/Exceptions/Exceptions.hpp>
+
 #include <AbstractModel/Services/IDocumentCreationService.hpp>
 #include <AbstractModel/Services/IDocumentStorageService.hpp>
 #include <AbstractModel/Services/IImageInformationService.hpp>
@@ -86,11 +88,28 @@ namespace SDF::Impl::AppModelLayer::Impl {
     std::cout << "saving document " << handleOfDocumentToSave << " to " << fileName << " with format " << fileFormat << "..." << std::endl;
     m_documentStorageService->saveDocument(fileName, fileFormat, handleOfDocumentToSave);
     m_editorStateModel->getDocumentStateModel(handleOfDocumentToSave)->setDocumentName(fileName); // YES!!!!! Finally!
+    m_editorStateModel->getDocumentStateModel(handleOfDocumentToSave)->setDocumentFileName(fileName);
+    m_editorStateModel->getDocumentStateModel(handleOfDocumentToSave)->setDocumentFileFormat(fileFormat);
+  }
+
+  void
+  EditorActionModel::saveDocument() {
+    UILayer::AbstractAppModel::Handle handle(m_editorStateModel->getFocusDocument());
+    if(m_editorStateModel->getDocumentStateModel(handle)->getDocumentFileName() == "") {
+      throw AppModelLayer::Exceptions::FileNameNotSetException();
+    } else {
+      // save to the already-remembered file name and format
+      std::string fileName(m_editorStateModel->getDocumentStateModel(handle)->getDocumentFileName());
+      DataLayer::Properties::FileFormat fileFormat(
+        m_editorStateModel->getDocumentStateModel(handle)->getDocumentFileFormat()
+      );
+
+      m_documentStorageService->saveDocument(fileName, fileFormat, handle);
+    }
   }
 
   void
   EditorActionModel::openDocument(std::string fileName, DataLayer::Properties::FileFormat fileFormat) {
-    // TBA
     std::cout << "opening document file " << fileName << " with format " << fileFormat << "..." << std::endl;
     UILayer::AbstractAppModel::Handle handle(m_documentStorageService->loadDocument(fileName, fileFormat));
     std::cout << "loaded" << std::endl;

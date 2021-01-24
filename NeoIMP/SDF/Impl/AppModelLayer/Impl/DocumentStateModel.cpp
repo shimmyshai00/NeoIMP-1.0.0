@@ -33,6 +33,8 @@ namespace SDF::Impl::AppModelLayer::Impl {
                                         )
     : m_documentHandle(documentHandle),
       m_documentName(documentName),
+      m_documentFileName(""),
+      m_documentFileFormat(DataLayer::Properties::FILE_FORMAT_MAX),
       m_documentWidthPx(documentWidthPx),
       m_documentHeightPx(documentHeightPx),
       m_documentResolutionPpi(documentResolutionPpi),
@@ -56,6 +58,16 @@ namespace SDF::Impl::AppModelLayer::Impl {
   DocumentStateModel::setDocumentName(std::string newName) {
     m_documentName = newName;
     onDocumentNameChanged(newName);
+  }
+
+  void
+  DocumentStateModel::setDocumentFileName(std::string newFileName) {
+    m_documentFileName = newFileName;
+  }
+
+  void
+  DocumentStateModel::setDocumentFileFormat(DataLayer::Properties::FileFormat newFileFormat) {
+    m_documentFileFormat = newFileFormat;
   }
 
   void
@@ -86,6 +98,16 @@ namespace SDF::Impl::AppModelLayer::Impl {
   std::string
   DocumentStateModel::getDocumentName() {
     return m_documentName;
+  }
+
+  std::string
+  DocumentStateModel::getDocumentFileName() {
+    return m_documentFileName;
+  }
+
+  DataLayer::Properties::FileFormat
+  DocumentStateModel::getDocumentFileFormat() {
+    return m_documentFileFormat;
   }
 
   int

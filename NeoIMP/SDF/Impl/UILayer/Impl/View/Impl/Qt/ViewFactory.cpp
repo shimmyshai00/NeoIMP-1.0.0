@@ -28,6 +28,7 @@
 
 #include <AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 #include <AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
+#include <AbstractAppModel/Actions/ISaveDocumentAction.hpp>
 #include <AbstractAppModel/Actions/IOpenDocumentAction.hpp>
 #include <AbstractAppModel/Actions/ISetFocusDocumentAction.hpp>
 
@@ -52,6 +53,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::ViewFactory(IViewSink *viewSink,
                            AbstractAppModel::Actions::ICreateDocumentAction *createDocumentAction,
                            AbstractAppModel::Actions::ISaveDocumentAsAction *saveDocumentAsAction,
+                           AbstractAppModel::Actions::ISaveDocumentAction *saveDocumentAction,
                            AbstractAppModel::Actions::IOpenDocumentAction *openDocumentAction,
                            AbstractAppModel::Actions::ISetFocusDocumentAction *setFocusDocumentAction,
                            AbstractAppModel::State::IOpenDocumentsAppModel *openDocumentsAppModel
@@ -60,6 +62,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
     : m_viewSink(viewSink),
       m_createDocumentAction(createDocumentAction),
       m_saveDocumentAsAction(saveDocumentAsAction),
+      m_saveDocumentAction(saveDocumentAction),
       m_openDocumentAction(openDocumentAction),
       m_setFocusDocumentAction(setFocusDocumentAction),
       m_openDocumentsAppModel(openDocumentsAppModel)
@@ -71,7 +74,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt {
   ViewFactory::createApplicationView(IUIControl *uiControl) {
     std::unique_ptr<IApplicationView> view(new ApplicationView(this));
     std::unique_ptr<Controller::ApplicationController> controller(
-      new Controller::ApplicationController(uiControl, this)
+      new Controller::ApplicationController(uiControl, this, m_saveDocumentAction)
     );
 
     view->setAppModel(m_openDocumentsAppModel);

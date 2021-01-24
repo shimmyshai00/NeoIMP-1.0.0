@@ -23,6 +23,9 @@
 
 #include <ApplicationController.hpp>
 
+#include <AppModelLayer/Exceptions/Exceptions.hpp>
+#include <AbstractAppModel/Actions/ISaveDocumentAction.hpp>
+
 #include <IUIControl.hpp>
 #include <View/IViewFactory.hpp>
 #include <View/INewDocumentView.hpp>
@@ -35,10 +38,12 @@
 
 namespace SDF::Impl::UILayer::Impl::Controller {
   ApplicationController::ApplicationController(IUIControl *uiControl,
-                                               View::IViewFactory *viewFactory
+                                               View::IViewFactory *viewFactory,
+                                               AbstractAppModel::Actions::ISaveDocumentAction *saveDocumentAction
                                               )
     : m_uiControl(uiControl),
-      m_viewFactory(viewFactory)
+      m_viewFactory(viewFactory),
+      m_saveDocumentAction(saveDocumentAction)
   {}
 
   void
@@ -49,6 +54,15 @@ namespace SDF::Impl::UILayer::Impl::Controller {
 
     safeConnect(m_view->onSaveAsClicked, [=]() {
       m_view->getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createSaveDocumentView()));
+    });
+
+    safeConnect(m_view->onSaveClicked, [=]() {
+      try {
+        m_saveDocumentAction->saveDocument();
+      } catch(AppModelLayer::Exceptions::FileNameNotSetException) {
+        // convert to save-as action if image not already saved
+        m_view->getViewHierarchy().addChildAtEnd(Framework::MVCViewCast(m_viewFactory->createSaveDocumentView()));
+      }
     });
 
     safeConnect(m_view->onOpenClicked, [=]() {

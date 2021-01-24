@@ -29,26 +29,34 @@
 
 #include <SDF/Impl/UILayer/Impl/View/IApplicationView.hpp>
 
-namespace SDF::Impl::UILayer::Impl {
-  class IUIControl;
+namespace SDF::Impl::UILayer {
+  namespace AbstractAppModel::Actions {
+    class ISaveDocumentAction;
+  }
 
-  namespace View {
-    class IViewFactory;
-  };
+  namespace Impl {
+    class IUIControl;
 
-  namespace Controller {
-    class ApplicationController : public Framework::MVCController<View::IApplicationView> {
-    public:
-      ApplicationController(IUIControl *uiControl,
-                            View::IViewFactory *viewFactory
-                           );
-    protected:
-      void onAttachView();
-    private:
-      IUIControl *m_uiControl;
-
-      View::IViewFactory *m_viewFactory;
+    namespace View {
+      class IViewFactory;
     };
+
+    namespace Controller {
+      class ApplicationController : public Framework::MVCController<View::IApplicationView> {
+      public:
+        ApplicationController(IUIControl *uiControl,
+                              View::IViewFactory *viewFactory,
+                              AbstractAppModel::Actions::ISaveDocumentAction *saveDocumentAction
+                             );
+      protected:
+        void onAttachView();
+      private:
+        IUIControl *m_uiControl;
+
+        View::IViewFactory *m_viewFactory;
+        AbstractAppModel::Actions::ISaveDocumentAction *m_saveDocumentAction;
+      };
+    }
   }
 }
 

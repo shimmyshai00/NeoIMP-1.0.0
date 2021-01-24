@@ -27,6 +27,7 @@
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IOpenDocumentsAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ICreateDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAsAction.hpp>
+#include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISaveDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/IOpenDocumentAction.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Actions/ISetFocusDocumentAction.hpp>
 
@@ -36,6 +37,7 @@ namespace SDF::Impl::AppModelLayer {
   typedef fruit::Component<UILayer::AbstractAppModel::State::IOpenDocumentsAppModel,
                            UILayer::AbstractAppModel::Actions::ICreateDocumentAction,
                            UILayer::AbstractAppModel::Actions::ISaveDocumentAsAction,
+                           UILayer::AbstractAppModel::Actions::ISaveDocumentAction,
                            UILayer::AbstractAppModel::Actions::IOpenDocumentAction,
                            UILayer::AbstractAppModel::Actions::ISetFocusDocumentAction
                           > DIComponent;

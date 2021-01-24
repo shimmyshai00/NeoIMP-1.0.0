@@ -36,6 +36,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
     connect(m_ui->action_New, &QAction::triggered, this, &MainWindow::newClicked);
     connect(m_ui->action_Open, &QAction::triggered, this, &MainWindow::openClicked);
     connect(m_ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAsClicked);
+    connect(m_ui->action_Save, &QAction::triggered, this, &MainWindow::saveClicked);
     connect(m_ui->actionE_xit, &QAction::triggered, this, &MainWindow::exitClicked);
   }
 

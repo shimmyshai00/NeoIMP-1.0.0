@@ -26,6 +26,7 @@
 
 #include <SDF/Impl/UILayer/AbstractAppModel/State/IDocumentAppModel.hpp>
 #include <SDF/Impl/UILayer/AbstractAppModel/Data/DocumentSpec.hpp>
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
 
 #include <fruit/fruit.h>
 #include <vector>
@@ -46,9 +47,11 @@ namespace SDF::Impl::AppModelLayer::Impl {
                        UILayer::AbstractAppModel::Data::DocumentSpec spec,
                        const unsigned char *renderedDataPtr
                       );
-                      
+
     // State manipulation.
     void setDocumentName(std::string newName);
+    void setDocumentFileName(std::string newFileName);
+    void setDocumentFileFormat(DataLayer::Properties::FileFormat newFileFormat);
 
     void setDocumentWidthPx(int documentWidthPx);
     void setDocumentHeightPx(int documentHeightPx);
@@ -58,7 +61,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
 
     // State access.
     UILayer::AbstractAppModel::Handle getDocumentHandle();
+
     std::string getDocumentName();
+    std::string getDocumentFileName();
+    DataLayer::Properties::FileFormat getDocumentFileFormat();
 
     int getDocumentWidthPx();
     int getDocumentHeightPx();
@@ -71,7 +77,10 @@ namespace SDF::Impl::AppModelLayer::Impl {
   private:
     // State.
     UILayer::AbstractAppModel::Handle m_documentHandle; // NB: is this the best place to keep this back reference?
+
     std::string m_documentName;
+    std::string m_documentFileName;
+    DataLayer::Properties::FileFormat m_documentFileFormat;
 
     int m_documentWidthPx;
     int m_documentHeightPx;

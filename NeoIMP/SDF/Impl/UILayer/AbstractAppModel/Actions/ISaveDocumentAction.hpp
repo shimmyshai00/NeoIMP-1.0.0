@@ -1,11 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
-#define SDF_IMPL_UILAYER_IMPL_VIEW_IMPL_QT_WINDOWS_MAINWINDOW_HPP
+#ifndef SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISAVEDOCUMENTACTION_HPP
+#define SDF_IMPL_UILAYER_ABSTRACTAPPMODEL_ACTIONS_ISAVEDOCUMENTACTION_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: The Qt object corresponding to the main window.
+ * FILE:    ISaveDocumentAction.hpp
+ * PURPOSE: Provides an interface for the action to save the currently-focused document to the same filename as it
+ *          already has.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,34 +25,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QWidget>
-#include <QMainWindow>
+#include <SDF/Impl/DataLayer/Properties/FileFormat.hpp>
+#include <string>
 
-#include <QString>
-#include <QPointer>
-
-#include <memory>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::Windows {
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+namespace SDF::Impl::UILayer::AbstractAppModel::Actions {
+  class ISaveDocumentAction {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    virtual ~ISaveDocumentAction() = default;
 
-    void addPrincipalWidget(QWidget *widget);
-  signals:
-    void newClicked();
-    void openClicked();
-    void saveAsClicked();
-    void saveClicked();
-    void exitClicked();
-  private:
-    std::unique_ptr<Ui::MainWindow> m_ui;
+    // Function:         saveDocument
+    // Prupose:          Saves the current document into its file.
+    // Error conditions: The current document has no already-assigned file name.
+    virtual void saveDocument() = 0;
   };
 }
 
