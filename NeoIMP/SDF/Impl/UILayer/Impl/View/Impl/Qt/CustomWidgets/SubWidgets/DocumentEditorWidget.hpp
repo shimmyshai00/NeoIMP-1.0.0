@@ -6,7 +6,9 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    DocumentEditorWidget.hpp
- * PURPOSE: Headers for the custom Qt UI widget that actually displays an image document.
+ * PURPOSE: Headers for the custom Qt UI widget that actually displays an image document. We combine this with a
+ *          QScrollArea widget and DocumentRulerWidget widgets to create the full editor. This widget is designed to
+ *          overlay things like selection decals atop an image and to permit magnification.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -32,7 +34,7 @@
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   class IImageDataSource;
-  
+
   namespace SubWidgets {
     class DocumentEditorWidget : public QWidget {
       Q_OBJECT
@@ -40,17 +42,14 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
       DocumentEditorWidget(QWidget *parent = nullptr);
       ~DocumentEditorWidget() {}
 
-      void setDataSource(IImageDataSource *dataSource);
+      QSize sizeHint() const;
 
-      //void setViewport(float x1, float y1, float x2, float y2);
-      //void setCenterMag(float centerX, float centerY, float mag);
+      void setDataSource(IImageDataSource *dataSource);
+      void setMagnification(float newMagnification);
     private:
       IImageDataSource *m_dataSource;
 
-      float m_viewportX1;
-      float m_viewportY1;
-      float m_viewportX2;
-      float m_viewportY2;
+      float m_magnification;
 
       void paintEvent(QPaintEvent *event);
     private:

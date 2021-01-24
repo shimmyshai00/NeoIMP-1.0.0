@@ -31,31 +31,44 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
   DocumentEditorWidget::DocumentEditorWidget(QWidget *parent)
     : QWidget(parent),
       m_dataSource(nullptr),
-      m_viewportX1(0),
-      m_viewportY1(0),
-      m_viewportX2(0),
-      m_viewportY2(0)
+      m_magnification(1.0f)
   {}
 
-  void DocumentEditorWidget::setDataSource(IImageDataSource *dataSource) {
+  QSize
+  DocumentEditorWidget::sizeHint() const {
+    if(m_dataSource != nullptr) {
+      return QSize(m_dataSource->getImageWidth(), m_dataSource->getImageHeight());
+    } else {
+      return QSize(-1, -1);
+    }
+  }
+
+  void
+  DocumentEditorWidget::setDataSource(IImageDataSource *dataSource) {
     m_dataSource = dataSource;
   }
 
+  void
+  DocumentEditorWidget::setMagnification(float newMagnification) {
+    m_magnification = newMagnification;
+  }
+
   // Private members.
-  void DocumentEditorWidget::paintEvent(QPaintEvent *event) {
+  void
+  DocumentEditorWidget::paintEvent(QPaintEvent *event) {
     QPainter qp(this);
 
     paintWidgetRegion(qp, event->rect());
   }
 
-  void DocumentEditorWidget::paintWidgetRegion(QPainter &qp, QRect rect) {
+  void
+  DocumentEditorWidget::paintWidgetRegion(QPainter &qp, QRect rect) {
     if(m_dataSource != nullptr) {
-      // STUBby - no mag, no view centering: Clip this rectangle to the image rectangle.
       QRect imageRect(0, 0, m_dataSource->getImageWidth(), m_dataSource->getImageHeight());
       QRect clipped(rect.intersected(imageRect));
 
-      // Draw the image data within the clipped rectangle.
-      std::cout << clipped.width() << " " << clipped.height() << std::endl;
+      // Draw the image data within the clipped rectangle. NB: Magnification (zoom) not yet implemented.
+      std::cout << "paint: " << clipped.width() << " " << clipped.height() << std::endl;
       if((clipped.width() > 0) && (clipped.height() > 0)) {
         const unsigned char *imageData(nullptr);
         std::ptrdiff_t rowStride(0);

@@ -38,15 +38,18 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
     m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
 
+    m_scrollArea = new QScrollArea();
+    m_scrollArea->setBackgroundRole(QPalette::Dark);
     m_documentEditorWidget = new SubWidgets::DocumentEditorWidget();
-    m_documentEditorWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    m_scrollArea->setWidget(m_documentEditorWidget);
 
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
-    m_gridLayout->addWidget(m_documentEditorWidget, 1, 1);
+    m_gridLayout->addWidget(m_scrollArea, 1, 1);
   }
 
   void DocumentWidget::setDataSource(IImageDataSource *dataSource) {
     m_documentEditorWidget->setDataSource(dataSource);
+    m_documentEditorWidget->setMinimumSize(m_documentEditorWidget->sizeHint());
   }
 }

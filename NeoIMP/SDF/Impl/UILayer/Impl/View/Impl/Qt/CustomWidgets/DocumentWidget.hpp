@@ -26,6 +26,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QScrollArea>
 
 namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
   namespace SubWidgets {
@@ -48,6 +49,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     SubWidgets::DocumentRulerWidget *m_horizontalRuler;
     SubWidgets::DocumentRulerWidget *m_verticalRuler;
 
+    QScrollArea *m_scrollArea;
     SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
   };
 }
