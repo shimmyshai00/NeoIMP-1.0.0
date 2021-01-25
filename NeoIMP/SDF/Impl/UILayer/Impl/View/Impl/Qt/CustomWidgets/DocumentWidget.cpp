@@ -53,13 +53,23 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets {
     QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::valueChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
     QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
     QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
+
+    QObject::connect(
+      m_scrollArea->horizontalScrollBar(), &QScrollBar::rangeChanged,
+      [=](int min, int max) { m_horizontalRuler->setScrollDistance(max - min); }
+    );
+
+    QObject::connect(
+      m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
+      [=](int min, int max) { m_verticalRuler->setScrollDistance(max - min); }
+    );
   }
 
   void DocumentWidget::setDataSource(IImageDataSource *dataSource) {
     m_documentEditorWidget->setDataSource(dataSource);
     m_documentEditorWidget->setMinimumSize(m_documentEditorWidget->sizeHint());
 
-    m_horizontalRuler->measureObject(0, dataSource->getImageWidth()-1);
-    m_verticalRuler->measureObject(0, dataSource->getImageHeight()-1);
+    m_horizontalRuler->setObject(0, dataSource->getImageWidth()-1);
+    m_verticalRuler->setObject(0, dataSource->getImageHeight()-1);
   }
 }

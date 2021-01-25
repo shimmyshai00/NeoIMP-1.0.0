@@ -34,8 +34,10 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     m_magnification(1.0f),
     m_objectH1(0.0f),
     m_objectH2(0.0f),
-    m_scrollRangeMin(0),
-    m_scrollRangeMax(100),
+    m_scrollDistPx(0.0f),
+    m_scrollMin(0),
+    m_scrollMax(0),
+    m_scrollPos(0),
     m_screenPixelsBetweenMajorTicks(50),
     m_numMinorTicksPerMajorTick(5)
   {}
@@ -69,8 +71,11 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     update();
   }
 
-  void DocumentRulerWidget::setLeftOrigin(float leftOrigin) {
-    m_leftOrigin = leftOrigin;
+  void DocumentRulerWidget::setObject(float objectH1, float objectH2) {
+    m_objectH1 = objectH1;
+    m_objectH2 = objectH2;
+
+    recalculateOrigin();
     update();
   }
 
@@ -79,38 +84,38 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     update();
   }
 
-  void DocumentRulerWidget::measureObject(float objectH1, float objectH2) {
-    m_objectH1 = objectH1;
-    m_objectH2 = objectH2;
+  void DocumentRulerWidget::setScrollDistance(float scrollDistPx) {
+    m_scrollDistPx = scrollDistPx;
   }
 
   // Slots.
   void DocumentRulerWidget::setScrollRange(int min, int max) {
-    m_scrollRangeMin = min;
-    m_scrollRangeMax = max;
+    m_scrollMin = min;
+    m_scrollMax = max;
+
+    recalculateOrigin();
+    update();
   }
 
-  void DocumentRulerWidget::setScrollPosition(int value) {
-    std::cout << "scroll" << std::endl;
+  void DocumentRulerWidget::setScrollPosition(int pos) {
+    m_scrollPos = pos;
 
-    // At m_scrollRangeMin, the left origin should be such that m_objectH1 lies at the ruler left.
-    // At m_scrollRangeMax, the left origin should be such that m_objectH2 lies at the ruler right.
-    float rulerLength(getRulerLength());
-    float objectSize(m_objectH2 - m_objectH1);
-    int scrollRangeSize(m_scrollRangeMax - m_scrollRangeMin);
-    if(scrollRangeSize != 0) {
-      m_leftOrigin = m_objectH1 + ((objectSize - rulerLength)/scrollRangeSize)*(value - m_scrollRangeMin);
-    } else {
-      m_leftOrigin = m_objectH1;
-    }
-    
-    std::cout << "object: " << m_objectH1 << " - " << m_objectH2 << std::endl;
-    std::cout << "scrollRange: " << m_scrollRangeMin << " - " << m_scrollRangeMax << std::endl;
-    std::cout << "LeftOrigin: " << m_leftOrigin << std::endl;
+    recalculateOrigin();
     update();
   }
 
   // Private members.
+  // Recalculate the origin after a change to the object or scroll parameters.
+  void DocumentRulerWidget::recalculateOrigin() {
+    // Object first
+    m_leftOrigin = -m_objectH1;
+
+    // Apply scrolling
+    if(m_scrollMin < m_scrollMax) {
+      m_leftOrigin -= m_scrollDistPx/(m_scrollMax - m_scrollMin) * (m_scrollPos - m_scrollMin);
+    }
+  }
+
   // These two length methods are needed because which screen dimension (width or height) of the ruler is its "length"
   // and which is its "thickness" depend on its orientation.
   int DocumentRulerWidget::getRulerLength() {
@@ -159,7 +164,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     // Step 1: Figure out where the image coordinate origin is in screen space, relative to the left or topmost part of
     // the widget.
     float widgetLength(getRulerLength());
-    float screenSpaceOrigin(-m_leftOrigin * m_magnification);
+    float screenSpaceOrigin(m_leftOrigin * m_magnification);
 
     // Step 2: Figure out where the first minor tick should go, and the number of ticks.
     float minorTickScreenInterval((0.0f + m_screenPixelsBetweenMajorTicks) / m_numMinorTicksPerMajorTick);

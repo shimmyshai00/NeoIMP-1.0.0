@@ -33,6 +33,7 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
   class DocumentRulerWidget : public QWidget {
     Q_OBJECT
   public:
+    // NB: This interface is kind of a mess. Not sure how to refine it best atm.
     DocumentRulerWidget(::Qt::Orientation orientation, QWidget *parent = nullptr);
     ~DocumentRulerWidget();
 
@@ -43,14 +44,26 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     void setMajorTickInterval(int screenPixelsBetweenMajorTicks);
     void setNumMinorTicks(int numMinorTicksPerMajorTick);
 
-    void setLeftOrigin(float leftOrigin);
+    // Function: setObject
+    // Purpose:  Sets the space occupied by the object to measured by the ruler. The coordinates given are in screen
+    //           pixels, and the origin of those coordinates is the left (or top) point on the ruler widget, so one can
+    //           think of this as where the object is positioned relative to the ruler. This is used to set where the
+    //           "0" mark should be: it always lies at objectH1.
+    void setObject(float objectH1, float objectH2);
+
+    // Function: setMagnification
+    // Purpose:  Informs the ruler if the object being measured is a magnified version of an original, so it can
+    //           adjust its units appropriately.
     void setMagnification(float magnification);
 
-    void measureObject(float objectH1, float objectH2);
+    // Function: setScrollDistance
+    // Purpose:  Informs the ruler of how far a complete scroll of the scroll bar (from min to max) means in
+    //           (unmagnified) image pixels.
+    void setScrollDistance(float scrollDistPx);
   public slots:
     // for connecting to a scroll bar
     void setScrollRange(int min, int max);
-    void setScrollPosition(int value);
+    void setScrollPosition(int pos);
   private:
     ::Qt::Orientation m_orientation;
 
@@ -62,11 +75,17 @@ namespace SDF::Impl::UILayer::Impl::View::Impl::Qt::CustomWidgets::SubWidgets {
     float m_objectH1;
     float m_objectH2;
 
-    int m_scrollRangeMin;
-    int m_scrollRangeMax;
+    float m_scrollDistPx;
+
+    int m_scrollMin;
+    int m_scrollMax;
+
+    int m_scrollPos;
 
     int m_screenPixelsBetweenMajorTicks;
     int m_numMinorTicksPerMajorTick;
+
+    void recalculateOrigin();
 
     int getRulerLength();
     int getRulerThickness();
