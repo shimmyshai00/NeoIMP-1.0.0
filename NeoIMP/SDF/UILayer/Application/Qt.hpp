@@ -28,7 +28,7 @@
 
 #include <fruit/fruit.h>
 
-namespace SDF::Application {
+namespace SDF::UILayer::Application {
   namespace AbstractUi {
     class IUi;
   }

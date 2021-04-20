@@ -28,7 +28,7 @@
 #include <string>
 
 namespace SDF::UILayer::Gui {
-  classs IGuiElement;
+  class IGuiElement;
 
   // Class:      IGuiController
   // Purpose:    Provides an interface for the front-end GUI controller, which adds and removes different GUI elements.
@@ -49,7 +49,7 @@ namespace SDF::UILayer::Gui {
     // Parameters: name - The name of the element to access.
     // Returns:    The IGuiElement interface to this element.
     virtual IGuiElement *
-    getGuiElementByName() = 0;
+    getGuiElementByName(std::string name) = 0;
   };
 }
 

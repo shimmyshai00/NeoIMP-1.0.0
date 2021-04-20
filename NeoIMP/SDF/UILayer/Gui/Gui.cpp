@@ -23,11 +23,12 @@
 
 #include <Gui.hpp>
 
-#include <Controller/AbstractView/IViewManager.hpp>
+#include <IGuiController.hpp>
+#include <IGuiElement.hpp>
 
 namespace SDF::UILayer::Gui {
-  Gui::Gui(Controller::AbstractView::IViewManager *viewManager)
-    : m_viewManager(viewManager)
+  Gui::Gui(IGuiController *guiController)
+    : m_guiController(guiController)
   {
   }
 
@@ -60,6 +61,6 @@ namespace SDF::UILayer::Gui {
 
   void
   Gui::enterMainUi() {
-    m_viewManager->showMainWindow();
+    m_guiController->getGuiElementByName("MainWindow")->show();
   }
 }

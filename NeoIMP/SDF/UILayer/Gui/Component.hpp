@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_COMPONENT_HPP
+#define SDF_UILAYER_GUI_COMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the whole GUI.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+#include <SDF/UILayer/Application/AbstractUi/IUi.hpp>
+#include <fruit/fruit.h>
 
-#include <AbstractUi/IUi.hpp>
-
-#include <QApplication>
-
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
-
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
-  }
+namespace SDF::UILayer::Gui {
+  fruit::Component<Application::AbstractUi::IUi>
+  getComponent();
 }
+
+#endif

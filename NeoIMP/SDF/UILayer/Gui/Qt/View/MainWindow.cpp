@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    MainWindow.cpp
+ * PURPOSE: Defines the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+#include <MainWindow.hpp>
 
-#include <AbstractUi/IUi.hpp>
+#include "QtResources/ui_MainWindow.h"
 
-#include <QApplication>
+namespace SDF::UILayer::Gui::Qt::View {
+  MainWindow::MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::MainWindowEvent>> controller,
+                         QWidget *parent
+                        )
+    : QMainWindow(parent),
+      m_ui(new Ui::MainWindow),
+      m_controller(std::move(controller))
+  {
+    m_ui->setupUi(this);
+  }
 
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
+  MainWindow::~MainWindow() {
+    delete m_ui;
+  }
 
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
+  IGuiElement *
+  MainWindow::getParent() {
+    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
+      return p;
+    } else {
+      return nullptr;
+    }
+  }
+
+  void
+  MainWindow::show() {
+    QMainWindow::show();
+  }
+
+  void
+  MainWindow::close() {
+    QMainWindow::close();
   }
 }

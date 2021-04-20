@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_GUI_HPP
-#define SDF_UILAYER_GUI_GUI_HPP
+#ifndef SDF_UILAYER_GUI_QT_CONTROLLER_MAINWINDOWCONTROLLER_HPP
+#define SDF_UILAYER_GUI_QT_CONTROLLER_MAINWINDOWCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Gui.hpp
- * PURPOSE: Implements the main GUI object.
+ * FILE:    MainWindowController.hpp
+ * PURPOSE: Defines the MainWindowController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,40 +24,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Application/AbstractUi/IUi.hpp>
+#include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/Interfaces/IFactory.hpp>
+
+#include <SDF/UILayer/Gui/Qt/Events/MainWindowEvent.hpp>
 
 #include <fruit/fruit.h>
-
-#include <string>
+#include <memory>
 
 namespace SDF::UILayer::Gui {
   class IGuiController;
 
-  class Gui : public Application::AbstractUi::IUi {
-  public:
-    INJECT(Gui(IGuiController *guiController));
-    ~Gui();
+  namespace Qt::Controller {
+    // Class:      MainWindowController
+    // Purpose:    Handles events from the main window.
+    // Parameters: None.
+    class MainWindowController : public Interfaces::IEventHandler<Events::MainWindowEvent> {
+    public:
+      MainWindowController(IGuiController *guiController);
 
-    void
-    setupUi();
+      void
+      handleEvent(std::shared_ptr<Events::MainWindowEvent> event);
+    private:
+      IGuiController *m_guiController;
 
-    void
-    terminateUi();
-
-    void
-    showLoadingScreen();
-
-    void
-    updateLoadingStage(std::string loadingStageName);
-
-    void
-    finishLoading();
-
-    void
-    enterMainUi();
-  private:
-    IGuiController *m_guiController;
-  };
+      void
+      handleExitClickedEvent(Events::ExitClickedEvent *event);
+    };
+  }
 }
 
 #endif

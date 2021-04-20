@@ -1,9 +1,12 @@
+#ifndef SDF_INTERFACES_IFACTORY_HPP
+#define SDF_INTERFACES_IFACTORY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    IFactory.hpp
+ * PURPOSE: Defines the IFactory interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+#include <memory>
 
-#include <AbstractUi/IUi.hpp>
+namespace SDF::Interfaces {
+  // Class:      IFactory
+  // Purpose:    A general interface for object factories.
+  // Parameters: ObjectT - The type of object the factory constructs (usually an interface or other abstract type).
+  //             Args - Any arguments required by the construction.
+  template<class ObjectT, class ... Args>
+  class IFactory {
+  public:
+    virtual ~IFactory() = default;
 
-#include <QApplication>
-
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
-
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
-  }
+    // Function:   create
+    // Purpose:    Construct an object of type ObjectT.
+    // Parameters: args - Arguments required for the construction.
+    // Returns:    An owning pointer to the object.
+    virtual std::unique_ptr<ObjectT> create(Args... args) = 0;
+  };
 }
+
+#endif

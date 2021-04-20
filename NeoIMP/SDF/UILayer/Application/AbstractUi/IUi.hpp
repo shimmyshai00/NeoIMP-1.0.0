@@ -1,5 +1,5 @@
-#ifndef SDF_UILAYER_ABSTRACTUI_IUI_HPP
-#define SDF_UILAYER_ABSTRACTUI_IUI_HPP
+#ifndef SDF_UILAYER_APPLICATION_ABSTRACTUI_IUI_HPP
+#define SDF_UILAYER_APPLICATION_ABSTRACTUI_IUI_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -26,7 +26,7 @@
 
 #include <string>
 
-namespace SDF::AbstractUi {
+namespace SDF::UILayer::Application::AbstractUi {
   // Class:      IUi
   // Purpose:    Defines the base interface for UI objects.
   // Parameters: None.

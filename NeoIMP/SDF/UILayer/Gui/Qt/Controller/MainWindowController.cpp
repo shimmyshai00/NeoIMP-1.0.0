@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    MainWindowController.cpp
+ * PURPOSE: Implements the MainWindowController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+#include <MainWindowController.hpp>
 
-#include <AbstractUi/IUi.hpp>
+#include <IGuiController.hpp>
 
-#include <QApplication>
+namespace SDF::UILayer::Gui::Qt::Controller {
+  MainWindowController::MainWindowController(IGuiController *guiController)
+    : m_guiController(guiController)
+  {
+  }
 
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
+  void
+  MainWindowController::handleEvent(std::shared_ptr<Events::MainWindowEvent> event) {
+    if(auto p = dynamic_cast<Events::ExitClickedEvent *>(event.get())) { handleExitClickedEvent(p); }
+  }
 
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
+  void
+  MainWindowController::handleExitClickedEvent(Events::ExitClickedEvent *event) {
+    // TBA
   }
 }

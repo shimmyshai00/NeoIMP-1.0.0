@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
+#define SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    MainWindowEvent.hpp
+ * PURPOSE: Defines the MainWindowEvent event hierarchy.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+namespace SDF::UILayer::Gui::Qt::Events {
+  struct MainWindowEvent { virtual ~MainWindowEvent() = default; };
 
-#include <AbstractUi/IUi.hpp>
-
-#include <QApplication>
-
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
-
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
-  }
+  struct NewClickedEvent : public MainWindowEvent {};
+  struct ExitClickedEvent : public MainWindowEvent {};
 }
+
+#endif

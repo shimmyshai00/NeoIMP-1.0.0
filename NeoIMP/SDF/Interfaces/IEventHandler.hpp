@@ -1,9 +1,12 @@
+#ifndef SDF_INTERFACES_IEVENTHANDLER_HPP
+#define SDF_INTERFACES_IEVENTHANDLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Qt.cpp
- * PURPOSE: Implements the Qt class.
+ * FILE:    IEventHandler.hpp
+ * PURPOSE: Defines the IEventHandler interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Qt.hpp>
+#include <memory>
 
-#include <AbstractUi/IUi.hpp>
+namespace SDF::Interfaces {
+  // Class:      IEventHandler
+  // Purpose:    A general interface for event handlers.
+  // Parameters: EventT - The type of event to handle.
+  template<class EventT>
+  class IEventHandler {
+  public:
+    virtual ~IEventHandler() = default;
 
-#include <QApplication>
-
-namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
-  {}
-
-  int
-  Qt::exec(int argc, char **argv) {
-    QApplication a(argc, argv);
-    m_ui->enterMainUi();
-    return a.exec();
-  }
+    // Function:   handleEvent
+    // Purpose:    Handle a given event.
+    // Parameters: event - The event to handle.
+    // Returns:    None.
+    virtual void handleEvent(std::shared_ptr<EventT> event) = 0;
+  };
 }
+
+#endif
