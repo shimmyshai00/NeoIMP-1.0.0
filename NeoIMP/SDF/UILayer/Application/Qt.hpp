@@ -35,12 +35,13 @@ namespace SDF::UILayer::Application {
 
   class Qt : public IApplication {
   public:
-    INJECT(Qt(AbstractUi::IUi *ui));
+    // Use lazy injection to delay the construction of the UI until after the QApplication object is created.
+    INJECT(Qt(fruit::Provider<AbstractUi::IUi> uiProvider));
 
     int
     exec(int argc, char **argv);
   private:
-    AbstractUi::IUi *m_ui;
+    fruit::Provider<AbstractUi::IUi> m_uiProvider;
   };
 }
 

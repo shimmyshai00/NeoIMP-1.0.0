@@ -28,14 +28,15 @@
 #include <QApplication>
 
 namespace SDF::UILayer::Application {
-  Qt::Qt(AbstractUi::IUi *ui)
-    : m_ui(ui)
+  Qt::Qt(fruit::Provider<AbstractUi::IUi> uiProvider)
+    : m_uiProvider(uiProvider)
   {}
 
   int
   Qt::exec(int argc, char **argv) {
     QApplication a(argc, argv);
-    m_ui->enterMainUi();
+    AbstractUi::IUi *ui = m_uiProvider.get();
+    ui->enterMainUi();
     return a.exec();
   }
 }
