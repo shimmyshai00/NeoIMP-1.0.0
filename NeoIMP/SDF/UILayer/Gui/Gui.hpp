@@ -26,19 +26,16 @@
 
 #include <SDF/UILayer/Application/AbstractUi/IUi.hpp>
 
-#include <QWidget>
-
 #include <fruit/fruit.h>
 
 #include <string>
 
 namespace SDF::UILayer::Gui {
-  template<class NodeType>
   class IGuiController;
 
   class Gui : public Application::AbstractUi::IUi {
   public:
-    INJECT(Gui(IGuiController<QWidget> *guiController));
+    INJECT(Gui(IGuiController *guiController));
     ~Gui();
 
     void
@@ -59,7 +56,7 @@ namespace SDF::UILayer::Gui {
     void
     enterMainUi();
   private:
-    IGuiController<QWidget> *m_guiController;
+    IGuiController *m_guiController;
   };
 }
 

@@ -46,7 +46,7 @@ namespace SDF::UILayer::Gui {
     // Purpose:    Provides the main application window.
     // Parameters: None.
     class MainWindow : public QMainWindow,
-                       public IGuiElement<QWidget>
+                       public IGuiElement
     {
     public:
       MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
@@ -54,7 +54,7 @@ namespace SDF::UILayer::Gui {
                 );
       ~MainWindow();
 
-      IGuiElement<QWidget> *
+      IGuiElement *
       getParent();
 
       void

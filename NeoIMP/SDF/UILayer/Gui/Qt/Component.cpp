@@ -29,25 +29,25 @@
 #include <SDF/UILayer/Gui/Qt/Controller/GuiController.hpp>
 
 namespace SDF::UILayer::Gui::Qt {
-  fruit::Component<IGuiController<QWidget>>
+  fruit::Component<IGuiController>
   getComponent() {
     return fruit::createComponent()
       .registerFactory<
-        std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
-                                             IGuiElement<QWidget> *,
-                                             std::string
-                                            >
-                       >(fruit::Assisted<IGuiController<QWidget> *>)
+        std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                     IGuiElement *,
+                                                     std::string
+                                                    >
+                       >(fruit::Assisted<IGuiController *>)
        >(
-         [](IGuiController<QWidget> *guiController) {
+         [](IGuiController *guiController) {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController));
-           return std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
-                                                IGuiElement<QWidget> *,
-                                                std::string
-                                               >
+           return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                               IGuiElement *,
+                                                               std::string
+                                                              >
                                  >(new View::Factory(std::move(controllerFactory)));
          }
        )
-      .bind<IGuiController<QWidget>, Controller::GuiController>();
+      .bind<IGuiController, Controller::GuiController>();
   }
 }

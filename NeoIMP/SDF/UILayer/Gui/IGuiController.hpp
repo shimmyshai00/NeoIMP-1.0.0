@@ -28,13 +28,11 @@
 #include <string>
 
 namespace SDF::UILayer::Gui {
-  template<class NodeType>
   class IGuiElement;
 
   // Class:      IGuiController
   // Purpose:    Provides an interface for the front-end GUI controller, which adds and removes different GUI elements.
-  // Parameters: NodeType - the node type for the associated IGuiElements.
-  template<class NodeType>
+  // Parameters: None.
   class IGuiController {
   public:
     virtual ~IGuiController() = default;
@@ -50,7 +48,7 @@ namespace SDF::UILayer::Gui {
     // Purpose:    Access a specific GUI element.
     // Parameters: name - The name of the element to access.
     // Returns:    The IGuiElement interface to this element.
-    virtual IGuiElement<NodeType> *
+    virtual IGuiElement *
     getGuiElementByName(std::string name) = 0;
   };
 }

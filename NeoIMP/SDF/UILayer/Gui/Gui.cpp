@@ -27,7 +27,7 @@
 #include <IGuiElement.hpp>
 
 namespace SDF::UILayer::Gui {
-  Gui::Gui(IGuiController<QWidget> *guiController)
+  Gui::Gui(IGuiController *guiController)
     : m_guiController(guiController)
   {
   }

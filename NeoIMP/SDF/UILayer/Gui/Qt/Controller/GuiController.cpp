@@ -28,15 +28,15 @@
 namespace SDF::UILayer::Gui::Qt::Controller {
   GuiController::GuiController(
     std::function<
-      std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
-                                           IGuiElement<QWidget> *,
-                                           std::string
-                                          >
-                     >(IGuiController<QWidget> *)
+      std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                   IGuiElement *,
+                                                   std::string
+                                                  >
+                     >(IGuiController *)
     > guiElementFactoryFactory
   )
   {
-    std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>, IGuiElement<QWidget> *, std::string>>
+    std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
       factory(guiElementFactoryFactory(this));
 
     addGuiElement("MainWindow", factory->create(nullptr, "MainWindow"));
@@ -53,7 +53,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     return rv;
   }
 
-  IGuiElement<QWidget> *
+  IGuiElement *
   GuiController::getGuiElementByName(std::string name) {
     if(m_guiElementMap.find(name) == m_guiElementMap.end()) {
       return nullptr;
@@ -69,12 +69,9 @@ namespace SDF::UILayer::Gui::Qt::Controller {
 
   void
   GuiController::addGuiElement(std::string name,
-                               std::unique_ptr<IGuiElement<QWidget>> guiElement
+                               IGuiElement *guiElement
                               )
   {
-    IGuiElement<QWidget> *el(guiElement.get());
-    m_guiElementOwners.push_back(std::move(guiElement));
-
-    m_guiElementMap[name] = el;
+    m_guiElementMap[name] = guiElement;
   }
 }

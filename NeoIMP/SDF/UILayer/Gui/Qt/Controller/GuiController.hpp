@@ -24,12 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IBorrowedFactory.hpp>
 #include <SDF/UILayer/Gui/IGuiController.hpp>
-
-#include <fruit/fruit.h>
-
-#include <QWidget>
 
 #include <fruit/fruit.h>
 
@@ -39,37 +35,35 @@
 #include <memory>
 
 namespace SDF::UILayer::Gui {
-  template<class NodeType>
   class IGuiElement;
 
   namespace Qt::Controller {
     // Class:      GuiController
     // Purpose:    Implements the whole-GUI controller for the Qt-based GUI.
     // Parameters: None.
-    class GuiController : public IGuiController<QWidget> {
+    class GuiController : public IGuiController {
     public:
       INJECT(GuiController(
         std::function<
-          std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
-                                               IGuiElement<QWidget> *,
-                                               std::string
-                                              >
-                         >(IGuiController<QWidget> *)
+          std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                       IGuiElement *,
+                                                       std::string
+                                                      >
+                         >(IGuiController *)
         > guiElementFactoryFactory
       ));
 
       std::vector<std::string>
       getGuiElementNames();
 
-      IGuiElement<QWidget> *
+      IGuiElement *
       getGuiElementByName(std::string name);
     private:
-      std::vector<std::unique_ptr<IGuiElement<QWidget>>> m_guiElementOwners;
-      std::map<std::string, IGuiElement<QWidget> *> m_guiElementMap;
+      std::map<std::string, IGuiElement *> m_guiElementMap;
 
       void
       addGuiElement(std::string name,
-                    std::unique_ptr<IGuiElement<QWidget>> guiElement
+                    IGuiElement *guiElement
                    );
     };
   }

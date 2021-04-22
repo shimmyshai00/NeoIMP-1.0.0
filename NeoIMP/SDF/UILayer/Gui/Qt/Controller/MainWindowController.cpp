@@ -29,7 +29,7 @@
 #include <Events/MainWindowEvent.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  MainWindowController::MainWindowController(IGuiController<QWidget> *guiController)
+  MainWindowController::MainWindowController(IGuiController *guiController)
     : m_guiController(guiController)
   {
   }

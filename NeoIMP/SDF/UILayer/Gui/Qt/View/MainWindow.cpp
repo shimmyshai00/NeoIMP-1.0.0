@@ -48,9 +48,9 @@ namespace SDF::UILayer::Gui::Qt::View {
     delete m_ui;
   }
 
-  IGuiElement<QWidget> *
+  IGuiElement *
   MainWindow::getParent() {
-    if(auto p = dynamic_cast<IGuiElement<QWidget> *>(parentWidget())) {
+    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
       return p;
     } else {
       return nullptr;

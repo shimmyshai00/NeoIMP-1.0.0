@@ -28,8 +28,7 @@ namespace SDF::UILayer::Gui {
   // Class:      IGuiElement
   // Purpose:    Provides an interface for GUI elements (or "views" to use the MVC terminology, but this class also
   //             defines behavior specific to them as in a GUI vs. other types of view we might use).
-  // Parameters: NodeType - The type of hierarchy node used by these elements to own each other.
-  template<class NodeType>
+  // Parameters: None.
   class IGuiElement {
   public:
     virtual ~IGuiElement() = default;
@@ -38,7 +37,7 @@ namespace SDF::UILayer::Gui {
     // Purpose:    Get the parent of this GUI element in the composition hierarchy.
     // Parameters: None.
     // Returns:    The parent GUI element, or nullptr if no parent (i.e. this is the root of a hierarchy).
-    virtual IGuiElement<NodeType> *
+    virtual IGuiElement *
     getParent() = 0;
 
     // Function:   show

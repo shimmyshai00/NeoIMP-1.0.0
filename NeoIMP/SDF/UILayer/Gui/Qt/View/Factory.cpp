@@ -34,12 +34,12 @@ namespace SDF::UILayer::Gui::Qt::View {
     : m_controllerFactory(std::move(controllerFactory))
   {}
 
-  std::unique_ptr<IGuiElement<QWidget>>
-  Factory::create(IGuiElement<QWidget> *parent, std::string elementType) {
+  IGuiElement *
+  Factory::create(IGuiElement *parent, std::string elementType) {
     std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller(m_controllerFactory->create(elementType));
 
     if(elementType == "MainWindow") {
-      return std::make_unique<MainWindow>(std::move(controller), dynamic_cast<QWidget *>(parent));
+      return new MainWindow(std::move(controller), dynamic_cast<QWidget *>(parent));
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
     }

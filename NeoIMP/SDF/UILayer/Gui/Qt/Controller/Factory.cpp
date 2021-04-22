@@ -28,7 +28,7 @@
 #include <MainWindowController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  Factory::Factory(IGuiController<QWidget> *guiController)
+  Factory::Factory(IGuiController *guiController)
     : m_guiController(guiController)
   {}
 

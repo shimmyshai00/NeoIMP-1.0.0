@@ -36,7 +36,6 @@
 #include <memory>
 
 namespace SDF::UILayer::Gui {
-  template<class NodeType>
   class IGuiController;
 
   namespace Qt::Controller {
@@ -45,12 +44,12 @@ namespace SDF::UILayer::Gui {
     // Parameters: None.
     class MainWindowController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      MainWindowController(IGuiController<QWidget> *guiController);
+      MainWindowController(IGuiController *guiController);
 
       void
       handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
-      IGuiController<QWidget> *m_guiController;
+      IGuiController *m_guiController;
 
       void
       handleExitClickedEvent(Events::ExitClickedEvent *event);

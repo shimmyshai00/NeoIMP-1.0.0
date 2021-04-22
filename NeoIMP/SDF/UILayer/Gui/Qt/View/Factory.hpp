@@ -24,14 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IBorrowedFactory.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IEventHandler.hpp>
 
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
-
-#include <QWidget>
 
 #include <fruit/fruit.h>
 
@@ -42,12 +41,13 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Class:      Factory
   // Purpose:    Construct new GUI elements.
   // Parameters: None.
-  class Factory : public Interfaces::IFactory<IGuiElement<QWidget>, IGuiElement<QWidget> *, std::string> {
+  class Factory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
   public:
     Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory);
 
-    std::unique_ptr<IGuiElement<QWidget>>
-    create(IGuiElement<QWidget> *parent, std::string elementType);
+    // Note: The GUI element is presumed to be owned by its parent element.
+    IGuiElement *
+    create(IGuiElement *parent, std::string elementType);
   private:
     std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> m_controllerFactory;
   };
