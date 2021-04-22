@@ -27,26 +27,30 @@
 #include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
 
+#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 #include <SDF/UILayer/Gui/Qt/Events/MainWindowEvent.hpp>
+
+#include <QWidget>
 
 #include <fruit/fruit.h>
 #include <memory>
 
 namespace SDF::UILayer::Gui {
+  template<class NodeType>
   class IGuiController;
 
   namespace Qt::Controller {
     // Class:      MainWindowController
     // Purpose:    Handles events from the main window.
     // Parameters: None.
-    class MainWindowController : public Interfaces::IEventHandler<Events::MainWindowEvent> {
+    class MainWindowController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      MainWindowController(IGuiController *guiController);
+      MainWindowController(IGuiController<QWidget> *guiController);
 
       void
-      handleEvent(std::shared_ptr<Events::MainWindowEvent> event);
+      handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
-      IGuiController *m_guiController;
+      IGuiController<QWidget> *m_guiController;
 
       void
       handleExitClickedEvent(Events::ExitClickedEvent *event);

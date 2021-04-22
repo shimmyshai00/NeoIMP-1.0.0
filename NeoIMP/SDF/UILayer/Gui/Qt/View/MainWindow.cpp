@@ -23,10 +23,14 @@
 
 #include <MainWindow.hpp>
 
+#include <Events/MainWindowEvent.hpp>
+
+#include <safeConnect.hpp>
+
 #include "QtResources/ui_MainWindow.h"
 
 namespace SDF::UILayer::Gui::Qt::View {
-  MainWindow::MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::MainWindowEvent>> controller,
+  MainWindow::MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                          QWidget *parent
                         )
     : QMainWindow(parent),
@@ -34,15 +38,19 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_controller(std::move(controller))
   {
     m_ui->setupUi(this);
+
+    safeConnect(m_ui->actionE_xit, &QAction::triggered, [=](bool v) {
+      m_controller->handleEvent(std::make_shared<Events::ExitClickedEvent>());
+    });
   }
 
   MainWindow::~MainWindow() {
     delete m_ui;
   }
 
-  IGuiElement *
+  IGuiElement<QWidget> *
   MainWindow::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
+    if(auto p = dynamic_cast<IGuiElement<QWidget> *>(parentWidget())) {
       return p;
     } else {
       return nullptr;

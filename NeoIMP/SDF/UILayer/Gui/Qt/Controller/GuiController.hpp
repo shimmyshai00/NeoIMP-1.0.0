@@ -29,35 +29,48 @@
 
 #include <fruit/fruit.h>
 
+#include <QWidget>
+
+#include <fruit/fruit.h>
+
 #include <vector>
 #include <map>
 #include <string>
 #include <memory>
 
 namespace SDF::UILayer::Gui {
+  template<class NodeType>
   class IGuiElement;
 
   namespace Qt::Controller {
     // Class:      GuiController
     // Purpose:    Implements the whole-GUI controller for the Qt-based GUI.
     // Parameters: None.
-    class GuiController : public IGuiController {
+    class GuiController : public IGuiController<QWidget> {
     public:
-      static constexpr const char *c_mainWindow = "MainWindow";
-    public:
-      INJECT(GuiController(std::function<std::unique_ptr<IGuiElement>(IGuiController *)> mainWindowFactory));
+      INJECT(GuiController(
+        std::function<
+          std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
+                                               IGuiElement<QWidget> *,
+                                               std::string
+                                              >
+                         >(IGuiController<QWidget> *)
+        > guiElementFactoryFactory
+      ));
 
       std::vector<std::string>
       getGuiElementNames();
 
-      IGuiElement *
+      IGuiElement<QWidget> *
       getGuiElementByName(std::string name);
     private:
-      std::vector<std::unique_ptr<IGuiElement>> m_guiElementOwners;
-      std::map<std::string, IGuiElement *> m_guiElementMap;
+      std::vector<std::unique_ptr<IGuiElement<QWidget>>> m_guiElementOwners;
+      std::map<std::string, IGuiElement<QWidget> *> m_guiElementMap;
 
       void
-      addGuiElement(std::string name, std::unique_ptr<IGuiElement> guiElement);
+      addGuiElement(std::string name,
+                    std::unique_ptr<IGuiElement<QWidget>> guiElement
+                   );
     };
   }
 }

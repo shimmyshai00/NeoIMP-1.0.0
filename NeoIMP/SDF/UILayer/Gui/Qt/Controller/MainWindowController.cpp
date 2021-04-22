@@ -24,20 +24,23 @@
 #include <MainWindowController.hpp>
 
 #include <IGuiController.hpp>
+#include <IGuiElement.hpp>
+
+#include <Events/MainWindowEvent.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  MainWindowController::MainWindowController(IGuiController *guiController)
+  MainWindowController::MainWindowController(IGuiController<QWidget> *guiController)
     : m_guiController(guiController)
   {
   }
 
   void
-  MainWindowController::handleEvent(std::shared_ptr<Events::MainWindowEvent> event) {
+  MainWindowController::handleEvent(std::shared_ptr<Events::GuiEvent> event) {
     if(auto p = dynamic_cast<Events::ExitClickedEvent *>(event.get())) { handleExitClickedEvent(p); }
   }
 
   void
   MainWindowController::handleExitClickedEvent(Events::ExitClickedEvent *event) {
-    // TBA
+    m_guiController->getGuiElementByName("MainWindow")->close();
   }
 }

@@ -25,10 +25,12 @@
  */
 
 #include <SDF/UILayer/Gui/IGuiController.hpp>
+
+#include <QWidget>
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui::Qt {
-  fruit::Component<IGuiController>
+  fruit::Component<IGuiController<QWidget>>
   getComponent();
 }
 

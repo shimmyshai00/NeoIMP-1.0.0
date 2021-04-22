@@ -23,25 +23,31 @@
 
 #include <SDF/UILayer/Gui/Qt/Component.hpp>
 
-#include <SDF/Interfaces/IEventHandler.hpp>
-
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
+#include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/GuiController.hpp>
-#include <SDF/UILayer/Gui/Qt/Controller/MainWindowController.hpp>
-
-#include <SDF/UILayer/Gui/Qt/View/MainWindow.hpp>
 
 namespace SDF::UILayer::Gui::Qt {
-  fruit::Component<IGuiController>
+  fruit::Component<IGuiController<QWidget>>
   getComponent() {
     return fruit::createComponent()
-      .registerFactory<std::unique_ptr<IGuiElement>(fruit::Assisted<IGuiController *>)>(
-        [](IGuiController *guiController) {
-          auto controller = std::make_unique<Controller::MainWindowController>(guiController);
-          return std::unique_ptr<IGuiElement>(new View::MainWindow(std::move(controller), nullptr));
-        }
-      )
-      .bind<IGuiController, Controller::GuiController>();
+      .registerFactory<
+        std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
+                                             IGuiElement<QWidget> *,
+                                             std::string
+                                            >
+                       >(fruit::Assisted<IGuiController<QWidget> *>)
+       >(
+         [](IGuiController<QWidget> *guiController) {
+           std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController));
+           return std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
+                                                IGuiElement<QWidget> *,
+                                                std::string
+                                               >
+                                 >(new View::Factory(std::move(controllerFactory)));
+         }
+       )
+      .bind<IGuiController<QWidget>, Controller::GuiController>();
   }
 }

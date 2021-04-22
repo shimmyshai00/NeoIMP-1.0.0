@@ -24,8 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+
 namespace SDF::UILayer::Gui::Qt::Events {
-  struct MainWindowEvent { virtual ~MainWindowEvent() = default; };
+  struct MainWindowEvent : public GuiEvent {};
 
   struct NewClickedEvent : public MainWindowEvent {};
   struct ExitClickedEvent : public MainWindowEvent {};

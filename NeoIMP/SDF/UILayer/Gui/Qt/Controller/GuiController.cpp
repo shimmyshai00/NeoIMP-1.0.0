@@ -26,8 +26,20 @@
 #include <IGuiElement.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  GuiController::GuiController(std::function<std::unique_ptr<IGuiElement>(IGuiController *)> mainWindowFactory) {
-    addGuiElement(c_mainWindow, mainWindowFactory(this));
+  GuiController::GuiController(
+    std::function<
+      std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>,
+                                           IGuiElement<QWidget> *,
+                                           std::string
+                                          >
+                     >(IGuiController<QWidget> *)
+    > guiElementFactoryFactory
+  )
+  {
+    std::unique_ptr<Interfaces::IFactory<IGuiElement<QWidget>, IGuiElement<QWidget> *, std::string>>
+      factory(guiElementFactoryFactory(this));
+
+    addGuiElement("MainWindow", factory->create(nullptr, "MainWindow"));
   }
 
   std::vector<std::string>
@@ -41,20 +53,28 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     return rv;
   }
 
-  IGuiElement *
+  IGuiElement<QWidget> *
   GuiController::getGuiElementByName(std::string name) {
     if(m_guiElementMap.find(name) == m_guiElementMap.end()) {
       return nullptr;
     } else {
-      return m_guiElementMap[name];
+      if(!m_guiElementMap[name]) {
+        m_guiElementMap.erase(name); // erase destroyed elements
+        return nullptr;
+      } else {
+        return m_guiElementMap[name];
+      }
     }
   }
 
   void
-  GuiController::addGuiElement(std::string name, std::unique_ptr<IGuiElement> guiElement) {
-    IGuiElement *el(guiElement.get());
-
+  GuiController::addGuiElement(std::string name,
+                               std::unique_ptr<IGuiElement<QWidget>> guiElement
+                              )
+  {
+    IGuiElement<QWidget> *el(guiElement.get());
     m_guiElementOwners.push_back(std::move(guiElement));
+
     m_guiElementMap[name] = el;
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_QT_VIEW_FACTORY_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_FACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    Factory.hpp
+ * PURPOSE: Defines the Factory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,50 +24,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IEventHandler.hpp>
 
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
 #include <QWidget>
-#include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include <fruit/fruit.h>
 
-namespace SDF::UILayer::Gui {
-  class IGuiController;
+#include <memory>
+#include <string>
 
-  namespace Qt::View {
-    // Class:      MainWindow
-    // Purpose:    Provides the main application window.
-    // Parameters: None.
-    class MainWindow : public QMainWindow,
-                       public IGuiElement<QWidget>
-    {
-    public:
-      MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-                 QWidget *parent = nullptr
-                );
-      ~MainWindow();
+namespace SDF::UILayer::Gui::Qt::View {
+  // Class:      Factory
+  // Purpose:    Construct new GUI elements.
+  // Parameters: None.
+  class Factory : public Interfaces::IFactory<IGuiElement<QWidget>, IGuiElement<QWidget> *, std::string> {
+  public:
+    Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory);
 
-      IGuiElement<QWidget> *
-      getParent();
-
-      void
-      show();
-
-      void
-      close();
-    private:
-      Ui::MainWindow *m_ui;
-
-      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
-    };
-  }
+    std::unique_ptr<IGuiElement<QWidget>>
+    create(IGuiElement<QWidget> *parent, std::string elementType);
+  private:
+    std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> m_controllerFactory;
+  };
 }
 
 #endif

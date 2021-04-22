@@ -24,9 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+
 namespace SDF::UILayer::Gui::Qt::Events {
   template<class T>
-  struct DialogEvent { virtual ~DialogEvent() = default; };
+  struct DialogEvent : public GuiEvent {};
 
   template<class T>
   struct AcceptEvent : public DialogEvent<T> {
