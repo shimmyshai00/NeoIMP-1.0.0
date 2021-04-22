@@ -40,6 +40,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
       factory(guiElementFactoryFactory(this));
 
     addGuiElement("MainWindow", factory->create(nullptr, "MainWindow"));
+    addGuiElement("NewDocumentDialog", factory->create(getGuiElementByName("MainWindow"), "NewDocumentDialog"));
   }
 
   std::vector<std::string>

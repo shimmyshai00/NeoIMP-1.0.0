@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindowController.cpp
- * PURPOSE: Implements the MainWindowController class.
+ * FILE:    NewDocumentDialogController.cpp
+ * PURPOSE: Implements the NewDocumentDialogController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,32 +21,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <MainWindowController.hpp>
-
-#include <IGuiController.hpp>
-#include <IGuiElement.hpp>
-
-#include <Events/MainWindowEvent.hpp>
+#include <NewDocumentDialogController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  MainWindowController::MainWindowController(IGuiController *guiController)
-    : m_guiController(guiController)
+  NewDocumentDialogController::NewDocumentDialogController()
   {
   }
 
   void
-  MainWindowController::handleEvent(std::shared_ptr<Events::GuiEvent> event) {
-    if(auto p = dynamic_cast<Events::NewClickedEvent *>(event.get())) { handleNewClickedEvent(p); }
-    else if(auto p = dynamic_cast<Events::ExitClickedEvent *>(event.get())) { handleExitClickedEvent(p); }
+  NewDocumentDialogController::handleEvent(std::shared_ptr<Events::GuiEvent> event) {
+    if(auto p = dynamic_cast<Events::AcceptEvent<View::DocumentSpec> *>(event.get())) { handleAcceptEvent(p); }
+    else if(auto p = dynamic_cast<Events::RejectEvent<View::DocumentSpec> *>(event.get())) { handleRejectEvent(p); }
   }
 
   void
-  MainWindowController::handleNewClickedEvent(Events::NewClickedEvent *event) {
-    m_guiController->getGuiElementByName("NewDocumentDialog")->show();
+  NewDocumentDialogController::handleAcceptEvent(Events::AcceptEvent<View::DocumentSpec> *event) {
+    // TBA
   }
 
   void
-  MainWindowController::handleExitClickedEvent(Events::ExitClickedEvent *event) {
-    m_guiController->getGuiElementByName("MainWindow")->close();
+  NewDocumentDialogController::handleRejectEvent(Events::RejectEvent<View::DocumentSpec> *event) {
+    // TBA
   }
 }

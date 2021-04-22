@@ -26,6 +26,7 @@
 //#include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
 #include <MainWindow.hpp>
+#include <NewDocumentDialog.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
@@ -40,6 +41,8 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     if(elementType == "MainWindow") {
       return new MainWindow(std::move(controller), dynamic_cast<QWidget *>(parent));
+    } else if(elementType == "NewDocumentDialog") {
+      return new NewDocumentDialog(std::move(controller), dynamic_cast<QWidget *>(parent));
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
     }

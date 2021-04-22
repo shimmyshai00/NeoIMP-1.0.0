@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_NEWDOCUMENTDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    NewDocumentDialog.hpp
+ * PURPOSE: Defines the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -30,27 +30,27 @@
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
 #include <QWidget>
-#include <QMainWindow>
+#include <QDialog>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
 namespace SDF::UILayer::Gui {
   class IGuiController;
 
   namespace Qt::View {
-    // Class:      MainWindow
+    // Class:      NewDocumentDialog
     // Purpose:    Provides the main application window.
     // Parameters: None.
-    class MainWindow : public QMainWindow,
-                       public IGuiElement
+    class NewDocumentDialog : public QDialog,
+                              public IGuiElement
     {
     public:
-      MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-                 QWidget *parent = nullptr
-                );
-      ~MainWindow();
+      NewDocumentDialog(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+                        QWidget *parent = nullptr
+                       );
+      ~NewDocumentDialog();
 
       IGuiElement *
       getParent();
@@ -61,7 +61,7 @@ namespace SDF::UILayer::Gui {
       void
       close();
     private:
-      Ui::MainWindow *m_ui;
+      Ui::NewDocumentDialog *m_ui;
 
       std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
     };

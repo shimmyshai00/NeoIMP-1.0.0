@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_QT_CONTROLLER_NEWDOCUMENTDIALOGCONTROLLER_HPP
+#define SDF_UILAYER_GUI_QT_CONTROLLER_NEWDOCUMENTDIALOGCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    NewDocumentDialogController.hpp
+ * PURPOSE: Defines the NewDocumentDialogController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,45 +25,36 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+#include <SDF/UILayer/Gui/Qt/Events/DialogEvent.hpp>
 
-#include <QWidget>
-#include <QMainWindow>
+#include <SDF/UILayer/Gui/Qt/View/DocumentSpec.hpp>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include <fruit/fruit.h>
+#include <memory>
 
 namespace SDF::UILayer::Gui {
   class IGuiController;
 
-  namespace Qt::View {
-    // Class:      MainWindow
-    // Purpose:    Provides the main application window.
+  namespace Qt::Controller {
+    // Class:      NewDocumentDialogController
+    // Purpose:    Handles events from the new-document dialog.
     // Parameters: None.
-    class MainWindow : public QMainWindow,
-                       public IGuiElement
-    {
+    class NewDocumentDialogController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-                 QWidget *parent = nullptr
-                );
-      ~MainWindow();
-
-      IGuiElement *
-      getParent();
+      NewDocumentDialogController();
 
       void
-      show();
-
-      void
-      close();
+      handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
-      Ui::MainWindow *m_ui;
+      IGuiController *m_guiController;
 
-      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
+      void
+      handleAcceptEvent(Events::AcceptEvent<View::DocumentSpec> *event);
+
+      void
+      handleRejectEvent(Events::RejectEvent<View::DocumentSpec> *event);
     };
   }
 }

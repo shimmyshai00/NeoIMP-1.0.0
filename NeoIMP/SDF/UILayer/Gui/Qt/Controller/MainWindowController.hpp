@@ -52,6 +52,9 @@ namespace SDF::UILayer::Gui {
       IGuiController *m_guiController;
 
       void
+      handleNewClickedEvent(Events::NewClickedEvent *event);
+
+      void
       handleExitClickedEvent(Events::ExitClickedEvent *event);
     };
   }

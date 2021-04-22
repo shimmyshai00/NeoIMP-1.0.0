@@ -26,6 +26,7 @@
 //#include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
 #include <MainWindowController.hpp>
+#include <NewDocumentDialogController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController)
@@ -36,6 +37,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::create(std::string guiElementType) {
     if(guiElementType == "MainWindow") {
       return std::make_unique<MainWindowController>(m_guiController);
+    } else if(guiElementType == "NewDocumentDialog") {
+      return std::make_unique<NewDocumentDialogController>();
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA
