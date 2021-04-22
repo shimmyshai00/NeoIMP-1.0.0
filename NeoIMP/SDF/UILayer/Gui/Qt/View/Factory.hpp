@@ -39,7 +39,10 @@
 
 namespace SDF::UILayer::Gui::Qt::View {
   // Class:      Factory
-  // Purpose:    Construct new GUI elements.
+  // Purpose:    Construct new GUI elements. Note: use of this borrowed factory stuff may be confusing because actually
+  //             it's a catch all for other types of ownership and here the ownership is that the passed parent GUI
+  //             element owns and we have to document this; this is awkward but Qt wants to be in charge and we have to
+  //             appease it!
   // Parameters: None.
   class Factory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
   public:
