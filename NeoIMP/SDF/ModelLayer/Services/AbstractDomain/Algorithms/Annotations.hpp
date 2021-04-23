@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ALGORITHMS_ANNOTATIONS_HPP
+#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ALGORITHMS_ANNOTATIONS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Implements the DI component for the services subsystem.
+ * FILE:    Annotations.hpp
+ * PURPOSE: DI annotations for different algorithm factories.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,22 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/Component.hpp>
+namespace SDF::ModelLayer::Services::AbstractDomain::Algorithms {
+  struct RendererAlgorithm {};
 
-#include <DocumentCreationService.hpp>
-#include <DocumentAccessService.hpp>
-#include <DocumentRenderService.hpp>
-
-#include <DomainObjects/Component.hpp>
-#include <DataLayer/Repositories/Component.hpp>
-
-namespace SDF::ModelLayer::Services {
-  Component getComponent() {
-    return fruit::createComponent()
-      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>()
-      .bind<UILayer::AbstractModel::IDocumentAccessService, DocumentAccessService>()
-      .bind<UILayer::AbstractModel::IDocumentRenderService, DocumentRenderService>()
-      .install(DomainObjects::getComponent)
-      .install(DataLayer::Repositories::getComponent);
-  }
+  struct RGB32Buffer {};
 }
+
+#endif

@@ -28,6 +28,7 @@
 #include <SDF/ModelLayer/DomainObjects/Image/Gil/Component.hpp>
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Algorithms/Annotations.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
@@ -37,9 +38,15 @@
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::DomainObjects {
-  typedef fruit::Component<fruit::Annotated<Algorithms::RendererAlgorithm,
+  typedef fruit::Component<fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
                                             Interfaces::IFactory<Services::AbstractDomain::IImageDataVisitor,
                                                                  Services::AbstractDomain::IRenderBuffer *
+                                                                >
+                                           >,
+                           fruit::Annotated<Services::AbstractDomain::Algorithms::RGB32Buffer,
+                                            Interfaces::IFactory<Services::AbstractDomain::IRenderBuffer,
+                                                                 std::size_t,
+                                                                 std::size_t
                                                                 >
                                            >,
                            Interfaces::IFactory<Services::AbstractDomain::IImage,

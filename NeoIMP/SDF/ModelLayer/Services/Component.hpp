@@ -26,12 +26,14 @@
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Services {
   typedef fruit::Component<UILayer::AbstractModel::IDocumentCreationService,
-                           UILayer::AbstractModel::IDocumentAccessService
+                           UILayer::AbstractModel::IDocumentAccessService,
+                           UILayer::AbstractModel::IDocumentRenderService
                           >
   Component;
 

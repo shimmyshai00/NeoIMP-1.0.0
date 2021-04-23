@@ -24,6 +24,7 @@
 #include <SDF/DataLayer/Repositories/Component.hpp>
 
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
+#include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
 
 namespace SDF::DataLayer::Repositories {
   Component
@@ -32,6 +33,9 @@ namespace SDF::DataLayer::Repositories {
       .bind<ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
             ImageRepository
            >()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>();
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
+            RenderingRepository
+           >();
   }
 }

@@ -27,18 +27,28 @@
 
 #include <safeConnect.hpp>
 
+#include <AbstractModel/IDocumentAccessService.hpp>
+
 #include "QtResources/ui_MainWindow.h"
 
 #include <iostream>
 
 namespace SDF::UILayer::Gui::Qt::View {
-  MainWindow::MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+  MainWindow::MainWindow(AbstractModel::IDocumentAccessService *documentAccessService,
+                         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                                      IGuiElement *,
+                                                                      AbstractModel::Handle
+                                                                     >>
+                          documentViewFactory,
+                         std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                          QWidget *parent
                         )
     : QMainWindow(parent),
       m_ui(new Ui::MainWindow),
       m_controller(std::move(controller)),
-      m_tabs(new QTabWidget)
+      m_documentAccessService(documentAccessService),
+      m_documentViewFactory(std::move(documentViewFactory)),
+      m_tabs(nullptr)
   {
     m_ui->setupUi(this);
 
@@ -81,7 +91,16 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
-    // TBA
-    std::cout << "created" << std::endl;
+    if(m_tabs == nullptr) {
+      // create the tab widget
+      m_tabs = new QTabWidget(this);
+      m_ui->tabLayout->addWidget(m_tabs, 0, 0);
+    }
+
+    // Add a new tab to the tab widget.
+    std::string documentName(m_documentAccessService->getDocumentName(event->handle));
+    m_tabs->addTab(dynamic_cast<QWidget *>(m_documentViewFactory->create(nullptr, event->handle)),
+                   documentName.c_str()
+                  );
   }
 }

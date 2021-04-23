@@ -25,17 +25,22 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Algorithms/Annotations.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::DomainObjects::Algorithms {
-  struct RendererAlgorithm {};
-
-  typedef fruit::Component<fruit::Annotated<RendererAlgorithm,
+  typedef fruit::Component<fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
                                             Interfaces::IFactory<Services::AbstractDomain::IImageDataVisitor,
                                                                  Services::AbstractDomain::IRenderBuffer *
+                                                                >
+                                           >,
+                           fruit::Annotated<Services::AbstractDomain::Algorithms::RGB32Buffer,
+                                            Interfaces::IFactory<Services::AbstractDomain::IRenderBuffer,
+                                                                 std::size_t,
+                                                                 std::size_t
                                                                 >
                                            >
                           >

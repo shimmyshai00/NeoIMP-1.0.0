@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IRenderBufferFactory.hpp>
+#include <SDF/Interfaces/IFactory.hpp>
 
 #include <fruit/fruit.h>
 
@@ -38,16 +38,20 @@ namespace SDF::ModelLayer {
 
   namespace DomainObjects::Algorithms::Renderer {
     // Class:      BufferFactory
-    // Purpose:    Creates new rendering buffers.
+    // Purpose:    Creates new rendering buffers. Note: currently only the RGB32 format is supported.
     // Parameters: None.
-    class BufferFactory : public Services::AbstractDomain::IRenderBufferFactory {
+    class BufferFactory : public Interfaces::IFactory<Services::AbstractDomain::IRenderBuffer,
+                                                      std::size_t,
+                                                      std::size_t
+                                                     >
+    {
     public:
       INJECT(BufferFactory());
 
       std::unique_ptr<Services::AbstractDomain::IRenderBuffer>
-      createRGB32Buffer(std::size_t width,
-                        std::size_t height
-                      );
+      create(std::size_t width,
+             std::size_t height
+            );
     private:
       int m_nextUid;
     };

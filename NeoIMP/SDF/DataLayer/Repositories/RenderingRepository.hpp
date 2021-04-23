@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_REPOSITORIES_COMPONENT_HPP
-#define SDF_DATALAYER_REPOSITORIES_COMPONENT_HPP
+#ifndef SDF_DATALAYER_REPOSITORIES_RENDERINGREPOSITORY_HPP
+#define SDF_DATALAYER_REPOSITORIES_RENDERINGREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the repository subsystem.
+ * FILE:    RenderingRepository.hpp
+ * PURPOSE: Defines the RenderingRepository class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,38 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/AbstractData/IObservableRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
 
 #include <fruit/fruit.h>
 
-namespace SDF::DataLayer::Repositories {
-  typedef fruit::Component<ModelLayer::AbstractData::IObservableRepository<
-                            ModelLayer::Services::AbstractDomain::IImage
-                           >,
-                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>,
-                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>
-                          >
-  Component;
+#include <memory>
+#include <map>
+#include <vector>
 
-  Component getComponent();
+namespace SDF::DataLayer::Repositories {
+  // Class:      RenderingRepository
+  // Purpose:    Defines the in-memory repository for image renderings.
+  // Parameters: None.
+  class RenderingRepository : public ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer> {
+  public:
+    INJECT(RenderingRepository());
+
+    void
+    create(std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer> object);
+
+    ModelLayer::Services::AbstractDomain::IRenderBuffer *
+    retrieve(int objectId);
+
+    void
+    update(ModelLayer::Services::AbstractDomain::IRenderBuffer *object);
+
+    std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer>
+    deleteEntry(int objectId);
+  private:
+    std::map<int, std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer>> m_objectMap;
+  };
 }
 
 #endif

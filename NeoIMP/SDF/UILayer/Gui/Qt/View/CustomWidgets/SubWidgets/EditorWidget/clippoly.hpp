@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_QT_VIEW_CUSTOMWIDGETS_SUBWIDGETS_EDITORWIDGET_CLIPPOLY_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_CUSTOMWIDGETS_SUBWIDGETS_EDITORWIDGET_CLIPPOLY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Implements the DI component for the services subsystem.
+ * FILE:    clippoly.hpp
+ * PURPOSE: Helper function to clip a polygon to a rectangle.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,22 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/Component.hpp>
+#include <QPointF>
+#include <QLineF>
+#include <QRectF>
 
-#include <DocumentCreationService.hpp>
-#include <DocumentAccessService.hpp>
-#include <DocumentRenderService.hpp>
+#include <vector>
 
-#include <DomainObjects/Component.hpp>
-#include <DataLayer/Repositories/Component.hpp>
-
-namespace SDF::ModelLayer::Services {
-  Component getComponent() {
-    return fruit::createComponent()
-      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>()
-      .bind<UILayer::AbstractModel::IDocumentAccessService, DocumentAccessService>()
-      .bind<UILayer::AbstractModel::IDocumentRenderService, DocumentRenderService>()
-      .install(DomainObjects::getComponent)
-      .install(DataLayer::Repositories::getComponent);
-  }
+namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
+  // Function: clipPoly
+  // Purpose:  Clip the contiguous polygon "poly" by the rectangle "rect" into a set of possibly non-contiguous
+  //           segments, given as pairs of points in the return value.
+  std::vector<QLine> clipPoly(const std::vector<QPoint> &poly, QRect rect);
 }
+
+#endif

@@ -26,17 +26,21 @@
 #include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 
 #include <MainWindow.hpp>
 #include <NewDocumentDialog.hpp>
+#include <DocumentView.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
     std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory,
-    AbstractModel::IDocumentAccessService *documentAccessService
+    AbstractModel::IDocumentAccessService *documentAccessService,
+    AbstractModel::IDocumentRenderService *documentRenderService
   )
     : m_controllerFactory(std::move(controllerFactory)),
-      m_documentAccessService(documentAccessService)
+      m_documentAccessService(documentAccessService),
+      m_documentRenderService(documentRenderService)
   {}
 
   IGuiElement *
@@ -44,7 +48,13 @@ namespace SDF::UILayer::Gui::Qt::View {
     std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller(m_controllerFactory->create(elementType));
 
     if(elementType == "MainWindow") {
-      MainWindow *rv(new MainWindow(std::move(controller), dynamic_cast<QWidget *>(parent)));
+      MainWindow *rv(new MainWindow(m_documentAccessService,
+                                    std::make_unique<DocumentViewFactory>(m_documentAccessService,
+                                                                          m_documentRenderService
+                                                                        ),
+                                    std::move(controller),
+                                    dynamic_cast<QWidget *>(parent)
+                                   ));
       m_documentAccessService->attachObserver(rv); // NB: need some safe way to disconnect this on destruction in
                                                    //     general cases
       return rv;
@@ -53,5 +63,27 @@ namespace SDF::UILayer::Gui::Qt::View {
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
     }
+  }
+}
+
+namespace SDF::UILayer::Gui::Qt::View {
+  DocumentViewFactory::DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
+                                           AbstractModel::IDocumentRenderService *documentRenderService
+                                          )
+    : m_documentAccessService(documentAccessService),
+      m_documentRenderService(documentRenderService)
+  {
+  }
+
+  IGuiElement *
+  DocumentViewFactory::create(IGuiElement *parent,
+                              AbstractModel::Handle documentHandle
+                             )
+  {
+    return new DocumentView(m_documentAccessService,
+                            m_documentRenderService,
+                            documentHandle,
+                            dynamic_cast<QWidget *>(parent)
+                           );
   }
 }

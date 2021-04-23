@@ -32,9 +32,9 @@ namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
   }
 
   std::unique_ptr<Services::AbstractDomain::IRenderBuffer>
-  BufferFactory::createRGB32Buffer(std::size_t width,
-                                   std::size_t height
-                                  )
+  BufferFactory::create(std::size_t width,
+                        std::size_t height
+                       )
   {
     return std::make_unique<Buffer>(m_nextUid++, width, height);
   }

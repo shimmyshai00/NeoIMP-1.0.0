@@ -24,6 +24,8 @@
 #include <SDF/UILayer/Gui/Qt/Component.hpp>
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
@@ -43,12 +45,14 @@ namespace SDF::UILayer::Gui::Qt {
                                                     >
                        >(fruit::Assisted<IGuiController *>,
                          AbstractModel::IDocumentCreationService *,
-                         AbstractModel::IDocumentAccessService *
+                         AbstractModel::IDocumentAccessService *,
+                         AbstractModel::IDocumentRenderService *
                         )
        >(
          [](IGuiController *guiController,
             AbstractModel::IDocumentCreationService *documentCreationService,
-            AbstractModel::IDocumentAccessService *documentAccessService
+            AbstractModel::IDocumentAccessService *documentAccessService,
+            AbstractModel::IDocumentRenderService *documentRenderService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
@@ -59,7 +63,8 @@ namespace SDF::UILayer::Gui::Qt {
                                                                std::string
                                                               >
                                  >(new View::Factory(std::move(controllerFactory),
-                                                     documentAccessService
+                                                     documentAccessService,
+                                                     documentRenderService
                                                     ));
          }
        )

@@ -28,6 +28,8 @@
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IEventHandler.hpp>
 
+#include <SDF/UILayer/AbstractModel/Handle.hpp>
+
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
@@ -40,6 +42,7 @@
 namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentAccessService;
+    class IDocumentRenderService;
   }
 
   namespace Gui::Qt::View {
@@ -53,7 +56,8 @@ namespace SDF::UILayer {
     public:
       Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>>
                 controllerFactory,
-              AbstractModel::IDocumentAccessService *documentAccessService
+              AbstractModel::IDocumentAccessService *documentAccessService,
+              AbstractModel::IDocumentRenderService *documentRenderService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -64,6 +68,25 @@ namespace SDF::UILayer {
         m_controllerFactory;
 
       AbstractModel::IDocumentAccessService *m_documentAccessService;
+      AbstractModel::IDocumentRenderService *m_documentRenderService;
+    };
+
+    // Class:      DocumentViewFactory
+    // Purpose:    Construct a new document view.
+    // Parameters: None.
+    class DocumentViewFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle> {
+    public:
+      DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
+                          AbstractModel::IDocumentRenderService *documentRenderService
+                         );
+
+      IGuiElement *
+      create(IGuiElement *parent,
+             AbstractModel::Handle documentHandle
+            );
+    private:
+      AbstractModel::IDocumentAccessService *m_documentAccessService;
+      AbstractModel::IDocumentRenderService *m_documentRenderService;
     };
   }
 }

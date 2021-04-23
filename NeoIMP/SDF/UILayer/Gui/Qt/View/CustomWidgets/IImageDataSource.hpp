@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_QT_VIEW_CUSTOMWIDGETS_IIMAGEDATASOURCE_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_CUSTOMWIDGETS_IIMAGEDATASOURCE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Implements the DI component for the services subsystem.
+ * FILE:    IImageDataSource.hpp
+ * PURPOSE: Headers for image data sources for the document editor widget.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,22 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/Component.hpp>
+#include <cstdlib>
 
-#include <DocumentCreationService.hpp>
-#include <DocumentAccessService.hpp>
-#include <DocumentRenderService.hpp>
+namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
+  class IImageDataSource {
+  public:
+    virtual ~IImageDataSource() = default;
 
-#include <DomainObjects/Component.hpp>
-#include <DataLayer/Repositories/Component.hpp>
+    virtual int getImageWidth() = 0;
+    virtual int getImageHeight() = 0;
 
-namespace SDF::ModelLayer::Services {
-  Component getComponent() {
-    return fruit::createComponent()
-      .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>()
-      .bind<UILayer::AbstractModel::IDocumentAccessService, DocumentAccessService>()
-      .bind<UILayer::AbstractModel::IDocumentRenderService, DocumentRenderService>()
-      .install(DomainObjects::getComponent)
-      .install(DataLayer::Repositories::getComponent);
-  }
+    // Right now, expects to receive RGB32 format pixels only.
+    virtual void accessImageData(const unsigned char *&origin,
+                                 std::ptrdiff_t &rowStride,
+                                 int x1, int y1, int x2, int y2
+                                ) = 0;
+  };
 }
+
+#endif

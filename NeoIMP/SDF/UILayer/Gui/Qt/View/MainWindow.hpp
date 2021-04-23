@@ -25,6 +25,8 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/Interfaces/IBorrowedFactory.hpp>
+
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
@@ -34,48 +36,64 @@
 #include <QMainWindow>
 #include <QTabWidget>
 
+#include <memory>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer::Gui {
-  class IGuiController;
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    class IDocumentAccessService;
+  }
 
-  namespace Qt::View {
-    // Class:      MainWindow
-    // Purpose:    Provides the main application window.
-    // Parameters: None.
-    class MainWindow : public QMainWindow,
-                       public IGuiElement,
-                       public Interfaces::IEventHandler<AbstractModel::Events::DocumentEvent>
-    {
-    public:
-      MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-                 QWidget *parent = nullptr
-                );
-      ~MainWindow();
+  namespace Gui {
+    class IGuiController;
 
-      IGuiElement *
-      getParent();
+    namespace Qt::View {
+      // Class:      MainWindow
+      // Purpose:    Provides the main application window.
+      // Parameters: None.
+      class MainWindow : public QMainWindow,
+                         public IGuiElement,
+                         public Interfaces::IEventHandler<AbstractModel::Events::DocumentEvent>
+      {
+      public:
+        MainWindow(AbstractModel::IDocumentAccessService *documentAccessService,
+                   std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
+                    documentViewFactory,
+                   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+                   QWidget *parent = nullptr
+                  );
+        ~MainWindow();
 
-      void
-      show();
+        IGuiElement *
+        getParent();
 
-      void
-      close();
+        void
+        show();
 
-      void
-      handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event);
-    private:
-      Ui::MainWindow *m_ui;
+        void
+        close();
 
-      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
+        void
+        handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event);
+      private:
+        Ui::MainWindow *m_ui;
 
-      QTabWidget *m_tabs;
+        std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
 
-      void
-      handleDocumentCreated(AbstractModel::Events::DocumentCreated *event);
-    };
+        AbstractModel::IDocumentAccessService *m_documentAccessService;
+
+        std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
+          m_documentViewFactory;
+
+        QTabWidget *m_tabs;
+
+        void
+        handleDocumentCreated(AbstractModel::Events::DocumentCreated *event);
+      };
+    }
   }
 }
 

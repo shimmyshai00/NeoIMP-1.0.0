@@ -24,17 +24,26 @@
 #include <SDF/ModelLayer/DomainObjects/Algorithms/Component.hpp>
 
 #include <SDF/ModelLayer/DomainObjects/Algorithms/Factories.hpp>
+#include <SDF/ModelLayer/DomainObjects/Algorithms/Renderer/BufferFactory.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Algorithms {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<fruit::Annotated<RendererAlgorithm,
+      .bind<fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
                              Interfaces::IFactory<Services::AbstractDomain::IImageDataVisitor,
                                                   Services::AbstractDomain::IRenderBuffer *
                                                  >
                             >,
             RendererFactory
+           >()
+      .bind<fruit::Annotated<Services::AbstractDomain::Algorithms::RGB32Buffer,
+                             Interfaces::IFactory<Services::AbstractDomain::IRenderBuffer,
+                                                  std::size_t,
+                                                  std::size_t
+                                                 >
+                            >,
+            Renderer::BufferFactory
            >();
   }
 }
