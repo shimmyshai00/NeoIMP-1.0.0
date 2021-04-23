@@ -60,6 +60,8 @@ namespace SDF::UILayer::Gui::Qt::View {
     virtual void
     close();
   private:
+    QBoxLayout *m_layout;
+
     CustomWidgets::DocumentWidget *m_documentWidget;
     CustomWidgets::IImageDataSource *m_imageDataSource;
   };

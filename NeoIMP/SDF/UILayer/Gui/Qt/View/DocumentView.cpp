@@ -77,9 +77,12 @@ namespace SDF::UILayer::Gui::Qt::View {
                              AbstractModel::IDocumentRenderService *documentRenderService,
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
-    : m_documentWidget(new CustomWidgets::DocumentWidget(this)),
+    : QWidget(parent),
+      m_layout(new QBoxLayout(QBoxLayout::TopToBottom, this)),
+      m_documentWidget(new CustomWidgets::DocumentWidget(this)),
       m_imageDataSource(new ImageDataSource(documentAccessService, documentRenderService, handleToView))
   {
+    m_layout->addWidget(m_documentWidget, 0);
     m_documentWidget->setDataSource(m_imageDataSource);
   }
 
