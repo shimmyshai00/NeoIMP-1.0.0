@@ -78,6 +78,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
     : QWidget(parent),
+      m_documentHandle(handleToView),
       m_layout(new QBoxLayout(QBoxLayout::TopToBottom, this)),
       m_documentWidget(new CustomWidgets::DocumentWidget(this)),
       m_imageDataSource(new ImageDataSource(documentAccessService, documentRenderService, handleToView))
@@ -101,5 +102,10 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   DocumentView::close() {
+  }
+
+  AbstractModel::Handle
+  DocumentView::getViewedDocumentHandle() const {
+    return m_documentHandle;
   }
 }

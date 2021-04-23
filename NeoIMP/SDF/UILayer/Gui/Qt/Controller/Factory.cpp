@@ -26,22 +26,27 @@
 #include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
 #include <AbstractModel/IDocumentCreationService.hpp>
+#include <AbstractModel/IUiStateModelService.hpp>
 
 #include <MainWindowController.hpp>
 #include <NewDocumentDialogController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
-                   AbstractModel::IDocumentCreationService *documentCreationService
+                   AbstractModel::IDocumentCreationService *documentCreationService,
+                   AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
                   )
     : m_guiController(guiController),
-      m_documentCreationService(documentCreationService)
+      m_documentCreationService(documentCreationService),
+      m_handleStateModelService(handleStateModelService)
   {}
 
   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
   Factory::create(std::string guiElementType) {
     if(guiElementType == "MainWindow") {
-      return std::make_unique<MainWindowController>(m_guiController);
+      return std::make_unique<MainWindowController>(m_handleStateModelService,
+                                                    m_guiController
+                                                   );
     } else if(guiElementType == "NewDocumentDialog") {
       return std::make_unique<NewDocumentDialogController>(m_documentCreationService);
     } else {

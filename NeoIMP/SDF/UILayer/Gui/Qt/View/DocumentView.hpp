@@ -54,12 +54,16 @@ namespace SDF::UILayer::Gui::Qt::View {
     IGuiElement *
     getParent();
 
-    virtual void
+    void
     show();
 
-    virtual void
+    void
     close();
+
+    AbstractModel::Handle
+    getViewedDocumentHandle() const;
   private:
+    AbstractModel::Handle m_documentHandle;
     QBoxLayout *m_layout;
 
     CustomWidgets::DocumentWidget *m_documentWidget;

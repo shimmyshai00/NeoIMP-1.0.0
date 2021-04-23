@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_COMPONENT_HPP
-#define SDF_MODELLAYER_SERVICES_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_SERVICES_UISTATEMODELSERVICE_TPP
+#define SDF_MODELLAYER_SERVICES_UISTATEMODELSERVICE_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the services subsystem.
+ * FILE:    UiStateModelService.tpp
+ * PURPOSE: Implements the UiStateModelService template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
-#include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
-#include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
-#include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
-
-#include <SDF/UILayer/AbstractModel/Handle.hpp>
-
-#include <fruit/fruit.h>
+#include <SDF/ModelLayer/Exceptions/Exceptions.hpp>
 
 namespace SDF::ModelLayer::Services {
-  typedef fruit::Component<UILayer::AbstractModel::IDocumentCreationService,
-                           UILayer::AbstractModel::IDocumentAccessService,
-                           UILayer::AbstractModel::IDocumentRenderService,
-                           UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>
-                          >
-  Component;
+  template<class StateT>
+  UiStateModelService<StateT>::UiStateModelService()
+  {
+  }
 
-  Component getComponent();
+  template<class StateT>
+  StateT
+  UiStateModelService<StateT>::getStateElement(std::string key) {
+    if(m_stateMap.find(key) == m_stateMap.end()) {
+      throw ModelLayer::Exceptions::KeyNotFoundException(key.c_str());
+    } else {
+      return m_stateMap[key];
+    }
+  }
+
+  template<class StateT>
+  void
+  UiStateModelService<StateT>::setStateElement(std::string key,
+                                               StateT value
+                                              )
+  {
+    m_stateMap[key] = value;
+  }
 }
 
 #endif

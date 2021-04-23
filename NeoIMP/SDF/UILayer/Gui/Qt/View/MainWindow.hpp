@@ -91,6 +91,9 @@ namespace SDF::UILayer {
         QTabWidget *m_tabs;
 
         void
+        addDocumentTab(AbstractModel::Handle handle);
+
+        void
         handleDocumentCreated(AbstractModel::Events::DocumentCreated *event);
       };
     }

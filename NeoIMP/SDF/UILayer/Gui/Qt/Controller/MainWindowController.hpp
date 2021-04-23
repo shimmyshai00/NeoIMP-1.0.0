@@ -27,6 +27,8 @@
 #include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
 
+#include <SDF/UILayer/AbstractModel/Handle.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 #include <SDF/UILayer/Gui/Qt/Events/MainWindowEvent.hpp>
 
@@ -35,28 +37,42 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-namespace SDF::UILayer::Gui {
-  class IGuiController;
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    template<class StateT>
+    class IUiStateModelService;
+  }
 
-  namespace Qt::Controller {
-    // Class:      MainWindowController
-    // Purpose:    Handles events from the main window.
-    // Parameters: None.
-    class MainWindowController : public Interfaces::IEventHandler<Events::GuiEvent> {
-    public:
-      MainWindowController(IGuiController *guiController);
+  namespace Gui {
+    class IGuiController;
 
-      void
-      handleEvent(std::shared_ptr<Events::GuiEvent> event);
-    private:
-      IGuiController *m_guiController;
+    namespace Qt::Controller {
+      // Class:      MainWindowController
+      // Purpose:    Handles events from the main window.
+      // Parameters: None.
+      class MainWindowController : public Interfaces::IEventHandler<Events::GuiEvent> {
+      public:
+        MainWindowController(AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
+                             IGuiController *guiController
+                            );
 
-      void
-      handleNewClickedEvent(Events::NewClickedEvent *event);
+        void
+        handleEvent(std::shared_ptr<Events::GuiEvent> event);
+      private:
+        AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
 
-      void
-      handleExitClickedEvent(Events::ExitClickedEvent *event);
-    };
+        IGuiController *m_guiController;
+
+        void
+        handleNewClickedEvent(Events::NewClickedEvent *event);
+
+        void
+        handleExitClickedEvent(Events::ExitClickedEvent *event);
+
+        void
+        handleFocusDocumentChangedEvent(Events::FocusDocumentChangedEvent *event);
+      };
+    }
   }
 }
 

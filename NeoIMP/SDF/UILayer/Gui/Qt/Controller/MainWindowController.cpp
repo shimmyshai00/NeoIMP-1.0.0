@@ -23,14 +23,21 @@
 
 #include <MainWindowController.hpp>
 
+#include <AbstractModel/IUiStateModelService.hpp>
+
 #include <IGuiController.hpp>
 #include <IGuiElement.hpp>
 
 #include <Events/MainWindowEvent.hpp>
+#include <SDF/UILayer/Gui/StateKeys.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  MainWindowController::MainWindowController(IGuiController *guiController)
-    : m_guiController(guiController)
+  MainWindowController::MainWindowController(AbstractModel::IUiStateModelService<AbstractModel::Handle> *
+                                              handleStateModelService,
+                                             IGuiController *guiController
+                                            )
+    : m_handleStateModelService(handleStateModelService),
+      m_guiController(guiController)
   {
   }
 
@@ -48,5 +55,10 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   void
   MainWindowController::handleExitClickedEvent(Events::ExitClickedEvent *event) {
     m_guiController->getGuiElementByName("MainWindow")->close();
+  }
+
+  void
+  MainWindowController::handleFocusDocumentChangedEvent(Events::FocusDocumentChangedEvent *event) {
+    m_handleStateModelService->setStateElement(c_guiFocusDocumentKey, event->focusedHandle);
   }
 }

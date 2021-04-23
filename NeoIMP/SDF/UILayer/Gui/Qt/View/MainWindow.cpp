@@ -28,6 +28,9 @@
 #include <safeConnect.hpp>
 
 #include <AbstractModel/IDocumentAccessService.hpp>
+#include <AbstractModel/IUiStateModelService.hpp>
+
+#include <DocumentView.hpp>
 
 #include "QtResources/ui_MainWindow.h"
 
@@ -90,17 +93,29 @@ namespace SDF::UILayer::Gui::Qt::View {
   }
 
   void
-  MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
+  MainWindow::addDocumentTab(AbstractModel::Handle handle) {
     if(m_tabs == nullptr) {
       // create the tab widget
       m_tabs = new QTabWidget(this);
       m_ui->tabLayout->addWidget(m_tabs, 0, 0);
+
+      safeConnect(m_tabs, &QTabWidget::currentChanged, [=](int index) {
+        std::shared_ptr<Events::FocusDocumentChangedEvent> event(new Events::FocusDocumentChangedEvent);
+        event->focusedHandle = static_cast<DocumentView *>(m_tabs->currentWidget())->getViewedDocumentHandle();
+
+        m_controller->handleEvent(event);
+      });
     }
 
     // Add a new tab to the tab widget.
-    std::string documentName(m_documentAccessService->getDocumentName(event->handle));
-    m_tabs->addTab(dynamic_cast<QWidget *>(m_documentViewFactory->create(nullptr, event->handle)),
+    std::string documentName(m_documentAccessService->getDocumentName(handle));
+    m_tabs->addTab(dynamic_cast<QWidget *>(m_documentViewFactory->create(nullptr, handle)),
                    documentName.c_str()
                   );
+  }
+
+  void
+  MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
+    addDocumentTab(event->handle);
   }
 }

@@ -54,6 +54,12 @@ namespace SDF::ModelLayer::Exceptions {
       : Exception(true, "Tried to create a document from a bad spec.")
     {}
   };
+
+  struct KeyNotFoundException : public SDF::Exception::Exception {
+    KeyNotFoundException(const char *key)
+      : Exception(true, "UI state key '%s' not found.", key)
+    {}
+  };
 }
 
 #endif

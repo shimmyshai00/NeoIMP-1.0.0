@@ -26,6 +26,7 @@
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
+#include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
@@ -46,17 +47,20 @@ namespace SDF::UILayer::Gui::Qt {
                        >(fruit::Assisted<IGuiController *>,
                          AbstractModel::IDocumentCreationService *,
                          AbstractModel::IDocumentAccessService *,
-                         AbstractModel::IDocumentRenderService *
+                         AbstractModel::IDocumentRenderService *,
+                         AbstractModel::IUiStateModelService<AbstractModel::Handle> *
                         )
        >(
          [](IGuiController *guiController,
             AbstractModel::IDocumentCreationService *documentCreationService,
             AbstractModel::IDocumentAccessService *documentAccessService,
-            AbstractModel::IDocumentRenderService *documentRenderService
+            AbstractModel::IDocumentRenderService *documentRenderService,
+            AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
-                                                                                          documentCreationService
+                                                                                          documentCreationService,
+                                                                                          handleStateModelService
                                                                                          ));
            return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
                                                                IGuiElement *,

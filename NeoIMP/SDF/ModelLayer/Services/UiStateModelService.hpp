@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_COMPONENT_HPP
-#define SDF_MODELLAYER_SERVICES_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_SERVICES_UISTATEMODELSERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_UISTATEMODELSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the services subsystem.
+ * FILE:    UiStateModelService.hpp
+ * PURPOSE: Defines the UiStateModelService template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
-#include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
-#include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
-
-#include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
 
-namespace SDF::ModelLayer::Services {
-  typedef fruit::Component<UILayer::AbstractModel::IDocumentCreationService,
-                           UILayer::AbstractModel::IDocumentAccessService,
-                           UILayer::AbstractModel::IDocumentRenderService,
-                           UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>
-                          >
-  Component;
+#include <string>
+#include <map>
 
-  Component getComponent();
+namespace SDF::ModelLayer::Services {
+  // Class:      UiStateModelService
+  // Purpose:    Provides a database to store editor UI state that doesn't otherwise fit with a specific UI element or
+  //             sensibly could be considered to reflect a property of the domain model.
+  // Parameters: StateT - The type of state this state model service serves.
+  template<class StateT>
+  class UiStateModelService : public UILayer::AbstractModel::IUiStateModelService<StateT> {
+  public:
+    INJECT(UiStateModelService());
+
+    StateT
+    getStateElement(std::string key);
+
+    void
+    setStateElement(std::string key,
+                    StateT value
+                   );
+  private:
+    std::map<std::string, StateT> m_stateMap;
+  };
 }
+
+#include "SDF/ModelLayer/Services/UiStateModelService.tpp"
 
 #endif

@@ -27,6 +27,7 @@
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IEventHandler.hpp>
 
+#include <SDF/UILayer/AbstractModel/Handle.hpp>
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
 #include <fruit/fruit.h>
@@ -37,6 +38,9 @@
 namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentCreationService;
+
+    template<class StateT>
+    class IUiStateModelService;
   }
 
   namespace Gui {
@@ -50,7 +54,8 @@ namespace SDF::UILayer {
       {
       public:
         Factory(IGuiController *guiController,
-                AbstractModel::IDocumentCreationService *documentCreationService
+                AbstractModel::IDocumentCreationService *documentCreationService,
+                AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
                );
 
         // Creates the appropriate controller for the given type of GUI element.
@@ -60,6 +65,7 @@ namespace SDF::UILayer {
         IGuiController *m_guiController;
 
         AbstractModel::IDocumentCreationService *m_documentCreationService;
+        AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
       };
     }
   }
