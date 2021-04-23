@@ -1,12 +1,11 @@
-#ifndef SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
-#define SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
-
+#ifndef SDF_UILAYER_METRICS_DIMENSIONLESSUNITS_HPP
+#define SDF_UILAYER_METRICS_DIMENSIONLESSUNITS_HPP
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentSpec.hpp
- * PURPOSE: A POD struct for giving the parameters needed to create a new document.
+ * FILE:    DimensionlessUnits.hpp
+ * PURPOSE: Defines the available dimensionless units.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +23,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/UILayer/AbstractModel/Properties/BitDepth.hpp>
+#include <SDF/UILayer/Metrics/UnitSystem.hpp>
 
-#include <string>
+#include <boost/units/unit.hpp>
 
-namespace SDF::UILayer::Gui::Qt::View {
-  struct DocumentSpec {
-    int documentWidthPx;
-    int documentHeightPx;
-    float documentResolutionPpi;
-
-    AbstractModel::Properties::ColorModel colorModel;
-    AbstractModel::Properties::BitDepth bitDepth;
-  };
+namespace SDF::UILayer::Metrics {
+  typedef boost::units::unit<boost::units::dimensionless_type, metric_unit_system> dimensionless;
 }
 
 #endif

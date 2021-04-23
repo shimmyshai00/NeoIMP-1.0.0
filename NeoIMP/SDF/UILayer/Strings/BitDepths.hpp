@@ -1,12 +1,12 @@
-#ifndef SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
-#define SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
+#ifndef SDF_UILAYER_STRINGS_BITDEPTHS_HPP
+#define SDF_UILAYER_STRINGS_BITDEPTHS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentSpec.hpp
- * PURPOSE: A POD struct for giving the parameters needed to create a new document.
+ * FILE:    BitDepths.hpp
+ * PURPOSE: UI labels for the bit depths.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,18 +25,11 @@
  */
 
 #include <SDF/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/UILayer/AbstractModel/Properties/BitDepth.hpp>
-
 #include <string>
 
-namespace SDF::UILayer::Gui::Qt::View {
-  struct DocumentSpec {
-    int documentWidthPx;
-    int documentHeightPx;
-    float documentResolutionPpi;
-
-    AbstractModel::Properties::ColorModel colorModel;
-    AbstractModel::Properties::BitDepth bitDepth;
+namespace SDF::UILayer::Strings {
+  static std::string c_bitDepthNames[AbstractModel::Properties::BIT_DEPTH_MAX] = {
+    "8",
   };
 }
 

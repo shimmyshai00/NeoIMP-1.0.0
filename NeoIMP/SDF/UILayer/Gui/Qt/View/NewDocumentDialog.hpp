@@ -29,6 +29,12 @@
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
+#include <SDF/UILayer/Gui/Qt/View/LengthSelector.hpp>
+#include <SDF/UILayer/Gui/Qt/View/ResolutionSelector.hpp>
+
+#include <SDF/UILayer/AbstractModel/Properties/ColorModel.hpp>
+#include <SDF/UILayer/AbstractModel/Properties/BitDepth.hpp>
+
 #include <QWidget>
 #include <QDialog>
 
@@ -64,6 +70,13 @@ namespace SDF::UILayer::Gui {
       Ui::NewDocumentDialog *m_ui;
 
       std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
+
+      LengthSelector m_documentWidthSelector;
+      LengthSelector m_documentHeightSelector;
+      ResolutionSelector m_documentResolutionSelector;
+
+      AbstractModel::Properties::ColorModel m_colorModel;
+      AbstractModel::Properties::BitDepth m_bitDepth;
     };
   }
 }

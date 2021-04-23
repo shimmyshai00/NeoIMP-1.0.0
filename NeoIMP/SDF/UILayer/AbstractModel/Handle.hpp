@@ -1,12 +1,13 @@
-#ifndef SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
-#define SDF_IMPL_UILAYER_GUI_QT_VIEW_DOCUMENTSPEC_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_HANDLE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_HANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentSpec.hpp
- * PURPOSE: A POD struct for giving the parameters needed to create a new document.
+ * FILE:    Handle.hpp
+ * PURPOSE: Definition of a type holding handles for objects in the model layer. Each handle uniquely identifies a
+ *          particular domain object.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +25,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/AbstractModel/Properties/ColorModel.hpp>
-#include <SDF/UILayer/AbstractModel/Properties/BitDepth.hpp>
+namespace SDF::UILayer::AbstractModel {
+  typedef int Handle;
 
-#include <string>
-
-namespace SDF::UILayer::Gui::Qt::View {
-  struct DocumentSpec {
-    int documentWidthPx;
-    int documentHeightPx;
-    float documentResolutionPpi;
-
-    AbstractModel::Properties::ColorModel colorModel;
-    AbstractModel::Properties::BitDepth bitDepth;
-  };
+  static const Handle HANDLE_INVALID = -1;
 }
 
 #endif
