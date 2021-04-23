@@ -34,21 +34,23 @@
 #include <fruit/fruit.h>
 #include <memory>
 
-namespace SDF::UILayer::Gui {
-  class IGuiController;
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    class IDocumentCreationService;
+  }
 
-  namespace Qt::Controller {
+  namespace Gui::Qt::Controller {
     // Class:      NewDocumentDialogController
     // Purpose:    Handles events from the new-document dialog.
     // Parameters: None.
     class NewDocumentDialogController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      NewDocumentDialogController();
+      NewDocumentDialogController(AbstractModel::IDocumentCreationService *documentCreationService);
 
       void
       handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
-      IGuiController *m_guiController;
+      AbstractModel::IDocumentCreationService *m_documentCreationService;
 
       void
       handleAcceptEvent(Events::AcceptEvent<View::DocumentSpec> *event);

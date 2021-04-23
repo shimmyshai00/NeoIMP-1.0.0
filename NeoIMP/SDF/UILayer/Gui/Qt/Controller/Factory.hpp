@@ -34,24 +34,34 @@
 #include <memory>
 #include <string>
 
-namespace SDF::UILayer::Gui {
-  class IGuiController;
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    class IDocumentCreationService;
+  }
 
-  namespace Qt::Controller {
-    // Class:      Factory
-    // Purpose:    Construct new GUI controllers.
-    // Parameters: None.
-    class Factory : public Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>
-    {
-    public:
-      Factory(IGuiController *guiController);
+  namespace Gui {
+    class IGuiController;
 
-      // Creates the appropriate controller for the given type of GUI element.
-      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
-      create(std::string guiElementType);
-    private:
-      IGuiController *m_guiController;
-    };
+    namespace Qt::Controller {
+      // Class:      Factory
+      // Purpose:    Construct new GUI controllers.
+      // Parameters: None.
+      class Factory : public Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>
+      {
+      public:
+        Factory(IGuiController *guiController,
+                AbstractModel::IDocumentCreationService *documentCreationService
+               );
+
+        // Creates the appropriate controller for the given type of GUI element.
+        std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
+        create(std::string guiElementType);
+      private:
+        IGuiController *m_guiController;
+
+        AbstractModel::IDocumentCreationService *m_documentCreationService;
+      };
+    }
   }
 }
 

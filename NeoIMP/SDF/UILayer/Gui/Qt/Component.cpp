@@ -23,10 +23,14 @@
 
 #include <SDF/UILayer/Gui/Qt/Component.hpp>
 
+#include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/GuiController.hpp>
+
+#include <SDF/ModelLayer/Services/Component.hpp>
 
 namespace SDF::UILayer::Gui::Qt {
   fruit::Component<IGuiController>
@@ -37,10 +41,17 @@ namespace SDF::UILayer::Gui::Qt {
                                                      IGuiElement *,
                                                      std::string
                                                     >
-                       >(fruit::Assisted<IGuiController *>)
+                       >(fruit::Assisted<IGuiController *>,
+                         AbstractModel::IDocumentCreationService *
+                        )
        >(
-         [](IGuiController *guiController) {
-           std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController));
+         [](IGuiController *guiController,
+            AbstractModel::IDocumentCreationService *documentCreationService
+           )
+          {
+           std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
+                                                                                          documentCreationService
+                                                                                         ));
            return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
                                                                IGuiElement *,
                                                                std::string
@@ -48,6 +59,7 @@ namespace SDF::UILayer::Gui::Qt {
                                  >(new View::Factory(std::move(controllerFactory)));
          }
        )
-      .bind<IGuiController, Controller::GuiController>();
+      .bind<IGuiController, Controller::GuiController>()
+      .install(ModelLayer::Services::getComponent);
   }
 }

@@ -23,8 +23,13 @@
 
 #include <NewDocumentDialogController.hpp>
 
+#include <AbstractModel/IDocumentCreationService.hpp>
+
 namespace SDF::UILayer::Gui::Qt::Controller {
-  NewDocumentDialogController::NewDocumentDialogController()
+  NewDocumentDialogController::NewDocumentDialogController(
+    AbstractModel::IDocumentCreationService *documentCreationService
+  )
+    : m_documentCreationService(documentCreationService)
   {
   }
 
@@ -36,7 +41,12 @@ namespace SDF::UILayer::Gui::Qt::Controller {
 
   void
   NewDocumentDialogController::handleAcceptEvent(Events::AcceptEvent<View::DocumentSpec> *event) {
-    // TBA
+    m_documentCreationService->createDocument(event->dialogRv.documentWidthPx,
+                                              event->dialogRv.documentHeightPx,
+                                              event->dialogRv.documentResolutionPpi,
+                                              event->dialogRv.colorModel,
+                                              event->dialogRv.bitDepth
+                                             );
   }
 
   void
