@@ -61,6 +61,7 @@ namespace SDF::ModelLayer::Services {
 
       std::unique_ptr<AbstractDomain::IRenderBuffer>
         buffer(m_renderBufferFactory->create(imageWidthPx, imageHeightPx));
+      std::size_t rv(buffer->getId());
 
       std::unique_ptr<AbstractDomain::IImageDataVisitor>
         renderer(m_algorithmFactory->create(buffer.get()));
@@ -74,6 +75,8 @@ namespace SDF::ModelLayer::Services {
                                                                       );
 
       m_renderingsRepository->create(std::move(buffer));
+
+      return rv;
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(imageHandle);
     }

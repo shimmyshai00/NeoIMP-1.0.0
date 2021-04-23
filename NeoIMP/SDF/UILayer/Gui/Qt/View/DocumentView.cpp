@@ -39,7 +39,8 @@ namespace SDF::UILayer::Gui::Qt::View {
       AbstractModel::Handle imageHandle
     ) : m_documentAccessService(documentAccessService),
         m_documentRenderService(documentRenderService),
-        m_imageHandle(imageHandle)
+        m_imageHandle(imageHandle),
+        m_renderingHandle(AbstractModel::HANDLE_INVALID)
     {}
 
     int getImageWidth() {
@@ -55,13 +56,19 @@ namespace SDF::UILayer::Gui::Qt::View {
                          int x1, int y1, int x2, int y2
                         )
     {
-      m_documentRenderService->getRenderedRegion(origin, rowStride, m_imageHandle, x1, y1, x2, y2);
+      if(m_renderingHandle == AbstractModel::HANDLE_INVALID) {
+        // Render the image first.
+        m_renderingHandle = m_documentRenderService->renderImage(m_imageHandle);
+      }
+
+      m_documentRenderService->getRenderedRegion(origin, rowStride, m_renderingHandle, x1, y1, x2, y2);
     }
   private:
     AbstractModel::IDocumentAccessService *m_documentAccessService;
     AbstractModel::IDocumentRenderService *m_documentRenderService;
 
     AbstractModel::Handle m_imageHandle;
+    AbstractModel::Handle m_renderingHandle;
   };
 }
 
