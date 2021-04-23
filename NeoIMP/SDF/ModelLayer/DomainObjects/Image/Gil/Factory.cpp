@@ -37,13 +37,16 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
        (spec.bitDepth == UILayer::AbstractModel::Properties::BIT_DEPTH_8)
       )
     {
+      std::size_t id(m_nextUid++);
+
       return std::make_unique<Image<boost::gil::rgb8_image_t,
                                     boost::gil::rgb8_view_t,
                                     boost::gil::rgb8_pixel_t
                                    >
                              >
              (
-               m_nextUid++,
+               id,
+               "Untitled " + std::to_string(id),
                spec.documentWidthPx,
                spec.documentHeightPx
              );

@@ -29,6 +29,7 @@
 #include <SDF/ModelLayer/Math/Rect.hpp>
 
 #include <cstddef>
+#include <string>
 
 namespace SDF::ModelLayer::Services::AbstractDomain {
   class IImageDataVisitor;
@@ -39,6 +40,14 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
   class IImage : public IDomainObject<IImage> {
   public:
     virtual ~IImage() = default;
+
+    // Function:   getName
+    // Purpose:    Get the name of this image. This name is typically derived from the file name we use to save the
+    //             image to.
+    // Parameters: None.
+    // Returns:    The name of the image.
+    virtual std::string
+    getName() const = 0;
 
     // Function:   getWidth
     // Purpose:    Get the width of the image in pixels.
@@ -60,6 +69,13 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
     // Returns:    The number of layers.
     virtual std::size_t
     getNumLayers() const = 0;
+
+    // Function:   setName
+    // Purpose:    Change the name of this image.
+    // Parameters: name - The new name.
+    // Returns:    None.
+    virtual void
+    setName(std::string name) = 0;
 
     // Function:   addLayerBefore
     // Purpose:    Adds a new layer to the image.

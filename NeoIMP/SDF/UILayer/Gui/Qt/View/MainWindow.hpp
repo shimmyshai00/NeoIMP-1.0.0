@@ -28,9 +28,11 @@
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+#include <SDF/UILayer/AbstractModel/Events/DocumentEvent.hpp>
 
 #include <QWidget>
 #include <QMainWindow>
+#include <QTabWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,7 +46,8 @@ namespace SDF::UILayer::Gui {
     // Purpose:    Provides the main application window.
     // Parameters: None.
     class MainWindow : public QMainWindow,
-                       public IGuiElement
+                       public IGuiElement,
+                       public Interfaces::IEventHandler<AbstractModel::Events::DocumentEvent>
     {
     public:
       MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
@@ -60,10 +63,18 @@ namespace SDF::UILayer::Gui {
 
       void
       close();
+
+      void
+      handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event);
     private:
       Ui::MainWindow *m_ui;
 
       std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
+
+      QTabWidget *m_tabs;
+
+      void
+      handleDocumentCreated(AbstractModel::Events::DocumentCreated *event);
     };
   }
 }

@@ -42,11 +42,13 @@ namespace SDF::UILayer::Gui::Qt {
                                                      std::string
                                                     >
                        >(fruit::Assisted<IGuiController *>,
-                         AbstractModel::IDocumentCreationService *
+                         AbstractModel::IDocumentCreationService *,
+                         AbstractModel::IDocumentAccessService *
                         )
        >(
          [](IGuiController *guiController,
-            AbstractModel::IDocumentCreationService *documentCreationService
+            AbstractModel::IDocumentCreationService *documentCreationService,
+            AbstractModel::IDocumentAccessService *documentAccessService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
@@ -56,7 +58,9 @@ namespace SDF::UILayer::Gui::Qt {
                                                                IGuiElement *,
                                                                std::string
                                                               >
-                                 >(new View::Factory(std::move(controllerFactory)));
+                                 >(new View::Factory(std::move(controllerFactory),
+                                                     documentAccessService
+                                                    ));
          }
        )
       .bind<IGuiController, Controller::GuiController>()

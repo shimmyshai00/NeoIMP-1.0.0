@@ -37,23 +37,35 @@
 #include <memory>
 #include <string>
 
-namespace SDF::UILayer::Gui::Qt::View {
-  // Class:      Factory
-  // Purpose:    Construct new GUI elements. Note: use of this borrowed factory stuff may be confusing because actually
-  //             it's a catch all for other types of ownership and here the ownership is that the passed parent GUI
-  //             element owns and we have to document this; this is awkward but Qt wants to be in charge and we have to
-  //             appease it!
-  // Parameters: None.
-  class Factory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
-  public:
-    Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory);
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    class IDocumentAccessService;
+  }
 
-    // Note: The GUI element is presumed to be owned by its parent element.
-    IGuiElement *
-    create(IGuiElement *parent, std::string elementType);
-  private:
-    std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> m_controllerFactory;
-  };
+  namespace Gui::Qt::View {
+    // Class:      Factory
+    // Purpose:    Construct new GUI elements. Note: use of this borrowed factory stuff may be confusing because
+    //             actually it's a catch all for other types of ownership and here the ownership is that the passed
+    //             parent GUI element owns and we have to document this; this is awkward but Qt wants to be in charge
+    //             and we have to appease it!
+    // Parameters: None.
+    class Factory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
+    public:
+      Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>>
+                controllerFactory,
+              AbstractModel::IDocumentAccessService *documentAccessService
+             );
+
+      // Note: The GUI element is presumed to be owned by its parent element.
+      IGuiElement *
+      create(IGuiElement *parent, std::string elementType);
+    private:
+      std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>>
+        m_controllerFactory;
+
+      AbstractModel::IDocumentAccessService *m_documentAccessService;
+    };
+  }
 }
 
 #endif

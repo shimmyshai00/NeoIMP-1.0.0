@@ -23,16 +23,20 @@
 
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
 
-//#include <SDF/UILayer/Exceptions/Exceptions.hpp>
+#include <SDF/UILayer/Exceptions/Exceptions.hpp>
+
+#include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 
 #include <MainWindow.hpp>
 #include <NewDocumentDialog.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
-    std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory
+    std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory,
+    AbstractModel::IDocumentAccessService *documentAccessService
   )
-    : m_controllerFactory(std::move(controllerFactory))
+    : m_controllerFactory(std::move(controllerFactory)),
+      m_documentAccessService(documentAccessService)
   {}
 
   IGuiElement *
@@ -40,7 +44,10 @@ namespace SDF::UILayer::Gui::Qt::View {
     std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller(m_controllerFactory->create(elementType));
 
     if(elementType == "MainWindow") {
-      return new MainWindow(std::move(controller), dynamic_cast<QWidget *>(parent));
+      MainWindow *rv(new MainWindow(std::move(controller), dynamic_cast<QWidget *>(parent)));
+      m_documentAccessService->attachObserver(rv); // NB: need some safe way to disconnect this on destruction in
+                                                   //     general cases
+      return rv;
     } else if(elementType == "NewDocumentDialog") {
       return new NewDocumentDialog(std::move(controller), dynamic_cast<QWidget *>(parent));
     } else {

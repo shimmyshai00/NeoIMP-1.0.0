@@ -41,15 +41,20 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     // Function:   Image
     // Purpose:    Construct a new image to the specified parameters.
     // Parameters: id - The ID code of this image.
+    //             name - The name of this image.
     //             width - The width of the image in pixels.
     //             height - The height of the image in pixels.
     Image(int id,
+          std::string name,
           std::size_t width,
           std::size_t height
          );
 
     int
     getId() const;
+
+    std::string
+    getName() const;
 
     std::size_t
     getWidth() const;
@@ -59,6 +64,9 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
 
     std::size_t
     getNumLayers() const;
+
+    void
+    setName(std::string name);
 
     void
     addLayerBefore(std::size_t pos,
@@ -82,6 +90,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
                           );
   private:
     int m_id;
+    std::string m_name;
     std::size_t m_width, m_height;
 
     std::vector<std::unique_ptr<Layer<GilImageType, GilRegionType, GilPixelType>>> m_layerStack;

@@ -29,13 +29,16 @@
 
 #include "QtResources/ui_MainWindow.h"
 
+#include <iostream>
+
 namespace SDF::UILayer::Gui::Qt::View {
   MainWindow::MainWindow(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                          QWidget *parent
                         )
     : QMainWindow(parent),
       m_ui(new Ui::MainWindow),
-      m_controller(std::move(controller))
+      m_controller(std::move(controller)),
+      m_tabs(new QTabWidget)
   {
     m_ui->setupUi(this);
 
@@ -69,5 +72,16 @@ namespace SDF::UILayer::Gui::Qt::View {
   void
   MainWindow::close() {
     QMainWindow::close();
+  }
+
+  void
+  MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event) {
+    if(auto p = dynamic_cast<AbstractModel::Events::DocumentCreated *>(event.get())) { handleDocumentCreated(p); }
+  }
+
+  void
+  MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
+    // TBA
+    std::cout << "created" << std::endl;
   }
 }
