@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the whole GUI.
+ * FILE:    ImageMapperFactory.cpp
+ * PURPOSE: Implements the ImageMapperFactory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,24 +21,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/DataLayer/Repositories/Component.hpp>
+#include <ImageMapperFactory.hpp>
 
-#include <SDF/DataLayer/Repositories/ImageRepository.hpp>
-#include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
+#include <DataLayer/Exceptions/Exceptions.hpp>
 
-#include <SDF/DataLayer/Persistence/Component.hpp>
+#include <PNGImageMapper.hpp>
 
-namespace SDF::DataLayer::Repositories {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .bind<ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
-            ImageRepository
-           >()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
-            RenderingRepository
-           >()
-      .install(Persistence::getComponent);
+namespace SDF::DataLayer::Persistence {
+  ImageMapperFactory::ImageMapperFactory() {}
+
+  std::unique_ptr<Repositories::AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>>
+  ImageMapperFactory::create(std::string fileSpec,
+                             ModelLayer::AbstractData::ImageFileFormat fileFormat
+                            )
+  {
+    if(fileFormat == ModelLayer::AbstractData::FILE_FORMAT_PNG) {
+      return std::make_unique<PNGImageMapper>(fileSpec);
+    } else {
+      throw DataLayer::Exceptions::BadFileFormatException(fileFormat);
+    }
   }
 }

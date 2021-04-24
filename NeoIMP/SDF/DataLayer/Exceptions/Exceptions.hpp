@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Exception/Exception.hpp>
+#include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
 
 #include <string>
 
@@ -32,6 +33,18 @@ namespace SDF::DataLayer::Exceptions {
   struct ObjectNotFoundException : public SDF::Exception::Exception {
     ObjectNotFoundException(int id)
       : Exception(true, "Object with '%d' requested but not found in an internal repository.", id)
+    {}
+  };
+
+  struct IncompletePersistenceSpecException : public SDF::Exception::Exception {
+    IncompletePersistenceSpecException(int id)
+      : Exception(true, "Object with id '%d' does not have a complete specification of how to persist it.", id)
+    {}
+  };
+
+  struct BadFileFormatException : public SDF::Exception::Exception {
+    BadFileFormatException(ModelLayer::AbstractData::ImageFileFormat fileFormat)
+      : Exception(true, "Tried to do a persistence operation with file format id '%d' that doesn't correspond to a valid file format", fileFormat)
     {}
   };
 }

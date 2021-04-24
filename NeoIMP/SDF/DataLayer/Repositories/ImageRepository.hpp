@@ -26,10 +26,13 @@
 
 #include <SDF/ModelLayer/AbstractData/IObservableRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
+#include <SDF/ModelLayer/AbstractData/IFileSystemPersistenceController.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
+#include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/Interfaces/IFactory.hpp>
 
 #include <SDF/ModelLayer/AbstractData/RepositoryEvent.hpp>
 
@@ -38,18 +41,27 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <string>
 
 namespace SDF::DataLayer::Repositories {
+  namespace AbstractPersistence {
+    template<class T>
+    class IDataMapper;
+  }
+
   // Class:      ImageRepository
   // Purpose:    Defines the in-memory repository for image objects.
   // Parameters: None.
-  class ImageRepository : public ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage> {
+  class ImageRepository : public ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
+                          public ModelLayer::AbstractData::IFileSystemPersistenceController<ModelLayer::Services::AbstractDomain::IImage,
+                                                                                            ModelLayer::AbstractData::ImageFileFormat
+                                                                                           > {
   public:
     static constexpr const char *c_createWhat = "create";
     static constexpr const char *c_updateWhat = "update";
     static constexpr const char *c_deleteWhat = "delete";
   public:
-    INJECT(ImageRepository());
+    INJECT(ImageRepository(Interfaces::IFactory<AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>, std::string, ModelLayer::AbstractData::ImageFileFormat> *mapperFactory));
 
     void
     attachObserver(Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *observer);
@@ -68,8 +80,31 @@ namespace SDF::DataLayer::Repositories {
 
     std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage>
     deleteEntry(int objectId);
+
+    void
+    assignFileSpec(int id,
+                   std::string fileSpec
+                  );
+
+    void
+    setFileFormat(int id,
+                  ModelLayer::AbstractData::ImageFileFormat fileFormat
+                 );
+
+    void
+    persist(int id);
+
+    int
+    load(std::string fileSpec,
+         ModelLayer::AbstractData::ImageFileFormat fileFormat
+        );
   private:
+    Interfaces::IFactory<AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>, std::string, ModelLayer::AbstractData::ImageFileFormat> *m_mapperFactory;
+
     std::map<int, std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage>> m_objectMap;
+
+    std::map<int, std::string> m_fileSpecMap;
+    std::map<int, ModelLayer::AbstractData::ImageFileFormat> m_fileFormatMap;
 
     std::vector<Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *> m_observers;
   };

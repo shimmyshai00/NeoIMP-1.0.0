@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
-#define SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_IDOCUMENTSTORAGESERVICE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_IDOCUMENTSTORAGESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindowEvent.hpp
- * PURPOSE: Defines the MainWindowEvent event hierarchy.
+ * FILE:    IDocumentStorageService.hpp
+ * PURPOSE: Defines the IDocumentStorageService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
-#include <SDF/UILayer/AbstractModel/Handle.hpp>
+#include <UILayer/AbstractModel/Handle.hpp>
 
-namespace SDF::UILayer::Gui::Qt::Events {
-  struct MainWindowEvent : public GuiEvent {};
+#include <string>
 
-  struct NewClickedEvent : public MainWindowEvent {};
-  struct SaveAsClickedEvent : public MainWindowEvent {};
-  struct ExitClickedEvent : public MainWindowEvent {};
+namespace SDF::UILayer::AbstractModel {
+  // Class:      IDocumentStorageService
+  // Purpose:    Defines an interface for the service used for storing documents on disk.
+  // Parameters: None.
+  class IDocumentStorageService {
+  public:
+    virtual ~IDocumentStorageService() = default;
 
-  struct FocusDocumentChangedEvent : public MainWindowEvent { AbstractModel::Handle focusedHandle; };
+    virtual void
+    saveDocument(std::string fileName,
+                 AbstractModel::Handle documentHandle
+                ) = 0;
+
+    virtual AbstractModel::Handle
+    loadDocument(std::string fileName) = 0;
+  };
 }
 
 #endif

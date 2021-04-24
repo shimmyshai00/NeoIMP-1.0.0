@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the whole GUI.
+ * PURPOSE: Implements the DI component for the persistence subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,24 +21,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/DataLayer/Repositories/Component.hpp>
-
-#include <SDF/DataLayer/Repositories/ImageRepository.hpp>
-#include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
-
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
-namespace SDF::DataLayer::Repositories {
-  Component
-  getComponent() {
+#include <ImageMapperFactory.hpp>
+
+namespace SDF::DataLayer::Persistence {
+  Component getComponent() {
     return fruit::createComponent()
-      .bind<ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
-            ImageRepository
-           >()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
-            RenderingRepository
-           >()
-      .install(Persistence::getComponent);
+      .bind<Interfaces::IFactory<Repositories::AbstractPersistence::IDataMapper<
+                                  ModelLayer::Services::AbstractDomain::IImage
+                                 >,
+                                 std::string,
+                                 ModelLayer::AbstractData::ImageFileFormat
+                                >,
+            ImageMapperFactory
+           >();
   }
 }

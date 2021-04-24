@@ -25,12 +25,16 @@
 
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
+#include <AbstractPersistence/IDataMapper.hpp>
+
 #include <algorithm>
 
 namespace SDF::DataLayer::Repositories {
   using namespace ModelLayer::Services;
 
-  ImageRepository::ImageRepository() {}
+  ImageRepository::ImageRepository(Interfaces::IFactory<AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>, std::string, ModelLayer::AbstractData::ImageFileFormat> *mapperFactory)
+    : m_mapperFactory(mapperFactory)
+  {}
 
   void
   ImageRepository::attachObserver(
@@ -88,5 +92,52 @@ namespace SDF::DataLayer::Repositories {
     } else {
       m_objectMap.erase(objectId);
     }
+  }
+
+  void
+  ImageRepository::assignFileSpec(int id,
+                                  std::string fileSpec
+                                 )
+  {
+    if(m_objectMap.find(id) == m_objectMap.end()) {
+      throw DataLayer::Exceptions::ObjectNotFoundException(id);
+    } else {
+      m_fileSpecMap[id] = fileSpec;
+    }
+  }
+
+  void
+  ImageRepository::setFileFormat(int id,
+                                 ModelLayer::AbstractData::ImageFileFormat fileFormat
+                                )
+  {
+    if(m_objectMap.find(id) == m_objectMap.end()) {
+      throw DataLayer::Exceptions::ObjectNotFoundException(id);
+    } else {
+      m_fileFormatMap[id] = fileFormat;
+    }
+  }
+
+  void
+  ImageRepository::persist(int id) {
+    if((m_fileSpecMap.find(id) == m_fileSpecMap.end()) ||
+       (m_fileFormatMap.find(id) == m_fileFormatMap.end()))
+    {
+      throw DataLayer::Exceptions::IncompletePersistenceSpecException(id);
+    } else {
+      std::unique_ptr<AbstractPersistence::IDataMapper<AbstractDomain::IImage>>
+        mapper(m_mapperFactory->create(m_fileSpecMap[id], m_fileFormatMap[id]));
+
+      mapper->persist(m_objectMap[id].get());
+    }
+  }
+
+  int
+  ImageRepository::load(std::string fileSpec,
+                        ModelLayer::AbstractData::ImageFileFormat fileFormat
+                       )
+  {
+    // TBA
+    return -1;
   }
 }
