@@ -128,7 +128,11 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
                                                                            Services::AbstractDomain::IImageDataVisitor &visitor
                                                                           )
   {
-    // TBA
+    if(layerNum >= m_layerStack.size()) {
+      throw ModelLayer::Exceptions::InvalidLayerException(layerNum);
+    } else {
+      m_layerStack[layerNum]->acceptLayerDataVisitor(rect, visitor);
+    }
   }
 }
 

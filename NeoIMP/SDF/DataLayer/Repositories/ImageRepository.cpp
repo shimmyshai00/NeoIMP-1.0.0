@@ -128,6 +128,7 @@ namespace SDF::DataLayer::Repositories {
       std::unique_ptr<AbstractPersistence::IDataMapper<AbstractDomain::IImage>>
         mapper(m_mapperFactory->create(m_fileSpecMap[id], m_fileFormatMap[id]));
 
+      printf("persisting %s...\n", m_fileSpecMap[id].c_str());
       mapper->persist(m_objectMap[id].get());
     }
   }

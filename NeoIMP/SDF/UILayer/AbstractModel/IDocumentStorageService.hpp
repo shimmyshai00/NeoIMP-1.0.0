@@ -25,6 +25,7 @@
  */
 
 #include <UILayer/AbstractModel/Handle.hpp>
+#include <UILayer/AbstractModel/Properties/FileFormat.hpp>
 
 #include <string>
 
@@ -38,11 +39,14 @@ namespace SDF::UILayer::AbstractModel {
 
     virtual void
     saveDocument(std::string fileName,
+                 AbstractModel::Properties::FileFormat fileFormat,
                  AbstractModel::Handle documentHandle
                 ) = 0;
 
     virtual AbstractModel::Handle
-    loadDocument(std::string fileName) = 0;
+    loadDocument(std::string fileName,
+                 AbstractModel::Properties::FileFormat fileFormat
+                ) = 0;
   };
 }
 

@@ -47,6 +47,7 @@ namespace SDF::DataLayer::Persistence {
                    ModelLayer::Services::AbstractDomain::Defs::GilRegionType &gilRegion
                   )
     {
+      printf("gil visit\n");
       boost::gil::write_view(m_fileSpec, gilRegion, boost::gil::png_tag{});
     }
   private:
@@ -62,6 +63,7 @@ namespace SDF::DataLayer::Persistence {
 
   void
   PNGImageMapper::persist(ModelLayer::Services::AbstractDomain::IImage *obj) {
+    printf("P\n");
     PNGSaveVisitor saveVisitor(m_fileSpec);
     obj->acceptImageDataVisitor(0,
                                 ModelLayer::Math::Rect<std::size_t>(0, 0, obj->getWidth()-1, obj->getHeight()-1),

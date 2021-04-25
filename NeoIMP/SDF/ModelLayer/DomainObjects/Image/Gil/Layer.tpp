@@ -52,8 +52,9 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   {
     GilRegionType masterView(boost::gil::view(m_layerPixelData));
     GilRegionType view(rect.getWidth(), rect.getHeight(), masterView.xy_at(rect.getX1(), rect.getY1()));
+    Services::AbstractDomain::Defs::GilRegionType viewAny(view);
 
-    visitor.visitGilRegion(view);
+    visitor.visitGilRegion(rect, viewAny);
   }
 }
 

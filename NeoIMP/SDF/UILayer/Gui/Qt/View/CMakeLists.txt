@@ -8,5 +8,6 @@ target_sources(neoimp PUBLIC
                ResolutionSelector.cpp
                MainWindow.cpp
                NewDocumentDialog.cpp
+               FileDialog.cpp
                DocumentView.cpp
               )

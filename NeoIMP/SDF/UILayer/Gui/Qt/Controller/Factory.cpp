@@ -26,18 +26,22 @@
 #include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
 #include <AbstractModel/IDocumentCreationService.hpp>
+#include <AbstractModel/IDocumentStorageService.hpp>
 #include <AbstractModel/IUiStateModelService.hpp>
 
 #include <MainWindowController.hpp>
 #include <NewDocumentDialogController.hpp>
+#include <SaveAsDialogController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
                    AbstractModel::IDocumentCreationService *documentCreationService,
+                   AbstractModel::IDocumentStorageService *documentStorageService,
                    AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
                   )
     : m_guiController(guiController),
       m_documentCreationService(documentCreationService),
+      m_documentStorageService(documentStorageService),
       m_handleStateModelService(handleStateModelService)
   {}
 
@@ -49,6 +53,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
                                                    );
     } else if(guiElementType == "NewDocumentDialog") {
       return std::make_unique<NewDocumentDialogController>(m_documentCreationService);
+    } else if(guiElementType == "SaveAsDialog") {
+      return std::make_unique<SaveAsDialogController>(m_documentStorageService, m_handleStateModelService);
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA

@@ -38,6 +38,7 @@
 namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentCreationService;
+    class IDocumentStorageService;
 
     template<class StateT>
     class IUiStateModelService;
@@ -55,6 +56,7 @@ namespace SDF::UILayer {
       public:
         Factory(IGuiController *guiController,
                 AbstractModel::IDocumentCreationService *documentCreationService,
+                AbstractModel::IDocumentStorageService *documentStorageService,
                 AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
                );
 
@@ -65,6 +67,7 @@ namespace SDF::UILayer {
         IGuiController *m_guiController;
 
         AbstractModel::IDocumentCreationService *m_documentCreationService;
+        AbstractModel::IDocumentStorageService *m_documentStorageService;
         AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
       };
     }

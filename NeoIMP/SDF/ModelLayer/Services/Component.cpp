@@ -24,6 +24,7 @@
 #include <SDF/ModelLayer/Services/Component.hpp>
 
 #include <DocumentCreationService.hpp>
+#include <DocumentStorageService.hpp>
 #include <DocumentAccessService.hpp>
 #include <DocumentRenderService.hpp>
 #include <UiStateModelService.hpp>
@@ -35,6 +36,7 @@ namespace SDF::ModelLayer::Services {
   Component getComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::IDocumentCreationService, DocumentCreationService>()
+      .bind<UILayer::AbstractModel::IDocumentStorageService, DocumentStorageService>()
       .bind<UILayer::AbstractModel::IDocumentAccessService, DocumentAccessService>()
       .bind<UILayer::AbstractModel::IDocumentRenderService, DocumentRenderService>()
       .bind<UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>,

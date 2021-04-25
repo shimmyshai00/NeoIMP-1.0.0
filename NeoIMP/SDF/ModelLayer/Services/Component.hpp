@@ -25,6 +25,7 @@
  */
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentStorageService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
@@ -35,6 +36,7 @@
 
 namespace SDF::ModelLayer::Services {
   typedef fruit::Component<UILayer::AbstractModel::IDocumentCreationService,
+                           UILayer::AbstractModel::IDocumentStorageService,
                            UILayer::AbstractModel::IDocumentAccessService,
                            UILayer::AbstractModel::IDocumentRenderService,
                            UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>

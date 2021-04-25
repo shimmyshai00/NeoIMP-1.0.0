@@ -5,4 +5,5 @@ target_sources(neoimp PUBLIC
                GuiController.cpp
                MainWindowController.cpp
                NewDocumentDialogController.cpp
+               SaveAsDialogController.cpp
               )

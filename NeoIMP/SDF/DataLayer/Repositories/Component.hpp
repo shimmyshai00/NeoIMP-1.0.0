@@ -26,9 +26,12 @@
 
 #include <SDF/ModelLayer/AbstractData/IObservableRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
+#include <SDF/ModelLayer/AbstractData/IFileSystemPersistenceController.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
+
+#include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
 
 #include <fruit/fruit.h>
 
@@ -37,7 +40,11 @@ namespace SDF::DataLayer::Repositories {
                             ModelLayer::Services::AbstractDomain::IImage
                            >,
                            ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>,
-                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>
+                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
+                           ModelLayer::AbstractData::IFileSystemPersistenceController<
+                            ModelLayer::Services::AbstractDomain::IImage,
+                            ModelLayer::AbstractData::ImageFileFormat
+                           >
                           >
   Component;
 

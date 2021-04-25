@@ -30,6 +30,7 @@
 
 #include <MainWindow.hpp>
 #include <NewDocumentDialog.hpp>
+#include <FileDialog.hpp>
 #include <DocumentView.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
@@ -60,6 +61,8 @@ namespace SDF::UILayer::Gui::Qt::View {
       return rv;
     } else if(elementType == "NewDocumentDialog") {
       return new NewDocumentDialog(std::move(controller), dynamic_cast<QWidget *>(parent));
+    } else if(elementType == "SaveAsDialog") {
+      return new FileDialog(std::move(controller), "Save As", QFileDialog::AcceptSave, dynamic_cast<QWidget *>(parent));
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
     }

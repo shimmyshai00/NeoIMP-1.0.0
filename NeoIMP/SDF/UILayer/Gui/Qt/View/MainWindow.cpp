@@ -59,6 +59,10 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_controller->handleEvent(std::make_shared<Events::NewClickedEvent>());
     });
 
+    safeConnect(m_ui->actionSave_As, &QAction::triggered, [=](bool v) {
+      m_controller->handleEvent(std::make_shared<Events::SaveAsClickedEvent>());
+    });
+
     safeConnect(m_ui->actionE_xit, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::ExitClickedEvent>());
     });
@@ -105,6 +109,10 @@ namespace SDF::UILayer::Gui::Qt::View {
 
         m_controller->handleEvent(event);
       });
+
+      // enable commands that require a document
+      m_ui->action_Save->setEnabled(true);
+      m_ui->actionSave_As->setEnabled(true);
     }
 
     // Add a new tab to the tab widget.

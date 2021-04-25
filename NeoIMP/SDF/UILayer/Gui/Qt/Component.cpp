@@ -24,6 +24,7 @@
 #include <SDF/UILayer/Gui/Qt/Component.hpp>
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentStorageService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
@@ -46,6 +47,7 @@ namespace SDF::UILayer::Gui::Qt {
                                                     >
                        >(fruit::Assisted<IGuiController *>,
                          AbstractModel::IDocumentCreationService *,
+                         AbstractModel::IDocumentStorageService *,
                          AbstractModel::IDocumentAccessService *,
                          AbstractModel::IDocumentRenderService *,
                          AbstractModel::IUiStateModelService<AbstractModel::Handle> *
@@ -53,6 +55,7 @@ namespace SDF::UILayer::Gui::Qt {
        >(
          [](IGuiController *guiController,
             AbstractModel::IDocumentCreationService *documentCreationService,
+            AbstractModel::IDocumentStorageService *documentStorageService,
             AbstractModel::IDocumentAccessService *documentAccessService,
             AbstractModel::IDocumentRenderService *documentRenderService,
             AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
@@ -60,6 +63,7 @@ namespace SDF::UILayer::Gui::Qt {
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
                                                                                           documentCreationService,
+                                                                                          documentStorageService,
                                                                                           handleStateModelService
                                                                                          ));
            return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,

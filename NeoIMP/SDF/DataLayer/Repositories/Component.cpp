@@ -39,6 +39,11 @@ namespace SDF::DataLayer::Repositories {
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
             RenderingRepository
            >()
+      .bind<ModelLayer::AbstractData::IFileSystemPersistenceController<ModelLayer::Services::AbstractDomain::IImage,
+                                                                       ModelLayer::AbstractData::ImageFileFormat
+                                                                      >,
+            ImageRepository
+           >()
       .install(Persistence::getComponent);
   }
 }
