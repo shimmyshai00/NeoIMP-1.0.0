@@ -30,7 +30,8 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   template<class GilImageType, class GilRegionType, class GilPixelType>
   Layer<GilImageType, GilRegionType, GilPixelType>::Layer(std::size_t width, std::size_t height)
     : m_layerPixelData(width, height)
-  {}
+  {
+  }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
   std::size_t

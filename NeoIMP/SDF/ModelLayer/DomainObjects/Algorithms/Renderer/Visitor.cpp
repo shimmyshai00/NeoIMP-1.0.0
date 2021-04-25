@@ -61,7 +61,7 @@ namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
           (*(resultPtr + 1)) = boost::gil::semantic_at_c<1>(*renderItr);
           (*(resultPtr    )) = boost::gil::semantic_at_c<2>(*renderItr);
 
-          ++resultPtr;
+          resultPtr += elSize;
           ++renderItr;
         }
 
