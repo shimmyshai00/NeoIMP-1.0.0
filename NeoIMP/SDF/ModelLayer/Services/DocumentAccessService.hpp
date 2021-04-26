@@ -92,6 +92,7 @@ namespace SDF::ModelLayer {
       void handleEvent(std::shared_ptr<AbstractData::RepositoryEvent<AbstractDomain::IImage>> event);
 
       void handleCreateEvent(AbstractData::Created<AbstractDomain::IImage> *event);
+      void handleLoadEvent(AbstractData::Loaded<AbstractDomain::IImage> *event);
     };
   }
 }

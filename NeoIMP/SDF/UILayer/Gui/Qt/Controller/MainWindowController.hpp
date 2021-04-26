@@ -67,6 +67,9 @@ namespace SDF::UILayer {
         handleNewClickedEvent(Events::NewClickedEvent *event);
 
         void
+        handleOpenClickedEvent(Events::OpenClickedEvent *event);
+
+        void
         handleSaveAsClickedEvent(Events::SaveAsClickedEvent *event);
 
         void

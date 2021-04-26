@@ -123,6 +123,7 @@ namespace SDF::ModelLayer::Services {
   DocumentAccessService::handleEvent(std::shared_ptr<AbstractData::RepositoryEvent<AbstractDomain::IImage>> event)
   {
     if(auto p = dynamic_cast<AbstractData::Created<AbstractDomain::IImage> *>(event.get())) { handleCreateEvent(p); }
+    else if(auto p = dynamic_cast<AbstractData::Loaded<AbstractDomain::IImage> *>(event.get())) { handleLoadEvent(p); }
   }
 
   void
@@ -130,6 +131,17 @@ namespace SDF::ModelLayer::Services {
   {
     std::shared_ptr<UILayer::AbstractModel::Events::DocumentCreated>
       uiEvent(new UILayer::AbstractModel::Events::DocumentCreated);
+    uiEvent->handle = event->objectId;
+
+    for(auto observer : m_observers) {
+      observer->handleEvent(uiEvent);
+    }
+  }
+
+  void
+  DocumentAccessService::handleLoadEvent(AbstractData::Loaded<AbstractDomain::IImage> *event) {
+    std::shared_ptr<UILayer::AbstractModel::Events::DocumentOpened>
+      uiEvent(new UILayer::AbstractModel::Events::DocumentOpened);
     uiEvent->handle = event->objectId;
 
     for(auto observer : m_observers) {

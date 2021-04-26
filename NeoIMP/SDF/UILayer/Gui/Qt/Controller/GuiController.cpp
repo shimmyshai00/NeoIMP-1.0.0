@@ -41,6 +41,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
 
     addGuiElement("MainWindow", factory->create(nullptr, "MainWindow"));
     addGuiElement("NewDocumentDialog", factory->create(getGuiElementByName("MainWindow"), "NewDocumentDialog"));
+    addGuiElement("OpenDialog", factory->create(getGuiElementByName("MainWindow"), "OpenDialog"));
     addGuiElement("SaveAsDialog", factory->create(getGuiElementByName("MainWindow"), "SaveAsDialog"));
   }
 

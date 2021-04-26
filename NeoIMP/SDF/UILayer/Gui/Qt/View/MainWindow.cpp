@@ -59,6 +59,10 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_controller->handleEvent(std::make_shared<Events::NewClickedEvent>());
     });
 
+    safeConnect(m_ui->action_Open, &QAction::triggered, [=](bool v) {
+      m_controller->handleEvent(std::make_shared<Events::OpenClickedEvent>());
+    });
+
     safeConnect(m_ui->actionSave_As, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::SaveAsClickedEvent>());
     });
@@ -94,6 +98,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   void
   MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event) {
     if(auto p = dynamic_cast<AbstractModel::Events::DocumentCreated *>(event.get())) { handleDocumentCreated(p); }
+    else if(auto p = dynamic_cast<AbstractModel::Events::DocumentOpened *>(event.get())) { handleDocumentOpened(p); }
   }
 
   void
@@ -124,6 +129,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
+    addDocumentTab(event->handle);
+  }
+
+
+  void
+  MainWindow::handleDocumentOpened(AbstractModel::Events::DocumentOpened *event) {
     addDocumentTab(event->handle);
   }
 }

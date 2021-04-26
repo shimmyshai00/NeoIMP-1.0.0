@@ -34,6 +34,12 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
+  Layer<GilImageType, GilRegionType, GilPixelType>::Layer(const GilImageType &gilImage)
+    : m_layerPixelData(gilImage)
+  {
+  }
+  
+  template<class GilImageType, class GilRegionType, class GilPixelType>
   std::size_t
   Layer<GilImageType, GilRegionType, GilPixelType>::getWidth() const {
     return m_layerPixelData.width();

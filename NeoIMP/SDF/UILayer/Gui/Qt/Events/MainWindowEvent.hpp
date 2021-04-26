@@ -31,6 +31,7 @@ namespace SDF::UILayer::Gui::Qt::Events {
   struct MainWindowEvent : public GuiEvent {};
 
   struct NewClickedEvent : public MainWindowEvent {};
+  struct OpenClickedEvent : public MainWindowEvent {};
   struct SaveAsClickedEvent : public MainWindowEvent {};
   struct ExitClickedEvent : public MainWindowEvent {};
 

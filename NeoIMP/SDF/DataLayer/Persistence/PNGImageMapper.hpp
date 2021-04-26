@@ -42,6 +42,7 @@ namespace SDF::DataLayer::Persistence {
     // Function:   PNGImageMapper
     // Purpose:    Construct a new data mapper for mapping to a given file.
     // Parameters: fileSpec - The file spec to the file to map to.
+    //             imageFactory - A factory object to create images when loading.
     PNGImageMapper(std::string fileSpec);
 
     void
@@ -51,6 +52,7 @@ namespace SDF::DataLayer::Persistence {
     retrieve();
   private:
     std::string m_fileSpec;
+    std::size_t m_nextUid;
   };
 }
 

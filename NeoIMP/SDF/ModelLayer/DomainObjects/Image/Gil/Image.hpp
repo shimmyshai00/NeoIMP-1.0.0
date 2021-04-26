@@ -50,6 +50,16 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
           std::size_t height
          );
 
+    // Function:   Image
+    // Purpose:    Construct a new image from a GIL buffer.
+    // Parameters: id - The ID code of this image.
+    //             name - The name of this image.
+    //             gilImage - The GIL image buffer to construct from.
+    Image(int id,
+          std::string name,
+          const GilImageType &gilImage
+         );
+
     int
     getId() const;
 

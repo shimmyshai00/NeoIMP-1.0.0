@@ -46,6 +46,11 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     //             height - The height of the layer.
     Layer(std::size_t width, std::size_t height);
 
+    // Function:   Layer
+    // Purpose:    Construct a layer from a GIL image object.
+    // Parameters: gilImage - The GIL image object to use as base.
+    Layer(const GilImageType &gilImage);
+    
     // Function:   getWidth
     // Purpose:    Get the width of the layer in pixels.
     // Parameters: None.

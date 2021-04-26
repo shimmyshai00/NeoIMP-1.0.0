@@ -32,6 +32,7 @@
 #include <MainWindowController.hpp>
 #include <NewDocumentDialogController.hpp>
 #include <SaveAsDialogController.hpp>
+#include <OpenDialogController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
@@ -55,6 +56,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
       return std::make_unique<NewDocumentDialogController>(m_documentCreationService);
     } else if(guiElementType == "SaveAsDialog") {
       return std::make_unique<SaveAsDialogController>(m_documentStorageService, m_handleStateModelService);
+    } else if(guiElementType == "OpenDialog") {
+      return std::make_unique<OpenDialogController>(m_documentStorageService, m_handleStateModelService);
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA

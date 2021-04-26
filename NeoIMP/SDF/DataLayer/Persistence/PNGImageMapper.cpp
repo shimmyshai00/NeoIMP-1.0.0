@@ -24,6 +24,7 @@
 #include <PNGImageMapper.hpp>
 
 #include <ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
+#include <ModelLayer/DomainObjects/Image/Gil/Image.hpp>
 
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
@@ -57,7 +58,8 @@ namespace SDF::DataLayer::Persistence {
 
 namespace SDF::DataLayer::Persistence {
   PNGImageMapper::PNGImageMapper(std::string fileSpec)
-    : m_fileSpec(fileSpec)
+    : m_fileSpec(fileSpec),
+      m_nextUid(10000)
   {
   }
 
@@ -73,18 +75,19 @@ namespace SDF::DataLayer::Persistence {
 
   std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage>
   PNGImageMapper::retrieve() {
-    /*
     try {
       // NB: only kind of PNG format supported for now
       boost::gil::rgb8_image_t pngImage;
-      boost::gil::read_image(fileSpec, pngImage, boost::gil::png_tag {});
+      boost::gil::read_image(m_fileSpec, pngImage, boost::gil::png_tag {});
 
-      // NB: should name constant (image PPI default) somewhere / STUB for future import parameters specification
-      return std::move(ModelLayer::Impl::DomainObjects::Image::Gil::createImage(fileSpec, 120.0f, pngImage));
+      // NB: constructs object directly - eek, the dependency between data and model layers need to be sorted out
+      //     better
+      return std::make_unique<ModelLayer::DomainObjects::Image::Gil::Image<boost::gil::rgb8_image_t,
+                                                                           boost::gil::rgb8_view_t,
+                                                                           boost::gil::rgb8_pixel_t
+                                                                          >>(m_nextUid++, m_fileSpec, pngImage);
     } catch(std::ios_base::failure &e) {
       throw DataLayer::Exceptions::BadFileException("PNG", "Must be 8-bit-per-channel RGB format only. No alpha channels supported.");
     }
-    */
-    return std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage>(); // TBA
   }
 }

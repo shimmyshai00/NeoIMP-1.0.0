@@ -42,6 +42,19 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
+  Image<GilImageType, GilRegionType, GilPixelType>::Image(int id,
+                                                          std::string name,
+                                                          const GilImageType &gilImage
+                                                         )
+    : m_id(id),
+      m_name(name),
+      m_width(gilImage.width()),
+      m_height(gilImage.height())
+  {
+    m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(gilImage));
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
   int
   Image<GilImageType, GilRegionType, GilPixelType>::getId() const {
     return m_id;

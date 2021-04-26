@@ -44,6 +44,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   void
   MainWindowController::handleEvent(std::shared_ptr<Events::GuiEvent> event) {
     if(auto p = dynamic_cast<Events::NewClickedEvent *>(event.get())) { handleNewClickedEvent(p); }
+    else if(auto p = dynamic_cast<Events::OpenClickedEvent *>(event.get())) { handleOpenClickedEvent(p); }
     else if(auto p = dynamic_cast<Events::SaveAsClickedEvent *>(event.get())) { handleSaveAsClickedEvent(p); }
     else if(auto p = dynamic_cast<Events::ExitClickedEvent *>(event.get())) { handleExitClickedEvent(p); }
     else if(auto p = dynamic_cast<Events::FocusDocumentChangedEvent *>(event.get())) {
@@ -54,6 +55,11 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   void
   MainWindowController::handleNewClickedEvent(Events::NewClickedEvent *event) {
     m_guiController->getGuiElementByName("NewDocumentDialog")->show();
+  }
+
+  void
+  MainWindowController::handleOpenClickedEvent(Events::OpenClickedEvent *event) {
+    m_guiController->getGuiElementByName("OpenDialog")->show();
   }
 
   void

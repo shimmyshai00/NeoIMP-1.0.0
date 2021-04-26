@@ -32,9 +32,9 @@
 
 namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   typedef fruit::Component<Interfaces::IFactory<Services::AbstractDomain::IImage,
-                                               Services::AbstractDomain::DocumentSpec
-                                              >
-                         >
+                                                Services::AbstractDomain::DocumentSpec
+                                               >
+                          >
   Component;
 
   Component getComponent();

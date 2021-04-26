@@ -32,6 +32,9 @@ namespace SDF::ModelLayer::AbstractData {
   struct Created : public RepositoryEvent<T> { int objectId; };
 
   template<class T>
+  struct Loaded : public RepositoryEvent<T> { int objectId; };
+
+  template<class T>
   struct Updated : public RepositoryEvent<T> { int objectId; };
 
   template<class T>

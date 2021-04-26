@@ -138,7 +138,22 @@ namespace SDF::DataLayer::Repositories {
                         ModelLayer::AbstractData::ImageFileFormat fileFormat
                        )
   {
-    // TBA
-    return -1;
+    std::unique_ptr<AbstractPersistence::IDataMapper<AbstractDomain::IImage>>
+      mapper(m_mapperFactory->create(fileSpec, fileFormat));
+
+    printf("loading %s...\n", fileSpec.c_str());
+    std::unique_ptr<AbstractDomain::IImage> obj(mapper->retrieve());
+    std::size_t objectId(obj->getId());
+    m_objectMap[objectId] = std::move(obj);
+
+    std::shared_ptr<ModelLayer::AbstractData::Loaded<AbstractDomain::IImage>>
+      event(new ModelLayer::AbstractData::Loaded<AbstractDomain::IImage>);
+    event->objectId = objectId;
+
+    for(auto observer : m_observers) {
+      observer->handleEvent(event);
+    }
+
+    return objectId;
   }
 }
