@@ -50,7 +50,8 @@ namespace SDF::UILayer::Gui::Qt {
                          AbstractModel::IDocumentStorageService *,
                          AbstractModel::IDocumentAccessService *,
                          AbstractModel::IDocumentRenderService *,
-                         AbstractModel::IUiStateModelService<AbstractModel::Handle> *
+                         AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
+                         AbstractModel::IUiStateModelService<bool> *
                         )
        >(
          [](IGuiController *guiController,
@@ -58,13 +59,15 @@ namespace SDF::UILayer::Gui::Qt {
             AbstractModel::IDocumentStorageService *documentStorageService,
             AbstractModel::IDocumentAccessService *documentAccessService,
             AbstractModel::IDocumentRenderService *documentRenderService,
-            AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
+            AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
+            AbstractModel::IUiStateModelService<bool> *boolStateModelService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
                                                                                           documentCreationService,
                                                                                           documentStorageService,
-                                                                                          handleStateModelService
+                                                                                          handleStateModelService,
+                                                                                          boolStateModelService
                                                                                          ));
            return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
                                                                IGuiElement *,
@@ -72,7 +75,8 @@ namespace SDF::UILayer::Gui::Qt {
                                                               >
                                  >(new View::Factory(std::move(controllerFactory),
                                                      documentAccessService,
-                                                     documentRenderService
+                                                     documentRenderService,
+                                                     boolStateModelService
                                                     ));
          }
        )

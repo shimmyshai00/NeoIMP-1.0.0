@@ -57,7 +57,8 @@ namespace SDF::UILayer {
         Factory(IGuiController *guiController,
                 AbstractModel::IDocumentCreationService *documentCreationService,
                 AbstractModel::IDocumentStorageService *documentStorageService,
-                AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
+                AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
+                AbstractModel::IUiStateModelService<bool> *boolStateModelService
                );
 
         // Creates the appropriate controller for the given type of GUI element.
@@ -69,6 +70,7 @@ namespace SDF::UILayer {
         AbstractModel::IDocumentCreationService *m_documentCreationService;
         AbstractModel::IDocumentStorageService *m_documentStorageService;
         AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
+        AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
       };
     }
   }

@@ -26,10 +26,14 @@
 
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 
+#include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/UILayer/AbstractModel/Events/UiStateChangeEvent.hpp>
+
 #include <fruit/fruit.h>
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace SDF::ModelLayer::Services {
   // Class:      UiStateModelService
@@ -41,6 +45,12 @@ namespace SDF::ModelLayer::Services {
   public:
     INJECT(UiStateModelService());
 
+    void
+    attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>> *observer);
+
+    void
+    removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>> *observer);
+
     StateT
     getStateElement(std::string key);
 
@@ -49,6 +59,8 @@ namespace SDF::ModelLayer::Services {
                     StateT value
                    );
   private:
+    std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>> *> m_observers;
+
     std::map<std::string, StateT> m_stateMap;
   };
 }

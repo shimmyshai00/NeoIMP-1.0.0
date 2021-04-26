@@ -38,18 +38,21 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
                    AbstractModel::IDocumentCreationService *documentCreationService,
                    AbstractModel::IDocumentStorageService *documentStorageService,
-                   AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService
+                   AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
+                   AbstractModel::IUiStateModelService<bool> *boolStateModelService
                   )
     : m_guiController(guiController),
       m_documentCreationService(documentCreationService),
       m_documentStorageService(documentStorageService),
-      m_handleStateModelService(handleStateModelService)
+      m_handleStateModelService(handleStateModelService),
+      m_boolStateModelService(boolStateModelService)
   {}
 
   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
   Factory::create(std::string guiElementType) {
     if(guiElementType == "MainWindow") {
       return std::make_unique<MainWindowController>(m_handleStateModelService,
+                                                    m_boolStateModelService,
                                                     m_guiController
                                                    );
     } else if(guiElementType == "NewDocumentDialog") {

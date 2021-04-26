@@ -52,7 +52,8 @@ namespace SDF::UILayer {
       // Parameters: None.
       class MainWindowController : public Interfaces::IEventHandler<Events::GuiEvent> {
       public:
-        MainWindowController(AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
+        MainWindowController(AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
+                             AbstractModel::IUiStateModelService<bool> *boolStateModelService,
                              IGuiController *guiController
                             );
 
@@ -60,6 +61,7 @@ namespace SDF::UILayer {
         handleEvent(std::shared_ptr<Events::GuiEvent> event);
       private:
         AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
+        AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
 
         IGuiController *m_guiController;
 
@@ -77,6 +79,9 @@ namespace SDF::UILayer {
 
         void
         handleFocusDocumentChangedEvent(Events::FocusDocumentChangedEvent *event);
+
+        void
+        handleToolchestToggledEvent(Events::ToolchestToggledEvent *event);
       };
     }
   }

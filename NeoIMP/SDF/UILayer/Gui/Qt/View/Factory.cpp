@@ -27,21 +27,25 @@
 
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
+#include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 
 #include <MainWindow.hpp>
 #include <NewDocumentDialog.hpp>
 #include <FileDialog.hpp>
 #include <DocumentView.hpp>
+#include <Toolbox.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
     std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory,
     AbstractModel::IDocumentAccessService *documentAccessService,
-    AbstractModel::IDocumentRenderService *documentRenderService
+    AbstractModel::IDocumentRenderService *documentRenderService,
+    AbstractModel::IUiStateModelService<bool> *boolStateModelService
   )
     : m_controllerFactory(std::move(controllerFactory)),
       m_documentAccessService(documentAccessService),
-      m_documentRenderService(documentRenderService)
+      m_documentRenderService(documentRenderService),
+      m_boolStateModelService(boolStateModelService)
   {}
 
   IGuiElement *
@@ -50,6 +54,8 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     if(elementType == "MainWindow") {
       MainWindow *rv(new MainWindow(m_documentAccessService,
+                                    m_boolStateModelService,
+                                    std::make_unique<DockablesFactory>(),
                                     std::make_unique<DocumentViewFactory>(m_documentAccessService,
                                                                           m_documentRenderService
                                                                         ),
@@ -58,6 +64,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                                    ));
       m_documentAccessService->attachObserver(rv); // NB: need some safe way to disconnect this on destruction in
                                                    //     general cases
+      m_boolStateModelService->attachObserver(rv); // NB: same
       return rv;
     } else if(elementType == "NewDocumentDialog") {
       return new NewDocumentDialog(std::move(controller), dynamic_cast<QWidget *>(parent));
@@ -67,6 +74,19 @@ namespace SDF::UILayer::Gui::Qt::View {
       return new FileDialog(std::move(controller), "Open", QFileDialog::AcceptOpen, dynamic_cast<QWidget *>(parent));
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
+    }
+  }
+}
+
+namespace SDF::UILayer::Gui::Qt::View {
+  DockablesFactory::DockablesFactory() {}
+
+  IGuiElement *
+  DockablesFactory::create(IGuiElement *parent, std::string elementType) {
+    if(elementType == "Toolchest") {
+      return new Toolbox(dynamic_cast<QWidget *>(parent));
+    } else {
+      // TBA
     }
   }
 }

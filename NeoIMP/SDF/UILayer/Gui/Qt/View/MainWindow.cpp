@@ -32,12 +32,17 @@
 
 #include <DocumentView.hpp>
 
+#include <StateKeys.hpp>
+
 #include "QtResources/ui_MainWindow.h"
 
 #include <iostream>
 
 namespace SDF::UILayer::Gui::Qt::View {
   MainWindow::MainWindow(AbstractModel::IDocumentAccessService *documentAccessService,
+                         AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+                         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
+                          dockablesFactory,
                          std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
                                                                       IGuiElement *,
                                                                       AbstractModel::Handle
@@ -50,10 +55,18 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_ui(new Ui::MainWindow),
       m_controller(std::move(controller)),
       m_documentAccessService(documentAccessService),
+      m_boolStateModelService(boolStateModelService),
+      m_dockablesFactory(std::move(dockablesFactory)),
       m_documentViewFactory(std::move(documentViewFactory)),
+      m_toolchest(nullptr),
       m_tabs(nullptr)
   {
     m_ui->setupUi(this);
+
+    m_ui->actionToolchest->setChecked(m_boolStateModelService->getStateElement(c_toolboxVisibleKey));
+    if(m_boolStateModelService->getStateElement(c_toolboxVisibleKey)) {
+      showToolchest();
+    }
 
     safeConnect(m_ui->action_New, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::NewClickedEvent>());
@@ -69,6 +82,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     safeConnect(m_ui->actionE_xit, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::ExitClickedEvent>());
+    });
+
+    safeConnect(m_ui->actionToolchest, &QAction::toggled, [=](bool checked) {
+      std::shared_ptr<Events::ToolchestToggledEvent> event(new Events::ToolchestToggledEvent);
+      event->toggleValue = checked;
+      m_controller->handleEvent(event);
     });
   }
 
@@ -96,9 +115,37 @@ namespace SDF::UILayer::Gui::Qt::View {
   }
 
   void
+  MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::UiStateChangeEvent<bool>> event) {
+    if(event->stateKey == c_toolboxVisibleKey) {
+      if(event->newStateVal) {
+        showToolchest();
+      } else {
+        hideToolchest();
+      }
+    }
+  }
+
+  void
   MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event) {
     if(auto p = dynamic_cast<AbstractModel::Events::DocumentCreated *>(event.get())) { handleDocumentCreated(p); }
     else if(auto p = dynamic_cast<AbstractModel::Events::DocumentOpened *>(event.get())) { handleDocumentOpened(p); }
+  }
+
+  void
+  MainWindow::showToolchest() {
+    if(m_toolchest == nullptr) {
+      m_toolchest = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "Toolchest"));
+      addDockWidget(::Qt::LeftDockWidgetArea, m_toolchest);
+    }
+  }
+
+  void
+  MainWindow::hideToolchest() {
+    if(m_toolchest != nullptr) {
+      removeDockWidget(m_toolchest);
+      delete m_toolchest;
+      m_toolchest = nullptr;
+    }
   }
 
   void

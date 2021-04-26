@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_STATEKEYS_HPP
-#define SDF_UILAYER_GUI_STATEKEYS_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_EVENTS_UISTATECHANGEEVENT_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_EVENTS_UISTATECHANGEEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    StateKeys.hpp
- * PURPOSE: Defines the GUI state keys for the state model.
+ * FILE:    UiStateChangeEvent.hpp
+ * PURPOSE: Defines the UiStateChangeEvent event hierarchy.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui {
-  // State key                                                                           Type
-  static constexpr const char *c_guiFocusDocumentKey = "Gui.FocusDocument";           // AbstractModel::Handle
-  static constexpr const char *c_toolboxVisibleKey = "Gui.ToolboxVisible";            // bool
+#include <SDF/UILayer/AbstractModel/Events/Event.hpp>
+
+#include <string>
+
+namespace SDF::UILayer::AbstractModel::Events {
+  template<class StateT>
+  struct UiStateChangeEvent : public Event {
+    std::string stateKey;
+    StateT newStateVal;
+  };
 }
 
 #endif

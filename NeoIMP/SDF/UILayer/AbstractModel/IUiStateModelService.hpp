@@ -24,6 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IObservable.hpp>
+
+#include <SDF/UILayer/AbstractModel/Events/UiStateChangeEvent.hpp>
+
 #include <string>
 
 namespace SDF::UILayer::AbstractModel {
@@ -32,7 +36,7 @@ namespace SDF::UILayer::AbstractModel {
   //             sensibly could be considered to reflect a property of the domain model.
   // Parameters: StateT - The type of state this state model service serves.
   template<class StateT>
-  class IUiStateModelService {
+  class IUiStateModelService : public Interfaces::IObservable<Events::UiStateChangeEvent<StateT>> {
   public:
     virtual ~IUiStateModelService() = default;
 

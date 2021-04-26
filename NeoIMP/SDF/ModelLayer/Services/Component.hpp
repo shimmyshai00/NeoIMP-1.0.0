@@ -39,7 +39,8 @@ namespace SDF::ModelLayer::Services {
                            UILayer::AbstractModel::IDocumentStorageService,
                            UILayer::AbstractModel::IDocumentAccessService,
                            UILayer::AbstractModel::IDocumentRenderService,
-                           UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>
+                           UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>,
+                           UILayer::AbstractModel::IUiStateModelService<bool>
                           >
   Component;
 

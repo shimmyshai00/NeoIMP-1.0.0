@@ -10,4 +10,5 @@ target_sources(neoimp PUBLIC
                NewDocumentDialog.cpp
                FileDialog.cpp
                DocumentView.cpp
+               Toolbox.cpp
               )

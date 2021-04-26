@@ -30,10 +30,12 @@
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+#include <SDF/UILayer/AbstractModel/Events/UiStateChangeEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Events/DocumentEvent.hpp>
 
 #include <QWidget>
 #include <QMainWindow>
+#include <QDockWidget>
 #include <QTabWidget>
 
 #include <memory>
@@ -45,6 +47,9 @@ QT_END_NAMESPACE
 namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentAccessService;
+
+    template<class StateT>
+    class IUiStateModelService;
   }
 
   namespace Gui {
@@ -56,10 +61,14 @@ namespace SDF::UILayer {
       // Parameters: None.
       class MainWindow : public QMainWindow,
                          public IGuiElement,
+                         public Interfaces::IEventHandler<AbstractModel::Events::UiStateChangeEvent<bool>>,
                          public Interfaces::IEventHandler<AbstractModel::Events::DocumentEvent>
       {
       public:
         MainWindow(AbstractModel::IDocumentAccessService *documentAccessService,
+                   AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+                   std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
+                    dockablesFactory,
                    std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
                     documentViewFactory,
                    std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
@@ -77,6 +86,9 @@ namespace SDF::UILayer {
         close();
 
         void
+        handleEvent(std::shared_ptr<AbstractModel::Events::UiStateChangeEvent<bool>> event);
+
+        void
         handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event);
       private:
         Ui::MainWindow *m_ui;
@@ -84,11 +96,21 @@ namespace SDF::UILayer {
         std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
 
         AbstractModel::IDocumentAccessService *m_documentAccessService;
+        AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
 
+        std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
+         m_dockablesFactory;
         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
           m_documentViewFactory;
 
+        QDockWidget *m_toolchest;
         QTabWidget *m_tabs;
+
+        void
+        showToolchest();
+
+        void
+        hideToolchest();
 
         void
         addDocumentTab(AbstractModel::Handle handle);

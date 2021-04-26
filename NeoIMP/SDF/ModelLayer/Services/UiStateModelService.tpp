@@ -33,6 +33,22 @@ namespace SDF::ModelLayer::Services {
   }
 
   template<class StateT>
+  void
+  UiStateModelService<StateT>::attachObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>> *observer
+  ) {
+    m_observers.push_back(observer);
+  }
+
+  template<class StateT>
+  void
+  UiStateModelService<StateT>::removeObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>> *observer
+  ) {
+    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
+
+  template<class StateT>
   StateT
   UiStateModelService<StateT>::getStateElement(std::string key) {
     if(m_stateMap.find(key) == m_stateMap.end()) {
@@ -49,6 +65,16 @@ namespace SDF::ModelLayer::Services {
                                               )
   {
     m_stateMap[key] = value;
+
+    std::shared_ptr<UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>>
+      event(new UILayer::AbstractModel::Events::UiStateChangeEvent<StateT>);
+
+    event->stateKey = key;
+    event->newStateVal = value;
+
+    for(auto observer : m_observers) {
+      observer->handleEvent(event);
+    }
   }
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_STATEKEYS_HPP
-#define SDF_UILAYER_GUI_STATEKEYS_HPP
+#ifndef SDF_UILAYER_GUI_QT_VIEW_TOOLBOX_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_TOOLBOX_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    StateKeys.hpp
- * PURPOSE: Defines the GUI state keys for the state model.
+ * FILE:    Toolbox.hpp
+ * PURPOSE: Defines the Toolbox class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui {
-  // State key                                                                           Type
-  static constexpr const char *c_guiFocusDocumentKey = "Gui.FocusDocument";           // AbstractModel::Handle
-  static constexpr const char *c_toolboxVisibleKey = "Gui.ToolboxVisible";            // bool
+#include <SDF/UILayer/Gui/IGuiElement.hpp>
+
+#include <QDockWidget>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class Toolchest; }
+QT_END_NAMESPACE
+
+namespace SDF::UILayer::Gui::Qt::View {
+  // Class:      Toolbox
+  // Purpose:    Displays a palette containing the image editing tools.
+  // Parameters: None.
+  class Toolbox : public QDockWidget,
+                  public IGuiElement
+  {
+    Q_OBJECT
+  public:
+    Toolbox(QWidget *parent = nullptr);
+    ~Toolbox();
+
+    IGuiElement *
+    getParent();
+
+    void
+    show();
+
+    void
+    close();
+  private:
+    Ui::Toolchest *m_ui;
+  };
 }
 
 #endif

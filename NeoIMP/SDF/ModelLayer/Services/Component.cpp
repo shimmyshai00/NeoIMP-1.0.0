@@ -42,6 +42,9 @@ namespace SDF::ModelLayer::Services {
       .bind<UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>,
             UiStateModelService<UILayer::AbstractModel::Handle>
            >()
+      .bind<UILayer::AbstractModel::IUiStateModelService<bool>,
+            UiStateModelService<bool>
+           >()
       .install(DomainObjects::getComponent)
       .install(DataLayer::Repositories::getComponent);
   }

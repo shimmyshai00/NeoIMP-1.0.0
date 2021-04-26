@@ -43,6 +43,9 @@ namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentAccessService;
     class IDocumentRenderService;
+
+    template<class StateT>
+    class IUiStateModelService;
   }
 
   namespace Gui::Qt::View {
@@ -57,7 +60,8 @@ namespace SDF::UILayer {
       Factory(std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>>
                 controllerFactory,
               AbstractModel::IDocumentAccessService *documentAccessService,
-              AbstractModel::IDocumentRenderService *documentRenderService
+              AbstractModel::IDocumentRenderService *documentRenderService,
+              AbstractModel::IUiStateModelService<bool> *boolStateModelService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -69,8 +73,21 @@ namespace SDF::UILayer {
 
       AbstractModel::IDocumentAccessService *m_documentAccessService;
       AbstractModel::IDocumentRenderService *m_documentRenderService;
+      AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
     };
 
+    // Class:      DockablesFactory
+    // Purpose:    Construct new dockable views inside a parent.
+    // Parameters: None.
+    class DockablesFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
+    public:
+      DockablesFactory();
+
+      // Note: The GUI element is presumed to be owned by its parent element.
+      IGuiElement *
+      create(IGuiElement *parent, std::string elementType);
+    };
+    
     // Class:      DocumentViewFactory
     // Purpose:    Construct a new document view.
     // Parameters: None.
