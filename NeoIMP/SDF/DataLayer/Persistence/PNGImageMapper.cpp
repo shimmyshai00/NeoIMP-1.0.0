@@ -57,9 +57,11 @@ namespace SDF::DataLayer::Persistence {
 }
 
 namespace SDF::DataLayer::Persistence {
-  PNGImageMapper::PNGImageMapper(std::string fileSpec)
+  PNGImageMapper::PNGImageMapper(std::string fileSpec,
+                                 Interfaces::IGenerator<int> *uidGenerator
+                                )
     : m_fileSpec(fileSpec),
-      m_nextUid(10000)
+      m_uidGenerator(uidGenerator)
   {
   }
 
@@ -85,7 +87,10 @@ namespace SDF::DataLayer::Persistence {
       return std::make_unique<ModelLayer::DomainObjects::Image::Gil::Image<boost::gil::rgb8_image_t,
                                                                            boost::gil::rgb8_view_t,
                                                                            boost::gil::rgb8_pixel_t
-                                                                          >>(m_nextUid++, m_fileSpec, pngImage);
+                                                                          >>(m_uidGenerator->get(),
+                                                                             m_fileSpec,
+                                                                             pngImage
+                                                                            );
     } catch(std::ios_base::failure &e) {
       throw DataLayer::Exceptions::BadFileException("PNG", "Must be 8-bit-per-channel RGB format only. No alpha channels supported.");
     }

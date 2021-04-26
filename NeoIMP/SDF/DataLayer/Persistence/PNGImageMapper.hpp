@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IGenerator.hpp>
 #include <SDF/DataLayer/Repositories/AbstractPersistence/IDataMapper.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 
@@ -42,8 +43,10 @@ namespace SDF::DataLayer::Persistence {
     // Function:   PNGImageMapper
     // Purpose:    Construct a new data mapper for mapping to a given file.
     // Parameters: fileSpec - The file spec to the file to map to.
-    //             imageFactory - A factory object to create images when loading.
-    PNGImageMapper(std::string fileSpec);
+    //             uidGenerator - Pointer to the UID generator to use to generate the image domain object IDs.
+    PNGImageMapper(std::string fileSpec,
+                   Interfaces::IGenerator<int> *uidGenerator
+                  );
 
     void
     persist(ModelLayer::Services::AbstractDomain::IImage *obj);
@@ -52,7 +55,7 @@ namespace SDF::DataLayer::Persistence {
     retrieve();
   private:
     std::string m_fileSpec;
-    std::size_t m_nextUid;
+    Interfaces::IGenerator<int> *m_uidGenerator;
   };
 }
 

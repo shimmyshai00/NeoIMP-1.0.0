@@ -77,6 +77,7 @@ namespace SDF::ModelLayer::Services {
   int
   DocumentAccessService::getDocumentWidthPx(UILayer::AbstractModel::Handle handle) const {
     try {
+      printf("width of image %d: %d\n", handle, m_imageRepository->retrieve(handle)->getWidth());
       return m_imageRepository->retrieve(handle)->getWidth();
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);
@@ -86,6 +87,7 @@ namespace SDF::ModelLayer::Services {
   int
   DocumentAccessService::getDocumentHeightPx(UILayer::AbstractModel::Handle handle) const {
     try {
+      printf("height of image %d: %d\n", handle, m_imageRepository->retrieve(handle)->getHeight());
       return m_imageRepository->retrieve(handle)->getHeight();
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);

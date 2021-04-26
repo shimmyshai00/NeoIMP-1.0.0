@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IGenerator.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/DocumentSpec.hpp>
 
@@ -46,12 +47,12 @@ namespace SDF::ModelLayer {
                                                >
     {
     public:
-      INJECT(Factory());
+      INJECT(Factory(Interfaces::IGenerator<int> *uidGenerator));
 
       std::unique_ptr<Services::AbstractDomain::IImage>
       create(Services::AbstractDomain::DocumentSpec spec);
     private:
-      int m_nextUid;
+      Interfaces::IGenerator<int> *m_uidGenerator;
     };
   }
 }

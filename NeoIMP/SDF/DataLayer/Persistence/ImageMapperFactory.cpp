@@ -28,7 +28,9 @@
 #include <PNGImageMapper.hpp>
 
 namespace SDF::DataLayer::Persistence {
-  ImageMapperFactory::ImageMapperFactory() {}
+  ImageMapperFactory::ImageMapperFactory(Interfaces::IGenerator<int> *uidGenerator)
+    : m_uidGenerator(uidGenerator)
+  {}
 
   std::unique_ptr<Repositories::AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>>
   ImageMapperFactory::create(std::string fileSpec,
@@ -36,7 +38,7 @@ namespace SDF::DataLayer::Persistence {
                             )
   {
     if(fileFormat == ModelLayer::AbstractData::FILE_FORMAT_PNG) {
-      return std::make_unique<PNGImageMapper>(fileSpec);
+      return std::make_unique<PNGImageMapper>(fileSpec, m_uidGenerator);
     } else {
       throw DataLayer::Exceptions::BadFileFormatException(fileFormat);
     }

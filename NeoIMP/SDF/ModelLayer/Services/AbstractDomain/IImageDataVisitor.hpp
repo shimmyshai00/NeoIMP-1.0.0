@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageImpl.hpp>
 
 #include <SDF/ModelLayer/Math/Rect.hpp>
@@ -35,7 +34,7 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
   //             3rd-party algorithms and/or for maximally efficient access to image data with no pre-processing. The
   //             recommended way to implement new core algorithms; NOT recommended for use outside of such!
   // Parameters: None.
-  class IImageDataVisitor : public IDomainObject<IImageDataVisitor> {
+  class IImageDataVisitor {
   public:
     virtual ~IImageDataVisitor() = default;
 

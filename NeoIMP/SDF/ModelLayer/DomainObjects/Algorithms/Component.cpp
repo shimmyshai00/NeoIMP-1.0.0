@@ -26,10 +26,13 @@
 #include <SDF/ModelLayer/DomainObjects/Algorithms/Factories.hpp>
 #include <SDF/ModelLayer/DomainObjects/Algorithms/Renderer/BufferFactory.hpp>
 
+#include <Support/UidGenerator.hpp>
+
 namespace SDF::ModelLayer::DomainObjects::Algorithms {
   Component
   getComponent() {
     return fruit::createComponent()
+      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
       .bind<fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
                              Interfaces::IFactory<Services::AbstractDomain::IImageDataVisitor,
                                                   Services::AbstractDomain::IRenderBuffer *

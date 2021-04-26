@@ -23,12 +23,15 @@
 
 #include <SDF/ModelLayer/DomainObjects/Image/Gil/Component.hpp>
 
+#include <Support/UidGenerator.hpp>
+
 #include <SDF/ModelLayer/DomainObjects/Image/Gil/Factory.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   Component
   getComponent() {
     return fruit::createComponent()
+      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
       .bind<Interfaces::IFactory<Services::AbstractDomain::IImage,
                                  Services::AbstractDomain::DocumentSpec
                                 >,

@@ -55,17 +55,11 @@ namespace SDF::ModelLayer {
       // Purpose:    Construct a new rendering visitor.
       // Parameters: uid - The unique ID for this domain object.
       //             buffer - The buffer to retain the rendering in.
-      Visitor(int uid,
-              Services::AbstractDomain::IRenderBuffer *buffer
-             );
-
-      int
-      getId() const;
+      Visitor(Services::AbstractDomain::IRenderBuffer *buffer);
 
       void
       visitGilRegion(Math::Rect<std::size_t> rect, Services::AbstractDomain::Defs::GilRegionType &gilRegion);
     private:
-      int m_uid;
       Services::AbstractDomain::IRenderBuffer *m_buffer;
     };
   }

@@ -27,7 +27,7 @@
 #include <Image.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Image::Gil {
-  Factory::Factory() : m_nextUid(1000) {}
+  Factory::Factory(Interfaces::IGenerator<int> *uidGenerator) : m_uidGenerator(uidGenerator) {}
 
   std::unique_ptr<Services::AbstractDomain::IImage>
   Factory::create(Services::AbstractDomain::DocumentSpec spec)
@@ -37,7 +37,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
        (spec.bitDepth == UILayer::AbstractModel::Properties::BIT_DEPTH_8)
       )
     {
-      std::size_t id(m_nextUid++);
+      std::size_t id(m_uidGenerator->get());
 
       return std::make_unique<Image<boost::gil::rgb8_image_t,
                                     boost::gil::rgb8_view_t,

@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IGenerator.hpp>
 
 #include <fruit/fruit.h>
 
@@ -46,14 +47,14 @@ namespace SDF::ModelLayer {
                                                      >
     {
     public:
-      INJECT(BufferFactory());
+      INJECT(BufferFactory(Interfaces::IGenerator<int> *uidGenerator));
 
       std::unique_ptr<Services::AbstractDomain::IRenderBuffer>
       create(std::size_t width,
              std::size_t height
             );
     private:
-      int m_nextUid;
+      Interfaces::IGenerator<int> *m_uidGenerator;
     };
   }
 }

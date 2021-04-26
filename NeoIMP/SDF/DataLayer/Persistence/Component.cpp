@@ -23,11 +23,14 @@
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
+#include <Support/UidGenerator.hpp>
+
 #include <ImageMapperFactory.hpp>
 
 namespace SDF::DataLayer::Persistence {
   Component getComponent() {
     return fruit::createComponent()
+      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
       .bind<Interfaces::IFactory<Repositories::AbstractPersistence::IDataMapper<
                                   ModelLayer::Services::AbstractDomain::IImage
                                  >,

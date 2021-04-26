@@ -26,8 +26,8 @@
 #include <Buffer.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
-  BufferFactory::BufferFactory()
-    : m_nextUid(2000)
+  BufferFactory::BufferFactory(Interfaces::IGenerator<int> *uidGenerator)
+    : m_uidGenerator(uidGenerator)
   {
   }
 
@@ -36,6 +36,6 @@ namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
                         std::size_t height
                        )
   {
-    return std::make_unique<Buffer>(m_nextUid++, width, height);
+    return std::make_unique<Buffer>(m_uidGenerator->get(), width, height);
   }
 }

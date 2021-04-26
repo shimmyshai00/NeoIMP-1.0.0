@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IGenerator.hpp>
 
 #include <SDF/DataLayer/Repositories/AbstractPersistence/IDataMapper.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
@@ -48,12 +49,14 @@ namespace SDF::DataLayer::Persistence {
                                                         >
   {
   public:
-    INJECT(ImageMapperFactory());
+    INJECT(ImageMapperFactory(Interfaces::IGenerator<int> *uidGenerator));
 
     std::unique_ptr<Repositories::AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>>
     create(std::string fileSpec,
            ModelLayer::AbstractData::ImageFileFormat fileFormat
           );
+  private:
+    Interfaces::IGenerator<int> *m_uidGenerator;
   };
 }
 

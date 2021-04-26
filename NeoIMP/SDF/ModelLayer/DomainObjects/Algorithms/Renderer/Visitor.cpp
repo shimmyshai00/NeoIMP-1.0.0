@@ -76,17 +76,9 @@ namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
 }
 
 namespace SDF::ModelLayer::DomainObjects::Algorithms::Renderer {
-  Visitor::Visitor(int uid,
-                   Services::AbstractDomain::IRenderBuffer *buffer
-                  )
-    : m_uid(uid),
-      m_buffer(buffer)
+  Visitor::Visitor(Services::AbstractDomain::IRenderBuffer *buffer)
+    : m_buffer(buffer)
   {
-  }
-
-  int
-  Visitor::getId() const {
-    return m_uid;
   }
 
   void

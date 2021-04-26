@@ -1,9 +1,12 @@
+#ifndef SDF_SUPPORT_UIDGENERATOR_HPP
+#define SDF_SUPPORT_UIDGENERATOR_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factories.cpp
- * PURPOSE: Implements factory classes for algorithms.
+ * FILE:    UidGenerator.hpp
+ * PURPOSE: Defines the UidGenerator template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Algorithms/Factories.hpp>
+#include <SDF/Interfaces/IGenerator.hpp>
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
-#include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
+#include <fruit/fruit.h>
 
-#include <SDF/ModelLayer/DomainObjects/Algorithms/Renderer/Buffer.hpp>
+namespace SDF::Support {
+  // Class:      UidGenerator
+  // Purpose:    Defines an interface for generating unique IDs for objects.
+  // Parameters: UidValT - The type of UID value to use.
+  template<class UidValT>
+  class UidGenerator : public Interfaces::IGenerator<UidValT> {
+  public:
+    INJECT(UidGenerator());
 
-#include <Renderer/Visitor.hpp>
-
-namespace SDF::ModelLayer::DomainObjects::Algorithms {
-  RendererFactory::RendererFactory() {}
-
-  std::unique_ptr<Services::AbstractDomain::IImageDataVisitor>
-  RendererFactory::create(Services::AbstractDomain::IRenderBuffer *buffer) {
-    return std::make_unique<Renderer::Visitor>(buffer);
-  }
+    UidValT
+    get();
+  private:
+    UidValT m_nextUid;
+  };
 }
+
+#include "SDF/Support/UidGenerator.tpp"
+
+#endif

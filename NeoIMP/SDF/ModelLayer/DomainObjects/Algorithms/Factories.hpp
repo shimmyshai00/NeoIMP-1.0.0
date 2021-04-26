@@ -48,8 +48,6 @@ namespace SDF::ModelLayer {
 
       std::unique_ptr<Services::AbstractDomain::IImageDataVisitor>
       create(Services::AbstractDomain::IRenderBuffer *buffer);
-    private:
-      int m_nextUid;
     };
   }
 }

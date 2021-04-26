@@ -144,6 +144,8 @@ namespace SDF::DataLayer::Repositories {
     printf("loading %s...\n", fileSpec.c_str());
     std::unique_ptr<AbstractDomain::IImage> obj(mapper->retrieve());
     std::size_t objectId(obj->getId());
+    m_fileSpecMap[objectId] = fileSpec;
+    m_fileFormatMap[objectId] = fileFormat;
     m_objectMap[objectId] = std::move(obj);
 
     std::shared_ptr<ModelLayer::AbstractData::Loaded<AbstractDomain::IImage>>
