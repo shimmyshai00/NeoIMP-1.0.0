@@ -30,8 +30,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>Icons/selection.png</normaloff>Icons/selection.png</iconset>
+        <iconset resource="Icons.qrc">
+         <normaloff>:/icons/Icons/selection.png</normaloff>:/icons/Icons/selection.png</iconset>
        </property>
       </widget>
      </item>
@@ -41,8 +41,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>Icons/cage.png</normaloff>Icons/cage.png</iconset>
+        <iconset resource="Icons.qrc">
+         <normaloff>:/icons/Icons/cage.png</normaloff>:/icons/Icons/cage.png</iconset>
        </property>
       </widget>
      </item>
@@ -52,8 +52,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>Icons/magnifier.png</normaloff>Icons/magnifier.png</iconset>
+        <iconset resource="Icons.qrc">
+         <normaloff>:/icons/Icons/magnifier.png</normaloff>:/icons/Icons/magnifier.png</iconset>
        </property>
       </widget>
      </item>

@@ -1,5 +1,6 @@
 target_include_directories(neoimp PUBLIC .)
 
+add_subdirectory(QtResources)
 add_subdirectory(CustomWidgets)
 
 target_sources(neoimp PUBLIC

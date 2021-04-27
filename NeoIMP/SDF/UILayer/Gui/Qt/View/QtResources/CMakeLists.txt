@@ -4,4 +4,5 @@ target_sources(neoimp PUBLIC
   Icons.qrc
   MainWindow.ui
   NewDocumentDialog.ui
+  Toolbox.ui
 )
