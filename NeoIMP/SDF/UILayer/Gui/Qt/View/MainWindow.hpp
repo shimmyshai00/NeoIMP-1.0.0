@@ -99,7 +99,7 @@ namespace SDF::UILayer {
         AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
 
         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
-         m_dockablesFactory;
+          m_dockablesFactory;
         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
           m_documentViewFactory;
 

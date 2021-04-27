@@ -63,6 +63,15 @@ namespace SDF::UILayer::Gui::Qt::View {
   {
     m_ui->setupUi(this);
 
+    m_toolchest = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "Toolchest"));
+    safeConnect(m_toolchest, &QDockWidget::visibilityChanged, [=](bool vis) {
+      if(!vis) {
+        std::shared_ptr<Events::ToolchestToggledEvent> event(new Events::ToolchestToggledEvent);
+        event->toggleValue = false;
+        m_controller->handleEvent(event);
+      }
+    });
+
     m_ui->actionToolchest->setChecked(m_boolStateModelService->getStateElement(c_toolboxVisibleKey));
     if(m_boolStateModelService->getStateElement(c_toolboxVisibleKey)) {
       showToolchest();
@@ -133,19 +142,16 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::showToolchest() {
-    if(m_toolchest == nullptr) {
-      m_toolchest = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "Toolchest"));
-      addDockWidget(::Qt::LeftDockWidgetArea, m_toolchest);
-    }
+    m_ui->actionToolchest->setChecked(true);
+    m_toolchest->show();
+    addDockWidget(::Qt::LeftDockWidgetArea, m_toolchest);
   }
 
   void
   MainWindow::hideToolchest() {
-    if(m_toolchest != nullptr) {
-      removeDockWidget(m_toolchest);
-      delete m_toolchest;
-      m_toolchest = nullptr;
-    }
+    m_ui->actionToolchest->setChecked(false);
+    removeDockWidget(m_toolchest);
+    m_toolchest->close();
   }
 
   void
