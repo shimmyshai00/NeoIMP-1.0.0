@@ -33,6 +33,12 @@
         <iconset resource="Icons.qrc">
          <normaloff>:/icons/Icons/selection.png</normaloff>:/icons/Icons/selection.png</iconset>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -44,6 +50,12 @@
         <iconset resource="Icons.qrc">
          <normaloff>:/icons/Icons/cage.png</normaloff>:/icons/Icons/cage.png</iconset>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="1" column="0">
@@ -54,6 +66,12 @@
        <property name="icon">
         <iconset resource="Icons.qrc">
          <normaloff>:/icons/Icons/magnifier.png</normaloff>:/icons/Icons/magnifier.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

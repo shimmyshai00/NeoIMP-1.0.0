@@ -45,6 +45,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       QSize sizeHint() const;
 
       void setDataSource(IImageDataSource *dataSource);
+
+      float magnification() const;
       void setMagnification(float newMagnification);
     private:
       IImageDataSource *m_dataSource;

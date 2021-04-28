@@ -45,7 +45,6 @@ namespace SDF::ModelLayer {
       class IImage;
     }
 
-
     // Class:      DocumentStorageService
     // Purpose:    Provides the model layer service for storing and retrieving documents.
     // Parameters: None.

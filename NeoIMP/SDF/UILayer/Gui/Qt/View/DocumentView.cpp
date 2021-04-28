@@ -75,9 +75,11 @@ namespace SDF::UILayer::Gui::Qt::View {
 namespace SDF::UILayer::Gui::Qt::View {
   DocumentView::DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                              AbstractModel::IDocumentRenderService *documentRenderService,
+                             AbstractModel::IDocumentViewConfigService *documentViewConfigService,
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
     : QWidget(parent),
+      m_documentViewConfigService(documentViewConfigService),
       m_documentHandle(handleToView),
       m_layout(new QBoxLayout(QBoxLayout::TopToBottom, this)),
       m_documentWidget(new CustomWidgets::DocumentWidget(this)),

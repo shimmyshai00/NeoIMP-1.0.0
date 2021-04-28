@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_RENDERPARAM_COMPONENT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_RENDERPARAM_COMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the domain object subsystem.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the rendering parameters subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Component.hpp>
+#include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDocumentViewParams.hpp>
 
-#include <Algorithms/Component.hpp>
-#include <Image/Gil/Component.hpp>
-#include <RenderParam/Component.hpp>
+#include <fruit/fruit.h>
 
-namespace SDF::ModelLayer::DomainObjects {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .install(Algorithms::getComponent)
-      .install(Image::Gil::getComponent)
-      .install(RenderParam::getComponent);
-  }
+namespace SDF::ModelLayer::DomainObjects::RenderParam {
+  typedef fruit::Component<Interfaces::IFactory<Services::AbstractDomain::IDocumentViewParams,
+                                                float,
+                                                float,
+                                                float
+                                               >
+                          >
+  Component;
+
+  Component getComponent();
 }
+
+#endif

@@ -27,6 +27,7 @@
 
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 
 #include <MainWindow.hpp>
@@ -40,12 +41,14 @@ namespace SDF::UILayer::Gui::Qt::View {
     std::unique_ptr<Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>> controllerFactory,
     AbstractModel::IDocumentAccessService *documentAccessService,
     AbstractModel::IDocumentRenderService *documentRenderService,
-    AbstractModel::IUiStateModelService<bool> *boolStateModelService
+    AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+    AbstractModel::IDocumentViewConfigService *documentViewConfigService
   )
     : m_controllerFactory(std::move(controllerFactory)),
       m_documentAccessService(documentAccessService),
       m_documentRenderService(documentRenderService),
-      m_boolStateModelService(boolStateModelService)
+      m_boolStateModelService(boolStateModelService),
+      m_documentViewConfigService(documentViewConfigService)
   {}
 
   IGuiElement *
@@ -57,7 +60,8 @@ namespace SDF::UILayer::Gui::Qt::View {
                                     m_boolStateModelService,
                                     std::make_unique<DockablesFactory>(),
                                     std::make_unique<DocumentViewFactory>(m_documentAccessService,
-                                                                          m_documentRenderService
+                                                                          m_documentRenderService,
+                                                                          m_documentViewConfigService
                                                                         ),
                                     std::move(controller),
                                     dynamic_cast<QWidget *>(parent)
@@ -93,10 +97,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
 namespace SDF::UILayer::Gui::Qt::View {
   DocumentViewFactory::DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
-                                           AbstractModel::IDocumentRenderService *documentRenderService
+                                           AbstractModel::IDocumentRenderService *documentRenderService,
+                                           AbstractModel::IDocumentViewConfigService *documentViewConfigService
                                           )
     : m_documentAccessService(documentAccessService),
-      m_documentRenderService(documentRenderService)
+      m_documentRenderService(documentRenderService),
+      m_documentViewConfigService(documentViewConfigService)
   {
   }
 
@@ -107,6 +113,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   {
     return new DocumentView(m_documentAccessService,
                             m_documentRenderService,
+                            m_documentViewConfigService,
                             documentHandle,
                             dynamic_cast<QWidget *>(parent)
                            );

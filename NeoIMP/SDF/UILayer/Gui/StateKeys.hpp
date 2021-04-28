@@ -28,6 +28,8 @@ namespace SDF::UILayer::Gui {
   // State key                                                                           Type
   static constexpr const char *c_guiFocusDocumentKey = "Gui.FocusDocument";           // AbstractModel::Handle
   static constexpr const char *c_toolboxVisibleKey = "Gui.ToolboxVisible";            // bool
+  static constexpr const char *c_currentlyActiveTool = "Gui.CurrentTool";             // Enum::Tool
+  static constexpr const char *c_documentViewParams = "Gui.DocumentViewParams.";      // (PREFIX) DocumentViewParams
 }
 
 #endif

@@ -28,6 +28,7 @@
 #include <DocumentAccessService.hpp>
 #include <DocumentRenderService.hpp>
 #include <UiStateModelService.hpp>
+#include <DocumentViewConfigService.hpp>
 
 #include <DomainObjects/Component.hpp>
 #include <DataLayer/Repositories/Component.hpp>
@@ -45,6 +46,7 @@ namespace SDF::ModelLayer::Services {
       .bind<UILayer::AbstractModel::IUiStateModelService<bool>,
             UiStateModelService<bool>
            >()
+      .bind<UILayer::AbstractModel::IDocumentViewConfigService, DocumentViewConfigService>()
       .install(DomainObjects::getComponent)
       .install(DataLayer::Repositories::getComponent);
   }

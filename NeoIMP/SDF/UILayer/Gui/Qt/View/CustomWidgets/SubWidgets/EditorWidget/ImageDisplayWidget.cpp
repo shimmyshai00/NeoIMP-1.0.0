@@ -48,6 +48,11 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
     m_dataSource = dataSource;
   }
 
+  float
+  ImageDisplayWidget::magnification() const {
+    return m_magnification;
+  }
+
   void
   ImageDisplayWidget::setMagnification(float newMagnification) {
     m_magnification = newMagnification;

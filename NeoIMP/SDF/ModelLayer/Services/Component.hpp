@@ -29,6 +29,7 @@
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
@@ -40,7 +41,8 @@ namespace SDF::ModelLayer::Services {
                            UILayer::AbstractModel::IDocumentAccessService,
                            UILayer::AbstractModel::IDocumentRenderService,
                            UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>,
-                           UILayer::AbstractModel::IUiStateModelService<bool>
+                           UILayer::AbstractModel::IUiStateModelService<bool>,
+                           UILayer::AbstractModel::IDocumentViewConfigService
                           >
   Component;
 

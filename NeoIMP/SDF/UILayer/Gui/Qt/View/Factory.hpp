@@ -43,6 +43,7 @@ namespace SDF::UILayer {
   namespace AbstractModel {
     class IDocumentAccessService;
     class IDocumentRenderService;
+    class IDocumentViewConfigService;
 
     template<class StateT>
     class IUiStateModelService;
@@ -61,7 +62,8 @@ namespace SDF::UILayer {
                 controllerFactory,
               AbstractModel::IDocumentAccessService *documentAccessService,
               AbstractModel::IDocumentRenderService *documentRenderService,
-              AbstractModel::IUiStateModelService<bool> *boolStateModelService
+              AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+              AbstractModel::IDocumentViewConfigService *documentViewConfigService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -74,6 +76,7 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentAccessService *m_documentAccessService;
       AbstractModel::IDocumentRenderService *m_documentRenderService;
       AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
+      AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
     };
 
     // Class:      DockablesFactory
@@ -87,14 +90,15 @@ namespace SDF::UILayer {
       IGuiElement *
       create(IGuiElement *parent, std::string elementType);
     };
-    
+
     // Class:      DocumentViewFactory
     // Purpose:    Construct a new document view.
     // Parameters: None.
     class DocumentViewFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle> {
     public:
       DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
-                          AbstractModel::IDocumentRenderService *documentRenderService
+                          AbstractModel::IDocumentRenderService *documentRenderService,
+                          AbstractModel::IDocumentViewConfigService *documentViewConfigService
                          );
 
       IGuiElement *
@@ -104,6 +108,7 @@ namespace SDF::UILayer {
     private:
       AbstractModel::IDocumentAccessService *m_documentAccessService;
       AbstractModel::IDocumentRenderService *m_documentRenderService;
+      AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
     };
   }
 }

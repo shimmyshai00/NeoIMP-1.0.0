@@ -43,6 +43,14 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     ~DocumentWidget() {}
 
     void setDataSource(IImageDataSource *dataSource);
+
+    float centerX() const;
+    float centerY() const;
+    float magnification() const;
+
+    void setCenterX(float centerX);
+    void setCenterY(float centerY);
+    void setMagnification(float magnification);
   private:
     QGridLayout *m_gridLayout;
 

@@ -28,6 +28,7 @@
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
@@ -51,7 +52,8 @@ namespace SDF::UILayer::Gui::Qt {
                          AbstractModel::IDocumentAccessService *,
                          AbstractModel::IDocumentRenderService *,
                          AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
-                         AbstractModel::IUiStateModelService<bool> *
+                         AbstractModel::IUiStateModelService<bool> *,
+                         AbstractModel::IDocumentViewConfigService *
                         )
        >(
          [](IGuiController *guiController,
@@ -60,7 +62,8 @@ namespace SDF::UILayer::Gui::Qt {
             AbstractModel::IDocumentAccessService *documentAccessService,
             AbstractModel::IDocumentRenderService *documentRenderService,
             AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
-            AbstractModel::IUiStateModelService<bool> *boolStateModelService
+            AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+            AbstractModel::IDocumentViewConfigService *documentViewConfigService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
@@ -76,7 +79,8 @@ namespace SDF::UILayer::Gui::Qt {
                                  >(new View::Factory(std::move(controllerFactory),
                                                      documentAccessService,
                                                      documentRenderService,
-                                                     boolStateModelService
+                                                     boolStateModelService,
+                                                     documentViewConfigService
                                                     ));
          }
        )

@@ -3,8 +3,7 @@ target_include_directories(neoimp PUBLIC
                           )
 
 target_sources(neoimp PUBLIC
-               ImageRepository.cpp
-               RenderingRepository.cpp
-               ViewDataRepository.cpp
+               Factory.cpp
+               Viewport.cpp
                Component.cpp
               )

@@ -29,7 +29,11 @@
 
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
+#include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
+#include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
+
+#include <SDF/UILayer/Gui/Qt/View/DocumentViewParams.hpp>
 
 #include <SDF/UILayer/Gui/Qt/View/CustomWidgets/DocumentWidget.hpp>
 #include <SDF/UILayer/Gui/Qt/View/CustomWidgets/IImageDataSource.hpp>
@@ -47,6 +51,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   public:
     DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                  AbstractModel::IDocumentRenderService *documentRenderService,
+                 AbstractModel::IDocumentViewConfigService *documentViewConfigService,
                  AbstractModel::Handle handleToView,
                  QWidget *parent = nullptr
                 );
@@ -63,6 +68,8 @@ namespace SDF::UILayer::Gui::Qt::View {
     AbstractModel::Handle
     getViewedDocumentHandle() const;
   private:
+    AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
+
     AbstractModel::Handle m_documentHandle;
     QBoxLayout *m_layout;
 

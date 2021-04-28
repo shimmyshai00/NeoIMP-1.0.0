@@ -49,6 +49,10 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
     m_imageDisplayWidget->setDataSource(dataSource);
   }
 
+  float DocumentEditorWidget::magnification() const {
+    return m_imageDisplayWidget->magnification();
+  }
+
   void DocumentEditorWidget::setMagnification(float newMagnification) {
     m_imageDisplayWidget->setMagnification(newMagnification);
     m_temporaryRectangleDecal->setMagnification(newMagnification);

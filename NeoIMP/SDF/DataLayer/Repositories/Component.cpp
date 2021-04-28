@@ -25,6 +25,7 @@
 
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
 #include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
+#include <SDF/DataLayer/Repositories/ViewDataRepository.hpp>
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
@@ -43,6 +44,9 @@ namespace SDF::DataLayer::Repositories {
                                                                        ModelLayer::AbstractData::ImageFileFormat
                                                                       >,
             ImageRepository
+           >()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDocumentViewParams>,
+            ViewDataRepository
            >()
       .install(Persistence::getComponent);
   }

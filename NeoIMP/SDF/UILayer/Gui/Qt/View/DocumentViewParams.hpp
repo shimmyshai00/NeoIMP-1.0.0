@@ -1,9 +1,13 @@
+#ifndef SDF_UILAYER_GUI_QT_VIEW_DOCUMENTVIEWPARAMS_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_DOCUMENTVIEWPARAMS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the domain object subsystem.
+ * FILE:    DocumentViewParams.hpp
+ * PURPOSE: Defines a POD struct holding parameters for a document view that are stored in the UI state model so they
+ *          can be manipulated with editing tools.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +25,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Component.hpp>
-
-#include <Algorithms/Component.hpp>
-#include <Image/Gil/Component.hpp>
-#include <RenderParam/Component.hpp>
-
-namespace SDF::ModelLayer::DomainObjects {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .install(Algorithms::getComponent)
-      .install(Image::Gil::getComponent)
-      .install(RenderParam::getComponent);
-  }
+namespace SDF::UILayer::Gui::Qt::View {
+  struct DocumentViewParams {
+    float centerX, centerY; // The coordinates, on the viewed document, of the view center.
+    float magnification;    // The magnification factor of the document view.
+  };
 }
+
+#endif

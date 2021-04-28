@@ -7,5 +7,6 @@ target_sources(neoimp PUBLIC
                DocumentAccessService.cpp
                DocumentRenderService.cpp
                DocumentStorageService.cpp
+               DocumentViewConfigService.cpp
                Component.cpp
               )

@@ -72,4 +72,28 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     m_horizontalRuler->setObject(0, dataSource->getImageWidth()-1);
     m_verticalRuler->setObject(0, dataSource->getImageHeight()-1);
   }
+
+  float DocumentWidget::centerX() const {
+    return 0.0f; // TBA
+  }
+
+  float DocumentWidget::centerY() const {
+    return 0.0f; // TBA
+  }
+
+  float DocumentWidget::magnification() const {
+    return m_documentEditorWidget->magnification();
+  }
+
+  void DocumentWidget::setCenterX(float centerX) {
+    // TBA
+  }
+
+  void DocumentWidget::setCenterY(float centerY) {
+    // TBA
+  }
+
+  void DocumentWidget::setMagnification(float magnification) {
+    m_documentEditorWidget->setMagnification(magnification);
+  }
 }

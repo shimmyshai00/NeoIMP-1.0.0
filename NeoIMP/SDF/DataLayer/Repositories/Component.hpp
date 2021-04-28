@@ -30,6 +30,7 @@
 
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDocumentViewParams.hpp>
 
 #include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
 
@@ -44,6 +45,9 @@ namespace SDF::DataLayer::Repositories {
                            ModelLayer::AbstractData::IFileSystemPersistenceController<
                             ModelLayer::Services::AbstractDomain::IImage,
                             ModelLayer::AbstractData::ImageFileFormat
+                           >,
+                           ModelLayer::AbstractData::IRepository<
+                            ModelLayer::Services::AbstractDomain::IDocumentViewParams
                            >
                           >
   Component;
