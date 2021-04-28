@@ -42,6 +42,9 @@ namespace SDF::ModelLayer::Services {
       m_paramFactory(paramFactory)
   {
     m_documentRepository->attachObserver(this);
+
+    // Fill out the document view parameters for each available document.
+    // (TBA)
   }
 
   DocumentViewConfigService::~DocumentViewConfigService() {
@@ -116,16 +119,28 @@ namespace SDF::ModelLayer::Services {
 
   void
   DocumentViewConfigService::handleCreatedEvent(AbstractData::Created<AbstractDomain::IImage> *event) {
-    // TBA
+    // Add a new viewport configuration.
+    std::unique_ptr<AbstractDomain::IDocumentViewParams> viewParams(m_paramFactory->create(0.0f, 0.0f, 1.0f));
+    int paramId(viewParams->getId());
+
+    m_repository->create(std::move(viewParams));
+    m_documentHandleToViewportHandleMap[event->objectId] = paramId;
   }
 
   void
   DocumentViewConfigService::handleLoadedEvent(AbstractData::Loaded<AbstractDomain::IImage> *event) {
-    // TBA
+    // Add a new viewport configuration.
+    std::unique_ptr<AbstractDomain::IDocumentViewParams> viewParams(m_paramFactory->create(0.0f, 0.0f, 1.0f));
+    int paramId(viewParams->getId());
+
+    m_repository->create(std::move(viewParams));
+    m_documentHandleToViewportHandleMap[event->objectId] = paramId;
   }
 
   void
   DocumentViewConfigService::handleDeletedEvent(AbstractData::Deleted<AbstractDomain::IImage> *event) {
-    // TBA
+    // Remove this viewport configuration.
+    m_repository->deleteEntry(m_documentHandleToViewportHandleMap[event->objectId]);
+    m_documentHandleToViewportHandleMap.erase(event->objectId);
   }
 }

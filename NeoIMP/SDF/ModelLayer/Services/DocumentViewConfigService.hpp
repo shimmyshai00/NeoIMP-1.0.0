@@ -33,6 +33,8 @@
 
 #include <fruit/fruit.h>
 
+#include <map>
+
 namespace SDF::ModelLayer {
   namespace AbstractData {
     template<class T>
@@ -84,6 +86,8 @@ namespace SDF::ModelLayer {
       AbstractData::IRepository<AbstractDomain::IDocumentViewParams> *m_repository;
       AbstractData::IObservableRepository<AbstractDomain::IImage> *m_documentRepository;
       Interfaces::IFactory<AbstractDomain::IDocumentViewParams, float, float, float> *m_paramFactory;
+
+      std::map<int, int> m_documentHandleToViewportHandleMap;
 
       void
       handleEvent(std::shared_ptr<AbstractData::RepositoryEvent<AbstractDomain::IImage>> event);
