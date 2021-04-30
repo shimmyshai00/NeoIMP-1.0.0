@@ -27,10 +27,12 @@
 #include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
+#include <SDF/UILayer/AbstractModel/IToolBasedEditingService.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <SDF/UILayer/Gui/Qt/View/DocumentViewParams.hpp>
@@ -45,17 +47,20 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Purpose:    Defines a Qt widget view for displaying and editing a document.
   // Parameters: None.
   class DocumentView : public QWidget,
-                       public IGuiElement
+                       public IGuiElement,
+                       private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>
   {
     Q_OBJECT
   public:
     DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                  AbstractModel::IDocumentRenderService *documentRenderService,
                  AbstractModel::IDocumentViewConfigService *documentViewConfigService,
+                 AbstractModel::IToolBasedEditingService *toolBasedEditingService,
                  AbstractModel::Handle handleToView,
                  QWidget *parent = nullptr
                 );
-
+    ~DocumentView();
+    
     IGuiElement *
     getParent();
 
@@ -69,12 +74,19 @@ namespace SDF::UILayer::Gui::Qt::View {
     getViewedDocumentHandle() const;
   private:
     AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
+    AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
 
     AbstractModel::Handle m_documentHandle;
     QBoxLayout *m_layout;
 
     CustomWidgets::DocumentWidget *m_documentWidget;
     CustomWidgets::IImageDataSource *m_imageDataSource;
+
+    void
+    handleEvent(std::shared_ptr<AbstractModel::Events::ToolEvent> event);
+
+    void
+    handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event);
   };
 }
 

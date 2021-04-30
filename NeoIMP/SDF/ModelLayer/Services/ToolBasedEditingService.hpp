@@ -25,10 +25,12 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IEventHandler.hpp>
 
 #include <SDF/UILayer/AbstractModel/IToolBasedEditingService.hpp>
 
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <fruit/fruit.h>
@@ -60,6 +62,15 @@ namespace SDF::ModelLayer {
                                     ));
 
       void
+      attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
+
+      void
+      removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
+
+      UILayer::AbstractModel::Properties::Tool
+      getActiveTool() const;
+
+      void
       setActiveTool(UILayer::AbstractModel::Properties::Tool tool);
 
       void
@@ -73,6 +84,8 @@ namespace SDF::ModelLayer {
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
       AbstractData::IRepository<AbstractDomain::ITool> *m_toolRepository;
+
+      std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *> m_observers;
 
       std::map<UILayer::AbstractModel::Properties::Tool, int> m_toolIdMap;
 

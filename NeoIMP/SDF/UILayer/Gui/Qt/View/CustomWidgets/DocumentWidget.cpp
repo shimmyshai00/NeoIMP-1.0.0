@@ -95,5 +95,11 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
 
   void DocumentWidget::setMagnification(float magnification) {
     m_documentEditorWidget->setMagnification(magnification);
+    m_horizontalRuler->setMagnification(magnification);
+    m_verticalRuler->setMagnification(magnification);
+  }
+
+  void DocumentWidget::setTool(AbstractModel::Properties::Tool tool) {
+    m_documentEditorWidget->setCursorByTool(tool);
   }
 }

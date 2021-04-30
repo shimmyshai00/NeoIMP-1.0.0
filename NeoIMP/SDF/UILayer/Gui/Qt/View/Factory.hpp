@@ -47,6 +47,8 @@ namespace SDF::UILayer {
 
     template<class StateT>
     class IUiStateModelService;
+
+    class IToolBasedEditingService;
   }
 
   namespace Gui::Qt::View {
@@ -63,7 +65,8 @@ namespace SDF::UILayer {
               AbstractModel::IDocumentAccessService *documentAccessService,
               AbstractModel::IDocumentRenderService *documentRenderService,
               AbstractModel::IUiStateModelService<bool> *boolStateModelService,
-              AbstractModel::IDocumentViewConfigService *documentViewConfigService
+              AbstractModel::IDocumentViewConfigService *documentViewConfigService,
+              AbstractModel::IToolBasedEditingService *toolBasedEditingService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -77,6 +80,7 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentRenderService *m_documentRenderService;
       AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
+      AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
     };
 
     // Class:      DockablesFactory
@@ -84,11 +88,15 @@ namespace SDF::UILayer {
     // Parameters: None.
     class DockablesFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
     public:
-      DockablesFactory();
+      DockablesFactory(Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
+                        controllerFactory
+                      );
 
       // Note: The GUI element is presumed to be owned by its parent element.
       IGuiElement *
       create(IGuiElement *parent, std::string elementType);
+    private:
+      Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *m_controllerFactory;
     };
 
     // Class:      DocumentViewFactory
@@ -98,7 +106,8 @@ namespace SDF::UILayer {
     public:
       DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
                           AbstractModel::IDocumentRenderService *documentRenderService,
-                          AbstractModel::IDocumentViewConfigService *documentViewConfigService
+                          AbstractModel::IDocumentViewConfigService *documentViewConfigService,
+                          AbstractModel::IToolBasedEditingService *toolBasedEditingService
                          );
 
       IGuiElement *
@@ -109,6 +118,7 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentAccessService *m_documentAccessService;
       AbstractModel::IDocumentRenderService *m_documentRenderService;
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
+      AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
     };
   }
 }

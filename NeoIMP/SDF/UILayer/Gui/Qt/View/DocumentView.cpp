@@ -76,10 +76,12 @@ namespace SDF::UILayer::Gui::Qt::View {
   DocumentView::DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                              AbstractModel::IDocumentRenderService *documentRenderService,
                              AbstractModel::IDocumentViewConfigService *documentViewConfigService,
+                             AbstractModel::IToolBasedEditingService *toolBasedEditingService,
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
     : QWidget(parent),
       m_documentViewConfigService(documentViewConfigService),
+      m_toolBasedEditingService(toolBasedEditingService),
       m_documentHandle(handleToView),
       m_layout(new QBoxLayout(QBoxLayout::TopToBottom, this)),
       m_documentWidget(new CustomWidgets::DocumentWidget(this)),
@@ -87,6 +89,21 @@ namespace SDF::UILayer::Gui::Qt::View {
   {
     m_layout->addWidget(m_documentWidget, 0);
     m_documentWidget->setDataSource(m_imageDataSource);
+
+    // Synchronize the viewport parameters with the ones stored in the model.
+    m_documentWidget->setCenterX(documentViewConfigService->getDocumentCenterX(handleToView));
+    m_documentWidget->setCenterY(documentViewConfigService->getDocumentCenterY(handleToView));
+    m_documentWidget->setMagnification(documentViewConfigService->getDocumentMagnification(handleToView));
+
+    // Use the right tool cursor.
+    m_documentWidget->setTool(m_toolBasedEditingService->getActiveTool());
+
+    // Observe for tool changes.
+    m_toolBasedEditingService->attachObserver(this);
+  }
+
+  DocumentView::~DocumentView() {
+    m_toolBasedEditingService->removeObserver(this);
   }
 
   IGuiElement *
@@ -109,5 +126,18 @@ namespace SDF::UILayer::Gui::Qt::View {
   AbstractModel::Handle
   DocumentView::getViewedDocumentHandle() const {
     return m_documentHandle;
+  }
+
+  // Private members.
+  void
+  DocumentView::handleEvent(std::shared_ptr<AbstractModel::Events::ToolEvent> event) {
+    if(auto p = dynamic_cast<AbstractModel::Events::ActiveToolChangedEvent *>(event.get())) {
+      handleActiveToolChangedEvent(p);
+    }
+  }
+
+  void
+  DocumentView::handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event) {
+    m_documentWidget->setTool(event->newTool);
   }
 }

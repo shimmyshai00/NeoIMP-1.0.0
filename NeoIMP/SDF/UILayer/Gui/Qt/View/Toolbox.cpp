@@ -25,12 +25,31 @@
 
 #include "QtResources/ui_Toolbox.h"
 
+#include "../Events/ToolboxEvent.hpp"
+#include "safeConnect.hpp"
+
 namespace SDF::UILayer::Gui::Qt::View {
-  Toolbox::Toolbox(QWidget *parent)
+  Toolbox::Toolbox(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+                   QWidget *parent
+                  )
     : QDockWidget(parent),
-      m_ui(new Ui::Toolchest)
+      m_ui(new Ui::Toolchest),
+      m_controller(std::move(controller))
   {
     m_ui->setupUi(this);
+
+    // Hook tool buttons.
+    safeConnect(static_cast<QAbstractButton *>(m_ui->selectionButton), &QAbstractButton::toggled, [=](bool checked) {
+      if(checked) { m_controller->handleEvent(std::make_shared<Events::SelectToolSelectedEvent>()); }
+    });
+
+    safeConnect(static_cast<QAbstractButton *>(m_ui->zoomButton), &QAbstractButton::toggled, [=](bool checked) {
+      if(checked) { m_controller->handleEvent(std::make_shared<Events::ZoomToolSelectedEvent>()); }
+    });
+
+    safeConnect(static_cast<QAbstractButton *>(m_ui->cageButton), &QAbstractButton::toggled, [=](bool checked) {
+      if(checked) { m_controller->handleEvent(std::make_shared<Events::CageTransformToolSelectedEvent>()); }
+    });
   }
 
   Toolbox::~Toolbox() {

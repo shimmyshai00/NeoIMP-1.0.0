@@ -32,28 +32,49 @@
 #include <AbstractDomain/ITool.hpp>
 
 namespace SDF::ModelLayer::Services {
+  using namespace UILayer::AbstractModel;
+
   ToolBasedEditingService::ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                                    AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
                                                    Interfaces::IFactory<AbstractDomain::ITool,
-                                                                        UILayer::AbstractModel::Properties::Tool
+                                                                        Properties::Tool
                                                                        > *toolFactory
                                                   )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
-      m_activeTool(UILayer::AbstractModel::Properties::TOOL_MAX)
+      m_activeTool(Properties::TOOL_MAX)
   {
-    using namespace UILayer::AbstractModel::Properties;
-
-    addTool(TOOL_ZOOM, toolFactory->create(TOOL_ZOOM));
+    addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
   }
 
   void
-  ToolBasedEditingService::setActiveTool(UILayer::AbstractModel::Properties::Tool tool) {
+  ToolBasedEditingService::attachObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+    m_observers.push_back(observer);
+  }
+
+  void
+  ToolBasedEditingService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
+
+  Properties::Tool
+  ToolBasedEditingService::getActiveTool() const {
+    return m_activeTool;
+  }
+
+  void
+  ToolBasedEditingService::setActiveTool(Properties::Tool tool) {
     m_activeTool = tool;
+
+    std::shared_ptr<Events::ActiveToolChangedEvent> event(new Events::ActiveToolChangedEvent);
+    event->newTool = tool;
+    for(auto observer : m_observers) {
+      observer->handleEvent(event);
+    }
   }
 
   void
-  ToolBasedEditingService::beginToolApplication(UILayer::AbstractModel::Handle handle) {
+  ToolBasedEditingService::beginToolApplication(Handle handle) {
     try {
       if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
         int toolId(m_toolIdMap[m_activeTool]);
@@ -84,7 +105,7 @@ namespace SDF::ModelLayer::Services {
 
   // Private member.
   void
-  ToolBasedEditingService::addTool(UILayer::AbstractModel::Properties::Tool toolLabel,
+  ToolBasedEditingService::addTool(Properties::Tool toolLabel,
                                    std::unique_ptr<AbstractDomain::ITool> tool
                                   )
   {

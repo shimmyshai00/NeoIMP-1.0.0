@@ -24,9 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <QDockWidget>
+
+#include <memory>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Toolchest; }
@@ -41,7 +46,9 @@ namespace SDF::UILayer::Gui::Qt::View {
   {
     Q_OBJECT
   public:
-    Toolbox(QWidget *parent = nullptr);
+    Toolbox(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+            QWidget *parent = nullptr
+           );
     ~Toolbox();
 
     IGuiElement *
@@ -54,6 +61,8 @@ namespace SDF::UILayer::Gui::Qt::View {
     close();
   private:
     Ui::Toolchest *m_ui;
+
+    std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
   };
 }
 

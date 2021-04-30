@@ -28,24 +28,28 @@
 #include <AbstractModel/IDocumentCreationService.hpp>
 #include <AbstractModel/IDocumentStorageService.hpp>
 #include <AbstractModel/IUiStateModelService.hpp>
+#include <AbstractModel/IToolBasedEditingService.hpp>
 
 #include <MainWindowController.hpp>
 #include <NewDocumentDialogController.hpp>
 #include <SaveAsDialogController.hpp>
 #include <OpenDialogController.hpp>
+#include <ToolboxController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
                    AbstractModel::IDocumentCreationService *documentCreationService,
                    AbstractModel::IDocumentStorageService *documentStorageService,
                    AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
-                   AbstractModel::IUiStateModelService<bool> *boolStateModelService
+                   AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+                   AbstractModel::IToolBasedEditingService *toolBasedEditingService
                   )
     : m_guiController(guiController),
       m_documentCreationService(documentCreationService),
       m_documentStorageService(documentStorageService),
       m_handleStateModelService(handleStateModelService),
-      m_boolStateModelService(boolStateModelService)
+      m_boolStateModelService(boolStateModelService),
+      m_toolBasedEditingService(toolBasedEditingService)
   {}
 
   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
@@ -61,6 +65,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
       return std::make_unique<SaveAsDialogController>(m_documentStorageService, m_handleStateModelService);
     } else if(guiElementType == "OpenDialog") {
       return std::make_unique<OpenDialogController>(m_documentStorageService, m_handleStateModelService);
+    } else if(guiElementType == "Toolchest") {
+      return std::make_unique<ToolboxController>(m_toolBasedEditingService);
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA

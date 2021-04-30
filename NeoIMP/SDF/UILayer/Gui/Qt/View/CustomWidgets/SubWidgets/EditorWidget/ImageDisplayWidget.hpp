@@ -26,6 +26,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp> // NB: right "level" or not?
+
 #include <QWidget>
 
 #include <QPaintEvent>
@@ -48,6 +50,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
 
       float magnification() const;
       void setMagnification(float newMagnification);
+
+      void setCursorByTool(AbstractModel::Properties::Tool tool);
     private:
       IImageDataSource *m_dataSource;
 

@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QScrollArea>
@@ -51,6 +53,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     void setCenterX(float centerX);
     void setCenterY(float centerY);
     void setMagnification(float magnification);
+
+    void setTool(AbstractModel::Properties::Tool tool);
   private:
     QGridLayout *m_gridLayout;
 

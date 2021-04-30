@@ -25,6 +25,8 @@
 
 #include <IImageDataSource.hpp>
 
+#include <QResizeEvent>
+#include <QCursor>
 #include <iostream>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
@@ -55,7 +57,19 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
 
   void
   ImageDisplayWidget::setMagnification(float newMagnification) {
+    QSize oldSize(size());
     m_magnification = newMagnification;
+    QSize newSize(size());
+
+    resizeEvent(new QResizeEvent(newSize, oldSize));
+  }
+
+  void
+  ImageDisplayWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
+    switch(tool) {
+      case AbstractModel::Properties::TOOL_ZOOM: setCursor(::Qt::PointingHandCursor); // TBA - testing stub
+      default: setCursor(::Qt::ArrowCursor);
+    }
   }
 
   // Private members.

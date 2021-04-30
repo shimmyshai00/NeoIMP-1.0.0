@@ -24,6 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IObservable.hpp>
+
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
+
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
@@ -31,9 +35,16 @@ namespace SDF::UILayer::AbstractModel {
   // Class:      IToolBasedEditingService
   // Purpose:    Defines a service interface for controlling the image editing tools.
   // Parameters: None.
-  class IToolBasedEditingService {
+  class IToolBasedEditingService : public Interfaces::IObservable<Events::ToolEvent> {
   public:
     virtual ~IToolBasedEditingService() = default;
+
+    // Function:   getActiveTool
+    // Purpose:    Gets the currently-active editing tool.
+    // Parameters: None.
+    // Returns:    The enumeration for the current editing tool.
+    virtual Properties::Tool
+    getActiveTool() const = 0;
 
     // Function:   setActiveTool
     // Purpose:    Sets the currently-active editing tool.

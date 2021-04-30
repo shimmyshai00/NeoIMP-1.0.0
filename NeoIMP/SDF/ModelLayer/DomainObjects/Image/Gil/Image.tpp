@@ -38,7 +38,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
       m_width(width),
       m_height(height),
       m_viewCenter(m_width / 2.0f, m_height / 2.0f),
-      m_viewMagnification(1.0f)
+      m_viewMagnification(4.0f)
   {
     m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_width, m_height));
   }
@@ -53,7 +53,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
       m_width(gilImage.width()),
       m_height(gilImage.height()),
       m_viewCenter(m_width / 2.0f, m_height / 2.0f),
-      m_viewMagnification(1.0f)
+      m_viewMagnification(4.0f)
   {
     m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(gilImage));
   }

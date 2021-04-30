@@ -42,6 +42,8 @@ namespace SDF::UILayer {
 
     template<class StateT>
     class IUiStateModelService;
+
+    class IToolBasedEditingService;
   }
 
   namespace Gui {
@@ -58,7 +60,8 @@ namespace SDF::UILayer {
                 AbstractModel::IDocumentCreationService *documentCreationService,
                 AbstractModel::IDocumentStorageService *documentStorageService,
                 AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
-                AbstractModel::IUiStateModelService<bool> *boolStateModelService
+                AbstractModel::IUiStateModelService<bool> *boolStateModelService,
+                AbstractModel::IToolBasedEditingService *toolBasedEditingService
                );
 
         // Creates the appropriate controller for the given type of GUI element.
@@ -71,6 +74,7 @@ namespace SDF::UILayer {
         AbstractModel::IDocumentStorageService *m_documentStorageService;
         AbstractModel::IUiStateModelService<AbstractModel::Handle> *m_handleStateModelService;
         AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
+        AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
       };
     }
   }
