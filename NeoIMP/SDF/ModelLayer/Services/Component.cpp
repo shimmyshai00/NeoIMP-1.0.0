@@ -29,6 +29,7 @@
 #include <DocumentRenderService.hpp>
 #include <UiStateModelService.hpp>
 #include <DocumentViewConfigService.hpp>
+#include <ToolBasedEditingService.hpp>
 
 #include <DomainObjects/Component.hpp>
 #include <DataLayer/Repositories/Component.hpp>
@@ -47,6 +48,7 @@ namespace SDF::ModelLayer::Services {
             UiStateModelService<bool>
            >()
       .bind<UILayer::AbstractModel::IDocumentViewConfigService, DocumentViewConfigService>()
+      .bind<UILayer::AbstractModel::IToolBasedEditingService, ToolBasedEditingService>()
       .install(DomainObjects::getComponent)
       .install(DataLayer::Repositories::getComponent);
   }

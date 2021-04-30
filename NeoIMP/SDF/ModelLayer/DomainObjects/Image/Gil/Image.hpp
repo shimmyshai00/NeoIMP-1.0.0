@@ -28,6 +28,8 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
 #include <SDF/ModelLayer/DomainObjects/Image/Gil/Layer.hpp>
 
+#include <SDF/ModelLayer/Math/Coord.hpp>
+
 #include <memory>
 
 namespace SDF::ModelLayer::DomainObjects::Image::Gil {
@@ -75,8 +77,20 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     std::size_t
     getNumLayers() const;
 
+    Math::Coord<float>
+    getViewCenter() const;
+
+    float
+    getViewMagnification() const;
+
     void
     setName(std::string name);
+
+    void
+    setViewCenter(Math::Coord<float> viewCenter);
+
+    void
+    setViewMagnification(float viewMagnification);
 
     void
     addLayerBefore(std::size_t pos,
@@ -102,6 +116,9 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     int m_id;
     std::string m_name;
     std::size_t m_width, m_height;
+
+    Math::Coord<float> m_viewCenter;
+    float m_viewMagnification;
 
     std::vector<std::unique_ptr<Layer<GilImageType, GilRegionType, GilPixelType>>> m_layerStack;
   };

@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_RENDERPARAM_FACTORY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_RENDERPARAM_FACTORY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_FACTORY_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_FACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -27,32 +27,30 @@
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IGenerator.hpp>
 
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+
 #include <fruit/fruit.h>
+
 #include <memory>
 
 namespace SDF::ModelLayer {
   namespace Services::AbstractDomain {
-    class IDocumentViewParams;
+    class ITool;
   }
 
-  namespace DomainObjects::RenderParam {
-    // Class:      CenterMagViewportFactory
-    // Purpose:    Creates a new viewport object from center-mag coordinates.
+  namespace DomainObjects::Tools {
+    // Class:      Factory
+    // Purpose:    Create new editing tool intances.
     // Parameters: None.
-    class ViewportFactory : public Interfaces::IFactory<Services::AbstractDomain::IDocumentViewParams,
-                                                        float,
-                                                        float,
-                                                        float
-                                                       >
+    class Factory : public Interfaces::IFactory<Services::AbstractDomain::ITool,
+                                                UILayer::AbstractModel::Properties::Tool
+                                               >
     {
     public:
-      INJECT(ViewportFactory(Interfaces::IGenerator<int> *uidGenerator));
+      INJECT(Factory(Interfaces::IGenerator<int> *uidGenerator));
 
-      std::unique_ptr<Services::AbstractDomain::IDocumentViewParams>
-      create(float centerX,
-             float centerY,
-             float magnification
-            );
+      std::unique_ptr<Services::AbstractDomain::ITool>
+      create(UILayer::AbstractModel::Properties::Tool toolEnum);
     private:
       Interfaces::IGenerator<int> *m_uidGenerator;
     };

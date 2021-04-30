@@ -36,7 +36,9 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     : m_id(id),
       m_name(name),
       m_width(width),
-      m_height(height)
+      m_height(height),
+      m_viewCenter(m_width / 2.0f, m_height / 2.0f),
+      m_viewMagnification(1.0f)
   {
     m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_width, m_height));
   }
@@ -49,7 +51,9 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     : m_id(id),
       m_name(name),
       m_width(gilImage.width()),
-      m_height(gilImage.height())
+      m_height(gilImage.height()),
+      m_viewCenter(m_width / 2.0f, m_height / 2.0f),
+      m_viewMagnification(1.0f)
   {
     m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(gilImage));
   }
@@ -85,9 +89,33 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
+  Math::Coord<float>
+  Image<GilImageType, GilRegionType, GilPixelType>::getViewCenter() const {
+    return m_viewCenter;
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  float
+  Image<GilImageType, GilRegionType, GilPixelType>::getViewMagnification() const {
+    return m_viewMagnification;
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
   void
   Image<GilImageType, GilRegionType, GilPixelType>::setName(std::string name) {
     m_name = name;
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  void
+  Image<GilImageType, GilRegionType, GilPixelType>::setViewCenter(Math::Coord<float> viewCenter) {
+    m_viewCenter = viewCenter;
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  void
+  Image<GilImageType, GilRegionType, GilPixelType>::setViewMagnification(float viewMagnification) {
+    m_viewMagnification = viewMagnification;
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>

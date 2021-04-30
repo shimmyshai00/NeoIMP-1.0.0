@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
+#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the rendering parameters subsystem.
+ * FILE:    ITool.hpp
+ * PURPOSE: Defines the ITool interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,22 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/RenderParam/Component.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 
-#include <SDF/Support/UidGenerator.hpp>
+namespace SDF::ModelLayer::Services::AbstractDomain {
+  // Class:      ITool
+  // Purpose:    Defines the interface for an editing tool.
+  // Parameters: none.
+  class ITool : public IDomainObject<ITool> {
+  public:
+    virtual ~ITool() = default;
 
-#include <SDF/ModelLayer/DomainObjects/RenderParam/Factory.hpp>
+    // These methods mirror those for the tool service.
+    virtual void
+    beginApplication(IImage *image) = 0;
 
-namespace SDF::ModelLayer::DomainObjects::RenderParam {
-  Component getComponent() {
-    return fruit::createComponent()
-      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
-      .bind<Interfaces::IFactory<Services::AbstractDomain::IDocumentViewParams,
-                                                    float,
-                                                    float,
-                                                    float
-                                                   >,
-            ViewportFactory
-           >();
-  }
+    virtual void
+    applyAt(float x, float y) = 0;
+
+    virtual void
+    commit() = 0;
+  };
 }
+
+#endif

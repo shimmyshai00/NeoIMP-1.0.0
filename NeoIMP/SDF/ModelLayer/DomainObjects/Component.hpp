@@ -32,9 +32,10 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
-#include <SDF/ModelLayer/Services/AbstractDomain/IDocumentViewParams.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/DocumentSpec.hpp>
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
 #include <fruit/fruit.h>
 
@@ -53,10 +54,8 @@ namespace SDF::ModelLayer::DomainObjects {
                            Interfaces::IFactory<Services::AbstractDomain::IImage,
                                                 Services::AbstractDomain::DocumentSpec
                                                >,
-                           Interfaces::IFactory<Services::AbstractDomain::IDocumentViewParams,
-                                                float,
-                                                float,
-                                                float
+                           Interfaces::IFactory<Services::AbstractDomain::ITool,
+                                                UILayer::AbstractModel::Properties::Tool
                                                >
                           >
   Component;

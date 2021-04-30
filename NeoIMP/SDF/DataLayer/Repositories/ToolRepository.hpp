@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_REPOSITORIES_VIEWDATAREPOSITORY_HPP
-#define SDF_DATALAYER_REPOSITORIES_VIEWDATAREPOSITORY_HPP
+#ifndef SDF_DATALAYE_REPOSITORIES_TOOLREPOSITORY_HPP
+#define SDF_DATALAYE_REPOSITORIES_TOOLREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewDataRepository.hpp
- * PURPOSE: Defines the ViewDataRepository class.
+ * FILE:    ToolRepository.hpp
+ * PURPOSE: Defines the ToolRepository class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IDocumentViewParams.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
 
 #include <fruit/fruit.h>
 
@@ -35,26 +35,26 @@
 #include <vector>
 
 namespace SDF::DataLayer::Repositories {
-  // Class:      ViewDataRepository
-  // Purpose:    Defines the in-memory repository for document viewport data.
+  // Class:      ToolRepository
+  // Purpose:    Defines the in-memory and persistent repository for image editing tools.
   // Parameters: None.
-  class ViewDataRepository : public ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDocumentViewParams> {
+  class ToolRepository : public ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool> {
   public:
-    INJECT(ViewDataRepository());
+    INJECT(ToolRepository());
 
     void
-    create(std::unique_ptr<ModelLayer::Services::AbstractDomain::IDocumentViewParams> object);
+    create(std::unique_ptr<ModelLayer::Services::AbstractDomain::ITool> object);
 
-    ModelLayer::Services::AbstractDomain::IDocumentViewParams *
+    ModelLayer::Services::AbstractDomain::ITool *
     retrieve(int objectId);
 
     void
-    update(ModelLayer::Services::AbstractDomain::IDocumentViewParams *object);
+    update(ModelLayer::Services::AbstractDomain::ITool *object);
 
-    std::unique_ptr<ModelLayer::Services::AbstractDomain::IDocumentViewParams>
+    std::unique_ptr<ModelLayer::Services::AbstractDomain::ITool>
     deleteEntry(int objectId);
   private:
-    std::map<int, std::unique_ptr<ModelLayer::Services::AbstractDomain::IDocumentViewParams>> m_objectMap;
+    std::map<int, std::unique_ptr<ModelLayer::Services::AbstractDomain::ITool>> m_objectMap;
   };
 }
 

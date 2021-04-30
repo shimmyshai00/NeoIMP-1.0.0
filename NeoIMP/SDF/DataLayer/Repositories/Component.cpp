@@ -25,7 +25,7 @@
 
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
 #include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
-#include <SDF/DataLayer/Repositories/ViewDataRepository.hpp>
+#include <SDF/DataLayer/Repositories/ToolRepository.hpp>
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
@@ -45,9 +45,7 @@ namespace SDF::DataLayer::Repositories {
                                                                       >,
             ImageRepository
            >()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDocumentViewParams>,
-            ViewDataRepository
-           >()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>, ToolRepository>()
       .install(Persistence::getComponent);
   }
 }

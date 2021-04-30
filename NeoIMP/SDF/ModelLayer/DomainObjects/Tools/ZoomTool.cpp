@@ -1,10 +1,9 @@
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Viewport.cpp
- * PURPOSE: Defines the Viewport class.
+ * FILE:    ZoomTool.cpp
+ * PURPOSE: Defines the ZoomTool class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -22,53 +21,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <Viewport.hpp>
+#include <SDF/ModelLayer/DomainObjects/Tools/ZoomTool.hpp>
 
-namespace SDF::ModelLayer::DomainObjects::RenderParam {
-  Viewport::Viewport(int id,
-                     float centerX,
-                     float centerY,
-                     float magnif
-                    )
+#include <algorithm>
+
+namespace SDF::ModelLayer::DomainObjects::Tools {
+  ZoomTool::ZoomTool(int id)
     : m_id(id),
-      m_centerX(centerX),
-      m_centerY(centerY),
-      m_magnif(magnif)
+      m_image(nullptr),
+      m_applicationPoint(0.0f, 0.0f)
   {
   }
 
   int
-  Viewport::getId() const {
+  ZoomTool::getId() const {
     return m_id;
   }
 
-  float
-  Viewport::getCenterX() const {
-    return m_centerX;
-  }
-
-  float
-  Viewport::getCenterY() const {
-    return m_centerY;
-  }
-
-  float
-  Viewport::getMagnification() const {
-    return m_magnif;
+  void
+  ZoomTool::beginApplication(Services::AbstractDomain::IImage *image) {
+    m_image = image;
   }
 
   void
-  Viewport::setCenterX(float centerX) {
-    m_centerX = centerX;
+  ZoomTool::applyAt(float x, float y) {
+    m_applicationPoint = Math::Coord<float>(x, y);
   }
 
   void
-  Viewport::setCenterY(float centerY) {
-    m_centerY = centerY;
-  }
+  ZoomTool::commit() {
+    // Zoom into the given application point.
+    m_image->setViewCenter(m_applicationPoint);
 
-  void
-  Viewport::setMagnification(float magnif) {
-    m_magnif = magnif;
+    float curMagnif(m_image->getViewMagnification());
+    float newMagnif(std::min(2.0f * curMagnif, 128.0f)); // max zoom: 128x or 12800%
+
+    m_image->setViewMagnification(newMagnif);
   }
 }

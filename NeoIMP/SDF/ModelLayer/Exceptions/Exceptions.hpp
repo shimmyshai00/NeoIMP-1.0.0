@@ -26,6 +26,7 @@
 
 #include <SDF/Exception/Exception.hpp>
 
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <cstddef>
@@ -58,6 +59,12 @@ namespace SDF::ModelLayer::Exceptions {
   struct KeyNotFoundException : public SDF::Exception::Exception {
     KeyNotFoundException(const char *key)
       : Exception(true, "UI state key '%s' not found.", key)
+    {}
+  };
+
+  struct BadToolLabelException : public SDF::Exception::Exception {
+    BadToolLabelException(UILayer::AbstractModel::Properties::Tool tool)
+      : Exception(true, "Tried to invoke a tool enummed as '%d', which doesn't exist.", tool)
     {}
   };
 }

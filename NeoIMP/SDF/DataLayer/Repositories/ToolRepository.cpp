@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewDataRepository.cpp
- * PURPOSE: Implements the ViewDataRepository class.
+ * FILE:    ToolRepository.cpp
+ * PURPOSE: Implements the ToolRepository class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ViewDataRepository.hpp>
+#include <ToolRepository.hpp>
 
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
@@ -30,17 +30,17 @@
 namespace SDF::DataLayer::Repositories {
   using namespace ModelLayer::Services;
 
-  ViewDataRepository::ViewDataRepository() {}
+  ToolRepository::ToolRepository() {}
 
   void
-  ViewDataRepository::create(std::unique_ptr<AbstractDomain::IDocumentViewParams> object) {
+  ToolRepository::create(std::unique_ptr<AbstractDomain::ITool> object) {
     int objectId(object->getId());
 
     m_objectMap[objectId] = std::move(object);
   }
 
-  AbstractDomain::IDocumentViewParams *
-  ViewDataRepository::retrieve(int objectId) {
+  AbstractDomain::ITool *
+  ToolRepository::retrieve(int objectId) {
     if(m_objectMap.find(objectId) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(objectId);
     } else {
@@ -49,7 +49,7 @@ namespace SDF::DataLayer::Repositories {
   }
 
   void
-  ViewDataRepository::update(AbstractDomain::IDocumentViewParams *object) {
+  ToolRepository::update(AbstractDomain::ITool *object) {
     if(m_objectMap.find(object->getId()) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(object->getId());
     } else {
@@ -57,8 +57,8 @@ namespace SDF::DataLayer::Repositories {
     }
   }
 
-  std::unique_ptr<AbstractDomain::IDocumentViewParams>
-  ViewDataRepository::deleteEntry(int objectId) {
+  std::unique_ptr<AbstractDomain::ITool>
+  ToolRepository::deleteEntry(int objectId) {
     if(m_objectMap.find(objectId) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(objectId);
     } else {

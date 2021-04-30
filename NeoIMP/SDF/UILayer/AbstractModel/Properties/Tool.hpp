@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_ABSTRACTMODEL_PROPERTIES_TOOL_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_PROPERTIES_TOOL_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.hpp
- * PURPOSE: Implements the Factory class.
+ * FILE:    Tool.hpp
+ * PURPOSE: Enumeration of the available editing tools.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/RenderParam/Factory.hpp>
-#include <Viewport.hpp>
-
-namespace SDF::ModelLayer::DomainObjects::RenderParam {
-  ViewportFactory::ViewportFactory(Interfaces::IGenerator<int> *uidGenerator)
-    : m_uidGenerator(uidGenerator)
-  {
-  }
-
-  std::unique_ptr<Services::AbstractDomain::IDocumentViewParams>
-  ViewportFactory::create(float centerX,
-                          float centerY,
-                          float magnification
-                         )
-  {
-    return std::make_unique<Viewport>(m_uidGenerator->get(), centerX, centerY, magnification);
-  }
+namespace SDF::UILayer::AbstractModel::Properties {
+  enum Tool {
+    TOOL_SELECT,
+    TOOL_ZOOM,
+    TOOL_CAGE,
+    TOOL_MAX
+  };
 }
+
+#endif

@@ -3,7 +3,7 @@ target_include_directories(neoimp PUBLIC
                           )
 
 target_sources(neoimp PUBLIC
-               Factory.cpp
-               Viewport.cpp
                Component.cpp
+               Factory.cpp
+               ZoomTool.cpp
               )

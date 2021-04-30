@@ -26,6 +26,7 @@
 
 #include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
 
+#include <SDF/ModelLayer/Math/Coord.hpp>
 #include <SDF/ModelLayer/Math/Rect.hpp>
 
 #include <cstddef>
@@ -70,12 +71,40 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
     virtual std::size_t
     getNumLayers() const = 0;
 
+    // Function:   getViewCenter
+    // Purpose:    Get the viewing center of this image.
+    // Parameters: None.
+    // Returns:    The view center of the image.
+    virtual Math::Coord<float>
+    getViewCenter() const = 0;
+
+    // Function:   getViewMagnification
+    // Purpose:    Get the viewing magnification of this image.
+    // Parameters: None.
+    // Returns:    The view magnification of the image.
+    virtual float
+    getViewMagnification() const = 0;
+
     // Function:   setName
     // Purpose:    Change the name of this image.
     // Parameters: name - The new name.
     // Returns:    None.
     virtual void
     setName(std::string name) = 0;
+
+    // Function:   setViewCenter
+    // Purpose:    Set the viewport center of this image.
+    // Parameters: viewCenter - The new view center.
+    // Returns:    None.
+    virtual void
+    setViewCenter(Math::Coord<float> viewCenter) = 0;
+
+    // Function:   setViewMagnification
+    // Purpose:    Set the viewport magnification of this image.
+    // Parameters: viewMagnification - The new view magnification.
+    // Returns:    None.
+    virtual void
+    setViewMagnification(float viewMagnification) = 0;
 
     // Function:   addLayerBefore
     // Purpose:    Adds a new layer to the image.
