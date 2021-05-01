@@ -33,6 +33,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
 
   void
   ToolboxController::handleEvent(std::shared_ptr<Events::GuiEvent> event) {
+    printf("TBC\n");
     if(auto p = dynamic_cast<Events::SelectToolSelectedEvent *>(event.get())) { handleSelectToolSelectedEvent(p); }
     else if(auto p = dynamic_cast<Events::ZoomToolSelectedEvent *>(event.get())) { handleZoomToolSelectedEvent(p); }
     else if(auto p = dynamic_cast<Events::CageTransformToolSelectedEvent *>(event.get())) {

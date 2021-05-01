@@ -50,8 +50,6 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
 
       float magnification() const;
       void setMagnification(float newMagnification);
-
-      void setCursorByTool(AbstractModel::Properties::Tool tool);
     private:
       IImageDataSource *m_dataSource;
 

@@ -59,6 +59,9 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   }
 
   void DocumentEditorWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
-    m_imageDisplayWidget->setCursorByTool(tool);
+    switch(tool) {
+      case AbstractModel::Properties::TOOL_ZOOM: setCursor(::Qt::PointingHandCursor); break; // TBA - testing stub
+      default: unsetCursor(); break;
+    }
   }
 }

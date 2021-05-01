@@ -64,14 +64,6 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
     resizeEvent(new QResizeEvent(newSize, oldSize));
   }
 
-  void
-  ImageDisplayWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
-    switch(tool) {
-      case AbstractModel::Properties::TOOL_ZOOM: setCursor(::Qt::PointingHandCursor); // TBA - testing stub
-      default: setCursor(::Qt::ArrowCursor);
-    }
-  }
-
   // Private members.
   void
   ImageDisplayWidget::paintEvent(QPaintEvent *event) {

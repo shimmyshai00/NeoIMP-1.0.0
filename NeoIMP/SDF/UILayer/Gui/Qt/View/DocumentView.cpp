@@ -131,6 +131,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Private members.
   void
   DocumentView::handleEvent(std::shared_ptr<AbstractModel::Events::ToolEvent> event) {
+    printf("GOT\n");
     if(auto p = dynamic_cast<AbstractModel::Events::ActiveToolChangedEvent *>(event.get())) {
       handleActiveToolChangedEvent(p);
     }
@@ -138,6 +139,7 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   DocumentView::handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event) {
+    printf("ST\n");
     m_documentWidget->setTool(event->newTool);
   }
 }
