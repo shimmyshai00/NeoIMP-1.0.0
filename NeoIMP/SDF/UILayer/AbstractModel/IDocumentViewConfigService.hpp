@@ -24,7 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IObservable.hpp>
+
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
+#include <SDF/UILayer/AbstractModel/Events/ViewportEvent.hpp>
 
 namespace SDF::UILayer::AbstractModel {
   // Class:      IDocumentViewConfigService
@@ -34,7 +37,7 @@ namespace SDF::UILayer::AbstractModel {
   //             which only alter the viewport can go through the same tool subsystem as other editing tools do and
   //             thus helps keep things harmonized.
   // Parameters: None.
-  class IDocumentViewConfigService {
+  class IDocumentViewConfigService : public Interfaces::IObservable<Events::ViewportEvent> {
   public:
     virtual ~IDocumentViewConfigService() = default;
 

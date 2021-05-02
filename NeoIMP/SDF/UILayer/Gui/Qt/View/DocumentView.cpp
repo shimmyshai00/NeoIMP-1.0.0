@@ -29,6 +29,8 @@
 
 #include <CustomWidgets/IImageDataSource.hpp>
 
+#include "safeConnect.hpp"
+
 namespace SDF::UILayer::Gui::Qt::View {
   // Helper object
   class ImageDataSource : public CustomWidgets::IImageDataSource {
@@ -100,6 +102,16 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     // Observe for tool changes.
     m_toolBasedEditingService->attachObserver(this);
+
+    // Observe for editing click events. NB: STUBchitecture only for simple tools now
+    safeConnect(m_documentWidget, &CustomWidgets::DocumentWidget::editorClickedAt, [=](float docX, float docY) {
+      m_toolBasedEditingService->beginToolApplication(m_documentHandle);
+      m_toolBasedEditingService->applyToolAtPoint(docX, docY);
+    });
+
+    safeConnect(m_documentWidget, &CustomWidgets::DocumentWidget::editorClickReleasedAt, [=](float docX, float docY) {
+      m_toolBasedEditingService->finishToolApplication();
+    });
   }
 
   DocumentView::~DocumentView() {

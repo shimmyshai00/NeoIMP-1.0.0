@@ -99,7 +99,7 @@ namespace SDF::ModelLayer::Services {
   ToolBasedEditingService::finishToolApplication() {
     if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
       int toolId(m_toolIdMap[m_activeTool]);
-      m_toolRepository->retrieve(toolId)->commit();
+      m_imageRepository->update(m_toolRepository->retrieve(toolId)->commit());
     }
   }
 

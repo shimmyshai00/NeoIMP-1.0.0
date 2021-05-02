@@ -46,7 +46,7 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
     void
     applyAt(float x, float y);
 
-    void
+    Services::AbstractDomain::IImage *
     commit();
   private:
     int m_id;

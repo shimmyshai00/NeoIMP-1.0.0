@@ -48,7 +48,7 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
     m_applicationPoint = Math::Coord<float>(x, y);
   }
 
-  void
+  Services::AbstractDomain::IImage *
   ZoomTool::commit() {
     // Zoom into the given application point.
     m_image->setViewCenter(m_applicationPoint);
@@ -57,5 +57,7 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
     float newMagnif(std::min(2.0f * curMagnif, 128.0f)); // max zoom: 128x or 12800%
 
     m_image->setViewMagnification(newMagnif);
+
+    return m_image;
   }
 }

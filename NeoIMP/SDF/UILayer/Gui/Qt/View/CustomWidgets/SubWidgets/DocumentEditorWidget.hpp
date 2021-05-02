@@ -30,6 +30,7 @@
 #include <QWidget>
 
 #include <QStackedLayout>
+#include <QMouseEvent>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   class IImageDataSource;
@@ -54,6 +55,14 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       void setMagnification(float newMagnification);
 
       void setCursorByTool(AbstractModel::Properties::Tool tool);
+    signals:
+      void clickedAt(float documentX, float documentY);
+      void draggedTo(float documentX, float documentY);
+      void releasedAt(float documentX, float documentY);
+    protected:
+      void mousePressEvent(QMouseEvent *event);
+      void mouseMoveEvent(QMouseEvent *event);
+      void mouseReleaseEvent(QMouseEvent *event);
     private:
       EditorWidget::BoxDecalWidget *m_temporaryRectangleDecal;
       EditorWidget::ImageDisplayWidget *m_imageDisplayWidget;

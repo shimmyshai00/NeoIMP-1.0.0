@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
-#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_EVENTS_VIEWPORTEVENT_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_EVENTS_VIEWPORTEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ITool.hpp
- * PURPOSE: Defines the ITool interface.
+ * FILE:    ViewportEvent.hpp
+ * PURPOSE: Defines the ViewportEvent event hierarchy.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
-#include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
+#include <SDF/UILayer/AbstractModel/Events/Event.hpp>
+#include <SDF/UILayer/AbstractModel/Handle.hpp>
 
-namespace SDF::ModelLayer::Services::AbstractDomain {
-  // Class:      ITool
-  // Purpose:    Defines the interface for an editing tool.
-  // Parameters: none.
-  class ITool : public IDomainObject<ITool> {
-  public:
-    virtual ~ITool() = default;
+namespace SDF::UILayer::AbstractModel::Events {
+  struct ViewportEvent : public Event {};
 
-    // These methods mirror those for the tool service.
-    virtual void
-    beginApplication(IImage *image) = 0;
+  struct ViewCenterChangedEvent : public ViewportEvent {
+    Handle documentHandle;
+    float centerX, centerY;
+  };
 
-    virtual void
-    applyAt(float x, float y) = 0;
-
-    virtual IImage *
-    commit() = 0;
+  struct ViewMagnificationChangedEvent : public ViewportEvent {
+    Handle documentHandle;
+    float magnification;
   };
 }
 

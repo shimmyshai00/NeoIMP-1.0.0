@@ -55,6 +55,10 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     void setMagnification(float magnification);
 
     void setTool(AbstractModel::Properties::Tool tool);
+  signals:
+    void editorClickedAt(float documentX, float documentY);
+    void editorDraggedOnTo(float documentX, float documentY);
+    void editorClickReleasedAt(float documentX, float documentY);
   private:
     QGridLayout *m_gridLayout;
 

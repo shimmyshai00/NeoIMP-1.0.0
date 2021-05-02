@@ -23,6 +23,8 @@
 
 #include <DocumentViewConfigService.hpp>
 
+#include <Interfaces/IEventHandler.hpp>
+
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
@@ -32,6 +34,8 @@
 #include <Math/Coord.hpp>
 
 namespace SDF::ModelLayer::Services {
+  using namespace UILayer::AbstractModel;
+
   DocumentViewConfigService::DocumentViewConfigService(
     AbstractData::IRepository<AbstractDomain::IImage> *documentRepository
   )
@@ -39,8 +43,18 @@ namespace SDF::ModelLayer::Services {
   {
   }
 
+  void
+  DocumentViewConfigService::attachObserver(Interfaces::IEventHandler<Events::ViewportEvent> *observer) {
+    m_observers.push_back(observer);
+  }
+
+  void
+  DocumentViewConfigService::removeObserver(Interfaces::IEventHandler<Events::ViewportEvent> *observer) {
+    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
+
   float
-  DocumentViewConfigService::getDocumentCenterX(UILayer::AbstractModel::Handle handle) const {
+  DocumentViewConfigService::getDocumentCenterX(Handle handle) const {
     try {
       return m_documentRepository->retrieve(handle)->getViewCenter().getX();
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
@@ -49,7 +63,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   float
-  DocumentViewConfigService::getDocumentCenterY(UILayer::AbstractModel::Handle handle) const {
+  DocumentViewConfigService::getDocumentCenterY(Handle handle) const {
     try {
       return m_documentRepository->retrieve(handle)->getViewCenter().getY();
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
@@ -58,7 +72,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   float
-  DocumentViewConfigService::getDocumentMagnification(UILayer::AbstractModel::Handle handle) const{
+  DocumentViewConfigService::getDocumentMagnification(Handle handle) const{
     try {
       return m_documentRepository->retrieve(handle)->getViewMagnification();
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
@@ -67,29 +81,62 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
-  DocumentViewConfigService::setDocumentCenterX(UILayer::AbstractModel::Handle handle, float centerX) {
+  DocumentViewConfigService::setDocumentCenterX(Handle handle, float centerX) {
     try {
       Math::Coord<float> curCenter(m_documentRepository->retrieve(handle)->getViewCenter());
-      return m_documentRepository->retrieve(handle)->setViewCenter(Math::Coord<float>(centerX, curCenter.getY()));
+      Math::Coord<float> newCenter(Math::Coord<float>(centerX, curCenter.getY()));
+
+      m_documentRepository->retrieve(handle)->setViewCenter(newCenter);
+
+      std::shared_ptr<Events::ViewCenterChangedEvent> event(new Events::ViewCenterChangedEvent);
+
+      event->documentHandle = handle;
+      event->centerX = newCenter.getX();
+      event->centerY = newCenter.getY();
+
+      for(auto observer : m_observers) {
+        observer->handleEvent(event);
+      }
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);
     }
   }
 
   void
-  DocumentViewConfigService::setDocumentCenterY(UILayer::AbstractModel::Handle handle, float centerY) {
+  DocumentViewConfigService::setDocumentCenterY(Handle handle, float centerY) {
     try {
       Math::Coord<float> curCenter(m_documentRepository->retrieve(handle)->getViewCenter());
-      return m_documentRepository->retrieve(handle)->setViewCenter(Math::Coord<float>(curCenter.getX(), centerY));
+      Math::Coord<float> newCenter(Math::Coord<float>(curCenter.getX(), centerY));
+
+      m_documentRepository->retrieve(handle)->setViewCenter(newCenter);
+
+      std::shared_ptr<Events::ViewCenterChangedEvent> event(new Events::ViewCenterChangedEvent);
+
+      event->documentHandle = handle;
+      event->centerX = newCenter.getX();
+      event->centerY = newCenter.getY();
+
+      for(auto observer : m_observers) {
+        observer->handleEvent(event);
+      }
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);
     }
   }
 
   void
-  DocumentViewConfigService::setDocumentMagnification(UILayer::AbstractModel::Handle handle, float magnification) {
+  DocumentViewConfigService::setDocumentMagnification(Handle handle, float magnification) {
     try {
       m_documentRepository->retrieve(handle)->setViewMagnification(magnification);
+
+      std::shared_ptr<Events::ViewMagnificationChangedEvent> event(new Events::ViewMagnificationChangedEvent);
+
+      event->documentHandle = handle;
+      event->magnification = magnification;
+
+      for(auto observer : m_observers) {
+        observer->handleEvent(event);
+      }
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);
     }

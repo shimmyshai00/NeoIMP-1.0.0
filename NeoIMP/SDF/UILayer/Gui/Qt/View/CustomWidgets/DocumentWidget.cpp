@@ -63,6 +63,14 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
       [=](int min, int max) { m_verticalRuler->setScrollDistance(max - min); }
     );
+
+    // Connect the inner editor pane interactor signals to their externalized counterparts.
+    QObject::connect(m_documentEditorWidget, &SubWidgets::DocumentEditorWidget::clickedAt,
+      this, &DocumentWidget::editorClickedAt);
+    QObject::connect(m_documentEditorWidget, &SubWidgets::DocumentEditorWidget::draggedTo,
+      this, &DocumentWidget::editorDraggedOnTo);
+    QObject::connect(m_documentEditorWidget, &SubWidgets::DocumentEditorWidget::releasedAt,
+      this, &DocumentWidget::editorClickReleasedAt);
   }
 
   void DocumentWidget::setDataSource(IImageDataSource *dataSource) {

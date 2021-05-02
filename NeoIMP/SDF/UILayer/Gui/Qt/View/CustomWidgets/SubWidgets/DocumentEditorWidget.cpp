@@ -64,4 +64,32 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
       default: unsetCursor(); break;
     }
   }
+
+  // Protected members.
+  void DocumentEditorWidget::mousePressEvent(QMouseEvent *event) {
+    // Calculate the image coordinates of where the mouse was clicked.
+    float imagePosX(event->localPos().x() / magnification());
+    float imagePosY(event->localPos().y() / magnification());
+
+    // Trigger the relevant signal.
+    clickedAt(imagePosX, imagePosY);
+  }
+
+  void DocumentEditorWidget::mouseMoveEvent(QMouseEvent *event) {
+    // Calculate the image coordinates of where the mouse was clicked.
+    float imagePosX(event->localPos().x() / magnification());
+    float imagePosY(event->localPos().y() / magnification());
+
+    // Trigger the relevant signal.
+    draggedTo(imagePosX, imagePosY);
+  }
+
+  void DocumentEditorWidget::mouseReleaseEvent(QMouseEvent *event) {
+    // Calculate the image coordinates of where the mouse was clicked.
+    float imagePosX(event->localPos().x() / magnification());
+    float imagePosY(event->localPos().y() / magnification());
+
+    // Trigger the relevant signal.
+    releasedAt(imagePosX, imagePosY);
+  }
 }

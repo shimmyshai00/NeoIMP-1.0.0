@@ -50,6 +50,12 @@ namespace SDF::ModelLayer {
         AbstractData::IRepository<AbstractDomain::IImage> *documentRepository
       ));
 
+      void
+      attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ViewportEvent> *observer);
+
+      void
+      removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ViewportEvent> *observer);
+
       float
       getDocumentCenterX(UILayer::AbstractModel::Handle handle) const;
 
@@ -69,6 +75,8 @@ namespace SDF::ModelLayer {
       setDocumentMagnification(UILayer::AbstractModel::Handle handle, float magnification);
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_documentRepository;
+
+      std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ViewportEvent> *> m_observers;
     };
   }
 }
