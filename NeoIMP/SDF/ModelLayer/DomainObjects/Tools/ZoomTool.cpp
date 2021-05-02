@@ -26,6 +26,29 @@
 #include <algorithm>
 
 namespace SDF::ModelLayer::DomainObjects::Tools {
+  // The delta class for the changes made by the zoom tool.
+  class ZoomDelta : public Services::AbstractDomain::IImageDelta {
+  public:
+    ZoomDelta(Math::Coord<float> newCenter,
+              float newMagnification
+             )
+      : m_newCenter(newCenter),
+        m_newMagnification(newMagnification)
+    {
+    }
+
+    void
+    applyDelta(Services::AbstractDomain::IImage *image) {
+      image->setViewCenter(m_newCenter);
+      image->setViewMagnification(m_newMagnification);
+    }
+  private:
+    Math::Coord<float> m_newCenter;
+    float m_newMagnification;
+  };
+}
+
+namespace SDF::ModelLayer::DomainObjects::Tools {
   ZoomTool::ZoomTool(int id)
     : m_id(id),
       m_image(nullptr),
@@ -48,16 +71,12 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
     m_applicationPoint = Math::Coord<float>(x, y);
   }
 
-  Services::AbstractDomain::IImage *
+  std::unique_ptr<Services::AbstractDomain::IImageDelta>
   ZoomTool::commit() {
     // Zoom into the given application point.
-    m_image->setViewCenter(m_applicationPoint);
-
     float curMagnif(m_image->getViewMagnification());
     float newMagnif(std::min(2.0f * curMagnif, 128.0f)); // max zoom: 128x or 12800%
 
-    m_image->setViewMagnification(newMagnif);
-
-    return m_image;
+    return std::make_unique<ZoomDelta>(m_applicationPoint, newMagnif);
   }
 }

@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
-#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_ITOOL_HPP
+#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_IIMAGEDELTA_HPP
+#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_IIMAGEDELTA_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ITool.hpp
- * PURPOSE: Defines the ITool interface.
+ * FILE:    IImageDelta.hpp
+ * PURPOSE: Defines the IImageDelta interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
-#include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
-
-#include <memory>
-
 namespace SDF::ModelLayer::Services::AbstractDomain {
-  class IImageDelta;
+  class IImage;
 
-  // Class:      ITool
-  // Purpose:    Defines the interface for an editing tool.
-  // Parameters: none.
-  class ITool : public IDomainObject<ITool> {
+  // Class:   IImageDelta
+  // Purpose: Provides an interface for image deltas - objects which represent changes to an image document.
+  //          All edits take the form of deltas, and an edited image is givne by the original plus a train of deltas
+  //          leading to the new image. This allows for undoing operations easily and without storing a bunch of
+  //          full-size copies of the image, which would otherwise be very wasteful of memory.
+  class IImageDelta {
   public:
-    virtual ~ITool() = default;
+    virtual ~IImageDelta() = default;
 
-    // These methods mirror those for the tool service.
+    // Function:   applyDelta
+    // Purpose:    Apply this image delta to a given image.
+    // Parameters: image - The image to apply the delta to.
+    // Returns:    None.
     virtual void
-    beginApplication(IImage *image) = 0;
-
-    virtual void
-    applyAt(float x, float y) = 0;
-
-    virtual std::unique_ptr<IImageDelta>
-    commit() = 0;
+    applyDelta(IImage *image) = 0;
   };
 }
 
