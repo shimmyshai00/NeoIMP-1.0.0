@@ -24,12 +24,16 @@
 #include <DocumentCreationService.hpp>
 
 #include <AbstractData/IRepository.hpp>
+#include <AbstractDomain/IObjectMap.hpp>
+
 #include <AbstractDomain/IImage.hpp>
+#include <AbstractDomain/IDeltaEditor.hpp>
 
 namespace SDF::ModelLayer::Services {
   DocumentCreationService::DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
-                                                   AbstractData::IRepository<AbstractDomain::IDeltaEditor> *
-                                                    deltaEditorRepository,
+                                                   AbstractDomain::IObjectMap<AbstractDomain::IImage,
+                                                                              AbstractDomain::IDeltaEditor
+                                                                             > *deltaEditorMap,
                                                    Interfaces::IFactory<AbstractDomain::IImage,
                                                                         AbstractDomain::DocumentSpec
                                                                        > *imageFactory,
@@ -38,7 +42,7 @@ namespace SDF::ModelLayer::Services {
                                                                        > *deltaEditorFactory
                                                   )
     : m_imageRepository(imageRepository),
-      m_deltaEditorRepository(deltaEditorRepository),
+      m_deltaEditorMap(deltaEditorMap),
       m_imageFactory(imageFactory),
       m_deltaEditorFactory(deltaEditorFactory)
   {}
@@ -62,6 +66,12 @@ namespace SDF::ModelLayer::Services {
       bitDepth
     };
 
-    m_imageRepository->create(m_imageFactory->create(spec));
+    std::unique_ptr<AbstractDomain::IImage> newImage(m_imageFactory->create(spec));
+    std::unique_ptr<AbstractDomain::IDeltaEditor> newImageEditor(m_deltaEditorFactory->create(newImage.get()));
+
+    AbstractDomain::IImage *newImagePtr(newImage.get());
+
+    m_imageRepository->create(std::move(newImage));
+    m_deltaEditorMap->linkTo(newImagePtr, std::move(newImageEditor));
   }
 }

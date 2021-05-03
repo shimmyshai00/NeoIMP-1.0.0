@@ -41,6 +41,9 @@ namespace SDF::ModelLayer {
     namespace AbstractDomain {
       class IImage;
       class IDeltaEditor;
+
+      template<class T, class U>
+      class IObjectMap;
     }
 
 
@@ -50,7 +53,8 @@ namespace SDF::ModelLayer {
     class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
     public:
       INJECT(DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
-                                     AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
+                                     AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
+                                      deltaEditorMap,
                                      Interfaces::IFactory<AbstractDomain::IImage, AbstractDomain::DocumentSpec> *
                                       imageFactory,
                                      Interfaces::IFactory<AbstractDomain::IDeltaEditor,
@@ -67,7 +71,7 @@ namespace SDF::ModelLayer {
                     );
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
-      AbstractData::IRepository<AbstractDomain::IDeltaEditor> *m_deltaEditorRepository;
+      AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *m_deltaEditorMap;
 
       Interfaces::IFactory<AbstractDomain::IImage, AbstractDomain::DocumentSpec> *m_imageFactory;
       Interfaces::IFactory<AbstractDomain::IDeltaEditor,

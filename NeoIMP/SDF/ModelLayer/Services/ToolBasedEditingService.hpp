@@ -53,6 +53,9 @@ namespace SDF::ModelLayer {
       class IImage;
       class ITool;
       class IDeltaEditor;
+
+      template<class T, class U>
+      class IObjectMap;
     }
 
     // Class:      ToolBasedEditingService
@@ -65,7 +68,8 @@ namespace SDF::ModelLayer {
     public:
       INJECT(ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                      AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
-                                     AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
+                                     AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
+                                      deltaEditorMap,
                                      Interfaces::IFactory<AbstractDomain::ITool,
                                                           UILayer::AbstractModel::Properties::Tool
                                                          > *toolFactory
@@ -100,7 +104,7 @@ namespace SDF::ModelLayer {
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
       AbstractData::IRepository<AbstractDomain::ITool> *m_toolRepository;
-      AbstractData::IRepository<AbstractDomain::IDeltaEditor> *m_deltaEditorRepository;
+      AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *m_deltaEditorMap;
 
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *> m_observers;
       Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *m_broker;
@@ -109,9 +113,6 @@ namespace SDF::ModelLayer {
 
       UILayer::AbstractModel::Properties::Tool m_activeTool;
 
-      Interfaces::IFactory<AbstractDomain::IDeltaEditor,
-                           AbstractDomain::IImage *
-                          > *m_deltaEditorFactory;
       void
       receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message);
 

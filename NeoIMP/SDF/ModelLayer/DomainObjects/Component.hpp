@@ -41,10 +41,14 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/DocumentSpec.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
+#include <SDF/ModelLayer/Services/AbstractDomain/IObjectMap.hpp>
+#include <SDF/ModelLayer/AbstractData/IRepository.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::DomainObjects {
-  typedef fruit::Component<fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
+  typedef fruit::Component<fruit::Required<AbstractData::IRepository<Services::AbstractDomain::IDeltaEditor>>,
+                           fruit::Annotated<Services::AbstractDomain::Algorithms::RendererAlgorithm,
                                             Interfaces::IFactory<Services::AbstractDomain::IImageDataVisitor,
                                                                  Services::AbstractDomain::IRenderBuffer *
                                                                 >
@@ -64,7 +68,10 @@ namespace SDF::ModelLayer::DomainObjects {
                            Interfaces::IFactory<Services::AbstractDomain::IDeltaEditor,
                                                 Services::AbstractDomain::IImage *
                                                >,
-                           Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>
+                           Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>,
+                           Services::AbstractDomain::IObjectMap<Services::AbstractDomain::IImage,
+                                                                Services::AbstractDomain::IDeltaEditor
+                                                               >
                           >
   Component;
 

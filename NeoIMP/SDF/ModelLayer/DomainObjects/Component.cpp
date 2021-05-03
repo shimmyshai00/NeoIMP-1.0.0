@@ -23,6 +23,8 @@
 
 #include <SDF/ModelLayer/DomainObjects/Component.hpp>
 
+#include <ObjectMap.hpp>
+
 #include <Algorithms/Component.hpp>
 #include <Image/Gil/Component.hpp>
 #include <Editing/Component.hpp>
@@ -32,6 +34,11 @@ namespace SDF::ModelLayer::DomainObjects {
   Component
   getComponent() {
     return fruit::createComponent()
+      .bind<Services::AbstractDomain::IObjectMap<Services::AbstractDomain::IImage,
+                                                 Services::AbstractDomain::IDeltaEditor
+                                                >,
+            ObjectMap<Services::AbstractDomain::IImage, Services::AbstractDomain::IDeltaEditor>
+           >()
       .install(Algorithms::getComponent)
       .install(Image::Gil::getComponent)
       .install(Editing::getComponent)

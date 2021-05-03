@@ -27,6 +27,7 @@
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
 #include <AbstractData/IRepository.hpp>
+#include <AbstractDomain/IObjectMap.hpp>
 
 #include <AbstractDomain/IImage.hpp>
 #include <AbstractDomain/ITool.hpp>
@@ -40,20 +41,18 @@ namespace SDF::ModelLayer::Services {
 
   ToolBasedEditingService::ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                                    AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
-                                                   AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
+                                                   AbstractDomain::IObjectMap<AbstractDomain::IImage,
+                                                                              AbstractDomain::IDeltaEditor
+                                                                             > *deltaEditorMap,
                                                    Interfaces::IFactory<AbstractDomain::ITool,
                                                                         Properties::Tool
-                                                                       > *toolFactory,
-                                                   Interfaces::IFactory<AbstractDomain::IDeltaEditor,
-                                                                        AbstractDomain::IImage *
-                                                                       > *deltaEditorFactory
+                                                                       > *toolFactory
                                                   )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
-      m_deltaEditorRepository(deltaEditorRepository),
+      m_deltaEditorMap(deltaEditorMap),
       m_broker(nullptr),
-      m_activeTool(Properties::TOOL_MAX),
-      m_deltaEditorFactory(deltaEditorFactory)
+      m_activeTool(Properties::TOOL_MAX)
   {
     addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
   }
