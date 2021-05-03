@@ -54,6 +54,9 @@ namespace SDF::ModelLayer {
       int
       getId() const;
 
+      int
+      getImageId() const;
+
       Services::AbstractDomain::IImage *
       getEditedImage();
 

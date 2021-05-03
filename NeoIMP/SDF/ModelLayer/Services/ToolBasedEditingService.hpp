@@ -68,10 +68,7 @@ namespace SDF::ModelLayer {
                                      AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
                                      Interfaces::IFactory<AbstractDomain::ITool,
                                                           UILayer::AbstractModel::Properties::Tool
-                                                         > *toolFactory,
-                                     Interfaces::IFactory<AbstractDomain::IDeltaEditor,
-                                                          AbstractDomain::IImage *
-                                                         > *deltaEditorFactory
+                                                         > *toolFactory
                                     ));
 
       int

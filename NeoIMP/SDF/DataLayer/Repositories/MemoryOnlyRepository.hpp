@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_REPOSITORIES_RENDERINGREPOSITORY_HPP
-#define SDF_DATALAYER_REPOSITORIES_RENDERINGREPOSITORY_HPP
+#ifndef SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
+#define SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RenderingRepository.hpp
- * PURPOSE: Defines the RenderingRepository class.
+ * FILE:    MemoryOnlyRepository.hpp
+ * PURPOSE: Defines the MemoryOnlyRepository template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,36 +26,34 @@
 
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 
-#include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
-
-#include <fruit/fruit.h>
-
-#include <memory>
-#include <map>
-#include <vector>
-
 namespace SDF::DataLayer::Repositories {
-  // Class:      RenderingRepository
-  // Purpose:    Defines the in-memory repository for image renderings.
-  // Parameters: None.
-  class RenderingRepository : public ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer> {
+  // Class:      MemoryOnlyRepository
+  // Purpose:    Provides a repository of domain objects that exists solely in RAM, with no persistent backing store.
+  // Parameters: T - The type of domain object held.
+  template<class T>
+  class MemoryOnlyRepository : public ModelLayer::AbstractData::IRepository<T> {
   public:
-    INJECT(RenderingRepository());
+    // Function:   MemoryOnlyRepository
+    // Purpose:    Construct a new memory-only repository.
+    // Parameters: None.
+    INJECT(MemoryOnlyRepository());
 
     void
-    create(std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer> object);
+    create(std::unique_ptr<T> object);
 
-    ModelLayer::Services::AbstractDomain::IRenderBuffer *
+    T *
     retrieve(int objectId);
 
     void
-    update(ModelLayer::Services::AbstractDomain::IRenderBuffer *object);
+    update(T *object);
 
-    std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer>
+    std::unique_ptr<T>
     deleteEntry(int objectId);
   private:
-    std::map<int, std::unique_ptr<ModelLayer::Services::AbstractDomain::IRenderBuffer>> m_objectMap;
+    std::map<int, std::unique_ptr<T>> m_objectMap;
   };
 }
+
+#include "SDF/DataLayer/Repositories/MemoryOnlyRepository.tpp"
 
 #endif

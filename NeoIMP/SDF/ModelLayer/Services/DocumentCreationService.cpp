@@ -28,12 +28,19 @@
 
 namespace SDF::ModelLayer::Services {
   DocumentCreationService::DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                                   AbstractData::IRepository<AbstractDomain::IDeltaEditor> *
+                                                    deltaEditorRepository,
                                                    Interfaces::IFactory<AbstractDomain::IImage,
                                                                         AbstractDomain::DocumentSpec
-                                                                       > *imageFactory
+                                                                       > *imageFactory,
+                                                   Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                                                                        AbstractDomain::IImage *
+                                                                       > *deltaEditorFactory
                                                   )
     : m_imageRepository(imageRepository),
-      m_imageFactory(imageFactory)
+      m_deltaEditorRepository(deltaEditorRepository),
+      m_imageFactory(imageFactory),
+      m_deltaEditorFactory(deltaEditorFactory)
   {}
 
   void

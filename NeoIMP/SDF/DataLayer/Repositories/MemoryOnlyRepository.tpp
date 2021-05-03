@@ -1,9 +1,12 @@
+#ifndef SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_TPP
+#define SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ToolRepository.cpp
- * PURPOSE: Implements the ToolRepository class.
+ * FILE:    MemoryOnlyRepository.tpp
+ * PURPOSE: Implements the MemoryOnlyRepository template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,26 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ToolRepository.hpp>
-
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
-#include <algorithm>
-
 namespace SDF::DataLayer::Repositories {
-  using namespace ModelLayer::Services;
+  template<class T>
+  MemoryOnlyRepository<T>::MemoryOnlyRepository()
+  {}
 
-  ToolRepository::ToolRepository() {}
-
+  template<class T>
   void
-  ToolRepository::create(std::unique_ptr<AbstractDomain::ITool> object) {
+  MemoryOnlyRepository<T>::create(std::unique_ptr<T> object) {
+    // Create a new entry in the repository.
     int objectId(object->getId());
-
     m_objectMap[objectId] = std::move(object);
   }
 
-  AbstractDomain::ITool *
-  ToolRepository::retrieve(int objectId) {
+  template<class T>
+  T *
+  MemoryOnlyRepository<T>::retrieve(int objectId) {
     if(m_objectMap.find(objectId) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(objectId);
     } else {
@@ -48,21 +49,28 @@ namespace SDF::DataLayer::Repositories {
     }
   }
 
+  template<class T>
   void
-  ToolRepository::update(AbstractDomain::ITool *object) {
+  MemoryOnlyRepository<T>::update(T *object) {
     if(m_objectMap.find(object->getId()) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(object->getId());
     } else {
-      // TBA
+      // Nothing needs to be done here.
     }
   }
 
-  std::unique_ptr<AbstractDomain::ITool>
-  ToolRepository::deleteEntry(int objectId) {
+  template<class T>
+  std::unique_ptr<T>
+  MemoryOnlyRepository<T>::deleteEntry(int objectId) {
     if(m_objectMap.find(objectId) == m_objectMap.end()) {
       throw DataLayer::Exceptions::ObjectNotFoundException(objectId);
     } else {
+      std::unique_ptr<T> extractedObj(std::move(m_objectMap[objectId]));
       m_objectMap.erase(objectId);
+
+      return std::move(extractedObj);
     }
   }
 }
+
+#endif

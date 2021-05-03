@@ -42,6 +42,15 @@ namespace SDF::ModelLayer::DomainObjects::Editing {
     return m_id;
   }
 
+  int
+  DeltaEditor::getImageId() const {
+    if(m_image == nullptr) {
+      return -1;
+    } else {
+      return m_image->getId();
+    }
+  }
+
   Services::AbstractDomain::IImage *
   DeltaEditor::getEditedImage() {
     // TBA: undo functionality

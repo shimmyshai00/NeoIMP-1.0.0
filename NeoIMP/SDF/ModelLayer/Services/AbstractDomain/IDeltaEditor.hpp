@@ -46,6 +46,13 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
   public:
     virtual ~IDeltaEditor() = default;
 
+    // Function:   getImageId
+    // Purpose:    Get the domain object ID of the associated held image.
+    // Parameters: None.
+    // Returns:    The image ID code.
+    virtual int
+    getImageId() const = 0;
+
     // Function:   getEditedImage
     // Purpose:    Gets the most recent edited version of the held image.
     // Parameters: None.

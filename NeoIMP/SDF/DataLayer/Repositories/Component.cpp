@@ -24,9 +24,7 @@
 #include <SDF/DataLayer/Repositories/Component.hpp>
 
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
-#include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
-#include <SDF/DataLayer/Repositories/ToolRepository.hpp>
-#include <SDF/DataLayer/Repositories/DeltaEditorRepository.hpp>
+#include <SDF/DataLayer/Repositories/MemoryOnlyRepository.hpp>
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
@@ -39,16 +37,18 @@ namespace SDF::DataLayer::Repositories {
            >()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
-            RenderingRepository
+            MemoryOnlyRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>
            >()
       .bind<ModelLayer::AbstractData::IFileSystemPersistenceController<ModelLayer::Services::AbstractDomain::IImage,
                                                                        ModelLayer::AbstractData::ImageFileFormat
                                                                       >,
             ImageRepository
            >()
-      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>, ToolRepository>()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>,
+            MemoryOnlyRepository<ModelLayer::Services::AbstractDomain::ITool>
+           >()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>,
-            DeltaEditorRepository
+            MemoryOnlyRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>
            >()
       .install(Persistence::getComponent);
   }

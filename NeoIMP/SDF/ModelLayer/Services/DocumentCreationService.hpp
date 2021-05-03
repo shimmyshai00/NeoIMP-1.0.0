@@ -40,6 +40,7 @@ namespace SDF::ModelLayer {
   namespace Services {
     namespace AbstractDomain {
       class IImage;
+      class IDeltaEditor;
     }
 
 
@@ -49,8 +50,12 @@ namespace SDF::ModelLayer {
     class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
     public:
       INJECT(DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                     AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
                                      Interfaces::IFactory<AbstractDomain::IImage, AbstractDomain::DocumentSpec> *
-                                      imageFactory
+                                      imageFactory,
+                                     Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                                                          AbstractDomain::IImage *
+                                                         > *deltaEditorFactory
                                     ));
 
       void
@@ -62,7 +67,12 @@ namespace SDF::ModelLayer {
                     );
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
+      AbstractData::IRepository<AbstractDomain::IDeltaEditor> *m_deltaEditorRepository;
+
       Interfaces::IFactory<AbstractDomain::IImage, AbstractDomain::DocumentSpec> *m_imageFactory;
+      Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                           AbstractDomain::IImage *
+                          > *m_deltaEditorFactory;
     };
   }
 }
