@@ -24,7 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IMessageSubscriber.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
+
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
 
 #include <fruit/fruit.h>
 
@@ -44,11 +48,16 @@ namespace SDF::ModelLayer {
     // Class:      DocumentViewConfigService
     // Purpose:    Holds the document viewport settings.
     // Parameters: None.
-    class DocumentViewConfigService : public UILayer::AbstractModel::IDocumentViewConfigService {
+    class DocumentViewConfigService : public UILayer::AbstractModel::IDocumentViewConfigService,
+                                      private Interfaces::IMessageSubscriber<AbstractDomain::Defs::ImageChange>
+    {
     public:
       INJECT(DocumentViewConfigService(
-        AbstractData::IRepository<AbstractDomain::IImage> *documentRepository
+        AbstractData::IRepository<AbstractDomain::IImage> *documentRepository,
+        Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
       ));
+
+      ~DocumentViewConfigService();
 
       void
       attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ViewportEvent> *observer);
@@ -75,8 +84,21 @@ namespace SDF::ModelLayer {
       setDocumentMagnification(UILayer::AbstractModel::Handle handle, float magnification);
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_documentRepository;
+      Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *m_messageBroker;
 
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ViewportEvent> *> m_observers;
+
+      int
+      getUid() const;
+
+      void
+      receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message);
+
+      void
+      handleImageViewportCenterChangedMessage(AbstractDomain::Defs::ImageViewportCenterChanged *message);
+
+      void
+      handleImageViewportMagnificationChangedMessage(AbstractDomain::Defs::ImageViewportMagnificationChanged *message);
     };
   }
 }

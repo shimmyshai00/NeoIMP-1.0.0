@@ -31,6 +31,7 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDeltaEditor.hpp>
 
 #include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
 
@@ -46,7 +47,8 @@ namespace SDF::DataLayer::Repositories {
                             ModelLayer::Services::AbstractDomain::IImage,
                             ModelLayer::AbstractData::ImageFileFormat
                            >,
-                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>
+                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>,
+                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>
                           >
   Component;
 

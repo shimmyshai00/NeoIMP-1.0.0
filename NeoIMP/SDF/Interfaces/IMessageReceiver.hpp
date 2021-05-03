@@ -1,9 +1,12 @@
+#ifndef SDF_INTERFACES_IMESSAGERECEIVER_HPP
+#define SDF_INTERFACES_IMESSAGERECEIVER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Implements the Factory class.
+ * FILE:    IMessageReceiver.hpp
+ * PURPOSE: Defines the IMessageReceiver interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,25 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Tools/Factory.hpp>
+#include <memory>
 
-#include <ModelLayer/Exceptions/Exceptions.hpp>
+namespace SDF::Interfaces {
+  // Class:      IMessageReceiver
+  // Purpose:    Defines an interface for objects which receive messages in the context of the message pub/sub system.
+  //             Effectively the same as IEventHandler but a bit semantically different.
+  // Parameters: MessageT - The type of message handled.
+  template<class MessageT>
+  class IMessageReceiver {
+  public:
+    virtual ~IMessageReceiver() = default;
 
-#include <Services/AbstractDomain/ITool.hpp>
-
-#include <ZoomTool.hpp>
-
-namespace SDF::ModelLayer::DomainObjects::Tools {
-  Factory::Factory(Interfaces::IGenerator<int> *uidGenerator) : m_uidGenerator(uidGenerator) {}
-
-  std::unique_ptr<Services::AbstractDomain::ITool>
-  Factory::create(UILayer::AbstractModel::Properties::Tool toolEnum) {
-    using namespace UILayer::AbstractModel::Properties;
-
-    if(toolEnum == TOOL_ZOOM) {
-      return std::make_unique<ZoomTool>(m_uidGenerator->get());
-    } else {
-      throw ModelLayer::Exceptions::BadToolLabelException(toolEnum);
-    }
-  }
+    // Function:   receiveMessage
+    // Purpose:    Receives a message.
+    // Parameters: message - The message to receive.
+    // Returns:    None.
+    virtual void
+    receiveMessage(std::shared_ptr<MessageT> message) = 0;
+  };
 }
+
+#endif

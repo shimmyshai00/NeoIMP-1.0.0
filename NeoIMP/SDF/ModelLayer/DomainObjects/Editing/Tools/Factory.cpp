@@ -1,12 +1,9 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_COMPONENT_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_COMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the editing tool subsystem.
+ * FILE:    Factory.cpp
+ * PURPOSE: Implements the Factory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +21,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/Interfaces/IFactory.hpp>
-#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
-#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+#include <SDF/ModelLayer/DomainObjects/Editing/Tools/Factory.hpp>
 
-#include <fruit/fruit.h>
+#include <ModelLayer/Exceptions/Exceptions.hpp>
 
-namespace SDF::ModelLayer::DomainObjects::Tools {
-  typedef fruit::Component<Interfaces::IFactory<Services::AbstractDomain::ITool,
-                                                UILayer::AbstractModel::Properties::Tool
-                                               >
-                          >
-  Component;
+#include <Services/AbstractDomain/ITool.hpp>
 
-  Component getComponent();
+#include <ZoomTool.hpp>
+
+namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
+  Factory::Factory(Interfaces::IGenerator<int> *uidGenerator) : m_uidGenerator(uidGenerator) {}
+
+  std::unique_ptr<Services::AbstractDomain::ITool>
+  Factory::create(UILayer::AbstractModel::Properties::Tool toolEnum) {
+    using namespace UILayer::AbstractModel::Properties;
+
+    if(toolEnum == TOOL_ZOOM) {
+      return std::make_unique<ZoomTool>(m_uidGenerator->get());
+    } else {
+      throw ModelLayer::Exceptions::BadToolLabelException(toolEnum);
+    }
+  }
 }
-
-#endif

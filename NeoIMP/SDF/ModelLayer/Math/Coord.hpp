@@ -30,6 +30,11 @@ namespace SDF::ModelLayer::Math {
   template<class T>
   class Coord {
   public:
+    Coord()
+      : m_x(0),
+        m_y(0)
+    {}
+
     Coord(T x,
           T y
          )

@@ -30,21 +30,37 @@
 
 #include <AbstractDomain/IImage.hpp>
 #include <AbstractDomain/ITool.hpp>
+#include <AbstractDomain/IDeltaEditor.hpp>
+#include <AbstractDomain/IImageDelta.hpp>
+
+#include "BrokerId.hpp"
 
 namespace SDF::ModelLayer::Services {
   using namespace UILayer::AbstractModel;
 
   ToolBasedEditingService::ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                                    AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+                                                   AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
                                                    Interfaces::IFactory<AbstractDomain::ITool,
                                                                         Properties::Tool
-                                                                       > *toolFactory
+                                                                       > *toolFactory,
+                                                   Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                                                                        AbstractDomain::IImage *
+                                                                       > *deltaEditorFactory
                                                   )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
-      m_activeTool(Properties::TOOL_MAX)
+      m_deltaEditorRepository(deltaEditorRepository),
+      m_broker(nullptr),
+      m_activeTool(Properties::TOOL_MAX),
+      m_deltaEditorFactory(deltaEditorFactory)
   {
     addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
+  }
+
+  int
+  ToolBasedEditingService::getUid() const {
+    return SERVICE_TOOL_BASED_EDITING;
   }
 
   void
@@ -55,6 +71,11 @@ namespace SDF::ModelLayer::Services {
   void
   ToolBasedEditingService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
+
+  void
+  ToolBasedEditingService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
+    m_broker = broker;
   }
 
   Properties::Tool
@@ -99,11 +120,18 @@ namespace SDF::ModelLayer::Services {
   ToolBasedEditingService::finishToolApplication() {
     if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
       int toolId(m_toolIdMap[m_activeTool]);
-      m_imageRepository->update(m_toolRepository->retrieve(toolId)->commit());
+      m_toolRepository->retrieve(toolId)->commit();
     }
   }
 
-  // Private member.
+  // Private members.
+  void
+  ToolBasedEditingService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
+    if(m_broker != nullptr) {
+      m_broker->receiveMessage(this, message);
+    }
+  }
+
   void
   ToolBasedEditingService::addTool(Properties::Tool toolLabel,
                                    std::unique_ptr<AbstractDomain::ITool> tool

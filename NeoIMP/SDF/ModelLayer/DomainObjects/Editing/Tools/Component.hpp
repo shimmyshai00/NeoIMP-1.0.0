@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_FACTORY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_TOOLS_FACTORY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_EDITING_TOOLS_COMPONENT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_EDITING_TOOLS_COMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.hpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the editing tool subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,36 +25,19 @@
  */
 
 #include <SDF/Interfaces/IFactory.hpp>
-#include <SDF/Interfaces/IGenerator.hpp>
-
+#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
 #include <fruit/fruit.h>
 
-#include <memory>
-
-namespace SDF::ModelLayer {
-  namespace Services::AbstractDomain {
-    class ITool;
-  }
-
-  namespace DomainObjects::Tools {
-    // Class:      Factory
-    // Purpose:    Create new editing tool intances.
-    // Parameters: None.
-    class Factory : public Interfaces::IFactory<Services::AbstractDomain::ITool,
+namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
+  typedef fruit::Component<Interfaces::IFactory<Services::AbstractDomain::ITool,
                                                 UILayer::AbstractModel::Properties::Tool
                                                >
-    {
-    public:
-      INJECT(Factory(Interfaces::IGenerator<int> *uidGenerator));
+                          >
+  Component;
 
-      std::unique_ptr<Services::AbstractDomain::ITool>
-      create(UILayer::AbstractModel::Properties::Tool toolEnum);
-    private:
-      Interfaces::IGenerator<int> *m_uidGenerator;
-    };
-  }
+  Component getComponent();
 }
 
 #endif

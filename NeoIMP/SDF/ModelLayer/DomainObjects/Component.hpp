@@ -32,7 +32,11 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IRenderBuffer.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDeltaEditor.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
+
+#include <SDF/Interfaces/IMessageBroker.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/DocumentSpec.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
@@ -56,7 +60,11 @@ namespace SDF::ModelLayer::DomainObjects {
                                                >,
                            Interfaces::IFactory<Services::AbstractDomain::ITool,
                                                 UILayer::AbstractModel::Properties::Tool
-                                               >
+                                               >,
+                           Interfaces::IFactory<Services::AbstractDomain::IDeltaEditor,
+                                                Services::AbstractDomain::IImage *
+                                               >,
+                           Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>
                           >
   Component;
 

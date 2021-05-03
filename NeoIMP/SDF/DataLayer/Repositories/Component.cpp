@@ -26,6 +26,7 @@
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
 #include <SDF/DataLayer/Repositories/RenderingRepository.hpp>
 #include <SDF/DataLayer/Repositories/ToolRepository.hpp>
+#include <SDF/DataLayer/Repositories/DeltaEditorRepository.hpp>
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
@@ -46,6 +47,9 @@ namespace SDF::DataLayer::Repositories {
             ImageRepository
            >()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::ITool>, ToolRepository>()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>,
+            DeltaEditorRepository
+           >()
       .install(Persistence::getComponent);
   }
 }

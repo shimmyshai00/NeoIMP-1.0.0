@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IMessagePublisher.hpp>
+#include <SDF/Interfaces/IMessageReceiver.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IEventHandler.hpp>
 
@@ -32,6 +35,8 @@
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
+
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
 
 #include <fruit/fruit.h>
 
@@ -47,25 +52,39 @@ namespace SDF::ModelLayer {
     namespace AbstractDomain {
       class IImage;
       class ITool;
+      class IDeltaEditor;
     }
 
     // Class:      ToolBasedEditingService
     // Purpose:    Performs image editing using editing tools.
     // Parameters: None.
-    class ToolBasedEditingService : public UILayer::AbstractModel::IToolBasedEditingService {
+    class ToolBasedEditingService : public UILayer::AbstractModel::IToolBasedEditingService,
+                                    private Interfaces::IMessagePublisher<AbstractDomain::Defs::ImageChange>,
+                                    private Interfaces::IMessageReceiver<AbstractDomain::Defs::ImageChange>
+    {
     public:
       INJECT(ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                      AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+                                     AbstractData::IRepository<AbstractDomain::IDeltaEditor> *deltaEditorRepository,
                                      Interfaces::IFactory<AbstractDomain::ITool,
                                                           UILayer::AbstractModel::Properties::Tool
-                                                         > *toolFactory
+                                                         > *toolFactory,
+                                     Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                                                          AbstractDomain::IImage *
+                                                         > *deltaEditorFactory
                                     ));
+
+      int
+      getUid() const;
 
       void
       attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
 
       void
       removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
+
+      void
+      setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker);
 
       UILayer::AbstractModel::Properties::Tool
       getActiveTool() const;
@@ -84,12 +103,20 @@ namespace SDF::ModelLayer {
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
       AbstractData::IRepository<AbstractDomain::ITool> *m_toolRepository;
+      AbstractData::IRepository<AbstractDomain::IDeltaEditor> *m_deltaEditorRepository;
 
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *> m_observers;
+      Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *m_broker;
 
       std::map<UILayer::AbstractModel::Properties::Tool, int> m_toolIdMap;
 
       UILayer::AbstractModel::Properties::Tool m_activeTool;
+
+      Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                           AbstractDomain::IImage *
+                          > *m_deltaEditorFactory;
+      void
+      receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message);
 
       void
       addTool(UILayer::AbstractModel::Properties::Tool toolLabel,

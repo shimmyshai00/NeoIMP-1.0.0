@@ -24,6 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IMessageReceiver.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
+
+#include <memory>
+#include <string>
+
 namespace SDF::ModelLayer::Services::AbstractDomain {
   class IImage;
 
@@ -39,9 +45,12 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
     // Function:   applyDelta
     // Purpose:    Apply this image delta to a given image.
     // Parameters: image - The image to apply the delta to.
+    //             messageReceiver - An optional message receiver to notify of the changes made to the image.
     // Returns:    None.
     virtual void
-    applyDelta(IImage *image) = 0;
+    applyDelta(IImage *image,
+               Interfaces::IMessageReceiver<Defs::ImageChange> *messageReceiver
+              ) = 0;
   };
 }
 

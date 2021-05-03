@@ -33,14 +33,23 @@
 
 #include <Math/Coord.hpp>
 
+#include "BrokerId.hpp"
+
 namespace SDF::ModelLayer::Services {
   using namespace UILayer::AbstractModel;
 
   DocumentViewConfigService::DocumentViewConfigService(
-    AbstractData::IRepository<AbstractDomain::IImage> *documentRepository
+    AbstractData::IRepository<AbstractDomain::IImage> *documentRepository,
+    Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
   )
-    : m_documentRepository(documentRepository)
+    : m_documentRepository(documentRepository),
+      m_messageBroker(messageBroker)
   {
+    m_messageBroker->addSubscriber(this);
+  }
+
+  DocumentViewConfigService::~DocumentViewConfigService() {
+    m_messageBroker->removeSubscriber(this);
   }
 
   void
@@ -139,6 +148,50 @@ namespace SDF::ModelLayer::Services {
       }
     } catch(DataLayer::Exceptions::ObjectNotFoundException &e) {
       throw ModelLayer::Exceptions::DocumentNotFoundException(handle);
+    }
+  }
+
+  // Private members.
+  int
+  DocumentViewConfigService::getUid() const {
+    return SERVICE_DOCUMENT_VIEW_CONFIG;
+  }
+
+  void
+  DocumentViewConfigService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
+    if(auto p = dynamic_cast<AbstractDomain::Defs::ImageViewportCenterChanged *>(message.get())) {
+      handleImageViewportCenterChangedMessage(p);
+    } else if(auto p = dynamic_cast<AbstractDomain::Defs::ImageViewportMagnificationChanged *>(message.get())) {
+      handleImageViewportMagnificationChangedMessage(p);
+    }
+  }
+
+  void
+  DocumentViewConfigService::handleImageViewportCenterChangedMessage(
+    AbstractDomain::Defs::ImageViewportCenterChanged *message
+  ) {
+    std::shared_ptr<Events::ViewCenterChangedEvent> event(new Events::ViewCenterChangedEvent);
+
+    event->documentHandle = message->imageId;
+    event->centerX = message->newCenter.getX();
+    event->centerY = message->newCenter.getY();
+
+    for(auto observer : m_observers) {
+      observer->handleEvent(event);
+    }
+  }
+
+  void
+  DocumentViewConfigService::handleImageViewportMagnificationChangedMessage(
+    AbstractDomain::Defs::ImageViewportMagnificationChanged *message
+  ) {
+    std::shared_ptr<Events::ViewMagnificationChangedEvent> event(new Events::ViewMagnificationChangedEvent);
+
+    event->documentHandle = message->imageId;
+    event->magnification = message->newMagnif;
+
+    for(auto observer : m_observers) {
+      observer->handleEvent(event);
     }
   }
 }

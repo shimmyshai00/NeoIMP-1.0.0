@@ -21,11 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Tools/ZoomTool.hpp>
+#include <SDF/ModelLayer/DomainObjects/Editing/Tools/ZoomTool.hpp>
+
+#include <Services/AbstractDomain/IImageDelta.hpp>
+#include <Services/AbstractDomain/Defs/ImageChanges.hpp>
 
 #include <algorithm>
 
-namespace SDF::ModelLayer::DomainObjects::Tools {
+namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   // The delta class for the changes made by the zoom tool.
   class ZoomDelta : public Services::AbstractDomain::IImageDelta {
   public:
@@ -38,9 +41,25 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
     }
 
     void
-    applyDelta(Services::AbstractDomain::IImage *image) {
+    applyDelta(Services::AbstractDomain::IImage *image,
+               Interfaces::IMessageReceiver<Services::AbstractDomain::Defs::ImageChange> *messageReceiver
+              )
+    {
       image->setViewCenter(m_newCenter);
       image->setViewMagnification(m_newMagnification);
+
+      if(messageReceiver != nullptr) {
+        std::shared_ptr<Services::AbstractDomain::Defs::ImageViewportCenterChanged>
+          centerChanged(new Services::AbstractDomain::Defs::ImageViewportCenterChanged);
+        centerChanged->newCenter = m_newCenter;
+
+        std::shared_ptr<Services::AbstractDomain::Defs::ImageViewportMagnificationChanged>
+          magnifChanged(new Services::AbstractDomain::Defs::ImageViewportMagnificationChanged);
+        magnifChanged->newMagnif = m_newMagnification;
+
+        messageReceiver->receiveMessage(centerChanged);
+        messageReceiver->receiveMessage(magnifChanged);
+      }
     }
   private:
     Math::Coord<float> m_newCenter;
@@ -48,7 +67,7 @@ namespace SDF::ModelLayer::DomainObjects::Tools {
   };
 }
 
-namespace SDF::ModelLayer::DomainObjects::Tools {
+namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   ZoomTool::ZoomTool(int id)
     : m_id(id),
       m_image(nullptr),

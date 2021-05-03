@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_MESSAGING_COMPONENT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_MESSAGING_COMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the Boost::GIL image subsystem.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the messaging subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Tools/Component.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
 
-#include <Support/UidGenerator.hpp>
+#include <fruit/fruit.h>
 
-#include <SDF/ModelLayer/DomainObjects/Tools/Factory.hpp>
+namespace SDF::ModelLayer::DomainObjects::Messaging {
+  typedef fruit::Component<Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>>
+  Component;
 
-namespace SDF::ModelLayer::DomainObjects::Tools {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
-      .bind<Interfaces::IFactory<Services::AbstractDomain::ITool,
-                                 UILayer::AbstractModel::Properties::Tool
-                                >,
-            Factory
-           >();
-  }
+  Component getComponent();
 }
+
+#endif

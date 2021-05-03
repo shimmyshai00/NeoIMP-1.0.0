@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the domain object subsystem.
+ * PURPOSE: Implements the DI component for the Boost::GIL image subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/DomainObjects/Component.hpp>
+#include <SDF/ModelLayer/DomainObjects/Editing/Tools/Component.hpp>
 
-#include <Algorithms/Component.hpp>
-#include <Image/Gil/Component.hpp>
-#include <Editing/Component.hpp>
-#include <Messaging/Component.hpp>
+#include <Support/UidGenerator.hpp>
 
-namespace SDF::ModelLayer::DomainObjects {
+#include <SDF/ModelLayer/DomainObjects/Editing/Tools/Factory.hpp>
+
+namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   Component
   getComponent() {
     return fruit::createComponent()
-      .install(Algorithms::getComponent)
-      .install(Image::Gil::getComponent)
-      .install(Editing::getComponent)
-      .install(Messaging::getComponent);
+      .bind<Interfaces::IGenerator<int>, Support::UidGenerator<int>>()
+      .bind<Interfaces::IFactory<Services::AbstractDomain::ITool,
+                                 UILayer::AbstractModel::Properties::Tool
+                                >,
+            Factory
+           >();
   }
 }

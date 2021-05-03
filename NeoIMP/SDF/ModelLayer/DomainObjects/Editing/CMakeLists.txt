@@ -2,11 +2,10 @@ target_include_directories(neoimp PUBLIC
                            .
                           )
 
-add_subdirectory(Image)
-add_subdirectory(Algorithms)
-add_subdirectory(Editing)
-add_subdirectory(Messaging)
+add_subdirectory(Tools)
 
 target_sources(neoimp PUBLIC
+               DeltaEditor.cpp
+               Factories.cpp
                Component.cpp
               )
