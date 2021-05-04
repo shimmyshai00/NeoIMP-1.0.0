@@ -57,11 +57,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
 
   void
   ImageDisplayWidget::setMagnification(float newMagnification) {
-    QSize oldSize(size());
     m_magnification = newMagnification;
-    QSize newSize(size());
-
-    resizeEvent(new QResizeEvent(newSize, oldSize));
+    updateGeometry();
   }
 
   // Private members.

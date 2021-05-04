@@ -44,12 +44,14 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
   BoxDecalWidget::setImageSize(int width, int height) {
     m_imageWidthPx = width;
     m_imageHeightPx = height;
+    updateGeometry();
     update();
   }
 
   void
   BoxDecalWidget::setMagnification(float newMagnification) {
     m_magnification = newMagnification;
+    updateGeometry();
     update();
   }
 
