@@ -28,6 +28,8 @@
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
+#include <SDF/UILayer/AbstractModel/Events/ViewportEvent.hpp>
+
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
@@ -48,7 +50,8 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Parameters: None.
   class DocumentView : public QWidget,
                        public IGuiElement,
-                       private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>
+                       private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>,
+                       private Interfaces::IEventHandler<AbstractModel::Events::ViewportEvent>
   {
     Q_OBJECT
   public:
@@ -60,7 +63,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                  QWidget *parent = nullptr
                 );
     ~DocumentView();
-    
+
     IGuiElement *
     getParent();
 
@@ -87,6 +90,15 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     void
     handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event);
+
+    void
+    handleEvent(std::shared_ptr<AbstractModel::Events::ViewportEvent> event);
+
+    void
+    handleViewCenterChangedEvent(AbstractModel::Events::ViewCenterChangedEvent *event);
+    
+    void
+    handleViewMagnificationChangedEvent(AbstractModel::Events::ViewMagnificationChangedEvent *event);
   };
 }
 

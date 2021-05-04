@@ -102,6 +102,7 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     // Observe for tool changes.
     m_toolBasedEditingService->attachObserver(this);
+    m_documentViewConfigService->attachObserver(this);
 
     // Observe for editing click events. NB: STUBchitecture only for simple tools now
     safeConnect(m_documentWidget, &CustomWidgets::DocumentWidget::editorClickedAt, [=](float docX, float docY) {
@@ -116,6 +117,7 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   DocumentView::~DocumentView() {
     m_toolBasedEditingService->removeObserver(this);
+    m_documentViewConfigService->removeObserver(this);
   }
 
   IGuiElement *
@@ -153,5 +155,31 @@ namespace SDF::UILayer::Gui::Qt::View {
   DocumentView::handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event) {
     printf("ST\n");
     m_documentWidget->setTool(event->newTool);
+  }
+
+  void
+  DocumentView::handleEvent(std::shared_ptr<AbstractModel::Events::ViewportEvent> event) {
+    if(auto p = dynamic_cast<AbstractModel::Events::ViewCenterChangedEvent *>(event.get())) {
+      handleViewCenterChangedEvent(p);
+    } else if(auto p = dynamic_cast<AbstractModel::Events::ViewMagnificationChangedEvent *>(event.get())) {
+      handleViewMagnificationChangedEvent(p);
+    }
+  }
+
+  void
+  DocumentView::handleViewCenterChangedEvent(AbstractModel::Events::ViewCenterChangedEvent *event) {
+    if(event->documentHandle == m_documentHandle) {
+      m_documentWidget->setCenterX(event->centerX);
+      m_documentWidget->setCenterY(event->centerY);
+    }
+  }
+
+  void
+  DocumentView::handleViewMagnificationChangedEvent(AbstractModel::Events::ViewMagnificationChangedEvent *event) {
+    printf("Mag\n");
+    printf("hdl: %d %d\n", event->documentHandle, m_documentHandle);
+    if(event->documentHandle == m_documentHandle) {
+      m_documentWidget->setMagnification(event->magnification);
+    }
   }
 }

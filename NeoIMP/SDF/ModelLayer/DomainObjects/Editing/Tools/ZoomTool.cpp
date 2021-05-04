@@ -51,10 +51,12 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
       if(messageReceiver != nullptr) {
         std::shared_ptr<Services::AbstractDomain::Defs::ImageViewportCenterChanged>
           centerChanged(new Services::AbstractDomain::Defs::ImageViewportCenterChanged);
+        centerChanged->imageId = image->getId();
         centerChanged->newCenter = m_newCenter;
 
         std::shared_ptr<Services::AbstractDomain::Defs::ImageViewportMagnificationChanged>
           magnifChanged(new Services::AbstractDomain::Defs::ImageViewportMagnificationChanged);
+        magnifChanged->imageId = image->getId();
         magnifChanged->newMagnif = m_newMagnification;
 
         messageReceiver->receiveMessage(centerChanged);
