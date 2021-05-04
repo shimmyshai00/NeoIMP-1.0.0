@@ -119,7 +119,12 @@ namespace SDF::ModelLayer::Services {
   ToolBasedEditingService::finishToolApplication() {
     if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
       int toolId(m_toolIdMap[m_activeTool]);
-      m_toolRepository->retrieve(toolId)->commit();
+      std::pair<AbstractDomain::IImage *, std::unique_ptr<AbstractDomain::IImageDelta>>
+        delta(m_toolRepository->retrieve(toolId)->commit());
+
+      // Apply the delta to the given image via the delta editor, passing the messages describing the edits on to the
+      // broker.
+      m_deltaEditorMap->get(delta.first)->applyDelta(std::move(delta.second), this);
     }
   }
 

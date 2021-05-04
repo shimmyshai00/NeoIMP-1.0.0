@@ -51,7 +51,7 @@ namespace SDF::ModelLayer {
       void
       applyAt(float x, float y);
 
-      std::unique_ptr<Services::AbstractDomain::IImageDelta>
+      std::pair<Services::AbstractDomain::IImage *, std::unique_ptr<Services::AbstractDomain::IImageDelta>>
       commit();
     private:
       int m_id;

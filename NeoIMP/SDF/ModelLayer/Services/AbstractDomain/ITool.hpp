@@ -46,7 +46,7 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
     virtual void
     applyAt(float x, float y) = 0;
 
-    virtual std::unique_ptr<IImageDelta>
+    virtual std::pair<IImage *, std::unique_ptr<IImageDelta>>
     commit() = 0;
   };
 }

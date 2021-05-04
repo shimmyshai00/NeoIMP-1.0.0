@@ -23,15 +23,25 @@
 
 #include <DocumentStorageService.hpp>
 
+#include <AbstractData/IRepository.hpp>
 #include <AbstractData/IFileSystemPersistenceController.hpp>
+
 #include <AbstractDomain/IImage.hpp>
+#include <AbstractDomain/IObjectMap.hpp>
+#include <AbstractDomain/IDeltaEditor.hpp>
 
 namespace SDF::ModelLayer::Services {
   DocumentStorageService::DocumentStorageService(
+    AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
     AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage, AbstractData::ImageFileFormat> *
-      fileSystemPersistenceController
+      fileSystemPersistenceController,
+    AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *deltaEditorMap,
+    Interfaces::IFactory<AbstractDomain::IDeltaEditor, AbstractDomain::IImage *> *deltaEditorFactory
   )
-    : m_fileSystemPersistenceController(fileSystemPersistenceController)
+    : m_imageRepository(imageRepository),
+      m_fileSystemPersistenceController(fileSystemPersistenceController),
+      m_deltaEditorMap(deltaEditorMap),
+      m_deltaEditorFactory(deltaEditorFactory)
   {
   }
 
@@ -52,6 +62,15 @@ namespace SDF::ModelLayer::Services {
                                        UILayer::AbstractModel::Properties::FileFormat fileFormat
                                       )
   {
-    return m_fileSystemPersistenceController->load(fileName, AbstractData::FILE_FORMAT_PNG); // TBA
+    UILayer::AbstractModel::Handle
+      handle(m_fileSystemPersistenceController->load(fileName, AbstractData::FILE_FORMAT_PNG));
+
+    // Create an editor for this image.
+    AbstractDomain::IImage *imagePtr(m_imageRepository->retrieve(handle));
+    std::unique_ptr<AbstractDomain::IDeltaEditor> deltaEditor(m_deltaEditorFactory->create(imagePtr));
+
+    m_deltaEditorMap->linkTo(imagePtr, std::move(deltaEditor));
+
+    return handle;
   }
 }

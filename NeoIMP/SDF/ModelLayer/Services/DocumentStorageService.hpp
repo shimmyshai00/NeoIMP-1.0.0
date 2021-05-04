@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IFactory.hpp>
+
 #include <SDF/UILayer/AbstractModel/IDocumentStorageService.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/FileFormat.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
@@ -38,11 +40,18 @@ namespace SDF::ModelLayer {
   namespace AbstractData {
     template<class T, class FileFormat>
     class IFileSystemPersistenceController;
+
+    template<class T>
+    class IRepository;
   }
 
   namespace Services {
     namespace AbstractDomain {
       class IImage;
+      class IDeltaEditor;
+
+      template<class T, class U>
+      class IObjectMap;
     }
 
     // Class:      DocumentStorageService
@@ -50,9 +59,16 @@ namespace SDF::ModelLayer {
     // Parameters: None.
     class DocumentStorageService : public UILayer::AbstractModel::IDocumentStorageService {
     public:
-      INJECT(DocumentStorageService(AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage,
+      INJECT(DocumentStorageService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                    AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage,
                                                                                    AbstractData::ImageFileFormat
-                                                                                  > *fileSystemPersistenceController));
+                                                                                  > *fileSystemPersistenceController,
+                                    AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
+                                     deltaEditorMap,
+                                    Interfaces::IFactory<AbstractDomain::IDeltaEditor,
+                                                         AbstractDomain::IImage *
+                                                        > *deltaEditorFactory
+                                   ));
 
       void
       saveDocument(std::string fileName,
@@ -65,8 +81,12 @@ namespace SDF::ModelLayer {
                    UILayer::AbstractModel::Properties::FileFormat fileFormat
                   );
     private:
+      AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
       AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage, AbstractData::ImageFileFormat> *
         m_fileSystemPersistenceController;
+      AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *m_deltaEditorMap;
+
+      Interfaces::IFactory<AbstractDomain::IDeltaEditor, AbstractDomain::IImage *> *m_deltaEditorFactory;
     };
   }
 }

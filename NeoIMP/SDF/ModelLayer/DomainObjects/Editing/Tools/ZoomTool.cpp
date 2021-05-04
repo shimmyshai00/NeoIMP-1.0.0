@@ -90,12 +90,14 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
     m_applicationPoint = Math::Coord<float>(x, y);
   }
 
-  std::unique_ptr<Services::AbstractDomain::IImageDelta>
+  std::pair<Services::AbstractDomain::IImage *, std::unique_ptr<Services::AbstractDomain::IImageDelta>>
   ZoomTool::commit() {
     // Zoom into the given application point.
     float curMagnif(m_image->getViewMagnification());
     float newMagnif(std::min(2.0f * curMagnif, 128.0f)); // max zoom: 128x or 12800%
 
-    return std::make_unique<ZoomDelta>(m_applicationPoint, newMagnif);
+    printf("ZOOM %f\n", newMagnif);
+
+    return std::make_pair(m_image, std::make_unique<ZoomDelta>(m_applicationPoint, newMagnif));
   }
 }
