@@ -72,20 +72,17 @@ namespace SDF::ModelLayer {
                                       deltaEditorMap,
                                      Interfaces::IFactory<AbstractDomain::ITool,
                                                           UILayer::AbstractModel::Properties::Tool
-                                                         > *toolFactory
+                                                         > *toolFactory,
+                                     Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
                                     ));
 
-      int
-      getUid() const;
+      ~ToolBasedEditingService();
 
       void
       attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
 
       void
       removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);
-
-      void
-      setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker);
 
       UILayer::AbstractModel::Properties::Tool
       getActiveTool() const;
@@ -112,6 +109,12 @@ namespace SDF::ModelLayer {
       std::map<UILayer::AbstractModel::Properties::Tool, int> m_toolIdMap;
 
       UILayer::AbstractModel::Properties::Tool m_activeTool;
+
+      int
+      getUid() const;
+
+      void
+      setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker);
 
       void
       receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message);

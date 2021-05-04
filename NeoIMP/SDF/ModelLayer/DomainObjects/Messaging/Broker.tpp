@@ -34,6 +34,7 @@ namespace SDF::ModelLayer::DomainObjects::Messaging {
   template<class MessageT>
   void Broker<MessageT>::addPublisher(Interfaces::IMessagePublisher<MessageT> *publisher) {
     m_publishers.insert(publisher);
+    publisher->setBroker(this);
   }
 
   template<class MessageT>
@@ -44,6 +45,7 @@ namespace SDF::ModelLayer::DomainObjects::Messaging {
   template<class MessageT>
   void Broker<MessageT>::removePublisher(Interfaces::IMessagePublisher<MessageT> *publisher) {
     m_publishers.erase(publisher);
+    publisher->setBroker(nullptr);
   }
 
   template<class MessageT>

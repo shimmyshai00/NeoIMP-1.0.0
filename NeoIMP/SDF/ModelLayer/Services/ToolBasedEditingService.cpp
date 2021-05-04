@@ -46,7 +46,9 @@ namespace SDF::ModelLayer::Services {
                                                                              > *deltaEditorMap,
                                                    Interfaces::IFactory<AbstractDomain::ITool,
                                                                         Properties::Tool
-                                                                       > *toolFactory
+                                                                       > *toolFactory,
+                                                   Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *
+                                                    messageBroker
                                                   )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
@@ -55,11 +57,12 @@ namespace SDF::ModelLayer::Services {
       m_activeTool(Properties::TOOL_MAX)
   {
     addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
+
+    messageBroker->addPublisher(this);
   }
 
-  int
-  ToolBasedEditingService::getUid() const {
-    return SERVICE_TOOL_BASED_EDITING;
+  ToolBasedEditingService::~ToolBasedEditingService() {
+    m_broker->removePublisher(this);
   }
 
   void
@@ -70,11 +73,6 @@ namespace SDF::ModelLayer::Services {
   void
   ToolBasedEditingService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
-  }
-
-  void
-  ToolBasedEditingService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
-    m_broker = broker;
   }
 
   Properties::Tool
@@ -129,11 +127,21 @@ namespace SDF::ModelLayer::Services {
   }
 
   // Private members.
+  int
+  ToolBasedEditingService::getUid() const {
+    return SERVICE_TOOL_BASED_EDITING;
+  }
+
   void
   ToolBasedEditingService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
     if(m_broker != nullptr) {
       m_broker->receiveMessage(this, message);
     }
+  }
+
+  void
+  ToolBasedEditingService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
+    m_broker = broker;
   }
 
   void

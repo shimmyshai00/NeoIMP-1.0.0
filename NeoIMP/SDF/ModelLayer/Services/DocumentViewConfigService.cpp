@@ -185,6 +185,7 @@ namespace SDF::ModelLayer::Services {
   DocumentViewConfigService::handleImageViewportMagnificationChangedMessage(
     AbstractDomain::Defs::ImageViewportMagnificationChanged *message
   ) {
+    printf("MAGNIF\n");
     std::shared_ptr<Events::ViewMagnificationChangedEvent> event(new Events::ViewMagnificationChangedEvent);
 
     event->documentHandle = message->imageId;
