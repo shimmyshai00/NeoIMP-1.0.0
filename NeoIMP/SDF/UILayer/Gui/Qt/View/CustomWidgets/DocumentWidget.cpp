@@ -105,6 +105,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     m_documentEditorWidget->setMagnification(magnification);
     m_horizontalRuler->setMagnification(magnification);
     m_verticalRuler->setMagnification(magnification);
+    printf("sz: %d\n", m_documentEditorWidget->size().width());
   }
 
   void DocumentWidget::setTool(AbstractModel::Properties::Tool tool) {

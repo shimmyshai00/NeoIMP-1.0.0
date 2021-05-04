@@ -45,6 +45,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
     m_imageWidthPx = width;
     m_imageHeightPx = height;
     updateGeometry();
+    adjustSize();
     update();
   }
 
@@ -52,6 +53,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditorWidget {
   BoxDecalWidget::setMagnification(float newMagnification) {
     m_magnification = newMagnification;
     updateGeometry();
+    adjustSize();
     update();
   }
 

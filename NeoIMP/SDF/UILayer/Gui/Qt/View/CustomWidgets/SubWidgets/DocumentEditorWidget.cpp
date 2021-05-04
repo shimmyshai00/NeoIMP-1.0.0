@@ -56,6 +56,9 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   void DocumentEditorWidget::setMagnification(float newMagnification) {
     m_imageDisplayWidget->setMagnification(newMagnification);
     m_temporaryRectangleDecal->setMagnification(newMagnification);
+    updateGeometry();
+    adjustSize();
+    update();
   }
 
   void DocumentEditorWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
