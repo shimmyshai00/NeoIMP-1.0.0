@@ -36,7 +36,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   class IImageDataSource;
 
   namespace SubWidgets {
-    namespace EditViewWidget {
+    namespace EditorWidget {
+      class BoxDecalWidget;
       class ImageDisplayWidget;
     }
 
@@ -46,37 +47,26 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       DocumentEditorWidget(QWidget *parent = nullptr);
       ~DocumentEditorWidget() {}
 
-      void
-      setDataSource(IImageDataSource *dataSource);
+      QSize sizeHint() const;
 
-      void
-      setTranslate(const QPointF &translate);
+      void setDataSource(IImageDataSource *dataSource);
 
-      void
-      setZoom(float zoomFactor);
+      float magnification() const;
+      void setMagnification(float newMagnification);
 
-      void
-      setCursorByTool(AbstractModel::Properties::Tool tool);
+      void setCursorByTool(AbstractModel::Properties::Tool tool);
     signals:
-      void
-      clickedAt(float documentX, float documentY);
-
-      void
-      draggedTo(float documentX, float documentY);
-
-      void
-      releasedAt(float documentX, float documentY);
+      void clickedAt(float documentX, float documentY);
+      void draggedTo(float documentX, float documentY);
+      void releasedAt(float documentX, float documentY);
     protected:
-      void
-      mousePressEvent(QMouseEvent *event);
-
-      void
-      mouseMoveEvent(QMouseEvent *event);
-
-      void
-      mouseReleaseEvent(QMouseEvent *event);
+      void mousePressEvent(QMouseEvent *event);
+      void mouseMoveEvent(QMouseEvent *event);
+      void mouseReleaseEvent(QMouseEvent *event);
     private:
-      EditViewWidget::ImageDisplayWidget *m_imageDisplayWidget;
+      EditorWidget::BoxDecalWidget *m_temporaryRectangleDecal;
+      EditorWidget::ImageDisplayWidget *m_imageDisplayWidget;
+
       QStackedLayout *m_stackedLayout;
     };
   }

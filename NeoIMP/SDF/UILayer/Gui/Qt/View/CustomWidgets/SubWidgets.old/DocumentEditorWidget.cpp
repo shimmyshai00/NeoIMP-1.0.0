@@ -24,37 +24,44 @@
 
 #include <DocumentEditorWidget.hpp>
 
-#include <EditViewWidget/ImageDisplayWidget.hpp>
+#include <EditorWidget/BoxDecalWidget.hpp>
+#include <EditorWidget/ImageDisplayWidget.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   DocumentEditorWidget::DocumentEditorWidget(QWidget *parent)
-    : m_imageDisplayWidget(new EditViewWidget::ImageDisplayWidget()),
+    : m_temporaryRectangleDecal(new EditorWidget::BoxDecalWidget()),
+      m_imageDisplayWidget(new EditorWidget::ImageDisplayWidget()),
       m_stackedLayout(new QStackedLayout(this))
   {
     m_stackedLayout->setStackingMode(QStackedLayout::StackAll);
+    m_stackedLayout->addWidget(m_temporaryRectangleDecal);
     m_stackedLayout->addWidget(m_imageDisplayWidget);
+
+    m_temporaryRectangleDecal->setDecalRect(5, 5, 50, 50);
+    m_temporaryRectangleDecal->setDecalVisibility(true);
   }
 
-  void
-  DocumentEditorWidget::setDataSource(IImageDataSource *dataSource) {
+  QSize DocumentEditorWidget::sizeHint() const {
+    return m_stackedLayout->sizeHint();
+  }
+
+  void DocumentEditorWidget::setDataSource(IImageDataSource *dataSource) {
     m_imageDisplayWidget->setDataSource(dataSource);
+  }
+
+  float DocumentEditorWidget::magnification() const {
+    return m_imageDisplayWidget->magnification();
+  }
+
+  void DocumentEditorWidget::setMagnification(float newMagnification) {
+    m_imageDisplayWidget->setMagnification(newMagnification);
+    m_temporaryRectangleDecal->setMagnification(newMagnification);
+    updateGeometry();
+    adjustSize();
     update();
   }
 
-  void
-  DocumentEditorWidget::setTranslate(const QPointF &translate) {
-    m_imageDisplayWidget->setTranslate(translate);
-    update();
-  }
-
-  void
-  DocumentEditorWidget::setZoom(float zoomFactor) {
-    m_imageDisplayWidget->setZoom(zoomFactor);
-    update();
-  }
-
-  void
-  DocumentEditorWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
+  void DocumentEditorWidget::setCursorByTool(AbstractModel::Properties::Tool tool) {
     switch(tool) {
       case AbstractModel::Properties::TOOL_ZOOM: setCursor(::Qt::PointingHandCursor); break; // TBA - testing stub
       default: unsetCursor(); break;
@@ -62,39 +69,30 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   }
 
   // Protected members.
-  void
-  DocumentEditorWidget::mousePressEvent(QMouseEvent *event) {
-    /*
+  void DocumentEditorWidget::mousePressEvent(QMouseEvent *event) {
     // Calculate the image coordinates of where the mouse was clicked.
     float imagePosX(event->localPos().x() / magnification());
     float imagePosY(event->localPos().y() / magnification());
 
     // Trigger the relevant signal.
     clickedAt(imagePosX, imagePosY);
-    */
   }
 
-  void
-  DocumentEditorWidget::mouseMoveEvent(QMouseEvent *event) {
-    /*
+  void DocumentEditorWidget::mouseMoveEvent(QMouseEvent *event) {
     // Calculate the image coordinates of where the mouse was clicked.
     float imagePosX(event->localPos().x() / magnification());
     float imagePosY(event->localPos().y() / magnification());
 
     // Trigger the relevant signal.
     draggedTo(imagePosX, imagePosY);
-    */
   }
 
-  void
-  DocumentEditorWidget::mouseReleaseEvent(QMouseEvent *event) {
-    /*
+  void DocumentEditorWidget::mouseReleaseEvent(QMouseEvent *event) {
     // Calculate the image coordinates of where the mouse was clicked.
     float imagePosX(event->localPos().x() / magnification());
     float imagePosY(event->localPos().y() / magnification());
 
     // Trigger the relevant signal.
     releasedAt(imagePosX, imagePosY);
-    */
   }
 }

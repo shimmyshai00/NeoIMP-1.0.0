@@ -36,18 +36,20 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   {
     // The layout of this widget consists of two rulers on either side of the image display.
     m_gridLayout = new QGridLayout(this);
-    m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
-    m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
+    //m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
+    //m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
 
-    m_scrollArea = new QScrollArea();
-    m_scrollArea->setBackgroundRole(QPalette::Dark);
+    //m_scrollArea = new QScrollArea();
+    //m_scrollArea->setBackgroundRole(QPalette::Dark);
     m_documentEditorWidget = new SubWidgets::DocumentEditorWidget();
-    m_scrollArea->setWidget(m_documentEditorWidget);
+    //m_scrollArea->setWidget(m_documentEditorWidget);
 
-    m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
-    m_gridLayout->addWidget(m_verticalRuler, 1, 0);
-    m_gridLayout->addWidget(m_scrollArea, 1, 1);
+    //m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
+    //m_gridLayout->addWidget(m_verticalRuler, 1, 0);
+    //m_gridLayout->addWidget(m_scrollArea, 1, 1);
+    m_gridLayout->addWidget(m_documentEditorWidget, 0, 0);
 
+/*
     // Connect the rulers to the scroll bars.
     QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::rangeChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
     QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::valueChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
@@ -63,6 +65,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
       [=](int min, int max) { m_verticalRuler->setScrollDistance(max - min); }
     );
+*/
 
     // Connect the inner editor pane interactor signals to their externalized counterparts.
     QObject::connect(m_documentEditorWidget, &SubWidgets::DocumentEditorWidget::clickedAt,
@@ -77,8 +80,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     m_documentEditorWidget->setDataSource(dataSource);
     m_documentEditorWidget->setMinimumSize(m_documentEditorWidget->sizeHint());
 
-    m_horizontalRuler->setObject(0, dataSource->getImageWidth()-1);
-    m_verticalRuler->setObject(0, dataSource->getImageHeight()-1);
+    //m_horizontalRuler->setObject(0, dataSource->getImageWidth()-1);
+    //m_verticalRuler->setObject(0, dataSource->getImageHeight()-1);
   }
 
   float DocumentWidget::centerX() const {
@@ -90,7 +93,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   }
 
   float DocumentWidget::magnification() const {
-    return m_documentEditorWidget->magnification();
+    return 1.0f;
   }
 
   void DocumentWidget::setCenterX(float centerX) {
@@ -102,10 +105,12 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   }
 
   void DocumentWidget::setMagnification(float magnification) {
-    m_documentEditorWidget->setMagnification(magnification);
-    m_horizontalRuler->setMagnification(magnification);
-    m_verticalRuler->setMagnification(magnification);
-    printf("sz: %d\n", m_documentEditorWidget->size().width());
+    //m_documentEditorWidget->setMagnification(magnification);
+    //m_horizontalRuler->setMagnification(magnification);
+    //m_verticalRuler->setMagnification(magnification);
+    //printf("scrollRange: %d\n", m_scrollArea->horizontalScrollBar()->maximum());
+    //printf("viewportSize: %d\n", m_scrollArea->viewport()->size().width());
+    printf("sz: %d %d\n", m_documentEditorWidget->size().width(), m_documentEditorWidget->size().height());
   }
 
   void DocumentWidget::setTool(AbstractModel::Properties::Tool tool) {

@@ -53,17 +53,23 @@ namespace SDF::UILayer::Gui::Qt::View {
       return m_documentAccessService->getDocumentHeightPx(m_imageHandle);
     }
 
-    void accessImageData(const unsigned char *&origin,
-                         std::ptrdiff_t &rowStride,
-                         int x1, int y1, int x2, int y2
-                        )
-    {
+    QImage getImageRegion(const QRect &rect) {
       if(m_renderingHandle == AbstractModel::HANDLE_INVALID) {
         // Render the image first.
         m_renderingHandle = m_documentRenderService->renderImage(m_imageHandle);
       }
 
-      m_documentRenderService->getRenderedRegion(origin, rowStride, m_renderingHandle, x1, y1, x2, y2);
+      const unsigned char *origin;
+      std::ptrdiff_t rowStride;
+
+      m_documentRenderService->getRenderedRegion(origin, rowStride, m_renderingHandle,
+                                                 rect.x(),
+                                                 rect.y(),
+                                                 rect.x() + rect.width() - 1,
+                                                 rect.y() + rect.height() - 1
+                                                );
+
+      return QImage(origin, rect.width(), rect.height(), rowStride, QImage::Format_RGB32);
     }
   private:
     AbstractModel::IDocumentAccessService *m_documentAccessService;

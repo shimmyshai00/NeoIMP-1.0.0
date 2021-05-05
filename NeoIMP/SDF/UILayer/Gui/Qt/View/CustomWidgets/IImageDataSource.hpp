@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <cstdlib>
+#include <QImage>
+#include <QRect>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   class IImageDataSource {
@@ -34,11 +35,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     virtual int getImageWidth() = 0;
     virtual int getImageHeight() = 0;
 
-    // Right now, expects to receive RGB32 format pixels only.
-    virtual void accessImageData(const unsigned char *&origin,
-                                 std::ptrdiff_t &rowStride,
-                                 int x1, int y1, int x2, int y2
-                                ) = 0;
+    virtual QImage getImageRegion(const QRect &rect) = 0;
   };
 }
 

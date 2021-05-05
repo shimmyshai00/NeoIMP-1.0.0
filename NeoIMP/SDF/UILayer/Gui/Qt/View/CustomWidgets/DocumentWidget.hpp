@@ -62,10 +62,10 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   private:
     QGridLayout *m_gridLayout;
 
-    SubWidgets::DocumentRulerWidget *m_horizontalRuler;
-    SubWidgets::DocumentRulerWidget *m_verticalRuler;
+    //SubWidgets::DocumentRulerWidget *m_horizontalRuler;
+    //SubWidgets::DocumentRulerWidget *m_verticalRuler;
 
-    QScrollArea *m_scrollArea;
+    //QScrollArea *m_scrollArea;
     SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
   };
 }
