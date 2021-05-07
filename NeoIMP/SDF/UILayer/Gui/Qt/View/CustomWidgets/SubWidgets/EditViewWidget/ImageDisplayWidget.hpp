@@ -32,6 +32,9 @@
 
 #include <QPointF>
 #include <QRect>
+#include <QRectF>
+
+#include <QTransform>
 
 #include <QPaintEvent>
 #include <QPainter>
@@ -53,11 +56,29 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       void
       setDataSource(IImageDataSource *dataSource);
 
+      QPointF
+      translate() const;
+
+      float
+      zoom() const;
+
       void
       setTranslate(const QPointF &translate);
 
       void
       setZoom(float zoomFactor);
+
+      QRect
+      getImageRect() const;
+
+      QRect
+      getViewportRect() const;
+
+      QPolygonF
+      getViewportOnImage(bool closed = false) const;
+
+      QPointF
+      getImageCoordinatesOf(QPointF viewportPoint) const;
     private:
       IImageDataSource *m_dataSource;
 
@@ -67,6 +88,9 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       void
       paintEvent(QPaintEvent *event);
     private:
+      QTransform
+      makeTransformToImage() const;
+
       void
       paintWidgetRegion(QPainter &qp,
                         QRect rect

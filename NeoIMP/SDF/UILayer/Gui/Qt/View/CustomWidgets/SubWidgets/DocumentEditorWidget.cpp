@@ -41,6 +41,16 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
     update();
   }
 
+  QPointF
+  DocumentEditorWidget::translate() const {
+    return m_imageDisplayWidget->translate();
+  }
+
+  float
+  DocumentEditorWidget::zoom() const {
+    return m_imageDisplayWidget->zoom();
+  }
+
   void
   DocumentEditorWidget::setTranslate(const QPointF &translate) {
     m_imageDisplayWidget->setTranslate(translate);
@@ -51,6 +61,21 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   DocumentEditorWidget::setZoom(float zoomFactor) {
     m_imageDisplayWidget->setZoom(zoomFactor);
     update();
+  }
+
+  QRect
+  DocumentEditorWidget::getImageRect() const {
+    return m_imageDisplayWidget->getImageRect();
+  }
+
+  QRect
+  DocumentEditorWidget::getViewportRect() const {
+    return m_imageDisplayWidget->getViewportRect();
+  }
+
+  QPolygonF
+  DocumentEditorWidget::getViewportOnImage(bool closed) const {
+    return m_imageDisplayWidget->getViewportOnImage();
   }
 
   void
@@ -64,37 +89,28 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   // Protected members.
   void
   DocumentEditorWidget::mousePressEvent(QMouseEvent *event) {
-    /*
     // Calculate the image coordinates of where the mouse was clicked.
-    float imagePosX(event->localPos().x() / magnification());
-    float imagePosY(event->localPos().y() / magnification());
+    QPointF imagePos(m_imageDisplayWidget->getImageCoordinatesOf(event->localPos()));
 
     // Trigger the relevant signal.
-    clickedAt(imagePosX, imagePosY);
-    */
+    clickedAt(imagePos.x(), imagePos.y());
   }
 
   void
   DocumentEditorWidget::mouseMoveEvent(QMouseEvent *event) {
-    /*
     // Calculate the image coordinates of where the mouse was clicked.
-    float imagePosX(event->localPos().x() / magnification());
-    float imagePosY(event->localPos().y() / magnification());
+    QPointF imagePos(m_imageDisplayWidget->getImageCoordinatesOf(event->localPos()));
 
     // Trigger the relevant signal.
-    draggedTo(imagePosX, imagePosY);
-    */
+    draggedTo(imagePos.x(), imagePos.y());
   }
 
   void
   DocumentEditorWidget::mouseReleaseEvent(QMouseEvent *event) {
-    /*
     // Calculate the image coordinates of where the mouse was clicked.
-    float imagePosX(event->localPos().x() / magnification());
-    float imagePosY(event->localPos().y() / magnification());
+    QPointF imagePos(m_imageDisplayWidget->getImageCoordinatesOf(event->localPos()));
 
     // Trigger the relevant signal.
-    releasedAt(imagePosX, imagePosY);
-    */
+    releasedAt(imagePos.x(), imagePos.y());
   }
 }

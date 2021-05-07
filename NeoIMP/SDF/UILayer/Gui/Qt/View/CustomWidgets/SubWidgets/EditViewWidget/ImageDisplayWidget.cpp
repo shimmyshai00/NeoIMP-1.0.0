@@ -30,6 +30,7 @@
 #include <QTransform>
 
 #include <iostream>
+#include <cmath>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditViewWidget {
   ImageDisplayWidget::ImageDisplayWidget(QWidget *parent)
@@ -44,6 +45,16 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditViewWidget
     m_dataSource = dataSource;
   }
 
+  QPointF
+  ImageDisplayWidget::translate() const {
+    return m_translation;
+  }
+
+  float
+  ImageDisplayWidget::zoom() const {
+    return m_magnification;
+  }
+
   void
   ImageDisplayWidget::setTranslate(const QPointF &translate) {
     m_translation = translate;
@@ -54,6 +65,35 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditViewWidget
     m_magnification = zoomFactor;
   }
 
+  QRect
+  ImageDisplayWidget::getImageRect() const {
+    if(m_dataSource != nullptr) {
+      return QRect(0, 0, m_dataSource->getImageWidth(), m_dataSource->getImageHeight());
+    } else {
+      return QRect(0, 0, 0, 0);
+    }
+  }
+
+  QRect
+  ImageDisplayWidget::getViewportRect() const {
+    return this->rect();
+  }
+
+  QPolygonF
+  ImageDisplayWidget::getViewportOnImage(bool closed) const {
+    QPolygonF viewportRectPolygon(static_cast<QRectF>(getViewportRect()));
+    if(!closed) {
+      viewportRectPolygon.pop_back();
+    }
+
+    return makeTransformToImage().map(viewportRectPolygon);
+  }
+
+  QPointF
+  ImageDisplayWidget::getImageCoordinatesOf(QPointF viewportPoint) const {
+    return makeTransformToImage().map(QPointF(viewportPoint));
+  }
+
   // Private members.
   void
   ImageDisplayWidget::paintEvent(QPaintEvent *event) {
@@ -62,31 +102,45 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets::EditViewWidget
     paintWidgetRegion(qp, event->rect());
   }
 
+  QTransform
+  ImageDisplayWidget::makeTransformToImage() const {
+    return QTransform()
+      .translate(m_translation.x(), m_translation.y())
+      .scale(1.0f / m_magnification, 1.0f / m_magnification);
+  }
+
   void
   ImageDisplayWidget::paintWidgetRegion(QPainter &qp, QRect rect) {
+    printf("TotalPaint: %d %d\n", this->rect().width(), this->rect().height());
     if(m_dataSource != nullptr) {
       // The passed rectangle, rect, will be a piece of the render viewport, which is of size equal to the widget
       // rectangle. Transform this rectangle to the corresponding region on the image.
 
       // Create the transform. Note: this transform is meant to transform viewport coordinates TO image coordinates.
-      QTransform xfm(QTransform()
-        .translate(m_translation.x(), m_translation.y())
-        .scale(1.0f / m_magnification, 1.0f / m_magnification)
-      );
+      QTransform xfm(makeTransformToImage());
 
-      // Transform the rectangle.
-      QRect renderRegionBoundingRect(xfm.mapRect(rect));
+      // Get the bounding box of the transformation image of the viewport rectangle on the document and sure that
+      // transformed viewport rectangle is *fully* contained within.
+      QRectF imageSpaceViewportBoundingRectF(xfm.mapRect(QRectF(rect)));
+      QRect imageSpaceViewportBoundingRect(floor(imageSpaceViewportBoundingRectF.x()),
+                                           floor(imageSpaceViewportBoundingRectF.y()),
+                                           ceil(imageSpaceViewportBoundingRectF.width()),
+                                           ceil(imageSpaceViewportBoundingRectF.height())
+                                          );
 
       // Intersect this bounding rectangle with the image space rectangle to avoid out-of-bounds access.
-      QRect imageSpaceImageRect(0, 0, m_dataSource->getImageWidth()-1, m_dataSource->getImageHeight()-1);
-      renderRegionBoundingRect = imageSpaceImageRect.intersected(renderRegionBoundingRect);
+      QRect imageSpaceImageRect(0, 0, m_dataSource->getImageWidth(), m_dataSource->getImageHeight());
+      imageSpaceViewportBoundingRect = imageSpaceViewportBoundingRect.intersected(imageSpaceImageRect);
 
       // Traverse the bounding region and render it onto the screen in a tiled manner.
       // NB: just use one tile for now - will not work for extremely large images (> 32768x32768)
-      QImage srcImage(m_dataSource->getImageRegion(renderRegionBoundingRect));
-      QTransform invXfm(QTransform()
-        .scale(m_magnification, m_magnification)
-      );
+      QImage srcImage(m_dataSource->getImageRegion(imageSpaceViewportBoundingRect));
+
+      // Figure out the inverse transformation from the image of the viewport rectangle on this buffer back to the
+      // viewport rectangle on the screen.
+      QTransform invXfm(QTransform().translate(imageSpaceViewportBoundingRect.x(),
+                                               imageSpaceViewportBoundingRect.y()
+                                             ) * xfm.inverted());
 
       qp.setTransform(invXfm);
       qp.drawImage(QPointF(0.0, 0.0), srcImage);

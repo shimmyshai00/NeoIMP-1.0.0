@@ -28,7 +28,11 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QScrollArea>
+#include <QScrollBar>
+
+#include <QEvent>
+#include <QResizeEvent>
+#include <QMetaObject>
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   namespace SubWidgets {
@@ -59,14 +63,47 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     void editorClickedAt(float documentX, float documentY);
     void editorDraggedOnTo(float documentX, float documentY);
     void editorClickReleasedAt(float documentX, float documentY);
+  protected:
+    bool
+    event(QEvent *event);
+
+    void
+    resizeEvent(QResizeEvent *event);
   private:
     QGridLayout *m_gridLayout;
 
-    //SubWidgets::DocumentRulerWidget *m_horizontalRuler;
-    //SubWidgets::DocumentRulerWidget *m_verticalRuler;
+    SubWidgets::DocumentRulerWidget *m_horizontalRuler;
+    SubWidgets::DocumentRulerWidget *m_verticalRuler;
+
+    QScrollBar *m_horizontalScrollBar;
+    QScrollBar *m_verticalScrollBar;
+
+    QMetaObject::Connection m_hsbValChangeConn;
+    QMetaObject::Connection m_vsbValChangeConn;
 
     //QScrollArea *m_scrollArea;
     SubWidgets::DocumentEditorWidget *m_documentEditorWidget;
+
+    void
+    setTranslate(QPointF translate, bool noScrollUpdate = false);
+
+    void
+    setZoom(float zoom, bool noScrollUpdate = false);
+
+    void
+    centerViewAt(QPointF centerPoint, bool noScrollUpdate = false);
+
+    void
+    recalculateScrollBarRanges();
+
+    void
+    disconnectScrollHandlers();
+
+    void
+    connectScrollHandlers();
+
+    void
+    resetScrollBarValues();
   };
 }
 

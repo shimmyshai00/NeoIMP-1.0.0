@@ -4,4 +4,5 @@ add_subdirectory(EditViewWidget)
 
 target_sources(neoimp PUBLIC
   DocumentEditorWidget.cpp
+  DocumentRulerWidget.cpp
 )

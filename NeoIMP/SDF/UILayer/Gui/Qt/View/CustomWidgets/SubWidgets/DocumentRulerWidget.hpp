@@ -37,64 +37,47 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
     DocumentRulerWidget(::Qt::Orientation orientation, QWidget *parent = nullptr);
     ~DocumentRulerWidget();
 
-    QSize sizeHint() const;
+    QSize
+    sizeHint() const;
 
-    void setRulerThickness(int rulerThickness);
+    void
+    setMajorTickInterval(int screenPixelsBetweenMajorTicks);
 
-    void setMajorTickInterval(int screenPixelsBetweenMajorTicks);
-    void setNumMinorTicks(int numMinorTicksPerMajorTick);
+    void
+    setNumMinorTicks(int numMinorTicksPerMajorTick);
 
-    // Function: setObject
-    // Purpose:  Sets the space occupied by the object to measured by the ruler. The coordinates given are in screen
-    //           pixels, and the origin of those coordinates is the left (or top) point on the ruler widget, so one can
-    //           think of this as where the object is positioned relative to the ruler. This is used to set where the
-    //           "0" mark should be: it always lies at objectH1.
-    void setObject(float objectH1, float objectH2);
+    void
+    setTranslation(float translation);
 
-    // Function: setMagnification
-    // Purpose:  Informs the ruler if the object being measured is a magnified version of an original, so it can
-    //           adjust its units appropriately.
-    void setMagnification(float magnification);
-
-    // Function: setScrollDistance
-    // Purpose:  Informs the ruler of how far a complete scroll of the scroll bar (from min to max) means in
-    //           (unmagnified) image pixels.
-    void setScrollDistance(float scrollDistPx);
-  public slots:
-    // for connecting to a scroll bar
-    void setScrollRange(int min, int max);
-    void setScrollPosition(int pos);
+    void
+    setMagnification(float magnification);
   private:
     ::Qt::Orientation m_orientation;
+    float m_rulerThickness;
 
-    int m_rulerThickness;
-
-    float m_leftOrigin;
+    float m_origin;
     float m_magnification;
-
-    float m_objectH1;
-    float m_objectH2;
-
-    float m_scrollDistPx;
-
-    int m_scrollMin;
-    int m_scrollMax;
-
-    int m_scrollPos;
 
     int m_screenPixelsBetweenMajorTicks;
     int m_numMinorTicksPerMajorTick;
 
-    void recalculateOrigin();
-
-    int getRulerLength();
-    int getRulerThickness();
-
-    void paintEvent(QPaintEvent *event);
+    void
+    paintEvent(QPaintEvent *event);
   private:
-    void paintWidgetBackground(QPainter &qp);
-    void paintTicksAndLabels(QPainter &qp);
-    void paintTickLabelAtScreenPos(QPainter &qp, int screenPos, int tickSize, const QString &label);
+    int
+    getRulerLength();
+
+    int
+    getRulerThickness();
+
+    void
+    paintWidgetBackground(QPainter &qp);
+
+    void
+    paintTicksAndLabels(QPainter &qp);
+
+    void
+    paintTickLabelAtScreenPos(QPainter &qp, int screenPos, int tickSize, const QString &label);
   };
 }
 

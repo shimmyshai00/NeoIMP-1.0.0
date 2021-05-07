@@ -175,6 +175,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   void
   DocumentView::handleViewCenterChangedEvent(AbstractModel::Events::ViewCenterChangedEvent *event) {
     if(event->documentHandle == m_documentHandle) {
+      printf("recenter to %f %f\n", event->centerX, event->centerY);
       m_documentWidget->setCenterX(event->centerX);
       m_documentWidget->setCenterY(event->centerY);
     }

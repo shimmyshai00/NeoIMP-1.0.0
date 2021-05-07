@@ -29,6 +29,8 @@
 
 #include <QWidget>
 
+#include <QRectF>
+
 #include <QStackedLayout>
 #include <QMouseEvent>
 
@@ -49,11 +51,26 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       void
       setDataSource(IImageDataSource *dataSource);
 
+      QPointF
+      translate() const;
+
+      float
+      zoom() const;
+
       void
       setTranslate(const QPointF &translate);
 
       void
       setZoom(float zoomFactor);
+
+      QRect
+      getImageRect() const;
+
+      QRect
+      getViewportRect() const;
+
+      QPolygonF
+      getViewportOnImage(bool closed = false) const;
 
       void
       setCursorByTool(AbstractModel::Properties::Tool tool);

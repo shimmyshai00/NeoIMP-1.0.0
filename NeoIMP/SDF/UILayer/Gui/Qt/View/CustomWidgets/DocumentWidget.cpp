@@ -29,43 +29,40 @@
 
 #include <QSizePolicy>
 #include <QScrollBar>
+#include <QResizeEvent>
+
+#include <cmath>
+
+namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
+  // Helper method.
+  int
+  calcScrollBarRange(int zoomedImageDimen, int viewportDimen) {
+    return std::max(0, zoomedImageDimen - viewportDimen);
+  }
+}
 
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   DocumentWidget::DocumentWidget(QWidget *parent, ::Qt::WindowFlags f)
     : QWidget(parent, f)
   {
-    // The layout of this widget consists of two rulers on either side of the image display.
+    // The layout of this widget consists of two rulers on either side of the image display, and two scroll bars on
+    // the opposite sides.
     m_gridLayout = new QGridLayout(this);
-    //m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
-    //m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
+    m_horizontalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Horizontal);
+    m_verticalRuler = new SubWidgets::DocumentRulerWidget(::Qt::Vertical);
+    m_horizontalScrollBar = new QScrollBar(::Qt::Horizontal);
+    m_verticalScrollBar = new QScrollBar(::Qt::Vertical);
 
-    //m_scrollArea = new QScrollArea();
-    //m_scrollArea->setBackgroundRole(QPalette::Dark);
     m_documentEditorWidget = new SubWidgets::DocumentEditorWidget();
-    //m_scrollArea->setWidget(m_documentEditorWidget);
 
-    //m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
-    //m_gridLayout->addWidget(m_verticalRuler, 1, 0);
-    //m_gridLayout->addWidget(m_scrollArea, 1, 1);
-    m_gridLayout->addWidget(m_documentEditorWidget, 0, 0);
+    m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
+    m_gridLayout->addWidget(m_verticalRuler, 1, 0);
+    m_gridLayout->addWidget(m_documentEditorWidget, 1, 1);
+    m_gridLayout->addWidget(m_horizontalScrollBar, 2, 1);
+    m_gridLayout->addWidget(m_verticalScrollBar, 1, 2);
 
-/*
-    // Connect the rulers to the scroll bars.
-    QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::rangeChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
-    QObject::connect(m_scrollArea->horizontalScrollBar(), &QScrollBar::valueChanged, m_horizontalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
-    QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollRange);
-    QObject::connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, m_verticalRuler, &SubWidgets::DocumentRulerWidget::setScrollPosition);
-
-    QObject::connect(
-      m_scrollArea->horizontalScrollBar(), &QScrollBar::rangeChanged,
-      [=](int min, int max) { m_horizontalRuler->setScrollDistance(max - min); }
-    );
-
-    QObject::connect(
-      m_scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
-      [=](int min, int max) { m_verticalRuler->setScrollDistance(max - min); }
-    );
-*/
+    // Connect scrolling methods.
+    connectScrollHandlers();
 
     // Connect the inner editor pane interactor signals to their externalized counterparts.
     QObject::connect(m_documentEditorWidget, &SubWidgets::DocumentEditorWidget::clickedAt,
@@ -78,42 +75,174 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
 
   void DocumentWidget::setDataSource(IImageDataSource *dataSource) {
     m_documentEditorWidget->setDataSource(dataSource);
-    m_documentEditorWidget->setMinimumSize(m_documentEditorWidget->sizeHint());
 
     //m_horizontalRuler->setObject(0, dataSource->getImageWidth()-1);
     //m_verticalRuler->setObject(0, dataSource->getImageHeight()-1);
   }
 
   float DocumentWidget::centerX() const {
-    return 0.0f; // TBA
+    QPolygonF viewportPolygon(m_documentEditorWidget->getViewportOnImage());
+    QPointF viewportCenter(0.0f, 0.0f);
+
+    for(auto point : viewportPolygon) {
+      viewportCenter += point;
+    }
+
+    return (viewportCenter / viewportPolygon.size()).x();
   }
 
   float DocumentWidget::centerY() const {
-    return 0.0f; // TBA
+    QPolygonF viewportPolygon(m_documentEditorWidget->getViewportOnImage());
+    QPointF viewportCenter(0.0f, 0.0f);
+
+    for(auto point : viewportPolygon) {
+      viewportCenter += point;
+    }
+
+    return (viewportCenter / viewportPolygon.size()).y();
   }
 
   float DocumentWidget::magnification() const {
-    return 1.0f;
+    return m_documentEditorWidget->zoom();
   }
 
   void DocumentWidget::setCenterX(float centerX) {
-    // TBA
+    centerViewAt(QPointF(centerX, centerY()));
   }
 
   void DocumentWidget::setCenterY(float centerY) {
-    // TBA
+    centerViewAt(QPointF(centerX(), centerY));
   }
 
   void DocumentWidget::setMagnification(float magnification) {
-    //m_documentEditorWidget->setMagnification(magnification);
-    //m_horizontalRuler->setMagnification(magnification);
-    //m_verticalRuler->setMagnification(magnification);
-    //printf("scrollRange: %d\n", m_scrollArea->horizontalScrollBar()->maximum());
-    //printf("viewportSize: %d\n", m_scrollArea->viewport()->size().width());
-    printf("sz: %d %d\n", m_documentEditorWidget->size().width(), m_documentEditorWidget->size().height());
+    QPointF curCenter(centerX(), centerY());
+
+    setZoom(magnification);
+    centerViewAt(curCenter);
   }
 
   void DocumentWidget::setTool(AbstractModel::Properties::Tool tool) {
     m_documentEditorWidget->setCursorByTool(tool);
+  }
+
+  bool
+  DocumentWidget::event(QEvent *event) {
+    if((event->type() == QEvent::StyleChange) || (event->type() == QEvent::LayoutRequest)) {
+      recalculateScrollBarRanges();
+      resetScrollBarValues();
+    }
+
+    return QWidget::event(event);
+  }
+
+  void
+  DocumentWidget::resizeEvent(QResizeEvent *event) {
+    recalculateScrollBarRanges();
+    resetScrollBarValues();
+  }
+
+  // Private members.
+  void
+  DocumentWidget::setTranslate(QPointF translate, bool noScrollUpdate) {
+    m_documentEditorWidget->setTranslate(translate);
+    m_horizontalRuler->setTranslation(translate.x());
+    m_verticalRuler->setTranslation(translate.y());
+
+    if(!noScrollUpdate) {
+      resetScrollBarValues();
+    }
+  }
+
+  void
+  DocumentWidget::setZoom(float zoom, bool noScrollUpdate) {
+    m_documentEditorWidget->setZoom(zoom);
+    m_horizontalRuler->setMagnification(zoom);
+    m_verticalRuler->setMagnification(zoom);
+
+    if(!noScrollUpdate) {
+      recalculateScrollBarRanges();
+      resetScrollBarValues();
+    }
+  }
+
+  void
+  DocumentWidget::centerViewAt(QPointF centerPoint, bool noScrollUpdate) {
+    // Centers the view at the given *image* position under the current magnification.
+    QPolygonF viewportPolygon(m_documentEditorWidget->getViewportOnImage());
+    QPointF viewportCenterImg(0.0f, 0.0f);
+
+    for(auto point : viewportPolygon) {
+      viewportCenterImg += point;
+    }
+
+    viewportCenterImg /= viewportPolygon.size();
+    QPointF newCenterImg(centerPoint);
+
+    setTranslate(m_documentEditorWidget->translate() + (newCenterImg - viewportCenterImg), noScrollUpdate);
+  }
+
+  void
+  DocumentWidget::recalculateScrollBarRanges() {
+    int imageWidth(m_documentEditorWidget->getImageRect().width());
+    int imageHeight(m_documentEditorWidget->getImageRect().height());
+
+    int viewportWidth(m_documentEditorWidget->getViewportRect().width());
+    int viewportHeight(m_documentEditorWidget->getViewportRect().height());
+
+    printf("imageDim: %d x %d\n", imageWidth, imageHeight);
+    printf("viewportDim: %d x %d\n", viewportWidth, viewportHeight);
+    printf("rectDim: %d x %d\n", m_documentEditorWidget->rect().width(), m_documentEditorWidget->rect().height());
+
+    m_horizontalScrollBar->setMinimum(0);
+    m_horizontalScrollBar->setMaximum(calcScrollBarRange(imageWidth * m_documentEditorWidget->zoom(), viewportWidth));
+    m_horizontalScrollBar->setPageStep(viewportWidth);
+
+    m_verticalScrollBar->setMinimum(0);
+    m_verticalScrollBar->setMaximum(calcScrollBarRange(imageHeight * m_documentEditorWidget->zoom(), viewportHeight));
+    m_verticalScrollBar->setPageStep(viewportHeight);
+  }
+
+  void
+  DocumentWidget::disconnectScrollHandlers() {
+    disconnect(m_hsbValChangeConn);
+    disconnect(m_vsbValChangeConn);
+  }
+
+  void
+  DocumentWidget::connectScrollHandlers() {
+    m_hsbValChangeConn = QObject::connect(m_horizontalScrollBar, &QScrollBar::sliderMoved, [=](int value) {
+      // The scroll value is relative to the *zoomed* image rectangle. Get it in the normal one.
+      QPointF translate(m_documentEditorWidget->translate());
+      translate.setX(value / m_documentEditorWidget->zoom());
+
+      setTranslate(translate, true);
+    });
+
+    m_vsbValChangeConn = QObject::connect(m_verticalScrollBar, &QScrollBar::sliderMoved, [=](int value) {
+      QPointF translate(m_documentEditorWidget->translate());
+      translate.setY(value / m_documentEditorWidget->zoom());
+
+      setTranslate(translate, true);
+    });
+  }
+
+  void
+  DocumentWidget::resetScrollBarValues() {
+    // The scroll bar value is just the amount of translation, zoomed.
+    disconnectScrollHandlers();
+    m_horizontalScrollBar->setValue(m_documentEditorWidget->translate().x() * m_documentEditorWidget->zoom());
+    m_verticalScrollBar->setValue(m_documentEditorWidget->translate().y() * m_documentEditorWidget->zoom());
+
+    if((m_horizontalScrollBar->value() == m_horizontalScrollBar->maximum()) ||
+       (m_verticalScrollBar->value() == m_verticalScrollBar->maximum()))
+    {
+      // scrollbars saturated
+      QPointF translate(m_horizontalScrollBar->value() / m_documentEditorWidget->zoom(),
+                        m_verticalScrollBar->value() / m_documentEditorWidget->zoom()
+                       );
+      setTranslate(translate, true);
+    }
+
+    connectScrollHandlers();
   }
 }

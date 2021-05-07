@@ -29,22 +29,17 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
   DocumentRulerWidget::DocumentRulerWidget(::Qt::Orientation orientation, QWidget *parent)
   : QWidget(parent),
     m_orientation(orientation),
-    m_rulerThickness(20),
-    m_leftOrigin(0.0f),
+    m_rulerThickness(20.0f),
+    m_origin(0.0f),
     m_magnification(1.0f),
-    m_objectH1(0.0f),
-    m_objectH2(0.0f),
-    m_scrollDistPx(0.0f),
-    m_scrollMin(0),
-    m_scrollMax(0),
-    m_scrollPos(0),
     m_screenPixelsBetweenMajorTicks(50),
     m_numMinorTicksPerMajorTick(5)
   {}
 
   DocumentRulerWidget::~DocumentRulerWidget() {}
 
-  QSize DocumentRulerWidget::sizeHint() const {
+  QSize
+  DocumentRulerWidget::sizeHint() const {
     QSize baseSize(QWidget::sizeHint());
 
     switch(m_orientation) {
@@ -56,66 +51,31 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
     }
   }
 
-  void DocumentRulerWidget::setRulerThickness(int rulerThickness) {
-    m_rulerThickness = rulerThickness;
-    update();
-  }
-
-  void DocumentRulerWidget::setMajorTickInterval(int screenPixelsBetweenMajorTicks) {
+  void
+  DocumentRulerWidget::setMajorTickInterval(int screenPixelsBetweenMajorTicks) {
     m_screenPixelsBetweenMajorTicks = screenPixelsBetweenMajorTicks;
     update();
   }
 
-  void DocumentRulerWidget::setNumMinorTicks(int numMinorTicksPerMajorTick) {
+  void
+  DocumentRulerWidget::setNumMinorTicks(int numMinorTicksPerMajorTick) {
     m_numMinorTicksPerMajorTick = numMinorTicksPerMajorTick;
     update();
   }
 
-  void DocumentRulerWidget::setObject(float objectH1, float objectH2) {
-    m_objectH1 = objectH1;
-    m_objectH2 = objectH2;
-
-    recalculateOrigin();
+  void
+  DocumentRulerWidget::setTranslation(float translation) {
+    m_origin = translation;
     update();
   }
 
-  void DocumentRulerWidget::setMagnification(float magnification) {
+  void
+  DocumentRulerWidget::setMagnification(float magnification) {
     m_magnification = magnification;
     update();
   }
 
-  void DocumentRulerWidget::setScrollDistance(float scrollDistPx) {
-    m_scrollDistPx = scrollDistPx;
-  }
-
-  // Slots.
-  void DocumentRulerWidget::setScrollRange(int min, int max) {
-    m_scrollMin = min;
-    m_scrollMax = max;
-
-    recalculateOrigin();
-    update();
-  }
-
-  void DocumentRulerWidget::setScrollPosition(int pos) {
-    m_scrollPos = pos;
-
-    recalculateOrigin();
-    update();
-  }
-
-  // Private members.
-  // Recalculate the origin after a change to the object or scroll parameters.
-  void DocumentRulerWidget::recalculateOrigin() {
-    // Object first
-    m_leftOrigin = -m_objectH1;
-
-    // Apply scrolling
-    if(m_scrollMin < m_scrollMax) {
-      m_leftOrigin -= m_scrollDistPx/(m_scrollMax - m_scrollMin) * (m_scrollPos - m_scrollMin);
-    }
-  }
-
+  // Painting routines.
   // These two length methods are needed because which screen dimension (width or height) of the ruler is its "length"
   // and which is its "thickness" depend on its orientation.
   int DocumentRulerWidget::getRulerLength() {
@@ -138,7 +98,6 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
     }
   }
 
-  // Painting routines.
   void DocumentRulerWidget::paintEvent(QPaintEvent *event) {
     QPainter qp(this);
 
@@ -158,13 +117,12 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
 
   void DocumentRulerWidget::paintTicksAndLabels(QPainter &qp) {
     // Paint the ruler ticks on this ruler. To get a nice "scrolling" effect, we begin marking off ticks, not at the
-    // ruler's screen left or top, but at the origin of the image coordinate space which the viewport of this ruler
-    // references.
+    // ruler's screen left or top, but at the origin of the image coordinate space before translation.
 
     // Step 1: Figure out where the image coordinate origin is in screen space, relative to the left or topmost part of
     // the widget.
     float widgetLength(getRulerLength());
-    float screenSpaceOrigin(m_leftOrigin);
+    float screenSpaceOrigin(-m_origin);
 
     // Step 2: Figure out where the first minor tick should go, and the number of ticks.
     float minorTickScreenInterval((0.0f + m_screenPixelsBetweenMajorTicks) / m_numMinorTicksPerMajorTick);
@@ -204,7 +162,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets::SubWidgets {
       if(i % m_numMinorTicksPerMajorTick == 0) {
         paintTickLabelAtScreenPos(
           qp, tickScreenPos, tickSize,
-          QString::number((i * minorTickScreenInterval) / m_magnification, 'f', 1)
+          QString::number((i * minorTickScreenInterval), 'f', 1)
         );
       }
     }
