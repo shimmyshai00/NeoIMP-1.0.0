@@ -36,13 +36,15 @@ namespace SDF::ModelLayer {
   }
 
   namespace Services {
-    namespace AbstractDomain {
-      class ITool;
+    namespace AbstractDomain::Tools {
+      class IZoomTool;
     }
 
     class ZoomToolCfgService : public UILayer::AbstractModel::ToolConfig::IZoomToolCfgService {
     public:
-      INJECT(ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::ITool> *toolRepository));
+      INJECT(ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *zoomToolRepository,
+                                int zoomToolId
+                               ));
 
       void
       setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode);
@@ -56,7 +58,8 @@ namespace SDF::ModelLayer {
       float
       getZoomStep() const;
     private:
-      AbstractData::IRepository<AbstractDomain::ITool> *m_toolRepository;
+      AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *m_zoomToolRepository;
+      int m_zoomToolId;
     };
   }
 }

@@ -23,29 +23,40 @@
 
 #include "ZoomToolCfgService.hpp"
 
+#include <AbstractData/IRepository.hpp>
+#include <AbstractDomain/Tools/IZoomTool.hpp>
+
 namespace SDF::ModelLayer::Services {
-  ZoomToolCfgService::ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::ITool> *toolRepository)
-    : m_toolRepository(toolRepository)
+  ZoomToolCfgService::ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *
+                                          zoomToolRepository,
+                                         int zoomToolId
+                                        )
+    : m_zoomToolRepository(zoomToolRepository),
+      m_zoomToolId(zoomToolId)
   {
   }
 
   void
   ZoomToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
-
+    AbstractDomain::Tools::IZoomTool *zoomTool(m_zoomToolRepository->retrieve(m_zoomToolId));
+    zoomTool->setMode(mode);
+    m_zoomToolRepository->update(zoomTool);
   }
 
   void
   ZoomToolCfgService::setZoomStep(float step) {
-
+    AbstractDomain::Tools::IZoomTool *zoomTool(m_zoomToolRepository->retrieve(m_zoomToolId));
+    zoomTool->setStep(step);
+    m_zoomToolRepository->update(zoomTool);
   }
 
   UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
   ZoomToolCfgService::getMode() const {
-
+    return m_zoomToolRepository->retrieve(m_zoomToolId)->getMode();
   }
 
   float
   ZoomToolCfgService::getZoomStep() const {
-
+    return m_zoomToolRepository->retrieve(m_zoomToolId)->getStep();
   }
 }

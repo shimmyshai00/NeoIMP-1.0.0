@@ -72,6 +72,8 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
 namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   ZoomTool::ZoomTool(int id)
     : m_id(id),
+      m_zoomMode(UILayer::AbstractModel::ToolConfig::Properties::ZOOM_IN),
+      m_zoomFactor(2.0f),
       m_image(nullptr),
       m_applicationPoint(0.0f, 0.0f)
   {
@@ -80,6 +82,26 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   int
   ZoomTool::getId() const {
     return m_id;
+  }
+
+  UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
+  ZoomTool::getMode() const {
+    return m_zoomMode;
+  }
+
+  float
+  ZoomTool::getStep() const {
+    return m_zoomFactor;
+  }
+
+  void
+  ZoomTool::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
+    m_zoomMode = mode;
+  }
+
+  void
+  ZoomTool::setStep(float step) {
+    m_zoomFactor = step;
   }
 
   void
@@ -94,11 +116,17 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
 
   std::pair<Services::AbstractDomain::IImage *, std::unique_ptr<Services::AbstractDomain::IImageDelta>>
   ZoomTool::commit() {
+    using namespace UILayer::AbstractModel::ToolConfig::Properties;
+
     // Zoom into the given application point.
     float curMagnif(m_image->getViewMagnification());
-    float newMagnif(std::min(2.0f * curMagnif, 128.0f)); // max zoom: 128x or 12800%
-
-    printf("ZOOM %f\n", newMagnif);
+    float newMagnif;
+    switch(m_zoomMode) {
+      case ZOOM_IN: newMagnif = std::clamp(curMagnif * m_zoomFactor, 0.25f, 128.0f); break;
+      case ZOOM_OUT: newMagnif = std::clamp(curMagnif / m_zoomFactor, 0.25f, 128.0f); break;
+      case ZOOM_EQUAL: newMagnif = 1.0f; break;
+      default: break;
+    }
 
     return std::make_pair(m_image, std::make_unique<ZoomDelta>(m_applicationPoint, newMagnif));
   }

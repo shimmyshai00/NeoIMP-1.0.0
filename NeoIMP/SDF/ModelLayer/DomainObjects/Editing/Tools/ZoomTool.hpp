@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Tools/IZoomTool.hpp>
+#include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
 
 #include <SDF/ModelLayer/Math/Coord.hpp>
 
@@ -38,12 +39,24 @@ namespace SDF::ModelLayer {
     // Class:      ZoomTool
     // Purpose:    Defines an editing tool that zooms the view in and out of the image.
     // Parameters: None.
-    class ZoomTool : public Services::AbstractDomain::ITool {
+    class ZoomTool : public Services::AbstractDomain::Tools::IZoomTool {
     public:
       ZoomTool(int id);
 
       int
       getId() const;
+
+      UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
+      getMode() const;
+
+      float
+      getStep() const;
+
+      void
+      setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode);
+
+      void
+      setStep(float step);
 
       void
       beginApplication(Services::AbstractDomain::IImage *image);
@@ -55,6 +68,9 @@ namespace SDF::ModelLayer {
       commit();
     private:
       int m_id;
+
+      UILayer::AbstractModel::ToolConfig::Properties::ZoomMode m_zoomMode;
+      float m_zoomFactor;
 
       Services::AbstractDomain::IImage *m_image;
       Math::Coord<float> m_applicationPoint;
