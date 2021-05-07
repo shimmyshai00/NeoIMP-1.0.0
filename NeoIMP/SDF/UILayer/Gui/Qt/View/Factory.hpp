@@ -48,7 +48,7 @@ namespace SDF::UILayer {
     template<class StateT>
     class IUiStateModelService;
 
-    class IToolBasedEditingService;
+    class IToolApplicationService;
   }
 
   namespace Gui::Qt::View {
@@ -66,7 +66,7 @@ namespace SDF::UILayer {
               AbstractModel::IDocumentRenderService *documentRenderService,
               AbstractModel::IUiStateModelService<bool> *boolStateModelService,
               AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-              AbstractModel::IToolBasedEditingService *toolBasedEditingService
+              AbstractModel::IToolApplicationService *toolApplicationService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -80,7 +80,7 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentRenderService *m_documentRenderService;
       AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
-      AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
+      AbstractModel::IToolApplicationService *m_toolApplicationService;
     };
 
     // Class:      DockablesFactory
@@ -107,7 +107,7 @@ namespace SDF::UILayer {
       DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
                           AbstractModel::IDocumentRenderService *documentRenderService,
                           AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-                          AbstractModel::IToolBasedEditingService *toolBasedEditingService
+                          AbstractModel::IToolApplicationService *toolApplicationService
                          );
 
       IGuiElement *
@@ -118,7 +118,7 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentAccessService *m_documentAccessService;
       AbstractModel::IDocumentRenderService *m_documentRenderService;
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
-      AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
+      AbstractModel::IToolApplicationService *m_toolApplicationService;
     };
   }
 }

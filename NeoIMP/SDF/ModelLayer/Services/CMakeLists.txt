@@ -8,6 +8,6 @@ target_sources(neoimp PUBLIC
                DocumentRenderService.cpp
                DocumentStorageService.cpp
                DocumentViewConfigService.cpp
-               ToolBasedEditingService.cpp
+               ToolApplicationService.cpp
                Component.cpp
               )

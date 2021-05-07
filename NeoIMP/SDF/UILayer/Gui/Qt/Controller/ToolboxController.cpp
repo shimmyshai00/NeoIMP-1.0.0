@@ -23,11 +23,11 @@
 
 #include <ToolboxController.hpp>
 
-#include <AbstractModel/IToolBasedEditingService.hpp>
+#include <AbstractModel/IToolApplicationService.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  ToolboxController::ToolboxController(AbstractModel::IToolBasedEditingService *toolBasedEditingService)
-    : m_toolBasedEditingService(toolBasedEditingService)
+  ToolboxController::ToolboxController(AbstractModel::IToolApplicationService *toolApplicationService)
+    : m_toolApplicationService(toolApplicationService)
   {
   }
 
@@ -44,16 +44,16 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   // Private members.
   void
   ToolboxController::handleSelectToolSelectedEvent(Events::SelectToolSelectedEvent *event) {
-    m_toolBasedEditingService->setActiveTool(AbstractModel::Properties::TOOL_SELECT);
+    m_toolApplicationService->setActiveTool(AbstractModel::Properties::TOOL_SELECT);
   }
 
   void
   ToolboxController::handleZoomToolSelectedEvent(Events::ZoomToolSelectedEvent *event) {
-    m_toolBasedEditingService->setActiveTool(AbstractModel::Properties::TOOL_ZOOM);
+    m_toolApplicationService->setActiveTool(AbstractModel::Properties::TOOL_ZOOM);
   }
 
   void
   ToolboxController::handleCageTransformToolSelectedEvent(Events::CageTransformToolSelectedEvent *event) {
-    m_toolBasedEditingService->setActiveTool(AbstractModel::Properties::TOOL_CAGE);
+    m_toolApplicationService->setActiveTool(AbstractModel::Properties::TOOL_CAGE);
   }
 }

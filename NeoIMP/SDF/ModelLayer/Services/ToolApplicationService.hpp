@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_TOOLBASEDEDITINGSERVICE_HPP
-#define SDF_MODELLAYER_SERVICES_TOOLBASEDEDITINGSERVICE_HPP
+#ifndef SDF_MODELLAYER_SERVICES_TOOLAPPLICATIONSERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_TOOLAPPLICATIONSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ToolBasedEditingService.hpp
- * PURPOSE: Defines the ToolBasedEditingService class.
+ * FILE:    ToolApplicationService.hpp
+ * PURPOSE: Defines the ToolApplicationService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 #include <SDF/Interfaces/IFactory.hpp>
 #include <SDF/Interfaces/IEventHandler.hpp>
 
-#include <SDF/UILayer/AbstractModel/IToolBasedEditingService.hpp>
+#include <SDF/UILayer/AbstractModel/IToolApplicationService.hpp>
 
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
@@ -58,25 +58,25 @@ namespace SDF::ModelLayer {
       class IObjectMap;
     }
 
-    // Class:      ToolBasedEditingService
+    // Class:      ToolApplicationService
     // Purpose:    Performs image editing using editing tools.
     // Parameters: None.
-    class ToolBasedEditingService : public UILayer::AbstractModel::IToolBasedEditingService,
-                                    private Interfaces::IMessagePublisher<AbstractDomain::Defs::ImageChange>,
-                                    private Interfaces::IMessageReceiver<AbstractDomain::Defs::ImageChange>
+    class ToolApplicationService : public UILayer::AbstractModel::IToolApplicationService,
+                                   private Interfaces::IMessagePublisher<AbstractDomain::Defs::ImageChange>,
+                                   private Interfaces::IMessageReceiver<AbstractDomain::Defs::ImageChange>
     {
     public:
-      INJECT(ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
-                                     AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
-                                     AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
-                                      deltaEditorMap,
-                                     Interfaces::IFactory<AbstractDomain::ITool,
-                                                          UILayer::AbstractModel::Properties::Tool
-                                                         > *toolFactory,
-                                     Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
-                                    ));
+      INJECT(ToolApplicationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                    AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+                                    AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
+                                     deltaEditorMap,
+                                    Interfaces::IFactory<AbstractDomain::ITool,
+                                                         UILayer::AbstractModel::Properties::Tool
+                                                        > *toolFactory,
+                                    Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
+                                   ));
 
-      ~ToolBasedEditingService();
+      ~ToolApplicationService();
 
       void
       attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer);

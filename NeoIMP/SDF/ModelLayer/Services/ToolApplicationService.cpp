@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ToolBasedEditingService.cpp
- * PURPOSE: Implements the ToolBasedEditingService class.
+ * FILE:    ToolApplicationService.cpp
+ * PURPOSE: Implements the ToolApplicationService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <ToolBasedEditingService.hpp>
+#include <ToolApplicationService.hpp>
 
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 #include <DataLayer/Exceptions/Exceptions.hpp>
@@ -39,17 +39,17 @@
 namespace SDF::ModelLayer::Services {
   using namespace UILayer::AbstractModel;
 
-  ToolBasedEditingService::ToolBasedEditingService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
-                                                   AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
-                                                   AbstractDomain::IObjectMap<AbstractDomain::IImage,
-                                                                              AbstractDomain::IDeltaEditor
-                                                                             > *deltaEditorMap,
-                                                   Interfaces::IFactory<AbstractDomain::ITool,
-                                                                        Properties::Tool
-                                                                       > *toolFactory,
-                                                   Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *
-                                                    messageBroker
-                                                  )
+  ToolApplicationService::ToolApplicationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                                 AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+                                                 AbstractDomain::IObjectMap<AbstractDomain::IImage,
+                                                                            AbstractDomain::IDeltaEditor
+                                                                           > *deltaEditorMap,
+                                                 Interfaces::IFactory<AbstractDomain::ITool,
+                                                                      Properties::Tool
+                                                                     > *toolFactory,
+                                                 Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *
+                                                  messageBroker
+                                                )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
       m_deltaEditorMap(deltaEditorMap),
@@ -61,27 +61,27 @@ namespace SDF::ModelLayer::Services {
     messageBroker->addPublisher(this);
   }
 
-  ToolBasedEditingService::~ToolBasedEditingService() {
+  ToolApplicationService::~ToolApplicationService() {
     m_broker->removePublisher(this);
   }
 
   void
-  ToolBasedEditingService::attachObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+  ToolApplicationService::attachObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
     m_observers.push_back(observer);
   }
 
   void
-  ToolBasedEditingService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+  ToolApplicationService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
   }
 
   Properties::Tool
-  ToolBasedEditingService::getActiveTool() const {
+  ToolApplicationService::getActiveTool() const {
     return m_activeTool;
   }
 
   void
-  ToolBasedEditingService::setActiveTool(Properties::Tool tool) {
+  ToolApplicationService::setActiveTool(Properties::Tool tool) {
     m_activeTool = tool;
 
     std::shared_ptr<Events::ActiveToolChangedEvent> event(new Events::ActiveToolChangedEvent);
@@ -92,7 +92,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
-  ToolBasedEditingService::beginToolApplication(Handle handle) {
+  ToolApplicationService::beginToolApplication(Handle handle) {
     try {
       if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
         int toolId(m_toolIdMap[m_activeTool]);
@@ -106,7 +106,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
-  ToolBasedEditingService::applyToolAtPoint(float x, float y) {
+  ToolApplicationService::applyToolAtPoint(float x, float y) {
     if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
       int toolId(m_toolIdMap[m_activeTool]);
       m_toolRepository->retrieve(toolId)->applyAt(x, y);
@@ -114,7 +114,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
-  ToolBasedEditingService::finishToolApplication() {
+  ToolApplicationService::finishToolApplication() {
     if(m_toolIdMap.find(m_activeTool) != m_toolIdMap.end()) { // for unadded tools
       int toolId(m_toolIdMap[m_activeTool]);
       std::pair<AbstractDomain::IImage *, std::unique_ptr<AbstractDomain::IImageDelta>>
@@ -128,26 +128,26 @@ namespace SDF::ModelLayer::Services {
 
   // Private members.
   int
-  ToolBasedEditingService::getUid() const {
+  ToolApplicationService::getUid() const {
     return SERVICE_TOOL_BASED_EDITING;
   }
 
   void
-  ToolBasedEditingService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
+  ToolApplicationService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
     if(m_broker != nullptr) {
       m_broker->receiveMessage(this, message);
     }
   }
 
   void
-  ToolBasedEditingService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
+  ToolApplicationService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
     m_broker = broker;
   }
 
   void
-  ToolBasedEditingService::addTool(Properties::Tool toolLabel,
-                                   std::unique_ptr<AbstractDomain::ITool> tool
-                                  )
+  ToolApplicationService::addTool(Properties::Tool toolLabel,
+                                  std::unique_ptr<AbstractDomain::ITool> tool
+                                 )
   {
     int toolId(tool->getId());
 

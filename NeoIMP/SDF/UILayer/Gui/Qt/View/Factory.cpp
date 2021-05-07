@@ -43,14 +43,14 @@ namespace SDF::UILayer::Gui::Qt::View {
     AbstractModel::IDocumentRenderService *documentRenderService,
     AbstractModel::IUiStateModelService<bool> *boolStateModelService,
     AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-    AbstractModel::IToolBasedEditingService *toolBasedEditingService
+    AbstractModel::IToolApplicationService *toolApplicationService
   )
     : m_controllerFactory(std::move(controllerFactory)),
       m_documentAccessService(documentAccessService),
       m_documentRenderService(documentRenderService),
       m_boolStateModelService(boolStateModelService),
       m_documentViewConfigService(documentViewConfigService),
-      m_toolBasedEditingService(toolBasedEditingService)
+      m_toolApplicationService(toolApplicationService)
   {}
 
   IGuiElement *
@@ -64,7 +64,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                                     std::make_unique<DocumentViewFactory>(m_documentAccessService,
                                                                           m_documentRenderService,
                                                                           m_documentViewConfigService,
-                                                                          m_toolBasedEditingService
+                                                                          m_toolApplicationService
                                                                         ),
                                     std::move(controller),
                                     dynamic_cast<QWidget *>(parent)
@@ -106,12 +106,12 @@ namespace SDF::UILayer::Gui::Qt::View {
   DocumentViewFactory::DocumentViewFactory(AbstractModel::IDocumentAccessService *documentAccessService,
                                            AbstractModel::IDocumentRenderService *documentRenderService,
                                            AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-                                           AbstractModel::IToolBasedEditingService *toolBasedEditingService
+                                           AbstractModel::IToolApplicationService *toolApplicationService
                                           )
     : m_documentAccessService(documentAccessService),
       m_documentRenderService(documentRenderService),
       m_documentViewConfigService(documentViewConfigService),
-      m_toolBasedEditingService(toolBasedEditingService)
+      m_toolApplicationService(toolApplicationService)
   {
   }
 
@@ -123,7 +123,7 @@ namespace SDF::UILayer::Gui::Qt::View {
     return new DocumentView(m_documentAccessService,
                             m_documentRenderService,
                             m_documentViewConfigService,
-                            m_toolBasedEditingService,
+                            m_toolApplicationService,
                             documentHandle,
                             dynamic_cast<QWidget *>(parent)
                            );

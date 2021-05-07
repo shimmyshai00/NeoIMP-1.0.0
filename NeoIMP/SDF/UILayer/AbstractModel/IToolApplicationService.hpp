@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ITOOLBASEDEDITINGSERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ITOOLBASEDEDITINGSERVICE_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_ITOOLAPPLICATIONSERVICE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_ITOOLAPPLICATIONSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IToolBasedEditingService.hpp
- * PURPOSE: Defines the IToolBasedEditingService interface.
+ * FILE:    IToolApplicationService.hpp
+ * PURPOSE: Defines the IToolApplicationService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -32,12 +32,12 @@
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
 namespace SDF::UILayer::AbstractModel {
-  // Class:      IToolBasedEditingService
-  // Purpose:    Defines a service interface for controlling the image editing tools.
+  // Class:      IToolApplicationService
+  // Purpose:    Defines a service interface for applying image editing tools.
   // Parameters: None.
-  class IToolBasedEditingService : public Interfaces::IObservable<Events::ToolEvent> {
+  class IToolApplicationService : public Interfaces::IObservable<Events::ToolEvent> {
   public:
-    virtual ~IToolBasedEditingService() = default;
+    virtual ~IToolApplicationService() = default;
 
     // Function:   getActiveTool
     // Purpose:    Gets the currently-active editing tool.

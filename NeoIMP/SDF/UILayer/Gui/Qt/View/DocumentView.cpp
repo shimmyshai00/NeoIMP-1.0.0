@@ -84,12 +84,12 @@ namespace SDF::UILayer::Gui::Qt::View {
   DocumentView::DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                              AbstractModel::IDocumentRenderService *documentRenderService,
                              AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-                             AbstractModel::IToolBasedEditingService *toolBasedEditingService,
+                             AbstractModel::IToolApplicationService *toolApplicationService,
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
     : QWidget(parent),
       m_documentViewConfigService(documentViewConfigService),
-      m_toolBasedEditingService(toolBasedEditingService),
+      m_toolApplicationService(toolApplicationService),
       m_documentHandle(handleToView),
       m_layout(new QBoxLayout(QBoxLayout::TopToBottom, this)),
       m_documentWidget(new CustomWidgets::DocumentWidget(this)),
@@ -104,25 +104,25 @@ namespace SDF::UILayer::Gui::Qt::View {
     m_documentWidget->setMagnification(documentViewConfigService->getDocumentMagnification(handleToView));
 
     // Use the right tool cursor.
-    m_documentWidget->setTool(m_toolBasedEditingService->getActiveTool());
+    m_documentWidget->setTool(m_toolApplicationService->getActiveTool());
 
     // Observe for tool changes.
-    m_toolBasedEditingService->attachObserver(this);
+    m_toolApplicationService->attachObserver(this);
     m_documentViewConfigService->attachObserver(this);
 
     // Observe for editing click events. NB: STUBchitecture only for simple tools now
     safeConnect(m_documentWidget, &CustomWidgets::DocumentWidget::editorClickedAt, [=](float docX, float docY) {
-      m_toolBasedEditingService->beginToolApplication(m_documentHandle);
-      m_toolBasedEditingService->applyToolAtPoint(docX, docY);
+      m_toolApplicationService->beginToolApplication(m_documentHandle);
+      m_toolApplicationService->applyToolAtPoint(docX, docY);
     });
 
     safeConnect(m_documentWidget, &CustomWidgets::DocumentWidget::editorClickReleasedAt, [=](float docX, float docY) {
-      m_toolBasedEditingService->finishToolApplication();
+      m_toolApplicationService->finishToolApplication();
     });
   }
 
   DocumentView::~DocumentView() {
-    m_toolBasedEditingService->removeObserver(this);
+    m_toolApplicationService->removeObserver(this);
     m_documentViewConfigService->removeObserver(this);
   }
 

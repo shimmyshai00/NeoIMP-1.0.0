@@ -34,7 +34,7 @@
 
 namespace SDF::UILayer {
   namespace AbstractModel {
-    class IToolBasedEditingService;
+    class IToolApplicationService;
   }
 
   namespace Gui::Qt::Controller {
@@ -43,12 +43,12 @@ namespace SDF::UILayer {
     // Parameters: None.
     class ToolboxController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      ToolboxController(AbstractModel::IToolBasedEditingService *toolBasedEditingService);
+      ToolboxController(AbstractModel::IToolApplicationService *toolApplicationService);
 
       void
       handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
-      AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
+      AbstractModel::IToolApplicationService *m_toolApplicationService;
 
       void
       handleSelectToolSelectedEvent(Events::SelectToolSelectedEvent *event);

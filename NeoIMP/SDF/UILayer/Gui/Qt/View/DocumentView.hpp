@@ -34,7 +34,7 @@
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
-#include <SDF/UILayer/AbstractModel/IToolBasedEditingService.hpp>
+#include <SDF/UILayer/AbstractModel/IToolApplicationService.hpp>
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <SDF/UILayer/Gui/Qt/View/DocumentViewParams.hpp>
@@ -58,7 +58,7 @@ namespace SDF::UILayer::Gui::Qt::View {
     DocumentView(AbstractModel::IDocumentAccessService *documentAccessService,
                  AbstractModel::IDocumentRenderService *documentRenderService,
                  AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-                 AbstractModel::IToolBasedEditingService *toolBasedEditingService,
+                 AbstractModel::IToolApplicationService *toolApplicationService,
                  AbstractModel::Handle handleToView,
                  QWidget *parent = nullptr
                 );
@@ -77,7 +77,7 @@ namespace SDF::UILayer::Gui::Qt::View {
     getViewedDocumentHandle() const;
   private:
     AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
-    AbstractModel::IToolBasedEditingService *m_toolBasedEditingService;
+    AbstractModel::IToolApplicationService *m_toolApplicationService;
 
     AbstractModel::Handle m_documentHandle;
     QBoxLayout *m_layout;
@@ -96,7 +96,7 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     void
     handleViewCenterChangedEvent(AbstractModel::Events::ViewCenterChangedEvent *event);
-    
+
     void
     handleViewMagnificationChangedEvent(AbstractModel::Events::ViewMagnificationChangedEvent *event);
   };

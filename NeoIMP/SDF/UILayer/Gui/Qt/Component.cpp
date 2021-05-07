@@ -29,7 +29,7 @@
 #include <SDF/UILayer/AbstractModel/IDocumentRenderService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
-#include <SDF/UILayer/AbstractModel/IToolBasedEditingService.hpp>
+#include <SDF/UILayer/AbstractModel/IToolApplicationService.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
@@ -55,7 +55,7 @@ namespace SDF::UILayer::Gui::Qt {
                          AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
                          AbstractModel::IUiStateModelService<bool> *,
                          AbstractModel::IDocumentViewConfigService *,
-                         AbstractModel::IToolBasedEditingService *
+                         AbstractModel::IToolApplicationService *
                         )
        >(
          [](IGuiController *guiController,
@@ -66,7 +66,7 @@ namespace SDF::UILayer::Gui::Qt {
             AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
             AbstractModel::IUiStateModelService<bool> *boolStateModelService,
             AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-            AbstractModel::IToolBasedEditingService *toolBasedEditingService
+            AbstractModel::IToolApplicationService *toolApplicationService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
@@ -74,7 +74,7 @@ namespace SDF::UILayer::Gui::Qt {
                                                                                           documentStorageService,
                                                                                           handleStateModelService,
                                                                                           boolStateModelService,
-                                                                                          toolBasedEditingService
+                                                                                          toolApplicationService
                                                                                          ));
            return std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
                                                                IGuiElement *,
@@ -85,7 +85,7 @@ namespace SDF::UILayer::Gui::Qt {
                                                      documentRenderService,
                                                      boolStateModelService,
                                                      documentViewConfigService,
-                                                     toolBasedEditingService
+                                                     toolApplicationService
                                                     ));
          }
        )

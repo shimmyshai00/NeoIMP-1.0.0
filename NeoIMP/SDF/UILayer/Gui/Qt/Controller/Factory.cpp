@@ -28,7 +28,7 @@
 #include <AbstractModel/IDocumentCreationService.hpp>
 #include <AbstractModel/IDocumentStorageService.hpp>
 #include <AbstractModel/IUiStateModelService.hpp>
-#include <AbstractModel/IToolBasedEditingService.hpp>
+#include <AbstractModel/IToolApplicationService.hpp>
 
 #include <MainWindowController.hpp>
 #include <NewDocumentDialogController.hpp>
@@ -42,14 +42,14 @@ namespace SDF::UILayer::Gui::Qt::Controller {
                    AbstractModel::IDocumentStorageService *documentStorageService,
                    AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
                    AbstractModel::IUiStateModelService<bool> *boolStateModelService,
-                   AbstractModel::IToolBasedEditingService *toolBasedEditingService
+                   AbstractModel::IToolApplicationService *toolApplicationService
                   )
     : m_guiController(guiController),
       m_documentCreationService(documentCreationService),
       m_documentStorageService(documentStorageService),
       m_handleStateModelService(handleStateModelService),
       m_boolStateModelService(boolStateModelService),
-      m_toolBasedEditingService(toolBasedEditingService)
+      m_toolApplicationService(toolApplicationService)
   {}
 
   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>
@@ -66,7 +66,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     } else if(guiElementType == "OpenDialog") {
       return std::make_unique<OpenDialogController>(m_documentStorageService, m_handleStateModelService);
     } else if(guiElementType == "Toolchest") {
-      return std::make_unique<ToolboxController>(m_toolBasedEditingService);
+      return std::make_unique<ToolboxController>(m_toolApplicationService);
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA
