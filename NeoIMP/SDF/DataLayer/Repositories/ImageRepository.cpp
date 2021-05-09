@@ -50,6 +50,17 @@ namespace SDF::DataLayer::Repositories {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
   }
 
+  std::vector<int>
+  ImageRepository::getIds() const {
+    std::vector<int> rv;
+
+    for(auto &obj : m_objectMap) {
+      rv.push_back(obj.first);
+    }
+
+    return rv;
+  }
+
   void
   ImageRepository::create(std::unique_ptr<AbstractDomain::IImage> object) {
     using AbstractDomain::IImage;

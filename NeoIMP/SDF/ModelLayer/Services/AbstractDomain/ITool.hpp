@@ -27,6 +27,8 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IDomainObject.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+
 #include <memory>
 
 namespace SDF::ModelLayer::Services::AbstractDomain {
@@ -38,6 +40,9 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
   class ITool : public IDomainObject<ITool> {
   public:
     virtual ~ITool() = default;
+
+    virtual UILayer::AbstractModel::Properties::Tool
+    getToolType() const = 0;
 
     // These methods mirror those for the tool service.
     virtual void

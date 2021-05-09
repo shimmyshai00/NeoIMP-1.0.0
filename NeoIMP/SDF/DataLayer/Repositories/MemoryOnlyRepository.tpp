@@ -32,6 +32,18 @@ namespace SDF::DataLayer::Repositories {
   {}
 
   template<class T>
+  std::vector<int>
+  MemoryOnlyRepository<T>::getIds() const {
+    std::vector<int> rv;
+
+    for(auto &obj : m_objectMap) {
+      rv.push_back(obj.first);
+    }
+
+    return rv;
+  }
+
+  template<class T>
   void
   MemoryOnlyRepository<T>::create(std::unique_ptr<T> object) {
     // Create a new entry in the repository.

@@ -25,6 +25,7 @@
  */
 
 #include <memory>
+#include <vector>
 
 namespace SDF::ModelLayer::AbstractData {
   // Class:      IRepository
@@ -34,6 +35,13 @@ namespace SDF::ModelLayer::AbstractData {
   class IRepository {
   public:
     virtual ~IRepository() = default;
+
+    // Function:  getIds
+    // Purpose:   Get a list of all the IDs of the objects stored in this repository.
+    // Arguments: None.
+    // Returns:   A (possibly empty) vector of all the stored IDs.
+    virtual std::vector<int>
+    getIds() const = 0;
 
     // Function:  create
     // Purpose:   Create a new record in the repository with a given domain object.

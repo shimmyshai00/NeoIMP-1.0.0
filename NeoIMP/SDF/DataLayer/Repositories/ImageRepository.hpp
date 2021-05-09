@@ -69,6 +69,9 @@ namespace SDF::DataLayer::Repositories {
     void
     removeObserver(Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *observer);
 
+    std::vector<int>
+    getIds() const;
+    
     void
     create(std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage> object);
 

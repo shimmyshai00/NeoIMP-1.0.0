@@ -84,6 +84,11 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
     return m_id;
   }
 
+  UILayer::AbstractModel::Properties::Tool
+  ZoomTool::getToolType() const {
+    return UILayer::AbstractModel::Properties::TOOL_ZOOM;
+  }
+
   UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
   ZoomTool::getMode() const {
     return m_zoomMode;

@@ -26,6 +26,7 @@
 
 #include <SDF/ModelLayer/Services/AbstractDomain/Tools/IZoomTool.hpp>
 #include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
 #include <SDF/ModelLayer/Math/Coord.hpp>
 
@@ -45,6 +46,9 @@ namespace SDF::ModelLayer {
 
       int
       getId() const;
+
+      UILayer::AbstractModel::Properties::Tool
+      getToolType() const;
 
       UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
       getMode() const;

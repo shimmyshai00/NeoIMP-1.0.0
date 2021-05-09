@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
-#define SDF_DATALAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
+#ifndef SDF_DATALAYER_REPOSITORIES_FILTERREPOSITORY_HPP
+#define SDF_DATALAYER_REPOSITORIES_FILTERREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MemoryOnlyRepository.hpp
- * PURPOSE: Defines the MemoryOnlyRepository template.
+ * FILE:    FilterRepository.hpp
+ * PURPOSE: Defines the FilterRepository template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,21 +26,21 @@
 
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 
+#include <fruit/fruit.h>
+
 #include <memory>
-#include <map>
 #include <vector>
+#include <map>
 
 namespace SDF::DataLayer::Repositories {
-  // Class:      MemoryOnlyRepository
-  // Purpose:    Provides a repository of domain objects that exists solely in RAM, with no persistent backing store.
-  // Parameters: T - The type of domain object held.
-  template<class T>
-  class MemoryOnlyRepository : public ModelLayer::AbstractData::IRepository<T> {
+  // Class:      FilterRepository
+  // Purpose:    Filter a given repository into one containing only objects of a subtype of the original type.
+  // Parameters: SuperT - The supertype of the objects in the repository.
+  //             T - The type of objects in the repository, which should be a subtype of SuperT.
+  template<class SuperT, class T>
+  class FilterRepository : public ModelLayer::AbstractData::IRepository<T> {
   public:
-    // Function:   MemoryOnlyRepository
-    // Purpose:    Construct a new memory-only repository.
-    // Parameters: None.
-    INJECT(MemoryOnlyRepository());
+    INJECT(FilterRepository(ModelLayer::AbstractData::IRepository<SuperT> *superRepository));
 
     std::vector<int>
     getIds() const;
@@ -57,10 +57,11 @@ namespace SDF::DataLayer::Repositories {
     std::unique_ptr<T>
     deleteEntry(int objectId);
   private:
-    std::map<int, std::unique_ptr<T>> m_objectMap;
+    ModelLayer::AbstractData::IRepository<SuperT> *m_superRepository;
+    std::map<int, T *> m_filter;
   };
 }
 
-#include "SDF/DataLayer/Repositories/MemoryOnlyRepository.tpp"
+#include "FilterRepository.tpp"
 
 #endif

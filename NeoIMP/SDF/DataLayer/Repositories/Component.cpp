@@ -25,6 +25,7 @@
 
 #include <SDF/DataLayer/Repositories/ImageRepository.hpp>
 #include <SDF/DataLayer/Repositories/MemoryOnlyRepository.hpp>
+#include <SDF/DataLayer/Repositories/FilterRepository.hpp>
 
 #include <SDF/DataLayer/Persistence/Component.hpp>
 
@@ -49,6 +50,11 @@ namespace SDF::DataLayer::Repositories {
            >()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>,
             MemoryOnlyRepository<ModelLayer::Services::AbstractDomain::IDeltaEditor>
+           >()
+      .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::Tools::IZoomTool>,
+            FilterRepository<ModelLayer::Services::AbstractDomain::ITool,
+                             ModelLayer::Services::AbstractDomain::Tools::IZoomTool
+                            >
            >()
       .install(Persistence::getComponent);
   }
