@@ -24,8 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IEventHandler.hpp>
+
 #include <SDF/UILayer/AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
 #include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
+
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 
 #include <fruit/fruit.h>
 
@@ -45,6 +49,12 @@ namespace SDF::ModelLayer {
       INJECT(ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *zoomToolRepository));
 
       void
+      attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *observer);
+
+      void
+      removeObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *observer);
+
+      void
       setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode);
 
       void
@@ -56,6 +66,8 @@ namespace SDF::ModelLayer {
       float
       getZoomStep() const;
     private:
+      std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *> m_observers;
+
       AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *m_zoomToolRepository;
       AbstractDomain::Tools::IZoomTool *m_zoomTool;
     };

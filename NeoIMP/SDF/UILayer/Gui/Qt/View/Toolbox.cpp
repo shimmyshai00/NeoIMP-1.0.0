@@ -28,11 +28,19 @@
 #include "../Events/ToolboxEvent.hpp"
 #include "safeConnect.hpp"
 
+#include "../Enum/ZoomToolMode.hpp"
+
+#include <AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
+#include <QIcon>
+
 namespace SDF::UILayer::Gui::Qt::View {
-  Toolbox::Toolbox(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+  Toolbox::Toolbox(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                   std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                    QWidget *parent
                   )
     : QDockWidget(parent),
+      m_zoomToolCfgService(zoomToolCfgService),
       m_ui(new Ui::Toolchest),
       m_controller(std::move(controller))
   {
@@ -50,9 +58,27 @@ namespace SDF::UILayer::Gui::Qt::View {
     safeConnect(static_cast<QAbstractButton *>(m_ui->cageButton), &QAbstractButton::toggled, [=](bool checked) {
       if(checked) { m_controller->handleEvent(std::make_shared<Events::CageTransformToolSelectedEvent>()); }
     });
+
+    // Create tool menus.
+    m_ui->zoomButton->addToolMode(Enum::ZOOM_IN, QIcon(":/icons/Icons/magnifier_plus.png"), "Zoom In");
+    m_ui->zoomButton->addToolMode(Enum::ZOOM_OUT, QIcon(":/icons/Icons/magnifier_minus.png"), "Zoom Out");
+    m_ui->zoomButton->addToolMode(Enum::ZOOM_EQUAL, QIcon(":/icons/Icons/magnifier_equals.png"), "Zoom to 100%");
+
+    // Hook menu events.
+    safeConnect(m_ui->zoomButton, &CustomWidgets::ToolButtonWidget::modeSelected, [=](int mode) {
+      std::shared_ptr<Events::ZoomToolModeChangeEvent> event(new Events::ZoomToolModeChangeEvent);
+      event->newMode = static_cast<Enum::ZoomToolMode>(mode);
+
+      m_controller->handleEvent(event);
+    });
+
+    // Observe model layer for events.
+    m_zoomToolCfgService->attachObserver(this);
   }
 
   Toolbox::~Toolbox() {
+    m_zoomToolCfgService->removeObserver(this);
+
     delete m_ui;
   }
 
@@ -71,5 +97,18 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   Toolbox::close() {
+  }
+
+  // Private members.
+  void
+  Toolbox::handleEvent(std::shared_ptr<AbstractModel::Events::ZoomToolEvent> event) {
+    if(auto e = dynamic_cast<AbstractModel::Events::ZoomToolModeChangedEvent *>(event.get())) {
+      handleZoomToolModeChangedEvent(e);
+    }
+  }
+
+  void
+  Toolbox::handleZoomToolModeChangedEvent(AbstractModel::Events::ZoomToolModeChangedEvent *event) {
+    m_ui->zoomButton->setToolMode(event->newMode);
   }
 }

@@ -30,6 +30,9 @@
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 #include <SDF/UILayer/AbstractModel/IUiStateModelService.hpp>
 
+#include <SDF/UILayer/AbstractModel/IToolApplicationService.hpp>
+#include <SDF/UILayer/AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
 #include <MainWindow.hpp>
 #include <NewDocumentDialog.hpp>
 #include <FileDialog.hpp>
@@ -43,14 +46,16 @@ namespace SDF::UILayer::Gui::Qt::View {
     AbstractModel::IDocumentRenderService *documentRenderService,
     AbstractModel::IUiStateModelService<bool> *boolStateModelService,
     AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-    AbstractModel::IToolApplicationService *toolApplicationService
+    AbstractModel::IToolApplicationService *toolApplicationService,
+    AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService
   )
     : m_controllerFactory(std::move(controllerFactory)),
       m_documentAccessService(documentAccessService),
       m_documentRenderService(documentRenderService),
       m_boolStateModelService(boolStateModelService),
       m_documentViewConfigService(documentViewConfigService),
-      m_toolApplicationService(toolApplicationService)
+      m_toolApplicationService(toolApplicationService),
+      m_zoomToolCfgService(zoomToolCfgService)
   {}
 
   IGuiElement *
@@ -60,7 +65,9 @@ namespace SDF::UILayer::Gui::Qt::View {
     if(elementType == "MainWindow") {
       MainWindow *rv(new MainWindow(m_documentAccessService,
                                     m_boolStateModelService,
-                                    std::make_unique<DockablesFactory>(m_controllerFactory.get()),
+                                    std::make_unique<DockablesFactory>(m_zoomToolCfgService,
+                                                                       m_controllerFactory.get()
+                                                                      ),
                                     std::make_unique<DocumentViewFactory>(m_documentAccessService,
                                                                           m_documentRenderService,
                                                                           m_documentViewConfigService,
@@ -86,16 +93,21 @@ namespace SDF::UILayer::Gui::Qt::View {
 }
 
 namespace SDF::UILayer::Gui::Qt::View {
-  DockablesFactory::DockablesFactory(Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
+  DockablesFactory::DockablesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                                     Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
                                       controllerFactory
                                     )
-    : m_controllerFactory(controllerFactory)
+    : m_zoomToolCfgService(zoomToolCfgService),
+      m_controllerFactory(controllerFactory)
   {}
 
   IGuiElement *
   DockablesFactory::create(IGuiElement *parent, std::string elementType) {
     if(elementType == "Toolchest") {
-      return new Toolbox(m_controllerFactory->create("Toolchest"), dynamic_cast<QWidget *>(parent));
+      return new Toolbox(m_zoomToolCfgService,
+                         m_controllerFactory->create("Toolchest"),
+                         dynamic_cast<QWidget *>(parent)
+                        );
     } else {
       // TBA
     }

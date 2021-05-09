@@ -23,11 +23,16 @@
 
 #include <ToolboxController.hpp>
 
+#include <AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
 #include <AbstractModel/IToolApplicationService.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
-  ToolboxController::ToolboxController(AbstractModel::IToolApplicationService *toolApplicationService)
-    : m_toolApplicationService(toolApplicationService)
+  ToolboxController::ToolboxController(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                                       AbstractModel::IToolApplicationService *toolApplicationService
+                                      )
+    : m_zoomToolCfgService(zoomToolCfgService),
+      m_toolApplicationService(toolApplicationService)
   {
   }
 
@@ -39,6 +44,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     else if(auto p = dynamic_cast<Events::CageTransformToolSelectedEvent *>(event.get())) {
       handleCageTransformToolSelectedEvent(p);
     }
+    else if(auto p = dynamic_cast<Events::ZoomToolModeChangeEvent *>(event.get())) { handleZoomToolModeChangeEvent(p); }
   }
 
   // Private members.
@@ -55,5 +61,18 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   void
   ToolboxController::handleCageTransformToolSelectedEvent(Events::CageTransformToolSelectedEvent *event) {
     m_toolApplicationService->setActiveTool(AbstractModel::Properties::TOOL_CAGE);
+  }
+
+  void
+  ToolboxController::handleZoomToolModeChangeEvent(Events::ZoomToolModeChangeEvent *event) {
+    using namespace AbstractModel::ToolConfig;
+
+    if(event->newMode == Enum::ZOOM_IN) {
+      m_zoomToolCfgService->setMode(Properties::ZOOM_IN);
+    } else if(event->newMode == Enum::ZOOM_OUT) {
+      m_zoomToolCfgService->setMode(Properties::ZOOM_OUT);
+    } else if(event->newMode == Enum::ZOOM_EQUAL) {
+      m_zoomToolCfgService->setMode(Properties::ZOOM_EQUAL);
+    }
   }
 }

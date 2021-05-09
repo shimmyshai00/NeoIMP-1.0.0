@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_EVENTS_TOOLEVENT_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_EVENTS_TOOLEVENT_HPP
+#ifndef SDF_UILAYER_GUI_QT_ENUM_ZOOMTOOLMODE_HPP
+#define SDF_UILAYER_GUI_QT_ENUM_ZOOMTOOLMODE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ToolEvent.hpp
- * PURPOSE: Defines the ToolEvent event hierarchy.
+ * FILE:    ZoomToolMode.hpp
+ * PURPOSE: Enumerate the available zoom tool modes.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/AbstractModel/Events/Event.hpp>
-#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
-
-#include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
-
-namespace SDF::UILayer::AbstractModel::Events {
-  struct ToolEvent : public Event {};
-
-  struct ActiveToolChangedEvent : public ToolEvent {
-    Properties::Tool newTool;
+namespace SDF::UILayer::Gui::Qt::Enum {
+  enum ZoomToolMode {
+    ZOOM_IN,
+    ZOOM_OUT,
+    ZOOM_EQUAL,
+    ZOOM_MAX
   };
-
-  struct ZoomToolEvent : public ToolEvent {};
-  struct ZoomToolModeChangedEvent : public ZoomToolEvent { ToolConfig::Properties::ZoomMode newMode; };
-  struct ZoomToolStepChangedEvent : public ZoomToolEvent { float newZoomStep; };
 }
 
 #endif

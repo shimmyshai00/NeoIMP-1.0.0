@@ -38,15 +38,47 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
+  ZoomToolCfgService::attachObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *observer
+  ) {
+    m_observers.push_back(observer);
+  }
+
+  void
+  ZoomToolCfgService::removeObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *observer
+  ) {
+    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
+  }
+
+  void
   ZoomToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
+    using UILayer::AbstractModel::Events::ZoomToolModeChangedEvent;
+
     m_zoomTool->setMode(mode);
     m_zoomToolRepository->update(m_zoomTool);
+
+    std::shared_ptr<ZoomToolModeChangedEvent> event(new ZoomToolModeChangedEvent);
+    event->newMode = mode;
+
+    for(auto obs : m_observers) {
+      obs->handleEvent(event);
+    }
   }
 
   void
   ZoomToolCfgService::setZoomStep(float step) {
+    using UILayer::AbstractModel::Events::ZoomToolStepChangedEvent;
+
     m_zoomTool->setStep(step);
     m_zoomToolRepository->update(m_zoomTool);
+
+    std::shared_ptr<ZoomToolStepChangedEvent> event(new ZoomToolStepChangedEvent);
+    event->newZoomStep = step;
+
+    for(auto obs : m_observers) {
+      obs->handleEvent(event);
+    }
   }
 
   UILayer::AbstractModel::ToolConfig::Properties::ZoomMode

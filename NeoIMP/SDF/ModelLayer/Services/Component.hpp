@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/UILayer/AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentStorageService.hpp>
 #include <SDF/UILayer/AbstractModel/IDocumentAccessService.hpp>
@@ -44,7 +46,8 @@ namespace SDF::ModelLayer::Services {
                            UILayer::AbstractModel::IUiStateModelService<UILayer::AbstractModel::Handle>,
                            UILayer::AbstractModel::IUiStateModelService<bool>,
                            UILayer::AbstractModel::IDocumentViewConfigService,
-                           UILayer::AbstractModel::IToolApplicationService
+                           UILayer::AbstractModel::IToolApplicationService,
+                           UILayer::AbstractModel::ToolConfig::IZoomToolCfgService
                           >
   Component;
 

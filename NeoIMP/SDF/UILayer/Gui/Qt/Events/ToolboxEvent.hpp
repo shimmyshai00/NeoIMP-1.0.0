@@ -25,6 +25,7 @@
  */
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+#include <SDF/UILayer/Gui/Qt/Enum/ZoomToolMode.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Events {
   struct ToolboxEvent : public GuiEvent {};
@@ -32,6 +33,8 @@ namespace SDF::UILayer::Gui::Qt::Events {
   struct SelectToolSelectedEvent : public ToolboxEvent {};
   struct ZoomToolSelectedEvent : public ToolboxEvent {};
   struct CageTransformToolSelectedEvent : public ToolboxEvent {};
+
+  struct ZoomToolModeChangeEvent : public ToolboxEvent { Enum::ZoomToolMode newMode; };
 }
 
 #endif

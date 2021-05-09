@@ -25,6 +25,8 @@
 
 #include <SDF/UILayer/Exceptions/Exceptions.hpp>
 
+#include <AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
 #include <AbstractModel/IDocumentCreationService.hpp>
 #include <AbstractModel/IDocumentStorageService.hpp>
 #include <AbstractModel/IUiStateModelService.hpp>
@@ -38,6 +40,7 @@
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
+                   AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
                    AbstractModel::IDocumentCreationService *documentCreationService,
                    AbstractModel::IDocumentStorageService *documentStorageService,
                    AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
@@ -45,6 +48,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
                    AbstractModel::IToolApplicationService *toolApplicationService
                   )
     : m_guiController(guiController),
+      m_zoomToolCfgService(zoomToolCfgService),
       m_documentCreationService(documentCreationService),
       m_documentStorageService(documentStorageService),
       m_handleStateModelService(handleStateModelService),
@@ -66,7 +70,9 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     } else if(guiElementType == "OpenDialog") {
       return std::make_unique<OpenDialogController>(m_documentStorageService, m_handleStateModelService);
     } else if(guiElementType == "Toolchest") {
-      return std::make_unique<ToolboxController>(m_toolApplicationService);
+      return std::make_unique<ToolboxController>(m_zoomToolCfgService,
+                                                 m_toolApplicationService
+                                                );
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA

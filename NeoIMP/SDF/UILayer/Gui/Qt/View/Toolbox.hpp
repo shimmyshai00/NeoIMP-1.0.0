@@ -25,11 +25,17 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <QDockWidget>
+
+#include <QMenu>
+#include <QAction>
 
 #include <memory>
 
@@ -37,33 +43,49 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Toolchest; }
 QT_END_NAMESPACE
 
-namespace SDF::UILayer::Gui::Qt::View {
-  // Class:      Toolbox
-  // Purpose:    Displays a palette containing the image editing tools.
-  // Parameters: None.
-  class Toolbox : public QDockWidget,
-                  public IGuiElement
-  {
-    Q_OBJECT
-  public:
-    Toolbox(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-            QWidget *parent = nullptr
-           );
-    ~Toolbox();
+namespace SDF::UILayer {
+  namespace AbstractModel::ToolConfig {
+    class IZoomToolCfgService;
+  }
 
-    IGuiElement *
-    getParent();
+  namespace Gui::Qt::View {
+    // Class:      Toolbox
+    // Purpose:    Displays a palette containing the image editing tools.
+    // Parameters: None.
+    class Toolbox : public QDockWidget,
+                    public IGuiElement,
+                    private Interfaces::IEventHandler<AbstractModel::Events::ZoomToolEvent>
+    {
+      Q_OBJECT
+    public:
+      Toolbox(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+              std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+              QWidget *parent = nullptr
+             );
+      ~Toolbox();
 
-    void
-    show();
+      IGuiElement *
+      getParent();
 
-    void
-    close();
-  private:
-    Ui::Toolchest *m_ui;
+      void
+      show();
 
-    std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
-  };
+      void
+      close();
+    private:
+      AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
+
+      Ui::Toolchest *m_ui;
+
+      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
+
+      void
+      handleEvent(std::shared_ptr<AbstractModel::Events::ZoomToolEvent> event);
+
+      void
+      handleZoomToolModeChangedEvent(AbstractModel::Events::ZoomToolModeChangedEvent *event);
+    };
+  }
 }
 
 #endif

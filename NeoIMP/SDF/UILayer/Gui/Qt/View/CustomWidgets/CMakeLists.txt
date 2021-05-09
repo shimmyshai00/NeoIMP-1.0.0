@@ -4,4 +4,5 @@ add_subdirectory(SubWidgets)
 
 target_sources(neoimp PUBLIC
   DocumentWidget.cpp
+  ToolButtonWidget.cpp
 )

@@ -41,6 +41,10 @@
 
 namespace SDF::UILayer {
   namespace AbstractModel {
+    namespace ToolConfig {
+      class IZoomToolCfgService;
+    }
+
     class IDocumentAccessService;
     class IDocumentRenderService;
     class IDocumentViewConfigService;
@@ -66,7 +70,8 @@ namespace SDF::UILayer {
               AbstractModel::IDocumentRenderService *documentRenderService,
               AbstractModel::IUiStateModelService<bool> *boolStateModelService,
               AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-              AbstractModel::IToolApplicationService *toolApplicationService
+              AbstractModel::IToolApplicationService *toolApplicationService,
+              AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService
              );
 
       // Note: The GUI element is presumed to be owned by its parent element.
@@ -81,6 +86,7 @@ namespace SDF::UILayer {
       AbstractModel::IUiStateModelService<bool> *m_boolStateModelService;
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
       AbstractModel::IToolApplicationService *m_toolApplicationService;
+      AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
     };
 
     // Class:      DockablesFactory
@@ -88,7 +94,8 @@ namespace SDF::UILayer {
     // Parameters: None.
     class DockablesFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
     public:
-      DockablesFactory(Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
+      DockablesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                       Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
                         controllerFactory
                       );
 
@@ -96,6 +103,8 @@ namespace SDF::UILayer {
       IGuiElement *
       create(IGuiElement *parent, std::string elementType);
     private:
+      AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
+
       Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *m_controllerFactory;
     };
 

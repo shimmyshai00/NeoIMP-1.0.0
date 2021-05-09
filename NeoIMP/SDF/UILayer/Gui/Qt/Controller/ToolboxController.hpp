@@ -34,6 +34,10 @@
 
 namespace SDF::UILayer {
   namespace AbstractModel {
+    namespace ToolConfig {
+      class IZoomToolCfgService;
+    }
+
     class IToolApplicationService;
   }
 
@@ -43,11 +47,15 @@ namespace SDF::UILayer {
     // Parameters: None.
     class ToolboxController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      ToolboxController(AbstractModel::IToolApplicationService *toolApplicationService);
+      ToolboxController(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                        AbstractModel::IToolApplicationService *toolApplicationService
+                       );
 
       void
       handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
+      AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
+
       AbstractModel::IToolApplicationService *m_toolApplicationService;
 
       void
@@ -58,6 +66,9 @@ namespace SDF::UILayer {
 
       void
       handleCageTransformToolSelectedEvent(Events::CageTransformToolSelectedEvent *event);
+
+      void
+      handleZoomToolModeChangeEvent(Events::ZoomToolModeChangeEvent *event);
     };
   }
 }

@@ -25,7 +25,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <widget class="QToolButton" name="selectionButton">
+      <widget class="SDF::UILayer::Gui::Qt::View::CustomWidgets::ToolButtonWidget" name="selectionButton">
        <property name="text">
         <string/>
        </property>
@@ -42,7 +42,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QToolButton" name="cageButton">
+      <widget class="SDF::UILayer::Gui::Qt::View::CustomWidgets::ToolButtonWidget" name="cageButton">
        <property name="text">
         <string/>
        </property>
@@ -59,7 +59,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QToolButton" name="zoomButton">
+      <widget class="SDF::UILayer::Gui::Qt::View::CustomWidgets::ToolButtonWidget" name="zoomButton">
        <property name="text">
         <string/>
        </property>
@@ -79,6 +79,13 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDF::UILayer::Gui::Qt::View::CustomWidgets::ToolButtonWidget</class>
+   <extends>QToolButton</extends>
+   <header>../CustomWidgets/ToolButtonWidget.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="Icons.qrc"/>
  </resources>

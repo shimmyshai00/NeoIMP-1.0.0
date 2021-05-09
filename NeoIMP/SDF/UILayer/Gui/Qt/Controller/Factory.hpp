@@ -37,6 +37,10 @@
 
 namespace SDF::UILayer {
   namespace AbstractModel {
+    namespace ToolConfig {
+      class IZoomToolCfgService;
+    }
+
     class IDocumentCreationService;
     class IDocumentStorageService;
 
@@ -57,6 +61,7 @@ namespace SDF::UILayer {
       {
       public:
         Factory(IGuiController *guiController,
+                AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
                 AbstractModel::IDocumentCreationService *documentCreationService,
                 AbstractModel::IDocumentStorageService *documentStorageService,
                 AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
@@ -69,6 +74,8 @@ namespace SDF::UILayer {
         create(std::string guiElementType);
       private:
         IGuiController *m_guiController;
+
+        AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
 
         AbstractModel::IDocumentCreationService *m_documentCreationService;
         AbstractModel::IDocumentStorageService *m_documentStorageService;

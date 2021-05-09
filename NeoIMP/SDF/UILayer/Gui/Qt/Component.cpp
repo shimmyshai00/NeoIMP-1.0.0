@@ -31,6 +31,8 @@
 #include <SDF/UILayer/AbstractModel/IDocumentViewConfigService.hpp>
 #include <SDF/UILayer/AbstractModel/IToolApplicationService.hpp>
 
+#include <SDF/UILayer/AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Controller/Factory.hpp>
 #include <SDF/UILayer/Gui/Qt/View/Factory.hpp>
 
@@ -55,7 +57,8 @@ namespace SDF::UILayer::Gui::Qt {
                          AbstractModel::IUiStateModelService<AbstractModel::Handle> *,
                          AbstractModel::IUiStateModelService<bool> *,
                          AbstractModel::IDocumentViewConfigService *,
-                         AbstractModel::IToolApplicationService *
+                         AbstractModel::IToolApplicationService *,
+                         AbstractModel::ToolConfig::IZoomToolCfgService *
                         )
        >(
          [](IGuiController *guiController,
@@ -66,10 +69,12 @@ namespace SDF::UILayer::Gui::Qt {
             AbstractModel::IUiStateModelService<AbstractModel::Handle> *handleStateModelService,
             AbstractModel::IUiStateModelService<bool> *boolStateModelService,
             AbstractModel::IDocumentViewConfigService *documentViewConfigService,
-            AbstractModel::IToolApplicationService *toolApplicationService
+            AbstractModel::IToolApplicationService *toolApplicationService,
+            AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService
            )
           {
            std::unique_ptr<Controller::Factory> controllerFactory(new Controller::Factory(guiController,
+                                                                                          zoomToolCfgService,
                                                                                           documentCreationService,
                                                                                           documentStorageService,
                                                                                           handleStateModelService,
@@ -85,7 +90,8 @@ namespace SDF::UILayer::Gui::Qt {
                                                      documentRenderService,
                                                      boolStateModelService,
                                                      documentViewConfigService,
-                                                     toolApplicationService
+                                                     toolApplicationService,
+                                                     zoomToolCfgService
                                                     ));
          }
        )

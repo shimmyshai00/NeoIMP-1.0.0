@@ -24,13 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Properties/ZoomMode.hpp"
+#include <SDF/Interfaces/IObservable.hpp>
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 
 namespace SDF::UILayer::AbstractModel::ToolConfig {
   // Class:      IZoomToolCfgService
   // Purpose:    Defines the interface for configuring the zoom tool.
   // Parameters: None.
-  class IZoomToolCfgService {
+  class IZoomToolCfgService : public Interfaces::IObservable<Events::ZoomToolEvent> {
   public:
     virtual ~IZoomToolCfgService() = default;
 

@@ -31,6 +31,8 @@
 #include <DocumentViewConfigService.hpp>
 #include <ToolApplicationService.hpp>
 
+#include <ZoomToolCfgService.hpp>
+
 #include <DomainObjects/Component.hpp>
 #include <DataLayer/Repositories/Component.hpp>
 
@@ -49,6 +51,7 @@ namespace SDF::ModelLayer::Services {
            >()
       .bind<UILayer::AbstractModel::IDocumentViewConfigService, DocumentViewConfigService>()
       .bind<UILayer::AbstractModel::IToolApplicationService, ToolApplicationService>()
+      .bind<UILayer::AbstractModel::ToolConfig::IZoomToolCfgService, ZoomToolCfgService>()
       .install(DomainObjects::getComponent)
       .install(DataLayer::Repositories::getComponent);
   }
