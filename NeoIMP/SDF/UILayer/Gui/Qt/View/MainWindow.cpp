@@ -136,8 +136,7 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::DocumentEvent> event) {
-    if(auto p = dynamic_cast<AbstractModel::Events::DocumentCreated *>(event.get())) { handleDocumentCreated(p); }
-    else if(auto p = dynamic_cast<AbstractModel::Events::DocumentOpened *>(event.get())) { handleDocumentOpened(p); }
+    if(auto p = dynamic_cast<AbstractModel::Events::DocumentAdded *>(event.get())) { handleDocumentAdded(p); }
   }
 
   void
@@ -181,13 +180,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   }
 
   void
-  MainWindow::handleDocumentCreated(AbstractModel::Events::DocumentCreated *event) {
-    addDocumentTab(event->handle);
-  }
-
-
-  void
-  MainWindow::handleDocumentOpened(AbstractModel::Events::DocumentOpened *event) {
+  MainWindow::handleDocumentAdded(AbstractModel::Events::DocumentAdded *event) {
     addDocumentTab(event->handle);
   }
 }

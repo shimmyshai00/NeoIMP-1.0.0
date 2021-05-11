@@ -31,11 +31,7 @@
 namespace SDF::UILayer::AbstractModel::Events {
   struct DocumentEvent : public Event {};
 
-  struct DocumentCreated : public DocumentEvent {
-    UILayer::AbstractModel::Handle handle;
-  };
-
-  struct DocumentOpened : public DocumentEvent {
+  struct DocumentAdded : public DocumentEvent {
     UILayer::AbstractModel::Handle handle;
   };
 }

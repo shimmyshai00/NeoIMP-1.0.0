@@ -142,8 +142,8 @@ namespace SDF::ModelLayer::Services {
 
   void
   DocumentAccessService::handleCreateMessage(Events::Created<AbstractDomain::IImage> *message) {
-    std::shared_ptr<UILayer::AbstractModel::Events::DocumentCreated>
-      uiEvent(new UILayer::AbstractModel::Events::DocumentCreated);
+    std::shared_ptr<UILayer::AbstractModel::Events::DocumentAdded>
+      uiEvent(new UILayer::AbstractModel::Events::DocumentAdded);
     uiEvent->handle = message->objectId;
 
     for(auto observer : m_observers) {

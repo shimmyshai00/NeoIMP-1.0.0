@@ -116,10 +116,7 @@ namespace SDF::UILayer {
         addDocumentTab(AbstractModel::Handle handle);
 
         void
-        handleDocumentCreated(AbstractModel::Events::DocumentCreated *event);
-
-        void
-        handleDocumentOpened(AbstractModel::Events::DocumentOpened *event);
+        handleDocumentAdded(AbstractModel::Events::DocumentAdded *event);
       };
     }
   }
