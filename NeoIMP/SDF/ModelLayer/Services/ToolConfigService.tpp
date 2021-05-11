@@ -35,9 +35,9 @@ namespace SDF::ModelLayer::Services {
   )
     : m_subscriberUid(subscriberUid),
       m_toolRepository(toolRepository),
-      m_broker(nullptr)
+      m_broker(broker)
   {
-    broker->addSubscriber(this);
+    m_broker->addSubscriber(this);
   }
 
   template<class ToolT>

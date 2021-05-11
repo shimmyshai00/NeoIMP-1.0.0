@@ -56,6 +56,8 @@ namespace SDF::ModelLayer::Services {
   ZoomToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
     using UILayer::AbstractModel::Events::ZoomToolModeChangedEvent;
 
+    printf("mode changed to: %d\n", mode);
+
     m_tool->setMode(mode);
     toolUpdated();
 

@@ -38,7 +38,7 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
                                )
   {
     if(m_actions.find(modeId) == m_actions.end()) {
-      m_actions[modeId] = m_menu->addAction(icon, text, this, &ToolButtonWidget::modeSelected);
+      m_actions[modeId] = m_menu->addAction(icon, text, this, [=]() { modeSelected(modeId); });
       if(m_actions.size() == 1) { // first mode added
         m_toolMode = modeId;
         setMenu(m_menu);

@@ -60,10 +60,10 @@ namespace SDF::ModelLayer::Services {
       m_toolCreateBroker(nullptr),
       m_activeTool(Properties::TOOL_MAX)
   {
-    addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
-
     imageChangeBroker->addPublisher(this);
     toolCreateBroker->addPublisher(this);
+
+    addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
   }
 
   ToolApplicationService::~ToolApplicationService() {
@@ -96,7 +96,7 @@ namespace SDF::ModelLayer::Services {
 
     std::shared_ptr<UILayer::AbstractModel::Events::ActiveToolChangedEvent>
       event(new UILayer::AbstractModel::Events::ActiveToolChangedEvent);
-      
+
     event->newTool = tool;
     for(auto observer : m_observers) {
       observer->handleEvent(event);
@@ -172,5 +172,10 @@ namespace SDF::ModelLayer::Services {
 
     m_toolRepository->create(std::move(tool));
     m_toolIdMap[toolLabel] = toolId;
+
+    // Inform of the change in the repository.
+    std::shared_ptr<Events::Created<AbstractDomain::ITool>> message(new Events::Created<AbstractDomain::ITool>);
+    message->objectId = toolId;
+    m_toolCreateBroker->receiveMessage(this, message);
   }
 }
