@@ -36,20 +36,6 @@ namespace SDF::DataLayer::Repositories {
     : m_mapperFactory(mapperFactory)
   {}
 
-  void
-  ImageRepository::attachObserver(
-    Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<AbstractDomain::IImage>> *observer
-  ) {
-    m_observers.push_back(observer);
-  }
-
-  void
-  ImageRepository::removeObserver(
-    Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<AbstractDomain::IImage>> *observer
-  ) {
-    m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
-  }
-
   std::vector<int>
   ImageRepository::getIds() const {
     std::vector<int> rv;
@@ -68,14 +54,6 @@ namespace SDF::DataLayer::Repositories {
     int objectId(object->getId());
 
     m_objectMap[objectId] = std::move(object);
-
-    std::shared_ptr<ModelLayer::AbstractData::Created<IImage>>
-      event(new ModelLayer::AbstractData::Created<IImage>);
-    event->objectId = objectId;
-
-    for(auto observer : m_observers) {
-      observer->handleEvent(event);
-    }
   }
 
   AbstractDomain::IImage *
@@ -158,14 +136,6 @@ namespace SDF::DataLayer::Repositories {
     m_fileSpecMap[objectId] = fileSpec;
     m_fileFormatMap[objectId] = fileFormat;
     m_objectMap[objectId] = std::move(obj);
-
-    std::shared_ptr<ModelLayer::AbstractData::Loaded<AbstractDomain::IImage>>
-      event(new ModelLayer::AbstractData::Loaded<AbstractDomain::IImage>);
-    event->objectId = objectId;
-
-    for(auto observer : m_observers) {
-      observer->handleEvent(event);
-    }
 
     return objectId;
   }

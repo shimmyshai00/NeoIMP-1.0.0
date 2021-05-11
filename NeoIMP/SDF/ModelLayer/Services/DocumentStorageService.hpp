@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IMessagePublisher.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
 
 #include <SDF/UILayer/AbstractModel/IDocumentStorageService.hpp>
@@ -31,6 +33,8 @@
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <SDF/ModelLayer/AbstractData/ImageFileFormat.hpp>
+
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
 
 #include <fruit/fruit.h>
 
@@ -57,7 +61,11 @@ namespace SDF::ModelLayer {
     // Class:      DocumentStorageService
     // Purpose:    Provides the model layer service for storing and retrieving documents.
     // Parameters: None.
-    class DocumentStorageService : public UILayer::AbstractModel::IDocumentStorageService {
+    class DocumentStorageService : public UILayer::AbstractModel::IDocumentStorageService,
+                                   private Interfaces::IMessagePublisher<
+                                    Events::RepositoryUpdate<AbstractDomain::IImage>
+                                   >
+    {
     public:
       INJECT(DocumentStorageService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                     AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage,
@@ -67,8 +75,11 @@ namespace SDF::ModelLayer {
                                      deltaEditorMap,
                                     Interfaces::IFactory<AbstractDomain::IDeltaEditor,
                                                          AbstractDomain::IImage *
-                                                        > *deltaEditorFactory
+                                                        > *deltaEditorFactory,
+                                    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *
+                                      messageBroker
                                    ));
+      ~DocumentStorageService();
 
       void
       saveDocument(std::string fileName,
@@ -82,11 +93,19 @@ namespace SDF::ModelLayer {
                   );
     private:
       AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
+      Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *m_messageBroker;
+
       AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage, AbstractData::ImageFileFormat> *
         m_fileSystemPersistenceController;
       AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *m_deltaEditorMap;
 
       Interfaces::IFactory<AbstractDomain::IDeltaEditor, AbstractDomain::IImage *> *m_deltaEditorFactory;
+
+      int
+      getUid() const;
+
+      void
+      setBroker(Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *broker);
     };
   }
 }

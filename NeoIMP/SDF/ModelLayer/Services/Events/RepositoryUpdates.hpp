@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_IOBSERVABLEREPOSITORY_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_IOBSERVABLEREPOSITORY_HPP
+#ifndef SDF_MODELLAYER_SERVICES_EVENTS_REPOSITORYUPDATES_HPP
+#define SDF_MODELLAYER_SERVICES_EVENTS_REPOSITORYUPDATES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IObservableRepository.hpp
- * PURPOSE: Defines the IObservableRepository interface.
+ * FILE:    RepositoryUpdates.hpp
+ * PURPOSE: Defines events for reporting updates to domain object repositories.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-#include <SDF/ModelLayer/AbstractData/IRepository.hpp>
-#include <SDF/Interfaces/IObservable.hpp>
-
-#include <SDF/ModelLayer/AbstractData/RepositoryEvent.hpp>
-
-namespace SDF::ModelLayer::AbstractData {
-  // Class:      IObservableRepository
-  // Purpose:    Provides an interface for domain object repositories which can also be observed for changes.
-  // Parameters: T - The domain object type held in the repository.
+namespace SDF::ModelLayer::Services::Events {
   template<class T>
-  class IObservableRepository : public IRepository<T>,
-                                public Interfaces::IObservable<RepositoryEvent<T>>
-  {
-  };
+  struct RepositoryUpdate { virtual ~RepositoryUpdate() = default; };
+
+  template<class T>
+  struct Created : public RepositoryUpdate<T> { int objectId; };
+
+  template<class T>
+  struct Updated : public RepositoryUpdate<T> { int objectId; };
+
+  template<class T>
+  struct Deleted : public RepositoryUpdate<T> { int objectId; };
 }
 
 #endif

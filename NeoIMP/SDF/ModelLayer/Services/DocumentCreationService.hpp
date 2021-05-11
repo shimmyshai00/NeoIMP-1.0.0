@@ -26,8 +26,11 @@
 
 #include <SDF/UILayer/AbstractModel/IDocumentCreationService.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
+#include <SDF/Interfaces/IMessagePublisher.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/DocumentSpec.hpp>
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
 
 #include <fruit/fruit.h>
 
@@ -46,11 +49,14 @@ namespace SDF::ModelLayer {
       class IObjectMap;
     }
 
-
     // Class:      DocumentCreationService
     // Purpose:    Provides the model layer service for creating new documents.
     // Parameters: None.
-    class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService {
+    class DocumentCreationService : public UILayer::AbstractModel::IDocumentCreationService,
+                                    private Interfaces::IMessagePublisher<
+                                      Events::RepositoryUpdate<AbstractDomain::IImage>
+                                    >
+    {
     public:
       INJECT(DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                      AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *
@@ -59,8 +65,11 @@ namespace SDF::ModelLayer {
                                       imageFactory,
                                      Interfaces::IFactory<AbstractDomain::IDeltaEditor,
                                                           AbstractDomain::IImage *
-                                                         > *deltaEditorFactory
+                                                         > *deltaEditorFactory,
+                                     Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *
+                                      messageBroker
                                     ));
+      ~DocumentCreationService();
 
       void
       createDocument(int documentWidthPx,
@@ -77,6 +86,14 @@ namespace SDF::ModelLayer {
       Interfaces::IFactory<AbstractDomain::IDeltaEditor,
                            AbstractDomain::IImage *
                           > *m_deltaEditorFactory;
+
+      Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *m_messageBroker;
+
+      int
+      getUid() const;
+
+      void
+      setBroker(Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *broker);
     };
   }
 }

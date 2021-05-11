@@ -33,9 +33,6 @@ namespace SDF::DataLayer::Repositories {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
-            ImageRepository
-           >()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>, ImageRepository>()
       .bind<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
             MemoryOnlyRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>

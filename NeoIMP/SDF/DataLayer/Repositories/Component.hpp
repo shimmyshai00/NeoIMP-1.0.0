@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/AbstractData/IObservableRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IFileSystemPersistenceController.hpp>
 
@@ -39,10 +38,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::DataLayer::Repositories {
-  typedef fruit::Component<ModelLayer::AbstractData::IObservableRepository<
-                            ModelLayer::Services::AbstractDomain::IImage
-                           >,
-                           ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>,
+  typedef fruit::Component<ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>,
                            ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IRenderBuffer>,
                            ModelLayer::AbstractData::IFileSystemPersistenceController<
                             ModelLayer::Services::AbstractDomain::IImage,

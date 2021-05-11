@@ -44,6 +44,8 @@
 #include <SDF/ModelLayer/Services/AbstractDomain/IObjectMap.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
+
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::DomainObjects {
@@ -69,6 +71,12 @@ namespace SDF::ModelLayer::DomainObjects {
                                                 Services::AbstractDomain::IImage *
                                                >,
                            Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>,
+                           Interfaces::IMessageBroker<
+                            Services::Events::RepositoryUpdate<Services::AbstractDomain::IImage>
+                           >,
+                           Interfaces::IMessageBroker<
+                            Services::Events::RepositoryUpdate<Services::AbstractDomain::ITool>
+                           >,
                            Services::AbstractDomain::IObjectMap<Services::AbstractDomain::IImage,
                                                                 Services::AbstractDomain::IDeltaEditor
                                                                >

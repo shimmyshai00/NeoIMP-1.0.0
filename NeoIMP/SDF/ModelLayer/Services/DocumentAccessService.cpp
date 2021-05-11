@@ -26,10 +26,11 @@
 #include <ModelLayer/Exceptions/Exceptions.hpp>
 #include <DataLayer/Exceptions/Exceptions.hpp>
 
-#include <AbstractData/IObservableRepository.hpp>
 #include <AbstractData/IRepository.hpp>
 
 #include <AbstractDomain/IImage.hpp>
+
+#include <BrokerId.hpp>
 
 #include <algorithm>
 
@@ -39,25 +40,33 @@ namespace SDF::ModelLayer::Services {
   using namespace UILayer::AbstractModel;
 
   using AbstractData::IRepository;
-  using AbstractData::IObservableRepository;
 
-  DocumentAccessService::DocumentAccessService(IObservableRepository<AbstractDomain::IImage> *imageRepository)
-    : m_imageRepository(imageRepository)
+  DocumentAccessService::DocumentAccessService(IRepository<AbstractDomain::IImage> *imageRepository,
+                                               Interfaces::IMessageBroker<
+                                                Events::RepositoryUpdate<AbstractDomain::IImage>
+                                               > *messageBroker
+                                              )
+    : m_imageRepository(imageRepository),
+      m_messageBroker(messageBroker)
   {
-    m_imageRepository->attachObserver(this);
+    m_messageBroker->addSubscriber(this);
   }
 
   DocumentAccessService::~DocumentAccessService() {
-    m_imageRepository->removeObserver(this);
+    m_messageBroker->removeSubscriber(this);
   }
 
   void
-  DocumentAccessService::attachObserver(Interfaces::IEventHandler<Events::DocumentEvent> *observer) {
+  DocumentAccessService::attachObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::DocumentEvent> *observer
+  ) {
     m_observers.push_back(observer);
   }
 
   void
-  DocumentAccessService::removeObserver(Interfaces::IEventHandler<Events::DocumentEvent> *observer) {
+  DocumentAccessService::removeObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::DocumentEvent> *observer
+  ) {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
   }
 
@@ -121,30 +130,21 @@ namespace SDF::ModelLayer::Services {
   }
 
   // Private members.
-  void
-  DocumentAccessService::handleEvent(std::shared_ptr<AbstractData::RepositoryEvent<AbstractDomain::IImage>> event)
-  {
-    if(auto p = dynamic_cast<AbstractData::Created<AbstractDomain::IImage> *>(event.get())) { handleCreateEvent(p); }
-    else if(auto p = dynamic_cast<AbstractData::Loaded<AbstractDomain::IImage> *>(event.get())) { handleLoadEvent(p); }
+  int
+  DocumentAccessService::getUid() const {
+    return SERVICE_DOCUMENT_ACCESS;
   }
 
   void
-  DocumentAccessService::handleCreateEvent(AbstractData::Created<AbstractDomain::IImage> *event)
-  {
+  DocumentAccessService::receiveMessage(std::shared_ptr<Events::RepositoryUpdate<AbstractDomain::IImage>> message) {
+    if(auto p = dynamic_cast<Events::Created<AbstractDomain::IImage> *>(message.get())) { handleCreateMessage(p); }
+  }
+
+  void
+  DocumentAccessService::handleCreateMessage(Events::Created<AbstractDomain::IImage> *message) {
     std::shared_ptr<UILayer::AbstractModel::Events::DocumentCreated>
       uiEvent(new UILayer::AbstractModel::Events::DocumentCreated);
-    uiEvent->handle = event->objectId;
-
-    for(auto observer : m_observers) {
-      observer->handleEvent(uiEvent);
-    }
-  }
-
-  void
-  DocumentAccessService::handleLoadEvent(AbstractData::Loaded<AbstractDomain::IImage> *event) {
-    std::shared_ptr<UILayer::AbstractModel::Events::DocumentOpened>
-      uiEvent(new UILayer::AbstractModel::Events::DocumentOpened);
-    uiEvent->handle = event->objectId;
+    uiEvent->handle = message->objectId;
 
     for(auto observer : m_observers) {
       observer->handleEvent(uiEvent);

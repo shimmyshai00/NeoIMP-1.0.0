@@ -30,19 +30,28 @@
 #include <AbstractDomain/IObjectMap.hpp>
 #include <AbstractDomain/IDeltaEditor.hpp>
 
+#include <BrokerId.hpp>
+
 namespace SDF::ModelLayer::Services {
   DocumentStorageService::DocumentStorageService(
     AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
     AbstractData::IFileSystemPersistenceController<AbstractDomain::IImage, AbstractData::ImageFileFormat> *
       fileSystemPersistenceController,
     AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *deltaEditorMap,
-    Interfaces::IFactory<AbstractDomain::IDeltaEditor, AbstractDomain::IImage *> *deltaEditorFactory
+    Interfaces::IFactory<AbstractDomain::IDeltaEditor, AbstractDomain::IImage *> *deltaEditorFactory,
+    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *messageBroker
   )
     : m_imageRepository(imageRepository),
+      m_messageBroker(nullptr),
       m_fileSystemPersistenceController(fileSystemPersistenceController),
       m_deltaEditorMap(deltaEditorMap),
       m_deltaEditorFactory(deltaEditorFactory)
   {
+    messageBroker->addPublisher(this);
+  }
+
+  DocumentStorageService::~DocumentStorageService() {
+    m_messageBroker->removePublisher(this);
   }
 
   void
@@ -71,6 +80,24 @@ namespace SDF::ModelLayer::Services {
 
     m_deltaEditorMap->linkTo(imagePtr, std::move(deltaEditor));
 
+    // Publish message indicating document load.
+    std::shared_ptr<Events::Created<AbstractDomain::IImage>> message(new Events::Created<AbstractDomain::IImage>);
+    message->objectId = imagePtr->getId();
+    m_messageBroker->receiveMessage(this, message);
+
     return handle;
+  }
+
+  // Private members.
+  int
+  DocumentStorageService::getUid() const {
+    return SERVICE_DOCUMENT_STORAGE;
+  }
+
+  void
+  DocumentStorageService::setBroker(
+    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *broker
+  ) {
+    m_messageBroker = broker;
   }
 }

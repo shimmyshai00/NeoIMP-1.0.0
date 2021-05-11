@@ -29,7 +29,10 @@
 #include <SDF/UILayer/AbstractModel/Events/DocumentEvent.hpp>
 
 #include <SDF/Interfaces/IEventHandler.hpp>
-#include <SDF/ModelLayer/AbstractData/RepositoryEvent.hpp>
+#include <SDF/Interfaces/IMessageSubscriber.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
+
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
 
 #include <fruit/fruit.h>
 #include <vector>
@@ -37,7 +40,7 @@
 namespace SDF::ModelLayer {
   namespace AbstractData {
     template<class T>
-    class IObservableRepository;
+    class IRepository;
   }
 
   namespace Services {
@@ -49,10 +52,15 @@ namespace SDF::ModelLayer {
     // Purpose:    Provides the model layer service for creating new documents.
     // Parameters: None.
     class DocumentAccessService : public UILayer::AbstractModel::IDocumentAccessService,
-                                  private Interfaces::IEventHandler<AbstractData::RepositoryEvent<AbstractDomain::IImage>>
+                                  private Interfaces::IMessageSubscriber<
+                                    Events::RepositoryUpdate<AbstractDomain::IImage>
+                                  >
     {
     public:
-      INJECT(DocumentAccessService(AbstractData::IObservableRepository<AbstractDomain::IImage> *imageRepository));
+      INJECT(DocumentAccessService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
+                                   Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *
+                                    messageBroker
+                                  ));
       ~DocumentAccessService();
 
       void
@@ -85,14 +93,19 @@ namespace SDF::ModelLayer {
       std::size_t
       getDocumentNumLayers(UILayer::AbstractModel::Handle handle) const;
     private:
-      AbstractData::IObservableRepository<AbstractDomain::IImage> *m_imageRepository;
+      AbstractData::IRepository<AbstractDomain::IImage> *m_imageRepository;
+      Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *m_messageBroker;
 
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::DocumentEvent> *> m_observers;
 
-      void handleEvent(std::shared_ptr<AbstractData::RepositoryEvent<AbstractDomain::IImage>> event);
+      int
+      getUid() const;
 
-      void handleCreateEvent(AbstractData::Created<AbstractDomain::IImage> *event);
-      void handleLoadEvent(AbstractData::Loaded<AbstractDomain::IImage> *event);
+      void
+      receiveMessage(std::shared_ptr<Events::RepositoryUpdate<AbstractDomain::IImage>> message);
+
+      void
+      handleCreateMessage(Events::Created<AbstractDomain::IImage> *message);
     };
   }
 }

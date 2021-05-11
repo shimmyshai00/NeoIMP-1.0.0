@@ -31,6 +31,12 @@ namespace SDF::ModelLayer::DomainObjects::Messaging {
     return fruit::createComponent()
       .bind<Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>,
             Broker<Services::AbstractDomain::Defs::ImageChange>
+           >()
+      .bind<Interfaces::IMessageBroker<Services::Events::RepositoryUpdate<Services::AbstractDomain::IImage>>,
+            Broker<Services::Events::RepositoryUpdate<Services::AbstractDomain::IImage>>
+           >()
+      .bind<Interfaces::IMessageBroker<Services::Events::RepositoryUpdate<Services::AbstractDomain::ITool>>,
+            Broker<Services::Events::RepositoryUpdate<Services::AbstractDomain::ITool>>
            >();
   }
 }

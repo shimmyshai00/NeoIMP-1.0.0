@@ -26,11 +26,22 @@
 
 #include <SDF/Interfaces/IMessageBroker.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
+
+#include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/ITool.hpp>
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::DomainObjects::Messaging {
-  typedef fruit::Component<Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>>
+  typedef fruit::Component<Interfaces::IMessageBroker<Services::AbstractDomain::Defs::ImageChange>,
+                           Interfaces::IMessageBroker<
+                            Services::Events::RepositoryUpdate<Services::AbstractDomain::IImage>
+                           >,
+                           Interfaces::IMessageBroker<
+                            Services::Events::RepositoryUpdate<Services::AbstractDomain::ITool>
+                           >
+                          >
   Component;
 
   Component getComponent();

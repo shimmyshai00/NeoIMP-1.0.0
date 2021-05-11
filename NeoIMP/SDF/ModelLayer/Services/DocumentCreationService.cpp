@@ -29,6 +29,8 @@
 #include <AbstractDomain/IImage.hpp>
 #include <AbstractDomain/IDeltaEditor.hpp>
 
+#include <BrokerId.hpp>
+
 namespace SDF::ModelLayer::Services {
   DocumentCreationService::DocumentCreationService(AbstractData::IRepository<AbstractDomain::IImage> *imageRepository,
                                                    AbstractDomain::IObjectMap<AbstractDomain::IImage,
@@ -39,13 +41,23 @@ namespace SDF::ModelLayer::Services {
                                                                        > *imageFactory,
                                                    Interfaces::IFactory<AbstractDomain::IDeltaEditor,
                                                                         AbstractDomain::IImage *
-                                                                       > *deltaEditorFactory
+                                                                       > *deltaEditorFactory,
+                                                   Interfaces::IMessageBroker<
+                                                    Events::RepositoryUpdate<AbstractDomain::IImage>
+                                                   > *messageBroker
                                                   )
     : m_imageRepository(imageRepository),
       m_deltaEditorMap(deltaEditorMap),
       m_imageFactory(imageFactory),
-      m_deltaEditorFactory(deltaEditorFactory)
-  {}
+      m_deltaEditorFactory(deltaEditorFactory),
+      m_messageBroker(nullptr)
+  {
+    messageBroker->addPublisher(this);
+  }
+
+  DocumentCreationService::~DocumentCreationService() {
+    m_messageBroker->removePublisher(this);
+  }
 
   void
   DocumentCreationService::createDocument(int documentWidthPx,
@@ -73,5 +85,22 @@ namespace SDF::ModelLayer::Services {
 
     m_imageRepository->create(std::move(newImage));
     m_deltaEditorMap->linkTo(newImagePtr, std::move(newImageEditor));
+
+    std::shared_ptr<Events::Created<AbstractDomain::IImage>> event(new Events::Created<AbstractDomain::IImage>);
+    event->objectId = newImagePtr->getId();
+    m_messageBroker->receiveMessage(this, event);
+  }
+
+  // Private members.
+  int
+  DocumentCreationService::getUid() const {
+    return SERVICE_DOCUMENT_CREATION;
+  }
+
+  void
+  DocumentCreationService::setBroker(
+    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::IImage>> *broker
+  ) {
+    m_messageBroker = broker;
   }
 }

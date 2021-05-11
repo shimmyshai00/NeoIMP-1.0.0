@@ -24,7 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/AbstractData/IObservableRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IRepository.hpp>
 #include <SDF/ModelLayer/AbstractData/IFileSystemPersistenceController.hpp>
 
@@ -33,8 +32,6 @@
 
 #include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/Interfaces/IFactory.hpp>
-
-#include <SDF/ModelLayer/AbstractData/RepositoryEvent.hpp>
 
 #include <fruit/fruit.h>
 
@@ -52,7 +49,7 @@ namespace SDF::DataLayer::Repositories {
   // Class:      ImageRepository
   // Purpose:    Defines the in-memory repository for image objects.
   // Parameters: None.
-  class ImageRepository : public ModelLayer::AbstractData::IObservableRepository<ModelLayer::Services::AbstractDomain::IImage>,
+  class ImageRepository : public ModelLayer::AbstractData::IRepository<ModelLayer::Services::AbstractDomain::IImage>,
                           public ModelLayer::AbstractData::IFileSystemPersistenceController<ModelLayer::Services::AbstractDomain::IImage,
                                                                                             ModelLayer::AbstractData::ImageFileFormat
                                                                                            > {
@@ -63,15 +60,9 @@ namespace SDF::DataLayer::Repositories {
   public:
     INJECT(ImageRepository(Interfaces::IFactory<AbstractPersistence::IDataMapper<ModelLayer::Services::AbstractDomain::IImage>, std::string, ModelLayer::AbstractData::ImageFileFormat> *mapperFactory));
 
-    void
-    attachObserver(Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *observer);
-
-    void
-    removeObserver(Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *observer);
-
     std::vector<int>
     getIds() const;
-    
+
     void
     create(std::unique_ptr<ModelLayer::Services::AbstractDomain::IImage> object);
 
@@ -108,8 +99,6 @@ namespace SDF::DataLayer::Repositories {
 
     std::map<int, std::string> m_fileSpecMap;
     std::map<int, ModelLayer::AbstractData::ImageFileFormat> m_fileFormatMap;
-
-    std::vector<Interfaces::IEventHandler<ModelLayer::AbstractData::RepositoryEvent<ModelLayer::Services::AbstractDomain::IImage>> *> m_observers;
   };
 }
 
