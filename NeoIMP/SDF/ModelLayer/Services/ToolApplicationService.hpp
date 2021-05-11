@@ -37,6 +37,7 @@
 #include <SDF/UILayer/AbstractModel/Handle.hpp>
 
 #include <SDF/ModelLayer/Services/AbstractDomain/Defs/ImageChanges.hpp>
+#include <SDF/ModelLayer/Services/Events/RepositoryUpdates.hpp>
 
 #include <fruit/fruit.h>
 
@@ -63,6 +64,9 @@ namespace SDF::ModelLayer {
     // Parameters: None.
     class ToolApplicationService : public UILayer::AbstractModel::IToolApplicationService,
                                    private Interfaces::IMessagePublisher<AbstractDomain::Defs::ImageChange>,
+                                   private Interfaces::IMessagePublisher<
+                                    Events::RepositoryUpdate<AbstractDomain::ITool>
+                                   >,
                                    private Interfaces::IMessageReceiver<AbstractDomain::Defs::ImageChange>
     {
     public:
@@ -73,7 +77,9 @@ namespace SDF::ModelLayer {
                                     Interfaces::IFactory<AbstractDomain::ITool,
                                                          UILayer::AbstractModel::Properties::Tool
                                                         > *toolFactory,
-                                    Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *messageBroker
+                                    Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *imageChangeBroker,
+                                    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *
+                                      toolCreateBroker
                                    ));
 
       ~ToolApplicationService();
@@ -104,7 +110,8 @@ namespace SDF::ModelLayer {
       AbstractDomain::IObjectMap<AbstractDomain::IImage, AbstractDomain::IDeltaEditor> *m_deltaEditorMap;
 
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *> m_observers;
-      Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *m_broker;
+      Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *m_imageChangeBroker;
+      Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *m_toolCreateBroker;
 
       std::map<UILayer::AbstractModel::Properties::Tool, int> m_toolIdMap;
 
@@ -115,6 +122,9 @@ namespace SDF::ModelLayer {
 
       void
       setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker);
+
+      void
+      setBroker(Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *broker);
 
       void
       receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message);

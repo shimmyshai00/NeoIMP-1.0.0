@@ -25,16 +25,17 @@
 
 #include <AbstractData/IRepository.hpp>
 #include <AbstractDomain/Tools/IZoomTool.hpp>
+#include <AbstractDomain/ITool.hpp>
+
+#include <BrokerId.hpp>
 
 namespace SDF::ModelLayer::Services {
-  ZoomToolCfgService::ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *
-                                          zoomToolRepository
-                                        )
-    : m_zoomToolRepository(zoomToolRepository)
+  ZoomToolCfgService::ZoomToolCfgService(
+    AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *broker
+  )
+    : ToolConfigService(toolRepository, broker, SERVICE_ZOOM_TOOL_CONFIG)
   {
-    // The zoom tool used is the first one in the repository.
-    int zoomToolId(m_zoomToolRepository->getIds().front());
-    m_zoomTool = m_zoomToolRepository->retrieve(zoomToolId);
   }
 
   void
@@ -55,8 +56,8 @@ namespace SDF::ModelLayer::Services {
   ZoomToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
     using UILayer::AbstractModel::Events::ZoomToolModeChangedEvent;
 
-    m_zoomTool->setMode(mode);
-    m_zoomToolRepository->update(m_zoomTool);
+    m_tool->setMode(mode);
+    toolUpdated();
 
     std::shared_ptr<ZoomToolModeChangedEvent> event(new ZoomToolModeChangedEvent);
     event->newMode = mode;
@@ -70,8 +71,8 @@ namespace SDF::ModelLayer::Services {
   ZoomToolCfgService::setZoomStep(float step) {
     using UILayer::AbstractModel::Events::ZoomToolStepChangedEvent;
 
-    m_zoomTool->setStep(step);
-    m_zoomToolRepository->update(m_zoomTool);
+    m_tool->setStep(step);
+    toolUpdated();
 
     std::shared_ptr<ZoomToolStepChangedEvent> event(new ZoomToolStepChangedEvent);
     event->newZoomStep = step;
@@ -83,11 +84,11 @@ namespace SDF::ModelLayer::Services {
 
   UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
   ZoomToolCfgService::getMode() const {
-    return m_zoomTool->getMode();
+    return m_tool->getMode();
   }
 
   float
   ZoomToolCfgService::getZoomStep() const {
-    return m_zoomTool->getStep();
+    return m_tool->getStep();
   }
 }

@@ -48,30 +48,40 @@ namespace SDF::ModelLayer::Services {
                                                                       Properties::Tool
                                                                      > *toolFactory,
                                                  Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *
-                                                  messageBroker
+                                                  imageChangeBroker,
+                                                 Interfaces::IMessageBroker<
+                                                  Events::RepositoryUpdate<AbstractDomain::ITool>
+                                                 > *toolCreateBroker
                                                 )
     : m_imageRepository(imageRepository),
       m_toolRepository(toolRepository),
       m_deltaEditorMap(deltaEditorMap),
-      m_broker(nullptr),
+      m_imageChangeBroker(nullptr),
+      m_toolCreateBroker(nullptr),
       m_activeTool(Properties::TOOL_MAX)
   {
     addTool(Properties::TOOL_ZOOM, toolFactory->create(Properties::TOOL_ZOOM));
 
-    messageBroker->addPublisher(this);
+    imageChangeBroker->addPublisher(this);
+    toolCreateBroker->addPublisher(this);
   }
 
   ToolApplicationService::~ToolApplicationService() {
-    m_broker->removePublisher(this);
+    m_imageChangeBroker->removePublisher(this);
+    m_toolCreateBroker->removePublisher(this);
   }
 
   void
-  ToolApplicationService::attachObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+  ToolApplicationService::attachObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer
+  ) {
     m_observers.push_back(observer);
   }
 
   void
-  ToolApplicationService::removeObserver(Interfaces::IEventHandler<Events::ToolEvent> *observer) {
+  ToolApplicationService::removeObserver(
+    Interfaces::IEventHandler<UILayer::AbstractModel::Events::ToolEvent> *observer
+  ) {
     m_observers.erase(std::find(m_observers.begin(), m_observers.end(), observer));
   }
 
@@ -84,7 +94,9 @@ namespace SDF::ModelLayer::Services {
   ToolApplicationService::setActiveTool(Properties::Tool tool) {
     m_activeTool = tool;
 
-    std::shared_ptr<Events::ActiveToolChangedEvent> event(new Events::ActiveToolChangedEvent);
+    std::shared_ptr<UILayer::AbstractModel::Events::ActiveToolChangedEvent>
+      event(new UILayer::AbstractModel::Events::ActiveToolChangedEvent);
+      
     event->newTool = tool;
     for(auto observer : m_observers) {
       observer->handleEvent(event);
@@ -134,14 +146,21 @@ namespace SDF::ModelLayer::Services {
 
   void
   ToolApplicationService::receiveMessage(std::shared_ptr<AbstractDomain::Defs::ImageChange> message) {
-    if(m_broker != nullptr) {
-      m_broker->receiveMessage(this, message);
+    if(m_imageChangeBroker != nullptr) {
+      m_imageChangeBroker->receiveMessage(this, message);
     }
   }
 
   void
   ToolApplicationService::setBroker(Interfaces::IMessageBroker<AbstractDomain::Defs::ImageChange> *broker) {
-    m_broker = broker;
+    m_imageChangeBroker = broker;
+  }
+
+  void
+  ToolApplicationService::setBroker(
+    Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *broker
+  ) {
+    m_toolCreateBroker = broker;
   }
 
   void

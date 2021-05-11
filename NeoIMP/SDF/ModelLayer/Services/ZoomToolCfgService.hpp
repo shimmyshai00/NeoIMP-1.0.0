@@ -25,6 +25,10 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/Interfaces/IMessageSubscriber.hpp>
+#include <SDF/Interfaces/IMessageBroker.hpp>
+
+#include <SDF/ModelLayer/Services/ToolConfigService.hpp>
 
 #include <SDF/UILayer/AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
 #include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
@@ -40,13 +44,21 @@ namespace SDF::ModelLayer {
   }
 
   namespace Services {
-    namespace AbstractDomain::Tools {
-      class IZoomTool;
+    namespace AbstractDomain {
+      namespace Tools {
+        class IZoomTool;
+      }
+
+      class ITool;
     }
 
-    class ZoomToolCfgService : public UILayer::AbstractModel::ToolConfig::IZoomToolCfgService {
+    class ZoomToolCfgService : public UILayer::AbstractModel::ToolConfig::IZoomToolCfgService,
+                               public ToolConfigService<AbstractDomain::Tools::IZoomTool>
+    {
     public:
-      INJECT(ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *zoomToolRepository));
+      INJECT(ZoomToolCfgService(AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
+                                Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *broker
+                               ));
 
       void
       attachObserver(Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *observer);
@@ -67,9 +79,6 @@ namespace SDF::ModelLayer {
       getZoomStep() const;
     private:
       std::vector<Interfaces::IEventHandler<UILayer::AbstractModel::Events::ZoomToolEvent> *> m_observers;
-
-      AbstractData::IRepository<AbstractDomain::Tools::IZoomTool> *m_zoomToolRepository;
-      AbstractDomain::Tools::IZoomTool *m_zoomTool;
     };
   }
 }
