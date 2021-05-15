@@ -111,7 +111,6 @@ namespace SDF::UILayer::Gui::Qt::View {
   void
   MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::UiStateChangeEvent<bool>> event) {
     if(m_dockables.find(event->stateKey) != m_dockables.end()) {
-      printf("State change for %s received: val = %d\n", event->stateKey.c_str(), event->newStateVal);
       if(event->newStateVal) {
         showDockable(event->stateKey);
       } else {
@@ -139,7 +138,6 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     safeConnect(dockable, &QDockWidget::visibilityChanged, [=](bool vis) {
       if(!vis) {
-        printf("Deactivating %s\n", dockableStateKey.c_str());
         std::shared_ptr<Events::DockableToggledEvent> deactivateEvent(new Events::DockableToggledEvent);
         deactivateEvent->dockableStateKey = dockableStateKey;
         deactivateEvent->toggleValue = false;
@@ -152,8 +150,6 @@ namespace SDF::UILayer::Gui::Qt::View {
       std::shared_ptr<Events::DockableToggledEvent> checkEvent(new Events::DockableToggledEvent);
       checkEvent->dockableStateKey = dockableStateKey;
       checkEvent->toggleValue = checked;
-
-      printf("toggling %s to %d\n", dockableStateKey.c_str(), checked);
 
       m_controller->handleEvent(checkEvent);
     });
@@ -172,7 +168,6 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::hideDockable(std::string dockableStateKey) {
-    printf("hiding %s\n", dockableStateKey.c_str());
     m_dockableActions[dockableStateKey]->setChecked(false);
     removeDockWidget(m_dockables[dockableStateKey]);
   }
