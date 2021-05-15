@@ -94,7 +94,8 @@ namespace SDF::UILayer {
     // Parameters: None.
     class DockablesFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
     public:
-      DockablesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+      DockablesFactory(AbstractModel::IToolApplicationService *toolApplicationService,
+                       AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
                        Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
                         controllerFactory
                       );
@@ -103,6 +104,7 @@ namespace SDF::UILayer {
       IGuiElement *
       create(IGuiElement *parent, std::string elementType);
     private:
+      AbstractModel::IToolApplicationService *m_toolApplicationService;
       AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
 
       Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *m_controllerFactory;

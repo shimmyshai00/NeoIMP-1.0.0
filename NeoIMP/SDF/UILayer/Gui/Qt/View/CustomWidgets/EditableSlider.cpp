@@ -26,7 +26,7 @@
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   EditableSlider::EditableSlider(int min, int max, int val, ::Qt::Orientation orientation, QWidget *parent)
     : m_boxLayout(new QBoxLayout(orientation == ::Qt::Horizontal ? QBoxLayout::LeftToRight : QBoxLayout::TopToBottom,
-                                 parent
+                                 this
                                 )
                  ),
       m_slider(new QSlider(orientation, nullptr)),

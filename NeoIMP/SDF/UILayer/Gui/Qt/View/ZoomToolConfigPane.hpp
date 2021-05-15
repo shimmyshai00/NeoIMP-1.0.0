@@ -42,6 +42,15 @@ namespace SDF::UILayer::Gui::Qt::View {
     Q_OBJECT
   public:
     ZoomToolConfigPane(QWidget *parent = nullptr);
+
+    IGuiElement *
+    getParent();
+
+    void
+    show();
+
+    void
+    close();
   private:
     QGridLayout *m_gridLayout;
 

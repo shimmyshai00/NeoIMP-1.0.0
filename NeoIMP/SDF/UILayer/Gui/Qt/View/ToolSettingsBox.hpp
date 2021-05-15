@@ -24,33 +24,59 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <SDF/Interfaces/IEventHandler.hpp>
+
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
+#include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
+
 #include <SDF/UILayer/Gui/IGuiElement.hpp>
 
 #include <QDockWidget>
 #include <QBoxLayout>
 
-namespace SDF::UILayer::Gui::Qt::View {
-  // Class:      ToolSettingsBox
-  // Purpose:    Provides a dockable box showing settings for the currently-selected editing tool.
-  // Parameters: None.
-  class ToolSettingsBox : public QDockWidget,
-                          public IGuiElement
-  {
-    Q_OBJECT
-  public:
-    ToolSettingsBox(QWidget *parent = nullptr);
+namespace SDF::UILayer {
+  namespace AbstractModel {
+    class IToolApplicationService;
+  }
 
-    IGuiElement *
-    getParent();
+  namespace Gui::Qt::View {
+    // Class:      ToolSettingsBox
+    // Purpose:    Provides a dockable box showing settings for the currently-selected editing tool.
+    // Parameters: None.
+    class ToolSettingsBox : public QDockWidget,
+                            public IGuiElement,
+                            private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>
+    {
+      Q_OBJECT
+    public:
+      ToolSettingsBox(AbstractModel::IToolApplicationService *toolApplicationService,
+                      QWidget *parent = nullptr
+                     );
+      ~ToolSettingsBox();
 
-    void
-    show();
+      IGuiElement *
+      getParent();
 
-    void
-    close();
-  private:
-    QBoxLayout *m_boxLayout;
-  };
+      void
+      show();
+
+      void
+      close();
+    private:
+      AbstractModel::IToolApplicationService *m_toolApplicationService;
+
+      std::map<AbstractModel::Properties::Tool, QWidget *> m_configPanes;
+
+      void
+      addConfigPane(AbstractModel::Properties::Tool tool, QWidget *pane);
+
+      void
+      handleEvent(std::shared_ptr<AbstractModel::Events::ToolEvent> event);
+
+      void
+      handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event);
+    };
+  }
 }
 
 #endif

@@ -66,7 +66,8 @@ namespace SDF::UILayer::Gui::Qt::View {
     if(elementType == "MainWindow") {
       MainWindow *rv(new MainWindow(m_documentAccessService,
                                     m_boolStateModelService,
-                                    std::make_unique<DockablesFactory>(m_zoomToolCfgService,
+                                    std::make_unique<DockablesFactory>(m_toolApplicationService,
+                                                                       m_zoomToolCfgService,
                                                                        m_controllerFactory.get()
                                                                       ),
                                     std::make_unique<DocumentViewFactory>(m_documentAccessService,
@@ -94,11 +95,13 @@ namespace SDF::UILayer::Gui::Qt::View {
 }
 
 namespace SDF::UILayer::Gui::Qt::View {
-  DockablesFactory::DockablesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+  DockablesFactory::DockablesFactory(AbstractModel::IToolApplicationService *toolApplicationService,
+                                     AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
                                      Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
                                       controllerFactory
                                     )
-    : m_zoomToolCfgService(zoomToolCfgService),
+    : m_toolApplicationService(toolApplicationService),
+      m_zoomToolCfgService(zoomToolCfgService),
       m_controllerFactory(controllerFactory)
   {}
 
@@ -110,7 +113,9 @@ namespace SDF::UILayer::Gui::Qt::View {
                          dynamic_cast<QWidget *>(parent)
                         );
     } else if(elementType == "ToolSettingsBox") {
-      return new ToolSettingsBox(dynamic_cast<QWidget *>(parent));
+      return new ToolSettingsBox(m_toolApplicationService,
+                                 dynamic_cast<QWidget *>(parent)
+                                );
     } else {
       // TBA
     }

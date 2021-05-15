@@ -36,6 +36,23 @@ namespace SDF::UILayer::Gui::Qt::View {
     m_zoomPowerSlider = new CustomWidgets::EditableSlider(nullptr);
 
     m_gridLayout->addWidget(m_zoomPowerLabel, 0, 0);
-    m_gridLayout->addWidget(m_zoomPowerSlider, 1, 0);
+    m_gridLayout->addWidget(m_zoomPowerSlider, 0, 1);
+  }
+
+  IGuiElement *
+  ZoomToolConfigPane::getParent() {
+    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
+      return p;
+    } else {
+      return nullptr;
+    }
+  }
+
+  void
+  ZoomToolConfigPane::show() {
+  }
+
+  void
+  ZoomToolConfigPane::close() {
   }
 }

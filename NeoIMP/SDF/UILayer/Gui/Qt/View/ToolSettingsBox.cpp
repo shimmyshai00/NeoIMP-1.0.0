@@ -23,12 +23,24 @@
 
 #include "ToolSettingsBox.hpp"
 
+#include <AbstractModel/IToolApplicationService.hpp>
+
+#include "ZoomToolConfigPane.hpp"
+
 namespace SDF::UILayer::Gui::Qt::View {
-  ToolSettingsBox::ToolSettingsBox(QWidget *parent)
+  ToolSettingsBox::ToolSettingsBox(AbstractModel::IToolApplicationService *toolApplicationService,
+                                   QWidget *parent
+                                  )
     : QDockWidget("Tool Settings", parent),
-      m_boxLayout(nullptr)
+      m_toolApplicationService(toolApplicationService)
   {
-    m_boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    addConfigPane(AbstractModel::Properties::TOOL_ZOOM, new ZoomToolConfigPane);
+
+    m_toolApplicationService->attachObserver(this);
+  }
+
+  ToolSettingsBox::~ToolSettingsBox() {
+    m_toolApplicationService->removeObserver(this);
   }
 
   IGuiElement *
@@ -48,5 +60,26 @@ namespace SDF::UILayer::Gui::Qt::View {
   void
   ToolSettingsBox::close() {
     QDockWidget::close();
+  }
+
+  // Private members.
+  void
+  ToolSettingsBox::addConfigPane(AbstractModel::Properties::Tool tool, QWidget *pane) {
+    m_configPanes[tool] = pane;
+  }
+
+  void
+  ToolSettingsBox::handleEvent(std::shared_ptr<AbstractModel::Events::ToolEvent> event) {
+    if(auto p = dynamic_cast<AbstractModel::Events::ActiveToolChangedEvent *>(event.get())) {
+      handleActiveToolChangedEvent(p);
+    }
+  }
+
+  void
+  ToolSettingsBox::handleActiveToolChangedEvent(AbstractModel::Events::ActiveToolChangedEvent *event) {
+    if(m_configPanes.find(event->newTool) != m_configPanes.end()) {
+      printf("sw\n");
+      setWidget(m_configPanes[event->newTool]);
+    }
   }
 }
