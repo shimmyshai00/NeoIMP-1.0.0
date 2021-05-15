@@ -34,7 +34,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       m_minimum(min),
       m_maximum(max),
       m_denom(1),
-      m_unitSymbol("")
+      m_unitSymbol(""),
+      m_inhibitSync(false)
   {
     m_slider->setMinimum(m_minimum);
     m_slider->setMaximum(m_maximum);
@@ -54,10 +55,16 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
       unitSymbolClipped.remove(m_unitSymbol); // let the user enter a unit symbol optionally
 
       bool ok(false);
-      int newValue(unitSymbolClipped.toInt(&ok, 10));
+      float newValue(unitSymbolClipped.toFloat(&ok));
       if(ok) {
-        m_slider->setValue(newValue);
+        m_inhibitSync = true;
+        m_slider->setValue(newValue * m_denom);
+        m_inhibitSync = false;
       }
+    });
+
+    connect(m_editBox, &QLineEdit::editingFinished, [=]() {
+      syncTextField();
     });
 
     syncTextField();
@@ -134,6 +141,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   // Private members.
   void
   EditableSlider::syncTextField() {
-    m_editBox->setText(QString::number(m_slider->value()) + " " + m_unitSymbol);
+    if(!m_inhibitSync) { // break loops
+      m_editBox->setText(QString::number(valueF()) + " " + m_unitSymbol);
+    }
   }
 }

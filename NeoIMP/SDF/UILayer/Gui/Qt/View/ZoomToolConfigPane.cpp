@@ -33,7 +33,8 @@ namespace SDF::UILayer::Gui::Qt::View {
     // Create the widget layout.
     m_gridLayout = new QGridLayout(this);
     m_zoomPowerLabel = new QLabel("Zoom Power:", nullptr);
-    m_zoomPowerSlider = new CustomWidgets::EditableSlider(nullptr);
+    m_zoomPowerSlider = new CustomWidgets::EditableSlider(1, 100, 1, ::Qt::Horizontal, nullptr);
+    m_zoomPowerSlider->setDenom(10);
 
     m_gridLayout->addWidget(m_zoomPowerLabel, 0, 0);
     m_gridLayout->addWidget(m_zoomPowerSlider, 0, 1);

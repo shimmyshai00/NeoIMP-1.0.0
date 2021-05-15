@@ -94,6 +94,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
 
     QString m_unitSymbol;
 
+    bool m_inhibitSync;
+
     void
     syncTextField();
   };
