@@ -93,10 +93,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   Toolbox::show() {
+    QDockWidget::show();
   }
 
   void
   Toolbox::close() {
+    QDockWidget::close();
   }
 
   // Private members.

@@ -38,6 +38,7 @@
 #include <FileDialog.hpp>
 #include <DocumentView.hpp>
 #include <Toolbox.hpp>
+#include <ToolSettingsBox.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
@@ -108,6 +109,8 @@ namespace SDF::UILayer::Gui::Qt::View {
                          m_controllerFactory->create("Toolchest"),
                          dynamic_cast<QWidget *>(parent)
                         );
+    } else if(elementType == "ToolSettingsBox") {
+      return new ToolSettingsBox(dynamic_cast<QWidget *>(parent));
     } else {
       // TBA
     }

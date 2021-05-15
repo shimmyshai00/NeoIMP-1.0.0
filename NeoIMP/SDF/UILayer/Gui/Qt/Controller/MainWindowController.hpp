@@ -82,6 +82,9 @@ namespace SDF::UILayer {
 
         void
         handleToolchestToggledEvent(Events::ToolchestToggledEvent *event);
+
+        void
+        handleToolSettingsToggledEvent(Events::ToolSettingsToggledEvent *event);
       };
     }
   }

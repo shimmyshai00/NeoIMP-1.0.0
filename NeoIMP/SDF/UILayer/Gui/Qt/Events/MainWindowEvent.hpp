@@ -36,6 +36,7 @@ namespace SDF::UILayer::Gui::Qt::Events {
   struct ExitClickedEvent : public MainWindowEvent {};
 
   struct ToolchestToggledEvent : public MainWindowEvent { bool toggleValue; };
+  struct ToolSettingsToggledEvent : public MainWindowEvent { bool toggleValue; };
 
   struct FocusDocumentChangedEvent : public MainWindowEvent { AbstractModel::Handle focusedHandle; };
 }

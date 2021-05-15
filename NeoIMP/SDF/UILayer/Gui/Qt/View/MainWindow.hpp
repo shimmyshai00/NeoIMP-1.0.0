@@ -104,6 +104,7 @@ namespace SDF::UILayer {
           m_documentViewFactory;
 
         QDockWidget *m_toolchest;
+        QDockWidget *m_toolSettings;
         QTabWidget *m_tabs;
 
         void
@@ -111,6 +112,12 @@ namespace SDF::UILayer {
 
         void
         hideToolchest();
+
+        void
+        showToolSettings();
+
+        void
+        hideToolSettings();
 
         void
         addDocumentTab(AbstractModel::Handle handle);

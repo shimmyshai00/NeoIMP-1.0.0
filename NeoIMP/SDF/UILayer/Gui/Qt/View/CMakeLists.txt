@@ -12,5 +12,6 @@ target_sources(neoimp PUBLIC
                FileDialog.cpp
                DocumentView.cpp
                Toolbox.cpp
+               ToolSettingsBox.cpp
                ZoomToolConfigPane.cpp
               )

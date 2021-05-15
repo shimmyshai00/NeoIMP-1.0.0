@@ -59,6 +59,7 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_dockablesFactory(std::move(dockablesFactory)),
       m_documentViewFactory(std::move(documentViewFactory)),
       m_toolchest(nullptr),
+      m_toolSettings(nullptr),
       m_tabs(nullptr)
   {
     m_ui->setupUi(this);
@@ -72,9 +73,23 @@ namespace SDF::UILayer::Gui::Qt::View {
       }
     });
 
+    m_toolSettings = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "ToolSettingsBox"));
+    safeConnect(m_toolSettings, &QDockWidget::visibilityChanged, [=](bool vis) {
+      if(!vis) {
+        std::shared_ptr<Events::ToolSettingsToggledEvent> event(new Events::ToolSettingsToggledEvent);
+        event->toggleValue = false;
+        m_controller->handleEvent(event);
+      }
+    });
+
     m_ui->actionToolchest->setChecked(m_boolStateModelService->getStateElement(c_toolboxVisibleKey));
     if(m_boolStateModelService->getStateElement(c_toolboxVisibleKey)) {
       showToolchest();
+    }
+
+    m_ui->actionTool_Settings->setChecked(m_boolStateModelService->getStateElement(c_toolSettingsVisibleKey));
+    if(m_boolStateModelService->getStateElement(c_toolSettingsVisibleKey)) {
+      showToolSettings();
     }
 
     safeConnect(m_ui->action_New, &QAction::triggered, [=](bool v) {
@@ -95,6 +110,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     safeConnect(m_ui->actionToolchest, &QAction::toggled, [=](bool checked) {
       std::shared_ptr<Events::ToolchestToggledEvent> event(new Events::ToolchestToggledEvent);
+      event->toggleValue = checked;
+      m_controller->handleEvent(event);
+    });
+
+    safeConnect(m_ui->actionTool_Settings, &QAction::toggled, [=](bool checked) {
+      std::shared_ptr<Events::ToolSettingsToggledEvent> event(new Events::ToolSettingsToggledEvent);
       event->toggleValue = checked;
       m_controller->handleEvent(event);
     });
@@ -131,6 +152,12 @@ namespace SDF::UILayer::Gui::Qt::View {
       } else {
         hideToolchest();
       }
+    } else if(event->stateKey == c_toolSettingsVisibleKey) {
+      if(event->newStateVal) {
+        showToolSettings();
+      } else {
+        hideToolSettings();
+      }
     }
   }
 
@@ -151,6 +178,20 @@ namespace SDF::UILayer::Gui::Qt::View {
     m_ui->actionToolchest->setChecked(false);
     removeDockWidget(m_toolchest);
     m_toolchest->close();
+  }
+
+  void
+  MainWindow::showToolSettings() {
+    m_ui->actionTool_Settings->setChecked(true);
+    m_toolSettings->show();
+    addDockWidget(::Qt::RightDockWidgetArea, m_toolSettings);
+  }
+
+  void
+  MainWindow::hideToolSettings() {
+    m_ui->actionTool_Settings->setChecked(false);
+    removeDockWidget(m_toolSettings);
+    m_toolSettings->close();
   }
 
   void

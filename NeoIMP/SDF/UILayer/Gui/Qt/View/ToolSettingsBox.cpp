@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_GUI_STATEKEYS_HPP
-#define SDF_UILAYER_GUI_STATEKEYS_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    StateKeys.hpp
- * PURPOSE: Defines the GUI state keys for the state model.
+ * FILE:    ToolSettingsBox.cpp
+ * PURPOSE: Implements the ToolSettingsBox class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +21,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui {
-  // State key                                                                           Type
-  static constexpr const char *c_guiFocusDocumentKey = "Gui.FocusDocument";           // AbstractModel::Handle
-  static constexpr const char *c_toolboxVisibleKey = "Gui.ToolboxVisible";            // bool
-  static constexpr const char *c_toolSettingsVisibleKey = "Gui.ToolSettingsVisible";  // bool
-  static constexpr const char *c_currentlyActiveTool = "Gui.CurrentTool";             // Enum::Tool
-  static constexpr const char *c_documentViewParams = "Gui.DocumentViewParams.";      // (PREFIX) DocumentViewParams
-}
+#include "ToolSettingsBox.hpp"
 
-#endif
+namespace SDF::UILayer::Gui::Qt::View {
+  ToolSettingsBox::ToolSettingsBox(QWidget *parent)
+    : QDockWidget("Tool Settings", parent),
+      m_boxLayout(nullptr)
+  {
+    m_boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+  }
+
+  IGuiElement *
+  ToolSettingsBox::getParent() {
+    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
+      return p;
+    } else {
+      return nullptr;
+    }
+  }
+
+  void
+  ToolSettingsBox::show() {
+    QDockWidget::show();
+  }
+
+  void
+  ToolSettingsBox::close() {
+    QDockWidget::close();
+  }
+}

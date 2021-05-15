@@ -89,6 +89,7 @@
       <string>Toolbars</string>
      </property>
      <addaction name="actionToolchest"/>
+     <addaction name="actionTool_Settings"/>
     </widget>
     <addaction name="menuToolbars"/>
    </widget>
@@ -148,6 +149,14 @@
    </property>
    <property name="text">
     <string>Toolchest</string>
+   </property>
+  </action>
+  <action name="actionTool_Settings">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tool Settings</string>
    </property>
   </action>
  </widget>

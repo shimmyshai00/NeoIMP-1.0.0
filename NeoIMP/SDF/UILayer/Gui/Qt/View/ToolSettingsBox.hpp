@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_STATEKEYS_HPP
-#define SDF_UILAYER_GUI_STATEKEYS_HPP
+#ifndef SDF_UILAYER_GUI_QT_VIEW_TOOLSETTINGSBOX_HPP
+#define SDF_UILAYER_GUI_QT_VIEW_TOOLSETTINGSBOX_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    StateKeys.hpp
- * PURPOSE: Defines the GUI state keys for the state model.
+ * FILE:    ToolSettingsBox.hpp
+ * PURPOSE: Defines the ToolSettingsBox class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui {
-  // State key                                                                           Type
-  static constexpr const char *c_guiFocusDocumentKey = "Gui.FocusDocument";           // AbstractModel::Handle
-  static constexpr const char *c_toolboxVisibleKey = "Gui.ToolboxVisible";            // bool
-  static constexpr const char *c_toolSettingsVisibleKey = "Gui.ToolSettingsVisible";  // bool
-  static constexpr const char *c_currentlyActiveTool = "Gui.CurrentTool";             // Enum::Tool
-  static constexpr const char *c_documentViewParams = "Gui.DocumentViewParams.";      // (PREFIX) DocumentViewParams
+#include <SDF/UILayer/Gui/IGuiElement.hpp>
+
+#include <QDockWidget>
+#include <QBoxLayout>
+
+namespace SDF::UILayer::Gui::Qt::View {
+  // Class:      ToolSettingsBox
+  // Purpose:    Provides a dockable box showing settings for the currently-selected editing tool.
+  // Parameters: None.
+  class ToolSettingsBox : public QDockWidget,
+                          public IGuiElement
+  {
+    Q_OBJECT
+  public:
+    ToolSettingsBox(QWidget *parent = nullptr);
+
+    IGuiElement *
+    getParent();
+
+    void
+    show();
+
+    void
+    close();
+  private:
+    QBoxLayout *m_boxLayout;
+  };
 }
 
 #endif
