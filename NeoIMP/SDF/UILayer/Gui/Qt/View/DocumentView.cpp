@@ -87,7 +87,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                              AbstractModel::IToolApplicationService *toolApplicationService,
                              AbstractModel::Handle handleToView,
                              QWidget *parent)
-    : QWidget(parent),
+    : QtGuiElement<QWidget>(parent),
       m_documentViewConfigService(documentViewConfigService),
       m_toolApplicationService(toolApplicationService),
       m_documentHandle(handleToView),
@@ -124,23 +124,6 @@ namespace SDF::UILayer::Gui::Qt::View {
   DocumentView::~DocumentView() {
     m_toolApplicationService->removeObserver(this);
     m_documentViewConfigService->removeObserver(this);
-  }
-
-  IGuiElement *
-  DocumentView::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  DocumentView::show() {
-  }
-
-  void
-  DocumentView::close() {
   }
 
   AbstractModel::Handle

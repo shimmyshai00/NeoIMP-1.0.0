@@ -36,7 +36,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                          QFileDialog::AcceptMode acceptMode,
                          QWidget *parent
                         )
-    : QFileDialog(parent, caption),
+    : QtGuiElement<QFileDialog>(parent, caption),
       m_controller(std::move(controller))
   {
     setAcceptMode(acceptMode);
@@ -59,23 +59,4 @@ namespace SDF::UILayer::Gui::Qt::View {
   }
 
   FileDialog::~FileDialog() {}
-
-  IGuiElement *
-  FileDialog::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  FileDialog::show() {
-    QFileDialog::show();
-  }
-
-  void
-  FileDialog::close() {
-    QFileDialog::close();
-  }
 }

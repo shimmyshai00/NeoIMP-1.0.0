@@ -51,7 +51,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                          std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                          QWidget *parent
                         )
-    : QMainWindow(parent),
+    : QtGuiElement<QMainWindow>(parent),
       m_ui(new Ui::MainWindow),
       m_controller(std::move(controller)),
       m_documentAccessService(documentAccessService),
@@ -87,25 +87,6 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   MainWindow::~MainWindow() {
     delete m_ui;
-  }
-
-  IGuiElement *
-  MainWindow::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  MainWindow::show() {
-    QMainWindow::show();
-  }
-
-  void
-  MainWindow::close() {
-    QMainWindow::close();
   }
 
   void

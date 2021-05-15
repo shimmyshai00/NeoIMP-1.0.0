@@ -27,7 +27,7 @@
 #include <SDF/Interfaces/IEventHandler.hpp>
 #include <SDF/Interfaces/IBorrowedFactory.hpp>
 
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Events/UiStateChangeEvent.hpp>
@@ -59,8 +59,7 @@ namespace SDF::UILayer {
       // Class:      MainWindow
       // Purpose:    Provides the main application window.
       // Parameters: None.
-      class MainWindow : public QMainWindow,
-                         public IGuiElement,
+      class MainWindow : public QtGuiElement<QMainWindow>,
                          public Interfaces::IEventHandler<AbstractModel::Events::UiStateChangeEvent<bool>>,
                          public Interfaces::IEventHandler<AbstractModel::Events::DocumentEvent>
       {
@@ -75,15 +74,6 @@ namespace SDF::UILayer {
                    QWidget *parent = nullptr
                   );
         ~MainWindow();
-
-        IGuiElement *
-        getParent();
-
-        void
-        show();
-
-        void
-        close();
 
         void
         handleEvent(std::shared_ptr<AbstractModel::Events::UiStateChangeEvent<bool>> event);

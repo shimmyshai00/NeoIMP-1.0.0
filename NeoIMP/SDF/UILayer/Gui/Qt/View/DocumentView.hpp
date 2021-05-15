@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Events/ViewportEvent.hpp>
@@ -48,8 +48,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Class:      DocumentView
   // Purpose:    Defines a Qt widget view for displaying and editing a document.
   // Parameters: None.
-  class DocumentView : public QWidget,
-                       public IGuiElement,
+  class DocumentView : public QtGuiElement<QWidget>,
                        private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>,
                        private Interfaces::IEventHandler<AbstractModel::Events::ViewportEvent>
   {
@@ -63,15 +62,6 @@ namespace SDF::UILayer::Gui::Qt::View {
                  QWidget *parent = nullptr
                 );
     ~DocumentView();
-
-    IGuiElement *
-    getParent();
-
-    void
-    show();
-
-    void
-    close();
 
     AbstractModel::Handle
     getViewedDocumentHandle() const;

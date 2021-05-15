@@ -31,7 +31,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   ToolSettingsBox::ToolSettingsBox(AbstractModel::IToolApplicationService *toolApplicationService,
                                    QWidget *parent
                                   )
-    : QDockWidget("Tool Settings", parent),
+    : QtGuiElement<QDockWidget>("Tool Settings", parent),
       m_toolApplicationService(toolApplicationService)
   {
     addConfigPane(AbstractModel::Properties::TOOL_ZOOM, new ZoomToolConfigPane);
@@ -41,25 +41,6 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   ToolSettingsBox::~ToolSettingsBox() {
     m_toolApplicationService->removeObserver(this);
-  }
-
-  IGuiElement *
-  ToolSettingsBox::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  ToolSettingsBox::show() {
-    QDockWidget::show();
-  }
-
-  void
-  ToolSettingsBox::close() {
-    QDockWidget::close();
   }
 
   // Private members.

@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
@@ -37,9 +37,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   // Class:      FileDialog
   // Purpose:    Provides the file open/save dialog window.
   // Parameters: None.
-  class FileDialog : public QFileDialog,
-                     public IGuiElement
-  {
+  class FileDialog : public QtGuiElement<QFileDialog> {
   public:
     FileDialog(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                const QString &caption = QString(),
@@ -47,15 +45,6 @@ namespace SDF::UILayer::Gui::Qt::View {
                QWidget *parent = nullptr
               );
     ~FileDialog();
-
-    IGuiElement *
-    getParent();
-
-    void
-    show();
-
-    void
-    close();
   private:
     std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
   };

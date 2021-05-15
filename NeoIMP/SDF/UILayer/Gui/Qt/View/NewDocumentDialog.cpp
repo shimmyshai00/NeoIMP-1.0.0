@@ -40,7 +40,7 @@ namespace SDF::UILayer::Gui::Qt::View {
   NewDocumentDialog::NewDocumentDialog(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                                        QWidget *parent
                                       )
-    : QDialog(parent),
+    : QtGuiElement<QDialog>(parent),
       m_ui(new Ui::NewDocumentDialog),
       m_controller(std::move(controller)),
       m_documentWidthSelector(1280.0f, Metrics::LENGTH_UNIT_PIXEL, 120.0f),
@@ -129,24 +129,5 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   NewDocumentDialog::~NewDocumentDialog() {
     delete m_ui;
-  }
-
-  IGuiElement *
-  NewDocumentDialog::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  NewDocumentDialog::show() {
-    QDialog::show();
-  }
-
-  void
-  NewDocumentDialog::close() {
-    QDialog::close();
   }
 }

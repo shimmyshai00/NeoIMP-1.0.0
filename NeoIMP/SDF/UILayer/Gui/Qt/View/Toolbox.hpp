@@ -30,7 +30,7 @@
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <QDockWidget>
 
@@ -52,8 +52,7 @@ namespace SDF::UILayer {
     // Class:      Toolbox
     // Purpose:    Displays a palette containing the image editing tools.
     // Parameters: None.
-    class Toolbox : public QDockWidget,
-                    public IGuiElement,
+    class Toolbox : public QtGuiElement<QDockWidget>,
                     private Interfaces::IEventHandler<AbstractModel::Events::ZoomToolEvent>
     {
       Q_OBJECT
@@ -63,15 +62,6 @@ namespace SDF::UILayer {
               QWidget *parent = nullptr
              );
       ~Toolbox();
-
-      IGuiElement *
-      getParent();
-
-      void
-      show();
-
-      void
-      close();
     private:
       AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
 

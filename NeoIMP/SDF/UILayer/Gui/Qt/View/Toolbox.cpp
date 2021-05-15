@@ -39,7 +39,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                    std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                    QWidget *parent
                   )
-    : QDockWidget(parent),
+    : QtGuiElement<QDockWidget>(parent),
       m_zoomToolCfgService(zoomToolCfgService),
       m_ui(new Ui::Toolchest),
       m_controller(std::move(controller))
@@ -80,25 +80,6 @@ namespace SDF::UILayer::Gui::Qt::View {
     m_zoomToolCfgService->removeObserver(this);
 
     delete m_ui;
-  }
-
-  IGuiElement *
-  Toolbox::getParent() {
-    if(auto p = dynamic_cast<IGuiElement *>(parentWidget())) {
-      return p;
-    } else {
-      return nullptr;
-    }
-  }
-
-  void
-  Toolbox::show() {
-    QDockWidget::show();
-  }
-
-  void
-  Toolbox::close() {
-    QDockWidget::close();
   }
 
   // Private members.

@@ -25,7 +25,7 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
@@ -49,23 +49,12 @@ namespace SDF::UILayer::Gui {
     // Class:      NewDocumentDialog
     // Purpose:    Provides the main application window.
     // Parameters: None.
-    class NewDocumentDialog : public QDialog,
-                              public IGuiElement
-    {
+    class NewDocumentDialog : public QtGuiElement<QDialog> {
     public:
       NewDocumentDialog(std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                         QWidget *parent = nullptr
                        );
       ~NewDocumentDialog();
-
-      IGuiElement *
-      getParent();
-
-      void
-      show();
-
-      void
-      close();
     private:
       Ui::NewDocumentDialog *m_ui;
 

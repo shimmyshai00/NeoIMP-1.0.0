@@ -29,7 +29,7 @@
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
-#include <SDF/UILayer/Gui/IGuiElement.hpp>
+#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
 
 #include <QDockWidget>
 #include <QBoxLayout>
@@ -43,8 +43,7 @@ namespace SDF::UILayer {
     // Class:      ToolSettingsBox
     // Purpose:    Provides a dockable box showing settings for the currently-selected editing tool.
     // Parameters: None.
-    class ToolSettingsBox : public QDockWidget,
-                            public IGuiElement,
+    class ToolSettingsBox : public QtGuiElement<QDockWidget>,
                             private Interfaces::IEventHandler<AbstractModel::Events::ToolEvent>
     {
       Q_OBJECT
@@ -53,15 +52,6 @@ namespace SDF::UILayer {
                       QWidget *parent = nullptr
                      );
       ~ToolSettingsBox();
-
-      IGuiElement *
-      getParent();
-
-      void
-      show();
-
-      void
-      close();
     private:
       AbstractModel::IToolApplicationService *m_toolApplicationService;
 

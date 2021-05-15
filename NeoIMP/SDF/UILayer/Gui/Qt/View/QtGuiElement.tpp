@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_VIEW_ZOOMTOOLCONFIGPANE_HPP
-#define SDF_UILAYER_GUI_QT_VIEW_ZOOMTOOLCONFIGPANE_HPP
+#ifndef SDF_UILAYER_GUI_QT_VIEW_QTGUIELEMENT_TPP
+#define SDF_UILAYER_GUI_QT_VIEW_QTGUIELEMENT_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ZoomToolConfigPane.hpp
- * PURPOSE: Defines the ZoomToolConfigPane class.
+ * FILE:    QtGuiElement.tpp
+ * PURPOSE: Implements the QtGuiElement template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
-
-#include <SDF/UILayer/Gui/Qt/View/CustomWidgets/EditableSlider.hpp>
-
-#include <QWidget>
-#include <QGridLayout>
-#include <QLabel>
-
 namespace SDF::UILayer::Gui::Qt::View {
-  // Class:      ZoomToolConfigPane
-  // Purpose:    Defines the pane widget for configuring the zoom tool.
-  // Parameters: None.
-  class ZoomToolConfigPane : public QtGuiElement<QWidget> {
-    Q_OBJECT
-  public:
-    ZoomToolConfigPane(QWidget *parent = nullptr);
-  private:
-    QGridLayout *m_gridLayout;
+  template<class QWidgetT>
+  QtGuiElement<QWidgetT>::~QtGuiElement() {}
 
-    QLabel *m_zoomPowerLabel;
-    CustomWidgets::EditableSlider *m_zoomPowerSlider;
-  };
+  template<class QWidgetT>
+  IGuiElement *
+  QtGuiElement<QWidgetT>::getParent() {
+    if(auto p = dynamic_cast<IGuiElement *>(QWidgetT::parentWidget())) {
+      return p;
+    } else {
+      return nullptr;
+    }
+  }
+
+  template<class QWidgetT>
+  void
+  QtGuiElement<QWidgetT>::show() {
+    QWidgetT::show();
+  }
+
+  template<class QWidgetT>
+  void
+  QtGuiElement<QWidgetT>::close() {
+    QWidgetT::close();
+  }
 }
 
 #endif
