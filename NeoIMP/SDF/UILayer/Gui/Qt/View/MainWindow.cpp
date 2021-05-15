@@ -164,6 +164,9 @@ namespace SDF::UILayer::Gui::Qt::View {
   MainWindow::showDockable(std::string dockableStateKey) {
     m_dockableActions[dockableStateKey]->setChecked(true);
     addDockWidget(m_dockableDefaultPositions[dockableStateKey], m_dockables[dockableStateKey]);
+    if(!m_dockables[dockableStateKey]->isVisible()) {
+      m_dockables[dockableStateKey]->show();
+    }
   }
 
   void
