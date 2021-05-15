@@ -58,39 +58,15 @@ namespace SDF::UILayer::Gui::Qt::View {
       m_boolStateModelService(boolStateModelService),
       m_dockablesFactory(std::move(dockablesFactory)),
       m_documentViewFactory(std::move(documentViewFactory)),
-      m_toolchest(nullptr),
-      m_toolSettings(nullptr),
       m_tabs(nullptr)
   {
     m_ui->setupUi(this);
 
-    m_toolchest = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "Toolchest"));
-    safeConnect(m_toolchest, &QDockWidget::visibilityChanged, [=](bool vis) {
-      if(!vis) {
-        std::shared_ptr<Events::ToolchestToggledEvent> event(new Events::ToolchestToggledEvent);
-        event->toggleValue = false;
-        m_controller->handleEvent(event);
-      }
-    });
+    QDockWidget *toolchest = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "Toolchest"));
+    QDockWidget *toolSettings = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "ToolSettingsBox"));
 
-    m_toolSettings = dynamic_cast<QDockWidget *>(m_dockablesFactory->create(nullptr, "ToolSettingsBox"));
-    safeConnect(m_toolSettings, &QDockWidget::visibilityChanged, [=](bool vis) {
-      if(!vis) {
-        std::shared_ptr<Events::ToolSettingsToggledEvent> event(new Events::ToolSettingsToggledEvent);
-        event->toggleValue = false;
-        m_controller->handleEvent(event);
-      }
-    });
-
-    m_ui->actionToolchest->setChecked(m_boolStateModelService->getStateElement(c_toolboxVisibleKey));
-    if(m_boolStateModelService->getStateElement(c_toolboxVisibleKey)) {
-      showToolchest();
-    }
-
-    m_ui->actionTool_Settings->setChecked(m_boolStateModelService->getStateElement(c_toolSettingsVisibleKey));
-    if(m_boolStateModelService->getStateElement(c_toolSettingsVisibleKey)) {
-      showToolSettings();
-    }
+    registerDockable(c_toolboxVisibleKey, toolchest, m_ui->actionToolchest, ::Qt::LeftDockWidgetArea);
+    registerDockable(c_toolSettingsVisibleKey, toolSettings, m_ui->actionTool_Settings, ::Qt::RightDockWidgetArea);
 
     safeConnect(m_ui->action_New, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::NewClickedEvent>());
@@ -106,18 +82,6 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     safeConnect(m_ui->actionE_xit, &QAction::triggered, [=](bool v) {
       m_controller->handleEvent(std::make_shared<Events::ExitClickedEvent>());
-    });
-
-    safeConnect(m_ui->actionToolchest, &QAction::toggled, [=](bool checked) {
-      std::shared_ptr<Events::ToolchestToggledEvent> event(new Events::ToolchestToggledEvent);
-      event->toggleValue = checked;
-      m_controller->handleEvent(event);
-    });
-
-    safeConnect(m_ui->actionTool_Settings, &QAction::toggled, [=](bool checked) {
-      std::shared_ptr<Events::ToolSettingsToggledEvent> event(new Events::ToolSettingsToggledEvent);
-      event->toggleValue = checked;
-      m_controller->handleEvent(event);
     });
   }
 
@@ -146,17 +110,12 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   void
   MainWindow::handleEvent(std::shared_ptr<AbstractModel::Events::UiStateChangeEvent<bool>> event) {
-    if(event->stateKey == c_toolboxVisibleKey) {
+    if(m_dockables.find(event->stateKey) != m_dockables.end()) {
+      printf("State change for %s received: val = %d\n", event->stateKey.c_str(), event->newStateVal);
       if(event->newStateVal) {
-        showToolchest();
+        showDockable(event->stateKey);
       } else {
-        hideToolchest();
-      }
-    } else if(event->stateKey == c_toolSettingsVisibleKey) {
-      if(event->newStateVal) {
-        showToolSettings();
-      } else {
-        hideToolSettings();
+        hideDockable(event->stateKey);
       }
     }
   }
@@ -166,32 +125,56 @@ namespace SDF::UILayer::Gui::Qt::View {
     if(auto p = dynamic_cast<AbstractModel::Events::DocumentAdded *>(event.get())) { handleDocumentAdded(p); }
   }
 
+
   void
-  MainWindow::showToolchest() {
-    m_ui->actionToolchest->setChecked(true);
-    m_toolchest->show();
-    addDockWidget(::Qt::LeftDockWidgetArea, m_toolchest);
+  MainWindow::registerDockable(std::string dockableStateKey,
+                               QDockWidget *dockable,
+                               QAction *showHideMenuAction,
+                               ::Qt::DockWidgetArea defaultArea
+                              )
+  {
+    m_dockables[dockableStateKey] = dockable;
+    m_dockableActions[dockableStateKey] = showHideMenuAction;
+    m_dockableDefaultPositions[dockableStateKey] = defaultArea;
+
+    safeConnect(dockable, &QDockWidget::visibilityChanged, [=](bool vis) {
+      if(!vis) {
+        printf("Deactivating %s\n", dockableStateKey.c_str());
+        std::shared_ptr<Events::DockableToggledEvent> deactivateEvent(new Events::DockableToggledEvent);
+        deactivateEvent->dockableStateKey = dockableStateKey;
+        deactivateEvent->toggleValue = false;
+
+        m_controller->handleEvent(deactivateEvent);
+      }
+    });
+
+    safeConnect(showHideMenuAction, &QAction::toggled, [=](bool checked) {
+      std::shared_ptr<Events::DockableToggledEvent> checkEvent(new Events::DockableToggledEvent);
+      checkEvent->dockableStateKey = dockableStateKey;
+      checkEvent->toggleValue = checked;
+
+      printf("toggling %s to %d\n", dockableStateKey.c_str(), checked);
+
+      m_controller->handleEvent(checkEvent);
+    });
+
+    showHideMenuAction->setChecked(m_boolStateModelService->getStateElement(dockableStateKey));
+    if(m_boolStateModelService->getStateElement(dockableStateKey)) {
+      showDockable(dockableStateKey);
+    }
   }
 
   void
-  MainWindow::hideToolchest() {
-    m_ui->actionToolchest->setChecked(false);
-    removeDockWidget(m_toolchest);
-    m_toolchest->close();
+  MainWindow::showDockable(std::string dockableStateKey) {
+    m_dockableActions[dockableStateKey]->setChecked(true);
+    addDockWidget(m_dockableDefaultPositions[dockableStateKey], m_dockables[dockableStateKey]);
   }
 
   void
-  MainWindow::showToolSettings() {
-    m_ui->actionTool_Settings->setChecked(true);
-    m_toolSettings->show();
-    addDockWidget(::Qt::RightDockWidgetArea, m_toolSettings);
-  }
-
-  void
-  MainWindow::hideToolSettings() {
-    m_ui->actionTool_Settings->setChecked(false);
-    removeDockWidget(m_toolSettings);
-    m_toolSettings->close();
+  MainWindow::hideDockable(std::string dockableStateKey) {
+    printf("hiding %s\n", dockableStateKey.c_str());
+    m_dockableActions[dockableStateKey]->setChecked(false);
+    removeDockWidget(m_dockables[dockableStateKey]);
   }
 
   void

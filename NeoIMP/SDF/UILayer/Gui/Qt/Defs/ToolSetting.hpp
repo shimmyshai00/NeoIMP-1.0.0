@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
-#define SDF_UILAYER_GUI_QT_EVENTS_MAINWINDOWEVENT_HPP
+#ifndef SDF_UILAYER_GUI_QT_DEFS_TOOLSETTING_HPP
+#define SDF_UILAYER_GUI_QT_DEFS_TOOLSETTING_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindowEvent.hpp
- * PURPOSE: Defines the MainWindowEvent event hierarchy.
+ * FILE:    ToolSetting.hpp
+ * PURPOSE: Defines a POD struct for defining tool settings.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
-#include <SDF/UILayer/AbstractModel/Handle.hpp>
-
-#include <string>
-
-namespace SDF::UILayer::Gui::Qt::Events {
-  struct MainWindowEvent : public GuiEvent {};
-
-  struct NewClickedEvent : public MainWindowEvent {};
-  struct OpenClickedEvent : public MainWindowEvent {};
-  struct SaveAsClickedEvent : public MainWindowEvent {};
-  struct ExitClickedEvent : public MainWindowEvent {};
-
-  struct DockableToggledEvent : public MainWindowEvent {
-    std::string dockableStateKey;
-    bool toggleValue;
+namespace SDF::UILayer::Gui::Qt::Defs {
+  struct ToolSetting {
+    QString name;
+    ToolSettingEntryMethod entryMethod;
   };
-
-  struct FocusDocumentChangedEvent : public MainWindowEvent { AbstractModel::Handle focusedHandle; };
 }
 
 #endif

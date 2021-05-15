@@ -81,10 +81,7 @@ namespace SDF::UILayer {
         handleFocusDocumentChangedEvent(Events::FocusDocumentChangedEvent *event);
 
         void
-        handleToolchestToggledEvent(Events::ToolchestToggledEvent *event);
-
-        void
-        handleToolSettingsToggledEvent(Events::ToolSettingsToggledEvent *event);
+        handleDockableToggledEvent(Events::DockableToggledEvent *event);
       };
     }
   }

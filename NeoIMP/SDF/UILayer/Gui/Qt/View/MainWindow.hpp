@@ -103,21 +103,23 @@ namespace SDF::UILayer {
         std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, AbstractModel::Handle>>
           m_documentViewFactory;
 
-        QDockWidget *m_toolchest;
-        QDockWidget *m_toolSettings;
+        std::map<std::string, QDockWidget *> m_dockables;
+        std::map<std::string, QAction *> m_dockableActions;
+        std::map<std::string, ::Qt::DockWidgetArea> m_dockableDefaultPositions;
         QTabWidget *m_tabs;
 
         void
-        showToolchest();
+        registerDockable(std::string dockableStateKey,
+                         QDockWidget *dockable,
+                         QAction *showHideMenuAction,
+                         ::Qt::DockWidgetArea defaultArea
+                        );
 
         void
-        hideToolchest();
+        showDockable(std::string dockableStateKey);
 
         void
-        showToolSettings();
-
-        void
-        hideToolSettings();
+        hideDockable(std::string dockableStateKey);
 
         void
         addDocumentTab(AbstractModel::Handle handle);

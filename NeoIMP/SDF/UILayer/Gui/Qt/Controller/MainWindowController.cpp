@@ -51,10 +51,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
     else if(auto p = dynamic_cast<Events::OpenClickedEvent *>(event.get())) { handleOpenClickedEvent(p); }
     else if(auto p = dynamic_cast<Events::SaveAsClickedEvent *>(event.get())) { handleSaveAsClickedEvent(p); }
     else if(auto p = dynamic_cast<Events::ExitClickedEvent *>(event.get())) { handleExitClickedEvent(p); }
-    else if(auto p = dynamic_cast<Events::ToolchestToggledEvent *>(event.get())) { handleToolchestToggledEvent(p); }
-    else if(auto p = dynamic_cast<Events::ToolSettingsToggledEvent *>(event.get())) {
-      handleToolSettingsToggledEvent(p);
-    } else if(auto p = dynamic_cast<Events::FocusDocumentChangedEvent *>(event.get())) {
+    else if(auto p = dynamic_cast<Events::DockableToggledEvent *>(event.get())) { handleDockableToggledEvent(p); }
+    else if(auto p = dynamic_cast<Events::FocusDocumentChangedEvent *>(event.get())) {
       handleFocusDocumentChangedEvent(p);
     }
   }
@@ -85,12 +83,7 @@ namespace SDF::UILayer::Gui::Qt::Controller {
   }
 
   void
-  MainWindowController::handleToolchestToggledEvent(Events::ToolchestToggledEvent *event) {
-    m_boolStateModelService->setStateElement(c_toolboxVisibleKey, event->toggleValue);
-  }
-
-  void
-  MainWindowController::handleToolSettingsToggledEvent(Events::ToolSettingsToggledEvent *event) {
-    m_boolStateModelService->setStateElement(c_toolSettingsVisibleKey, event->toggleValue);
+  MainWindowController::handleDockableToggledEvent(Events::DockableToggledEvent *event) {
+    m_boolStateModelService->setStateElement(event->dockableStateKey, event->toggleValue);
   }
 }
