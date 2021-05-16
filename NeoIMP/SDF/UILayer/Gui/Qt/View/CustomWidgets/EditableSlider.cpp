@@ -46,6 +46,8 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
     m_boxLayout->addWidget(m_slider, 0);
     m_boxLayout->addWidget(m_editBox, 1);
 
+    m_boxLayout->setStretch(0, 4);
+
     connect(m_slider, &QSlider::valueChanged, this, &EditableSlider::valueChanged);
     connect(m_slider, &QSlider::valueChanged, [=](int value) {
       denomValueChanged((0.0 + value) / m_denom);

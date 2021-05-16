@@ -25,6 +25,8 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
 
 #include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
@@ -35,6 +37,8 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include <memory>
+
 namespace SDF::UILayer {
   namespace AbstractModel::ToolConfig {
     class IZoomToolCfgService;
@@ -44,13 +48,16 @@ namespace SDF::UILayer {
     // Class:      ZoomToolConfigPane
     // Purpose:    Defines the pane widget for configuring the zoom tool.
     // Parameters: None.
-    class ZoomToolConfigPane : public QtGuiElement<QWidget> {
+    class ZoomToolConfigPane : public QtGuiElement<QWidget>,
+                               private Interfaces::IEventHandler<AbstractModel::Events::ZoomToolEvent>
+    {
       Q_OBJECT
     public:
       ZoomToolConfigPane(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
                          std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
                          QWidget *parent = nullptr
                         );
+      ~ZoomToolConfigPane();
     private:
       AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
 
@@ -58,8 +65,19 @@ namespace SDF::UILayer {
 
       QGridLayout *m_gridLayout;
 
+      QLabel *m_zoomDirectionLabel;
+      QLabel *m_zoomDirectionIndicatorLabel;
+
       QLabel *m_zoomPowerLabel;
       CustomWidgets::EditableSlider *m_zoomPowerSlider;
+
+      QLabel *m_spacer;
+
+      void
+      updateZoomMode();
+
+      void
+      handleEvent(std::shared_ptr<AbstractModel::Events::ZoomToolEvent> event);
     };
   }
 }

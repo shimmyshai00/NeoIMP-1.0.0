@@ -42,7 +42,7 @@ namespace SDF::UILayer::Gui::Qt::View {
     m_toolApplicationService->attachObserver(this);
 
     addConfigPane(AbstractModel::Properties::TOOL_ZOOM,
-                  dynamic_cast<QWidget *>(configPanesFactory->create(this, "ZoomToolConfig"))
+                  dynamic_cast<QWidget *>(configPanesFactory->create(nullptr, "ZoomToolConfig"))
                  );
   }
 
