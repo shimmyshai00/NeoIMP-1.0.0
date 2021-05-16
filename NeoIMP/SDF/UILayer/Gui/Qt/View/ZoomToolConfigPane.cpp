@@ -23,9 +23,19 @@
 
 #include "ZoomToolConfigPane.hpp"
 
+#include <AbstractModel/ToolConfig/IZoomToolCfgService.hpp>
+#include <Events/ZoomToolConfigEvent.hpp>
+
+#include "safeConnect.hpp"
+
 namespace SDF::UILayer::Gui::Qt::View {
-  ZoomToolConfigPane::ZoomToolConfigPane(QWidget *parent)
+  ZoomToolConfigPane::ZoomToolConfigPane(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                                         std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
+                                         QWidget *parent
+                                        )
     : QtGuiElement<QWidget>(parent),
+      m_controller(std::move(controller)),
+      m_zoomToolCfgService(zoomToolCfgService),
       m_gridLayout(nullptr),
       m_zoomPowerLabel(nullptr),
       m_zoomPowerSlider(nullptr)
@@ -38,5 +48,15 @@ namespace SDF::UILayer::Gui::Qt::View {
 
     m_gridLayout->addWidget(m_zoomPowerLabel, 0, 0);
     m_gridLayout->addWidget(m_zoomPowerSlider, 0, 1);
+
+    // Set according to the model state.
+    m_zoomPowerSlider->setValueF(zoomToolCfgService->getZoomStep());
+
+    // Connect to controller.
+    safeConnect(m_zoomPowerSlider, &CustomWidgets::EditableSlider::denomValueChanged, [=](float value) {
+      std::shared_ptr<Events::ZoomStepChangedEvent> event(new Events::ZoomStepChangedEvent);
+      event->newZoomStep = value;
+      m_controller->handleEvent(event);
+    });
   }
 }

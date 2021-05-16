@@ -37,6 +37,7 @@
 #include <SaveAsDialogController.hpp>
 #include <OpenDialogController.hpp>
 #include <ToolboxController.hpp>
+#include <ZoomToolConfigController.hpp>
 
 namespace SDF::UILayer::Gui::Qt::Controller {
   Factory::Factory(IGuiController *guiController,
@@ -73,6 +74,8 @@ namespace SDF::UILayer::Gui::Qt::Controller {
       return std::make_unique<ToolboxController>(m_zoomToolCfgService,
                                                  m_toolApplicationService
                                                 );
+    } else if(guiElementType == "ZoomToolConfig") {
+      return std::make_unique<ZoomToolConfigController>(m_zoomToolCfgService);
     } else {
       //throw UILayer::Exceptions::NonexistentGuiElementTypeException(elementType);
       return std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>>(); // TBA

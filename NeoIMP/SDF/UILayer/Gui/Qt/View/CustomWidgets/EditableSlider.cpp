@@ -23,6 +23,8 @@
 
 #include "EditableSlider.hpp"
 
+#include <cmath>
+
 namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   EditableSlider::EditableSlider(int min, int max, int val, ::Qt::Orientation orientation, QWidget *parent)
     : m_boxLayout(new QBoxLayout(orientation == ::Qt::Horizontal ? QBoxLayout::LeftToRight : QBoxLayout::TopToBottom,
@@ -130,6 +132,16 @@ namespace SDF::UILayer::Gui::Qt::View::CustomWidgets {
   EditableSlider::setDenom(int denom) {
     m_denom = denom;
     syncTextField();
+  }
+
+  void
+  EditableSlider::setValue(int value) {
+    m_slider->setValue(value);
+  }
+
+  void
+  EditableSlider::setValueF(float value) {
+    m_slider->setValue(floor(value * m_denom));
   }
 
   void

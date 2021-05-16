@@ -39,6 +39,7 @@
 #include <DocumentView.hpp>
 #include <Toolbox.hpp>
 #include <ToolSettingsBox.hpp>
+#include <ZoomToolConfigPane.hpp>
 
 namespace SDF::UILayer::Gui::Qt::View {
   Factory::Factory(
@@ -107,6 +108,9 @@ namespace SDF::UILayer::Gui::Qt::View {
 
   IGuiElement *
   DockablesFactory::create(IGuiElement *parent, std::string elementType) {
+    std::unique_ptr<ConfigPanesFactory> configPanesFactory(new ConfigPanesFactory(m_zoomToolCfgService,
+                                                                                  m_controllerFactory
+                                                                                 ));
     if(elementType == "Toolchest") {
       return new Toolbox(m_zoomToolCfgService,
                          m_controllerFactory->create("Toolchest"),
@@ -114,6 +118,7 @@ namespace SDF::UILayer::Gui::Qt::View {
                         );
     } else if(elementType == "ToolSettingsBox") {
       return new ToolSettingsBox(m_toolApplicationService,
+                                 std::move(configPanesFactory),
                                  dynamic_cast<QWidget *>(parent)
                                 );
     } else {
@@ -147,5 +152,27 @@ namespace SDF::UILayer::Gui::Qt::View {
                             documentHandle,
                             dynamic_cast<QWidget *>(parent)
                            );
+  }
+}
+
+namespace SDF::UILayer::Gui::Qt::View {
+  ConfigPanesFactory::ConfigPanesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                                         Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string>
+                                          *controllerFactory
+                                        )
+    : m_zoomToolCfgService(zoomToolCfgService),
+      m_controllerFactory(controllerFactory)
+  {
+  }
+
+  IGuiElement *
+  ConfigPanesFactory::create(IGuiElement *parent,
+                             std::string paneType
+                            )
+  {
+    std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller(m_controllerFactory->create(paneType));
+    if(paneType == "ZoomToolConfig") {
+      return new ZoomToolConfigPane(m_zoomToolCfgService, std::move(controller), dynamic_cast<QWidget *>(parent));
+    }
   }
 }

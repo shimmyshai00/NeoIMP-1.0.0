@@ -25,6 +25,7 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+#include <SDF/Interfaces/IBorrowedFactory.hpp>
 
 #include <SDF/UILayer/AbstractModel/Events/ToolEvent.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
@@ -49,6 +50,8 @@ namespace SDF::UILayer {
       Q_OBJECT
     public:
       ToolSettingsBox(AbstractModel::IToolApplicationService *toolApplicationService,
+                      std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string>>
+                        configPanesFactory,
                       QWidget *parent = nullptr
                      );
       ~ToolSettingsBox();

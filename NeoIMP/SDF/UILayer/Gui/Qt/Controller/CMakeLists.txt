@@ -8,4 +8,5 @@ target_sources(neoimp PUBLIC
                SaveAsDialogController.cpp
                OpenDialogController.cpp
                ToolboxController.cpp
+               ZoomToolConfigController.cpp
               )

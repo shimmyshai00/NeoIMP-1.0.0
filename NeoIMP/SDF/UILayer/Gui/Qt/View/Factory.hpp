@@ -131,6 +131,26 @@ namespace SDF::UILayer {
       AbstractModel::IDocumentViewConfigService *m_documentViewConfigService;
       AbstractModel::IToolApplicationService *m_toolApplicationService;
     };
+
+    // Class:      ConfigPanesFactory
+    // Purpose:    Construct new configuration panes.
+    // Parameters: None.
+    class ConfigPanesFactory : public Interfaces::IBorrowedFactory<IGuiElement, IGuiElement *, std::string> {
+    public:
+      ConfigPanesFactory(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
+                         Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *
+                          controllerFactory
+                        );
+
+      IGuiElement *
+      create(IGuiElement *parent,
+             std::string paneType
+            );
+    private:
+      AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
+
+      Interfaces::IFactory<Interfaces::IEventHandler<Events::GuiEvent>, std::string> *m_controllerFactory;
+    };
   }
 }
 

@@ -29,19 +29,27 @@
 
 namespace SDF::UILayer::Gui::Qt::View {
   ToolSettingsBox::ToolSettingsBox(AbstractModel::IToolApplicationService *toolApplicationService,
+                                   std::unique_ptr<Interfaces::IBorrowedFactory<IGuiElement,
+                                                                                IGuiElement *,
+                                                                                std::string
+                                                                               >>
+                                     configPanesFactory,
                                    QWidget *parent
                                   )
     : QtGuiElement<QDockWidget>("Tool Settings", parent),
       m_toolApplicationService(toolApplicationService)
   {
-    addConfigPane(AbstractModel::Properties::TOOL_ZOOM, new ZoomToolConfigPane);
-
     m_toolApplicationService->attachObserver(this);
+
+    addConfigPane(AbstractModel::Properties::TOOL_ZOOM,
+                  dynamic_cast<QWidget *>(configPanesFactory->create(this, "ZoomToolConfig"))
+                 );
   }
 
   ToolSettingsBox::~ToolSettingsBox() {
     m_toolApplicationService->removeObserver(this);
   }
+
 
   // Private members.
   void

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_QT_VIEW_ZOOMTOOLCONFIGPANE_HPP
-#define SDF_UILAYER_GUI_QT_VIEW_ZOOMTOOLCONFIGPANE_HPP
+#ifndef SDF_UILAYER_GUI_QT_CONTROLLER_ZOOMTOOLCONFIGCONTROLLER_HPP
+#define SDF_UILAYER_GUI_QT_CONTROLLER_ZOOMTOOLCONFIGCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ZoomToolConfigPane.hpp
- * PURPOSE: Defines the ZoomToolConfigPane class.
+ * FILE:    ZoomToolConfigController.hpp
+ * PURPOSE: Defines the ZoomToolConfigController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,41 +25,33 @@
  */
 
 #include <SDF/Interfaces/IEventHandler.hpp>
+
 #include <SDF/UILayer/Gui/Qt/Events/GuiEvent.hpp>
+#include <SDF/UILayer/Gui/Qt/Events/ZoomToolConfigEvent.hpp>
 
-#include <SDF/UILayer/Gui/Qt/View/QtGuiElement.hpp>
-
-#include <SDF/UILayer/Gui/Qt/View/CustomWidgets/EditableSlider.hpp>
-
-#include <QWidget>
-#include <QGridLayout>
-#include <QLabel>
+#include <fruit/fruit.h>
+#include <memory>
 
 namespace SDF::UILayer {
   namespace AbstractModel::ToolConfig {
     class IZoomToolCfgService;
   }
 
-  namespace Gui::Qt::View {
-    // Class:      ZoomToolConfigPane
-    // Purpose:    Defines the pane widget for configuring the zoom tool.
+  namespace Gui::Qt::Controller {
+    // Class:      ZoomToolConfigController
+    // Purpose:    Handles events from the zoom tool configuration pane.
     // Parameters: None.
-    class ZoomToolConfigPane : public QtGuiElement<QWidget> {
-      Q_OBJECT
+    class ZoomToolConfigController : public Interfaces::IEventHandler<Events::GuiEvent> {
     public:
-      ZoomToolConfigPane(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService,
-                         std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> controller,
-                         QWidget *parent = nullptr
-                        );
+      ZoomToolConfigController(AbstractModel::ToolConfig::IZoomToolCfgService *zoomToolCfgService);
+
+      void
+      handleEvent(std::shared_ptr<Events::GuiEvent> event);
     private:
       AbstractModel::ToolConfig::IZoomToolCfgService *m_zoomToolCfgService;
 
-      std::unique_ptr<Interfaces::IEventHandler<Events::GuiEvent>> m_controller;
-
-      QGridLayout *m_gridLayout;
-
-      QLabel *m_zoomPowerLabel;
-      CustomWidgets::EditableSlider *m_zoomPowerSlider;
+      void
+      handleZoomStepChangedEvent(Events::ZoomStepChangedEvent *event);
     };
   }
 }
