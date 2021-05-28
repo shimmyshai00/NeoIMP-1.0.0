@@ -58,6 +58,18 @@ namespace SDF::ModelLayer::Math {
       : Rect(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY())
     {}
 
+    template<class U>
+    Rect(Coord<U> upperLeft,
+         Coord<U> lowerRight
+        )
+      : Rect(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY())
+    {}
+
+    template<class U>
+    Rect(Rect<U> rect)
+      : Rect(rect.getX1(), rect.getY1(), rect.getX2(), rect.getY2())
+    {}
+
     ~Rect() {}
 
     // Size access.

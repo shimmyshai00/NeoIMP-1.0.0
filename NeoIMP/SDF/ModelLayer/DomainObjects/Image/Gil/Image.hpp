@@ -26,11 +26,15 @@
 
 #include <SDF/ModelLayer/Services/AbstractDomain/IImage.hpp>
 #include <SDF/ModelLayer/Services/AbstractDomain/IImageDataVisitor.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/DecalType.hpp>
+#include <SDF/ModelLayer/Services/AbstractDomain/IDecal.hpp>
 #include <SDF/ModelLayer/DomainObjects/Image/Gil/Layer.hpp>
 
 #include <SDF/ModelLayer/Math/Coord.hpp>
 
 #include <memory>
+#include <map>
+#include <vector>
 
 namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   // Class:   Image
@@ -112,6 +116,15 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
                            Math::Rect<std::size_t> rect,
                            Services::AbstractDomain::IImageDataVisitor &visitor
                           );
+
+    void
+    addDecal(std::unique_ptr<Services::AbstractDomain::IDecal> decal);
+
+    void
+    removeDecal(Services::AbstractDomain::Defs::DecalType decalType);
+
+    Services::AbstractDomain::IDecal *
+    getDecal(Services::AbstractDomain::Defs::DecalType decalType);
   private:
     int m_id;
     std::string m_name;
@@ -120,6 +133,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     Math::Coord<float> m_viewCenter;
     float m_viewMagnification;
 
+    std::map<Services::AbstractDomain::Defs::DecalType, std::unique_ptr<Services::AbstractDomain::IDecal>> m_decals;
     std::vector<std::unique_ptr<Layer<GilImageType, GilRegionType, GilPixelType>>> m_layerStack;
   };
 }

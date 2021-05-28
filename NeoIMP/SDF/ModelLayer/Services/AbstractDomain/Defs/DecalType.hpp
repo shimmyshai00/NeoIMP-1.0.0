@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_BROKERID_HPP
-#define SDF_MODELLAYER_SERVICES_BROKERID_HPP
+#ifndef SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_DEFS_DECALTYPE_HPP
+#define SDF_MODELLAYER_SERVICES_ABSTRACTDOMAIN_DEFS_DECALTYPE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BrokerId.hpp
- * PURPOSE: Enumerates the ID values for the services when attached to a message broker.
+ * FILE:    DecalType.hpp
+ * PURPOSE: Enumerates the different decal types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer::Services {
-  enum BrokerId {
-    SERVICE_DOCUMENT_CREATION,
-    SERVICE_DOCUMENT_STORAGE,
-    SERVICE_DOCUMENT_ACCESS,
-    SERVICE_DOCUMENT_RENDER,
-    SERVICE_DOCUMENT_VIEW_CONFIG,
-    SERVICE_TOOL_BASED_EDITING,
-    SERVICE_SELECT_TOOL_CONFIG,
-    SERVICE_ZOOM_TOOL_CONFIG,
-    SERVICE_MAX
+namespace SDF::ModelLayer::Services::AbstractDomain::Defs {
+  enum DecalType {
+    DECAL_SELECTION,
+    DECAL_MAX
   };
 }
 

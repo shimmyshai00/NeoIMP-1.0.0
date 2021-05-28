@@ -29,11 +29,15 @@
 #include <SDF/ModelLayer/Math/Coord.hpp>
 #include <SDF/ModelLayer/Math/Rect.hpp>
 
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/DecalType.hpp>
+
 #include <cstddef>
 #include <string>
+#include <memory>
 
 namespace SDF::ModelLayer::Services::AbstractDomain {
   class IImageDataVisitor;
+  class IDecal;
 
   // Class:      IImage
   // Purpose:    Defines the interface for an image document.
@@ -153,6 +157,27 @@ namespace SDF::ModelLayer::Services::AbstractDomain {
                            Math::Rect<std::size_t> rect,
                            IImageDataVisitor &visitor
                           ) = 0;
+
+    // Function:   addDecal
+    // Purpose:    Add a decal marking to the image document (e.g. a selection).
+    // Parameters: decal - The decal to add.
+    // Returns:    None.
+    virtual void
+    addDecal(std::unique_ptr<IDecal> decal) = 0;
+
+    // Function:   removeDecal
+    // Purpose:    Remove a decal marking from the image document.
+    // Parameters: decalType - The type of decal to remove.
+    // Returns:    None.
+    virtual void
+    removeDecal(Defs::DecalType decalType) = 0;
+
+    // Function:   getDecal
+    // Purpose:    Obtain the decal, if one is on the image, of a given type.
+    // Parameters: decalType - The type of decal to get.
+    // Returns:    None.
+    virtual IDecal *
+    getDecal(Defs::DecalType decalType) = 0;
   };
 }
 

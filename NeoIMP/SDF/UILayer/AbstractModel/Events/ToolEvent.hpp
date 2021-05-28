@@ -27,6 +27,7 @@
 #include <SDF/UILayer/AbstractModel/Events/Event.hpp>
 #include <SDF/UILayer/AbstractModel/Properties/Tool.hpp>
 
+#include <SDF/UILayer/AbstractModel/ToolConfig/Properties/SelectMode.hpp>
 #include <SDF/UILayer/AbstractModel/ToolConfig/Properties/ZoomMode.hpp>
 
 namespace SDF::UILayer::AbstractModel::Events {
@@ -35,6 +36,9 @@ namespace SDF::UILayer::AbstractModel::Events {
   struct ActiveToolChangedEvent : public ToolEvent {
     Properties::Tool newTool;
   };
+
+  struct SelectToolEvent : public ToolEvent {};
+  struct SelectToolModeChangedEvent : public SelectToolEvent { ToolConfig::Properties::SelectMode newMode; };
 
   struct ZoomToolEvent : public ToolEvent {};
   struct ZoomToolModeChangedEvent : public ZoomToolEvent { ToolConfig::Properties::ZoomMode newMode; };

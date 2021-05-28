@@ -28,6 +28,7 @@
 #include <Services/AbstractDomain/ITool.hpp>
 
 #include <ZoomTool.hpp>
+#include <SelectTool.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
   Factory::Factory(Interfaces::IGenerator<int> *uidGenerator) : m_uidGenerator(uidGenerator) {}
@@ -38,6 +39,8 @@ namespace SDF::ModelLayer::DomainObjects::Editing::Tools {
 
     if(toolEnum == TOOL_ZOOM) {
       return std::make_unique<ZoomTool>(m_uidGenerator->get());
+    } else if(toolEnum == TOOL_SELECT) {
+      return std::make_unique<SelectTool>(m_uidGenerator->get());
     } else {
       throw ModelLayer::Exceptions::BadToolLabelException(toolEnum);
     }

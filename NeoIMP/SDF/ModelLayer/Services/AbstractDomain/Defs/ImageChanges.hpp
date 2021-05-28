@@ -26,15 +26,24 @@
 
 #include <SDF/ModelLayer/Math/Coord.hpp>
 
-namespace SDF::ModelLayer::Services::AbstractDomain::Defs {
-  struct ImageChange {
-    int imageId;
+#include <SDF/ModelLayer/Services/AbstractDomain/Defs/DecalType.hpp>
 
-    virtual ~ImageChange() = default;
-  };
+namespace SDF::ModelLayer::Services::AbstractDomain {
+  class IDecal;
 
-  struct ImageViewportCenterChanged : public ImageChange { Math::Coord<float> newCenter; };
-  struct ImageViewportMagnificationChanged : public ImageChange { float newMagnif; };
+  namespace Defs {
+    struct ImageChange {
+      int imageId;
+
+      virtual ~ImageChange() = default;
+    };
+
+    struct ImageViewportCenterChanged : public ImageChange { Math::Coord<float> newCenter; };
+    struct ImageViewportMagnificationChanged : public ImageChange { float newMagnif; };
+
+    struct ImageDecalAdded : public ImageChange { IDecal *decal; };
+    struct ImageDecalRemoved : public ImageChange { DecalType decalType; };
+  }
 }
 
 #endif

@@ -175,6 +175,29 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
       m_layerStack[layerNum]->acceptLayerDataVisitor(rect, visitor);
     }
   }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  void
+  Image<GilImageType, GilRegionType, GilPixelType>::addDecal(std::unique_ptr<Services::AbstractDomain::IDecal> decal) {
+    // overwrite any the existing decal
+    m_decals[decal->getType()] = std::move(decal);
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  void
+  Image<GilImageType, GilRegionType, GilPixelType>::removeDecal(Services::AbstractDomain::Defs::DecalType decalType) {
+    m_decals.erase(decalType);
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  Services::AbstractDomain::IDecal *
+  Image<GilImageType, GilRegionType, GilPixelType>::getDecal(Services::AbstractDomain::Defs::DecalType decalType) {
+    if(m_decals.find(decalType) != m_decals.end()) {
+      return m_decals[decalType].get();
+    } else {
+      return nullptr; // TBA: exception?
+    }
+  }
 }
 
 #endif

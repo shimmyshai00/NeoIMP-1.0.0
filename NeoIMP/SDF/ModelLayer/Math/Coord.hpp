@@ -42,6 +42,12 @@ namespace SDF::ModelLayer::Math {
         m_y(y)
     {}
 
+    template<class U>
+    Coord(Coord<U> otherCoord)
+      : m_x(otherCoord.getX()),
+        m_y(otherCoord.getY())
+    {}
+
     ~Coord() {}
 
     // Element access.
