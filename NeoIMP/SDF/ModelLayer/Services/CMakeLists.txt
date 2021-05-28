@@ -9,6 +9,7 @@ target_sources(neoimp PUBLIC
                DocumentStorageService.cpp
                DocumentViewConfigService.cpp
                ToolApplicationService.cpp
+               SelectToolCfgService.cpp
                ZoomToolCfgService.cpp
                Component.cpp
               )

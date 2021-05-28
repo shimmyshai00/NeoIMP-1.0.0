@@ -34,7 +34,7 @@ namespace SDF::ModelLayer::Services {
     AbstractData::IRepository<AbstractDomain::ITool> *toolRepository,
     Interfaces::IMessageBroker<Events::RepositoryUpdate<AbstractDomain::ITool>> *broker
   )
-    : ToolConfigService(toolRepository, broker, SERVICE_ZOOM_TOOL_CONFIG)
+    : ToolConfigService(toolRepository, broker, SERVICE_SELECT_TOOL_CONFIG)
   {
   }
 
@@ -53,7 +53,7 @@ namespace SDF::ModelLayer::Services {
   }
 
   void
-  SelectToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::ZoomMode mode) {
+  SelectToolCfgService::setMode(UILayer::AbstractModel::ToolConfig::Properties::SelectMode mode) {
     using UILayer::AbstractModel::Events::SelectToolModeChangedEvent;
 
     printf("sel mode changed to: %d\n", mode);
@@ -69,7 +69,7 @@ namespace SDF::ModelLayer::Services {
     }
   }
 
-  UILayer::AbstractModel::ToolConfig::Properties::ZoomMode
+  UILayer::AbstractModel::ToolConfig::Properties::SelectMode
   SelectToolCfgService::getMode() const {
     return m_tool->getMode();
   }
