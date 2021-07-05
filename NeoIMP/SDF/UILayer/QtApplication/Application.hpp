@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QTAPPLICATION_APPLICATION_HPP
+#define SDF_UILAYER_QTAPPLICATION_APPLICATION_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    Application.hpp
+ * PURPOSE: Defines the Application class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,15 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/UILayer/QtApplication/Component.hpp"
+#include "../IApplication.hpp"
+#include "View/IViewFactory.hpp"
 
 #include <fruit/fruit.h>
-#include <memory>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::QtApplication::getComponent);
-  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
+namespace SDF::UILayer::QtApplication {
+  class Application : public IApplication {
+  public:
+    INJECT(Application(View::IViewFactory *viewFactory));
 
-  return application->exec(argc, argv);
+    int
+    exec(int argc, char **argv);
+  private:
+    View::IViewFactory *m_viewFactory;
+  };
 }
+
+#endif

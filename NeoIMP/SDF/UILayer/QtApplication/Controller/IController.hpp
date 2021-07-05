@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QTAPPLICATION_CONTROLLER_ICONTROLLER_HPP
+#define SDF_UILAYER_QTAPPLICATION_CONTROLLER_ICONTROLLER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    IController.hpp
+ * PURPOSE: Defines the IController interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,15 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/UILayer/QtApplication/Component.hpp"
-
-#include <fruit/fruit.h>
 #include <memory>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::QtApplication::getComponent);
-  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
+namespace SDF::UILayer::QtApplication::View {
+  // Class:      IController
+  // Purpose:    Defines an interface for Qt MVC controllers.
+  // Parameters: EventT - The type of event handled by this controller.
+  template<class EventT>
+  class IController {
+  public:
+    virtual ~IController() = default;
 
-  return application->exec(argc, argv);
+    // Function:   handleEvent
+    // Purpose:    Handle a view-generated event.
+    // Parameters: event - The event to handle.
+    // Returns:    None.
+    virtual void
+    handleEvent(std::shared_ptr<EventT> event) = 0;
+  };
 }
+
+#endif

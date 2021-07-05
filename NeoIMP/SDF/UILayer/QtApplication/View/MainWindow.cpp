@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: Implements the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/UILayer/QtApplication/Component.hpp"
+#include "MainWindow.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include "QtResources/ui_MainWindow.h"
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::QtApplication::getComponent);
-  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
+namespace SDF::UILayer::QtApplication::View {
+  MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      m_ui(new Ui::MainWindow)
+  {
+    m_ui->setupUi(this);
+  }
 
-  return application->exec(argc, argv);
+  QMainWindow *
+  MainWindow::getQWidget() {
+    return this;
+  }
 }

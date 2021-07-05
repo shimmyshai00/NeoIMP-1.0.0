@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
+#define SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: Defines the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,15 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/UILayer/QtApplication/Component.hpp"
+#include "IView.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <QMainWindow>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::QtApplication::getComponent);
-  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
-  return application->exec(argc, argv);
+namespace SDF::UILayer::QtApplication::View {
+  // Class:      MainWindow
+  // Purpose:    Provides the main application window.
+  // Parameters: None.
+  class MainWindow : public QMainWindow,
+                     public IView<QMainWindow>
+  {
+    Q_OBJECT
+  public:
+    MainWindow(QWidget *parent = nullptr);
+
+    QMainWindow *
+    getQWidget();
+  private:
+    Ui::MainWindow *m_ui;
+  };
 }
+
+#endif
