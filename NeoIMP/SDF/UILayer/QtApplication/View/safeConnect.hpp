@@ -65,13 +65,7 @@ namespace SDF::UILayer::QtApplication::View {
               std::shared_ptr<EventT> event
              )
   {
-    return QObject::connect(qObj, signal, [=](Args... args) {
-      try {
-        controller->handleEvent(event);
-      } catch(std::exception &e) {
-        std::cerr << "ERROR: " << e.what() << std::endl;
-      }
-    });
+    return safeConnect(qObj, signal, [=](Args... args) { controller->handleEvent(event); });
   }
 
   template<typename QObj, typename EventParentT, typename EventT, typename ... Args>
@@ -83,6 +77,23 @@ namespace SDF::UILayer::QtApplication::View {
              )
   {
     return safeConnect(qObj, signal, controller, std::shared_ptr<EventT>(event));
+  }
+
+  // Function:   safeConnect
+  // Purpose:    Connect a Qt QObject signal to a controller event in an exception-safe way.
+  // Parameters: qObj - The QObject to connect to.
+  //             signal - The signal to connect to.
+  //             controller - The controller to connect to.
+  //             eventProvider - A functor to provide the event.
+  template<typename QObj, typename EventParentT, typename Functor, typename ... Args>
+  QMetaObject::Connection
+  safeConnect(QObj *qObj,
+              void (QObj::*signal)(Args...),
+              Controller::IController<EventParentT> *controller,
+              Functor func
+             )
+  {
+    return safeConnect(qObj, signal, [=](Args... args) { func(args...); });
   }
 }
 
