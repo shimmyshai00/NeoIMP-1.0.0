@@ -26,7 +26,7 @@
 
 #include <memory>
 
-namespace SDF::UILayer::QtApplication::View {
+namespace SDF::UILayer::QtApplication::Controller {
   // Class:      IController
   // Purpose:    Defines an interface for Qt MVC controllers.
   // Parameters: EventT - The type of event handled by this controller.

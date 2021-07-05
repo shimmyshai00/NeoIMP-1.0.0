@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_QTAPPLICATION_CONTROLLER_ICONTROLLERFACTORY_HPP
+#define SDF_UILAYER_QTAPPLICATION_CONTROLLER_ICONTROLLERFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    IControllerFactory.hpp
+ * PURPOSE: Defines the IControllerFactory interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,36 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Controller/IController.hpp"
-#include "Events/MainWindowEvent.hpp"
-#include "IView.hpp"
+#include "../View/Events/MainWindowEvent.hpp"
+#include "IController.hpp"
 
-#include <QMainWindow>
 #include <memory>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::QtApplication::View {
-  // Class:      MainWindow
-  // Purpose:    Provides the main application window.
+namespace SDF::UILayer::QtApplication::Controller {
+  // Class:      IControllerFactory
+  // Purpose:    Provides an interface for the MVC controller factory.
   // Parameters: None.
-  class MainWindow : public QMainWindow,
-                     public IView<QMainWindow>
-  {
-    Q_OBJECT
+  class IControllerFactory {
   public:
-    MainWindow(std::unique_ptr<Controller::IController<Events::MainWindowEvent>> controller,
-               QWidget *parent = nullptr
-              );
+    virtual ~IControllerFactory() = default;
 
-    QMainWindow *
-    getQWidget();
-  private:
-    Ui::MainWindow *m_ui;
-
-    std::unique_ptr<Controller::IController<Events::MainWindowEvent>> m_controller;
+    virtual std::unique_ptr<IController<View::Events::MainWindowEvent>>
+    createMainWindowController() = 0;
   };
 }
 

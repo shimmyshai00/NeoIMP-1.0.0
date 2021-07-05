@@ -26,7 +26,9 @@
 #include "ViewFactory.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  fruit::Component<IViewFactory>
+  fruit::Component<fruit::Required<Controller::IControllerFactory>,
+                   IViewFactory
+                  >
   getComponent() {
     return fruit::createComponent()
       .bind<IViewFactory, ViewFactory>();

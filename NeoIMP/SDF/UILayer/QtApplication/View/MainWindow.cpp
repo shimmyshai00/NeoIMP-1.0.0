@@ -24,13 +24,19 @@
 #include "MainWindow.hpp"
 
 #include "QtResources/ui_MainWindow.h"
+#include "safeConnect.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  MainWindow::MainWindow(QWidget *parent)
+  MainWindow::MainWindow(std::unique_ptr<Controller::IController<Events::MainWindowEvent>> controller,
+                         QWidget *parent
+                        )
     : QMainWindow(parent),
-      m_ui(new Ui::MainWindow)
+      m_ui(new Ui::MainWindow),
+      m_controller(std::move(controller))
   {
     m_ui->setupUi(this);
+
+    safeConnect(m_ui->actionE_xit, &QAction::triggered, m_controller.get(), new Events::MainWindowExitMenuEvent);
   }
 
   QMainWindow *

@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_COMPONENT_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_COMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Qt application's view component.
+ * FILE:    ControllerFactory.cpp
+ * PURPOSE: Implements the ControllerFactory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Controller/IControllerFactory.hpp"
-#include "IViewFactory.hpp"
+#include "ControllerFactory.hpp"
 
-#include <fruit/fruit.h>
+#include "MainWindowController.hpp"
 
-namespace SDF::UILayer::QtApplication::View {
-  fruit::Component<fruit::Required<Controller::IControllerFactory>,
-                   IViewFactory
-                  >
-  getComponent();
+namespace SDF::UILayer::QtApplication::Controller {
+  ControllerFactory::ControllerFactory() {}
+
+  std::unique_ptr<IController<View::Events::MainWindowEvent>>
+  ControllerFactory::createMainWindowController() {
+    return std::make_unique<MainWindowController>();
+  }
 }
-
-#endif

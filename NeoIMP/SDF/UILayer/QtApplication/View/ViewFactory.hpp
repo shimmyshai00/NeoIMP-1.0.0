@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../Controller/IControllerFactory.hpp"
 #include "IViewFactory.hpp"
 #include "IView.hpp"
 
@@ -37,10 +38,12 @@ namespace SDF::UILayer::QtApplication::View {
   // Parameters: None.
   class ViewFactory : public IViewFactory {
   public:
-    INJECT(ViewFactory());
+    INJECT(ViewFactory(Controller::IControllerFactory *ControllerFactory));
 
     IView<QMainWindow> *
     createMainWindow();
+  private:
+    Controller::IControllerFactory *m_controllerFactory;
   };
 }
 

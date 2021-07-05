@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_COMPONENT_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_COMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Qt application's view component.
+ * FILE:    MainWindowController.cpp
+ * PURPOSE: Implements the MainWindowController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Controller/IControllerFactory.hpp"
-#include "IViewFactory.hpp"
+#include "MainWindowController.hpp"
 
-#include <fruit/fruit.h>
+#include <iostream>
 
-namespace SDF::UILayer::QtApplication::View {
-  fruit::Component<fruit::Required<Controller::IControllerFactory>,
-                   IViewFactory
-                  >
-  getComponent();
+namespace SDF::UILayer::QtApplication::Controller {
+  MainWindowController::MainWindowController()
+  {}
+
+  void
+  MainWindowController::handleEvent(std::shared_ptr<View::Events::MainWindowEvent> event) {
+    if(auto *p = dynamic_cast<View::Events::MainWindowExitMenuEvent *>(event.get())) {
+      // TBA
+      std::cout << "exit event" << std::endl;
+    }
+  }
 }
-
-#endif

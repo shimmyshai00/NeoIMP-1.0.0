@@ -26,10 +26,15 @@
 #include "MainWindow.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  ViewFactory::ViewFactory() {}
+  ViewFactory::ViewFactory(Controller::IControllerFactory *ControllerFactory)
+    : m_controllerFactory(ControllerFactory)
+  {}
 
   IView<QMainWindow> *
   ViewFactory::createMainWindow() {
-    return new MainWindow();
+    std::unique_ptr<Controller::IController<Events::MainWindowEvent>>
+      controller(m_controllerFactory->createMainWindowController());
+
+    return new MainWindow(std::move(controller));
   }
 }
