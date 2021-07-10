@@ -27,13 +27,20 @@
 
 namespace SDF::UILayer::QtApplication::Controller {
   MainWindowController::MainWindowController()
+    : m_view(nullptr)
   {}
+
+  void
+  MainWindowController::setView(View::IView<QMainWindow> *view) {
+    m_view = view;
+  }
 
   void
   MainWindowController::handleEvent(std::shared_ptr<View::Events::MainWindowEvent> event) {
     if(auto *p = dynamic_cast<View::Events::MainWindowExitMenuEvent *>(event.get())) {
-      // TBA
-      std::cout << "exit event" << std::endl;
+      if(m_view) {
+        m_view->getQWidget()->close();
+      }
     }
   }
 }

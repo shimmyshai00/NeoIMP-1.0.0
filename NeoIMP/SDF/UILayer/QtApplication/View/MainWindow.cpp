@@ -35,6 +35,7 @@ namespace SDF::UILayer::QtApplication::View {
       m_controller(std::move(controller))
   {
     m_ui->setupUi(this);
+    m_controller->setView(this);
 
     safeConnect(m_ui->actionE_xit, &QAction::triggered, m_controller.get(), new Events::MainWindowExitMenuEvent);
   }

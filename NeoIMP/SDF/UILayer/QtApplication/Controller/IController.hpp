@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../View/IView.hpp"
+
+#include <QMainWindow>
 #include <memory>
 
 namespace SDF::UILayer::QtApplication::Controller {
@@ -34,6 +37,13 @@ namespace SDF::UILayer::QtApplication::Controller {
   class IController {
   public:
     virtual ~IController() = default;
+
+    // Function:   setView
+    // Purpose:    Sets the view associated with this controller.
+    // Parameters: view - The view to associate with the controller.
+    // Returns:    None.
+    virtual void
+    setView(View::IView<QMainWindow> *view) = 0;
 
     // Function:   handleEvent
     // Purpose:    Handle a view-generated event.

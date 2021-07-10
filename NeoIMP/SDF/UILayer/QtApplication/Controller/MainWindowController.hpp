@@ -25,8 +25,10 @@
  */
 
 #include "../View/Events/MainWindowEvent.hpp"
+#include "../View/IView.hpp"
 #include "IController.hpp"
 
+#include <QMainWindow>
 #include <memory>
 
 namespace SDF::UILayer::QtApplication::Controller {
@@ -38,7 +40,12 @@ namespace SDF::UILayer::QtApplication::Controller {
     MainWindowController();
 
     void
+    setView(View::IView<QMainWindow> *view);
+
+    void
     handleEvent(std::shared_ptr<View::Events::MainWindowEvent> event);
+  private:
+    View::IView<QMainWindow> *m_view;
   };
 }
 
