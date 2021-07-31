@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_CONTROLLER_CONTROLLERFACTORY_HPP
-#define SDF_UILAYER_QTAPPLICATION_CONTROLLER_CONTROLLERFACTORY_HPP
+#ifndef SDF_UILAYER_QTAPPLICATION_CONTROLLER_NEWDOCUMENTDIALOGCONTROLLER_HPP
+#define SDF_UILAYER_QTAPPLICATION_CONTROLLER_NEWDOCUMENTDIALOGCONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ControllerFactory.hpp
- * PURPOSE: Defines the ControllerFactory class.
+ * FILE:    NewDocumentDialogController.hpp
+ * PURPOSE: Defines the NewDocumentDialogController class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../View/Events/MainWindowEvent.hpp"
-#include "../View/IViewFactory.hpp"
-#include "IControllerFactory.hpp"
+#include "../View/Events/DialogEvent.hpp"
+#include "../View/IView.hpp"
 #include "IController.hpp"
 
-#include <QMainWindow>
 #include <QDialog>
-#include <fruit/fruit.h>
 #include <memory>
 
 namespace SDF::UILayer::QtApplication::Controller {
-  // Class:      ControllerFactory
-  // Purpose:    Creates new Qt MVC controllers.
+  // Class:      NewDocumentDialogController
+  // Purpose:    Provides the controller for the new-document dialog.
   // Parameters: None.
-  class ControllerFactory : public IControllerFactory {
+  class NewDocumentDialogController : public IController<QDialog, View::Events::DialogEvent> {
   public:
-    INJECT(ControllerFactory());
+    NewDocumentDialogController();
 
-    std::unique_ptr<IController<QMainWindow, View::Events::MainWindowEvent>>
-    createMainWindowController(View::IViewFactory *viewFactory);
+    void
+    setView(View::IView<QDialog> *view);
 
-    std::unique_ptr<IController<QDialog, View::Events::DialogEvent>>
-    createNewDocumentDialogController();
+    void
+    handleEvent(std::shared_ptr<View::Events::DialogEvent> event);
+  private:
+    View::IView<QDialog> *m_view;
   };
 }
 

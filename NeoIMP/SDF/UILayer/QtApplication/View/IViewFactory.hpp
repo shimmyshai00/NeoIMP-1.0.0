@@ -26,7 +26,9 @@
 
 #include "IView.hpp"
 
+#include <QWidget>
 #include <QMainWindow>
+#include <QDialog>
 
 namespace SDF::UILayer::QtApplication::View {
   // Class:      IViewFactory
@@ -38,6 +40,9 @@ namespace SDF::UILayer::QtApplication::View {
 
     virtual IView<QMainWindow> *
     createMainWindow() = 0;
+
+    virtual IView<QDialog> *
+    createNewDocumentDialog(QWidget *parent) = 0;
   };
 }
 

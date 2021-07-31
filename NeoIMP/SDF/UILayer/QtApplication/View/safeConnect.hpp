@@ -57,22 +57,22 @@ namespace SDF::UILayer::QtApplication::View {
   //             signal - The signal to connect to.
   //             controller - The controller to connect to.
   //             event - The event to connect in a safe way.
-  template<typename QObj, typename EventParentT, typename EventT, typename ... Args>
+  template<typename QObj, typename QWidg, typename EventParentT, typename EventT, typename ... Args>
   QMetaObject::Connection
   safeConnect(QObj *qObj,
               void (QObj::*signal)(Args...),
-              Controller::IController<EventParentT> *controller,
+              Controller::IController<QWidg, EventParentT> *controller,
               std::shared_ptr<EventT> event
              )
   {
     return safeConnect(qObj, signal, [=](Args... args) { controller->handleEvent(event); });
   }
 
-  template<typename QObj, typename EventParentT, typename EventT, typename ... Args>
+  template<typename QObj, typename QWidg, typename EventParentT, typename EventT, typename ... Args>
   QMetaObject::Connection
   safeConnect(QObj *qObj,
               void (QObj::*signal)(Args...),
-              Controller::IController<EventParentT> *controller,
+              Controller::IController<QWidg,EventParentT> *controller,
               EventT *event
              )
   {
@@ -85,11 +85,11 @@ namespace SDF::UILayer::QtApplication::View {
   //             signal - The signal to connect to.
   //             controller - The controller to connect to.
   //             eventProvider - A functor to provide the event.
-  template<typename QObj, typename EventParentT, typename Functor, typename ... Args>
+  template<typename QObj, typename QWidg, typename EventParentT, typename Functor, typename ... Args>
   QMetaObject::Connection
   safeConnect(QObj *qObj,
               void (QObj::*signal)(Args...),
-              Controller::IController<EventParentT> *controller,
+              Controller::IController<QWidg, EventParentT> *controller,
               Functor func
              )
   {

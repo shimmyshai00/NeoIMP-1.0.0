@@ -24,17 +24,26 @@
 #include "ViewFactory.hpp"
 
 #include "MainWindow.hpp"
+#include "NewDocumentDialog.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  ViewFactory::ViewFactory(Controller::IControllerFactory *ControllerFactory)
-    : m_controllerFactory(ControllerFactory)
+  ViewFactory::ViewFactory(Controller::IControllerFactory *controllerFactory)
+    : m_controllerFactory(controllerFactory)
   {}
 
   IView<QMainWindow> *
   ViewFactory::createMainWindow() {
-    std::unique_ptr<Controller::IController<Events::MainWindowEvent>>
-      controller(m_controllerFactory->createMainWindowController());
+    std::unique_ptr<Controller::IController<QMainWindow, Events::MainWindowEvent>>
+      controller(m_controllerFactory->createMainWindowController(this));
 
     return new MainWindow(std::move(controller));
+  }
+
+  IView<QDialog> *
+  ViewFactory::createNewDocumentDialog(QWidget *parent) {
+    std::unique_ptr<Controller::IController<QDialog, Events::DialogEvent>>
+      controller(m_controllerFactory->createNewDocumentDialogController());
+
+    return new NewDocumentDialog(std::move(controller));
   }
 }

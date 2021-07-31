@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_NEWDOCUMENTDIALOG_HPP
+#define SDF_UILAYER_QTAPPLICATION_VIEW_NEWDOCUMENTDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    NewDocumentDialog.hpp
+ * PURPOSE: Defines the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,36 +25,37 @@
  */
 
 #include "../Controller/IController.hpp"
-#include "Events/MainWindowEvent.hpp"
+#include "Events/DialogEvent.hpp"
 #include "IView.hpp"
 
-#include <QMainWindow>
+#include <QDialog>
 #include <memory>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
 namespace SDF::UILayer::QtApplication::View {
-  // Class:      MainWindow
-  // Purpose:    Provides the main application window.
+  // Class:      NewDocumentDialog
+  // Purpose:    Provides the new-document dialog.
   // Parameters: None.
-  class MainWindow : public QMainWindow,
-                     public IView<QMainWindow>
+  class NewDocumentDialog : public QDialog,
+                            public IView<QDialog>
   {
     Q_OBJECT
   public:
-    MainWindow(std::unique_ptr<Controller::IController<QMainWindow, Events::MainWindowEvent>> controller,
-               QWidget *parent = nullptr
-              );
+    NewDocumentDialog(std::unique_ptr<Controller::IController<QDialog, Events::DialogEvent>> controller,
+                      QWidget *parent = nullptr
+                     );
 
-    QMainWindow *
+    QDialog *
     getQWidget();
   private:
-    Ui::MainWindow *m_ui;
+    Ui::NewDocumentDialog *m_ui;
 
-    std::unique_ptr<Controller::IController<QMainWindow, Events::MainWindowEvent>> m_controller;
+    std::unique_ptr<Controller::IController<QDialog, Events::DialogEvent>> m_controller;
   };
 }
+
 
 #endif

@@ -27,6 +27,7 @@
 namespace SDF::UILayer::QtApplication::View::Events {
   struct MainWindowEvent { virtual ~MainWindowEvent() = default; };
 
+  struct MainWindowNewMenuEvent : MainWindowEvent {};
   struct MainWindowExitMenuEvent : MainWindowEvent {};
 }
 

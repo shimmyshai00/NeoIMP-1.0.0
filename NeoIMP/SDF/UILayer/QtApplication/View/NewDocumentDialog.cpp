@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_VIEWFACTORY_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_VIEWFACTORY_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewFactory.hpp
- * PURPOSE: Defines the ViewFactory class.
+ * FILE:    NewDocumentDialog.cpp
+ * PURPOSE: Implements the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +21,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Controller/IControllerFactory.hpp"
-#include "IViewFactory.hpp"
-#include "IView.hpp"
+#include "NewDocumentDialog.hpp"
 
-#include <QWidget>
-#include <QMainWindow>
-#include <QDialog>
-
-#include <fruit/fruit.h>
+#include "QtResources/ui_NewDocumentDialog.h"
+#include "safeConnect.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  // Class:      ViewFactory
-  // Purpose:    Implements the view factory for the Qt widget system.
-  // Parameters: None.
-  class ViewFactory : public IViewFactory {
-  public:
-    INJECT(ViewFactory(Controller::IControllerFactory *controllerFactory));
+  NewDocumentDialog::NewDocumentDialog(std::unique_ptr<Controller::IController<QDialog, Events::DialogEvent>>
+                                        controller,
+                                       QWidget *parent
+                                      )
+    : m_ui(new Ui::NewDocumentDialog),
+      m_controller(std::move(controller))
+  {
+    m_ui->setupUi(this);
+    m_controller->setView(this);
+  }
 
-    IView<QMainWindow> *
-    createMainWindow();
-
-    IView<QDialog> *
-    createNewDocumentDialog(QWidget *parent);
-  private:
-    Controller::IControllerFactory *m_controllerFactory;
-  };
+  QDialog *
+  NewDocumentDialog::getQWidget() {
+    return this;
+  }
 }
-
-#endif

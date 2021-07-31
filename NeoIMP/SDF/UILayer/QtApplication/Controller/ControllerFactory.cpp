@@ -24,12 +24,18 @@
 #include "ControllerFactory.hpp"
 
 #include "MainWindowController.hpp"
+#include "NewDocumentDialogController.hpp"
 
 namespace SDF::UILayer::QtApplication::Controller {
   ControllerFactory::ControllerFactory() {}
 
-  std::unique_ptr<IController<View::Events::MainWindowEvent>>
-  ControllerFactory::createMainWindowController() {
-    return std::make_unique<MainWindowController>();
+  std::unique_ptr<IController<QMainWindow, View::Events::MainWindowEvent>>
+  ControllerFactory::createMainWindowController(View::IViewFactory *viewFactory) {
+    return std::make_unique<MainWindowController>(viewFactory);
+  }
+
+  std::unique_ptr<IController<QDialog, View::Events::DialogEvent>>
+  ControllerFactory::createNewDocumentDialogController() {
+    return std::make_unique<NewDocumentDialogController>();
   }
 }

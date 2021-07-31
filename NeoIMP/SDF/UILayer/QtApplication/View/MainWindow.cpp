@@ -27,7 +27,7 @@
 #include "safeConnect.hpp"
 
 namespace SDF::UILayer::QtApplication::View {
-  MainWindow::MainWindow(std::unique_ptr<Controller::IController<Events::MainWindowEvent>> controller,
+  MainWindow::MainWindow(std::unique_ptr<Controller::IController<QMainWindow, Events::MainWindowEvent>> controller,
                          QWidget *parent
                         )
     : QMainWindow(parent),
@@ -37,6 +37,7 @@ namespace SDF::UILayer::QtApplication::View {
     m_ui->setupUi(this);
     m_controller->setView(this);
 
+    safeConnect(m_ui->action_New, &QAction::triggered, m_controller.get(), new Events::MainWindowNewMenuEvent);
     safeConnect(m_ui->actionE_xit, &QAction::triggered, m_controller.get(), new Events::MainWindowExitMenuEvent);
   }
 

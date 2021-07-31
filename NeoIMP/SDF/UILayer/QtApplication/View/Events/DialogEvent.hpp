@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_VIEWFACTORY_HPP
-#define SDF_UILAYER_QTAPPLICATION_VIEW_VIEWFACTORY_HPP
+#ifndef SDF_UILAYER_QTAPPLICATION_VIEW_EVENTS_DIALOGEVENT_HPP
+#define SDF_UILAYER_QTAPPLICATION_VIEW_EVENTS_DIALOGEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ViewFactory.hpp
- * PURPOSE: Defines the ViewFactory class.
+ * FILE:    DialogEvent.hpp
+ * PURPOSE: Defines the DialogEvent event hierarchy.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Controller/IControllerFactory.hpp"
-#include "IViewFactory.hpp"
-#include "IView.hpp"
+namespace SDF::UILayer::QtApplication::View::Events {
+  struct DialogEvent { virtual ~DialogEvent() = default; };
 
-#include <QWidget>
-#include <QMainWindow>
-#include <QDialog>
-
-#include <fruit/fruit.h>
-
-namespace SDF::UILayer::QtApplication::View {
-  // Class:      ViewFactory
-  // Purpose:    Implements the view factory for the Qt widget system.
-  // Parameters: None.
-  class ViewFactory : public IViewFactory {
-  public:
-    INJECT(ViewFactory(Controller::IControllerFactory *controllerFactory));
-
-    IView<QMainWindow> *
-    createMainWindow();
-
-    IView<QDialog> *
-    createNewDocumentDialog(QWidget *parent);
-  private:
-    Controller::IControllerFactory *m_controllerFactory;
-  };
+  template<class T> struct DialogAcceptEvent : DialogEvent { T data; };
+  struct DialogRejectEvent : DialogEvent {};
 }
 
 #endif

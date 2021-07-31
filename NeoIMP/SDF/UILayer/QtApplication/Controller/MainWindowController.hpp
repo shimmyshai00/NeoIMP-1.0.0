@@ -25,6 +25,7 @@
  */
 
 #include "../View/Events/MainWindowEvent.hpp"
+#include "../View/IViewFactory.hpp"
 #include "../View/IView.hpp"
 #include "IController.hpp"
 
@@ -35,9 +36,9 @@ namespace SDF::UILayer::QtApplication::Controller {
   // Class:      MainWindowController
   // Purpose:    Provides the controller for the main window.
   // Parameters: None.
-  class MainWindowController : public IController<View::Events::MainWindowEvent> {
+  class MainWindowController : public IController<QMainWindow, View::Events::MainWindowEvent> {
   public:
-    MainWindowController();
+    MainWindowController(View::IViewFactory *viewFactory);
 
     void
     setView(View::IView<QMainWindow> *view);
@@ -46,6 +47,8 @@ namespace SDF::UILayer::QtApplication::Controller {
     handleEvent(std::shared_ptr<View::Events::MainWindowEvent> event);
   private:
     View::IView<QMainWindow> *m_view;
+
+    View::IViewFactory *m_viewFactory;
   };
 }
 

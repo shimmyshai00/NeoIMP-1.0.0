@@ -26,8 +26,9 @@
 #include <iostream>
 
 namespace SDF::UILayer::QtApplication::Controller {
-  MainWindowController::MainWindowController()
-    : m_view(nullptr)
+  MainWindowController::MainWindowController(View::IViewFactory *viewFactory)
+    : m_view(nullptr),
+      m_viewFactory(viewFactory)
   {}
 
   void
@@ -37,7 +38,13 @@ namespace SDF::UILayer::QtApplication::Controller {
 
   void
   MainWindowController::handleEvent(std::shared_ptr<View::Events::MainWindowEvent> event) {
-    if(auto *p = dynamic_cast<View::Events::MainWindowExitMenuEvent *>(event.get())) {
+    if(auto *p = dynamic_cast<View::Events::MainWindowNewMenuEvent *>(event.get())) {
+      if(m_view) {
+        View::IView<QDialog> *view(m_viewFactory->createNewDocumentDialog(m_view->getQWidget()));
+        view->getQWidget()->show();
+      }
+    }
+    else if(auto *p = dynamic_cast<View::Events::MainWindowExitMenuEvent *>(event.get())) {
       if(m_view) {
         m_view->getQWidget()->close();
       }

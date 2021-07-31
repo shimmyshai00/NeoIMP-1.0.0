@@ -26,14 +26,14 @@
 
 #include "../View/IView.hpp"
 
-#include <QMainWindow>
 #include <memory>
 
 namespace SDF::UILayer::QtApplication::Controller {
   // Class:      IController
   // Purpose:    Defines an interface for Qt MVC controllers.
-  // Parameters: EventT - The type of event handled by this controller.
-  template<class EventT>
+  // Parameters: QWidgetT - The type of view QWidget for the associated view.
+  //             EventT - The type of event handled by this controller.
+  template<class QWidgetT, class EventT>
   class IController {
   public:
     virtual ~IController() = default;
@@ -43,7 +43,7 @@ namespace SDF::UILayer::QtApplication::Controller {
     // Parameters: view - The view to associate with the controller.
     // Returns:    None.
     virtual void
-    setView(View::IView<QMainWindow> *view) = 0;
+    setView(View::IView<QWidgetT> *view) = 0;
 
     // Function:   handleEvent
     // Purpose:    Handle a view-generated event.

@@ -25,8 +25,12 @@
  */
 
 #include "../View/Events/MainWindowEvent.hpp"
+#include "../View/Events/DialogEvent.hpp"
+#include "../View/IViewFactory.hpp"
 #include "IController.hpp"
 
+#include <QMainWindow>
+#include <QDialog>
 #include <memory>
 
 namespace SDF::UILayer::QtApplication::Controller {
@@ -37,8 +41,11 @@ namespace SDF::UILayer::QtApplication::Controller {
   public:
     virtual ~IControllerFactory() = default;
 
-    virtual std::unique_ptr<IController<View::Events::MainWindowEvent>>
-    createMainWindowController() = 0;
+    virtual std::unique_ptr<IController<QMainWindow, View::Events::MainWindowEvent>>
+    createMainWindowController(View::IViewFactory *viewFactory) = 0;
+
+    virtual std::unique_ptr<IController<QDialog, View::Events::DialogEvent>>
+    createNewDocumentDialogController() = 0;
   };
 }
 
