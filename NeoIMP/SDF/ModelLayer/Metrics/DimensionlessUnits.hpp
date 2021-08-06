@@ -29,6 +29,9 @@
 
 namespace SDF::ModelLayer::Metrics {
   typedef boost::units::unit<boost::units::dimensionless_type, metric_unit_system> dimensionless;
+
+  // Constants for easy use in expressions.
+  BOOST_UNITS_STATIC_CONSTANT(ones, dimensionless);
 }
 
 #endif

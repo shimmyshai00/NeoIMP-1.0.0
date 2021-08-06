@@ -27,6 +27,7 @@
 #include "../../UILayer/AbstractModel/Services/ICreateDocumentService.hpp"
 #include "../Repositories/IRepository.hpp"
 #include "../DomainObjects/Image/IImage.hpp"
+#include "../DomainObjects/IFactory.hpp"
 
 #include <fruit/fruit.h>
 
@@ -36,12 +37,17 @@ namespace SDF::ModelLayer::Services {
   // Parameters: None.
   class CreateDocumentService : public UILayer::AbstractModel::Services::ICreateDocumentService {
   public:
-    INJECT(CreateDocumentService(Repositories::IRepository<DomainObjects::Image::IImage> *imageRepository));
+    INJECT(CreateDocumentService(Repositories::IRepository<DomainObjects::Image::IImage> *imageRepository,
+                                 DomainObjects::IFactory<DomainObjects::Image::IImage,
+                                                         UILayer::AbstractModel::Data::DocumentSpec
+                                                        > *imageFactory
+                                ));
 
     UILayer::AbstractModel::Handle
     createDocument(UILayer::AbstractModel::Data::DocumentSpec spec);
   private:
     Repositories::IRepository<DomainObjects::Image::IImage> *m_imageRepository;
+    DomainObjects::IFactory<DomainObjects::Image::IImage, UILayer::AbstractModel::Data::DocumentSpec> *m_imageFactory;
   };
 }
 

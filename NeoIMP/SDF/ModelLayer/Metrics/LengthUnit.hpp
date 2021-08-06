@@ -26,7 +26,6 @@
 
 namespace SDF::ModelLayer::Metrics {
   enum LengthUnit {
-    LENGTH_UNIT_PIXEL,
     LENGTH_UNIT_MILLIMETER,
     LENGTH_UNIT_POINT,
     LENGTH_UNIT_PICA,

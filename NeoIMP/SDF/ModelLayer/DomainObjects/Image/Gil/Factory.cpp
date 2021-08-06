@@ -25,8 +25,8 @@
 
 #include "../../../../UILayer/AbstractModel/Data/LengthUnit.hpp"
 #include "../../../../UILayer/AbstractModel/Data/ResolutionUnit.hpp"
-#include "../../../Metrics/LengthUnit.hpp"
-#include "../../../Metrics/ResolutionUnit.hpp"
+#include "../../../Metrics/makeLengthFromUi.hpp"
+#include "../../../Metrics/makeResolutionFromUi.hpp"
 
 #include "../../../Exceptions/Exceptions.hpp"
 #include "Image.hpp"
@@ -35,7 +35,6 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   // Helper functions.
   Metrics::LengthUnit localize(UILayer::AbstractModel::Data::LengthUnit unit) {
     switch(unit) {
-      case UILayer::AbstractModel::Data::UNIT_PIXEL: return Metrics::LENGTH_UNIT_PIXEL;
       case UILayer::AbstractModel::Data::UNIT_MILLIMETER: return Metrics::LENGTH_UNIT_MILLIMETER;
       case UILayer::AbstractModel::Data::UNIT_POINT: return Metrics::LENGTH_UNIT_POINT;
       case UILayer::AbstractModel::Data::UNIT_PICA: return Metrics::LENGTH_UNIT_PICA;
@@ -69,22 +68,75 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
       )
     {
       std::size_t id(m_uidGenerator->get());
+      std::string name("Untitled " + std::to_string(id));
 
-      return std::make_unique<Image<boost::gil::rgb8_image_t,
-                                    boost::gil::rgb8_view_t,
-                                    boost::gil::rgb8_pixel_t
-                                   >
-                             >
-             (
-               id,
-               "Untitled " + std::to_string(id),
-               spec.documentWidth,
-               localize(spec.documentWidthUnit),
-               spec.documentHeight,
-               localize(spec.documentHeightUnit),
-               spec.documentResolution,
-               localize(spec.documentResolutionUnit)
-             );
+      if((spec.documentWidthUnit != UILayer::AbstractModel::Data::UNIT_PIXEL) &&
+         (spec.documentHeightUnit != UILayer::AbstractModel::Data::UNIT_PIXEL))
+      {
+        return std::make_unique<Image<boost::gil::rgb8_image_t,
+                                      boost::gil::rgb8_view_t,
+                                      boost::gil::rgb8_pixel_t
+                                     >
+                               >
+               (
+                 id,
+                 name,
+                 spec.documentWidth,
+                 localize(spec.documentWidthUnit),
+                 spec.documentHeight,
+                 localize(spec.documentHeightUnit),
+                 spec.documentResolution,
+                 localize(spec.documentResolutionUnit)
+               );
+        } else if((spec.documentWidthUnit != UILayer::AbstractModel::Data::UNIT_PIXEL) &&
+                  (spec.documentHeightUnit == UILayer::AbstractModel::Data::UNIT_PIXEL))
+        {
+          return std::make_unique<Image<boost::gil::rgb8_image_t,
+                                        boost::gil::rgb8_view_t,
+                                        boost::gil::rgb8_pixel_t
+                                       >
+                                 >
+                 (
+                   id,
+                   name,
+                   spec.documentWidth,
+                   localize(spec.documentWidthUnit),
+                   spec.documentHeight,
+                   spec.documentResolution,
+                   localize(spec.documentResolutionUnit)
+                 );
+        } else if((spec.documentWidthUnit == UILayer::AbstractModel::Data::UNIT_PIXEL) &&
+                  (spec.documentHeightUnit != UILayer::AbstractModel::Data::UNIT_PIXEL))
+        {
+          return std::make_unique<Image<boost::gil::rgb8_image_t,
+                                        boost::gil::rgb8_view_t,
+                                        boost::gil::rgb8_pixel_t
+                                       >
+                                 >
+                 (
+                   id,
+                   name,
+                   spec.documentWidth,
+                   spec.documentHeight,
+                   localize(spec.documentHeightUnit),
+                   spec.documentResolution,
+                   localize(spec.documentResolutionUnit)
+                 );
+        } else {
+          return std::make_unique<Image<boost::gil::rgb8_image_t,
+                                        boost::gil::rgb8_view_t,
+                                        boost::gil::rgb8_pixel_t
+                                       >
+                                 >
+                 (
+                   id,
+                   name,
+                   spec.documentWidth,
+                   spec.documentHeight,
+                   spec.documentResolution,
+                   localize(spec.documentResolutionUnit)
+                 );
+        }
     } else {
       throw Exceptions::BadDocumentSpecException();
     }

@@ -26,15 +26,22 @@
 #include <iostream>
 
 namespace SDF::ModelLayer::Services {
-  CreateDocumentService::CreateDocumentService(Repositories::IRepository<DomainObjects::Image::IImage> *imageRepository)
-    : m_imageRepository(imageRepository)
+  CreateDocumentService::CreateDocumentService(Repositories::IRepository<DomainObjects::Image::IImage> *imageRepository,
+                                               DomainObjects::IFactory<DomainObjects::Image::IImage,
+                                                                       UILayer::AbstractModel::Data::DocumentSpec
+                                                                      > *imageFactory
+                                              )
+    : m_imageRepository(imageRepository),
+      m_imageFactory(imageFactory)
   {}
 
   UILayer::AbstractModel::Handle
   CreateDocumentService::createDocument(UILayer::AbstractModel::Data::DocumentSpec spec) {
-    // TBA
-    std::cout << "create document requested" << std::endl;
+    std::unique_ptr<DomainObjects::Image::IImage> image(m_imageFactory->create(spec));
+    int imageId(image->getId());
 
-    return 0;
+    m_imageRepository->create(std::move(image));
+
+    return imageId;
   }
 }

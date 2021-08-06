@@ -47,8 +47,57 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
       m_name(name),
       m_widthPx(widthPx),
       m_heightPx(heightPx),
-      m_resolution(Metrics::makeResolution(resolution, resolutionUnit))
+      m_resolution(Metrics::makeResolution(resolution, resolutionUnit)),
+      m_viewCenter(m_widthPx / 2.0f, m_heightPx / 2.0f),
+      m_viewMagnification(1.0f)
   {
+    m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_widthPx, m_heightPx));
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  Image<GilImageType, GilRegionType, GilPixelType>::Image(int id,
+                                                          std::string name,
+                                                          float width,
+                                                          Metrics::LengthUnit widthUnit,
+                                                          std::size_t heightPx,
+                                                          float resolution,
+                                                          Metrics::ResolutionUnit resolutionUnit
+                                                         )
+    : m_id(id),
+      m_name(name),
+      m_widthPx(0),
+      m_heightPx(heightPx),
+      m_resolution(Metrics::makeResolution(resolution, resolutionUnit)),
+      m_viewCenter(m_widthPx / 2.0f, m_heightPx / 2.0f),
+      m_viewMagnification(1.0f)
+  {
+    m_widthPx = Metrics::dimensionless_quantity(Metrics::makeLength(width, widthUnit) * m_resolution).value();
+    m_viewCenter = Math::Coord<float>(m_widthPx / 2.0f, m_heightPx / 2.0f);
+
+    m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_widthPx, m_heightPx));
+  }
+
+  template<class GilImageType, class GilRegionType, class GilPixelType>
+  Image<GilImageType, GilRegionType, GilPixelType>::Image(int id,
+                                                          std::string name,
+                                                          std::size_t widthPx,
+                                                          float height,
+                                                          Metrics::LengthUnit heightUnit,
+                                                          float resolution,
+                                                          Metrics::ResolutionUnit resolutionUnit
+                                                         )
+    : m_id(id),
+      m_name(name),
+      m_widthPx(widthPx),
+      m_heightPx(0),
+      m_resolution(Metrics::makeResolution(resolution, resolutionUnit)),
+      m_viewCenter(m_widthPx / 2.0f, m_heightPx / 2.0f),
+      m_viewMagnification(1.0f)
+  {
+    m_heightPx = Metrics::dimensionless_quantity(Metrics::makeLength(height, heightUnit) * m_resolution).value();
+    m_viewCenter = Math::Coord<float>(m_widthPx / 2.0f, m_heightPx / 2.0f);
+
+    m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_widthPx, m_heightPx));
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
@@ -71,6 +120,8 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   {
     m_widthPx = Metrics::dimensionless_quantity(Metrics::makeLength(width, widthUnit) * m_resolution).value();
     m_heightPx = Metrics::dimensionless_quantity(Metrics::makeLength(height, heightUnit) * m_resolution).value();
+
+    m_viewCenter = Math::Coord<float>(m_widthPx / 2.0f, m_heightPx / 2.0f);
 
     m_layerStack.push_back(std::make_unique<Layer<GilImageType, GilRegionType, GilPixelType>>(m_widthPx, m_heightPx));
   }
@@ -120,11 +171,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   template<class GilImageType, class GilRegionType, class GilPixelType>
   float
   Image<GilImageType, GilRegionType, GilPixelType>::getWidthPhys(Metrics::LengthUnit unit) const {
-    if(unit == Metrics::LENGTH_UNIT_PIXEL) {
-      return m_widthPx;
-    } else {
-      return Metrics::lengthIn(Metrics::dimensionless_quantity(m_widthPx) / m_resolution, unit);
-    }
+    return Metrics::lengthIn(Metrics::dimensionless_quantity(m_widthPx) / m_resolution, unit);
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>
@@ -136,11 +183,7 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
   template<class GilImageType, class GilRegionType, class GilPixelType>
   float
   Image<GilImageType, GilRegionType, GilPixelType>::getHeightPhys(Metrics::LengthUnit unit) const {
-    if(unit == Metrics::LENGTH_UNIT_PIXEL) {
-      return m_heightPx;
-    } else {
-      return Metrics::lengthIn(Metrics::dimensionless_quantity(m_heightPx) / m_resolution, unit);
-    }
+    return Metrics::lengthIn(Metrics::dimensionless_quantity(m_heightPx) / m_resolution, unit);
   }
 
   template<class GilImageType, class GilRegionType, class GilPixelType>

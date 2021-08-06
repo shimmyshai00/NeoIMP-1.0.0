@@ -70,6 +70,42 @@ namespace SDF::ModelLayer::DomainObjects::Image::Gil {
     //             name - The name of this image.
     //             width - The width of the image.
     //             widthUnit - The unit of measurement this width is given in.
+    //             heightPx - The height of the image in pixels.
+    //             resolution - The resolution of the image.
+    //             resolutionUnit - The unit of measurement the resolution is given in.
+    Image(int id,
+          std::string name,
+          float width,
+          Metrics::LengthUnit widthUnit,
+          std::size_t heightPx,
+          float resolution,
+          Metrics::ResolutionUnit resolutionUnit
+         );
+
+    // Function:   Image
+    // Purpose:    Construct a new image to the specified parameters.
+    // Parameters: id - The ID code of this image.
+    //             name - The name of this image.
+    //             widthPx - The width of the image in pixels.
+    //             height - The height of the image.
+    //             heightUnit - The unit of measurement this height is given in.
+    //             resolution - The resolution of the image.
+    //             resolutionUnit - The unit of measurement the resolution is given in.
+    Image(int id,
+          std::string name,
+          std::size_t widthPx,
+          float height,
+          Metrics::LengthUnit heightUnit,
+          float resolution,
+          Metrics::ResolutionUnit resolutionUnit
+         );
+
+    // Function:   Image
+    // Purpose:    Construct a new image to the specified parameters.
+    // Parameters: id - The ID code of this image.
+    //             name - The name of this image.
+    //             width - The width of the image.
+    //             widthUnit - The unit of measurement this width is given in.
     //             height - The height of the image.
     //             heightUnit - The unit of measurement this height is given in.
     //             resolution - The resolution of the image.
