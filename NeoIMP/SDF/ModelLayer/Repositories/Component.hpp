@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
-#define SDF_MODELLAYER_REPOSITORIES_MEMORYONLYREPOSITORY_HPP
+#ifndef SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
+#define SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MemoryOnlyRepository.hpp
- * PURPOSE: Defines the MemoryOnlyRepository template.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the repository subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,38 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../DomainObjects/Image/IImage.hpp"
 #include "IRepository.hpp"
 
 #include <fruit/fruit.h>
-#include <memory>
-#include <map>
 
 namespace SDF::ModelLayer::Repositories {
-  // Class:      MemoryOnlyRepository
-  // Purpose:    Defines a repository of domain objects that exists only in memory, with no mapping to persistent
-  //             storage.
-  // Parameters: ObjectT - The domain object type, which should inherit from DomainObjects::IDomainObject.
-  template<class ObjectT>
-  class MemoryOnlyRepository : public IRepository<ObjectT> {
-  public:
-    INJECT(MemoryOnlyRepository());
+  typedef fruit::Component<IRepository<DomainObjects::Image::IImage>>
+  Component;
 
-    void
-    create(std::unique_ptr<ObjectT> object);
-
-    ObjectT *
-    retrieve(int id);
-
-    void
-    update(int id);
-
-    void
-    del(int id);
-  private:
-    std::map<int, std::unique_ptr<ObjectT>> m_objectMap;
-  };
+  Component getComponent();
 }
-
-#include "MemoryOnlyRepository.tpp"
 
 #endif

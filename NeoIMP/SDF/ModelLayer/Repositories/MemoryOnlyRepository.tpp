@@ -27,18 +27,21 @@
 #include "../Exceptions/Exceptions.hpp"
 
 namespace SDF::ModelLayer::Repositories {
-  MemoryOnlyRepository::MemoryOnlyRepository() {
+  template<class ObjectT>
+  MemoryOnlyRepository<ObjectT>::MemoryOnlyRepository() {
   }
 
+  template<class ObjectT>
   void
-  MemoryOnlyRepository::create(std::unique_ptr<ObjectT> object) {
+  MemoryOnlyRepository<ObjectT>::create(std::unique_ptr<ObjectT> object) {
     int id(object->getId());
 
     m_objectMap[id] = std::move(object);
   }
 
+  template<class ObjectT>
   ObjectT *
-  MemoryOnlyRepository::retrieve(int id) {
+  MemoryOnlyRepository<ObjectT>::retrieve(int id) {
     if(m_objectMap.find(id) == m_objectMap.end()) {
       throw ModelLayer::Exceptions::ObjectNotFoundException(id);
     } else {
@@ -46,13 +49,15 @@ namespace SDF::ModelLayer::Repositories {
     }
   }
 
+  template<class ObjectT>
   void
-  MemoryOnlyRepository::update(int id) {
+  MemoryOnlyRepository<ObjectT>::update(int id) {
     // N/A
   }
 
+  template<class ObjectT>
   void
-  MemoryOnlyRepository::del(int id) {
+  MemoryOnlyRepository<ObjectT>::del(int id) {
     if(m_objectMap.find(id) == m_objectMap.end()) {
       throw ModelLayer::Exceptions::ObjectNotFoundException(id);
     } else {
