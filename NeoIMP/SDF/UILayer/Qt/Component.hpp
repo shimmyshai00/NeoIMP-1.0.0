@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_COMPONENT_HPP
+#define SDF_UILAYER_QT_COMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt application's controller component.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the Qt application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../IApplication.hpp"
 
-#include "ControllerFactory.hpp"
+#include <fruit/fruit.h>
 
-namespace SDF::UILayer::QtApplication::Controller {
-  fruit::Component<IControllerFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IControllerFactory, ControllerFactory>();
-  }
+namespace SDF::UILayer::Qt {
+  fruit::Component<IApplication>
+  getComponent();
 }
+
+
+#endif

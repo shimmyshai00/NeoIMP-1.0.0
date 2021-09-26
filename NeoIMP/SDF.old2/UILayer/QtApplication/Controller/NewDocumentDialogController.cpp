@@ -24,8 +24,11 @@
 #include "NewDocumentDialogController.hpp"
 
 namespace SDF::UILayer::QtApplication::Controller {
-  NewDocumentDialogController::NewDocumentDialogController()
-    : m_view(nullptr)
+  NewDocumentDialogController::NewDocumentDialogController(AbstractModel::Services::IMeasurementConversionService *
+                                                            measurementConversionService
+                                                          )
+    : m_view(nullptr),
+      m_measurementConversionService(measurementConversionService)
   {}
 
   void

@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../AbstractModel/Services/IMeasurementConversionService.hpp"
 #include "../View/Events/DialogEvent.hpp"
 #include "../View/IView.hpp"
 #include "IController.hpp"
@@ -37,7 +38,7 @@ namespace SDF::UILayer::QtApplication::Controller {
   // Parameters: None.
   class NewDocumentDialogController : public IController<QDialog, View::Events::DialogEvent> {
   public:
-    NewDocumentDialogController();
+    NewDocumentDialogController(AbstractModel::Services::IMeasurementConversionService *measurementConversionService);
 
     void
     setView(View::IView<QDialog> *view);
@@ -46,6 +47,8 @@ namespace SDF::UILayer::QtApplication::Controller {
     handleEvent(std::shared_ptr<View::Events::DialogEvent> event);
   private:
     View::IView<QDialog> *m_view;
+
+    AbstractModel::Services::IMeasurementConversionService *m_measurementConversionService;
   };
 }
 

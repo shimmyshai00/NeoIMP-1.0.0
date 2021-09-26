@@ -1,1 +1,1 @@
-add_subdirectory(QtApplication)
+add_subdirectory(Qt)

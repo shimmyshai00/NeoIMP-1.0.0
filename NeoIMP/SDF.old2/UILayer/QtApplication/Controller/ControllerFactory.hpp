@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../AbstractModel/Services/IMeasurementConversionService.hpp"
 #include "../View/Events/MainWindowEvent.hpp"
 #include "../View/IViewFactory.hpp"
 #include "IControllerFactory.hpp"
@@ -40,13 +41,15 @@ namespace SDF::UILayer::QtApplication::Controller {
   // Parameters: None.
   class ControllerFactory : public IControllerFactory {
   public:
-    INJECT(ControllerFactory());
+    INJECT(ControllerFactory(AbstractModel::Services::IMeasurementConversionService *measurementConversionService));
 
     std::unique_ptr<IController<QMainWindow, View::Events::MainWindowEvent>>
     createMainWindowController(View::IViewFactory *viewFactory);
 
     std::unique_ptr<IController<QDialog, View::Events::DialogEvent>>
     createNewDocumentDialogController();
+  private:
+    AbstractModel::Services::IMeasurementConversionService *m_measurementConversionService;
   };
 }
 

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ControllerFactory.cpp
- * PURPOSE: Implements the ControllerFactory class.
+ * FILE:    Component.cpp
+ * PURPOSE: Defines the DI component for the Qt application.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ControllerFactory.hpp"
+#include "Component.hpp"
 
-#include "MainWindowController.hpp"
-#include "NewDocumentDialogController.hpp"
+#include "Application.hpp"
 
-namespace SDF::UILayer::QtApplication::Controller {
-  ControllerFactory::ControllerFactory() {}
-
-  std::unique_ptr<IController<QMainWindow, View::Events::MainWindowEvent>>
-  ControllerFactory::createMainWindowController(View::IViewFactory *viewFactory) {
-    return std::make_unique<MainWindowController>(viewFactory);
-  }
-
-  std::unique_ptr<IController<QDialog, View::Events::DialogEvent>>
-  ControllerFactory::createNewDocumentDialogController() {
-    return std::make_unique<NewDocumentDialogController>();
+namespace SDF::UILayer::Qt {
+  fruit::Component<IApplication>
+  getComponent() {
+    return fruit::createComponent()
+      .bind<IApplication, Application>();
   }
 }
