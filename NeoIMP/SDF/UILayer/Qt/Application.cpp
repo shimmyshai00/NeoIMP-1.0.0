@@ -26,7 +26,9 @@
 #include <QApplication>
 
 namespace SDF::UILayer::Qt {
-  Application::Application() {}
+  Application::Application(IViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
+  {}
 
   int
   Application::exec(int argc,
@@ -34,6 +36,10 @@ namespace SDF::UILayer::Qt {
                    )
   {
     QApplication myQApp(argc, argv);
+
+    QMainWindow *mainWindow(m_viewFactory->createMainWindow());
+    mainWindow->show();
+
     return myQApp.exec();
   }
 }

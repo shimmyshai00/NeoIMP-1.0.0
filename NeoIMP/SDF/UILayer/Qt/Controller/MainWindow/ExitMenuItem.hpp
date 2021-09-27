@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_APPLICATION_HPP
-#define SDF_UILAYER_QT_APPLICATION_HPP
+#ifndef SDF_UILAYER_QT_CONTROLLER_MAINWINDOW_EXITMENUITEM_HPP
+#define SDF_UILAYER_QT_CONTROLLER_MAINWINDOW_EXITMENUITEM_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Application.hpp
- * PURPOSE: Defines the Application class.
+ * FILE:    ExitMenuItem.hpp
+ * PURPOSE: Defines the ExitMenuItem class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewFactory.hpp"
+#include "../../View/IController.hpp"
 
-#include <fruit/fruit.h>
+#include <QMainWindow>
 
-namespace SDF::UILayer::Qt {
-  // Class:      Application
-  // Purpose:    Implements the Qt application.
+namespace SDF::UILayer::Qt::Controller::MainWindow {
+  // Class:      ExitMenuItem
+  // Purpose:    Defines the controller for the exit menu item.
   // Parameters: None.
-  class Application : public IApplication {
+  class ExitMenuItem : public View::IController<bool> {
   public:
-    INJECT(Application(IViewFactory *viewFactory));
+    ExitMenuItem(QMainWindow *mainWindow);
 
-    int
-    exec(int argc,
-         char **argv
-        );
+    void
+    handle(bool checked);
   private:
-    IViewFactory *m_viewFactory;
+    QMainWindow *m_mainWindow;
   };
-};
+}
 
 #endif

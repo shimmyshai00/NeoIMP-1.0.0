@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_APPLICATION_HPP
-#define SDF_UILAYER_QT_APPLICATION_HPP
+#ifndef SDF_UILAYER_QT_IVIEWFACTORY_HPP
+#define SDF_UILAYER_QT_IVIEWFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Application.hpp
- * PURPOSE: Defines the Application class.
+ * FILE:    IViewFactory.hpp
+ * PURPOSE: Defines the IViewFactory interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewFactory.hpp"
-
-#include <fruit/fruit.h>
+#include <QMainWindow>
 
 namespace SDF::UILayer::Qt {
-  // Class:      Application
-  // Purpose:    Implements the Qt application.
+  // Class:      IViewFactory
+  // Purpose:    Provides an interface for the view factory.
   // Parameters: None.
-  class Application : public IApplication {
+  class IViewFactory {
   public:
-    INJECT(Application(IViewFactory *viewFactory));
+    virtual ~IViewFactory() = default;
 
-    int
-    exec(int argc,
-         char **argv
-        );
-  private:
-    IViewFactory *m_viewFactory;
+    virtual QMainWindow *
+    createMainWindow() = 0;
   };
-};
+}
 
 #endif

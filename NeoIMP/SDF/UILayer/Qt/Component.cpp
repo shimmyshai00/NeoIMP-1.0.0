@@ -23,12 +23,14 @@
 
 #include "Component.hpp"
 
+#include "View/Component.hpp"
 #include "Application.hpp"
 
 namespace SDF::UILayer::Qt {
   fruit::Component<IApplication>
   getComponent() {
     return fruit::createComponent()
-      .bind<IApplication, Application>();
+      .bind<IApplication, Application>()
+      .install(View::getComponent);
   }
 }

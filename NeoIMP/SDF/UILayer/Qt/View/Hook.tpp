@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_APPLICATION_HPP
-#define SDF_UILAYER_QT_APPLICATION_HPP
+#ifndef SDF_UILAYER_QT_VIEW_HOOK_TPP
+#define SDF_UILAYER_QT_VIEW_HOOK_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Application.hpp
- * PURPOSE: Defines the Application class.
+ * FILE:    Hook.tpp
+ * PURPOSE: Implements the Hook template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewFactory.hpp"
+namespace SDF::UILayer::Qt::View {
+  template<class QObjT, class ... Args>
+  Hook<QObjT, Args...>::Hook(QObjT *src,
+                             void (QObjT::*srcSignal)(Args...)
+                            )
+    : m_src(src),
+      m_srcSignal(srcSignal)
+  {}
 
-#include <fruit/fruit.h>
+  template<class QObjT, class ... Args>
+  void
+  Hook<QObjT, Args...>::hook(std::unique_ptr<IController<Args...>> controller) {
+    if(m_controller) {
+      QObject::disconnect(m_conn);
+    }
 
-namespace SDF::UILayer::Qt {
-  // Class:      Application
-  // Purpose:    Implements the Qt application.
-  // Parameters: None.
-  class Application : public IApplication {
-  public:
-    INJECT(Application(IViewFactory *viewFactory));
-
-    int
-    exec(int argc,
-         char **argv
-        );
-  private:
-    IViewFactory *m_viewFactory;
-  };
-};
+    m_controller = std::move(controller);
+    m_conn = QObject::connect(m_src, m_srcSignal, [&](Args... args) { m_controller->handle(args...); });
+  }
+}
 
 #endif

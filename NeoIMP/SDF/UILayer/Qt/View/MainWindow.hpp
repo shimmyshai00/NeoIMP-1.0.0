@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_APPLICATION_HPP
-#define SDF_UILAYER_QT_APPLICATION_HPP
+#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Application.hpp
- * PURPOSE: Defines the Application class.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: Defines the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,36 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewFactory.hpp"
+#include "IController.hpp"
+#include "Hook.hpp"
 
-#include <fruit/fruit.h>
+#include <QMainWindow>
+#include <QAction>
 
-namespace SDF::UILayer::Qt {
-  // Class:      Application
-  // Purpose:    Implements the Qt application.
+#include <memory>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+namespace SDF::UILayer::Qt::View {
+  // Class:      MainWindow
+  // Purpose:    Defines the app's main window.
   // Parameters: None.
-  class Application : public IApplication {
+  class MainWindow : public QMainWindow {
   public:
-    INJECT(Application(IViewFactory *viewFactory));
+    MainWindow(QObject *parent = nullptr);
 
-    int
-    exec(int argc,
-         char **argv
-        );
+    // Controller hooks.
+    void
+    hookExitMenuItem(std::unique_ptr<IController<bool>> controller);
   private:
-    IViewFactory *m_viewFactory;
+    typedef Hook<QAction, bool> MenuHook;
+
+    Ui::MainWindow *m_ui;
+
+    std::unique_ptr<MenuHook> m_exitMenuItemHook;
   };
-};
+}
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_APPLICATION_HPP
-#define SDF_UILAYER_QT_APPLICATION_HPP
+#ifndef SDF_UILAYER_QT_VIEW_ICONTROLLERFACTORY_HPP
+#define SDF_UILAYER_QT_VIEW_ICONTROLLERFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Application.hpp
- * PURPOSE: Defines the Application class.
+ * FILE:    IControllerFactory.hpp
+ * PURPOSE: Defines the IControllerFactory interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewFactory.hpp"
+#include "IController.hpp"
 
-#include <fruit/fruit.h>
+#include <QMainWindow>
 
-namespace SDF::UILayer::Qt {
-  // Class:      Application
-  // Purpose:    Implements the Qt application.
+#include <memory>
+
+namespace SDF::UILayer::Qt::View {
+  // Class:      IControllerFactory
+  // Purpose:    Provides an interface for the controller factory.
   // Parameters: None.
-  class Application : public IApplication {
+  class IControllerFactory {
   public:
-    INJECT(Application(IViewFactory *viewFactory));
+    virtual ~IControllerFactory() = default;
 
-    int
-    exec(int argc,
-         char **argv
-        );
-  private:
-    IViewFactory *m_viewFactory;
+    virtual std::unique_ptr<IController<bool>>
+    makeExitMenuItemController(QMainWindow *mainWindow) = 0;
   };
-};
+}
 
 #endif
