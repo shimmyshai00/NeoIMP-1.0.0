@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_UID_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_UID_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    Uid.hpp
+ * PURPOSE: Defines the Uid class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,40 +24,39 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IController.hpp"
-#include "Hook.hpp"
+#include <cstddef>
 
-#include <QMainWindow>
-#include <QAction>
-
-#include <memory>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Qt::View {
-  // Class:      MainWindow
-  // Purpose:    Defines the app's main window.
+namespace SDF::ModelLayer::DomainObjects {
+  // Class:      Uid
+  // Purpose:    Provides unique identifiers for all domain objects.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+  class Uid {
   public:
-    MainWindow(QObject *parent = nullptr);
+    // Singleton method.
+    static Uid next() {
+      static uint64_t nextCounter = 0L;
+      return Uid(++nextCounter);
+    }
 
-    // Controller hooks.
-    void
-    hookNewMenuItem(std::unique_ptr<IController<bool>> controller);
+    // Comparison operators.
+    friend bool operator==(const Uid lhs, const Uid rhs) {
+      return lhs.m_uid == rhs.m_uid;
+    }
 
-    void
-    hookExitMenuItem(std::unique_ptr<IController<bool>> controller);
+    friend bool operator!=(const Uid lhs, const Uid rhs) {
+      return !(lhs == rhs);
+    }
+
+    friend bool operator<(const Uid lhs, const Uid rhs) {
+      // For associative containers.
+      return lhs.m_uid < rhs.m_uid;
+    }
   private:
-    typedef Hook<QAction, bool> MenuHook;
+    uint64_t m_uid;
 
-    Ui::MainWindow *m_ui;
-
-    std::unique_ptr<MenuHook> m_newMenuItemHook;
-    std::unique_ptr<MenuHook> m_exitMenuItemHook;
+    Uid(uint64_t uid)
+      : m_uid(uid)
+    {}
   };
 }
 

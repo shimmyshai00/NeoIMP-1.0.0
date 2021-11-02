@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_ERESOLUTIONUNIT_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_ERESOLUTIONUNIT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    EResolutionUnit.hpp
+ * PURPOSE: Defines the EResolutionUnit enum.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
-
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+namespace SDF::UILayer::AbstractModel::Defs {
+  enum EResolutionUnit {
+    RESOLUTION_UNIT_PPI,
+    RESOLUTION_UNIT_PPCM,
+    RESOLUTION_UNIT_PPMM,
+    RESOLUTION_UNIT_MAX
+  };
 }
+
+#endif

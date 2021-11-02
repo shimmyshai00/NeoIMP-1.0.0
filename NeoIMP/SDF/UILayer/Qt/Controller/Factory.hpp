@@ -26,6 +26,7 @@
 
 #include "../View/IControllerFactory.hpp"
 #include "../View/IController.hpp"
+#include "../IViewFactory.hpp"
 
 #include <QMainWindow>
 
@@ -41,8 +42,16 @@ namespace SDF::UILayer::Qt::Controller {
   public:
     INJECT(Factory());
 
+    void
+    setViewFactory(IViewFactory *viewFactory);
+
     std::unique_ptr<View::IController<bool>>
     makeExitMenuItemController(QMainWindow *mainWindow);
+
+    std::unique_ptr<View::IController<bool>>
+    makeNewMenuItemController(QMainWindow *mainWindow);
+  private:
+    IViewFactory *m_viewFactory;
   };
 }
 

@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_ECOLORMODEL_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_ECOLORMODEL_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    EColorModel.hpp
+ * PURPOSE: Enumeration of the available color model types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
-
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+namespace SDF::UILayer::AbstractModel::Defs {
+  enum EColorModel {
+    COLOR_MODEL_RGB,
+    COLOR_MODEL_MAX
+  };
 }
+
+#endif

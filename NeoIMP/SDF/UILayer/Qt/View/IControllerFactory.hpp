@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../IViewFactory.hpp"
 #include "IController.hpp"
 
 #include <QMainWindow>
@@ -38,8 +39,14 @@ namespace SDF::UILayer::Qt::View {
   public:
     virtual ~IControllerFactory() = default;
 
+    virtual void
+    setViewFactory(IViewFactory *viewFactory) = 0;
+
     virtual std::unique_ptr<IController<bool>>
     makeExitMenuItemController(QMainWindow *mainWindow) = 0;
+
+    virtual std::unique_ptr<IController<bool>>
+    makeNewMenuItemController(QMainWindow *mainWindow) = 0;
   };
 }
 

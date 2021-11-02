@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETRAITS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETRAITS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    ImageTraits.hpp
+ * PURPOSE: Defines trait objects for different image types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
+#include "../../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
+#include "../../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
 
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
+#include <boost/gil.hpp>
 
-namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
-  {
-    m_controllerFactory->setViewFactory(this);
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  template<class PixelT>
+  struct ImageTraits {};
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
-  }
-
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
+  template<boost::gil::rgb8_pixel_t>
+  struct ImageTraits {
+    static const std::size_t numChannels = 3;
+    static const UILayer::AbstractModel::Defs::EColorModel colorModel = UILayer::AbstractModel::Defs::COLOR_MODEL_RGB;
+    static const UILayer::AbstractModel::Defs::EBitDepth bitDepth = UILayer::AbstractModel::Defs::BIT_DEPTH_8;
   }
 }
+
+#endif

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    NewMenuItem.cpp
+ * PURPOSE: Implements the NewMenuItem class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +21,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
+#include "NewMenuItem.hpp"
 
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
+namespace SDF::UILayer::Qt::Controller::MainWindow {
+  NewMenuItem::NewMenuItem(IViewFactory *viewFactory,
+                           QMainWindow *mainWindow
+                          )
+    : m_viewFactory(viewFactory),
+      m_mainWindow(mainWindow)
   {
-    m_controllerFactory->setViewFactory(this);
   }
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
-  }
-
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
+  void
+  NewMenuItem::handle(bool checked) {
+    m_viewFactory->createNewDocumentDialog(m_mainWindow)->show();
   }
 }

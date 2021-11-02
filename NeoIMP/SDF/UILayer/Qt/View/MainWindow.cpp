@@ -31,10 +31,16 @@ namespace SDF::UILayer::Qt::View {
   {
     m_ui->setupUi(this);
 
+    m_newMenuItemHook = std::make_unique<MenuHook>(m_ui->action_New, &QAction::triggered);
     m_exitMenuItemHook = std::make_unique<MenuHook>(m_ui->actionE_xit, &QAction::triggered);
   }
 
   // Controller hooks.
+  void
+  MainWindow::hookNewMenuItem(std::unique_ptr<IController<bool>> controller) {
+    m_newMenuItemHook->hook(std::move(controller));
+  }
+
   void
   MainWindow::hookExitMenuItem(std::unique_ptr<IController<bool>> controller) {
     m_exitMenuItemHook->hook(std::move(controller));

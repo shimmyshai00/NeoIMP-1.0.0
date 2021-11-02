@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    ResolutionConvertible.cpp
+ * PURPOSE: Implements the ResolutionConvertible class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
+#include "ResolutionConvertible.hpp"
 
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
+#include "ResolutionConversions.hpp"
 
-namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
+namespace SDF::ModelLayer::Metrics {
+  ResolutionConvertible::ResolutionConvertible(float quantity,
+                                               UILayer::AbstractModel::Defs::EResolutionUnit unit
+                                              )
+    : m_quantity(quantity),
+      m_unit(unit)
   {
-    m_controllerFactory->setViewFactory(this);
   }
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
-  }
-
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
+  float
+  ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit unit) {
+    return (m_quantity * g_resolutionUnitSizes[m_unit]) / g_resolutionUnitSizes[unit];
   }
 }

@@ -1,9 +1,12 @@
+#ifndef SDF_PATTERNS_IOBSERVER_HPP
+#define SDF_PATTERNS_IOBSERVER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    IObserver.hpp
+ * PURPOSE: Defines the IObserver interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+namespace SDF::Patterns {
+  // Class:      IObserver
+  // Purpose:    Defines an interface for observers.
+  // Parameters: SubjT - The type of subject to observe.
+  template<class SubjT>
+  class IObserver {
+  public:
+    virtual ~IObserver() = default;
 
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+    // Function:   onChanged
+    // Purpose:    Called by the subject when it changes.
+    // Parameters: subj - The subject that changed.
+    // Returns:    None.
+    virtual void
+    onChanged(SubjT &subj) = 0;
+  };
 }
+
+#endif

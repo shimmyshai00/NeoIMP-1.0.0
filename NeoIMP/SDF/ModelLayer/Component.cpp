@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * PURPOSE: Implements the DI component for the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,12 @@
 
 #include "Component.hpp"
 
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
+#include "Services/MetricsService.hpp"
 
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
+namespace SDF::ModelLayer {
+  fruit::Component<UILayer::AbstractModel::IMetricsService>
   getComponent() {
     return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
+      .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>();
   }
 }

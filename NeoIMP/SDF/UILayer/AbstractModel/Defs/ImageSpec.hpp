@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_IMAGESPEC_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_IMAGESPEC_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    ImageSpec.hpp
+ * PURPOSE: Defines a POD struct for specifying construction parameters for an image document.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "ELengthUnit.hpp"
+#include "EResolutionUnit.hpp"
+#include "EColorModel.hpp"
+#include "EBitDepth.hpp"
 
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
+namespace SDF::UILayer::AbstractModel::Defs {
+  struct ImageSpec {
+    float width;
+    ELengthUnit widthUnit;
 
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+    float height;
+    ELengthUnit heightUnit;
+
+    float resolution;
+    EResolutionUnit resolutionUnit;
+
+    EColorModel colorModel;
+    EBitDepth bitDepth;
+  };
 }
+
+#endif

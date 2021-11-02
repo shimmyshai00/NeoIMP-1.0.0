@@ -1,9 +1,12 @@
+#ifndef SDF_PATTERNS_SUBJECT_TPP
+#define SDF_PATTERNS_SUBJECT_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    Subject.tpp
+ * PURPOSE: Implements the Subject template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
-
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
-  {
-    m_controllerFactory->setViewFactory(this);
+namespace SDF::Patterns {
+  template<class SubjT>
+  Subject<SubT>::~Subject() {
   }
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
+  template<class SubjT>
+  std::shared_ptr<IConnection>
+  Subject<SubjT>::addObserver(IObserver<SubjT> *observer) {
+    return std::shared_ptr<IConnection>(new Connection(this, observer));
   }
 
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
+  template<class SubjT>
+  void
+  Subject<SubjT>::notifyObservers() {
+    for(auto obs : m_observers) {
+      obs->onChanged(static_cast<SubjT *>(this));
+    }
   }
 }
+
+#endif

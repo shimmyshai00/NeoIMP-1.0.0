@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_IUNITCONVERTIBLE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_IUNITCONVERTIBLE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    IUnitConvertible.hpp
+ * PURPOSE: Defines the IUnitConvertible interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+namespace SDF::UILayer::AbstractModel::Defs {
+  // Class:      IUnitConvertible
+  // Purpose:    Defines the interface for a quantity that can be obtained in different units.
+  // Parameters: UnitEnum - Enumeration of the units the quantity can be converted between.
+  template<class UnitEnum>
+  class IUnitConvertible {
+  public:
+    virtual ~IUnitConvertible() = default;
 
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+    // Function:   in
+    // Purpose:    Get the value of the convertible unit quantity in a given unit.
+    // Parameters: unit - The unit to get the value in.
+    // Returns:    The value of this quantity in the given units.
+    virtual float
+    in(UnitEnum unit) = 0;
+  };
 }
+
+#endif

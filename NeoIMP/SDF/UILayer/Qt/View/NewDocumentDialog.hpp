@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+#define SDF_UILAYER_QT_VIEW_NEWDOCUMENTDIALOG_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    NewDocumentDialog.hpp
+ * PURPOSE: Defines the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +24,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
+#include "../../AbstractModel/IMetricsService.hpp"
+#include "IController.hpp"
+#include "Hook.hpp"
 
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
+#include <QDialog>
+#include <QAction>
+
+#include <memory>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class NewDocumentDialog; }
+QT_END_NAMESPACE
 
 namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
-  {
-    m_controllerFactory->setViewFactory(this);
-  }
+  // Class:      NewDocumentDialog
+  // Purpose:    Defines the new-document dialog.
+  // Parameters: None.
+  class NewDocumentDialog : public QDialog {
+    Q_OBJECT
+  public:
+    NewDocumentDialog(AbstractModel::IMetricsService *metricsService,
+                      QObject *parent = nullptr
+                     );
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
-  }
-
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
-  }
+    // Controller hooks.
+  private:
+    Ui::NewDocumentDialog *m_ui;
+  };
 }
+
+#endif

@@ -24,12 +24,25 @@
 #include "Factory.hpp"
 
 #include "MainWindow/ExitMenuItem.hpp"
+#include "MainWindow/NewMenuItem.hpp"
 
 namespace SDF::UILayer::Qt::Controller {
-  Factory::Factory() {}
+  Factory::Factory()
+    : m_viewFactory(nullptr)
+  {}
+
+  void
+  Factory::setViewFactory(IViewFactory *viewFactory) {
+    m_viewFactory = viewFactory;
+  }
 
   std::unique_ptr<View::IController<bool>>
   Factory::makeExitMenuItemController(QMainWindow *mainWindow) {
     return std::unique_ptr<View::IController<bool>>(new MainWindow::ExitMenuItem(mainWindow));
+  }
+
+  std::unique_ptr<View::IController<bool>>
+  Factory::makeNewMenuItemController(QMainWindow *mainWindow) {
+    return std::unique_ptr<View::IController<bool>>(new MainWindow::NewMenuItem(m_viewFactory, mainWindow));
   }
 }

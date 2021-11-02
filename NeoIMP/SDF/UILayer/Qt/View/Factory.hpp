@@ -24,10 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../AbstractModel/IMetricsService.hpp"
 #include "../IViewFactory.hpp"
 #include "IControllerFactory.hpp"
 
+#include <QWidget>
 #include <QMainWindow>
+#include <QDialog>
 
 #include <fruit/fruit.h>
 
@@ -37,11 +40,18 @@ namespace SDF::UILayer::Qt::View {
   // Parameters: None.
   class Factory : public IViewFactory {
   public:
-    INJECT(Factory(IControllerFactory *controllerFactory));
+    INJECT(Factory(AbstractModel::IMetricsService *metricsService,
+                   IControllerFactory *controllerFactory
+                  ));
 
     QMainWindow *
     createMainWindow();
+
+    QDialog *
+    createNewDocumentDialog(QWidget *parent);
   private:
+    AbstractModel::IMetricsService *m_metricsService;
+
     IControllerFactory *m_controllerFactory;
   };
 }

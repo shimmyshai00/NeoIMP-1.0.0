@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_MODELLAYER_METRICS_RESOLUTIONCONVERTIBLE_HPP
+#define SDF_MODELLAYER_METRICS_RESOLUTIONCONVERTIBLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    ResolutionConvertible.hpp
+ * PURPOSE: Defines the ResolutionConvertible class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,40 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IController.hpp"
-#include "Hook.hpp"
+#include "../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
+#include "../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
 
-#include <QMainWindow>
-#include <QAction>
-
-#include <memory>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Qt::View {
-  // Class:      MainWindow
-  // Purpose:    Defines the app's main window.
+namespace SDF::ModelLayer::Metrics {
+  // Class:      ResolutionConvertible
+  // Purpose:    Defines a convertible resolution quantity.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+  class ResolutionConvertible :
+    public UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
+  {
   public:
-    MainWindow(QObject *parent = nullptr);
+    ResolutionConvertible(float quantity,
+                          UILayer::AbstractModel::Defs::EResolutionUnit unit
+                         );
 
-    // Controller hooks.
-    void
-    hookNewMenuItem(std::unique_ptr<IController<bool>> controller);
-
-    void
-    hookExitMenuItem(std::unique_ptr<IController<bool>> controller);
+    float
+    in(UILayer::AbstractModel::Defs::EResolutionUnit unit);
   private:
-    typedef Hook<QAction, bool> MenuHook;
-
-    Ui::MainWindow *m_ui;
-
-    std::unique_ptr<MenuHook> m_newMenuItemHook;
-    std::unique_ptr<MenuHook> m_exitMenuItemHook;
+    float m_quantity;
+    UILayer::AbstractModel::Defs::EResolutionUnit m_unit;
   };
 }
 

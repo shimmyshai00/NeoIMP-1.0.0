@@ -1,9 +1,12 @@
+#ifndef SDF_PATTERNS_LISTENABLE_TPP
+#define SDF_PATTERNS_LISTENABLE_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Factory.cpp
- * PURPOSE: Defines the Factory class.
+ * FILE:    Listenable.tpp
+ * PURPOSE: Implements the Listenable template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,35 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Factory.hpp"
-
-#include "MainWindow.hpp"
-#include "NewDocumentDialog.hpp"
-
-namespace SDF::UILayer::Qt::View {
-  Factory::Factory(AbstractModel::IMetricsService *metricsService,
-                   IControllerFactory *controllerFactory
-                  )
-    : m_metricsService(metricsService),
-      m_controllerFactory(controllerFactory)
-  {
-    m_controllerFactory->setViewFactory(this);
+namespace SDF::Patterns {
+  template<class EventT>
+  Listenable<EventT>::~Listenable() {
   }
 
-  QMainWindow *
-  Factory::createMainWindow() {
-    MainWindow *rv(new MainWindow);
-
-    rv->hookNewMenuItem(m_controllerFactory->makeNewMenuItemController(rv));
-    rv->hookExitMenuItem(m_controllerFactory->makeExitMenuItemController(rv));
-
-    return rv;
+  template<class EventT>
+  std::shared_ptr<IConnection>
+  Listenable<EventT>::addListener(IListener<EventT> *listener) {
+    return std::shared_ptr<IConnection>(new Connection(this, listener));
   }
 
-  QDialog *
-  Factory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
-
-    return rv;
+  template<class EventT>
+  void
+  Listenable<EventT>::sendEvent(std::shared_ptr<EventT> event) {
+    for(auto lis : m_listeners) {
+      lis->onEvent(event);
+    }
   }
 }
+
+#endif

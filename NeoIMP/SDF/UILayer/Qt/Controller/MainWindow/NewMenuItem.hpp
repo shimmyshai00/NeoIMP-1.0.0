@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_QT_CONTROLLER_MAINWINDOW_NEWMENUITEM_HPP
+#define SDF_UILAYER_QT_CONTROLLER_MAINWINDOW_NEWMENUITEM_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Defines the DI component for the Qt view.
+ * FILE:    NewMenuItem.hpp
+ * PURPOSE: Defines the NewMenuItem class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../View/IController.hpp"
+#include "../../IViewFactory.hpp"
 
-#include "../../../ModelLayer/Component.hpp"
-#include "../Controller/Component.hpp"
-#include "Factory.hpp"
+#include <QMainWindow>
 
-namespace SDF::UILayer::Qt::View {
-  fruit::Component<IViewFactory>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IViewFactory, Factory>()
-      .install(Controller::getComponent)
-      .install(ModelLayer::getComponent);
-  }
+namespace SDF::UILayer::Qt::Controller::MainWindow {
+  // Class:      NewMenuItem
+  // Purpose:    Defines the controller for the new menu item.
+  // Parameters: None.
+  class NewMenuItem : public View::IController<bool> {
+  public:
+    NewMenuItem(IViewFactory *viewFactory,
+                QMainWindow *mainWindow
+               );
+
+    void
+    handle(bool checked);
+  private:
+    QMainWindow *m_mainWindow;
+
+    IViewFactory *m_viewFactory;
+  };
 }
+
+#endif

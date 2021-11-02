@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <QWidget>
 #include <QMainWindow>
+#include <QDialog>
 
 namespace SDF::UILayer::Qt {
   // Class:      IViewFactory
@@ -36,6 +38,9 @@ namespace SDF::UILayer::Qt {
 
     virtual QMainWindow *
     createMainWindow() = 0;
+
+    virtual QDialog *
+    createNewDocumentDialog(QWidget *parent) = 0;
   };
 }
 

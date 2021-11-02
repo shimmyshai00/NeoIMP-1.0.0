@@ -23,12 +23,14 @@
 
 #include "Component.hpp"
 
+#include "../../../ModelLayer/Component.hpp"
 #include "Factory.hpp"
 
 namespace SDF::UILayer::Qt::Controller {
   fruit::Component<View::IControllerFactory>
   getComponent() {
     return fruit::createComponent()
-      .bind<View::IControllerFactory, Factory>();
+      .bind<View::IControllerFactory, Factory>()
+      .install(ModelLayer::getComponent);
   }
 }
