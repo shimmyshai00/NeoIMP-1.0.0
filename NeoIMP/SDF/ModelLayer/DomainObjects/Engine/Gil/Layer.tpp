@@ -46,13 +46,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilImageT>
-  GilImageT::view_t::value_t
+  typename GilImageT::view_t::value_type
   Layer<GilImageT>::getPixelAt(Math::Coord<std::size_t> pos) const {
-    return *GilImageT::const_view(m_image).xy_at(pos.x, pos.y);
+    return *GilImageT::const_view(m_image).xy_at(pos.getX(), pos.getY());
   }
 
   template<class GilImageT>
-  GilImageT::view_t::value_t
+  typename GilImageT::view_t::value_type
   Layer<GilImageT>::getPixelAt(std::size_t x,
                                std::size_t y
                               ) const
@@ -61,33 +61,33 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilImageT>
-  GilImageT::view_t
+  typename GilImageT::view_t
   Layer<GilImageT>::getView() {
     return GilImageT::view(m_image);
   }
 
   template<class GilImageT>
-  GilImageT::const_view_t
+  typename GilImageT::const_view_t
   Layer<GilImageT>::getView() const {
     return GilImageT::const_view(m_image);
   }
 
   template<class GilImageT>
-  GilImageT::view_t
+  typename GilImageT::view_t
   Layer<GilImageT>::getView(Math::Rect<std::size_t> rect) {
-    GilImageT::view_t masterView(getView());
+    typename GilImageT::view_t masterView(getView());
     return GilImageT::view_t(rect.getWidth(), rect.getHeight(), masterView.xy_at(rect.getX1(), rect.getY1()));
   }
 
   template<class GilImageT>
-  GilImageT::const_view_t
-  Layer<GilImageT>::getView(Math::Rect<std::size_t> rect) {
-    GilImageT::const_view_t masterView(getView());
+  typename GilImageT::const_view_t
+  Layer<GilImageT>::getView(Math::Rect<std::size_t> rect) const {
+    typename GilImageT::const_view_t masterView(getView());
     return GilImageT::const_view_t(rect.getWidth(), rect.getHeight(), masterView.xy_at(rect.getX1(), rect.getY1()));
   }
 
   template<class GilImageT>
-  GilImageT::view_t
+  typename GilImageT::view_t
   Layer<GilImageT>::getView(std::size_t x1,
                             std::size_t y1,
                             std::size_t x2,
@@ -98,7 +98,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilImageT>
-  GilImageT::const_view_t
+  typename GilImageT::const_view_t
   Layer<GilImageT>::getView(std::size_t x1,
                             std::size_t y1,
                             std::size_t x2,

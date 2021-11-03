@@ -36,8 +36,9 @@
 namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      IImage
   // Purpose:    Defines an interface for image documents.
-  // Parameters: None.
-  class IImage : public IDomainObject<IImage> {
+  // Parameters: ImplT - The type of implementation for this image. Derived classes should CRTP-inherit this.
+  template<class ImplT>
+  class IImage : public IDomainObject<ImplT> {
   public:
     virtual ~IImage() = default;
 

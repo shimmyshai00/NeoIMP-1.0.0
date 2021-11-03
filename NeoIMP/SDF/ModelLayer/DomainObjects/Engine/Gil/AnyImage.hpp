@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Image.hpp
- * PURPOSE: Defines the Image template.
+ * FILE:    AnyImage.hpp
+ * PURPOSE: Defines the AnyImage template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,9 @@
 
 #include "../../Uid.hpp"
 #include "../IImage.hpp"
-#include "Layer.hpp"
+
+#include "Image.hpp"
+#include "AnyLayer.hpp"
 
 #include <cstddef>
 #include <string>
@@ -34,37 +36,37 @@
 #include <memory>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  // Class:      Image
-  // Purpose:    Defines a Boost.GIL-based image.
-  // Parameters: GilImageT - The Boost.GIL image type underlying this image. Must implement GIL's
-  //                         RandomAccess2DImageConcept. Note that boost::gil::any_image_t is NOT allowed for use here,
-  //                         since it does not implement this concept fully. To get a variant-like type for images, use
-  //                         the AnyImage class instead, which properly handles this case.
+  // Class:      AnyImage
+  // Purpose:    Defines a Boost.GIL-based image variant-like type.
+  // Parameters: GilImageTs - The Boost.GIL image types, implementing RandomAccess2DImageConcept, that we desire to
+  //                          store with this type of variant.
   template<class ... GilImageTs>
-  class AnyImage;
-
-  template<class GilImageT>
-  class Image : public IImage<Image<GilImageT>> {
+  class AnyImage : public IImage<AnyImage<GilImageTs...>> {
   public:
-    // Function:   Image
-    // Purpose:    Construct a new image of the given size. The new image will have a single background layer also of
-    //             the size given.
-    // Parameters: name - The name of the image.
-    //             fileSpec - The file spec to save the image to (may be empty).
-    //             widthPx - The width of the image in pixels.
-    //             heightPx - The height of the image in pixels.
-    //             resolutionPpi - The resolution of the image in PPI.
-    Image(std::string name,
-          std::string fileSpec,
-          std::size_t widthPx,
-          std::size_t heightPx,
-          float resolutionPpi
-         );
+    // Function:   AnyImage
+    // Purpose:    Construct a new variant from a particular concrete image type. The passed image MUST be of one of
+    //             the types in GilImageTs!
+    // Parameters: img - The image to construct to.
+    //             doSwap - Whether to swap the image data or copy it. Swapping is faster and memory-efficient but will
+    //                      RUIN the original Image object.
+    template<class T>
+    AnyImage(const Image<T> &img);
+
+    template<class T>
+    AnyImage(Image<T> &&img);
+
+    // Function:   specifize
+    // Purpose:    Converts this variant back into a concrete image type. Note: this MUST be supplied with the correct
+    //             type or it will throw!
+    // Parameters: doSwap - Whether to do the conversion by swap. If true, THIS OBJECT WILL NO LONGER BE VALID upon
+    //                      successful completion!
+    //template<class T>
+    //Image<T> *specifize(bool doSwap);
 
     Uid
     getUid() const;
 
-    Image<GilImageT> &
+    AnyImage<GilImageTs...> &
     getObject();
 
     std::string
@@ -100,9 +102,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::size_t
     getLayerHeightPx(std::size_t which) const;
   private:
-    template<class ... GilImageTs>
-    friend class AnyImage;
-
     Uid m_uid;
 
     std::string m_name;
@@ -112,10 +111,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::size_t m_heightPx;
     float m_resolutionPpi;
 
-    std::vector<Layer<GilImageT>> m_layers;
+    UILayer::AbstractModel::Defs::EColorModel m_colorModel;
+    std::size_t m_numChannels;
+    UILayer::AbstractModel::Defs::EBitDepth m_bitDepth;
+
+    std::vector<AnyLayer<GilImageTs...>> m_layers;
   };
 }
 
-#include "Image.tpp"
+#include "AnyImage.tpp"
 
 #endif

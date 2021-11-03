@@ -34,8 +34,13 @@ namespace SDF::ModelLayer::DomainObjects {
   public:
     // Singleton method.
     static Uid next() {
-      static uint64_t nextCounter = 0L;
+      static unsigned long long nextCounter = 0L;
       return Uid(++nextCounter);
+    }
+
+    // Convert to handle.
+    unsigned int handlify() const {
+      return m_uid & 0xFFFFFFFFULL;
     }
 
     // Comparison operators.
@@ -52,9 +57,9 @@ namespace SDF::ModelLayer::DomainObjects {
       return lhs.m_uid < rhs.m_uid;
     }
   private:
-    uint64_t m_uid;
+    unsigned long long m_uid;
 
-    Uid(uint64_t uid)
+    Uid(unsigned long long uid)
       : m_uid(uid)
     {}
   };

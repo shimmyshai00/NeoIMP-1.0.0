@@ -27,18 +27,19 @@
 #include "../../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
 #include "../../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
 
-#include <boost/gil.hpp>
+#include <boost/gil/image.hpp>
+#include <boost/gil/typedefs.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  template<class PixelT>
+  template<typename ImageT>
   struct ImageTraits {};
 
-  template<boost::gil::rgb8_pixel_t>
-  struct ImageTraits {
+  template<>
+  struct ImageTraits<typename boost::gil::rgb8_image_t> {
     static const std::size_t numChannels = 3;
     static const UILayer::AbstractModel::Defs::EColorModel colorModel = UILayer::AbstractModel::Defs::COLOR_MODEL_RGB;
     static const UILayer::AbstractModel::Defs::EBitDepth bitDepth = UILayer::AbstractModel::Defs::BIT_DEPTH_8;
-  }
+  };
 }
 
 #endif

@@ -28,7 +28,9 @@
 namespace SDF::ModelLayer::Repositories {
   Component
   getComponent() {
+    using namespace DomainObjects;
+
     return fruit::createComponent()
-      .bind<IRepository<DomainObjects::Image::IImage>, MemoryOnlyRepository<DomainObjects::Image::IImage>>();
+      .bind<IRepository<Engine::Gil::AnyGilImage>, MemoryOnlyRepository<Engine::Gil::AnyGilImage>>();
   }
 }

@@ -34,14 +34,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
                           std::size_t heightPx,
                           float resolutionPpi
                          )
-    : m_uid(Uid::next())
+    : m_uid(Uid::next()),
       m_name(name),
       m_fileSpec(fileSpec),
       m_widthPx(widthPx),
       m_heightPx(heightPx),
       m_resolutionPpi(resolutionPpi)
   {
-    m_layers.push_back(std::make_unique<Layer<GilImageT>>(widthPx, heightPx));
+    m_layers.push_back(Layer<GilImageT>(widthPx, heightPx));
   }
 
   template<class GilImageT>
@@ -51,7 +51,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilImageT>
-  IImage &
+  Image<GilImageT> &
   Image<GilImageT>::getObject() {
     return *this;
   }
@@ -116,7 +116,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     if(which >= m_layers.size()) {
       // TBA
     } else {
-      return m_layers[which]->getWidthPx();
+      return m_layers[which].getWidthPx();
     }
   }
 
@@ -126,7 +126,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     if(which >= m_layers.size()) {
       // TBA
     } else {
-      return m_layers[which]->getHeightPx();
+      return m_layers[which].getHeightPx();
     }
   }
 }

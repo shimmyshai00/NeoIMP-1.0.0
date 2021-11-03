@@ -23,8 +23,8 @@
 
 #include "MetricsService.hpp"
 
-#include "../DomainObjects/LengthConvertible.hpp"
-#include "../DomainObjects/ResolutionConvertible.hpp"
+#include "../Metrics/LengthConvertible.hpp"
+#include "../Metrics/ResolutionConvertible.hpp"
 
 namespace SDF::ModelLayer::Services {
   MetricsService::MetricsService() {
@@ -39,7 +39,7 @@ namespace SDF::ModelLayer::Services {
                                          )
   {
     using namespace UILayer::AbstractModel;
-    using namespace DomainObjects;
+    using namespace Metrics;
 
     return std::make_shared<LengthConvertible>(length, lengthUnit,
                                                resolution->in(Defs::RESOLUTION_UNIT_PPI), Defs::RESOLUTION_UNIT_PPI
@@ -52,7 +52,7 @@ namespace SDF::ModelLayer::Services {
                                              )
   {
     using namespace UILayer::AbstractModel;
-    using namespace DomainObjects;
+    using namespace Metrics;
 
     return std::make_shared<ResolutionConvertible>(resolution, resolutionUnit);
   }

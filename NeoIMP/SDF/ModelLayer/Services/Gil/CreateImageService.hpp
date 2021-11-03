@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_SERVICES_CREATEIMAGESERVICE_HPP
-#define SDF_MODELLAYER_SERVICES_CREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_SERVICES_GIL_CREATEIMAGESERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_GIL_CREATEIMAGESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,26 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../UILayer/AbstractModel/Defs/Handle.hpp"
-#include "../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Handle.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 
-#include "../../UILayer/AbstractModel/ICreateImageService.hpp"
+#include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
 
-#include "../Repositories/IRepository.hpp"
-#include "../DomainObjects/IImage.hpp"
+#include "../../Repositories/IRepository.hpp"
+#include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 
-namespace SDF::ModelLayer::Services {
+#include <fruit/fruit.h>
+
+namespace SDF::ModelLayer::Services::Gil {
   // Class:      CreateImageService
-  // Purpose:    Implements the ICreateImageService interface.
+  // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
   // Parameters: None.
   class CreateImageService : public UILayer::AbstractModel::ICreateImageService {
   public:
-    INJECT(CreateImageService(Repositories::IRepository<DomainObjects::IImage> *imageRepository));
+    INJECT(CreateImageService(Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository));
 
     UILayer::AbstractModel::Defs::Handle
     createImage(UILayer::AbstractModel::Defs::ImageSpec spec);
   private:
-    Repositories::IRepository<DomainObjects::IImage> *m_imageRepository;
+    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
   };
 }
 

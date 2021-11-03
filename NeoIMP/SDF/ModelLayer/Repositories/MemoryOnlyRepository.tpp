@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Exceptions/Exceptions.hpp"
+//#include "../Exceptions/Exceptions.hpp"
 
 namespace SDF::ModelLayer::Repositories {
   template<class T>
@@ -35,7 +35,7 @@ namespace SDF::ModelLayer::Repositories {
   DomainObjects::IDomainObject<T> *
   MemoryOnlyRepository<T>::create(std::unique_ptr<DomainObjects::IDomainObject<T>> object) {
     DomainObjects::IDomainObject<T> *rv(object.get());
-    Uid uid(object->getUid());
+    DomainObjects::Uid uid(object->getUid());
 
     m_objectMap[uid] = std::move(object);
 

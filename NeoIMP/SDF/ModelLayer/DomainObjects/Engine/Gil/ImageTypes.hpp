@@ -25,13 +25,15 @@
  */
 
 #include "Image.hpp"
-#include "Layer.hpp"
+#include "AnyImage.hpp"
 
 #include <boost/gil/image.hpp>
-#include <boost/gil/view.hpp>
+#include <boost/gil/typedefs.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   typedef Image<boost::gil::rgb8_image_t> RGB888Image;
+
+  typedef AnyImage<boost::gil::rgb8_image_t> AnyGilImage;
 }
 
 #endif

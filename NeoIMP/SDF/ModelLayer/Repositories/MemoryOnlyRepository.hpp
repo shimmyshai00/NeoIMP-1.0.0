@@ -55,7 +55,7 @@ namespace SDF::ModelLayer::Repositories {
     void
     del(DomainObjects::Uid uid);
   private:
-    std::map<int, std::unique_ptr<DomainObjects::IDomainObject<T>>> m_objectMap;
+    std::map<DomainObjects::Uid, std::unique_ptr<DomainObjects::IDomainObject<T>>> m_objectMap;
   };
 }
 

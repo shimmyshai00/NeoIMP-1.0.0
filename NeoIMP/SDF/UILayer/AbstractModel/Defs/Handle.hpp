@@ -27,7 +27,7 @@
 #include <cstddef>
 
 namespace SDF::UILayer::AbstractModel::Defs {
-  typedef uint32_t Handle;
+  typedef unsigned int Handle;
 }
 
 #endif

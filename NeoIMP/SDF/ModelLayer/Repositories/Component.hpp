@@ -24,13 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../DomainObjects/Image/IImage.hpp"
+#include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "IRepository.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Repositories {
-  typedef fruit::Component<IRepository<DomainObjects::Image::IImage>>
+  typedef fruit::Component<IRepository<DomainObjects::Engine::Gil::AnyGilImage>>
   Component;
 
   Component getComponent();

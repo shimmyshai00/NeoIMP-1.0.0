@@ -36,6 +36,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   // Purpose:    Describes an image layer implemented using Boost.GIL.
   // Parameters: GilImageT - The Boost.GIL image type used for this layer. Must implement GIL's
   //                         RandomAccess2DImageConcept.
+  template<class ... GilImageTs>
+  class AnyLayer;
+
   template<class GilImageT>
   class Layer {
   public:
@@ -66,10 +69,10 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     // Parameters: pos - The position to get the pixel from.
     //             x - The x-coordinate to get the pixel from.
     //             y - The y-coordinate to get the pixel from.
-    GilImageT::view_t::value_t
+    typename GilImageT::view_t::value_type
     getPixelAt(Math::Coord<std::size_t> pos) const;
 
-    GilImageT::view_t::value_t
+    typename GilImageT::view_t::value_type
     getPixelAt(std::size_t x,
                std::size_t y
               ) const;
@@ -81,32 +84,38 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     //             y1 - The upper-left y-coordinate of the rectangle.
     //             x2 - The lower-right x-coordinate of the rectangle.
     //             y2 - The lower-right y-coordinate of the rectangle.
-    GilImageT::view_t
+    typename GilImageT::view_t
     getView();
 
-    GilImageT::const_view_t
+    typename GilImageT::const_view_t
     getView() const;
 
-    GilImageT::view_t
+    typename GilImageT::view_t
     getView(Math::Rect<std::size_t> rect);
 
-    GilImageT::const_view_t
+    typename GilImageT::const_view_t
     getView(Math::Rect<std::size_t> rect) const;
 
-    GilImageT::view_t
+    typename GilImageT::view_t
     getView(std::size_t x1,
             std::size_t y1,
             std::size_t x2,
             std::size_t y2
            );
 
-    GilImageT::const_view_t
+    typename GilImageT::const_view_t
     getView(std::size_t x1,
             std::size_t y1,
             std::size_t x2,
             std::size_t y2
            ) const;
   private:
+    template<class ... GilImageTs>
+    friend class AnyLayer;
+
+    Layer(const GilImageT &image);
+    Layer(GilImageT &&image);
+
     GilImageT m_image;
   };
 }
