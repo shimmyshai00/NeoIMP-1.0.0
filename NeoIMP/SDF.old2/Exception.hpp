@@ -40,7 +40,10 @@ namespace SDF {
         va_end(vl);
 
         if(likelyBug) {
-          whatString.sPrintf("%s\n\nThis likely means there is a bug in the program.", preWhatString.get());
+          whatString.sPrintf(
+            "%s\n\nThis likely means there is a bug in the program.",
+            preWhatString.get()
+          );
         } else {
           whatString.sPrintf("%s", preWhatString.get());
         }

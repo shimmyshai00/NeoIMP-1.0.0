@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
-#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#ifndef SDF_PATTERNS_IOBSERVABLE_HPP
+#define SDF_PATTERNS_IOBSERVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    IObservable.hpp
+ * PURPOSE: Defines the IObservable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,40 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IController.hpp"
-#include "Hook.hpp"
-
-#include <QMainWindow>
-#include <QAction>
+#include "IConnection.hpp"
+#include "IObserver.hpp"
 
 #include <memory>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Qt::View {
-  // Class:      MainWindow
-  // Purpose:    Defines the app's main window.
-  // Parameters: None.
-  class MainWindow : public QMainWindow {
-    Q_OBJECT
+namespace SDF::Patterns {
+  // Class:      IObservable
+  // Purpose:    Defines an interface for an object that can be observed for
+  //             changes.
+  // Parameters: T - This interface should CRTP-inherit this class.
+  template<class T>
+  class IObservable {
   public:
-    MainWindow(QObject *parent = nullptr);
+    virtual ~IObservable() = default;
 
-    // Controller hooks.
-    void
-    hookNewMenuItem(std::unique_ptr<IController<bool>> controller);
-
-    void
-    hookExitMenuItem(std::unique_ptr<IController<bool>> controller);
-  private:
-    typedef Hook<QAction, bool> MenuHook;
-
-    Ui::MainWindow *m_ui;
-
-    std::unique_ptr<MenuHook> m_newMenuItemHook;
-    std::unique_ptr<MenuHook> m_exitMenuItemHook;
+    // Function:   addObserver
+    // Purpose:    Adds an observer to the observable.
+    // Parameters: observer - The observer to add.
+    // Returns:    A connection to the added observer.
+    virtual std::shared_ptr<IConnection>
+    addObserver(std::shared_ptr<IObserver> observer) = 0;
   };
 }
 

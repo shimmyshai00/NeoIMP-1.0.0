@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_HOOK_HPP
-#define SDF_UILAYER_QT_VIEW_HOOK_HPP
+#ifndef SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
+#define SDF_UILAYER_QT_VIEW_MAINWINDOW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Hook.hpp
- * PURPOSE: Defines the Hook template.
+ * FILE:    MainWindow.hpp
+ * PURPOSE: Defines the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,38 +24,39 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IController.hpp"
+#include "../../../Pattenrns/IListener.hpp"
+#include "Hook.hpp"
 
-#include <QMetaObject>
-#include <QObject>
+#include <QMainWindow>
+#include <QAction>
 
 #include <memory>
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
 namespace SDF::UILayer::Qt::View {
-  // Class:      Hook
-  // Purpose:    Wraps a hook of a Qt signal item to a controller so that only one controller is permitted at a time
-  //             and they can easily be changed dynamically. Also provides exception handling for errors from the
-  //             controller.
-  // Parameters: QObjT - The type of QObject to hook.
-  //             Args - The signal arguments.
-  template<class QObjT, class ... Args>
-  class Hook {
+  // Class:      MainWindow
+  // Purpose:    Defines the app's main window.
+  // Parameters: None.
+  class MainWindow : public QMainWindow {
+    Q_OBJECT
   public:
-    Hook(QObjT *src,
-         void (QObjT::*srcSignal)(Args...)
-        );
+    MainWindow(QObject *parent = nullptr);
+
+    // Controller hooks.
+    void
+    hookNewMenuItem(std::unique_ptr<Patterns::IListener<bool>> controller);
 
     void
-    hook(std::unique_ptr<IController<Args...>> controller);
+    hookExitMenuItem(std::unique_ptr<Patterns::IListener<bool>> controller);
   private:
-    QObjT *m_src;
-    void (QObjT::*m_srcSignal)(Args...);
+    Ui::MainWindow *m_ui;
 
-    std::unique_ptr<IController<Args...>> m_controller;
-    QMetaObject::Connection m_conn;
+    QMetaObject::connection m_newMenuConn;
+    QMetaObject::connection m_exitMenuConn;
   };
 }
-
-#include "Hook.tpp"
 
 #endif

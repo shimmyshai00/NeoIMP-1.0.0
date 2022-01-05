@@ -1,6 +1,4 @@
-add_subdirectory(Mvc)
-add_subdirectory(Gui)
-
 target_sources(neoimp PUBLIC
+  Application.cpp
   Component.cpp
 )

@@ -26,19 +26,19 @@
 
 namespace SDF::Patterns {
   // Class:      IObserver
-  // Purpose:    Defines an interface for observers.
-  // Parameters: SubjT - The type of subject to observe.
-  template<class SubjT>
+  // Purpose:    Defines an interface for observing an observable.
+  // Parameters: T - The type of observable this observer observes for changes.
+  template<class T>
   class IObserver {
   public:
     virtual ~IObserver() = default;
 
     // Function:   onChanged
-    // Purpose:    Called by the subject when it changes.
-    // Parameters: subj - The subject that changed.
+    // Purpose:    Called when the observable changes.
+    // Parameters: obj - The object that changed.
     // Returns:    None.
     virtual void
-    onChanged(SubjT &subj) = 0;
+    onChanged(T *obj) = 0;
   };
 }
 

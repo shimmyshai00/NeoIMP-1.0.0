@@ -1,12 +1,9 @@
-#ifndef SDF_PATTERNS_ICONNECTION_HPP
-#define SDF_PATTERNS_ICONNECTION_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IConnection.hpp
- * PURPOSE: Defines the IConnection interface.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the UI layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include "Component.hpp"
 
-namespace SDF::Patterns {
-  // Class:      IConnection
-  // Purpose:    Defines an interface for connection objects.
-  // Parameters: None.
-  class IConnection {
-  public:
-    virtual ~IConnection() = default;
+#include "Gui/Component.hpp"
 
-    // Function:   connect
-    // Purpose:    Connect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    connect() = 0;
-
-    // Function:   disconnect
-    // Purpose:    Disconnect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    disconnect() = 0;
-  };
-
-  typedef std::shared_ptr<IConnection> PIConnection;
+namespace SDF::UILayer {
+  fruit::Component<IApplication>
+  getComponent() {
+    return fruit::createComponent()
+      .install(Gui::getComponent);
+  }
 }
-
-#endif

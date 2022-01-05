@@ -1,12 +1,12 @@
-#ifndef SDF_PATTERNS_ICONNECTION_HPP
-#define SDF_PATTERNS_ICONNECTION_HPP
+#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_EXIT_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_EXIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IConnection.hpp
- * PURPOSE: Defines the IConnection interface.
+ * FILE:    Exit.hpp
+ * PURPOSE: Defines the Exit class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include "../../../Mvc/IController.hpp"
+#include "../IGuiController.hpp"
 
-namespace SDF::Patterns {
-  // Class:      IConnection
-  // Purpose:    Defines an interface for connection objects.
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  // Class:      Exit
+  // Purpose:    Handles the "exit" command from the main window.
   // Parameters: None.
-  class IConnection {
+  class Exit : public Mvc::IController<> {
   public:
-    virtual ~IConnection() = default;
+    Exit(IGuiController *guiController);
 
-    // Function:   connect
-    // Purpose:    Connect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    connect() = 0;
-
-    // Function:   disconnect
-    // Purpose:    Disconnect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    disconnect() = 0;
+    void
+    onTrigger();
+  private:
+    IGuiController *m_guiController;
   };
-
-  typedef std::shared_ptr<IConnection> PIConnection;
 }
 
 #endif

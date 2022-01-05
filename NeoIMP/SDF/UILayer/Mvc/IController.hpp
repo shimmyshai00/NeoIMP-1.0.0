@@ -1,12 +1,12 @@
-#ifndef SDF_PATTERNS_ICONNECTION_HPP
-#define SDF_PATTERNS_ICONNECTION_HPP
+#ifndef SDF_UILAYER_MVC_ICONTROLLER_HPP
+#define SDF_UILAYER_MVC_ICONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IConnection.hpp
- * PURPOSE: Defines the IConnection interface.
+ * FILE:    IController.hpp
+ * PURPOSE: Defines the IController interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-namespace SDF::Patterns {
-  // Class:      IConnection
-  // Purpose:    Defines an interface for connection objects.
-  // Parameters: None.
-  class IConnection {
+namespace SDF::UILayer::Mvc {
+  // Class:      IController
+  // Purpose:    Defines an interface for view controllers. MVC view controllers
+  //             are basically event handlers.
+  // Parameters: Args - The arguments to pass to this controller.
+  template<class ... Args>
+  class IController {
   public:
-    virtual ~IConnection() = default;
+    virtual ~IController() = default;
 
-    // Function:   connect
-    // Purpose:    Connect the objects.
-    // Parameters: None.
+    // Function:   onTrigger
+    // Purpose:    Invoke the controller with an event.
+    // Parameters: args - The event arguments.
     // Returns:    None.
     virtual void
-    connect() = 0;
-
-    // Function:   disconnect
-    // Purpose:    Disconnect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    disconnect() = 0;
+    onTrigger(Args... args) = 0;
   };
-
-  typedef std::shared_ptr<IConnection> PIConnection;
 }
 
 #endif

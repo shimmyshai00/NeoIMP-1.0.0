@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_VIEW_ICONTROLLER_HPP
-#define SDF_UILAYER_QT_VIEW_ICONTROLLER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IController.hpp
- * PURPOSE: Defines the IController interface.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the Qt-based view system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Qt::View {
-  // Class:      IController
-  // Purpose:    Defines an interface for an event controller.
-  // Parameters: Args - The event arguments.
-  template<class ... Args>
-  class IController {
-  public:
-    virtual ~IController() = default;
+#include "Component.hpp"
 
-    // Function:   handle
-    // Purpose:    Handle the event.
-    // Parameters: args - The event arguments.
-    virtual void
-    handle(Args... args) = 0;
-  };
+#include "GuiManager.hpp"
+
+namespace SDF::UILayer::Gui::View::Qt {
+  fruit::Component<Controller::IGuiController>
+  getComponent() {
+    return fruit::createComponent()
+      .bind<Controller::IGuiController, GuiManager>();
+  }
 }
-
-#endif

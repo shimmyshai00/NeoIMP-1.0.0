@@ -1,12 +1,12 @@
-#ifndef SDF_PATTERNS_SUBJECT_TPP
-#define SDF_PATTERNS_SUBJECT_TPP
+#ifndef SDF_UILAYER_GUI_COMPONENT_HPP
+#define SDF_UILAYER_GUI_COMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Subject.tpp
- * PURPOSE: Implements the Subject template.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the GUI subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Patterns {
-  template<class SubjT>
-  Subject<SubT>::~Subject() {
-  }
+#include "../IApplication.hpp"
 
-  template<class SubjT>
-  std::shared_ptr<IConnection>
-  Subject<SubjT>::addObserver(IObserver<SubjT> *observer) {
-    return std::shared_ptr<IConnection>(new Connection(this, observer));
-  }
+#include <fruit/fruit.h>
 
-  template<class SubjT>
-  void
-  Subject<SubjT>::notifyObservers() {
-    for(auto obs : m_observers) {
-      obs->onChanged(static_cast<SubjT *>(this));
-    }
-  }
+namespace SDF::UILayer::Gui {
+  fruit::Component<IApplication>
+  getComponent();
 }
 
 #endif

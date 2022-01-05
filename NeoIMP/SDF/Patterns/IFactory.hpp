@@ -28,34 +28,26 @@
 
 namespace SDF::Patterns {
   // Class:      IFactory
-  // Purpose:    Defines a factory interface.
-  // Parameters: ConsT - The type of object constructed.
-  //             Args - The construction arguments.
-  template<class ConsT, class ... Args>
+  // Purpose:    Defines an interface for objects which construct other objects.
+  // Parameters: ObjT - The type of object constructed.
+  //             Args - The arguments required for the construction.
+  template<class ObjT, class ... Args>
   class IFactory {
   public:
     virtual ~IFactory() = default;
 
-    // Function:   makeUnique
-    // Purpose:    Create a unique object according to the specified parameters.
-    // Parameters: args - The arguments to use to create the object.
-    // Returns:    A unique_ptr to a new object of the given type.
-    std::unique_ptr<ConsT>
-    makeUnique(Args... args) { return std::unique_ptr<ConsT>(create(args...)); }
-
-    // Function:   makeShared
-    // Purpose:    Create a shared object according to the specified parameters.
-    // Parameters: args - The arguments to use to create the object.
-    // Returns:    A shared_ptr to a new object of the given type.
-    std::shared_ptr<ConstT>
-    makeShared(Args... args) { return std::shared_ptr<ConsT>(create(args...)); }
-  protected:
     // Function:   create
-    // Purpose:    Create a raw pointer to the object according to the specified parameters.
-    // Parameters: args - The arguments to use to create the object.
-    // Returns:    A raw pointer to a new object of the given type.
-    virtual ConsT *
+    // Purpose:    Create a new instance of the object.
+    // Parameters: args - The arguments to use for the construction.
+    // Returns:    A pointer to the new object.
+    virtual ObjT *
     create(Args... args) = 0;
+
+    std::unique_ptr<ObjT>
+    createU(Args... args) { return std::unique_ptr<ObjT>(create(args...)); }
+
+    std::shared_ptr<ObjT>
+    createS(Args... args) { return std::shared_ptr<ObjT>(create(args...)); }
   };
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_QT_VIEW_HOOK_TPP
-#define SDF_UILAYER_QT_VIEW_HOOK_TPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Hook.tpp
- * PURPOSE: Implements the Hook template.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the Qt-based view system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Qt::View {
-  template<class QObjT, class ... Args>
-  Hook<QObjT, Args...>::Hook(QObjT *src,
-                             void (QObjT::*srcSignal)(Args...)
-                            )
-    : m_src(src),
-      m_srcSignal(srcSignal)
-  {}
+#include "../../Controller/IGuiController.hpp"
 
-  template<class QObjT, class ... Args>
-  void
-  Hook<QObjT, Args...>::hook(std::unique_ptr<IController<Args...>> controller) {
-    if(m_controller) {
-      QObject::disconnect(m_conn);
-    }
+#include <fruit/fruit.h>
 
-    m_controller = std::move(controller);
-    m_conn = QObject::connect(m_src, m_srcSignal, [&](Args... args) { m_controller->handle(args...); });
-  }
+namespace SDF::UILayer::Gui::View::Qt {
+  fruit::Component<Controller::IGuiController>
+  getComponent();
 }
 
 #endif

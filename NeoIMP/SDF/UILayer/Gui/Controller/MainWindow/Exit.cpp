@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_QT_VIEW_ICONTROLLERFACTORY_HPP
-#define SDF_UILAYER_QT_VIEW_ICONTROLLERFACTORY_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IControllerFactory.hpp
- * PURPOSE: Defines the IControllerFactory interface.
+ * FILE:    Exit.cpp
+ * PURPOSE: Implements the Exit class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IViewFactory.hpp"
-#include "IController.hpp"
+#include "Exit.hpp"
 
-#include <QMainWindow>
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  Exit::Exit(IGuiController *guiController)
+    : m_guiController(guiController)
+  {
+  }
 
-#include <memory>
-
-namespace SDF::UILayer::Qt::View {
-  // Class:      IControllerFactory
-  // Purpose:    Provides an interface for the controller factory.
-  // Parameters: None.
-  class IControllerFactory {
-  public:
-    virtual ~IControllerFactory() = default;
-
-    virtual void
-    setViewFactory(IViewFactory *viewFactory) = 0;
-
-    virtual std::unique_ptr<IController<bool>>
-    makeExitMenuItemController(QMainWindow *mainWindow) = 0;
-
-    virtual std::unique_ptr<IController<bool>>
-    makeNewMenuItemController(QMainWindow *mainWindow) = 0;
-  };
+  void
+  Exit::onTrigger() {
+    if(m_guiController != nullptr) {
+      m_guiController->closeGui();
+    }
+  }
 }
-
-#endif

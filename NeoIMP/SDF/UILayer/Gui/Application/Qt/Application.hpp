@@ -1,12 +1,12 @@
-#ifndef SDF_PATTERNS_LISTENABLE_TPP
-#define SDF_PATTERNS_LISTENABLE_TPP
+#ifndef SDF_UILAYER_GUI_APPLICATION_QT_APPLICATION_HPP
+#define SDF_UILAYER_GUI_APPLICATION_QT_APPLICATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Listenable.tpp
- * PURPOSE: Implements the Listenable template.
+ * FILE:    Application.hpp
+ * PURPOSE: Defines the Application class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Patterns {
-  template<class EventT>
-  Listenable<EventT>::~Listenable() {
-  }
+#include "../../../IApplication.hpp"
+#include "../../Controller/IGuiController.hpp"
 
-  template<class EventT>
-  std::shared_ptr<IConnection>
-  Listenable<EventT>::addListener(IListener<EventT> *listener) {
-    return std::shared_ptr<IConnection>(new Connection(this, listener));
-  }
+#include <fruit/fruit.h>
 
-  template<class EventT>
-  void
-  Listenable<EventT>::sendEvent(std::shared_ptr<EventT> event) {
-    for(auto lis : m_listeners) {
-      lis->onEvent(event);
-    }
-  }
+namespace SDF::UILayer::Gui::Application::Qt {
+  // Class:      Application
+  // Purpose:    Defines the main application class for the Qt widget system.
+  // Parameters: None.
+  class Application : public IApplication {
+  public:
+    INJECT(Application(Controller::IGuiController *guiController));
+
+    int
+    exec(int argc,
+         char **argv
+        );
+  private:
+    Controller::IGuiController *m_guiController;
+  };
 }
 
 #endif

@@ -1,12 +1,9 @@
-#ifndef SDF_PATTERNS_ILISTENER_HPP
-#define SDF_PATTERNS_ILISTENER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IListener.hpp
- * PURPOSE: Defines the IListener interface.
+ * FILE:    MainWindow.cpp
+ * PURPOSE: Defines the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +21,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include "MainWindow.hpp"
 
-namespace SDF::Patterns {
-  // Class:      IListener
-  // Purpose:    Defines an interface for event listeners.
-  // Parameters: EventT - The type of event to listen to.
-  template<class EventT>
-  class IListener {
-  public:
-    virtual ~IListener() = default;
+#include "Resources/ui_MainWindow.h"
 
-    // Function:   onEvent
-    // Purpose:    Called when an event occurs.
-    // Parameters: event - The event to handle.
-    // Returns:    None.
-    virtual void
-    onEvent(std::shared_ptr<EventT> event) = 0;
-  };
+namespace SDF::UILayer::Gui::View::Qt {
+  MainWindow::MainWindow(IQtView *parent)
+    : QtView(parent),
+      m_ui(new Ui::MainWindow)
+  {
+    m_ui->setupUi(this);
+
+    QAction::connect(m_ui->actionE_xit, &QAction::triggered,
+      [&]() { m_onExitEvent.trigger(); });
+  }
+
+  MainWindow::~MainWindow() {
+    delete m_ui;
+  }
+
+  Patterns::PIConnection
+  MainWindow::hookOnExit(std::unique_ptr<Mvc::IController<>> controller) {
+    return m_onExitEvent.hook(std::move(controller));
+  }
 }
-
-#endif

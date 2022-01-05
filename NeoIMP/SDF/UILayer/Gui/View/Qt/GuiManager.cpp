@@ -1,12 +1,9 @@
-#ifndef SDF_PATTERNS_ICONNECTION_HPP
-#define SDF_PATTERNS_ICONNECTION_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IConnection.hpp
- * PURPOSE: Defines the IConnection interface.
+ * FILE:    GuiManager.cpp
+ * PURPOSE: Implements the GuiManager class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +21,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include "GuiManager.hpp"
 
-namespace SDF::Patterns {
-  // Class:      IConnection
-  // Purpose:    Defines an interface for connection objects.
-  // Parameters: None.
-  class IConnection {
-  public:
-    virtual ~IConnection() = default;
+namespace SDF::UILayer::Gui::View::Qt {
+  GuiManager::GuiManager()
+    : m_mainWindow(nullptr)
+  {
+  }
 
-    // Function:   connect
-    // Purpose:    Connect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    connect() = 0;
+  void
+  GuiManager::startGui() {
+    if(!m_mainWindow) {
+      m_mainWindow = MainWindow::create(nullptr, this);
+      m_mainWindow->show();
+    }
+  }
 
-    // Function:   disconnect
-    // Purpose:    Disconnect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    disconnect() = 0;
-  };
-
-  typedef std::shared_ptr<IConnection> PIConnection;
+  void
+  GuiManager::closeGui() {
+    if(m_mainWindow) {
+      m_mainWindow->close();
+    }
+  }
 }
-
-#endif

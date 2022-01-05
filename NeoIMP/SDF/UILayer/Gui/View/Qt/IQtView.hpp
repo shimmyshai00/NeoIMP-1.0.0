@@ -1,12 +1,12 @@
-#ifndef SDF_PATTERNS_ICONNECTION_HPP
-#define SDF_PATTERNS_ICONNECTION_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_IQTVIEW_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_IQTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IConnection.hpp
- * PURPOSE: Defines the IConnection interface.
+ * FILE:    IQtView.hpp
+ * PURPOSE: Defines the IQtView template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
+#include "../../../Mvc/ViewNode.hpp"
 
-namespace SDF::Patterns {
-  // Class:      IConnection
-  // Purpose:    Defines an interface for connection objects.
+#include <QWidget>
+
+namespace SDF::UILayer::Gui::View::Qt {
+  // Class:      IQtView
+  // Purpose:    Defines an interface for all Qt-based MVC views.
   // Parameters: None.
-  class IConnection {
+  class IQtView : public Mvc::ViewNode {
   public:
-    virtual ~IConnection() = default;
+    virtual ~IQtView() = default;
 
-    // Function:   connect
-    // Purpose:    Connect the objects.
+    // Function:   getQWidget
+    // Purpose:    Get the associated QWidget for this view.
     // Parameters: None.
-    // Returns:    None.
-    virtual void
-    connect() = 0;
-
-    // Function:   disconnect
-    // Purpose:    Disconnect the objects.
-    // Parameters: None.
-    // Returns:    None.
-    virtual void
-    disconnect() = 0;
+    // Returns:    The view as QWidget.
+    virtual QWidget *
+    getQWidget() = 0;
   };
-
-  typedef std::shared_ptr<IConnection> PIConnection;
 }
 
 #endif
