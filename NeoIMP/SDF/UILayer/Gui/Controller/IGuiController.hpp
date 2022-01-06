@@ -47,6 +47,10 @@ namespace SDF::UILayer::Gui::Controller {
     // Returns:    None.
     virtual void
     closeGui() = 0;
+
+    // Methods to show and close windows and views.
+    virtual void
+    showNewDocumentDialog() = 0;
   };
 }
 

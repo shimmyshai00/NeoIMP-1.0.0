@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_VIEW_QT_VIEWFACTORY_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_VIEWFACTORY_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the Qt-based view system.
+ * FILE:    ViewFactory.hpp
+ * PURPOSE: Defines the ViewFactory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,17 +24,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../../AbstractModel/IMetricsService.hpp"
 
-#include "../../../../ModelLayer/Component.hpp"
+#include "../../Controller/IGuiController.hpp"
+#include "IQtView.hpp"
 
-#include "GuiManager.hpp"
+#include "MainWindow.hpp"
+#include "NewDocumentDialog.hpp"
+
+#include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<Controller::IGuiController>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IGuiController, GuiManager>()
-      .install(ModelLayer::getComponent);
-  }
+  // Class:      ViewFactory
+  // Purpose:    Centralizes the construction of views.
+  // Parameters: None.
+  class ViewFactory {
+  public:
+    INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService));
+
+    MainWindow *
+    createMainWindow(IQtView *parent,
+                     Controller::IGuiController *guiController
+                    );
+
+    NewDocumentDialog *
+    createNewDocumentDialog(IQtView *parent);
+  private:
+    AbstractModel::IMetricsService *m_metricsService;
+  };
 }
+
+#endif

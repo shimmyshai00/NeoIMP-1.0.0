@@ -43,7 +43,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityEdit" name="widthUnitQuantityEdit"/>
+      <widget class="SDF::UILayer::Gui::View::Qt::CustomWidgets::UnitQuantityEdit" name="widthUnitQuantityEdit"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -53,7 +53,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityEdit" name="heightUnitQuantityEdit"/>
+      <widget class="SDF::UILayer::Gui::View::Qt::CustomWidgets::UnitQuantityEdit" name="heightUnitQuantityEdit"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
@@ -63,7 +63,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityEdit" name="resolutionUnitQuantityEdit"/>
+      <widget class="SDF::UILayer::Gui::View::Qt::CustomWidgets::UnitQuantityEdit" name="resolutionUnitQuantityEdit"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
@@ -153,9 +153,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SDF::UILayer::Qt::View::CustomWidgets::UnitQuantityEdit</class>
+   <class>SDF::UILayer::Gui::View::Qt::CustomWidgets::UnitQuantityEdit</class>
    <extends>QWidget</extends>
-   <header>SDF/UILayer/Qt/View/CustomWidgets/UnitQuantityEdit.hpp</header>
+   <header>SDF/UILayer/Gui/View/Qt/CustomWidgets/UnitQuantityEdit.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

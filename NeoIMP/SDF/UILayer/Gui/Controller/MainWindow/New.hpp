@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_NEW_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_NEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the Qt-based view system.
+ * FILE:    New.hpp
+ * PURPOSE: Defines the New class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,17 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../../Mvc/IController.hpp"
+#include "../IGuiController.hpp"
 
-#include "../../../../ModelLayer/Component.hpp"
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  // Class:      New
+  // Purpose:    Handles the "new" command from the main window.
+  // Parameters: None.
+  class New : public Mvc::IController<> {
+  public:
+    New(IGuiController *guiController);
 
-#include "GuiManager.hpp"
-
-namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<Controller::IGuiController>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IGuiController, GuiManager>()
-      .install(ModelLayer::getComponent);
-  }
+    void
+    onTrigger();
+  private:
+    IGuiController *m_guiController;
+  };
 }
+
+#endif

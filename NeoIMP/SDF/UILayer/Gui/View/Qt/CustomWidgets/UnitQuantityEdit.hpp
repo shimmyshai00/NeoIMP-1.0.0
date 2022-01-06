@@ -1,5 +1,5 @@
-#ifndef SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_UNITQUANTITYEDIT_HPP
-#define SDF_UILAYER_QT_VIEW_CUSTOMWIDGETS_UNITQUANTITYEDIT_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_CUSTOMWIDGETS_UNITQUANTITYEDIT_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_CUSTOMWIDGETS_UNITQUANTITYEDIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,9 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../AbstractModel/Defs/EResolutionUnit.hpp"
-#include "../../../AbstractModel/IMetricsService.hpp"
+#include "../../../../AbstractModel/Defs/ELengthUnit.hpp"
+#include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../../AbstractModel/IMetricsService.hpp"
 
 #include <QWidget>
 #include <QBoxLayout>
@@ -35,7 +35,7 @@
 
 #include <memory>
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
+namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
   // Class:      UnitQuantityEdit
   // Purpose:    Defines a custom widget for entering unitful physical quantities.
   // Parameters: None.

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_IMAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_IMAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_IDIALOG_HPP
+#define SDF_UILAYER_GUI_VIEW_IDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IMainWindow.hpp
- * PURPOSE: Defines the IMainWindow interface.
+ * FILE:    IDialog.hpp
+ * PURPOSE: Defines the IDialog interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -31,21 +31,23 @@
 #include <memory>
 
 namespace SDF::UILayer::Gui::View {
-  // Class:      IMainWindow
-  // Purpose:    Defines the widget system-agnostic interface for the main
-  //             window.
-  // Parameters: None.
-  class IMainWindow : public virtual Mvc::IView {
+  // Class:      IDialog
+  // Purpose:    Defines the widget system-agnostic interface for dialogs.
+  // Parameters: RespT - The data type of the generated response from the
+  //                     dialog.
+  template<class RespT>
+  class IDialog : public virtual Mvc::IView {
   public:
-    virtual ~IMainWindow() = default;
+    virtual ~IDialog() = default;
 
     // Event hooks.
     virtual Patterns::PIConnection
-    hookOnNew(std::unique_ptr<Mvc::IController<>> controller) = 0;
+    hookOnAccept(std::unique_ptr<Mvc::IController<RespT>> controller) = 0;
 
     virtual Patterns::PIConnection
-    hookOnExit(std::unique_ptr<Mvc::IController<>> controller) = 0;
+    hookOnReject(std::unique_ptr<Mvc::IController<>> controller) = 0;
   };
 }
+
 
 #endif

@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the Qt-based view system.
+ * FILE:    New.cpp
+ * PURPOSE: Implements the New class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "New.hpp"
 
-#include "../../../../ModelLayer/Component.hpp"
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  New::New(IGuiController *guiController)
+    : m_guiController(guiController)
+  {
+  }
 
-#include "GuiManager.hpp"
-
-namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<Controller::IGuiController>
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IGuiController, GuiManager>()
-      .install(ModelLayer::getComponent);
+  void
+  New::onTrigger() {
+    if(m_guiController != nullptr) {
+      m_guiController->showNewDocumentDialog();
+    }
   }
 }

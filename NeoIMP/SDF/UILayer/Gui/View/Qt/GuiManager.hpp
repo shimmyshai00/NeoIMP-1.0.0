@@ -26,7 +26,9 @@
 
 #include "../../Controller/IGuiController.hpp"
 
+#include "ViewFactory.hpp"
 #include "MainWindow.hpp"
+#include "NewDocumentDialog.hpp"
 
 #include <QPointer>
 
@@ -38,15 +40,21 @@ namespace SDF::UILayer::Gui::View::Qt {
   // Parameters: None.
   class GuiManager : public Controller::IGuiController {
   public:
-    INJECT(GuiManager());
+    INJECT(GuiManager(ViewFactory *viewFactory));
 
     void
     startGui();
 
     void
     closeGui();
+
+    void
+    showNewDocumentDialog();
   private:
+    ViewFactory *m_viewFactory;
+
     QPointer<MainWindow> m_mainWindow;
+    QPointer<NewDocumentDialog> m_newDocumentDialog;
   };
 }
 

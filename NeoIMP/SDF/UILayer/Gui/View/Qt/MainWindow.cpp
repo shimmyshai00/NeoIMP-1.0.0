@@ -32,12 +32,19 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     m_ui->setupUi(this);
 
+    QAction::connect(m_ui->action_New, &QAction::triggered,
+      [&]() { m_onNewEvent.trigger(); });
     QAction::connect(m_ui->actionE_xit, &QAction::triggered,
       [&]() { m_onExitEvent.trigger(); });
   }
 
   MainWindow::~MainWindow() {
     delete m_ui;
+  }
+
+  Patterns::PIConnection
+  MainWindow::hookOnNew(std::unique_ptr<Mvc::IController<>> controller) {
+    return m_onNewEvent.hook(std::move(controller));
   }
 
   Patterns::PIConnection

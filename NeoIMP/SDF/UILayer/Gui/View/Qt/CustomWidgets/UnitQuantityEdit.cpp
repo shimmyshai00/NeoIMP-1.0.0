@@ -23,10 +23,10 @@
 
 #include "UnitQuantityEdit.hpp"
 
-#include "../../../AbstractModel/Defs/LengthUnitLabels.hpp"
-#include "../../../AbstractModel/Defs/ResolutionUnitLabels.hpp"
+#include "../../../../AbstractModel/Defs/LengthUnitLabels.hpp"
+#include "../../../../AbstractModel/Defs/ResolutionUnitLabels.hpp"
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
+namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
   UnitQuantityEdit::UnitQuantityEdit(AbstractModel::IMetricsService *metricsService,
                                      QuantityMode quantityMode,
                                      QWidget *parent
@@ -208,7 +208,7 @@ namespace SDF::UILayer::Qt::View::CustomWidgets {
   }
 }
 
-namespace SDF::UILayer::Qt::View::CustomWidgets {
+namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
   // Private members.
   void
   UnitQuantityEdit::syncQuantityDisplay() {

@@ -24,15 +24,15 @@
 #include "GuiManager.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  GuiManager::GuiManager()
-    : m_mainWindow(nullptr)
+  GuiManager::GuiManager(ViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
   {
   }
 
   void
   GuiManager::startGui() {
     if(!m_mainWindow) {
-      m_mainWindow = MainWindow::create(nullptr, this);
+      m_mainWindow = m_viewFactory->createMainWindow(nullptr, this);
       m_mainWindow->show();
     }
   }
@@ -41,6 +41,16 @@ namespace SDF::UILayer::Gui::View::Qt {
   GuiManager::closeGui() {
     if(m_mainWindow) {
       m_mainWindow->close();
+    }
+  }
+
+  void
+  GuiManager::showNewDocumentDialog() {
+    if(m_mainWindow && !m_newDocumentDialog) {
+      m_newDocumentDialog =
+        m_viewFactory->createNewDocumentDialog(m_mainWindow);
+      m_newDocumentDialog->setAttribute(::Qt::WA_DeleteOnClose);
+      m_newDocumentDialog->show();
     }
   }
 }
