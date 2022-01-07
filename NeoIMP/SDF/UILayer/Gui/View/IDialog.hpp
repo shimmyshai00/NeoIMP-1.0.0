@@ -33,8 +33,7 @@
 namespace SDF::UILayer::Gui::View {
   // Class:      IDialog
   // Purpose:    Defines the widget system-agnostic interface for dialogs.
-  // Parameters: RespT - The data type of the generated response from the
-  //                     dialog.
+  // Parameters: RespT - The data type of the generated response from the dialog.
   template<class RespT>
   class IDialog : public virtual Mvc::IView {
   public:

@@ -32,8 +32,7 @@
 
 namespace SDF::UILayer::Gui::View {
   // Class:      IMainWindow
-  // Purpose:    Defines the widget system-agnostic interface for the main
-  //             window.
+  // Purpose:    Defines the widget system-agnostic interface for the main window.
   // Parameters: None.
   class IMainWindow : public virtual Mvc::IView {
   public:

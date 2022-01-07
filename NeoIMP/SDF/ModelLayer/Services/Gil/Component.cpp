@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the model layer.
+ * PURPOSE: Implements the DI component for the services subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 #include "Component.hpp"
 
-#include "Repositories/Component.hpp"
-#include "Services/Component.hpp"
+#include "CreateImageService.hpp"
 
-namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::ICreateImageService,
-                   UILayer::AbstractModel::IMetricsService
-                  >
+namespace SDF::ModelLayer::Services::Gil {
+  fruit::Component<
+    fruit::Required<
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>
+    >,
+    UILayer::AbstractModel::ICreateImageService
+  >
   getComponent() {
     return fruit::createComponent()
-      .install(Repositories::getComponent)
-      .install(Services::getComponent);
+      .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>();
   }
 }

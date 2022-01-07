@@ -26,10 +26,10 @@
 
 namespace SDF::UILayer::Gui::Controller {
   // Class:   IGuiController
-  // Purpose: Provides an interface describing the commands we want to issue to
-  //          the GUI at a coarse scale, i.e. for obtaining and dismissing
-  //          views. This allows us to offload the layout of the GUI, i.e. which
-  //          views compose with which, mostly outside the controller section.
+  // Purpose: Provides an interface describing the commands we want to issue to the GUI at a coarse
+  //          scale, i.e. for obtaining and dismissing views. This allows us to offload the layout
+  //          of the GUI, i.e. which views compose with which, mostly outside the controller
+  //          section.
   class IGuiController {
   public:
     virtual ~IGuiController() = default;

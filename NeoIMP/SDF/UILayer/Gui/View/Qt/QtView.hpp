@@ -34,12 +34,11 @@
 
 namespace SDF::UILayer::Gui::View::Qt {
   // Class:      QtView
-  // Purpose:    Provides a general base for Qt-based MVC view widgets. This
-  //             builds a coarser view hierarchy atop the Qt widget hierarchy
-  //             that is widget system-agnostic, while still allowing Qt to do
-  //             most of the hierarchy management.
-  // Parameters: QWidgetT - The type of QWidget to build this view from.
-  //                        Generally, we follow a CRTP pattern here.
+  // Purpose:    Provides a general base for Qt-based MVC view widgets. This builds a coarser view
+  //             hierarchy atop the Qt widget hierarchy that is widget system-agnostic, while still
+  //             allowing Qt to do most of the hierarchy management.
+  // Parameters: QWidgetT - The type of QWidget to build this view from. Generally, we follow a
+  //                        CRTP pattern here.
   template<class QWidgetT>
   class QtView : public QWidgetT, public IQtView {
   public:

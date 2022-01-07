@@ -28,8 +28,7 @@
 
 namespace SDF::UILayer::Mvc {
   // Class:      ViewNode
-  // Purpose:    Implements the widget system-agnostic hierarchy management
-  //             functionality.
+  // Purpose:    Implements the widget system-agnostic hierarchy management functionality.
   // Parameters: None.
   class ViewNode : public virtual IView {
   public:
@@ -45,9 +44,9 @@ namespace SDF::UILayer::Mvc {
     getNextSibling();
 
     // Function:   registerChild
-    // Purpose:    Registers a view as a child in the widget system-agnostic
-    //             view hierarchy. Note that ownership is not affected.
-    //             Ownership is meant to be handled by the widget system.
+    // Purpose:    Registers a view as a child in the widget system-agnostic view hierarchy. Note
+    //             that ownership is not affected. Ownership is meant to be handled by the widget
+    //             system.
     // Parameters: child - The child view to add.
     // Returns:    None.
     void

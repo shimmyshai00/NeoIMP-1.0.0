@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ACCEPT_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ACCEPT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the model layer.
+ * FILE:    Accept.hpp
+ * PURPOSE: Defines the Accept class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../../AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../AbstractModel/ICreateImageService.hpp"
+#include "../../../Mvc/IController.hpp"
 
-#include "Repositories/Component.hpp"
-#include "Services/Component.hpp"
+namespace SDF::UILayer::Gui::Controller::NewDocumentDialog {
+  class Accept : public Mvc::IController<AbstractModel::Defs::ImageSpec> {
+  public:
+    Accept(AbstractModel::ICreateImageService *createImageService);
 
-namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::ICreateImageService,
-                   UILayer::AbstractModel::IMetricsService
-                  >
-  getComponent() {
-    return fruit::createComponent()
-      .install(Repositories::getComponent)
-      .install(Services::getComponent);
-  }
+    void
+    onTrigger(AbstractModel::Defs::ImageSpec arg);
+  private:
+    AbstractModel::ICreateImageService *m_createImageService;
+  };
 }
+
+#endif

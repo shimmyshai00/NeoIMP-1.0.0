@@ -47,8 +47,7 @@ namespace SDF::UILayer::Gui::View::Qt {
   void
   GuiManager::showNewDocumentDialog() {
     if(m_mainWindow && !m_newDocumentDialog) {
-      m_newDocumentDialog =
-        m_viewFactory->createNewDocumentDialog(m_mainWindow);
+      m_newDocumentDialog = m_viewFactory->createNewDocumentDialog(m_mainWindow);
       m_newDocumentDialog->setAttribute(::Qt::WA_DeleteOnClose);
       m_newDocumentDialog->show();
     }

@@ -6,7 +6,8 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Coord.hpp
- * PURPOSE: Definition of a type holding a pair of 2D coordinates, representing a point or location in 2D space.
+ * PURPOSE: Definition of a type holding a pair of 2D coordinates, representing a point or location
+ *          in 2D space.
  */
 
 /* This program is free software: you can redistribute it and/or modify

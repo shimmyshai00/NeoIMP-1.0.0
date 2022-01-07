@@ -74,8 +74,9 @@ namespace SDF::UILayer::Mvc {
     show() = 0;
 
     // Function:   destroyView
-    // Purpose:    Destroys this view, removing it from the view hierarchy. It
-    //             should only be deleted when safe to do so.
+    // Purpose:    Destroys this view, removing it from the view hierarchy. Users should not regard
+    //             pointers to it as valid after calling this; however, the actual deletion time is
+    //             left to the implementation.
     // Parameters: None.
     // Returns:    None.
     virtual void

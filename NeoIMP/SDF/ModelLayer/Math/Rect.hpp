@@ -161,7 +161,8 @@ namespace SDF::ModelLayer::Math {
              const Rect<T> &rhs
             )
   {
-    return (lhs.getUpperLeft() == rhs.getUpperLeft()) && (lhs.getLowerRight() == rhs.getLowerRight());
+    return ((lhs.getUpperLeft() == rhs.getUpperLeft()) &&
+      (lhs.getLowerRight() == rhs.getLowerRight()));
   }
 
   template<class T>

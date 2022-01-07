@@ -32,10 +32,8 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     m_ui->setupUi(this);
 
-    QAction::connect(m_ui->action_New, &QAction::triggered,
-      [&]() { m_onNewEvent.trigger(); });
-    QAction::connect(m_ui->actionE_xit, &QAction::triggered,
-      [&]() { m_onExitEvent.trigger(); });
+    QAction::connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNewEvent.trigger(); });
+    QAction::connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExitEvent.trigger(); });
   }
 
   MainWindow::~MainWindow() {

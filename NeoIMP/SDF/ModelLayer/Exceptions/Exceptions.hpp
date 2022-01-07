@@ -61,7 +61,7 @@ namespace SDF::ModelLayer::Exceptions {
       : Exception(true, "Tried to use an invalid and likely UNIMPLEMENTED %s unit '%d'.", unitName, unitEnumVal)
     {}
   };
-  
+
   struct InvalidLengthUnitException : public SDF::Exception {
     InvalidLengthUnitException(UILayer::AbstractModel::Data::LengthUnit unit)
       : Exception(true, "Tried to use an invalid and likely UNIMPLEMENTED length unit '%d%'.", unit)

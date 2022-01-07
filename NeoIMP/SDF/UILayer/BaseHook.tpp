@@ -29,10 +29,9 @@ namespace SDF::UILayer {
     template<class ... Args>
     class BaseHookConnection : public Patterns::IConnection {
     public:
-      BaseHookConnection(
-        BaseHook<Args...> *baseHook,
-        std::unique_ptr<Patterns::IMvcController<Args...>> controller
-      )
+      BaseHookConnection(BaseHook<Args...> *baseHook,
+                         std::unique_ptr<Patterns::IMvcController<Args...>> controller
+                        )
         : m_baseHook(baseHook),
           m_controller(std::move(controller)),
           m_controllerPtr(m_controller.get()),
@@ -51,13 +50,8 @@ namespace SDF::UILayer {
       void
       disconnect() {
         if(m_connected) {
-          for(typename
-              std::list<std::unique_ptr<Patterns::IMvcController<Args...>>>
-                 ::iterator
-                it(m_baseHook->m_controllers.begin());
-              it != m_baseHook->m_controllers.end();
-              ++it
-             )
+          for(typename std::list<std::unique_ptr<Patterns::IMvcController<Args...>>>::iterator
+                it(m_baseHook->m_controllers.begin()); it != m_baseHook->m_controllers.end(); ++it)
           {
             if(it->get() == m_controllerPtr) {
               m_controller = std::move(*it);
@@ -84,13 +78,8 @@ namespace SDF::UILayer {
 
   template<class ... Args>
   Patterns::PIConnection
-  BaseHook<Args...>::hook(
-    std::unique_ptr<Patterns::IMvcController<Args...>> controller
-  ) {
-    return std::make_shared<Impl::BaseHookConnection<Args...>>(
-      this,
-      std::move(controller)
-    );
+  BaseHook<Args...>::hook(std::unique_ptr<Patterns::IMvcController<Args...>> controller) {
+    return std::make_shared<Impl::BaseHookConnection<Args...>>(this, std::move(controller));
   }
 
   // Function:   trigger
@@ -100,12 +89,8 @@ namespace SDF::UILayer {
   template<class ... Args>
   void
   BaseHook<Args...>::trigger(Args... args) {
-    for(typename
-        std::list<std::unique_ptr<Patterns::IMvcController<Args...>>>::iterator
-          it(m_controllers.begin());
-        it != m_controllers.end();
-        ++it
-       )
+    for(typename std::list<std::unique_ptr<Patterns::IMvcController<Args...>>>::iterator
+          it(m_controllers.begin()); it != m_controllers.end(); ++it)
     {
       it->onTrigger(args...);
     }

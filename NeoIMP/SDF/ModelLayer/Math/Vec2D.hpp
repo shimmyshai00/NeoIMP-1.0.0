@@ -6,8 +6,9 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Vec2D.hpp
- * PURPOSE: Definition of a type representing a 2D vector. Note that, in line with mathematical principles, vectors are
- *          not the same as coordinates, and do not support the same operations.
+ * PURPOSE: Definition of a type representing a 2D vector. Note that, in line with mathematical
+ *          principles, vectors are not the same as coordinates, and do not support the same
+ *          operations.
  */
 
 /* This program is free software: you can redistribute it and/or modify

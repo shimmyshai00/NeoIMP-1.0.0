@@ -28,11 +28,8 @@
 
 int
 main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication>
-    appInjector(SDF::UILayer::getComponent);
-
-  SDF::UILayer::IApplication *
-    application(appInjector.get<SDF::UILayer::IApplication *>());
+  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::getComponent);
+  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
 
   return application->exec(argc, argv);
 }

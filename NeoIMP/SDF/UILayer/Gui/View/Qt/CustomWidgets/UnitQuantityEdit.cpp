@@ -43,8 +43,8 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
   {
     using namespace AbstractModel;
 
-    // Create the layout for this widget, which consists of a line edit to enter the quantity, with a combo box to the
-    // right for selecting the unit.
+    // Create the layout for this widget, which consists of a line edit to enter the quantity, with
+    // a combo box to the right for selecting the unit.
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->addWidget(m_quantityEdit);
     m_layout->addWidget(m_unitSelect);
@@ -99,7 +99,8 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
     m_metricsService = metricsService;
 
     if(m_metricsService != nullptr) {
-      m_convResolution = m_metricsService->createConvertibleResolution(120.0f, Defs::RESOLUTION_UNIT_PPI);
+      m_convResolution = m_metricsService->createConvertibleResolution(120.0f,
+        Defs::RESOLUTION_UNIT_PPI);
     }
   }
 
@@ -193,7 +194,9 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   float
-  UnitQuantityEdit::getEnteredQuantityInResolutionUnit(AbstractModel::Defs::EResolutionUnit unit) const {
+  UnitQuantityEdit::getEnteredQuantityInResolutionUnit(AbstractModel::Defs::EResolutionUnit unit
+                                                      ) const
+  {
     switch(m_quantityMode) {
       case RESOLUTION:
         if(m_resolutionQuantity) {
@@ -251,10 +254,12 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
 
       switch(m_quantityMode) {
         case LENGTH:
-          m_lengthQuantity = m_metricsService->createConvertibleLength(quantity, m_lengthUnit, m_convResolution.get());
+          m_lengthQuantity = m_metricsService->createConvertibleLength(quantity, m_lengthUnit,
+            m_convResolution.get());
           break;
         case RESOLUTION:
-          m_resolutionQuantity = m_metricsService->createConvertibleResolution(quantity, m_resolutionUnit);
+          m_resolutionQuantity = m_metricsService->createConvertibleResolution(quantity,
+            m_resolutionUnit);
           break;
       }
 
@@ -310,12 +315,11 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
                                       )
   {
     if(m_metricsService != nullptr) {
-      m_convResolution = m_metricsService->createConvertibleResolution(convRes, m_convResolutionUnit);
+      m_convResolution = m_metricsService->createConvertibleResolution(convRes,
+        m_convResolutionUnit);
       if(m_quantityMode == LENGTH) {
-        m_lengthQuantity = m_metricsService->createConvertibleLength(m_lengthQuantity->in(m_lengthUnit),
-                                                                     m_lengthUnit,
-                                                                     m_convResolution.get()
-                                                                    );
+        m_lengthQuantity = m_metricsService->createConvertibleLength(
+          m_lengthQuantity->in(m_lengthUnit), m_lengthUnit, m_convResolution.get());
       }
 
       if(updateGui) {

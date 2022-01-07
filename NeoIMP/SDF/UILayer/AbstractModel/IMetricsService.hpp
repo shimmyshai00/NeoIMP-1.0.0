@@ -33,7 +33,8 @@
 
 namespace SDF::UILayer::AbstractModel {
   // Class:      IMetricsService
-  // Purpose:    Defines the interface for an MVC service that handles unit conversions and other measurement matters.
+  // Purpose:    Defines the interface for an MVC service that handles unit conversions and other
+  //             measurement matters.
   // Parameters: None.
   class IMetricsService {
   public:

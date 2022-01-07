@@ -35,8 +35,7 @@ namespace SDF::UILayer::Gui::View::Qt {
       parent->registerChild(this);
     }
 
-    QWidgetT::connect(this, &QWidgetT::destroyed,
-      [&]() { m_onDestroyEvent.trigger(); });
+    QWidgetT::connect(this, &QWidgetT::destroyed, [&]() { m_onDestroyEvent.trigger(); });
   }
 
   template<class QWidgetT>
@@ -65,9 +64,7 @@ namespace SDF::UILayer::Gui::View::Qt {
 
   template<class QWidgetT>
   Patterns::PIConnection
-  QtView<QWidgetT>::hookOnDestroy(
-    std::unique_ptr<Mvc::IController<>> controller
-  ) {
+  QtView<QWidgetT>::hookOnDestroy(std::unique_ptr<Mvc::IController<>> controller) {
     return m_onDestroyEvent.hook(std::move(controller));
   }
 }

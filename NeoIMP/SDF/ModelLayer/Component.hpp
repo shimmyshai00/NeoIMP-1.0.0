@@ -24,12 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../UILayer/AbstractModel/IMetricsService.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::IMetricsService>
+  fruit::Component<UILayer::AbstractModel::ICreateImageService,
+                   UILayer::AbstractModel::IMetricsService
+                  >
   getComponent();
 }
 

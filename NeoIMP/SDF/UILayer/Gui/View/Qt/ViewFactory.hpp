@@ -25,6 +25,7 @@
  */
 
 #include "../../../AbstractModel/IMetricsService.hpp"
+#include "../../../AbstractModel/ICreateImageService.hpp"
 
 #include "../../Controller/IGuiController.hpp"
 #include "IQtView.hpp"
@@ -40,7 +41,10 @@ namespace SDF::UILayer::Gui::View::Qt {
   // Parameters: None.
   class ViewFactory {
   public:
-    INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService));
+    INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService,
+                       AbstractModel::ICreateImageService *createImageService
+                      )
+          );
 
     MainWindow *
     createMainWindow(IQtView *parent,
@@ -51,6 +55,7 @@ namespace SDF::UILayer::Gui::View::Qt {
     createNewDocumentDialog(IQtView *parent);
   private:
     AbstractModel::IMetricsService *m_metricsService;
+    AbstractModel::ICreateImageService *m_createImageService;
   };
 }
 

@@ -51,14 +51,31 @@ namespace SDF::UILayer::Gui::View::Qt {
     m_ui->resolutionUnitQuantityEdit->setEnteredQuantity(120.0f);
 
     // Connect resolution widget to width/height widgets.
-    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::quantityChanged, m_ui->widthUnitQuantityEdit,
-      &UnitQuantityEdit::setConvertResolution);
-    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::resolutionUnitChanged, m_ui->widthUnitQuantityEdit,
-      &UnitQuantityEdit::setConvertResolutionUnit);
-    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::quantityChanged, m_ui->heightUnitQuantityEdit,
-      &UnitQuantityEdit::setConvertResolution);
-    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::resolutionUnitChanged, m_ui->heightUnitQuantityEdit,
-      &UnitQuantityEdit::setConvertResolutionUnit);
+    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::quantityChanged,
+      m_ui->widthUnitQuantityEdit, &UnitQuantityEdit::setConvertResolution);
+    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::resolutionUnitChanged,
+      m_ui->widthUnitQuantityEdit, &UnitQuantityEdit::setConvertResolutionUnit);
+    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::quantityChanged,
+      m_ui->heightUnitQuantityEdit, &UnitQuantityEdit::setConvertResolution);
+    connect(m_ui->resolutionUnitQuantityEdit, &UnitQuantityEdit::resolutionUnitChanged,
+      m_ui->heightUnitQuantityEdit, &UnitQuantityEdit::setConvertResolutionUnit);
+
+    // Output synthesis.
+    connect(this, &NewDocumentDialog::accepted, [=]() {
+      AbstractModel::Defs::ImageSpec spec;
+      spec.width = m_ui->widthUnitQuantityEdit->enteredQuantity();
+      spec.widthUnit = m_ui->widthUnitQuantityEdit->selectedLengthUnit();
+      spec.height = m_ui->heightUnitQuantityEdit->enteredQuantity();
+      spec.heightUnit = m_ui->heightUnitQuantityEdit->selectedLengthUnit();
+      spec.resolution = m_ui->resolutionUnitQuantityEdit->enteredQuantity();
+      spec.resolutionUnit = m_ui->resolutionUnitQuantityEdit->selectedResolutionUnit();
+      spec.colorModel = AbstractModel::Defs::COLOR_MODEL_RGB;
+      spec.bitDepth = AbstractModel::Defs::BIT_DEPTH_8;
+
+      m_onAcceptEvent.trigger(spec);
+    });
+
+    connect(this, &NewDocumentDialog::rejected, [=]() { m_onRejectEvent.trigger(); });
   }
 
   NewDocumentDialog::~NewDocumentDialog() {
@@ -67,16 +84,13 @@ namespace SDF::UILayer::Gui::View::Qt {
 
   Patterns::PIConnection
   NewDocumentDialog::hookOnAccept(
-    std::unique_ptr<Mvc::IController<AbstractModel::Defs::ImageSpec>>
-      controller
+    std::unique_ptr<Mvc::IController<AbstractModel::Defs::ImageSpec>> controller
   ) {
     return m_onAcceptEvent.hook(std::move(controller));
   }
 
   Patterns::PIConnection
-  NewDocumentDialog::hookOnReject(
-    std::unique_ptr<Mvc::IController<>> controller
-  ) {
+  NewDocumentDialog::hookOnReject(std::unique_ptr<Mvc::IController<>> controller) {
     return m_onRejectEvent.hook(std::move(controller));
   }
 }

@@ -114,9 +114,12 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets {
     AbstractModel::IMetricsService *m_metricsService;
     QuantityMode m_quantityMode;
 
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>> m_lengthQuantity;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>> m_resolutionQuantity;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>> m_convResolution;
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>
+      m_lengthQuantity;
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+      m_resolutionQuantity;
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+      m_convResolution;
 
     AbstractModel::Defs::ELengthUnit m_lengthUnit;
     AbstractModel::Defs::EResolutionUnit m_resolutionUnit;

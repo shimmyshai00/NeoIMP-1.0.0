@@ -30,7 +30,9 @@ namespace SDF::ModelLayer::Services {
   MetricsService::MetricsService() {
   }
 
-  std::shared_ptr<UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>>
+  std::shared_ptr<
+    UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
+  >
   MetricsService::createConvertibleLength(float length,
                                           UILayer::AbstractModel::Defs::ELengthUnit lengthUnit,
                                           UILayer::AbstractModel::Defs::IUnitConvertible<
@@ -42,11 +44,12 @@ namespace SDF::ModelLayer::Services {
     using namespace Metrics;
 
     return std::make_shared<LengthConvertible>(length, lengthUnit,
-                                               resolution->in(Defs::RESOLUTION_UNIT_PPI), Defs::RESOLUTION_UNIT_PPI
-                                              );
+      resolution->in(Defs::RESOLUTION_UNIT_PPI), Defs::RESOLUTION_UNIT_PPI);
   }
 
-  std::shared_ptr<UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>>
+  std::shared_ptr<
+    UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
+  >
   MetricsService::createConvertibleResolution(float resolution,
                                               UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
                                              )

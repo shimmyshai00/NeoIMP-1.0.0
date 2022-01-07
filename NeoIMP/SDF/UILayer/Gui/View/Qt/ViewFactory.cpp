@@ -26,10 +26,14 @@
 // NB: add controller factory?
 #include "../../Controller/MainWindow/New.hpp"
 #include "../../Controller/MainWindow/Exit.hpp"
+#include "../../Controller/NewDocumentDialog/Accept.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  ViewFactory::ViewFactory(AbstractModel::IMetricsService *metricsService)
-    : m_metricsService(metricsService)
+  ViewFactory::ViewFactory(AbstractModel::IMetricsService *metricsService,
+                           AbstractModel::ICreateImageService *createImageService
+                          )
+    : m_metricsService(metricsService),
+      m_createImageService(createImageService)
   {
   }
 
@@ -40,10 +44,10 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     MainWindow *rv(new MainWindow(nullptr));
 
-    std::unique_ptr<Mvc::IController<>> onNewController
-      (new Controller::MainWindow::New(guiController));
-    std::unique_ptr<Mvc::IController<>> onExitController
-      (new Controller::MainWindow::Exit(guiController));
+    std::unique_ptr<Mvc::IController<>> onNewController(
+      new Controller::MainWindow::New(guiController));
+    std::unique_ptr<Mvc::IController<>> onExitController(
+      new Controller::MainWindow::Exit(guiController));
 
     rv->hookOnNew(std::move(onNewController))->connect();
     rv->hookOnExit(std::move(onExitController))->connect();
@@ -54,6 +58,11 @@ namespace SDF::UILayer::Gui::View::Qt {
   NewDocumentDialog *
   ViewFactory::createNewDocumentDialog(IQtView *parent) {
     NewDocumentDialog *rv(new NewDocumentDialog(m_metricsService, parent));
+
+    std::unique_ptr<Mvc::IController<AbstractModel::Defs::ImageSpec>> onAcceptController(
+      new Controller::NewDocumentDialog::Accept(m_createImageService));
+
+    rv->hookOnAccept(std::move(onAcceptController))->connect();
 
     return rv;
   }

@@ -32,7 +32,8 @@
 namespace SDF::ModelLayer::Repositories {
   // Class:      IRepository
   // Purpose:    Defines an interface for domain object repositories (collections).
-  // Parameters: T - The domain object type to hold. This should inherit from DomainObjects::IDomainObject.
+  // Parameters: T - The domain object type to hold. This should inherit from
+  //                 DomainObjects::IDomainObject.
   template<class T>
   class IRepository {
   public:

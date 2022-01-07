@@ -26,8 +26,8 @@
 
 namespace SDF::UILayer::Mvc {
   // Class:      IController
-  // Purpose:    Defines an interface for view controllers. MVC view controllers
-  //             are basically event handlers.
+  // Purpose:    Defines an interface for view controllers. MVC view controllers are basically event
+  //             handlers.
   // Parameters: Args - The arguments to pass to this controller.
   template<class ... Args>
   class IController {

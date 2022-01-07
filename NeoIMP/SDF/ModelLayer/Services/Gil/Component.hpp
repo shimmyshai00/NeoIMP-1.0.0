@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
+#define SDF_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the model layer.
+ * FILE:    Component.hpp
+ * PURPOSE: Defines the DI component for the Gil implementation's services.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
+#include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../../Repositories/IRepository.hpp"
 
-#include "Repositories/Component.hpp"
-#include "Services/Component.hpp"
+#include <fruit/fruit.h>
 
-namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::ICreateImageService,
-                   UILayer::AbstractModel::IMetricsService
-                  >
-  getComponent() {
-    return fruit::createComponent()
-      .install(Repositories::getComponent)
-      .install(Services::getComponent);
-  }
+namespace SDF::ModelLayer::Services::Gil {
+  fruit::Component<
+    fruit::Required<
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>
+    >,
+    UILayer::AbstractModel::ICreateImageService
+  >
+  getComponent();
 }
+
+#endif

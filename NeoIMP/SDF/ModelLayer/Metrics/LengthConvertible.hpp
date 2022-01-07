@@ -32,8 +32,8 @@ namespace SDF::ModelLayer::Metrics {
   // Class:      LengthConvertible
   // Purpose:    Defines a convertible length quantity.
   // Parameters: None.
-  class LengthConvertible :
-    public UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
+  class LengthConvertible : public UILayer::AbstractModel::Defs::IUnitConvertible
+                              <UILayer::AbstractModel::Defs::ELengthUnit>
   {
   public:
     LengthConvertible(float quantity,

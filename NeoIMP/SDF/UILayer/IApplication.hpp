@@ -26,10 +26,9 @@
 
 namespace SDF::UILayer {
   // Class:      IApplication
-  // Purpose:    Defines the interface for the top-level application object.
-  //             Different UI packages (Qt, wxWidgets, etc.) may require their
-  //             own special initialization, thus we may need a different
-  //             application object for each.
+  // Purpose:    Defines the interface for the top-level application object. Different UI packages
+  //             (Qt, wxWidgets, etc.) may require their own special initialization, thus we may
+  //             need a different application object for each.
   // Parameters: None.
   class IApplication {
   public:

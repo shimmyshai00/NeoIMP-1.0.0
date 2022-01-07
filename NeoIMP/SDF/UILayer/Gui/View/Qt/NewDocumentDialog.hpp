@@ -59,10 +59,7 @@ namespace SDF::UILayer::Gui::View::Qt {
     getViewId() const { return "NewDocumentDialog"; }
 
     Patterns::PIConnection
-    hookOnAccept(
-      std::unique_ptr<Mvc::IController<AbstractModel::Defs::ImageSpec>>
-        controller
-    );
+    hookOnAccept(std::unique_ptr<Mvc::IController<AbstractModel::Defs::ImageSpec>> controller);
 
     Patterns::PIConnection
     hookOnReject(std::unique_ptr<Mvc::IController<>> controller);

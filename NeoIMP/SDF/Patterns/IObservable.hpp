@@ -31,8 +31,7 @@
 
 namespace SDF::Patterns {
   // Class:      IObservable
-  // Purpose:    Defines an interface for an object that can be observed for
-  //             changes.
+  // Purpose:    Defines an interface for an object that can be observed for changes.
   // Parameters: T - This interface should CRTP-inherit this class.
   template<class T>
   class IObservable {

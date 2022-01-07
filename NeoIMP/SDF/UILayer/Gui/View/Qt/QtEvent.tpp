@@ -5,7 +5,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Event.tpp
+ * FILE:    QtEvent.tpp
  * PURPOSE: Implements the Event template.
  */
 
@@ -28,8 +28,7 @@ namespace SDF::UILayer::Gui::View::Qt::Impl {
   template<class ... ControllerArgs>
   class QtEventConn : public Patterns::IConnection {
   public:
-    QtEventConn(std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>
-                  *controllerList,
+    QtEventConn(std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>> *controllerList,
                 std::unique_ptr<Mvc::IController<ControllerArgs...>> controller
                )
       : m_controllerList(controllerList),
@@ -49,9 +48,7 @@ namespace SDF::UILayer::Gui::View::Qt::Impl {
     void
     disconnect() {
       if(m_controllerPtr != nullptr) {
-        for(typename std::list<
-            std::unique_ptr<Mvc::IController<ControllerArgs...>>
-          >::iterator
+        for(typename std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>::iterator
           it(m_controllerList->begin()); it != m_controllerList->end(); ++it)
         {
           if(it->get() == m_controllerPtr) {
@@ -64,8 +61,7 @@ namespace SDF::UILayer::Gui::View::Qt::Impl {
       }
     }
   private:
-    std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>> *
-      m_controllerList;
+    std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>> *m_controllerList;
     std::unique_ptr<Mvc::IController<ControllerArgs...>> m_controller;
     Mvc::IController<ControllerArgs...> *m_controllerPtr;
   };
@@ -78,9 +74,9 @@ namespace SDF::UILayer::Gui::View::Qt {
 
   template<class ... ControllerArgs>
   Patterns::PIConnection
-  QtEvent<ControllerArgs...>::hook(
-    std::unique_ptr<Mvc::IController<ControllerArgs...>> controller
-  ) {
+  QtEvent<ControllerArgs...>::hook(std::unique_ptr<Mvc::IController<ControllerArgs...>> controller
+                                  )
+  {
     return Patterns::PIConnection(new Impl::QtEventConn<ControllerArgs...>(
       &m_controllers, std::move(controller)));
   }
@@ -88,8 +84,7 @@ namespace SDF::UILayer::Gui::View::Qt {
   template<class ... ControllerArgs>
   void
   QtEvent<ControllerArgs...>::trigger(ControllerArgs... args) {
-    for(typename std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>
-      ::iterator
+    for(typename std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>::iterator
       it(m_controllers.begin()); it != m_controllers.end(); ++it)
     {
       (*it)->onTrigger(args...);

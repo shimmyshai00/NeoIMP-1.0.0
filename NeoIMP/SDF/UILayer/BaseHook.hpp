@@ -36,11 +36,10 @@ namespace SDF::UILayer {
   }
 
   // Class:      BaseHook
-  // Purpose:    Provides a base MVC controller hook that can be triggered on
-  //             its own. Used for providing cross-widget system functionality
-  //             (e.g. show, hide, destroy).
-  // Parameters: Args - The hook arguments. No conversion is required because no
-  //                    widget system must be mated.
+  // Purpose:    Provides a base MVC controller hook that can be triggered on its own. Used for
+  //             providing cross-widget system functionality (e.g. show, hide, destroy).
+  // Parameters: Args - The hook arguments. No conversion is required because no widget system must
+  //             be mated.
   template<class ... Args>
   class BaseHook {
   public:
@@ -62,8 +61,7 @@ namespace SDF::UILayer {
   private:
     friend class Impl::BaseHookConnection<Args...>;
 
-    std::list<std::unique_ptr<Patterns::IMvcController<Args...>>>
-      m_controllers;
+    std::list<std::unique_ptr<Patterns::IMvcController<Args...>>> m_controllers;
   };
 }
 

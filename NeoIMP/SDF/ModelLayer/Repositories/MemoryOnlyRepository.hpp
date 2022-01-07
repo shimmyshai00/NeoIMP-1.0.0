@@ -35,8 +35,8 @@
 
 namespace SDF::ModelLayer::Repositories {
   // Class:      MemoryOnlyRepository
-  // Purpose:    Defines a repository of domain objects that exists only in memory, with no mapping to persistent
-  //             storage.
+  // Purpose:    Defines a repository of domain objects that exists only in memory, with no mapping
+  //             to persistent storage.
   // Parameters: T - The domain object type, which should inherit from DomainObjects::IDomainObject.
   template<class T>
   class MemoryOnlyRepository : public IRepository<T> {

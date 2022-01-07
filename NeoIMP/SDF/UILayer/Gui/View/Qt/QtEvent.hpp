@@ -32,9 +32,8 @@
 
 namespace SDF::UILayer::Gui::View::Qt {
   // Class:      QtEvent
-  // Purpose:    Provides an event object which can be triggered to send
-  //             messages to attached controllers. Features safe exception
-  //             catching with error message display.
+  // Purpose:    Provides an event object which can be triggered to send messages to attached
+  //             controllers. Features safe exception catching with error message display.
   // Parameters: ControllerArgs - The controller arguments.
   template<class ... ControllerArgs>
   class QtEvent {
