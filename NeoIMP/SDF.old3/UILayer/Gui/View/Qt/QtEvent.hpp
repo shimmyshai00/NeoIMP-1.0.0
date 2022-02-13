@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_QTEVENT_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_QTEVENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    QtEvent.hpp
+ * PURPOSE: Defines the QtEvent template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include "../../../../Patterns/IConnection.hpp"
+#include "../../../Mvc/IController.hpp"
 
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include <list>
+#include <memory>
 
 namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
-  // Parameters: None.
-  class MainWindow : public QMainWindow {
+  // Class:      QtEvent
+  // Purpose:    Provides an event object which can be triggered to send messages to attached
+  //             controllers. Features safe exception catching with error message display.
+  // Parameters: ControllerArgs - The controller arguments.
+  template<class ... ControllerArgs>
+  class QtEvent {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    QtEvent();
+
+    Patterns::PIConnection
+    hook(std::unique_ptr<Mvc::IController<ControllerArgs...>> controller);
+
+    void
+    trigger(ControllerArgs... args);
   private:
-    Ui::MainWindow *m_ui;
+    std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>
+      m_controllers;
   };
 }
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
-  };
-}
+#include "QtEvent.tpp"
 
 #endif

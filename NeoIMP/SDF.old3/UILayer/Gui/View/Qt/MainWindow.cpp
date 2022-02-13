@@ -1,11 +1,8 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
+ * FILE:    MainWindow.cpp
  * PURPOSE: Defines the MainWindow class.
  */
 
@@ -24,35 +21,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include "MainWindow.hpp"
 
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include "Resources/ui_MainWindow.h"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
-  // Parameters: None.
-  class MainWindow : public QMainWindow {
-  public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
+  MainWindow::MainWindow(IQtView *parent)
+    : QtView(parent),
+      m_ui(new Ui::MainWindow)
+  {
+    m_ui->setupUi(this);
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
-  };
-}
+    QAction::connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNewEvent.trigger(); });
+    QAction::connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExitEvent.trigger(); });
+  }
 
-#endif
+  MainWindow::~MainWindow() {
+    delete m_ui;
+  }
+
+  Patterns::PIConnection
+  MainWindow::hookOnNew(std::unique_ptr<Mvc::IController<>> controller) {
+    return m_onNewEvent.hook(std::move(controller));
+  }
+
+  Patterns::PIConnection
+  MainWindow::hookOnExit(std::unique_ptr<Mvc::IController<>> controller) {
+    return m_onExitEvent.hook(std::move(controller));
+  }
+}

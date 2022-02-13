@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Patterns/IConnection.hpp"
-#include "../../../Mvc/IController.hpp"
+#include "../../../../Common/IConnection.hpp"
+#include "../IController.hpp"
 
 #include <list>
 #include <memory>
@@ -40,14 +40,13 @@ namespace SDF::UILayer::Gui::View::Qt {
   public:
     QtEvent();
 
-    Patterns::PIConnection
-    hook(std::unique_ptr<Mvc::IController<ControllerArgs...>> controller);
+    Common::PIConnection
+    hook(std::unique_ptr<IController<ControllerArgs...>> controller);
 
     void
     trigger(ControllerArgs... args);
   private:
-    std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>
-      m_controllers;
+    std::list<std::unique_ptr<IController<ControllerArgs...>>> m_controllers;
   };
 }
 

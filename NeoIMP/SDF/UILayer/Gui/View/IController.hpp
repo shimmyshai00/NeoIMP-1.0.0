@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
+#define SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    IController.hpp
+ * PURPOSE: Defines the IController interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,34 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
-
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
-  // Parameters: None.
-  class MainWindow : public QMainWindow {
+namespace SDF::UILayer::Gui::View {
+  // Class:      IController
+  // Purpose:    Defines an interface for GUI controllers.
+  // Parameters: TriggerArgs - The arguments to pass when triggering the controller.
+  template<class ... TriggerArgs>
+  class IController {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
+    virtual ~IController() = default;
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
+    // Function:   trigger
+    // Purpose:    Trigger the event represented by this controller.
+    // Parameters: args - The arguments to pass.
+    // Returns:    None.
+    virtual void
+    trigger(TriggerArgs... args) = 0;
   };
 }
 

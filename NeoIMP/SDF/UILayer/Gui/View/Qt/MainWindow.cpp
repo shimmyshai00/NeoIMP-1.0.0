@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    MainWindow.cpp
- * PURPOSE: Defines the MainWindow class.
+ * PURPOSE: Implements the MainWindow class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,27 +26,21 @@
 #include "Resources/ui_MainWindow.h"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  MainWindow::MainWindow(IQtView *parent)
-    : QtView(parent),
+  MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
       m_ui(new Ui::MainWindow)
   {
     m_ui->setupUi(this);
-
-    QAction::connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNewEvent.trigger(); });
-    QAction::connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExitEvent.trigger(); });
   }
 
   MainWindow::~MainWindow() {
     delete m_ui;
   }
+}
 
-  Patterns::PIConnection
-  MainWindow::hookOnNew(std::unique_ptr<Mvc::IController<>> controller) {
-    return m_onNewEvent.hook(std::move(controller));
-  }
-
-  Patterns::PIConnection
-  MainWindow::hookOnExit(std::unique_ptr<Mvc::IController<>> controller) {
-    return m_onExitEvent.hook(std::move(controller));
+namespace SDF::UILayer::Gui::View::Qt {
+  MainWindow *
+  MainWindowFactory::create() {
+    return new MainWindow();
   }
 }

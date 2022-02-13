@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Qt-based view system.
+ * PURPOSE: Defines the DI component for the Qt-based view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Controller/IGuiController.hpp"
+#include "../../IViewManager.hpp"
+#include "../EViewType.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<Controller::IGuiController>
+  fruit::Component<IViewManager<EViewType>>
   getComponent();
 }
 

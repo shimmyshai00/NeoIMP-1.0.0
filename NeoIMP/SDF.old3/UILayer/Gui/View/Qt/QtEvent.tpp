@@ -26,10 +26,10 @@
 
 namespace SDF::UILayer::Gui::View::Qt::Impl {
   template<class ... ControllerArgs>
-  class QtEventConn : public Common::IConnection {
+  class QtEventConn : public Patterns::IConnection {
   public:
-    QtEventConn(std::list<std::unique_ptr<IController<ControllerArgs...>>> *controllerList,
-                std::unique_ptr<IController<ControllerArgs...>> controller
+    QtEventConn(std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>> *controllerList,
+                std::unique_ptr<Mvc::IController<ControllerArgs...>> controller
                )
       : m_controllerList(controllerList),
         m_controller(std::move(controller)),
@@ -48,7 +48,7 @@ namespace SDF::UILayer::Gui::View::Qt::Impl {
     void
     disconnect() {
       if(m_controllerPtr != nullptr) {
-        for(typename std::list<std::unique_ptr<IController<ControllerArgs...>>>::iterator
+        for(typename std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>::iterator
           it(m_controllerList->begin()); it != m_controllerList->end(); ++it)
         {
           if(it->get() == m_controllerPtr) {
@@ -61,9 +61,9 @@ namespace SDF::UILayer::Gui::View::Qt::Impl {
       }
     }
   private:
-    std::list<std::unique_ptr<IController<ControllerArgs...>>> *m_controllerList;
-    std::unique_ptr<IController<ControllerArgs...>> m_controller;
-    IController<ControllerArgs...> *m_controllerPtr;
+    std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>> *m_controllerList;
+    std::unique_ptr<Mvc::IController<ControllerArgs...>> m_controller;
+    Mvc::IController<ControllerArgs...> *m_controllerPtr;
   };
 }
 
@@ -73,18 +73,18 @@ namespace SDF::UILayer::Gui::View::Qt {
   }
 
   template<class ... ControllerArgs>
-  Common::PIConnection
-  QtEvent<ControllerArgs...>::hook(std::unique_ptr<IController<ControllerArgs...>> controller
+  Patterns::PIConnection
+  QtEvent<ControllerArgs...>::hook(std::unique_ptr<Mvc::IController<ControllerArgs...>> controller
                                   )
   {
-    return Common::PIConnection(new Impl::QtEventConn<ControllerArgs...>(
+    return Patterns::PIConnection(new Impl::QtEventConn<ControllerArgs...>(
       &m_controllers, std::move(controller)));
   }
 
   template<class ... ControllerArgs>
   void
   QtEvent<ControllerArgs...>::trigger(ControllerArgs... args) {
-    for(typename std::list<std::unique_ptr<IController<ControllerArgs...>>>::iterator
+    for(typename std::list<std::unique_ptr<Mvc::IController<ControllerArgs...>>>::iterator
       it(m_controllers.begin()); it != m_controllers.end(); ++it)
     {
       (*it)->onTrigger(args...);

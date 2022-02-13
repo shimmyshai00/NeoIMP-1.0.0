@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_IAPPLICATION_HPP
+#define SDF_UILAYER_IAPPLICATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    IApplication.hpp
+ * PURPOSE: Defines the IApplication interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,34 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
-
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
+namespace SDF::UILayer {
+  // Class:      IApplication
+  // Purpose:    Defines the interface for the top-level application object. Different UI packages
+  //             (Qt, wxWidgets, etc.) may require their own special initialization, thus we may
+  //             need a different application object for each.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
+  class IApplication {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
+    virtual ~IApplication() = default;
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
+    // Function:   exec
+    // Purpose:    Execute the application.
+    // Parameters: argc - Same as the parameter passed to main().
+    //             argv - Same as the parameter passed to main().
+    // Returns:    The program exit code.
+    virtual int
+    exec(int argc,
+         char **argv
+        ) = 0;
   };
 }
 

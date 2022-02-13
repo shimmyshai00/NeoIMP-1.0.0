@@ -3,7 +3,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the Qt-based view system.
+ * PURPOSE: Implements the DI component for the Qt-based view subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,12 @@
 
 #include "Component.hpp"
 
-#include "../../../../ModelLayer/Component.hpp"
-
-#include "GuiManager.hpp"
+#include "ViewManager.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<Controller::IGuiController>
+  fruit::Component<IViewManager<EViewType>>
   getComponent() {
     return fruit::createComponent()
-      .bind<Controller::IGuiController, GuiManager>()
-      .install(ModelLayer::getComponent);
+      .bind<IViewManager<EViewType>, ViewManager>();
   }
 }

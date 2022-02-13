@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_COMMON_ICONNECTION_HPP
+#define SDF_COMMON_ICONNECTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    IConnection.hpp
+ * PURPOSE: Defines the IConnection interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include <memory>
 
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
+namespace SDF::Common {
+  // Class:      IConnection
+  // Purpose:    Defines an interface for connection objects.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
+  class IConnection {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
+    virtual ~IConnection() = default;
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
+    // Function:   connect
+    // Purpose:    Connect the objects.
+    // Parameters: None.
+    // Returns:    None.
+    virtual void
+    connect() = 0;
+
+    // Function:   disconnect
+    // Purpose:    Disconnect the objects.
+    // Parameters: None.
+    // Returns:    None.
+    virtual void
+    disconnect() = 0;
   };
+
+  typedef std::shared_ptr<IConnection> PIConnection;
 }
 
 #endif

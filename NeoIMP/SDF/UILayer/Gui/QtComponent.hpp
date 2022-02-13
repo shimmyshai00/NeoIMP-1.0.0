@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_QTCOMPONENT_HPP
+#define SDF_UILAYER_GUI_QTCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    QtComponent.hpp
+ * PURPOSE: Defines the DI component for the Qt-based GUI subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include "../IApplication.hpp"
 
-#include <QMainWindow>
+#include <fruit/fruit.h>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
-  // Parameters: None.
-  class MainWindow : public QMainWindow {
-  public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
-
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
-  };
+namespace SDF::UILayer::Gui {
+  fruit::Component<IApplication>
+  getQtComponent();
 }
 
 #endif

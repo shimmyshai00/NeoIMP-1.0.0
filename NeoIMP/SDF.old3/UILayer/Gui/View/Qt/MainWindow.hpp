@@ -24,8 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
+#include "../../../../Patterns/IConnection.hpp"
+#include "../../Controller/IGuiController.hpp"
+#include "../IMainWindow.hpp"
+#include "IQtView.hpp"
+
+#include "../../Controller/MainWindow/Exit.hpp"
+#include "QtView.hpp"
 #include "QtEvent.hpp"
 
 #include <QMainWindow>
@@ -36,22 +41,27 @@ QT_END_NAMESPACE
 
 namespace SDF::UILayer::Gui::View::Qt {
   // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
+  // Purpose:    Implements the main window using Qt.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
+  class MainWindow : public QtView<QMainWindow>, public IMainWindow {
+    Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(IQtView *parent = nullptr);
     ~MainWindow();
+
+    std::string
+    getViewId() const { return "MainWindow"; }
+
+    Patterns::PIConnection
+    hookOnNew(std::unique_ptr<Mvc::IController<>> controller);
+
+    Patterns::PIConnection
+    hookOnExit(std::unique_ptr<Mvc::IController<>> controller);
   private:
     Ui::MainWindow *m_ui;
-  };
-}
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
+    QtEvent<> m_onNewEvent;
+    QtEvent<> m_onExitEvent;
   };
 }
 

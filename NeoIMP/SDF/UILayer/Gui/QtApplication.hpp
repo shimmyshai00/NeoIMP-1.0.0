@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_QTAPPLICATION_HPP
+#define SDF_UILAYER_GUI_QTAPPLICATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    QtApplication.hpp
+ * PURPOSE: Defines the QtApplication class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,34 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include "../IApplication.hpp"
+#include "IViewManager.hpp"
+#include "View/EViewType.hpp"
 
-#include <QMainWindow>
+#include <fruit/fruit.h>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
+namespace SDF::UILayer::Gui {
+  // Class:      QtApplication
+  // Purpose:    Defines the application object for the Qt widget system.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
+  class QtApplication : public IApplication {
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-  private:
-    Ui::MainWindow *m_ui;
-  };
-}
+    INJECT(QtApplication(IViewManager<View::EViewType> *viewManager));
 
-namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
-  public:
-    MainWindow *
-    create();
+    int
+    exec(int argc,
+         char **argv
+        );
+  private:
+    IViewManager<View::EViewType> *m_viewManager;
   };
 }
 
