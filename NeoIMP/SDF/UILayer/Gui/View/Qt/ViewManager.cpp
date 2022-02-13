@@ -58,8 +58,10 @@ namespace SDF::UILayer::Gui::View::Qt {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
       {
-        std::unique_ptr<Common::IFactory<MainWindow>> fac(new MainWindowFactory);
-        return produceViewIfNotPresent<MainWindow>(HANDLE_MAIN_WINDOW, std::move(fac));
+        std::unique_ptr<Common::IFactory<MainWindow, IViewManager<EViewType> *>>
+          fac(new MainWindowFactory);
+        return produceViewIfNotPresent<MainWindow, IViewManager<EViewType> *>(HANDLE_MAIN_WINDOW,
+          std::move(fac), this);
       }
       default:
         return Common::HANDLE_INVALID;

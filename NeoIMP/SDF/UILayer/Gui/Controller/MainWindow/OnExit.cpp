@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
-#define SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IController.hpp
- * PURPOSE: Defines the IController interface.
+ * FILE:    OnExit.cpp
+ * PURPOSE: Implements the OnExit class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +21,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui::View {
-  // Class:      IController
-  // Purpose:    Defines an interface for GUI controllers.
-  // Parameters: TriggerArgs - The arguments to pass when triggering the controller.
-  template<class ... TriggerArgs>
-  class IController {
-  public:
-    virtual ~IController() = default;
+#include "OnExit.hpp"
 
-    // Function:   onTrigger
-    // Purpose:    Trigger the event represented by this controller.
-    // Parameters: args - The arguments to pass.
-    // Returns:    None.
-    virtual void
-    onTrigger(TriggerArgs... args) = 0;
-  };
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  OnExit::OnExit(IViewManager<View::EViewType> *viewManager)
+    : m_viewManager(viewManager)
+  {
+  }
+
+  void
+  OnExit::onTrigger() {
+    if(m_viewManager != nullptr) {
+      m_viewManager->destroyAll();
+    }
+  }
 }
-
-#endif

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
-#define SDF_UILAYER_GUI_VIEW_ICONTROLLER_HPP
+#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONEXIT_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONEXIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IController.hpp
- * PURPOSE: Defines the IController interface.
+ * FILE:    OnExit.hpp
+ * PURPOSE: Defines the OnExit class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::UILayer::Gui::View {
-  // Class:      IController
-  // Purpose:    Defines an interface for GUI controllers.
-  // Parameters: TriggerArgs - The arguments to pass when triggering the controller.
-  template<class ... TriggerArgs>
-  class IController {
-  public:
-    virtual ~IController() = default;
+#include "../../View/IController.hpp"
+#include "../../View/EViewType.hpp"
+#include "../../IViewManager.hpp"
 
-    // Function:   onTrigger
-    // Purpose:    Trigger the event represented by this controller.
-    // Parameters: args - The arguments to pass.
-    // Returns:    None.
-    virtual void
-    onTrigger(TriggerArgs... args) = 0;
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  // Class:      OnExit
+  // Purpose:    Handles the "Exit" menu command.
+  // Parameters: None.
+  class OnExit : public View::IController<> {
+  public:
+    OnExit(IViewManager<View::EViewType> *viewManager);
+
+    void
+    onTrigger();
+  private:
+    IViewManager<View::EViewType> *m_viewManager;
   };
 }
 

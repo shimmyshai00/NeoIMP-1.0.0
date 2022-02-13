@@ -25,10 +25,15 @@
  */
 
 #include "../../../../Common/IFactory.hpp"
+#include "../../../../Common/IConnection.hpp"
+#include "../../IViewManager.hpp"
+#include "../EViewType.hpp"
 #include "../IController.hpp"
 #include "QtEvent.hpp"
 
 #include <QMainWindow>
+
+#include <memory>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,16 +47,21 @@ namespace SDF::UILayer::Gui::View::Qt {
   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    Common::PIConnection
+    hookOnExit(std::unique_ptr<IController<>> controller);
   private:
     Ui::MainWindow *m_ui;
+
+    QtEvent<> m_onExit;
   };
 }
 
 namespace SDF::UILayer::Gui::View::Qt {
-  class MainWindowFactory : public Common::IFactory<MainWindow> {
+  class MainWindowFactory : public Common::IFactory<MainWindow, IViewManager<EViewType> *> {
   public:
     MainWindow *
-    create();
+    create(IViewManager<EViewType> *viewManager);
   };
 }
 

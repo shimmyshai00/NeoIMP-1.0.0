@@ -23,6 +23,8 @@
 
 #include "MainWindow.hpp"
 
+#include "../../Controller/MainWindow/OnExit.hpp"
+
 #include "Resources/ui_MainWindow.h"
 
 namespace SDF::UILayer::Gui::View::Qt {
@@ -31,16 +33,28 @@ namespace SDF::UILayer::Gui::View::Qt {
       m_ui(new Ui::MainWindow)
   {
     m_ui->setupUi(this);
+
+    connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExit.trigger(); });
   }
 
   MainWindow::~MainWindow() {
     delete m_ui;
   }
+
+  Common::PIConnection
+  MainWindow::hookOnExit(std::unique_ptr<IController<>> controller) {
+    return m_onExit.hook(std::move(controller));
+  }
 }
 
 namespace SDF::UILayer::Gui::View::Qt {
   MainWindow *
-  MainWindowFactory::create() {
-    return new MainWindow();
+  MainWindowFactory::create(IViewManager<EViewType> *viewManager) {
+    MainWindow *rv = new MainWindow();
+
+    rv->hookOnExit(std::unique_ptr<IController<>>(new Controller::MainWindow::OnExit(viewManager)))
+      ->connect();
+
+    return rv;
   }
 }
