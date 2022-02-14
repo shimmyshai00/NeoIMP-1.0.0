@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_IMAPPABLE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_IMAPPABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    IMappable.hpp
+ * PURPOSE: Defines the IMappable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
-
 #include <memory>
 
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
-  // Parameters: None.
-  class ICreateImageService {
+namespace SDF::ModelLayer::DomainObjects {
+  // Class:      IMappable
+  // Purpose:    Defines an interface for mappable domain objects.
+  // Parameters: T - The user should CRTP-inherit this class.
+  //             EntityT - The entity type mapped to.
+  template<class T, class EntityT>
+  class IMappable {
   public:
-    virtual ~ICreateImageService() = default;
+    virtual ~IMappable() = default;
 
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+    // Function:   getEntity
+    // Purpose:    Get the entity corresponding to this object's current state.
+    // Parameters: None.
+    // Returns:    The corresponding entity data.
+    virtual std::shared_ptr<EntityT>
+    getEntity() const = 0;
   };
 }
 

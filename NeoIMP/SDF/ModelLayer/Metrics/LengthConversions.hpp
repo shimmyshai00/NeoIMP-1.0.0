@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_METRICS_LENGTHCONVERSIONS_HPP
+#define SDF_MODELLAYER_METRICS_LENGTHCONVERSIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    LengthConversions.hpp
+ * PURPOSE: Defines a table of conversion factors for the various length units.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
+#include "../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
 
-#include <memory>
-
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
-  // Parameters: None.
-  class ICreateImageService {
-  public:
-    virtual ~ICreateImageService() = default;
-
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+namespace SDF::ModelLayer::Metrics {
+  // Gives the sizes of the various units in inches.
+  static const double g_lengthUnitSizes[UILayer::AbstractModel::Defs::LENGTH_UNIT_MAX] = {
+    -1.0,         // pixel (no definite conversion factor)
+    1.0 / 72.0,   // point (PostScript convention)
+    1.0 / 25.4,   // millimeter
+    1.0 / 6.0,    // pica
+    1.0 / 2.54,   // centimeter
+    1.0           // inch
   };
 }
 

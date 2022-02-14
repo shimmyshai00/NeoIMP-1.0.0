@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_HANDLE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_DEFS_HANDLE_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYLAYER_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYLAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines a type for image handles.
+ * FILE:    AnyLayer.hpp
+ * PURPOSE: Defines the AnyLayer struct.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,16 @@
 
 #include <cstddef>
 
-namespace SDF::UILayer::AbstractModel::Defs {
-  typedef unsigned int Handle;
+#include <boost/gil/extension/dynamic_image/any_image.hpp>
+
+namespace SDF::ModelLayer::AbstractData::Entity::Gil {
+  template<class ... GilImageTs>
+  struct AnyLayer {
+    std::size_t widthPx;
+    std::size_t heightPx;
+
+    typename boost::gil::any_image<GilImageTs...>::const_view_t imageView;
+  };
 }
 
 #endif

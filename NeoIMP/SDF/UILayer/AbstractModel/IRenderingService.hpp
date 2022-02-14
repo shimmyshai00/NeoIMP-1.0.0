@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Defs/Handle.hpp"
+#include "../../Common/Handle.hpp"
 
 #include <cstddef>
 
@@ -41,8 +41,8 @@ namespace SDF::UILayer::AbstractModel {
     // Purpose:    Renders an image to a screenable format.
     // Parameters: imageHandle - The handle to the image to render.
     // Returns:    A handle to the produced rendering.
-    virtual Defs::Handle
-    renderImage(Defs::Handle imageHandle) = 0;
+    virtual Common::Handle
+    renderImage(Common::Handle imageHandle) = 0;
 
     // Function:   renderSubregion
     // Purpose:    Renders a sub-region of an image only. The image must first have been fully
@@ -50,8 +50,8 @@ namespace SDF::UILayer::AbstractModel {
     // Parameters: imageHandle - The handle to the image to render.
     //             x1, y1, x2, y2 - The pixel coordinates of the rectangle to render.
     // Returns:    The handle of the image rendering (same as from prior).
-    virtual Defs::Handle
-    renderSubregion(Defs::Handle imageHandle,
+    virtual Common::Handle
+    renderSubregion(Common::Handle imageHandle,
                     std::size_t x1,
                     std::size_t y1,
                     std::size_t x2,
@@ -68,7 +68,7 @@ namespace SDF::UILayer::AbstractModel {
     //             pixelWidth - Receives the size of each pixel in bytes.
     // Returns:    None - all returns are in passed reference arguments.
     virtual void
-    retrieveRenderData(Defs::Handle renderHandle,
+    retrieveRenderData(Common::Handle renderHandle,
                        unsigned char * &originPtr,
                        std::ptrdiff_t &rowStride,
                        std::size_t &pixelWidth

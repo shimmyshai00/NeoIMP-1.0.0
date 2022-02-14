@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_IDATAMAPPER_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_IDATAMAPPER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    IDataMapper.hpp
+ * PURPOSE: Defines the IDataMapper interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +25,31 @@
  */
 
 #include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
 
 #include <memory>
 
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
-  // Parameters: None.
-  class ICreateImageService {
+namespace SDF::ModelLayer::AbstractData {
+  // Class:      IDataMapper
+  // Purpose:    Defines an interface for a data mapper (object to move data between persistent
+  //             storage and memory).
+  // Parameters: EntityT - The type of entity mapped into the persistent storage.
+  template<class EntityT>
+  class IDataMapper {
   public:
-    virtual ~ICreateImageService() = default;
+    virtual ~IDataMapper() = default;
 
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+    // The usual database access methods (CRUD).
+    virtual void
+    insert(Common::Handle uid, EntityT *entity) = 0;
+
+    virtual std::shared_ptr<EntityT>
+    retrieve(Common::Handle uid) = 0;
+
+    virtual void
+    update(Common::Handle uid, EntityT *entity) = 0;
+
+    virtual void
+    erase(Common::Handle uid) = 0;
   };
 }
 

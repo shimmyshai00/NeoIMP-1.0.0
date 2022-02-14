@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYIMAGE_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYIMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    AnyImage.hpp
+ * PURPOSE: Defines the AnyImage struct.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
+#include "AnyLayer.hpp"
 
-#include <memory>
+#include <cstddef>
 
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
-  // Parameters: None.
-  class ICreateImageService {
-  public:
-    virtual ~ICreateImageService() = default;
+#include <boost/gil/extension/dynamic_image/any_image.hpp>
 
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+namespace SDF::ModelLayer::AbstractData::Entity::Gil {
+  template<class ... GilImageTs>
+  struct AnyImage {
+    std::size_t widthPx;
+    std::size_t heightPx;
+    float resolutionPpi;
+
+    std::vector<AnyLayer<GilImageTs...>> layers;
   };
 }
 

@@ -1,12 +1,9 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the services subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -23,27 +20,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+#include "Component.hpp"
 
-#include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
+#include "CreateImageService.hpp"
 
-#include <memory>
-
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
-  // Parameters: None.
-  class ICreateImageService {
-  public:
-    virtual ~ICreateImageService() = default;
-
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
-  };
+namespace SDF::ModelLayer::Services::Gil {
+  fruit::Component<
+    fruit::Required<
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>
+    >,
+    UILayer::AbstractModel::ICreateImageService
+  >
+  getComponent() {
+    return fruit::createComponent()
+      .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>();
+  }
 }
-
-#endif

@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_IFILECOORDINATOR_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_IFILECOORDINATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    IFileCoordinator.hpp
+ * PURPOSE: Defines the IFileCoordinator interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +25,23 @@
  */
 
 #include "../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
 
-#include <memory>
+#include <string>
 
-namespace SDF::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
+namespace SDF::ModelLayer::AbstractData {
+  // Class:      IFileCoordinator
+  // Purpose:    Coordinates between file specs and data-mapper UIDs.
   // Parameters: None.
-  class ICreateImageService {
+  class IFileCoordinator {
   public:
-    virtual ~ICreateImageService() = default;
+    virtual ~IFileCoordinator() = default;
 
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
+    // Function:   getFileUid
+    // Purpose:    Get a UID corresponding to a given file spec.
+    // Parameters: fileSpec - The file spec to get the UID for.
+    // Returns:    The UID for this file spec.
     virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+    getFileUid(std::string fileSpec) = 0;
   };
 }
 
