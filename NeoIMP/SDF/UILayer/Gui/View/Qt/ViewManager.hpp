@@ -24,12 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/IFactory.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../Support/Bundle.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
 
+#include "ViewFactory.hpp"
 #include "MainWindow.hpp"
 
 #include <QWidget>
@@ -42,7 +42,7 @@ namespace SDF::UILayer::Gui::View::Qt {
   // Parameters: None.
   class ViewManager : public IViewManager<EViewType> {
   public:
-    INJECT(ViewManager());
+    INJECT(ViewManager(ViewFactory *viewFactory));
     ~ViewManager();
 
     Common::Handle
@@ -60,15 +60,14 @@ namespace SDF::UILayer::Gui::View::Qt {
     destroyAll();
   private:
     std::map<Common::Handle, QWidget *> m_views;
+    ViewFactory *m_viewFactory;
 
-    template<class ViewT, class ... Args>
-    Common::Handle
-    produceViewIfNotPresent(Common::Handle reqHandle,
-                            std::unique_ptr<Common::IFactory<ViewT, Args...>> factory,
-                            Args... factoryArgs
-                           );
+    void addViewIfNotPresent(Common::Handle handle,
+                             QWidget *view
+                            );
   private:
     static const Common::Handle HANDLE_MAIN_WINDOW = 0;
+    static const Common::Handle HANDLE_NEW_DOCUMENT_DIALOG = 1;
   };
 }
 

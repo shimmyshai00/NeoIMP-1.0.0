@@ -27,9 +27,10 @@
 #include "Services/Component.hpp"
 
 namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::ICreateImageService,
-                   UILayer::AbstractModel::IMetricsService
-                  >
+  fruit::Component<
+    UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IMetricsService
+  >
   getComponent() {
     return fruit::createComponent()
       .install(Repositories::getComponent)

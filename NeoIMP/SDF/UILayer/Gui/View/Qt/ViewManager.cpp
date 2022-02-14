@@ -26,25 +26,24 @@
 #include "MainWindow.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  template<class ViewT, class ... Args>
-  Common::Handle
-  ViewManager::produceViewIfNotPresent(Common::Handle reqHandle,
-                                       std::unique_ptr<Common::IFactory<ViewT, Args...>> factory,
-                                       Args... factoryArgs
-                                      )
+  void ViewManager::addViewIfNotPresent(Common::Handle handle,
+                                        QWidget *view
+                                       )
   {
-    if(m_views.find(reqHandle) == m_views.end()) {
-      m_views[reqHandle] = factory->create(factoryArgs...);
+    if(m_views.find(handle) == m_views.end()) {
+      m_views[handle] = view;
+      m_views[handle]->show();
+
+      QObject::connect(view, &QObject::destroyed, [=]() { m_views.erase(handle); });
     }
-
-    m_views[reqHandle]->show();
-
-    return reqHandle;
   }
 }
 
 namespace SDF::UILayer::Gui::View::Qt {
-  ViewManager::ViewManager() {
+  ViewManager::ViewManager(ViewFactory *viewFactory)
+    : m_viewFactory(viewFactory)
+  {
+    m_viewFactory->setViewManager(this);
   }
 
   ViewManager::~ViewManager() {
@@ -57,12 +56,11 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
-      {
-        std::unique_ptr<Common::IFactory<MainWindow, IViewManager<EViewType> *>>
-          fac(new MainWindowFactory);
-        return produceViewIfNotPresent<MainWindow, IViewManager<EViewType> *>(HANDLE_MAIN_WINDOW,
-          std::move(fac), this);
-      }
+        addViewIfNotPresent(HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
+        return HANDLE_MAIN_WINDOW;
+      case VIEW_NEW_DOCUMENT_DIALOG:
+        addViewIfNotPresent(HANDLE_NEW_DOCUMENT_DIALOG, m_viewFactory->createNewDocumentDialog());
+        return HANDLE_NEW_DOCUMENT_DIALOG;
       default:
         return Common::HANDLE_INVALID;
     }

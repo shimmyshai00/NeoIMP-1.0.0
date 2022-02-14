@@ -26,7 +26,13 @@
 #include "ViewManager.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<IViewManager<EViewType>>
+  fruit::Component<
+    fruit::Required<
+      AbstractModel::IMetricsService,
+      AbstractModel::ICreateImageService
+    >,
+    IViewManager<EViewType>
+  >
   getComponent() {
     return fruit::createComponent()
       .bind<IViewManager<EViewType>, ViewManager>();

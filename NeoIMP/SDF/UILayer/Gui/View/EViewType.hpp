@@ -26,7 +26,8 @@
 
 namespace SDF::UILayer::Gui::View {
   enum EViewType {
-    VIEW_MAIN_WINDOW
+    VIEW_MAIN_WINDOW,
+    VIEW_NEW_DOCUMENT_DIALOG
   };
 }
 

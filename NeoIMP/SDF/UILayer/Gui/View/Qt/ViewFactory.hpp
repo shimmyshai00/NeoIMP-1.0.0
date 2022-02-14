@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_VIEWFACTORY_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_VIEWFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Qt-based view subsystem.
+ * FILE:    ViewFactory.hpp
+ * PURPOSE: Defines the ViewFactory class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,21 +26,38 @@
 
 #include "../../../AbstractModel/IMetricsService.hpp"
 #include "../../../AbstractModel/ICreateImageService.hpp"
-
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
+
+#include "MainWindow.hpp"
+#include "NewDocumentDialog.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::ICreateImageService
-    >,
-    IViewManager<EViewType>
-  >
-  getComponent();
+  // Class:      ViewFactory
+  // Purpose:    Centralizes the creation of views.
+  // Parameters: None.
+  class ViewFactory {
+  public:
+    INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService,
+                       AbstractModel::ICreateImageService *createImageService
+                      ));
+
+    void
+    setViewManager(IViewManager<EViewType> *viewManager);
+
+    MainWindow *
+    createMainWindow(QWidget *parent = nullptr);
+
+    NewDocumentDialog *
+    createNewDocumentDialog(QWidget *parent = nullptr);
+  private:
+    AbstractModel::IMetricsService *m_metricsService;
+    AbstractModel::ICreateImageService *m_createImageService;
+
+    IViewManager<EViewType> *m_viewManager;
+  };
 }
 
 #endif

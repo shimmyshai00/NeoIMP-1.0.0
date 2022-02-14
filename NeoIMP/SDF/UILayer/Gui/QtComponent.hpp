@@ -24,12 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../AbstractModel/IMetricsService.hpp"
+#include "../AbstractModel/ICreateImageService.hpp"
+
 #include "../IApplication.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui {
-  fruit::Component<IApplication>
+  fruit::Component<
+    fruit::Required<
+      AbstractModel::IMetricsService,
+      AbstractModel::ICreateImageService
+    >,
+    IApplication
+  >
   getQtComponent();
 }
 

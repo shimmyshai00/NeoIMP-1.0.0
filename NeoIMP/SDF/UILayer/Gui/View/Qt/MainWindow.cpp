@@ -34,6 +34,7 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     m_ui->setupUi(this);
 
+    connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNew.trigger(); });
     connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExit.trigger(); });
   }
 
@@ -42,19 +43,12 @@ namespace SDF::UILayer::Gui::View::Qt {
   }
 
   Common::PIConnection
+  MainWindow::hookOnNew(std::unique_ptr<IController<>> controller) {
+    return m_onNew.hook(std::move(controller));
+  }
+
+  Common::PIConnection
   MainWindow::hookOnExit(std::unique_ptr<IController<>> controller) {
     return m_onExit.hook(std::move(controller));
-  }
-}
-
-namespace SDF::UILayer::Gui::View::Qt {
-  MainWindow *
-  MainWindowFactory::create(IViewManager<EViewType> *viewManager) {
-    MainWindow *rv = new MainWindow();
-
-    rv->hookOnExit(std::unique_ptr<IController<>>(new Controller::MainWindow::OnExit(viewManager)))
-      ->connect();
-
-    return rv;
   }
 }

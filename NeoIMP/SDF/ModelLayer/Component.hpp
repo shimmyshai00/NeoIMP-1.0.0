@@ -30,9 +30,10 @@
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer {
-  fruit::Component<UILayer::AbstractModel::ICreateImageService,
-                   UILayer::AbstractModel::IMetricsService
-                  >
+  fruit::Component<
+    UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IMetricsService
+  >
   getComponent();
 }
 

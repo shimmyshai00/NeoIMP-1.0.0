@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_COMPONENT_HPP
+#ifndef SDF_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ONACCEPT_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ONACCEPT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Qt-based view subsystem.
+ * FILE:    OnAccept.hpp
+ * PURPOSE: Defines the OnAccept class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractModel/IMetricsService.hpp"
+#include "../../../AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../AbstractModel/ICreateImageService.hpp"
 
+#include "../../View/IController.hpp"
+#include "../../View/EViewType.hpp"
 #include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
 
-#include <fruit/fruit.h>
+namespace SDF::UILayer::Gui::Controller::NewDocumentDialog {
+  // Class:      OnAccept
+  // Purpose:    Handles the acceptance of a document specification.
+  // Parameters: None.
+  class OnAccept : public View::IController<AbstractModel::Defs::ImageSpec> {
+  public:
+    OnAccept(AbstractModel::ICreateImageService *createImageService,
+             IViewManager<View::EViewType> *viewManager
+            );
 
-namespace SDF::UILayer::Gui::View::Qt {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::ICreateImageService
-    >,
-    IViewManager<EViewType>
-  >
-  getComponent();
+    void
+    onTrigger(AbstractModel::Defs::ImageSpec imageSpec);
+  private:
+    AbstractModel::ICreateImageService *m_createImageService;
+
+    IViewManager<View::EViewType> *m_viewManager;
+  };
 }
 
 #endif

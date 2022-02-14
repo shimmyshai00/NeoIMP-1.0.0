@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_NEWDOCUMENTDIALOG_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_NEWDOCUMENTDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MainWindow.hpp
- * PURPOSE: Defines the MainWindow class.
+ * FILE:    NewDocumentDialog.hpp
+ * PURPOSE: Defines the NewDocumentDialog class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,38 +25,41 @@
  */
 
 #include "../../../../Common/IConnection.hpp"
-#include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
 #include "../IController.hpp"
+
+#include "../../../AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../AbstractModel/IMetricsService.hpp"
+//#include "../../Controller/NewDocumentDialog/Accept.hpp"
 #include "QtEvent.hpp"
 
-#include <QMainWindow>
-
-#include <memory>
+#include <QDialog>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
 namespace SDF::UILayer::Gui::View::Qt {
-  // Class:      MainWindow
-  // Purpose:    Implements the Qt GUI's main window.
+  // Class:      NewDocumentDialog
+  // Purpose:    Implements the new-document dialog using Qt.
   // Parameters: None.
-  class MainWindow : public QMainWindow {
+  class NewDocumentDialog : public QDialog {
+    Q_OBJECT
   public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    NewDocumentDialog(AbstractModel::IMetricsService *metricsService,
+                      QWidget *parent = nullptr
+                     );
+    ~NewDocumentDialog();
 
     Common::PIConnection
-    hookOnNew(std::unique_ptr<IController<>> controller);
+    hookOnAccept(std::unique_ptr<IController<AbstractModel::Defs::ImageSpec>> controller);
 
     Common::PIConnection
-    hookOnExit(std::unique_ptr<IController<>> controller);
+    hookOnReject(std::unique_ptr<IController<>> controller);
   private:
-    Ui::MainWindow *m_ui;
+    Ui::NewDocumentDialog *m_ui;
 
-    QtEvent<> m_onNew;
-    QtEvent<> m_onExit;
+    QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
+    QtEvent<> m_onRejectEvent;
   };
 }
 

@@ -27,7 +27,13 @@
 #include "QtApplication.hpp"
 
 namespace SDF::UILayer::Gui {
-  fruit::Component<IApplication>
+  fruit::Component<
+    fruit::Required<
+      AbstractModel::IMetricsService,
+      AbstractModel::ICreateImageService
+    >,
+    IApplication
+  >
   getQtComponent() {
     return fruit::createComponent()
       .bind<IApplication, QtApplication>()

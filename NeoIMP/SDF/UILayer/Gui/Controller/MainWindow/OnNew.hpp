@@ -1,9 +1,12 @@
+#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONNEW_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONNEW_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    OnNew.hpp
+ * PURPOSE: Defines the OnNew class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/UILayer/Component.hpp"
-#include "SDF/ModelLayer/Component.hpp"
+#include "../../View/IController.hpp"
+#include "../../View/EViewType.hpp"
+#include "../../IViewManager.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+namespace SDF::UILayer::Gui::Controller::MainWindow {
+  // Class:      OnNew
+  // Purpose:    Handles the "New" menu command.
+  // Parameters: None.
+  class OnNew : public View::IController<> {
+  public:
+    OnNew(IViewManager<View::EViewType> *viewManager);
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::UILayer::IApplication> appInjector(SDF::UILayer::getComponent);
-  SDF::UILayer::IApplication *application(appInjector.get<SDF::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+    void
+    onTrigger();
+  private:
+    IViewManager<View::EViewType> *m_viewManager;
+  };
 }
+
+#endif
