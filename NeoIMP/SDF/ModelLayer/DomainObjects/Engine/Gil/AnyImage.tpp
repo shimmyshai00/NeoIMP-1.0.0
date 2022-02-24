@@ -159,12 +159,69 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class ... GilImageTs>
+  Math::Rect<std::size_t>
+  AnyImage<GilImageTs...>::getLayerRect(std::size_t which) const {
+    if(which >= m_layers.size()) {
+      // TBA
+    } else {
+      return Math::Rect<std::size_t>(0, 0, m_layers[which].getWidthPx()-1,
+        m_layers[which].getHeightPx()-1);
+    }
+  }
+
+  template<class ... GilImageTs>
+  bool
+  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                                          const std::vector<std::size_t> &layerNums,
+                                          const std::vector<Math::Rect<std::size_t>> &layerRects,
+                                          IProgressListener *progress
+                                         )
+  {
+    return op.performOperation(*this, layerNums, layerRects, progress);
+  }
+
+  template<class ... GilImageTs>
+  bool
+  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                                          Math::Rect<std::size_t> applyRect,
+                                          IProgressListener *progress
+                                         )
+  {
+    std::vector<std::size_t> allLayerNums;
+    std::vector<Math::Rect<std::size_t>> allLayerRects;
+
+    for(std::size_t i(0); i < m_layers.size(); ++i) {
+      allLayerNums.push_back(i);
+      allLayerRects.push_back(applyRect);
+    }
+
+    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+  }
+
+  template<class ... GilImageTs>
+  bool
+  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                                          IProgressListener *progress
+                                         )
+  {
+    std::vector<std::size_t> allLayerNums;
+    std::vector<Math::Rect<std::size_t>> allLayerRects;
+
+    for(std::size_t i(0); i < m_layers.size(); ++i) {
+      allLayerNums.push_back(i);
+      allLayerRects.push_back(getLayerRect(i));
+    }
+
+    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+  }
+
+  template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::view_t
   AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
       // TBA
     } else {
-      return m_layers[layerNum].getLayerView();
+      return m_layers[layerNum].getView();
     }
   }
 
@@ -174,65 +231,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     if(layerNum >= m_layers.size()) {
       // TBA
     } else {
-      return m_layers[layerNum].getLayerView();
-    }
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::view_t
-  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
-                                        Math::Rect<std::size_t> rect
-                                       )
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getLayerView(rect);
-    }
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::const_view_t
-  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
-                                        Math::Rect<std::size_t> rect
-                                       ) const
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getLayerView(rect);
-    }
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::view_t
-  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
-                                        std::size_t x1,
-                                        std::size_t y1,
-                                        std::size_t x2,
-                                        std::size_t y2
-                                       )
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getLayerView(x1, y1, x2, y2);
-    }
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::const_view_t
-  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
-                                        std::size_t x1,
-                                        std::size_t y1,
-                                        std::size_t x2,
-                                        std::size_t y2
-                                       ) const
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getLayerView(x1, y1, x2, y2);
+      return m_layers[layerNum].getView();
     }
   }
 }

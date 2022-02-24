@@ -72,37 +72,15 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     getHeightPx() const;
 
     // Function:   getView
-    // Purpose:    Gets a Boost.GIL view of a region of the image.
-    // Parameters: rect - The rectangle to get the view for.
-    //             x1 - The upper-left x-coordinate of the rectangle.
-    //             y1 - The upper-left y-coordinate of the rectangle.
-    //             x2 - The lower-right x-coordinate of the rectangle.
-    //             y2 - The lower-right y-coordinate of the rectangle.
+    // Purpose:    Gets a Boost.GIL view of the entire image. Note that because of the limits
+    //             in GIL, it is impossible to specialize to a specific region only.
+    // Parameters: None.
+    // Returns:    The view reference.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getView();
 
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getView() const;
-
-    typename boost::gil::any_image<GilImageTs...>::view_t
-    getView(Math::Rect<std::size_t> rect);
-
-    typename boost::gil::any_image<GilImageTs...>::const_view_t
-    getView(Math::Rect<std::size_t> rect) const;
-
-    typename boost::gil::any_image<GilImageTs...>::view_t
-    getView(std::size_t x1,
-            std::size_t y1,
-            std::size_t x2,
-            std::size_t y2
-           );
-
-    typename boost::gil::any_image<GilImageTs...>::const_view_t
-    getView(std::size_t x1,
-            std::size_t y1,
-            std::size_t x2,
-            std::size_t y2
-           ) const;
   private:
     boost::gil::any_image<GilImageTs...> m_image;
   };

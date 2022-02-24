@@ -23,39 +23,103 @@
 
 #include "RenderingService.hpp"
 
+#include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
+
 namespace SDF::ModelLayer::Services::Gil {
   RenderingService::RenderingService(
     Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
     Repositories::IRepository<DomainObjects::Engine::Rendering> *renderingRepository
   )
     : m_imageRepository(imageRepository),
-      m_renderingRepository(renderingRepository)
+      m_renderingRepository(renderingRepository),
+      m_nextRenderingHandle(0)
   {
   }
 
-  Defs::Handle
-  RenderingService::renderImage(Defs::Handle imageHandle) {
+  Common::Handle
+  RenderingService::renderImage(Common::Handle imageHandle) {
+    using namespace DomainObjects;
 
+    Engine::Rendering *rendering(findRenderingOrCreateFor(imageHandle));
+    Common::Handle renderingHandle(m_renderingHandleMap[imageHandle]);
+
+    Engine::Gil::Algorithm::Render<Engine::Gil::AnyGilImage> render(rendering);
+
+    m_imageRepository->retrieve(imageHandle)->applyOperation(render, nullptr);
+
+    return renderingHandle;
   }
 
-  Defs::Handle
-  RenderingService::renderSubregion(Defs::Handle imageHandle,
+  Common::Handle
+  RenderingService::renderSubregion(Common::Handle imageHandle,
                                     std::size_t x1,
                                     std::size_t y1,
                                     std::size_t x2,
                                     std::size_t y2
                                    )
   {
+    using namespace DomainObjects;
 
+    if(m_renderingHandleMap.find(imageHandle) == m_renderingHandleMap.end()) {
+      return renderImage(imageHandle);
+    } else {
+      Common::Handle renderingHandle(m_renderingHandleMap[imageHandle]);
+      Engine::Rendering *rendering(m_renderingRepository->retrieve(renderingHandle));
+      Engine::Gil::Algorithm::Render<Engine::Gil::AnyGilImage> render(rendering);
+      m_imageRepository->retrieve(imageHandle)->applyOperation(render,
+        Math::Rect<std::size_t>(x1, y1, x2, y2), nullptr);
+
+      return renderingHandle;
+    }
   }
 
   void
-  RenderingService::retrieveRenderData(Defs::Handle renderHandle,
+  RenderingService::retrieveRenderData(Common::Handle renderHandle,
                                        unsigned char * &originPtr,
                                        std::ptrdiff_t &rowStride,
                                        std::size_t &pixelWidth
                                       )
   {
+    using namespace DomainObjects;
 
+    Engine::Rendering *rendering(m_renderingRepository->retrieve(renderHandle));
+    if(rendering != nullptr) {
+      originPtr = rendering->getOrigin();
+      rowStride = rendering->getRowStride();
+      pixelWidth = rendering->getPixelWidth();
+    } else {
+      // TBA: throw
+    }
+  }
+}
+
+namespace SDF::ModelLayer::Services::Gil {
+  // Private members.
+  DomainObjects::Engine::Rendering *
+  RenderingService::findRenderingOrCreateFor(Common::Handle imageHandle) {
+    using namespace DomainObjects;
+
+    Engine::Rendering *rendering(nullptr);
+
+    if(m_renderingHandleMap.find(imageHandle) == m_renderingHandleMap.end()) {
+      Common::Handle renderingHandle = m_nextRenderingHandle++;
+      m_renderingHandleMap[imageHandle] = renderingHandle;
+
+      Engine::Gil::AnyGilImage *image(m_imageRepository->retrieve(imageHandle));
+      if(image == nullptr) {
+        // TBA: throw
+      }
+
+      std::size_t imageWidth(image->getWidthPx());
+      std::size_t imageHeight(image->getHeightPx());
+
+      rendering = m_renderingRepository->insert(renderingHandle,
+        std::make_unique<Engine::Rendering>(imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
+      m_renderingHandleMap[imageHandle] = renderingHandle;
+    } else {
+      rendering = m_renderingRepository->retrieve(m_renderingHandleMap[imageHandle]);
+    }
+
+    return rendering;
   }
 }

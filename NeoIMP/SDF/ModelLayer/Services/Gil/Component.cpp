@@ -23,16 +23,20 @@
 #include "Component.hpp"
 
 #include "CreateImageService.hpp"
+#include "RenderingService.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
   fruit::Component<
     fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
+      Repositories::IRepository<DomainObjects::Engine::Rendering>
     >,
-    UILayer::AbstractModel::ICreateImageService
+    UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>();
+      .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>()
+      .bind<UILayer::AbstractModel::IRenderingService, RenderingService>();
   }
 }

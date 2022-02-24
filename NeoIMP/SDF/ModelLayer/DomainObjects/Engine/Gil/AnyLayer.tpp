@@ -74,44 +74,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   AnyLayer<GilImageTs...>::getView() const {
     return boost::gil::const_view(m_image);
   }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::view_t
-  AnyLayer<GilImageTs...>::getView(Math::Rect<std::size_t> rect) {
-    typename boost::gil::any_image<GilImageTs...>::view_t masterView(getView());
-    return boost::gil::any_image<GilImageTs...>::view_t(rect.getWidth(), rect.getHeight(),
-      masterView.xy_at(rect.getX1(), rect.getY1()));
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::const_view_t
-  AnyLayer<GilImageTs...>::getView(Math::Rect<std::size_t> rect) const {
-    typename boost::gil::any_image<GilImageTs...>::const_view_t masterView(getView());
-    return boost::gil::any_image<GilImageTs...>::const_view_t(rect.getWidth(), rect.getHeight(),
-      masterView.xy_at(rect.getX1(), rect.getY1()));
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::view_t
-  AnyLayer<GilImageTs...>::getView(std::size_t x1,
-                                   std::size_t y1,
-                                   std::size_t x2,
-                                   std::size_t y2
-                                  )
-  {
-    return getView(Math::Rect<std::size_t>(x1, y1, x2, y2));
-  }
-
-  template<class ... GilImageTs>
-  typename boost::gil::any_image<GilImageTs...>::const_view_t
-  AnyLayer<GilImageTs...>::getView(std::size_t x1,
-                                   std::size_t y1,
-                                   std::size_t x2,
-                                   std::size_t y2
-                                  ) const
-  {
-    return getView(Math::Rect<std::size_t>(x1, y1, x2, y2));
-  }
 }
 
 #endif

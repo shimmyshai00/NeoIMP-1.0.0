@@ -25,12 +25,16 @@
  */
 
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../DomainObjects/Engine/Rendering.hpp"
 #include "IRepository.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Repositories {
-  typedef fruit::Component<IRepository<DomainObjects::Engine::Gil::AnyGilImage>>
+  typedef fruit::Component<
+    IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
+    IRepository<DomainObjects::Engine::Rendering>
+  >
   Component;
 
   Component getComponent();

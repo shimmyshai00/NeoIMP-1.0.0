@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IPROGRESSLISTENER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IPROGRESSLISTENER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the model layer.
+ * FILE:    IProgressListener.hpp
+ * PURPOSE: Defines the IProgressListener interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // Class:      IProgressListener
+  // Purpose:    Provides an interface for reporting image operation progress.
+  // Parameters: None.
+  class IProgressListener {
+  public:
+    virtual ~IProgressListener() = default;
 
-#include "Repositories/Component.hpp"
-#include "Services/Component.hpp"
-
-namespace SDF::ModelLayer {
-  fruit::Component<
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IMetricsService,
-    UILayer::AbstractModel::IRenderingService
-  >
-  getComponent() {
-    return fruit::createComponent()
-      .install(Repositories::getComponent)
-      .install(Services::getComponent);
-  }
+    // Function:   reportProgress
+    // Purpose:    Reports the progress of the operation.
+    // Parameters: progress - A number from 0 to 1 indicating how much is complete.
+    // Returns:    None.
+    virtual void
+    reportProgress(float progress) = 0;
+  };
 }
+
+#endif

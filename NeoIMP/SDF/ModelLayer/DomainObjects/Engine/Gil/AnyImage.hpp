@@ -102,45 +102,38 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::size_t
     getLayerHeightPx(std::size_t which) const;
 
+    Math::Rect<std::size_t>
+    getLayerRect(std::size_t which) const;
+
+    bool
+    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                   const std::vector<std::size_t> &layerNums,
+                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                   IProgressListener *progress
+                  );
+
+    bool
+    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                   Math::Rect<std::size_t> applyRect,
+                   IProgressListener *progress
+                  );
+
+    bool
+    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
+                   IProgressListener *progress
+                  );
+
     // Function:   getLayerView
-    // Purpose:    Gets a Boost.GIL view of a region of an image layer.
-    // Parameters: layerNum - The layer number to get the pixel from.
-    //             rect - The rectangle to get the view for.
-    //             x1 - The upper-left x-coordinate of the rectangle.
-    //             y1 - The upper-left y-coordinate of the rectangle.
-    //             x2 - The lower-right x-coordinate of the rectangle.
-    //             y2 - The lower-right y-coordinate of the rectangle.
+    // Purpose:    Gets a Boost.GIL view of the entirety of an image layer. Note that because of
+    //             the limits in GIL, it is not possible to obtain here a view of a specific section
+    //             only.
+    // Parameters: None.
+    // Returns:    The layer view.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getLayerView(std::size_t layerNum);
 
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getLayerView(std::size_t layerNum) const;
-
-    typename boost::gil::any_image<GilImageTs...>::view_t
-    getLayerView(std::size_t layerNum,
-                 Math::Rect<std::size_t> rect
-                );
-
-    typename boost::gil::any_image<GilImageTs...>::const_view_t
-    getLayerView(std::size_t layerNum,
-                 Math::Rect<std::size_t> rect
-                ) const;
-
-    typename boost::gil::any_image<GilImageTs...>::view_t
-    getLayerView(std::size_t layerNum,
-                 std::size_t x1,
-                 std::size_t y1,
-                 std::size_t x2,
-                 std::size_t y2
-                );
-
-    typename boost::gil::any_image<GilImageTs...>::const_view_t
-    getLayerView(std::size_t layerNum,
-                 std::size_t x1,
-                 std::size_t y1,
-                 std::size_t x2,
-                 std::size_t y2
-                ) const;
   private:
     std::string m_name;
     std::string m_fileSpec;

@@ -32,10 +32,14 @@ namespace SDF::ModelLayer::Repositories {
   }
 
   template<class ObjT>
-  void
+  ObjT *
   MemoryOnlyRepository<ObjT>::insert(Common::Handle uid, std::unique_ptr<ObjT> obj) {
     if(m_objMap.find(uid) == m_objMap.end()) {
+      ObjT *outPtr(obj.get());
       m_objMap[uid] = std::move(obj);
+      return outPtr;
+    } else {
+      return nullptr;
     }
   }
 

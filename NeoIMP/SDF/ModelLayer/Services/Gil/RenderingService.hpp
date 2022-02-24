@@ -24,11 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Rendering.hpp"
 #include "../../Repositories/IRepository.hpp"
 #include <fruit/fruit.h>
+
+#include <map>
 
 namespace SDF::ModelLayer::Services::Gil {
   // Class:      RenderingService
@@ -41,11 +44,11 @@ namespace SDF::ModelLayer::Services::Gil {
       Repositories::IRepository<DomainObjects::Engine::Rendering> *renderingRepository
     ));
 
-    Defs::Handle
-    renderImage(Defs::Handle imageHandle);
+    Common::Handle
+    renderImage(Common::Handle imageHandle);
 
-    Defs::Handle
-    renderSubregion(Defs::Handle imageHandle,
+    Common::Handle
+    renderSubregion(Common::Handle imageHandle,
                     std::size_t x1,
                     std::size_t y1,
                     std::size_t x2,
@@ -53,7 +56,7 @@ namespace SDF::ModelLayer::Services::Gil {
                    );
 
     void
-    retrieveRenderData(Defs::Handle renderHandle,
+    retrieveRenderData(Common::Handle renderHandle,
                        unsigned char * &originPtr,
                        std::ptrdiff_t &rowStride,
                        std::size_t &pixelWidth
@@ -61,6 +64,12 @@ namespace SDF::ModelLayer::Services::Gil {
   private:
     Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
     Repositories::IRepository<DomainObjects::Engine::Rendering> *m_renderingRepository;
+
+    Common::Handle m_nextRenderingHandle;
+    std::map<Common::Handle, Common::Handle> m_renderingHandleMap;
+
+    DomainObjects::Engine::Rendering *
+    findRenderingOrCreateFor(Common::Handle imageHandle);
   };
 }
 

@@ -97,6 +97,27 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::size_t
     getLayerHeightPx(std::size_t which) const;
 
+    Math::Rect<std::size_t>
+    getLayerRect(std::size_t which) const;
+
+    bool
+    applyOperation(IImageOperation<Image<GilImageT>> &op,
+                   const std::vector<std::size_t> &layerNums,
+                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                   IProgressListener *progress
+                  );
+
+    bool
+    applyOperation(IImageOperation<Image<GilImageT>> &op,
+                   Math::Rect<std::size_t> applyRect,
+                   IProgressListener *progress
+                  );
+
+    bool
+    applyOperation(IImageOperation<Image<GilImageT>> &op,
+                   IProgressListener *progress
+                  );
+
     // Function:   getLayerPixelAt
     // Purpose:    Gets a pixel at a given coordinate from a layer.
     // Parameters: layerNum - The layer number to get the pixel from.

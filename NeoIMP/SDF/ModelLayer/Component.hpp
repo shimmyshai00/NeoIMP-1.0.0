@@ -26,13 +26,15 @@
 
 #include "../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../UILayer/AbstractModel/IMetricsService.hpp"
+#include "../UILayer/AbstractModel/IRenderingService.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer {
   fruit::Component<
     UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IMetricsService
+    UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IRenderingService
   >
   getComponent();
 }

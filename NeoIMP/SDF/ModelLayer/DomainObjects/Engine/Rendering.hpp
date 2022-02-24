@@ -50,9 +50,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
 
     ~Rendering();
 
-    Rendering &
-    getObject();
-
     // Function:   getWidth
     // Purpose:    Get the width of the rendering in pixels.
     // Parameters: None.

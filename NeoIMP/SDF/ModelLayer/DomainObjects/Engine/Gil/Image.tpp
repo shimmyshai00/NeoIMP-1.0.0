@@ -145,6 +145,63 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilImageT>
+  Math::Rect<std::size_t>
+  Image<GilImageT>::getLayerRect(std::size_t which) const {
+    if(which >= m_layers.size()) {
+      // TBA
+    } else {
+      return Math::Rect<std::size_t>(0, 0, m_layers[which].getWidthPx()-1,
+        m_layers[which].getHeightPx()-1);
+    }
+  }
+
+  template<class GilImageT>
+  bool
+  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
+                                   const std::vector<std::size_t> &layerNums,
+                                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                                   IProgressListener *progress
+                                  )
+  {
+    return op.performOperation(*this, layerNums, layerRects, progress);
+  }
+
+  template<class GilImageT>
+  bool
+  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
+                                   Math::Rect<std::size_t> applyRect,
+                                   IProgressListener *progress
+                                  )
+  {
+    std::vector<std::size_t> allLayerNums;
+    std::vector<Math::Rect<std::size_t>> allLayerRects;
+
+    for(std::size_t i(0); i < m_layers.size(); ++i) {
+      allLayerNums.push_back(i);
+      allLayerRects.push_back(applyRect);
+    }
+
+    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+  }
+
+  template<class GilImageT>
+  bool
+  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
+                                   IProgressListener *progress
+                                  )
+  {
+    std::vector<std::size_t> allLayerNums;
+    std::vector<Math::Rect<std::size_t>> allLayerRects;
+
+    for(std::size_t i(0); i < m_layers.size(); ++i) {
+      allLayerNums.push_back(i);
+      allLayerRects.push_back(getLayerRect(i));
+    }
+
+    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+  }
+
+  template<class GilImageT>
   typename GilImageT::view_t::value_type
   Image<GilImageT>::getLayerPixelAt(std::size_t layerNum,
                                     Math::Coord<std::size_t> pos

@@ -28,10 +28,12 @@
 namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
+      Repositories::IRepository<DomainObjects::Engine::Rendering>
     >,
     UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IMetricsService
+    UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
     return fruit::createComponent()

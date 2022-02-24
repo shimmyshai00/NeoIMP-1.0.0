@@ -27,8 +27,11 @@
 #include "../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
 #include "../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
 
+#include "../../Math/Rect.hpp"
 #include "../IMappable.hpp"
+#include "IImageOperation.hpp"
 
+#include <vector>
 #include <string>
 #include <cstddef>
 
@@ -124,6 +127,50 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Returns:    The height of the layer in pixels.
     virtual std::size_t
     getLayerHeightPx(std::size_t which) const = 0;
+
+    // Function:   getLayerRect
+    // Purpose:    Gets the rectangle inhabited by a given layer.
+    // Parameters: which - The layer to get the rectangle of.
+    // Returns:    The rectangle occupied by the layer.
+    virtual Math::Rect<std::size_t>
+    getLayerRect(std::size_t which) const = 0;
+
+    // Function:   applyOperation
+    // Purpose:    Applies an operation to the image.
+    // Parameters: op - The operation to apply.
+    //             layerNums - The layer numbers to apply to.
+    //             layerRects - The rectangles to apply the operation on, in *image* space (not
+    //                          layer space).
+    //             progress - An optional object to update to signal the operation progress.
+    // Returns:    Whether the operation succeeded or not.
+    virtual bool
+    applyOperation(IImageOperation<ImplT> &op,
+                   const std::vector<std::size_t> &layerNums,
+                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                   IProgressListener *progress
+                  ) = 0;
+
+    // Function:   applyOperation
+    // Purpose:    Applies an operation to a single rectangle of the entire image.
+    // Parameters: op - The operation to apply.
+    //             applyRect - The rectangular area to apply to.
+    //             progress - An optional object to update to signal the operation progress.
+    // Returns:    Whether the operation succeeded or not.
+    virtual bool
+    applyOperation(IImageOperation<ImplT> &op,
+                   Math::Rect<std::size_t> applyRect,
+                   IProgressListener *progress
+                  ) = 0;
+
+    // Function:   applyOperation
+    // Purpose:    Applies an operation to the entire image.
+    // Parameters: op - The operation to apply.
+    //             progress - An optional object to update to signal the operation progress.
+    // Returns:    Whether the operation succeeded or not.
+    virtual bool
+    applyOperation(IImageOperation<ImplT> &op,
+                   IProgressListener *progress
+                  ) = 0;
   };
 }
 

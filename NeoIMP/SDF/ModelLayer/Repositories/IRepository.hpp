@@ -37,7 +37,7 @@ namespace SDF::ModelLayer::Repositories {
   public:
     virtual ~IRepository() = default;
 
-    virtual void
+    virtual ObjT *
     insert(Common::Handle uid, std::unique_ptr<ObjT> obj) = 0;
 
     virtual ObjT *

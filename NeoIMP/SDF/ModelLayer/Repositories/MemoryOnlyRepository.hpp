@@ -41,7 +41,7 @@ namespace SDF::ModelLayer::Repositories {
   public:
     INJECT(MemoryOnlyRepository());
 
-    void
+    ObjT *
     insert(Common::Handle uid, std::unique_ptr<ObjT> obj);
 
     ObjT *
