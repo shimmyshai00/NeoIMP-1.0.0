@@ -29,6 +29,8 @@
 
 #include "../../../AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../AbstractModel/IMetricsService.hpp"
+#include "../../../AbstractModel/IDocumentPrefabsService.hpp"
+#include "../../../AbstractModel/IDocumentRequirementsService.hpp"
 //#include "../../Controller/NewDocumentDialog/Accept.hpp"
 #include "QtEvent.hpp"
 
@@ -46,6 +48,8 @@ namespace SDF::UILayer::Gui::View::Qt {
     Q_OBJECT
   public:
     NewDocumentDialog(AbstractModel::IMetricsService *metricsService,
+                      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+                      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
                       QWidget *parent = nullptr
                      );
     ~NewDocumentDialog();
@@ -60,6 +64,9 @@ namespace SDF::UILayer::Gui::View::Qt {
 
     QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
     QtEvent<> m_onRejectEvent;
+
+    AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
+    AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;
   };
 }
 

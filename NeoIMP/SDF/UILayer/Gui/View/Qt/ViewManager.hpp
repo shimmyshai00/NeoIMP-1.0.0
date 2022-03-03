@@ -25,6 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
+#include "../../../AbstractModel/IGetDocumentNameService.hpp"
 #include "../../../Support/Bundle.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
@@ -35,6 +36,7 @@
 #include <QWidget>
 
 #include <fruit/fruit.h>
+#include <map>
 
 namespace SDF::UILayer::Gui::View::Qt {
   // Class:      ViewManager
@@ -42,7 +44,10 @@ namespace SDF::UILayer::Gui::View::Qt {
   // Parameters: None.
   class ViewManager : public IViewManager<EViewType> {
   public:
-    INJECT(ViewManager(ViewFactory *viewFactory));
+    INJECT(ViewManager(AbstractModel::IGetDocumentNameService *documentNameService,
+                       ViewFactory *viewFactory
+                      )
+          );
     ~ViewManager();
 
     Common::Handle
@@ -59,15 +64,15 @@ namespace SDF::UILayer::Gui::View::Qt {
     void
     destroyAll();
   private:
+    AbstractModel::IGetDocumentNameService *m_documentNameService;
+
     std::map<Common::Handle, QWidget *> m_views;
     ViewFactory *m_viewFactory;
+    Common::Handle m_nextDocumentViewHandle;
 
     void addViewIfNotPresent(Common::Handle handle,
                              QWidget *view
                             );
-  private:
-    static const Common::Handle HANDLE_MAIN_WINDOW = 0;
-    static const Common::Handle HANDLE_NEW_DOCUMENT_DIALOG = 1;
   };
 }
 

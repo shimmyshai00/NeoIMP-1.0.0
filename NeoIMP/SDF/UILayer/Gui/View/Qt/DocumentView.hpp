@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
+#ifndef SDF_UILAYER_GUI_VIEW_QT_DOCUMENTVIEW_HPP
+#define SDF_UILAYER_GUI_VIEW_QT_DOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    DocumentView.hpp
+ * PURPOSE: Defines the DocumentView class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "../../../../Common/Handle.hpp"
+#include "../../../AbstractModel/IRenderingService.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
+#include <QWidget>
 
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+namespace SDF::UILayer::Gui::View::Qt {
+  // Class:      DocumentView
+  // Purpose:    Implements the Qt GUI's document view.
+  // Parameters: None.
+  class DocumentView : public QWidget {
+    Q_OBJECT;
+  public:
+    DocumentView(AbstractModel::IRenderingService *renderingService,
+                 Common::Handle documentHandle,
+                 QWidget *parent = nullptr
+                );
+  private:
+    AbstractModel::IRenderingService *m_renderingService;
+    Common::Handle m_documentHandle;
+  };
 }
 
 #endif

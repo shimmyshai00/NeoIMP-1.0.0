@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
-#define SDF_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_SERVICES_GIL_GETDOCUMENTNAMESERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_GIL_GETDOCUMENTNAMESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the Gil implementation's services.
+ * FILE:    GetDocumentNameService.hpp
+ * PURPOSE: Defines the GetDocumentNameService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
-#include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
+#include "../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
-#include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Rendering.hpp"
+
 #include "../../Repositories/IRepository.hpp"
 
 #include <fruit/fruit.h>
+#include <string>
 
 namespace SDF::ModelLayer::Services::Gil {
-  fruit::Component<
-    fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::Rendering>
-    >,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IRenderingService
-  >
-  getComponent();
+  // Class:      GetDocumentNameService
+  // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
+  // Parameters: None.
+  class GetDocumentNameService : public UILayer::AbstractModel::IGetDocumentNameService {
+  public:
+    INJECT(GetDocumentNameService(
+      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+    ));
+
+    std::string
+    getDocumentName(Common::Handle documentHandle);
+  private:
+    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
+  };
 }
 
 #endif

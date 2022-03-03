@@ -15,8 +15,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5UiPlugin REQUIRED)
 
-add_library(UnitQuantityEditPlugin SHARED
-  ../NeoIMP/SDF/UILayer/Qt/View/CustomWidgets/UnitQuantityEdit.cpp
-  UnitQuantityEditPlugin.cpp
+add_library(ResolutionQuantityEditPlugin SHARED
+  ../NeoIMP/SDF/UILayer/Gui/View/Qt/CustomWidgets/DimensionalQuantityEdit.hpp
+  ../NeoIMP/SDF/UILayer/Gui/View/Qt/CustomWidgets/ResolutionQuantityEdit.cpp
+  ResolutionQuantityEditPlugin.cpp
 )
-target_link_libraries(UnitQuantityEditPlugin PRIVATE Qt5::Widgets Qt5::UiPlugin)
+
+target_link_libraries(ResolutionQuantityEditPlugin PRIVATE Qt5::Widgets Qt5::UiPlugin)
+
+add_library(LengthQuantityEditPlugin SHARED
+  ../NeoIMP/SDF/UILayer/Gui/View/Qt/CustomWidgets/DimensionalQuantityEdit.hpp
+  ../NeoIMP/SDF/UILayer/Gui/View/Qt/CustomWidgets/LengthQuantityEdit.cpp
+  LengthQuantityEditPlugin.cpp
+)
+
+target_link_libraries(LengthQuantityEditPlugin PRIVATE Qt5::Widgets Qt5::UiPlugin)

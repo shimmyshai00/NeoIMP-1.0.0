@@ -24,6 +24,13 @@
 #include "ViewManager.hpp"
 
 #include "MainWindow.hpp"
+#include "DocumentView.hpp"
+
+namespace SDF::UILayer::Gui::View::Qt::Impl {
+  const Common::Handle HANDLE_MAIN_WINDOW = 0;
+  const Common::Handle HANDLE_NEW_DOCUMENT_DIALOG = 1;
+  const Common::Handle HANDLE_DOCUMENT_VIEW_ORIGIN = 10000;
+}
 
 namespace SDF::UILayer::Gui::View::Qt {
   void ViewManager::addViewIfNotPresent(Common::Handle handle,
@@ -40,8 +47,12 @@ namespace SDF::UILayer::Gui::View::Qt {
 }
 
 namespace SDF::UILayer::Gui::View::Qt {
-  ViewManager::ViewManager(ViewFactory *viewFactory)
-    : m_viewFactory(viewFactory)
+  ViewManager::ViewManager(AbstractModel::IGetDocumentNameService *documentNameService,
+                           ViewFactory *viewFactory
+                          )
+    : m_documentNameService(documentNameService),
+      m_viewFactory(viewFactory),
+      m_nextDocumentViewHandle(Impl::HANDLE_DOCUMENT_VIEW_ORIGIN)
   {
     m_viewFactory->setViewManager(this);
   }
@@ -56,11 +67,42 @@ namespace SDF::UILayer::Gui::View::Qt {
   {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
-        addViewIfNotPresent(HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
-        return HANDLE_MAIN_WINDOW;
+        addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
+        return Impl::HANDLE_MAIN_WINDOW;
       case VIEW_NEW_DOCUMENT_DIALOG:
-        addViewIfNotPresent(HANDLE_NEW_DOCUMENT_DIALOG, m_viewFactory->createNewDocumentDialog());
-        return HANDLE_NEW_DOCUMENT_DIALOG;
+        addViewIfNotPresent(Impl::HANDLE_NEW_DOCUMENT_DIALOG,
+          m_viewFactory->createNewDocumentDialog());
+        return Impl::HANDLE_NEW_DOCUMENT_DIALOG;
+      case VIEW_DOCUMENT_VIEW:
+      {
+        Common::Handle documentHandle =
+          argBundle->getHandle("document_handle", Common::HANDLE_INVALID);
+
+        printf("Handle: %u\n", documentHandle);
+
+        if(documentHandle != Common::HANDLE_INVALID) {
+          // This kind of view requires special procedures to add as it composes with the main
+          // window nontrivially.
+          DocumentView *docView = m_viewFactory->createDocumentView(documentHandle);
+          if(m_views.find(Impl::HANDLE_MAIN_WINDOW) != m_views.end()) {
+            auto mw = dynamic_cast<MainWindow *>(m_views[Impl::HANDLE_MAIN_WINDOW]);
+            if(mw != nullptr) { // SHOULD always be OK...
+              std::string title = m_documentNameService->getDocumentName(documentHandle);
+              mw->addTabPane(title, docView);
+            }
+
+            Common::Handle viewHandle = m_nextDocumentViewHandle++;
+            m_views[viewHandle] = docView; // should be unique handle
+            return viewHandle;
+          } else {
+            delete docView;
+            return Common::HANDLE_INVALID;
+          }
+        } else {
+          return Common::HANDLE_INVALID;
+        }
+
+      }
       default:
         return Common::HANDLE_INVALID;
     }

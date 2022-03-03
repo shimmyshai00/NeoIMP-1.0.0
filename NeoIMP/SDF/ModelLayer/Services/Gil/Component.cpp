@@ -22,7 +22,9 @@
  */
 #include "Component.hpp"
 
+#include "DocumentRequirementsService.hpp"
 #include "CreateImageService.hpp"
+#include "GetDocumentNameService.hpp"
 #include "RenderingService.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
@@ -31,12 +33,16 @@ namespace SDF::ModelLayer::Services::Gil {
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
       Repositories::IRepository<DomainObjects::Engine::Rendering>
     >,
+    UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
     return fruit::createComponent()
+      .bind<UILayer::AbstractModel::IDocumentRequirementsService, DocumentRequirementsService>()
       .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>()
+      .bind<UILayer::AbstractModel::IGetDocumentNameService, GetDocumentNameService>()
       .bind<UILayer::AbstractModel::IRenderingService, RenderingService>();
   }
 }

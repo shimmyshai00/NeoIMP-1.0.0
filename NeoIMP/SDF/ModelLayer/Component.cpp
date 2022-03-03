@@ -28,7 +28,10 @@
 
 namespace SDF::ModelLayer {
   fruit::Component<
+    UILayer::AbstractModel::IDocumentPrefabsService,
+    UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IRenderingService
   >

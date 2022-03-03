@@ -109,4 +109,16 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 }
 
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  template<class GilImageT>
+  std::size_t
+  Layer<GilImageT>::getMemorySize(std::size_t width,
+                                  std::size_t height
+                                 )
+  {
+    // NB: not sure how accurate this is
+    return sizeof(typename GilImageT::value_type)*width*height;
+  }
+}
+
 #endif

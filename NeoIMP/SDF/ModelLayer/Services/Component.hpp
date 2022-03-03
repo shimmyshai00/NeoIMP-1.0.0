@@ -24,8 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
+#include "../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../../UILayer/AbstractModel/IMetricsService.hpp"
+#include "../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Rendering.hpp"
@@ -39,7 +42,10 @@ namespace SDF::ModelLayer::Services {
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
       Repositories::IRepository<DomainObjects::Engine::Rendering>
     >,
+    UILayer::AbstractModel::IDocumentPrefabsService,
+    UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IRenderingService
   >

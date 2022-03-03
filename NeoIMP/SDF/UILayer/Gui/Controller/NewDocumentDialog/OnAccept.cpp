@@ -23,6 +23,9 @@
 
 #include "OnAccept.hpp"
 
+#include "../../../Support/Bundle.hpp"
+#include "../../View/EViewType.hpp"
+
 namespace SDF::UILayer::Gui::Controller::NewDocumentDialog {
   OnAccept::OnAccept(AbstractModel::ICreateImageService *createImageService,
                      IViewManager<View::EViewType> *viewManager
@@ -35,7 +38,11 @@ namespace SDF::UILayer::Gui::Controller::NewDocumentDialog {
   void
   OnAccept::onTrigger(AbstractModel::Defs::ImageSpec imageSpec) {
     if(m_createImageService != nullptr) {
-      m_createImageService->createImage(imageSpec);
+      Common::Handle documentHandle = m_createImageService->createImage(imageSpec);
+
+      std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
+      bundle->addHandle("document_handle", documentHandle);
+      m_viewManager->produceView(View::VIEW_DOCUMENT_VIEW, bundle);
     }
   }
 }

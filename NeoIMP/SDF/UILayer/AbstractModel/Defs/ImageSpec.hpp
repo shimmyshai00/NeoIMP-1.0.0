@@ -28,6 +28,9 @@
 #include "EResolutionUnit.hpp"
 #include "EColorModel.hpp"
 #include "EBitDepth.hpp"
+#include "EBackgroundPreset.hpp"
+
+#include "Color.hpp"
 
 namespace SDF::UILayer::AbstractModel::Defs {
   struct ImageSpec {
@@ -42,6 +45,47 @@ namespace SDF::UILayer::AbstractModel::Defs {
 
     EColorModel colorModel;
     EBitDepth bitDepth;
+
+    EBackgroundPreset backgroundPreset;
+    AnyColor backgroundColor;
+
+    ImageSpec()
+      : width(320.0f),
+        widthUnit(LENGTH_UNIT_PIXEL),
+        height(240.0f),
+        heightUnit(LENGTH_UNIT_PIXEL),
+        resolution(300.0f),
+        resolutionUnit(RESOLUTION_UNIT_PPI),
+        colorModel(COLOR_MODEL_RGB),
+        bitDepth(BIT_DEPTH_8),
+        backgroundPreset(PRE_BACKGROUND_BLACK),
+        backgroundColor(ARGB8888Color(255, 0, 0, 0))
+    {
+    }
+
+    ImageSpec(float width_,
+              ELengthUnit widthUnit_,
+              float height_,
+              ELengthUnit heightUnit_,
+              float resolution_,
+              EResolutionUnit resolutionUnit_,
+              EColorModel colorModel_,
+              EBitDepth bitDepth_,
+              EBackgroundPreset backgroundPreset_,
+              AnyColor backgroundColor_
+             )
+      : width(width_),
+        widthUnit(widthUnit_),
+        height(height_),
+        heightUnit(heightUnit_),
+        resolution(resolution_),
+        resolutionUnit(resolutionUnit_),
+        colorModel(colorModel_),
+        bitDepth(bitDepth_),
+        backgroundPreset(backgroundPreset_),
+        backgroundColor(backgroundColor_)
+    {
+    }
   };
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
+#ifndef SDF_MODELLAYER_SERVICES_GIL_DOCUMENTREQUIREMENTSSERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_GIL_DOCUMENTREQUIREMENTSSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    DocumentRequirementsService.hpp
+ * PURPOSE: Defines the DocumentRequirementsService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
+#include <fruit/fruit.h>
+#include <cstddef>
 
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+namespace SDF::ModelLayer::Services::Gil {
+  // Class:      DocumentRequirementsService
+  // Purpose:    Implements the IDocumentRequirementsService interface for the Boost.GIL framework.
+  // Parameters: None.
+  class DocumentRequirementsService : public UILayer::AbstractModel::IDocumentRequirementsService {
+  public:
+    INJECT(DocumentRequirementsService());
+
+    std::size_t
+    getMemoryRequiredForOneLayer(UILayer::AbstractModel::Defs::ImageSpec spec);
+  };
 }
 
 #endif

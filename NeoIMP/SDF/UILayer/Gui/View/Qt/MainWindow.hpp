@@ -31,6 +31,9 @@
 #include "QtEvent.hpp"
 
 #include <QMainWindow>
+#include <QTabWidget>
+#include <QWidget>
+#include <QPointer>
 
 #include <memory>
 
@@ -47,6 +50,12 @@ namespace SDF::UILayer::Gui::View::Qt {
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void
+    addTabPane(std::string tabName, QWidget *pane);
+
+    void
+    deleteTabPane(QWidget *pane);
+
     Common::PIConnection
     hookOnNew(std::unique_ptr<IController<>> controller);
 
@@ -54,6 +63,7 @@ namespace SDF::UILayer::Gui::View::Qt {
     hookOnExit(std::unique_ptr<IController<>> controller);
   private:
     Ui::MainWindow *m_ui;
+    QPointer<QTabWidget> m_tabWidget;
 
     QtEvent<> m_onNew;
     QtEvent<> m_onExit;

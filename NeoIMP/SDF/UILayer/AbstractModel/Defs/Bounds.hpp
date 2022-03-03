@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_BOUNDS_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_BOUNDS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    Bounds.hpp
+ * PURPOSE: Defines various constants representing bounds of the editor model.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
-
-namespace SDF::Common {
-  typedef unsigned int Handle;
-
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+namespace SDF::UILayer::AbstractModel::Defs::Bounds {
+  // This gives a bit more than 1 Gpx max limit
+  static const std::size_t MAX_IMAGE_WIDTH = 32767;
+  static const std::size_t MAX_IMAGE_HEIGHT = 32767;
 }
 
 #endif

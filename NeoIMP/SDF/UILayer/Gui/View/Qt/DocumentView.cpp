@@ -1,12 +1,9 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    DocumentView.cpp
+ * PURPOSE: Implements the DocumentView class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +21,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "DocumentView.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
-
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+namespace SDF::UILayer::Gui::View::Qt {
+  DocumentView::DocumentView(AbstractModel::IRenderingService *renderingService,
+                             Common::Handle documentHandle,
+                             QWidget *parent
+                            )
+    : QWidget(parent),
+      m_renderingService(renderingService),
+      m_documentHandle(documentHandle)
+  {
+  }
 }
-
-#endif

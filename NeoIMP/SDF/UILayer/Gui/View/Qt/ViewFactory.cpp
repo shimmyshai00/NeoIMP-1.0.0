@@ -29,10 +29,16 @@
 
 namespace SDF::UILayer::Gui::View::Qt {
   ViewFactory::ViewFactory(AbstractModel::IMetricsService *metricsService,
-                           AbstractModel::ICreateImageService *createImageService
+                           AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+                           AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+                           AbstractModel::ICreateImageService *createImageService,
+                           AbstractModel::IRenderingService *renderingService
                           )
     : m_metricsService(metricsService),
+      m_documentPrefabsService(documentPrefabsService),
+      m_documentRequirementsService(documentRequirementsService),
       m_createImageService(createImageService),
+      m_renderingService(renderingService),
       m_viewManager(nullptr)
   {
   }
@@ -59,13 +65,25 @@ namespace SDF::UILayer::Gui::View::Qt {
 
   NewDocumentDialog *
   ViewFactory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv = new NewDocumentDialog(m_metricsService, parent);
+    NewDocumentDialog *rv = new NewDocumentDialog(m_metricsService, m_documentPrefabsService,
+      m_documentRequirementsService, parent);
 
     std::unique_ptr<IController<AbstractModel::Defs::ImageSpec>> acceptController;
     acceptController = std::make_unique<Controller::NewDocumentDialog::OnAccept>(
       m_createImageService, m_viewManager);
     rv->hookOnAccept(std::move(acceptController))->connect();
 
+    rv->setAttribute(::Qt::WA_DeleteOnClose);
+
+    return rv;
+  }
+
+  DocumentView *
+  ViewFactory::createDocumentView(Common::Handle documentHandle,
+                                  QWidget *parent
+                                 )
+  {
+    DocumentView *rv = new DocumentView(m_renderingService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     return rv;

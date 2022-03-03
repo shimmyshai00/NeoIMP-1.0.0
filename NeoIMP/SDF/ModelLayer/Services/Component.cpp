@@ -24,6 +24,7 @@
 
 #include "Gil/Component.hpp"
 #include "MetricsService.hpp"
+#include "DocumentPrefabsService.hpp"
 
 namespace SDF::ModelLayer::Services {
   fruit::Component<
@@ -31,12 +32,16 @@ namespace SDF::ModelLayer::Services {
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
       Repositories::IRepository<DomainObjects::Engine::Rendering>
     >,
+    UILayer::AbstractModel::IDocumentPrefabsService,
+    UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
+    UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
     return fruit::createComponent()
+      .bind<UILayer::AbstractModel::IDocumentPrefabsService, Services::DocumentPrefabsService>()
       .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>()
       .install(Gil::getComponent);
   }

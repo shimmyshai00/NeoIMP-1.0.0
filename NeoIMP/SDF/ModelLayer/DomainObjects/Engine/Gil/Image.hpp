@@ -174,6 +174,16 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
                  std::size_t x2,
                  std::size_t y2
                 ) const;
+  public:
+    // Function:   getMemorySizeForOneLayer
+    // Purpose:    Get the memory required for a single layer of the given width and height of this
+    //             image and image type.
+    // Parameters: width - The desired width of the image.
+    //             height - The desired height of the image.
+    static std::size_t
+    getMemorySizeForOneLayer(std::size_t width,
+                             std::size_t height
+                            );
   private:
     template<class ... GilImageTs>
     friend class AnyImage;

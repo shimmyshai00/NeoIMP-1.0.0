@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_IGETDOCUMENTNAMESERVICE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_IGETDOCUMENTNAMESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    IGetDocumentNameService.hpp
+ * PURPOSE: Defines the IGetDocumentNameService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "../../Common/Handle.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
+#include <string>
 
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+namespace SDF::UILayer::AbstractModel {
+  // Class:      IDocumentNameService
+  // Purpose:    Defines the interface for an MVC service that gets the names of documents.
+  // Parameters: None.
+  class IGetDocumentNameService {
+  public:
+    virtual ~IGetDocumentNameService() = default;
+
+    // Function:   getDocumentName
+    // Purpose:    Get the name of an image document.
+    // Parameters: documentHandle - The handle to the image document.
+    // Returns:    The name as a string.
+    virtual std::string
+    getDocumentName(Common::Handle documentHandle) = 0;
+  };
 }
+
 
 #endif

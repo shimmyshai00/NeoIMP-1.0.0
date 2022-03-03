@@ -24,14 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/IMetricsService.hpp"
+#include "../../../AbstractModel/IDocumentPrefabsService.hpp"
+#include "../../../AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../../AbstractModel/ICreateImageService.hpp"
+#include "../../../AbstractModel/IRenderingService.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
 
 #include "MainWindow.hpp"
 #include "NewDocumentDialog.hpp"
+#include "DocumentView.hpp"
 
+#include <QWidget>
 #include <fruit/fruit.h>
 
 namespace SDF::UILayer::Gui::View::Qt {
@@ -41,7 +47,10 @@ namespace SDF::UILayer::Gui::View::Qt {
   class ViewFactory {
   public:
     INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService,
-                       AbstractModel::ICreateImageService *createImageService
+                       AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+                       AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+                       AbstractModel::ICreateImageService *createImageService,
+                       AbstractModel::IRenderingService *renderingService
                       ));
 
     void
@@ -52,9 +61,17 @@ namespace SDF::UILayer::Gui::View::Qt {
 
     NewDocumentDialog *
     createNewDocumentDialog(QWidget *parent = nullptr);
+
+    DocumentView *
+    createDocumentView(Common::Handle documentHandle,
+                       QWidget *parent = nullptr
+                      );
   private:
     AbstractModel::IMetricsService *m_metricsService;
+    AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
+    AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;
     AbstractModel::ICreateImageService *m_createImageService;
+    AbstractModel::IRenderingService *m_renderingService;
 
     IViewManager<EViewType> *m_viewManager;
   };

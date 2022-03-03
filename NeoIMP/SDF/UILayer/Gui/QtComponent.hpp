@@ -25,7 +25,11 @@
  */
 
 #include "../AbstractModel/IMetricsService.hpp"
+#include "../AbstractModel/IDocumentPrefabsService.hpp"
+#include "../AbstractModel/IDocumentRequirementsService.hpp"
 #include "../AbstractModel/ICreateImageService.hpp"
+#include "../AbstractModel/IGetDocumentNameService.hpp"
+#include "../AbstractModel/IRenderingService.hpp"
 
 #include "../IApplication.hpp"
 
@@ -35,7 +39,11 @@ namespace SDF::UILayer::Gui {
   fruit::Component<
     fruit::Required<
       AbstractModel::IMetricsService,
-      AbstractModel::ICreateImageService
+      AbstractModel::IDocumentPrefabsService,
+      AbstractModel::IDocumentRequirementsService,
+      AbstractModel::ICreateImageService,
+      AbstractModel::IGetDocumentNameService,
+      AbstractModel::IRenderingService
     >,
     IApplication
   >

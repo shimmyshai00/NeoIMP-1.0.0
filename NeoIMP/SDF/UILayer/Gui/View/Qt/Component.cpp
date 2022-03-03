@@ -29,7 +29,11 @@ namespace SDF::UILayer::Gui::View::Qt {
   fruit::Component<
     fruit::Required<
       AbstractModel::IMetricsService,
-      AbstractModel::ICreateImageService
+      AbstractModel::IDocumentPrefabsService,
+      AbstractModel::IDocumentRequirementsService,
+      AbstractModel::ICreateImageService,
+      AbstractModel::IGetDocumentNameService,
+      AbstractModel::IRenderingService
     >,
     IViewManager<EViewType>
   >

@@ -27,6 +27,8 @@
 
 #include "Resources/ui_MainWindow.h"
 
+#include <QGridLayout>
+
 namespace SDF::UILayer::Gui::View::Qt {
   MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -40,6 +42,29 @@ namespace SDF::UILayer::Gui::View::Qt {
 
   MainWindow::~MainWindow() {
     delete m_ui;
+  }
+
+  void
+  MainWindow::addTabPane(std::string tabName, QWidget *pane) {
+    if(!m_tabWidget) {
+      m_tabWidget = new QTabWidget(nullptr);
+      m_ui->gridLayout_2->addWidget(m_tabWidget, 0, 0);
+      m_tabWidget->show();
+    }
+
+    m_tabWidget->addTab(pane, QString(tabName.c_str()));
+  }
+
+  void
+  MainWindow::deleteTabPane(QWidget *pane) {
+    if(m_tabWidget) {
+      m_tabWidget->removeTab(m_tabWidget->indexOf(pane));
+      if(m_tabWidget->count() == 0) {
+        // all tabs gone - destroy the tab widget!
+        m_tabWidget->hide();
+        m_ui->gridLayout_2->removeWidget(m_tabWidget);
+      }
+    }
   }
 
   Common::PIConnection

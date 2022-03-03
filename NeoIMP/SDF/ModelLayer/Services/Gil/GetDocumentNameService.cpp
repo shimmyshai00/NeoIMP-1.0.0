@@ -1,12 +1,9 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    GetDocumentNameService.cpp
+ * PURPOSE: Implements the GetDocumentNameService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +21,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "GetDocumentNameService.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
+namespace SDF::ModelLayer::Services::Gil {
+  GetDocumentNameService::GetDocumentNameService(
+    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+  )
+    : m_imageRepository(imageRepository)
+  {
+  }
 
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+  std::string
+  GetDocumentNameService::getDocumentName(Common::Handle documentHandle) {
+    if(auto p = m_imageRepository->retrieve(documentHandle)) {
+      return p->getName();
+    } else {
+      return "";
+    }
+  }
 }
-
-#endif

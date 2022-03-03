@@ -1,3 +1,7 @@
 target_sources(neoimp PUBLIC
-  UnitQuantityEdit.cpp
+  DimensionalQuantityEdit.hpp
+  ResolutionQuantityEdit.hpp
+  LengthQuantityEdit.hpp
+  ResolutionQuantityEdit.cpp
+  LengthQuantityEdit.cpp
 )
