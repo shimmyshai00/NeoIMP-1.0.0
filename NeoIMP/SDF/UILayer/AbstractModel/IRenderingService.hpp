@@ -25,8 +25,10 @@
  */
 
 #include "../../Common/Handle.hpp"
+#include "Defs/IRenderRegion.hpp"
 
 #include <cstddef>
+#include <memory>
 
 namespace SDF::UILayer::AbstractModel {
   // Class:      IRenderingService
@@ -37,42 +39,36 @@ namespace SDF::UILayer::AbstractModel {
   public:
     virtual ~IRenderingService() = default;
 
-    // Function:   renderImage
-    // Purpose:    Renders an image to a screenable format.
+    // Function:   createStaticRendering
+    // Purpose:    Creates a static rendering of an entire image. This type of rendering is not
+    //             memory-efficient: it simply renders all parts of the image at full or fractional
+    //             resolution. It is most useful when browsing the image is not required.
     // Parameters: imageHandle - The handle to the image to render.
     // Returns:    A handle to the produced rendering.
     virtual Common::Handle
-    renderImage(Common::Handle imageHandle) = 0;
+    createStaticRendering(Common::Handle imageHandle) = 0;
 
-    // Function:   renderSubregion
-    // Purpose:    Renders a sub-region of an image only. The image must first have been fully
-    //             rendered with renderImage above.
-    // Parameters: imageHandle - The handle to the image to render.
-    //             x1, y1, x2, y2 - The pixel coordinates of the rectangle to render.
-    // Returns:    The handle of the image rendering (same as from prior).
-    virtual Common::Handle
-    renderSubregion(Common::Handle imageHandle,
-                    std::size_t x1,
-                    std::size_t y1,
-                    std::size_t x2,
-                    std::size_t y2
-                   ) = 0;
+    // Function:   getRegion
+    // Purpose:    Gets an accessor to the render data for a given region. The accessor suggests a
+    //             tiled format for the data; so that it is possible to dynamically render only
+    //             portions thereof as needed.
+    // Parameters: renderHandle - The handle to the rendering to get the region iterator for.
+    //             x1, y1, x2, y2 - The rectangular region in question.
+    // Returns:    The region accessor.
+    virtual std::shared_ptr<Defs::IRenderRegion>
+    getRegion(Common::Handle renderHandle,
+              std::size_t x1,
+              std::size_t y1,
+              std::size_t x2,
+              std::size_t y2
+             ) = 0;
 
-    // Function:   retrieveRenderData
-    // Purpose:    Fetches a pointer to the render data of a previously-rendered image.
-    // Parameters: renderHandle - The handle of the rendering (not the image!) to fetch.
-    //             originPtr - Receives a pointer to the origin of the render data.
-    //             rowStride - Receives the offset to, given a pixel pointed to by a pointer offset
-    //                         from originPtr, step to the same image position on the next row of
-    //                         pixels
-    //             pixelWidth - Receives the size of each pixel in bytes.
-    // Returns:    None - all returns are in passed reference arguments.
+    // Function:   deleteRendering
+    // Purpose:    Deletes a rendering from the rendering service.
+    // Parameters: renderHandle - The handle of the rendering to delete.
+    // Returns:    None.
     virtual void
-    retrieveRenderData(Common::Handle renderHandle,
-                       unsigned char * &originPtr,
-                       std::ptrdiff_t &rowStride,
-                       std::size_t &pixelWidth
-                      ) = 0;
+    deleteRendering(Common::Handle renderHandle) = 0;
   };
 }
 

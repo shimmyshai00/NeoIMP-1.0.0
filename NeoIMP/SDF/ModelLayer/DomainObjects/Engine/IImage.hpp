@@ -138,27 +138,24 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Function:   applyOperation
     // Purpose:    Applies an operation to the image.
     // Parameters: op - The operation to apply.
-    //             layerNums - The layer numbers to apply to.
-    //             layerRects - The rectangles to apply the operation on, in *image* space (not
-    //                          layer space).
+    //             regions - The layer regions to apply the operation to.
     //             progress - An optional object to update to signal the operation progress.
     // Returns:    Whether the operation succeeded or not.
     virtual bool
     applyOperation(IImageOperation<ImplT> &op,
-                   const std::vector<std::size_t> &layerNums,
-                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                   const std::vector<OpRegion> &regions,
                    IProgressListener *progress
                   ) = 0;
 
     // Function:   applyOperation
     // Purpose:    Applies an operation to a single rectangle of the entire image.
     // Parameters: op - The operation to apply.
-    //             applyRect - The rectangular area to apply to.
+    //             rect - The rectangular area to apply to.
     //             progress - An optional object to update to signal the operation progress.
     // Returns:    Whether the operation succeeded or not.
     virtual bool
     applyOperation(IImageOperation<ImplT> &op,
-                   Math::Rect<std::size_t> applyRect,
+                   Math::Rect<float> rect,
                    IProgressListener *progress
                   ) = 0;
 

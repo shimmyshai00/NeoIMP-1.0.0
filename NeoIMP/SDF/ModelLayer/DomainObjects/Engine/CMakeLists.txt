@@ -1,3 +1,4 @@
 target_sources(neoimp PUBLIC
-  Rendering.cpp
+  RenderCell.cpp
+  GridRendering.cpp
 )

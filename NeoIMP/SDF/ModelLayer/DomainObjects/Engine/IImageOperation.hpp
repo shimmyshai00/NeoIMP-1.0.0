@@ -32,6 +32,21 @@
 #include <vector>
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
+  struct OpRegion {
+    std::size_t layerNum;
+    Math::Rect<float> rect;
+
+    OpRegion(std::size_t layerNum_,
+             Math::Rect<float> rect_
+            )
+      : layerNum(layerNum_),
+        rect(rect_)
+    {
+    }
+  };
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      IImageOperation
   // Purpose:    Wraps an operation to be performed on an image.
   // Parameters: ImplT - The type of image implementation.
@@ -43,14 +58,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Function:   performOperation
     // Purpose:    Perform the operation on a given part of the image.
     // Parameters: imageImpl - The implemented image to operate on.
-    //             layerNums - The layer numbers of the layers to act on.
-    //             layerRects - The regions of the layers to act on.
+    //             regions - The regions to operate on.
     //             progress - An optional progress indicator.
     // Returns:    Whether the operation succeeded or not.
     virtual bool
     performOperation(ImplT &imageImpl,
-                     const std::vector<std::size_t> &layerNums,
-                     const std::vector<Math::Rect<std::size_t>> &layerRects,
+                     const std::vector<OpRegion> &regions,
                      IProgressListener *progress
                     ) = 0;
   };

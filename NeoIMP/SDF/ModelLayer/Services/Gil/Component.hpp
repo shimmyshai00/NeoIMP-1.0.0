@@ -29,7 +29,7 @@
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../DomainObjects/Engine/Rendering.hpp"
+#include "../../DomainObjects/Engine/GridRendering.hpp"
 #include "../../Repositories/IRepository.hpp"
 
 #include <fruit/fruit.h>
@@ -38,7 +38,7 @@ namespace SDF::ModelLayer::Services::Gil {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::Rendering>
+      Repositories::IRepository<DomainObjects::Engine::GridRendering>
     >,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,

@@ -25,7 +25,7 @@
  */
 
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/Rendering.hpp"
+#include "../DomainObjects/Engine/GridRendering.hpp"
 #include "IRepository.hpp"
 
 #include <fruit/fruit.h>
@@ -33,7 +33,7 @@
 namespace SDF::ModelLayer::Repositories {
   typedef fruit::Component<
     IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-    IRepository<DomainObjects::Engine::Rendering>
+    IRepository<DomainObjects::Engine::GridRendering>
   >
   Component;
 

@@ -23,12 +23,89 @@
 
 #include "RenderingService.hpp"
 
-#include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
+#include "../../Math/Rect.hpp"
+#include "../../DomainObjects/Engine/Gil/Algorithm/CellRenderer.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
+  namespace Impl {
+    class RenderRegion : public UILayer::AbstractModel::Defs::IRenderRegion {
+    public:
+      RenderRegion(DomainObjects::Engine::GridRendering *rendering,
+                   std::size_t x1,
+                   std::size_t y1,
+                   std::size_t x2,
+                   std::size_t y2
+                  )
+        : m_rendering(rendering),
+          m_x1(x1),
+          m_y1(y1),
+          m_x2(x2),
+          m_y2(y2)
+      {
+      }
+
+      std::size_t
+      getRegionX1() const {
+        return m_x1;
+      }
+
+      std::size_t
+      getRegionY1() const {
+        return m_y1;
+      }
+
+      std::size_t
+      getRegionX2() const {
+        return m_x2;
+      }
+
+      std::size_t
+      getRegionY2() const {
+        return m_y2;
+      }
+
+      UILayer::AbstractModel::Defs::IRenderRegion::TileElement
+      getElementContaining(std::size_t x, std::size_t y) {
+        UILayer::AbstractModel::Defs::IRenderRegion::TileElement rv;
+
+        rv.width = 0;
+        rv.height = 0;
+        rv.originPtr = nullptr;
+        rv.rowStride = 0;
+
+        std::size_t cellX(x / m_rendering->getCellWidth());
+        std::size_t cellY(y / m_rendering->getCellHeight());
+
+        // The region bounded is the intersection between this cell's rectangle and the region
+        // rectangle.
+        if(m_rendering->isCellAllocated(cellX, cellY)) {
+          Math::Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
+          Math::Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
+
+          if(cellRect.intersectsWith(regionRect)) {
+            Math::Rect<std::size_t> overlap(cellRect.intersect(regionRect));
+
+            rv.width = overlap.getWidth();
+            rv.height = overlap.getHeight();
+            rv.originPtr = m_rendering->getCell(cellX, cellY)->getOrigin();
+            rv.rowStride = m_rendering->getCell(cellX, cellY)->getRowStride();
+            std::size_t pixelWidth = m_rendering->getCell(cellX, cellY)->getPixelWidth();
+
+            rv.originPtr += ((rv.rowStride * overlap.getY1()) + (pixelWidth * overlap.getX1()));
+          }
+        }
+
+        return rv;
+      }
+    private:
+      DomainObjects::Engine::GridRendering *m_rendering;
+      std::size_t m_x1, m_y1, m_x2, m_y2;
+    };
+  }
+
   RenderingService::RenderingService(
     Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
-    Repositories::IRepository<DomainObjects::Engine::Rendering> *renderingRepository
+    Repositories::IRepository<DomainObjects::Engine::GridRendering> *renderingRepository
   )
     : m_imageRepository(imageRepository),
       m_renderingRepository(renderingRepository),
@@ -37,89 +114,56 @@ namespace SDF::ModelLayer::Services::Gil {
   }
 
   Common::Handle
-  RenderingService::renderImage(Common::Handle imageHandle) {
+  RenderingService::createStaticRendering(Common::Handle imageHandle) {
+    // NB: shift this complex rendering logic down into a new DomainObject?
     using namespace DomainObjects;
 
-    Engine::Rendering *rendering(findRenderingOrCreateFor(imageHandle));
-    Common::Handle renderingHandle(m_renderingHandleMap[imageHandle]);
+    Engine::Gil::AnyGilImage *image(m_imageRepository->retrieve(imageHandle));
+    if(image != nullptr) {
+      std::size_t imageWidth(image->getWidthPx());
+      std::size_t imageHeight(image->getHeightPx());
 
-    Engine::Gil::Algorithm::Render<Engine::Gil::AnyGilImage> render(rendering);
+      Common::Handle renderingHandle(m_nextRenderingHandle++);
+      std::unique_ptr<Engine::GridRendering> rendering(new Engine::GridRendering(1, 1, imageWidth,
+        imageHeight, Engine::RENDERFMT_RGB32));
+      rendering->allocateCell(0, 0);
 
-    m_imageRepository->retrieve(imageHandle)->applyOperation(render, nullptr);
+      Engine::RenderCell *renderCell = rendering->getCell(0, 0);
+      Math::Rect<std::size_t> outRect(0, 0, imageWidth-1, imageHeight-1);
+      Math::Rect<float> renderRect(0.0f, 0.0f, imageWidth - 1.0f, imageHeight - 1.0f);
 
-    return renderingHandle;
+      Engine::Gil::Algorithm::CellRenderer<Engine::Gil::AnyGilImage> renderer(renderCell, outRect,
+        false);
+      image->applyOperation(renderer, renderRect, nullptr);
+    } else {
+      return Common::HANDLE_INVALID;
+    }
   }
 
-  Common::Handle
-  RenderingService::renderSubregion(Common::Handle imageHandle,
-                                    std::size_t x1,
-                                    std::size_t y1,
-                                    std::size_t x2,
-                                    std::size_t y2
-                                   )
+  std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
+  RenderingService::getRegion(Common::Handle renderHandle,
+                              std::size_t x1,
+                              std::size_t y1,
+                              std::size_t x2,
+                              std::size_t y2
+                             )
   {
+    using namespace UILayer;
     using namespace DomainObjects;
 
-    if(m_renderingHandleMap.find(imageHandle) == m_renderingHandleMap.end()) {
-      return renderImage(imageHandle);
+    Engine::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
+    if(rendering != nullptr) {
+      // Right now, we only support static renderings with 1 cell.
+      return std::shared_ptr<AbstractModel::Defs::IRenderRegion>(
+        new Impl::RenderRegion(rendering, x1, y1, x2, y2)
+      );
     } else {
-      Common::Handle renderingHandle(m_renderingHandleMap[imageHandle]);
-      Engine::Rendering *rendering(m_renderingRepository->retrieve(renderingHandle));
-      Engine::Gil::Algorithm::Render<Engine::Gil::AnyGilImage> render(rendering);
-      m_imageRepository->retrieve(imageHandle)->applyOperation(render,
-        Math::Rect<std::size_t>(x1, y1, x2, y2), nullptr);
-
-      return renderingHandle;
+      return std::shared_ptr<AbstractModel::Defs::IRenderRegion>();
     }
   }
 
   void
-  RenderingService::retrieveRenderData(Common::Handle renderHandle,
-                                       unsigned char * &originPtr,
-                                       std::ptrdiff_t &rowStride,
-                                       std::size_t &pixelWidth
-                                      )
-  {
-    using namespace DomainObjects;
-
-    Engine::Rendering *rendering(m_renderingRepository->retrieve(renderHandle));
-    if(rendering != nullptr) {
-      originPtr = rendering->getOrigin();
-      rowStride = rendering->getRowStride();
-      pixelWidth = rendering->getPixelWidth();
-    } else {
-      // TBA: throw
-    }
-  }
-}
-
-namespace SDF::ModelLayer::Services::Gil {
-  // Private members.
-  DomainObjects::Engine::Rendering *
-  RenderingService::findRenderingOrCreateFor(Common::Handle imageHandle) {
-    using namespace DomainObjects;
-
-    Engine::Rendering *rendering(nullptr);
-
-    if(m_renderingHandleMap.find(imageHandle) == m_renderingHandleMap.end()) {
-      Common::Handle renderingHandle = m_nextRenderingHandle++;
-      m_renderingHandleMap[imageHandle] = renderingHandle;
-
-      Engine::Gil::AnyGilImage *image(m_imageRepository->retrieve(imageHandle));
-      if(image == nullptr) {
-        // TBA: throw
-      }
-
-      std::size_t imageWidth(image->getWidthPx());
-      std::size_t imageHeight(image->getHeightPx());
-
-      rendering = m_renderingRepository->insert(renderingHandle,
-        std::make_unique<Engine::Rendering>(imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
-      m_renderingHandleMap[imageHandle] = renderingHandle;
-    } else {
-      rendering = m_renderingRepository->retrieve(m_renderingHandleMap[imageHandle]);
-    }
-
-    return rendering;
+  RenderingService::deleteRendering(Common::Handle renderHandle) {
+    m_renderingRepository->erase(renderHandle);
   }
 }

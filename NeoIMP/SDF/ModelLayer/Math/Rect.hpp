@@ -124,6 +124,12 @@ namespace SDF::ModelLayer::Math {
       return Coord<T>(m_x2, m_y2);
     }
 
+    bool
+    intersectsWith(Rect<T> rhs) const {
+      return (std::max(m_x1, rhs.m_x1) <= std::min(m_x2, rhs.m_x2)) &&
+             (std::max(m_y1, rhs.m_y1) <= std::min(m_y2, rhs.m_y2));
+    }
+    
     Rect<T>
     intersect(Rect<T> rhs) const {
       return Rect<T>(Coord<T>(std::max(m_x1, rhs.m_x1), std::max(m_y1, rhs.m_y1)),

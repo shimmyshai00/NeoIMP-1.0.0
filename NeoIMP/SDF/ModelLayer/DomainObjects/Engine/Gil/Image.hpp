@@ -102,14 +102,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
 
     bool
     applyOperation(IImageOperation<Image<GilImageT>> &op,
-                   const std::vector<std::size_t> &layerNums,
-                   const std::vector<Math::Rect<std::size_t>> &layerRects,
+                   const std::vector<OpRegion> &regions,
                    IProgressListener *progress
                   );
 
     bool
     applyOperation(IImageOperation<Image<GilImageT>> &op,
-                   Math::Rect<std::size_t> applyRect,
+                   Math::Rect<float> rect,
                    IProgressListener *progress
                   );
 

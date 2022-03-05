@@ -172,30 +172,27 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class ... GilImageTs>
   bool
   AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                                          const std::vector<std::size_t> &layerNums,
-                                          const std::vector<Math::Rect<std::size_t>> &layerRects,
+                                          const std::vector<OpRegion> &regions,
                                           IProgressListener *progress
                                          )
   {
-    return op.performOperation(*this, layerNums, layerRects, progress);
+    return op.performOperation(*this, regions, progress);
   }
 
   template<class ... GilImageTs>
   bool
   AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                                          Math::Rect<std::size_t> applyRect,
+                                          Math::Rect<float> rect,
                                           IProgressListener *progress
                                          )
   {
-    std::vector<std::size_t> allLayerNums;
-    std::vector<Math::Rect<std::size_t>> allLayerRects;
+    std::vector<OpRegion> regions;
 
     for(std::size_t i(0); i < m_layers.size(); ++i) {
-      allLayerNums.push_back(i);
-      allLayerRects.push_back(applyRect);
+      regions.push_back(OpRegion(i, rect));
     }
 
-    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+    return op.performOperation(*this, regions, progress);
   }
 
   template<class ... GilImageTs>
@@ -204,15 +201,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
                                           IProgressListener *progress
                                          )
   {
-    std::vector<std::size_t> allLayerNums;
-    std::vector<Math::Rect<std::size_t>> allLayerRects;
+    std::vector<OpRegion> regions;
 
     for(std::size_t i(0); i < m_layers.size(); ++i) {
-      allLayerNums.push_back(i);
-      allLayerRects.push_back(getLayerRect(i));
+      regions.push_back(OpRegion(i, getLayerRect(i)));
     }
 
-    return op.performOperation(*this, allLayerNums, allLayerRects, progress);
+    return op.performOperation(*this, regions, progress);
   }
 
   template<class ... GilImageTs>

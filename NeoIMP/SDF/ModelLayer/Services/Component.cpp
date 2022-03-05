@@ -30,7 +30,7 @@ namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::Rendering>
+      Repositories::IRepository<DomainObjects::Engine::GridRendering>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,

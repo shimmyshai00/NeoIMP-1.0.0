@@ -27,7 +27,7 @@
 #include "../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../DomainObjects/Engine/Rendering.hpp"
+#include "../../DomainObjects/Engine/GridRendering.hpp"
 #include "../../Repositories/IRepository.hpp"
 #include <fruit/fruit.h>
 
@@ -41,35 +41,27 @@ namespace SDF::ModelLayer::Services::Gil {
   public:
     INJECT(RenderingService(
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
-      Repositories::IRepository<DomainObjects::Engine::Rendering> *renderingRepository
+      Repositories::IRepository<DomainObjects::Engine::GridRendering> *renderingRepository
     ));
 
     Common::Handle
-    renderImage(Common::Handle imageHandle);
+    createStaticRendering(Common::Handle imageHandle);
 
-    Common::Handle
-    renderSubregion(Common::Handle imageHandle,
-                    std::size_t x1,
-                    std::size_t y1,
-                    std::size_t x2,
-                    std::size_t y2
-                   );
+    std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
+    getRegion(Common::Handle renderHandle,
+              std::size_t x1,
+              std::size_t y1,
+              std::size_t x2,
+              std::size_t y2
+             );
 
     void
-    retrieveRenderData(Common::Handle renderHandle,
-                       unsigned char * &originPtr,
-                       std::ptrdiff_t &rowStride,
-                       std::size_t &pixelWidth
-                     );
+    deleteRendering(Common::Handle renderHandle);
   private:
     Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
-    Repositories::IRepository<DomainObjects::Engine::Rendering> *m_renderingRepository;
+    Repositories::IRepository<DomainObjects::Engine::GridRendering> *m_renderingRepository;
 
     Common::Handle m_nextRenderingHandle;
-    std::map<Common::Handle, Common::Handle> m_renderingHandleMap;
-
-    DomainObjects::Engine::Rendering *
-    findRenderingOrCreateFor(Common::Handle imageHandle);
   };
 }
 

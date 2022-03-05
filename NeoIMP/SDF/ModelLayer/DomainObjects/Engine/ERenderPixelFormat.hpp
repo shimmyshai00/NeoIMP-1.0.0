@@ -24,10 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cstddef>
+
 namespace SDF::ModelLayer::DomainObjects::Engine {
   enum ERenderPixelFormat {
     RENDERFMT_RGB32,
     RENDERFMT_MAX
+  };
+
+  // The sizes of the above formats in bytes.
+  static const std::size_t g_pixelFormatWidths[RENDERFMT_MAX] = {
+    4
   };
 }
 

@@ -27,7 +27,6 @@
 #include "../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../DomainObjects/Engine/Rendering.hpp"
 
 #include "../../Repositories/IRepository.hpp"
 
