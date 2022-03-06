@@ -30,7 +30,11 @@ namespace SDF::UILayer::Gui::View::Qt {
                             )
     : QWidget(parent),
       m_renderingService(renderingService),
-      m_documentHandle(documentHandle)
+      m_documentHandle(documentHandle),
+      m_layout(new QGridLayout(this)),
+      m_imageEditorWidget(new CustomWidgets::ImageEditor::Widget(renderingService, this))
   {
+    m_layout->addWidget(m_imageEditorWidget, 0, 0);
+    m_imageEditorWidget->setEditedImage(documentHandle);
   }
 }

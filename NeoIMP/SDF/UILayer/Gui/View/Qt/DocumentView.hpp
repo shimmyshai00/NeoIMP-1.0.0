@@ -26,8 +26,10 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
+#include "CustomWidgets/ImageEditor/Widget.hpp"
 
 #include <QWidget>
+#include <QGridLayout>
 
 namespace SDF::UILayer::Gui::View::Qt {
   // Class:      DocumentView
@@ -43,6 +45,9 @@ namespace SDF::UILayer::Gui::View::Qt {
   private:
     AbstractModel::IRenderingService *m_renderingService;
     Common::Handle m_documentHandle;
+
+    QGridLayout *m_layout;
+    CustomWidgets::ImageEditor::Widget *m_imageEditorWidget;
   };
 }
 

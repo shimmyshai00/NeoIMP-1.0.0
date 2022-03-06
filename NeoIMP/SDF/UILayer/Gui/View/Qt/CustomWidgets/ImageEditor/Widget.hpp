@@ -30,6 +30,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QSize>
 
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   // Class:      Widget
@@ -44,6 +45,9 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
           );
 
     ~Widget();
+
+    virtual QSize
+    sizeHint() const override;
 
     // Function:   setEditedImage
     // Purpose:    Set the image to edit.

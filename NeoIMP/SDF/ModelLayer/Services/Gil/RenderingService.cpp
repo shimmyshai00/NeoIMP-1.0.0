@@ -68,6 +68,8 @@ namespace SDF::ModelLayer::Services::Gil {
       getElementContaining(std::size_t x, std::size_t y) {
         UILayer::AbstractModel::Defs::IRenderRegion::TileElement rv;
 
+        rv.xOrigin = 0;
+        rv.yOrigin = 0;
         rv.width = 0;
         rv.height = 0;
         rv.originPtr = nullptr;
@@ -85,6 +87,8 @@ namespace SDF::ModelLayer::Services::Gil {
           if(cellRect.intersectsWith(regionRect)) {
             Math::Rect<std::size_t> overlap(cellRect.intersect(regionRect));
 
+            rv.xOrigin = overlap.getX1();
+            rv.yOrigin = overlap.getY1();
             rv.width = overlap.getWidth();
             rv.height = overlap.getHeight();
             rv.originPtr = m_rendering->getCell(cellX, cellY)->getOrigin();
@@ -96,6 +100,52 @@ namespace SDF::ModelLayer::Services::Gil {
         }
 
         return rv;
+      }
+
+      void
+      traverse(std::function<void (TileElement el)> op) {
+        UILayer::AbstractModel::Defs::IRenderRegion::TileElement el;
+
+        Math::Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
+        Math::Rect<std::size_t> tileRect(0, 0, 0, 0);
+
+        std::size_t curX(m_x1);
+        std::size_t curY(m_y1);
+
+        while(curY < m_y2) {
+          while(curX < m_x2) {
+            std::size_t cellX(curX / m_rendering->getCellWidth());
+            std::size_t cellY(curY / m_rendering->getCellHeight());
+
+            Math::Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
+            tileRect = regionRect.intersect(cellRect);
+
+            if(m_rendering->isCellAllocated(cellX, cellY)) {
+              el.xOrigin = tileRect.getX1();
+              el.yOrigin = tileRect.getY1();
+              el.width = tileRect.getWidth();
+              el.height = tileRect.getHeight();
+              el.originPtr = m_rendering->getCell(cellX, cellY)->getOrigin();
+              el.rowStride = m_rendering->getCell(cellX, cellY)->getRowStride();
+              std::size_t pixelWidth = m_rendering->getCell(cellX, cellY)->getPixelWidth();
+
+              el.originPtr += ((el.rowStride * el.yOrigin) + (pixelWidth * el.xOrigin));
+            } else {
+              el.xOrigin = 0;
+              el.yOrigin = 0;
+              el.width = 0;
+              el.height = 0;
+              el.originPtr = nullptr;
+              el.rowStride = 0;
+            }
+
+            op(el);
+
+            curX += tileRect.getWidth();
+          }
+
+          curY += tileRect.getHeight();
+        }
       }
     private:
       DomainObjects::Engine::GridRendering *m_rendering;
@@ -135,6 +185,10 @@ namespace SDF::ModelLayer::Services::Gil {
       Engine::Gil::Algorithm::CellRenderer<Engine::Gil::AnyGilImage> renderer(renderCell, outRect,
         false);
       image->applyOperation(renderer, renderRect, nullptr);
+
+      m_renderingRepository->insert(renderingHandle, std::move(rendering));
+
+      return renderingHandle;
     } else {
       return Common::HANDLE_INVALID;
     }

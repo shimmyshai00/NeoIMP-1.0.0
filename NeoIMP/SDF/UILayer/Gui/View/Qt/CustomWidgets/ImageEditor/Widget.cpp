@@ -37,9 +37,26 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   Widget::~Widget() {
   }
 
+  QSize
+  Widget::sizeHint() const {
+    QSize base = QWidget::sizeHint();
+
+    printf("%d %d\n", size().width(), size().height());
+    if(!base.isValid()) {
+      // Fill the whole parent widget, if one exists.
+      if(parentWidget() != nullptr) {
+        return parentWidget()->size();
+      }
+    }
+
+    return base;
+  }
+
   void
   Widget::setEditedImage(Common::Handle imageHandle) {
+    printf("psize: %d %d\n", size().width(), size().height());
     m_renderDisplayWidget->setDisplayedImage(imageHandle);
+    update();
   }
 
   float

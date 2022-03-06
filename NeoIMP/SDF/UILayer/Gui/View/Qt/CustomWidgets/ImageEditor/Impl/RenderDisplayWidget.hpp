@@ -73,7 +73,7 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
     viewportY2() const;
   protected:
     void
-    paintEvent(QPaintEvent *event);
+    paintEvent(QPaintEvent *event) override;
   private:
     AbstractModel::IRenderingService *m_renderingService;
 

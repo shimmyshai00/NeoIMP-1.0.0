@@ -25,6 +25,7 @@
  */
 
 #include <cstddef>
+#include <functional>
 
 namespace SDF::UILayer::AbstractModel::Defs {
   // Class:      IRenderRegion
@@ -33,6 +34,7 @@ namespace SDF::UILayer::AbstractModel::Defs {
   class IRenderRegion {
   public:
     struct TileElement {
+      std::size_t xOrigin, yOrigin;
       std::size_t width, height;
 
       unsigned char *originPtr;
@@ -75,6 +77,14 @@ namespace SDF::UILayer::AbstractModel::Defs {
     // Returns:    The containing tile element.
     virtual TileElement
     getElementContaining(std::size_t x, std::size_t y) = 0;
+
+    // Function:   traverse
+    // Purpose:    Traverses each tile element making up the region in turn, performing an
+    //             operation on them.
+    // Parameters: op - The function to apply to each tile.
+    // Returns:    None.
+    virtual void
+    traverse(std::function<void (TileElement el)> op) = 0;
   };
 }
 
