@@ -29,27 +29,16 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
                 )
     : QWidget(parent),
       m_gridLayout(new QGridLayout(this)),
+      m_horizontalRuler(new Impl::RulerWidget(::Qt::Horizontal, nullptr)),
+      m_verticalRuler(new Impl::RulerWidget(::Qt::Vertical, nullptr)),
       m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr))
   {
-    m_gridLayout->addWidget(m_renderDisplayWidget, 0, 0);
+    m_gridLayout->addWidget(m_horizontalRuler, 1, 0);
+    m_gridLayout->addWidget(m_verticalRuler, 0, 1);
+    m_gridLayout->addWidget(m_renderDisplayWidget, 1, 1);
   }
 
   Widget::~Widget() {
-  }
-
-  QSize
-  Widget::sizeHint() const {
-    QSize base = QWidget::sizeHint();
-
-    printf("%d %d\n", size().width(), size().height());
-    if(!base.isValid()) {
-      // Fill the whole parent widget, if one exists.
-      if(parentWidget() != nullptr) {
-        return parentWidget()->size();
-      }
-    }
-
-    return base;
   }
 
   void

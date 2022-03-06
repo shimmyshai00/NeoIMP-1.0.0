@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
-#define SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the repository subsystem.
+ * FILE:    Viewpoint.hpp
+ * PURPOSE: Defines the Viewpoint struct.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/GridRendering.hpp"
-#include "../DomainObjects/Engine/Viewpoint.hpp"
-#include "IRepository.hpp"
+#include "../../Math/Coord.hpp"
 
-#include <fruit/fruit.h>
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  struct Viewpoint {
+    Math::Coord<float> m_position;
+    float m_magnification;
 
-namespace SDF::ModelLayer::Repositories {
-  typedef fruit::Component<
-    IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-    IRepository<DomainObjects::Engine::GridRendering>,
-    IRepository<DomainObjects::Engine::Viewpoint>
-  >
-  Component;
+    Viewpoint()
+      : m_position(0.0f, 0.0f),
+        m_magnification(1.0f)
+    {
+    }
 
-  Component getComponent();
+    Viewpoint(float x, float y)
+      : m_position(x, y),
+        m_magnification(1.0f)
+    {
+    }
+
+    Viewpoint(float x, float y, float mag)
+      : m_position(x, y),
+        m_magnification(mag)
+    {
+    }
+  };
 }
 
 #endif

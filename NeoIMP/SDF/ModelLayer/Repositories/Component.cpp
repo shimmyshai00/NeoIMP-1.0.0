@@ -33,8 +33,7 @@ namespace SDF::ModelLayer::Repositories {
     return fruit::createComponent()
       .bind<IRepository<Engine::Gil::AnyGilImage>, MemoryOnlyRepository<Engine::Gil::AnyGilImage>>
         ()
-      .bind<
-        IRepository<Engine::GridRendering>, MemoryOnlyRepository<Engine::GridRendering>
-       >();
+      .bind<IRepository<Engine::GridRendering>, MemoryOnlyRepository<Engine::GridRendering>>()
+      .bind<IRepository<Engine::Viewpoint>, MemoryOnlyRepository<Engine::Viewpoint>>();
   }
 }

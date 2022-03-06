@@ -88,6 +88,46 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
   RenderDisplayWidget::viewportY2() const {
     return m_viewUpperLeftY + ((size().height() - 1) / m_viewMagnification);
   }
+
+  void
+  RenderDisplayWidget::setViewportX1(float x1) {
+    m_viewUpperLeftX = x1;
+    update();
+  }
+
+  void
+  RenderDisplayWidget::setViewportY1(float y1) {
+    m_viewUpperLeftY = y1;
+    update();
+  }
+
+  void
+  RenderDisplayWidget::setViewportUpperLeft(float x1,
+                                            float y1
+                                           )
+  {
+    m_viewUpperLeftX = x1;
+    m_viewUpperLeftY = y1;
+    update();
+  }
+
+  void
+  RenderDisplayWidget::setViewportMag(float mag) {
+    m_viewMagnification = mag;
+    update();
+  }
+
+  void
+  RenderDisplayWidget::setAll(float x1,
+                              float y1,
+                              float mag
+                             )
+  {
+    m_viewUpperLeftX = x1;
+    m_viewUpperLeftY = y1;
+    m_viewMagnification = mag;
+    update();
+  }
 }
 
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {

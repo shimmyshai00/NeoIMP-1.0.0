@@ -26,6 +26,7 @@
 
 #include "../../../../../../Common/Handle.hpp"
 #include "../../../../../AbstractModel/IRenderingService.hpp"
+#include "Impl/RulerWidget.hpp"
 #include "Impl/RenderDisplayWidget.hpp"
 
 #include <QWidget>
@@ -45,9 +46,6 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
           );
 
     ~Widget();
-
-    virtual QSize
-    sizeHint() const override;
 
     // Function:   setEditedImage
     // Purpose:    Set the image to edit.
@@ -73,6 +71,9 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     viewportY2() const;
   private:
     QGridLayout *m_gridLayout;
+
+    Impl::RulerWidget *m_horizontalRuler;
+    Impl::RulerWidget *m_verticalRuler;
     Impl::RenderDisplayWidget *m_renderDisplayWidget;
   };
 }

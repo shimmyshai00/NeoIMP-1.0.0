@@ -33,6 +33,8 @@ namespace SDF::ModelLayer {
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IGetViewCoordinatesService,
+    UILayer::AbstractModel::ISetViewCoordinatesService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent() {

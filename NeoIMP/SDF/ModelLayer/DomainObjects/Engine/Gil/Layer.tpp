@@ -27,9 +27,10 @@
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilImageT>
   Layer<GilImageT>::Layer(std::size_t widthPx,
-                          std::size_t heightPx
+                          std::size_t heightPx,
+                          typename GilImageT::value_type initialColor
                          )
-    : m_image(widthPx, heightPx)
+    : m_image(widthPx, heightPx, initialColor, 0)
   {
   }
 

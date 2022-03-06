@@ -62,6 +62,17 @@ namespace SDF::ModelLayer::Math {
       return m_y;
     }
 
+    // Element mutation.
+    void
+    setX(T x) {
+      m_x = x;
+    }
+
+    void
+    setY(T y) {
+      m_y = y;
+    }
+
     // Affine operators.
     Coord<T> &
     operator+=(const Vec2D<T> &rhs) {

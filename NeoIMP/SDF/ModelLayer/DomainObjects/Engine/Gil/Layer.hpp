@@ -46,8 +46,10 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     // Purpose:    Construct a layer of a specified size.
     // Parameters: widthPx - The layer width in pixels.
     //             heightPx - The layer height in pixels.
+    //             initialColor - The color to fill this layer with.
     Layer(std::size_t widthPx,
-          std::size_t heightPx
+          std::size_t heightPx,
+          typename GilImageT::value_type initialColor
          );
 
     // Function:   getWidthPx

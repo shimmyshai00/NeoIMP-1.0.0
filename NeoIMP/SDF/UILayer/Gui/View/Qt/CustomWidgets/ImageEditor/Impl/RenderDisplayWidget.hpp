@@ -71,6 +71,38 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
 
     float
     viewportY2() const;
+
+    // Function:   setViewportX1, setViewportY1, setViewportUpperLeft
+    // Purpose:    Sets the viewport position.
+    // Parameters: x1, y1 - The coordinates to set.
+    // Returns:    None.
+    void
+    setViewportX1(float x1);
+
+    void
+    setViewportY1(float y1);
+
+    void
+    setViewportUpperLeft(float x1,
+                         float y1
+                        );
+
+    // Function:   setViewportMag
+    // Purpose:    Sets the magnification of the viewport around the upper-left corner.
+    // Parameters: mag - The magnification factor to set.
+    // Returns:    None.
+    void
+    setViewportMag(float mag);
+
+    // Function:   setAll
+    // Purpose:    Sets both the corner position and magnification.
+    // Parameters: x1, y1 - The new upper-left corner position.
+    //             mag - The new magnification.
+    void
+    setAll(float x1,
+           float y1,
+           float mag
+          );
   protected:
     void
     paintEvent(QPaintEvent *event) override;

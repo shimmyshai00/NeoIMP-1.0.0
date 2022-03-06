@@ -56,7 +56,8 @@ namespace SDF::ModelLayer::Services::Gil {
     // What type to use depends on the combination of color model and bit depth parameters.
     std::unique_ptr<Engine::Gil::AnyGilImage> image;
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      Engine::Gil::RGB888Image proto(name, fileSpec, widthPx, heightPx, resPpi);
+      Engine::Gil::RGB888Image proto(name, fileSpec, widthPx, heightPx, resPpi,
+        boost::gil::rgb8_pixel_t(127, 127, 127));
       image = std::make_unique<Engine::Gil::AnyGilImage>(std::move(proto));
     }
 

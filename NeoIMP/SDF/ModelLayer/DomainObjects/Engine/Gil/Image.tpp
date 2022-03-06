@@ -34,7 +34,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
                           std::string fileSpec,
                           std::size_t widthPx,
                           std::size_t heightPx,
-                          float resolutionPpi
+                          float resolutionPpi,
+                          typename GilImageT::value_type initialColor
                          )
     : m_name(name),
       m_fileSpec(fileSpec),
@@ -42,7 +43,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
       m_heightPx(heightPx),
       m_resolutionPpi(resolutionPpi)
   {
-    m_layers.push_back(Layer<GilImageT>(widthPx, heightPx));
+    m_layers.push_back(Layer<GilImageT>(widthPx, heightPx, initialColor));
   }
 
   template<class GilImageT>

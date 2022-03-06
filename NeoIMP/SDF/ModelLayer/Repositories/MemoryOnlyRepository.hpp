@@ -25,12 +25,16 @@
  */
 
 #include "../../Common/Handle.hpp"
+#include "../../Common/IConnection.hpp"
+#include "../../Common/IListener.hpp"
+#include "../../Common/ListenerContainer.hpp"
 #include "IRepository.hpp"
 
 #include <fruit/fruit.h>
 
 #include <memory>
 #include <map>
+#include <vector>
 
 namespace SDF::ModelLayer::Repositories {
   // Class:      MemoryOnlyRepository
@@ -40,6 +44,12 @@ namespace SDF::ModelLayer::Repositories {
   class MemoryOnlyRepository : public IRepository<ObjT> {
   public:
     INJECT(MemoryOnlyRepository());
+
+    std::vector<Common::Handle>
+    getIds() const;
+
+    bool
+    has(Common::Handle uid) const;
 
     ObjT *
     insert(Common::Handle uid, std::unique_ptr<ObjT> obj);
@@ -52,8 +62,21 @@ namespace SDF::ModelLayer::Repositories {
 
     void
     erase(Common::Handle uid);
+
+    Common::PIConnection
+    addInsertListener(std::shared_ptr<Common::IListener<Common::Handle>> listener);
+
+    Common::PIConnection
+    addUpdateListener(std::shared_ptr<Common::IListener<Common::Handle>> listener);
+
+    Common::PIConnection
+    addEraseListener(std::shared_ptr<Common::IListener<Common::Handle>> listener);
   private:
     std::map<Common::Handle, std::unique_ptr<ObjT>> m_objMap;
+
+    Common::ListenerContainer<Common::Handle> m_insertListeners;
+    Common::ListenerContainer<Common::Handle> m_updateListeners;
+    Common::ListenerContainer<Common::Handle> m_eraseListeners;
   };
 }
 

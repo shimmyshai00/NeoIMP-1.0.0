@@ -29,6 +29,8 @@
 #include "../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../UILayer/AbstractModel/IMetricsService.hpp"
+#include "../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/IRenderingService.hpp"
 
 #include <fruit/fruit.h>
@@ -40,6 +42,8 @@ namespace SDF::ModelLayer {
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IGetViewCoordinatesService,
+    UILayer::AbstractModel::ISetViewCoordinatesService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent();

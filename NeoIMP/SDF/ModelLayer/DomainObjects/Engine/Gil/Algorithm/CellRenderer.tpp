@@ -91,6 +91,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
                 ^ ((unsigned int)boost::gil::at_c<1>(imagePixel) <<  8)
                 ^ ((unsigned int)boost::gil::at_c<2>(imagePixel)      );
 
+              memcpy(outXPtr, &pixelCode, 4);
+
               outXPtr += outPixelSize;
             }
 

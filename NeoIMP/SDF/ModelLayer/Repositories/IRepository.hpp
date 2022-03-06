@@ -25,8 +25,11 @@
  */
 
 #include "../../Common/Handle.hpp"
+#include "../../Common/IConnection.hpp"
+#include "../../Common/IListener.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace SDF::ModelLayer::Repositories {
   // Class:      IRepository
@@ -36,6 +39,12 @@ namespace SDF::ModelLayer::Repositories {
   class IRepository {
   public:
     virtual ~IRepository() = default;
+
+    virtual std::vector<Common::Handle>
+    getIds() const = 0;
+
+    virtual bool
+    has(Common::Handle uid) const = 0;
 
     virtual ObjT *
     insert(Common::Handle uid, std::unique_ptr<ObjT> obj) = 0;
@@ -48,6 +57,15 @@ namespace SDF::ModelLayer::Repositories {
 
     virtual void
     erase(Common::Handle uid) = 0;
+
+    virtual Common::PIConnection
+    addInsertListener(std::shared_ptr<Common::IListener<Common::Handle>> listener) = 0;
+
+    virtual Common::PIConnection
+    addUpdateListener(std::shared_ptr<Common::IListener<Common::Handle>> listener) = 0;
+
+    virtual Common::PIConnection
+    addEraseListener(std::shared_ptr<Common::IListener<Common::Handle>> listener) = 0;
   };
 }
 

@@ -54,11 +54,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     //             widthPx - The width of the image in pixels.
     //             heightPx - The height of the image in pixels.
     //             resolutionPpi - The resolution of the image in PPI.
+    //             initialColor - The initial color to use to fill the first layer of the image.
     Image(std::string name,
           std::string fileSpec,
           std::size_t widthPx,
           std::size_t heightPx,
-          float resolutionPpi
+          float resolutionPpi,
+          typename GilImageT::value_type initialColor
          );
 
     std::shared_ptr<AbstractData::Entity::Gil::Image<GilImageT>>

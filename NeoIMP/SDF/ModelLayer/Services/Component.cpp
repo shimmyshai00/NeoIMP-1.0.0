@@ -25,24 +25,30 @@
 #include "Gil/Component.hpp"
 #include "MetricsService.hpp"
 #include "DocumentPrefabsService.hpp"
+#include "ViewCoordinatesService.hpp"
 
 namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::GridRendering>
+      Repositories::IRepository<DomainObjects::Engine::GridRendering>,
+      Repositories::IRepository<DomainObjects::Engine::Viewpoint>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IGetViewCoordinatesService,
+    UILayer::AbstractModel::ISetViewCoordinatesService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::IDocumentPrefabsService, Services::DocumentPrefabsService>()
       .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>()
+      .bind<UILayer::AbstractModel::IGetViewCoordinatesService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::ISetViewCoordinatesService, Services::ViewCoordinatesService>()
       .install(Gil::getComponent);
   }
 }

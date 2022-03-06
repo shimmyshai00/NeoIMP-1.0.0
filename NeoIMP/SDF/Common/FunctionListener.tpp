@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
-#define SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
+#ifndef SDF_COMMON_FUNCTIONLISTENER_TPP
+#define SDF_COMMON_FUNCTIONLISTENER_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the repository subsystem.
+ * FILE:    FunctionListener.tpp
+ * PURPOSE: Implements the FunctionListener template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/GridRendering.hpp"
-#include "../DomainObjects/Engine/Viewpoint.hpp"
-#include "IRepository.hpp"
+namespace SDF::Common {
+  template<class ... Args>
+  FunctionListener<Args...>::FunctionListener(std::function<void (Args...)> func)
+    : m_func(func)
+  {
+  }
 
-#include <fruit/fruit.h>
-
-namespace SDF::ModelLayer::Repositories {
-  typedef fruit::Component<
-    IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-    IRepository<DomainObjects::Engine::GridRendering>,
-    IRepository<DomainObjects::Engine::Viewpoint>
-  >
-  Component;
-
-  Component getComponent();
+  template<class ... Args>
+  void
+  FunctionListener<Args...>::notify(Args... args) {
+    m_func(args...);
+  }
 }
 
 #endif

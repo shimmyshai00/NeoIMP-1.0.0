@@ -32,11 +32,30 @@ namespace SDF::ModelLayer::Repositories {
   }
 
   template<class ObjT>
+  std::vector<Common::Handle>
+  MemoryOnlyRepository<ObjT>::getIds() const {
+    std::vector<Common::Handle> rv;
+
+    for(const auto &entry : m_objMap) {
+      rv.push_back(entry.first);
+    }
+
+    return rv;
+  }
+
+  template<class ObjT>
+  bool
+  MemoryOnlyRepository<ObjT>::has(Common::Handle uid) const {
+    return (m_objMap.find(uid) != m_objMap.end());
+  }
+
+  template<class ObjT>
   ObjT *
   MemoryOnlyRepository<ObjT>::insert(Common::Handle uid, std::unique_ptr<ObjT> obj) {
     if(m_objMap.find(uid) == m_objMap.end()) {
       ObjT *outPtr(obj.get());
       m_objMap[uid] = std::move(obj);
+      m_insertListeners.notify(uid);
       return outPtr;
     } else {
       return nullptr;
@@ -56,13 +75,38 @@ namespace SDF::ModelLayer::Repositories {
   template<class ObjT>
   void
   MemoryOnlyRepository<ObjT>::update(Common::Handle uid, ObjT *obj) {
-    // N/A
+    m_updateListeners.notify(uid);
   }
 
   template<class ObjT>
   void
   MemoryOnlyRepository<ObjT>::erase(Common::Handle uid) {
     m_objMap.erase(uid);
+    m_eraseListeners.notify(uid);
+  }
+
+  template<class ObjT>
+  Common::PIConnection
+  MemoryOnlyRepository<ObjT>::addInsertListener(
+    std::shared_ptr<Common::IListener<Common::Handle>> listener
+  ) {
+    return m_insertListeners.addListener(listener);
+  }
+
+  template<class ObjT>
+  Common::PIConnection
+  MemoryOnlyRepository<ObjT>::addUpdateListener(
+    std::shared_ptr<Common::IListener<Common::Handle>> listener
+  ) {
+    return m_updateListeners.addListener(listener);
+  }
+
+  template<class ObjT>
+  Common::PIConnection
+  MemoryOnlyRepository<ObjT>::addEraseListener(
+    std::shared_ptr<Common::IListener<Common::Handle>> listener
+  ) {
+    return m_eraseListeners.addListener(listener);
   }
 }
 

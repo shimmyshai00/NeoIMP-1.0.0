@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
-#define SDF_MODELLAYER_REPOSITORIES_COMPONENT_HPP
+#ifndef SDF_COMMON_ILISTENER_HPP
+#define SDF_COMMON_ILISTENER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the repository subsystem.
+ * FILE:    IListener.hpp
+ * PURPOSE: Defines the IListener interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/GridRendering.hpp"
-#include "../DomainObjects/Engine/Viewpoint.hpp"
-#include "IRepository.hpp"
+#include <memory>
 
-#include <fruit/fruit.h>
+namespace SDF::Common {
+  // Class:      IListener
+  // Purpose:    Defines an interface for objects which can "listen" to other objects. Essentially a
+  //             function object interface for an observer pattern.
+  // Parameters: Args - The arguments accepted by the listener.
+  template<class ... Args>
+  class IListener {
+  public:
+    virtual ~IListener() = default;
 
-namespace SDF::ModelLayer::Repositories {
-  typedef fruit::Component<
-    IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-    IRepository<DomainObjects::Engine::GridRendering>,
-    IRepository<DomainObjects::Engine::Viewpoint>
-  >
-  Component;
-
-  Component getComponent();
+    // Function:   notify
+    // Purpose:    Notifies the listener of an event (like a change).
+    // Parmeters:  args - The arguments to notify with.
+    // Returns:    None.
+    virtual void
+    notify(Args... args) = 0;
+  };
 }
 
 #endif

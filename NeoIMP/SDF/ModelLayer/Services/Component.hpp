@@ -29,9 +29,12 @@
 #include "../../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../../UILayer/AbstractModel/IMetricsService.hpp"
 #include "../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
+#include "../../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/GridRendering.hpp"
+#include "../DomainObjects/Engine/Viewpoint.hpp"
 #include "../Repositories/IRepository.hpp"
 
 #include <fruit/fruit.h>
@@ -40,13 +43,16 @@ namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::GridRendering>
+      Repositories::IRepository<DomainObjects::Engine::GridRendering>,
+      Repositories::IRepository<DomainObjects::Engine::Viewpoint>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IMetricsService,
+    UILayer::AbstractModel::IGetViewCoordinatesService,
+    UILayer::AbstractModel::ISetViewCoordinatesService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent();
