@@ -81,12 +81,12 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
 
   float
   RenderDisplayWidget::viewportX2() const {
-    return m_viewUpperLeftX + ((size().width() - 1) / m_viewMagnification);
+    return m_viewUpperLeftX + (size().width() / m_viewMagnification);
   }
 
   float
   RenderDisplayWidget::viewportY2() const {
-    return m_viewUpperLeftY + ((size().height() - 1) / m_viewMagnification);
+    return m_viewUpperLeftY + (size().height() / m_viewMagnification);
   }
 
   void

@@ -148,6 +148,8 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
     int m_majorTickInterval;
     int m_minorTickInterval;
     int m_minorTickThickness;
+    int m_labelMargin;
+    int m_labelThickness;
 
     float m_viewP1;
     float m_viewMagnification;

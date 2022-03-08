@@ -33,8 +33,8 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
       m_verticalRuler(new Impl::RulerWidget(::Qt::Vertical, nullptr)),
       m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr))
   {
-    m_gridLayout->addWidget(m_horizontalRuler, 1, 0);
-    m_gridLayout->addWidget(m_verticalRuler, 0, 1);
+    m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
+    m_gridLayout->addWidget(m_verticalRuler, 1, 0);
     m_gridLayout->addWidget(m_renderDisplayWidget, 1, 1);
   }
 
