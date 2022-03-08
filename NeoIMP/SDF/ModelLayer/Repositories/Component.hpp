@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/GridRendering.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
 #include "IRepository.hpp"
 
@@ -34,7 +34,7 @@
 namespace SDF::ModelLayer::Repositories {
   typedef fruit::Component<
     IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-    IRepository<DomainObjects::Engine::GridRendering>,
+    IRepository<DomainObjects::Engine::Buffers::GridRendering>,
     IRepository<DomainObjects::Engine::Viewpoint>
   >
   Component;

@@ -24,47 +24,44 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractData/Entity/Gil/Image.hpp"
+#include "../../IMappable.hpp"
+#include "../Dimensions.hpp"
 #include "../IImage.hpp"
 #include "Layer.hpp"
 
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   // Class:      Image
-  // Purpose:    Defines a Boost.GIL-based image.
-  // Parameters: GilImageT - The Boost.GIL image type underlying this image. Must implement GIL's
-  //                         RandomAccess2DImageConcept. Note that boost::gil::any_image_t is NOT allowed for use here,
-  //                         since it does not implement this concept fully. To get a variant-like type for images, use
-  //                         the AnyImage class instead, which properly handles this case.
-  template<class ... GilImageTs>
-  class AnyImage;
-
-  template<class GilImageT>
-  class Image : public IImage<Image<GilImageT>, AbstractData::Entity::Gil::Image<GilImageT>> {
+  // Purpose:    Defines an image implemented using the Boost.GIL framework.
+  // Parameters: GilBkgImageT - The underlying GIL image type (i.e. type of raster representing a
+  //                            single layer). This one is for the background layer. This slightly
+  //                            heterogeneous format is useful for things like targeting alpha-free
+  //                            file types: the user can prevent from accidentally adding
+  //                            transparency information to the background layer that would not save
+  //                            out correctly.
+  //             GilImageT - The underlying GIL image type for all other layers.
+  // nb: should implement IMappable - rn we can get away with this
+  template<class GilBkgImageT, class GilImageT>
+  class Image : public IImage {
   public:
     // Function:   Image
-    // Purpose:    Construct a new image of the given size. The new image will have a single background layer also of
-    //             the size given.
-    // Parameters: name - The name of the image.
-    //             fileSpec - The file spec to save the image to (may be empty).
-    //             widthPx - The width of the image in pixels.
-    //             heightPx - The height of the image in pixels.
+    // Purpose:    Constructs a new GIL-based image.
+    // Parameters: name - The name to give to the image.
+    //             fileSpec - The file spec this image will save to.
+    //             widthPx - The width of this image in pixels.
+    //             heightPx - The height of this image in pixels.
     //             resolutionPpi - The resolution of the image in PPI.
-    //             initialColor - The initial color to use to fill the first layer of the image.
+    //             baseColor - The initial background color to fill the image with.
     Image(std::string name,
           std::string fileSpec,
-          std::size_t widthPx,
-          std::size_t heightPx,
+          ImageMeasure widthPx,
+          ImageMeasure heightPx,
           float resolutionPpi,
-          typename GilImageT::value_type initialColor
+          typename GilBkgImageT::value_type baseColor
          );
-
-    std::shared_ptr<AbstractData::Entity::Gil::Image<GilImageT>>
-    getEntity() const;
 
     std::string
     getName() const;
@@ -72,78 +69,56 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::string
     getFileSpec() const;
 
-    std::size_t
+    ImageMeasure
     getWidthPx() const;
 
-    std::size_t
+    ImageMeasure
     getHeightPx() const;
 
     float
     getResolutionPpi() const;
 
-    UILayer::AbstractModel::Defs::EColorModel
+    IColorModelImpl<typename GilBkgImageT::value_type> &
+    getBkgColorModel() const;
+
+    IColorModelImpl<typename GilImageT::value_type> &
     getColorModel() const;
-
-    std::size_t
-    getNumChannels() const;
-
-    UILayer::AbstractModel::Defs::EBitDepth
-    getChannelBitDepth() const;
 
     std::size_t
     getNumLayers() const;
 
-    std::size_t
+    ImageMeasure
     getLayerWidthPx(std::size_t which) const;
 
-    std::size_t
+    ImageMeasure
     getLayerHeightPx(std::size_t which) const;
 
-    Math::Rect<std::size_t>
+    ImageRect
     getLayerRect(std::size_t which) const;
 
-    bool
-    applyOperation(IImageOperation<Image<GilImageT>> &op,
-                   const std::vector<OpRegion> &regions,
-                   IProgressListener *progress
-                  );
+    // Function:   getBkgLayerView
+    // Purpose:    Gets a Boost.GIL view onto the data for the background layer.
+    // Parameters: rect - The rectangle to get, for getting a subregion.
+    // Returns:    The view onto the background layer.
+    typename GilBkgImageT::view_t
+    getBkgLayerView();
 
-    bool
-    applyOperation(IImageOperation<Image<GilImageT>> &op,
-                   Math::Rect<float> rect,
-                   IProgressListener *progress
-                  );
+    typename GilBkgImageT::const_view_t
+    getBkgLayerView() const;
 
-    bool
-    applyOperation(IImageOperation<Image<GilImageT>> &op,
-                   IProgressListener *progress
-                  );
+    typename GilBkgImageT::view_t
+    getBkgLayerView(ImageRect rect);
 
-    // Function:   getLayerPixelAt
-    // Purpose:    Gets a pixel at a given coordinate from a layer.
-    // Parameters: layerNum - The layer number to get the pixel from.
-    //             pos - The position to get the pixel from.
-    //             x - The x-coordinate to get the pixel from.
-    //             y - The y-coordinate to get the pixel from.
-    typename GilImageT::view_t::value_type
-    getLayerPixelAt(std::size_t layerNum,
-                    Math::Coord<std::size_t> pos
-                   ) const;
-
-    typename GilImageT::view_t::value_type
-    getLayerPixelAt(std::size_t layerNum,
-                    std::size_t x,
-                    std::size_t y
-                   ) const;
+    typename GilBkgImageT::const_view_t
+    getBkgLayerView(ImageRect rect) const;
 
     // Function:   getLayerView
-    // Purpose:    Gets a Boost.GIL view of a region of an image layer.
-    // Parameters: layerNum - The layer number to get the pixel from.
-    //             rect - The rectangle to get the view for.
-    //             x1 - The upper-left x-coordinate of the rectangle.
-    //             y1 - The upper-left y-coordinate of the rectangle.
-    //             x2 - The lower-right x-coordinate of the rectangle.
-    //             y2 - The lower-right y-coordinate of the rectangle.
+    // Purpose:    Gets a Boost.GIL view onto the data for a single layer.
+    // Parameters: layerNum - The layer number to get the view onto. (Note: this starts at 1, not 0,
+    //                        to keep consistency with the other methods. 0 is the background layer,
+    //                        but it may have a different Type.)
+    //             rect - The rectangle to get, for getting a subregion.
+    // Returns:    The view onto this layer.
     typename GilImageT::view_t
     getLayerView(std::size_t layerNum);
 
@@ -152,39 +127,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
 
     typename GilImageT::view_t
     getLayerView(std::size_t layerNum,
-                 Math::Rect<std::size_t> rect
+                 ImageRect rect
                 );
 
     typename GilImageT::const_view_t
     getLayerView(std::size_t layerNum,
-                 Math::Rect<std::size_t> rect
+                 ImageRect rect
                 ) const;
-
-    typename GilImageT::view_t
-    getLayerView(std::size_t layerNum,
-                 std::size_t x1,
-                 std::size_t y1,
-                 std::size_t x2,
-                 std::size_t y2
-                );
-
-    typename GilImageT::const_view_t
-    getLayerView(std::size_t layerNum,
-                 std::size_t x1,
-                 std::size_t y1,
-                 std::size_t x2,
-                 std::size_t y2
-                ) const;
-  public:
-    // Function:   getMemorySizeForOneLayer
-    // Purpose:    Get the memory required for a single layer of the given width and height of this
-    //             image and image type.
-    // Parameters: width - The desired width of the image.
-    //             height - The desired height of the image.
-    static std::size_t
-    getMemorySizeForOneLayer(std::size_t width,
-                             std::size_t height
-                            );
   private:
     template<class ... GilImageTs>
     friend class AnyImage;
@@ -192,10 +141,11 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::string m_name;
     std::string m_fileSpec;
 
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
+    ImageMeasure m_widthPx;
+    ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
+    Layer<GilBkgImageT> m_backgroundLayer;
     std::vector<Layer<GilImageT>> m_layers;
   };
 }

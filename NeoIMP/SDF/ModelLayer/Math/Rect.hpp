@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <SDF/ModelLayer/Math/Coord.hpp>
+#include <SDF/ModelLayer/Math/Point2D.hpp>
 #include <SDF/ModelLayer/Math/Vec2D.hpp>
 
 #include <algorithm>
@@ -33,41 +33,52 @@ namespace SDF::ModelLayer::Math {
   template<class T>
   class Rect {
   public:
+    // Defines a rectangle from (x1, y1) to (x2, y2). Note: similarly to STL iterators, the (x2, y2)
+    // point and associated edges are notionally NOT part of the rectangle. That is, rectangles are
+    // "half-open" in a sense. This is not so important when the rectangle is approximately real
+    // (i.e. floating point coordinates), but is quite important when it is integer coordinates.
+    // This also allows empty rectangles to be expressed by taking (x1, y1) == (x2, y2).
+    Rect()
+      : m_upperLeft(0, 0), // the "standard null rectangle"
+        m_lowerRight(0, 0)
+    {
+    }
+
     Rect(T x1,
          T y1,
          T x2,
          T y2
         )
-      : m_x1(x1),
-        m_y1(y1),
-        m_x2(x2),
-        m_y2(y2)
+      : m_upperLeft(x1, y1),
+        m_lowerRight(x2, y2)
     {
-      if(m_x1 > m_x2) {
-        std::swap(m_x1, m_x2);
+      if(m_upperLeft.x() > m_lowerRight.x()) {
+        std::swap(m_upperLeft.x(), m_lowerRight.x());
       }
 
-      if(m_y1 > m_y2) {
-        std::swap(m_y1, m_y2);
+      if(m_upperLeft.y() > m_lowerRight.y()) {
+        std::swap(m_upperLeft.y(), m_lowerRight.y());
       }
     }
 
-    Rect(Coord<T> upperLeft,
-         Coord<T> lowerRight
+    Rect(Point2D<T> upperLeft,
+         Point2D<T> lowerRight
         )
-      : Rect(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY())
+      : m_upperLeft(upperLeft),
+        m_lowerRight(lowerRight)
     {}
 
     template<class U>
-    Rect(Coord<U> upperLeft,
-         Coord<U> lowerRight
+    Rect(Point2D<U> upperLeft,
+         Point2D<U> lowerRight
         )
-      : Rect(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY())
+      : m_upperLeft(upperLeft),
+        m_lowerRight(lowerRight)
     {}
 
     template<class U>
     Rect(Rect<U> rect)
-      : Rect(rect.getX1(), rect.getY1(), rect.getX2(), rect.getY2())
+      : Rect(rect.upperLeft, rect.lowerRight)
     {}
 
     ~Rect() {}
@@ -75,89 +86,113 @@ namespace SDF::ModelLayer::Math {
     // Size access.
     T
     getWidth() const {
-      return (m_x2 - m_x1) + 1;
+      return m_lowerRight.x() - m_upperLeft.x();
     }
 
     T
     getHeight() const {
-      return (m_y2 - m_y1) + 1;
+      return m_lowerRight.y() - m_upperLeft.y();
     }
 
     // Element access.
-    T
-    getX1() const {
-      return m_x1;
+    T &
+    x1() {
+      return m_upperLeft.x();
     }
 
-    T
-    getY1() const {
-      return m_y1;
+    T &
+    y1() {
+      return m_upperLeft.y();
     }
 
-    T
-    getX2() const {
-      return m_x2;
+    T &
+    x2() {
+      return m_lowerRight.x();
     }
 
-    T
-    getY2() const {
-      return m_y2;
+    T &
+    y2() {
+      return m_lowerRight.y();
     }
 
-    Coord<T>
+    const T &
+    x1() const {
+      return m_upperLeft.x();
+    }
+
+    const T &
+    y1() const {
+      return m_upperLeft.y();
+    }
+
+    const T &
+    x2() const {
+      return m_lowerRight.x();
+    }
+
+    const T &
+    y2() const {
+      return m_lowerRight.y();
+    }
+
+    Point2D<T>
     getUpperLeft() const {
-      return Coord<T>(m_x1, m_y1);
+      return m_upperLeft;
     }
 
-    Coord<T>
+    Point2D<T>
     getUpperRight() const {
-      return Coord<T>(m_x2, m_y1);
+      return Point2D<T>(m_lowerRight.x(), m_upperLeft.y());
     }
 
-    Coord<T>
+    Point2D<T>
     getLowerLeft() const {
-      return Coord<T>(m_x1, m_y2);
+      return Point2D<T>(m_upperLeft.x(), m_lowerRight.y());
     }
 
-    Coord<T>
+    Point2D<T>
     getLowerRight() const {
-      return Coord<T>(m_x2, m_y2);
+      return m_lowerRight;
+    }
+
+    bool
+    isInside(Point2D<T> point) {
+      return ((x1() <= point.x()) && (point.x() < x2())) &&
+             ((y1() <= point.x()) && (point.x() < y2()));
     }
 
     bool
     intersectsWith(Rect<T> rhs) const {
-      return (std::max(m_x1, rhs.m_x1) <= std::min(m_x2, rhs.m_x2)) &&
-             (std::max(m_y1, rhs.m_y1) <= std::min(m_y2, rhs.m_y2));
+      return (std::max(x1(), rhs.x1()) < std::min(x2(), rhs.x2())) &&
+             (std::max(y1(), rhs.y1()) < std::min(y2(), rhs.y2()));
     }
-    
+
     Rect<T>
     intersect(Rect<T> rhs) const {
-      return Rect<T>(Coord<T>(std::max(m_x1, rhs.m_x1), std::max(m_y1, rhs.m_y1)),
-                     Coord<T>(std::min(m_x2, rhs.m_x2), std::min(m_y2, rhs.m_y2))
-                   );
+      if(intersectsWith(rhs)) {
+        return Rect<T>(Point2D<T>(std::max(x1(), rhs.x1()), std::max(y1(), rhs.y1())),
+                       Point2D<T>(std::min(x2(), rhs.x2()), std::min(y2(), rhs.y2()))
+                      );
+      } else {
+        return Rect<T>(); // empty intersection
+      }
     }
 
     // Affine operators.
-    Coord<T> &
+    Point2D<T> &
     operator+=(const Vec2D<T> &rhs) {
-      m_x1 += rhs.getX();
-      m_y1 += rhs.getY();
-      m_x2 += rhs.getX();
-      m_y2 += rhs.getY();
+      m_upperLeft += rhs;
+      m_lowerRight += rhs;
     }
 
-    Coord<T> &
+    Point2D<T> &
     operator-=(const Vec2D<T> &rhs) {
-      m_x1 -= rhs.getX();
-      m_y1 -= rhs.getY();
-      m_x2 += rhs.getX();
-      m_y2 += rhs.getY();
+      m_upperLeft -= rhs;
+      m_lowerRight -= rhs;
     }
   private:
-    T m_x1;
-    T m_y1;
-    T m_x2;
-    T m_y2;
+    Point2D<T> m_upperLeft;
+    Point2D<T> m_lowerRight;
   };
 
   // Non-member operators.

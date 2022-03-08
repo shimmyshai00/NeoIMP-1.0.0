@@ -1,11 +1,11 @@
-#ifndef SDF_MODELLAYER_MATH_COORD_HPP
-#define SDF_MODELLAYER_MATH_COORD_HPP
+#ifndef SDF_MODELLAYER_MATH_POINT2D_HPP
+#define SDF_MODELLAYER_MATH_POINT2D_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Coord.hpp
+ * FILE:    Point2D.hpp
  * PURPOSE: Definition of a type holding a pair of 2D coordinates, representing a point or location
  *          in 2D space.
  */
@@ -29,62 +29,61 @@
 
 namespace SDF::ModelLayer::Math {
   template<class T>
-  class Coord {
+  class Point2D {
   public:
-    Coord()
+    Point2D()
       : m_x(0),
         m_y(0)
     {}
 
-    Coord(T x,
-          T y
-         )
+    Point2D(T x,
+            T y
+           )
       : m_x(x),
         m_y(y)
     {}
 
     template<class U>
-    Coord(Coord<U> otherCoord)
-      : m_x(otherCoord.getX()),
-        m_y(otherCoord.getY())
+    Point2D(Point2D<U> otherPoint)
+      : m_x(otherPoint.x()),
+        m_y(otherPoint.y())
     {}
 
-    ~Coord() {}
+    ~Point2D() {}
 
     // Element access.
-    T
-    getX() const {
+    T &
+    x() {
       return m_x;
     }
 
-    T
-    getY() const {
+    T &
+    y() {
       return m_y;
     }
 
-    // Element mutation.
-    void
-    setX(T x) {
-      m_x = x;
+    const T &
+    x() const {
+      return m_x;
     }
 
-    void
-    setY(T y) {
-      m_y = y;
+    const T &
+    y() const {
+      return m_y;
     }
 
     // Affine operators.
-    Coord<T> &
+    Point2D<T> &
     operator+=(const Vec2D<T> &rhs) {
-      m_x += rhs.getX();
-      m_y += rhs.getY();
+      m_x += rhs.x();
+      m_y += rhs.y();
       return *this;
     }
 
-    Coord<T> &
+    Point2D<T> &
     operator-=(const Vec2D<T> &rhs) {
-      m_x -= rhs.getX();
-      m_y -= rhs.getY();
+      m_x -= rhs.x();
+      m_y -= rhs.y();
       return *this;
     }
   private:
@@ -95,47 +94,47 @@ namespace SDF::ModelLayer::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Coord<T> &lhs,
-             const Coord<T> &rhs
+  operator==(const Point2D<T> &lhs,
+             const Point2D<T> &rhs
             )
   {
-    return (lhs.getX() == rhs.getX()) && (lhs.getY() == rhs.getY());
+    return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
   }
 
   template<class T>
   static inline bool
-  operator!=(const Coord<T> &lhs,
-             const Coord<T> &rhs
+  operator!=(const Point2D<T> &lhs,
+             const Point2D<T> &rhs
             )
   {
     return !(lhs == rhs);
   }
 
   template<class T>
-  static inline Coord<T>
-  operator+(const Coord<T> &lhs,
+  static inline Point2D<T>
+  operator+(const Point2D<T> &lhs,
             const Vec2D<T> &rhs
            )
   {
-    return Coord<T>(lhs) += rhs;
+    return Point2D<T>(lhs) += rhs;
   }
 
   template<class T>
-  static inline Coord<T>
-  operator-(const Coord<T> &lhs,
+  static inline Point2D<T>
+  operator-(const Point2D<T> &lhs,
             const Vec2D<T> &rhs
            )
   {
-    return Coord<T>(lhs) -= rhs;
+    return Point2D<T>(lhs) -= rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Coord<T> &lhs,
-            const Coord<T> &rhs
+  operator-(const Point2D<T> &lhs,
+            const Point2D<T> &rhs
            )
   {
-    return Vec2D<T>(lhs.getX() - rhs.getX(), lhs.getY() - rhs.getY());
+    return Vec2D<T>(lhs.x() - rhs.x(), lhs.y() - rhs.y());
   }
 }
 

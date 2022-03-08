@@ -36,7 +36,7 @@ namespace SDF::ModelLayer::Services::Gil {
     if(auto p = m_imageRepository->retrieve(documentHandle)) {
       return p->getName();
     } else {
-      return "";
+      return "ERROR";
     }
   }
 }

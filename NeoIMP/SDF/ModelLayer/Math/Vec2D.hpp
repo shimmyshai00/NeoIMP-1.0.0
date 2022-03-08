@@ -40,13 +40,23 @@ namespace SDF::ModelLayer::Math {
     ~Vec2D() {}
 
     // Element access.
-    T
-    getX() const {
+    T &
+    x() {
       return m_x;
     }
 
-    T
-    getY() const {
+    T &
+    y() {
+      return m_y;
+    }
+
+    const T &
+    x() const {
+      return m_x;
+    }
+
+    const T &
+    y() const {
       return m_y;
     }
 
@@ -86,7 +96,7 @@ namespace SDF::ModelLayer::Math {
              const Vec2D<T> &rhs
             )
   {
-    return (lhs.getX() == rhs.getX()) && (lhs.getY() == rhs.getY());
+    return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
   }
 
   template<class T>
@@ -119,7 +129,7 @@ namespace SDF::ModelLayer::Math {
   template<class T>
   static inline Vec2D<T>
   operator-(const Vec2D<T> &rhs) {
-    return Vec2D<T>(-rhs.getX(), -rhs.getY());
+    return Vec2D<T>(-rhs.x(), -rhs.y());
   }
 
   template<class T>

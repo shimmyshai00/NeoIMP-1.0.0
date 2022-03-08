@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_TPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYIMAGE_TPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYIMAGE_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,64 +24,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ImageTraits.hpp"
-
-#include "../../../AbstractData/Entity/Gil/AnyLayer.hpp"
+#include "TraitExtender.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class ... GilImageTs>
-  template<class T>
-  AnyImage<GilImageTs...>::AnyImage(const Image<T> &img)
-    : m_name(img.m_name),
-      m_fileSpec(img.m_fileSpec),
-      m_widthPx(img.m_widthPx),
-      m_heightPx(img.m_heightPx),
-      m_colorModel(ImageTraits<T>::colorModel),
-      m_numChannels(ImageTraits<T>::numChannels),
-      m_bitDepth(ImageTraits<T>::bitDepth)
+  template<class GilBkgImageT, class GilImageT>
+  AnyImage<GilImageTs...>::AnyImage(const Image<GilBkgImageT, GilImageT> &image)
+    : m_name(image.m_name),
+      m_fileSpec(image.m_fileSpec),
+      m_widthPx(image.m_widthPx),
+      m_heightPx(image.m_heightPx),
+      m_resolutionPpi(image.m_resolutionPpi),
+      m_bkgColorModel(&ExtTraits<GilBkgImageT>::color_model),
+      m_colorModel(&ExtTraits<GilImageT>::color_model),
+      m_backgroundLayer(AnyLayer<GilImageTs...>(image.m_backgroundLayer))
   {
-    for(auto &layer : img.m_layers) {
+    for(const auto &layer : image.m_layers) {
       m_layers.push_back(AnyLayer<GilImageTs...>(layer));
     }
   }
 
   template<class ... GilImageTs>
-  template<class T>
-  AnyImage<GilImageTs...>::AnyImage(Image<T> &&img)
-    : m_name(std::move(img.m_name)),
-      m_fileSpec(std::move(img.m_fileSpec)),
-      m_widthPx(std::exchange(img.m_widthPx, 0)),
-      m_heightPx(std::exchange(img.m_heightPx, 0)),
-      m_colorModel(ImageTraits<T>::colorModel),
-      m_numChannels(ImageTraits<T>::numChannels),
-      m_bitDepth(ImageTraits<T>::bitDepth)
+  template<class GilBkgImageT, class GilImageT>
+  AnyImage<GilImageTs...>::AnyImage(Image<GilBkgImageT, GilImageT> &&image)
+    : m_name(std::move(image.m_name)),
+      m_fileSpec(std::move(image.m_fileSpec)),
+      m_widthPx(std::move(image.m_widthPx)),
+      m_heightPx(std::move(image.m_heightPx)),
+      m_resolutionPpi(std::move(image.m_resolutionPpi)),
+      m_bkgColorModel(&ExtTraits<GilBkgImageT>::color_model),
+      m_colorModel(&ExtTraits<GilImageT>::color_model),
+      m_backgroundLayer(AnyLayer<GilImageTs...>(std::move(image.m_backgroundLayer)))
   {
-    for(auto &layer : img.m_layers) {
+    for(const auto &layer : image.m_layers) {
       m_layers.push_back(AnyLayer<GilImageTs...>(std::move(layer)));
     }
-  }
-
-  template<class ... GilImageTs>
-  std::shared_ptr<AbstractData::Entity::Gil::AnyImage<GilImageTs...>>
-  AnyImage<GilImageTs...>::getEntity() const {
-    using namespace AbstractData;
-
-    std::shared_ptr<Entity::Gil::AnyImage<GilImageTs...>> rv(
-      new Entity::Gil::AnyImage<GilImageTs...>);
-    rv->widthPx = m_widthPx;
-    rv->heightPx = m_heightPx;
-    rv->resolutionPpi = m_resolutionPpi;
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      Entity::Gil::AnyLayer<GilImageTs...> layer;
-      layer.widthPx = m_layers[i].getWidthPx();
-      layer.heightPx = m_layers[i].getHeightPx();
-      layer.imageView = m_layers[i].getView();
-
-      rv->layers.push_back(layer);
-    }
-
-    return rv;
   }
 
   template<class ... GilImageTs>
@@ -97,13 +74,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyImage<GilImageTs...>::getWidthPx() const {
     return m_widthPx;
   }
 
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyImage<GilImageTs...>::getHeightPx() const {
     return m_heightPx;
   }
@@ -115,118 +92,103 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class ... GilImageTs>
-  UILayer::AbstractModel::Defs::EColorModel
+  IColorModel &
+  AnyImage<GilImageTs...>::getBkgColorModel() const {
+    // TBA
+    static ColorModels::RGB24_888 cm;
+    return cm;
+  }
+
+  template<class ... GilImageTs>
+  IColorModel &
   AnyImage<GilImageTs...>::getColorModel() const {
-    return m_colorModel;
-  }
-
-  template<class ... GilImageTs>
-  std::size_t
-  AnyImage<GilImageTs...>::getNumChannels() const {
-    return m_numChannels;
-  }
-
-  template<class ... GilImageTs>
-  UILayer::AbstractModel::Defs::EBitDepth
-  AnyImage<GilImageTs...>::getChannelBitDepth() const {
-    return m_bitDepth;
+    // TBA
+    static ColorModels::RGB24_888 cm;
+    return cm;
   }
 
   template<class ... GilImageTs>
   std::size_t
   AnyImage<GilImageTs...>::getNumLayers() const {
-    return m_layers.size();
+    return 1 + m_layers.size();
   }
 
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyImage<GilImageTs...>::getLayerWidthPx(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+    if(which == 0) {
+      return m_backgroundLayer.getWidthPx();
     } else {
-      return m_layers[which].getWidthPx();
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getWidthPx();
+      }
     }
   }
 
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyImage<GilImageTs...>::getLayerHeightPx(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+    if(which == 0) {
+      return m_backgroundLayer.getHeightPx();
     } else {
-      return m_layers[which].getHeightPx();
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getHeightPx();
+      }
     }
   }
 
   template<class ... GilImageTs>
-  Math::Rect<std::size_t>
+  ImageRect
   AnyImage<GilImageTs...>::getLayerRect(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+    if(which == 0) {
+      return m_backgroundLayer.getRect();
     } else {
-      return Math::Rect<std::size_t>(0, 0, m_layers[which].getWidthPx()-1,
-        m_layers[which].getHeightPx()-1);
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getRect();
+      }
     }
   }
 
   template<class ... GilImageTs>
-  bool
-  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                                          const std::vector<OpRegion> &regions,
-                                          IProgressListener *progress
-                                         )
-  {
-    return op.performOperation(*this, regions, progress);
+  typename boost::gil::any_image<GilImageTs...>::view_t
+  AnyImage<GilImageTs...>::getBkgLayerView() {
+    return m_backgroundLayer.getView();
   }
 
   template<class ... GilImageTs>
-  bool
-  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                                          Math::Rect<float> rect,
-                                          IProgressListener *progress
-                                         )
-  {
-    std::vector<OpRegion> regions;
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      regions.push_back(OpRegion(i, rect));
-    }
-
-    return op.performOperation(*this, regions, progress);
-  }
-
-  template<class ... GilImageTs>
-  bool
-  AnyImage<GilImageTs...>::applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                                          IProgressListener *progress
-                                         )
-  {
-    std::vector<OpRegion> regions;
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      regions.push_back(OpRegion(i, getLayerRect(i)));
-    }
-
-    return op.performOperation(*this, regions, progress);
+  typename boost::gil::any_image<GilImageTs...>::const_view_t
+  AnyImage<GilImageTs...>::getBkgLayerView() const {
+    return m_backgroundLayer.getView();
   }
 
   template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::view_t
   AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum) {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView();
+      return m_layers[layerNum-1].getView();
     }
   }
 
   template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::const_view_t
   AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum) const {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView();
+      return m_layers[layerNum-1].getView();
     }
   }
 }

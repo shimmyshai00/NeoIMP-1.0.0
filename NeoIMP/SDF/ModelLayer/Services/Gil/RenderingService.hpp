@@ -27,7 +27,7 @@
 #include "../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../DomainObjects/Engine/GridRendering.hpp"
+#include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../Repositories/IRepository.hpp"
 #include <fruit/fruit.h>
 
@@ -41,7 +41,7 @@ namespace SDF::ModelLayer::Services::Gil {
   public:
     INJECT(RenderingService(
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
-      Repositories::IRepository<DomainObjects::Engine::GridRendering> *renderingRepository
+      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *renderingRepository
     ));
 
     Common::Handle
@@ -59,7 +59,7 @@ namespace SDF::ModelLayer::Services::Gil {
     deleteRendering(Common::Handle renderHandle);
   private:
     Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
-    Repositories::IRepository<DomainObjects::Engine::GridRendering> *m_renderingRepository;
+    Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *m_renderingRepository;
 
     Common::Handle m_nextRenderingHandle;
   };

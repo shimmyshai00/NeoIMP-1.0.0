@@ -24,12 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
-
-#include "../../Math/Rect.hpp"
-#include "../IMappable.hpp"
-#include "IImageOperation.hpp"
+#include "IColorModel.hpp"
+#include "Dimensions.hpp"
 
 #include <vector>
 #include <string>
@@ -38,11 +34,8 @@
 namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      IImage
   // Purpose:    Defines an interface for image documents.
-  // Parameters: ImplT - The type of implementation for this image. Derived classes should
-  //             CRTP-inherit this.
-  //             ImplEntityT - The type of entity for serializing the image.
-  template<class ImplT, class ImplEntityT>
-  class IImage : public IMappable<IImage<ImplT, ImplEntityT>, ImplEntityT> {
+  // Parameters: None.
+  class IImage {
   public:
     virtual ~IImage() = default;
 
@@ -64,14 +57,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Get the width of the image in pixels.
     // Parameters: None.
     // Returns:    The image width in pixels.
-    virtual std::size_t
+    virtual ImageMeasure
     getWidthPx() const = 0;
 
     // Function:   getHeightPx
     // Purpose:    Get the height of the image in pixels.
     // Parameters: None.
     // Returns:    The image height in pixels.
-    virtual std::size_t
+    virtual ImageMeasure
     getHeightPx() const = 0;
 
     // Function:   getResolutionPpi
@@ -86,26 +79,19 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Parameters: None.
     // Returns:    The type of topology this image has.
 
+    // Function:   getBkgColorModel
+    // Purpose:    Get the background color model used by this image.
+    // Parameters: None.
+    // Returns:    The background color model used.
+    virtual IColorModel &
+    getBkgColorModel() const = 0;
+
     // Function:   getColorModel
     // Purpose:    Get the color model used by this image.
     // Parameters: None.
     // Returns:    The color model used.
-    virtual UILayer::AbstractModel::Defs::EColorModel
+    virtual IColorModel &
     getColorModel() const = 0;
-
-    // Function:   getNumChannels
-    // Purpose:    Get the number of color channels in this image.
-    // Parameters: None.
-    // Returns:    The number of color channels.
-    virtual std::size_t
-    getNumChannels() const = 0;
-
-    // Function:   getChannelBitDepth
-    // Purpose:    Get the per-channel bit depth used by this image.
-    // Parameters: None.
-    // Returns:    The per-channel bit depth.
-    virtual UILayer::AbstractModel::Defs::EBitDepth
-    getChannelBitDepth() const = 0;
 
     // Function:   getNumLayers
     // Purpose:    Gets the number of layers in the image.
@@ -118,56 +104,22 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Gets the width of a layer in pixels.
     // Parameters: which - The layer to get the width of.
     // Returns:    The width of the layer in pixels.
-    virtual std::size_t
+    virtual ImageMeasure
     getLayerWidthPx(std::size_t which) const = 0;
 
     // Function:   getLayerHeightPx
     // Purpose:    Gets the height of a layer in pixels.
     // Parameters: height - The layer to get the width of.
     // Returns:    The height of the layer in pixels.
-    virtual std::size_t
+    virtual ImageMeasure
     getLayerHeightPx(std::size_t which) const = 0;
 
     // Function:   getLayerRect
     // Purpose:    Gets the rectangle inhabited by a given layer.
     // Parameters: which - The layer to get the rectangle of.
     // Returns:    The rectangle occupied by the layer.
-    virtual Math::Rect<std::size_t>
+    virtual ImageRect
     getLayerRect(std::size_t which) const = 0;
-
-    // Function:   applyOperation
-    // Purpose:    Applies an operation to the image.
-    // Parameters: op - The operation to apply.
-    //             regions - The layer regions to apply the operation to.
-    //             progress - An optional object to update to signal the operation progress.
-    // Returns:    Whether the operation succeeded or not.
-    virtual bool
-    applyOperation(IImageOperation<ImplT> &op,
-                   const std::vector<OpRegion> &regions,
-                   IProgressListener *progress
-                  ) = 0;
-
-    // Function:   applyOperation
-    // Purpose:    Applies an operation to a single rectangle of the entire image.
-    // Parameters: op - The operation to apply.
-    //             rect - The rectangular area to apply to.
-    //             progress - An optional object to update to signal the operation progress.
-    // Returns:    Whether the operation succeeded or not.
-    virtual bool
-    applyOperation(IImageOperation<ImplT> &op,
-                   Math::Rect<float> rect,
-                   IProgressListener *progress
-                  ) = 0;
-
-    // Function:   applyOperation
-    // Purpose:    Applies an operation to the entire image.
-    // Parameters: op - The operation to apply.
-    //             progress - An optional object to update to signal the operation progress.
-    // Returns:    Whether the operation succeeded or not.
-    virtual bool
-    applyOperation(IImageOperation<ImplT> &op,
-                   IProgressListener *progress
-                  ) = 0;
   };
 }
 

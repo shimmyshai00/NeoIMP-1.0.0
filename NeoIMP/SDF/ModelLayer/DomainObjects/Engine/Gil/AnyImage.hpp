@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYIMAGE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYIMAGE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYIMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,50 +24,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractData/Entity/Gil/AnyImage.hpp"
+#include "../../IMappable.hpp"
+#include "../Dimensions.hpp"
 #include "../IImage.hpp"
-
-#include "Image.hpp"
+#include "ColorModels/Defs.hpp"
 #include "AnyLayer.hpp"
+
+#include <boost/gil/extension/dynamic_image/any_image.hpp>
+#include <boost/gil/extension/dynamic_image/any_image_view.hpp>
 
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   // Class:      AnyImage
-  // Purpose:    Defines a Boost.GIL-based image variant-like type.
-  // Parameters: GilImageTs - The Boost.GIL image types, implementing RandomAccess2DImageConcept, that we desire to
-  //                          store with this type of variant.
+  // Purpose:    Defines a variant image implemented using the Boost.GIL framework.
+  // Parameters: GilImageTs - The types going into the variant.
   template<class ... GilImageTs>
-  class AnyImage : public IImage<AnyImage<GilImageTs...>,
-                                 AbstractData::Entity::Gil::AnyImage<GilImageTs...>
-                                >
-  {
+  class AnyImage : public IImage { // nb: should implement IMappable - rn we can get away with this
   public:
     // Function:   AnyImage
-    // Purpose:    Construct a new variant from a particular concrete image type. The passed image MUST be of one of
-    //             the types in GilImageTs!
-    // Parameters: img - The image to construct to.
-    //             doSwap - Whether to swap the image data or copy it. Swapping is faster and memory-efficient but will
-    //                      RUIN the original Image object.
-    template<class T>
-    AnyImage(const Image<T> &img);
+    // Purpose:    Constructs a new variant from an image.
+    // Parameters: image - The image to construct from.
+    template<class GilBkgImageT, class GilImageT>
+    AnyImage(const Image<GilBkgImageT, GilImageT> &image);
 
-    template<class T>
-    AnyImage(Image<T> &&img);
-
-    // Function:   specifize
-    // Purpose:    Converts this variant back into a concrete image type. Note: this MUST be supplied with the correct
-    //             type or it will throw!
-    // Parameters: doSwap - Whether to do the conversion by swap. If true, THIS OBJECT WILL NO LONGER BE VALID upon
-    //                      successful completion!
-    //template<class T>
-    //Image<T> *specifize(bool doSwap);
-
-    std::shared_ptr<AbstractData::Entity::Gil::AnyImage<GilImageTs...>>
-    getEntity() const;
+    template<class GilBkgImageT, class GilImageT>
+    AnyImage(Image<GilBkgImageT, GilImageT> &&image);
 
     std::string
     getName() const;
@@ -75,59 +59,47 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::string
     getFileSpec() const;
 
-    std::size_t
+    ImageMeasure
     getWidthPx() const;
 
-    std::size_t
+    ImageMeasure
     getHeightPx() const;
 
     float
     getResolutionPpi() const;
 
-    UILayer::AbstractModel::Defs::EColorModel
+    IColorModel &
+    getBkgColorModel() const;
+
+    IColorModel &
     getColorModel() const;
-
-    std::size_t
-    getNumChannels() const;
-
-    UILayer::AbstractModel::Defs::EBitDepth
-    getChannelBitDepth() const;
 
     std::size_t
     getNumLayers() const;
 
-    std::size_t
+    ImageMeasure
     getLayerWidthPx(std::size_t which) const;
 
-    std::size_t
+    ImageMeasure
     getLayerHeightPx(std::size_t which) const;
 
-    Math::Rect<std::size_t>
+    ImageRect
     getLayerRect(std::size_t which) const;
 
-    bool
-    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                   const std::vector<OpRegion> &regions,
-                   IProgressListener *progress
-                  );
+    // Function:   getBkgLayerView
+    // Purpose:    Gets a Boost.GIL view onto the data for the background layer.
+    // Parameters: None.
+    // Returns:    The view onto the background layer.
+    typename boost::gil::any_image<GilImageTs...>::view_t
+    getBkgLayerView();
 
-    bool
-    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                   Math::Rect<float> rect,
-                   IProgressListener *progress
-                  );
-
-    bool
-    applyOperation(IImageOperation<AnyImage<GilImageTs...>> &op,
-                   IProgressListener *progress
-                  );
+    typename boost::gil::any_image<GilImageTs...>::const_view_t
+    getBkgLayerView() const;
 
     // Function:   getLayerView
-    // Purpose:    Gets a Boost.GIL view of the entirety of an image layer. Note that because of
-    //             the limits in GIL, it is not possible to obtain here a view of a specific section
-    //             only.
-    // Parameters: None.
-    // Returns:    The layer view.
+    // Purpose:    Gets a Boost.GIL view onto the data for a single layer.
+    // Parameters: layerNum - The layer number to get the view onto. (still begins at 1)
+    // Returns:    The view onto this layer.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getLayerView(std::size_t layerNum);
 
@@ -137,14 +109,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     std::string m_name;
     std::string m_fileSpec;
 
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
+    ImageMeasure m_widthPx;
+    ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
-    UILayer::AbstractModel::Defs::EColorModel m_colorModel;
-    std::size_t m_numChannels;
-    UILayer::AbstractModel::Defs::EBitDepth m_bitDepth;
+    IColorModel *m_bkgColorModel;
+    IColorModel *m_colorModel;
 
+    AnyLayer<GilImageTs...> m_backgroundLayer;
     std::vector<AnyLayer<GilImageTs...>> m_layers;
   };
 }

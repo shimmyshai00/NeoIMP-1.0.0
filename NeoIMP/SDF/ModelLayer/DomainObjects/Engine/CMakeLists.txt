@@ -1,4 +1,2 @@
-target_sources(neoimp PUBLIC
-  RenderCell.cpp
-  GridRendering.cpp
-)
+add_subdirectory(Buffers)
+add_subdirectory(Gil)

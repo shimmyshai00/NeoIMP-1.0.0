@@ -33,7 +33,7 @@
 #include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../DomainObjects/Engine/GridRendering.hpp"
+#include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
 #include "../Repositories/IRepository.hpp"
 
@@ -43,7 +43,7 @@ namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::GridRendering>,
+      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
       Repositories::IRepository<DomainObjects::Engine::Viewpoint>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,

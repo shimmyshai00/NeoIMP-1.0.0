@@ -23,7 +23,7 @@
 
 #include "GridRendering.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::DomainObjects::Engine::Buffers {
   GridRendering::GridRendering(std::size_t numCellsX,
                                std::size_t numCellsY,
                                std::size_t cellWidth,
@@ -152,7 +152,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     std::size_t cellRectY1(cellY * m_cellHeight);
 
     Math::Rect<std::size_t> rect(cellRectX1, cellRectY1,
-      cellRectX1 + m_cellWidth - 1, cellRectY1 + m_cellHeight - 1);
+      cellRectX1 + m_cellWidth, cellRectY1 + m_cellHeight);
 
     return rect;
   }

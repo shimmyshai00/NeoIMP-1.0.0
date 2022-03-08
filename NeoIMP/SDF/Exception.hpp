@@ -29,6 +29,15 @@
 #include <cstdarg>
 
 namespace SDF {
+  // Note: In this, the guideline for defining "likely bug" exceptions should be those that a user
+  //       *of a layer* should not be able to induce to come out of that layer by setting parameters
+  //       on the interface inappropriately, nor are the result of some external contingency (i.e.
+  //       a network connection loss). These often (not necessarily!) would mean a program bug.
+  //       These inner exceptions need not be as specific because they are ideally not seen by the
+  //       end-user but instead to be traced by a debugger; the most important point is the user
+  //       knows a bug was hit. On the other hand, non-bug exceptions should be plentiful and have
+  //       detailed and informative what strings, especially when they're likely to reach the user
+  //       interface.
   class Exception : public std::exception {
 		public:
 			Exception(bool likelyBug, const char *whatFString, ...) noexcept {
@@ -59,5 +68,36 @@ namespace SDF {
 			SafeString whatString;
 	};
 }
+
+// Convenience MACRO for defining a new exception type.
+#define SDF_DEF_NRM_EXCEPTION(excName, whatString) \
+  struct excName : public SDF::Exception { \
+    excName() noexcept : Exception(false, whatString) {} \
+  };
+
+#define SDF_DEF_NRM_EXCEPTION_1(excName, whatString, typ1) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1) noexcept : Exception(false, whatString, arg1) {} \
+  };
+
+#define SDF_DEF_NRM_EXCEPTION_2(excName, whatString, typ1, typ2) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2) noexcept : Exception(false, whatString, arg1, arg2) {} \
+  };
+
+#define SDF_DEF_BUG_EXCEPTION(excName, whatString) \
+  struct excName : public SDF::Exception { \
+    excName() noexcept : Exception(false, whatString) {} \
+  };
+
+#define SDF_DEF_BUG_EXCEPTION_1(excName, whatString, typ1) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1) noexcept : Exception(false, whatString, arg1) {} \
+  };
+
+#define SDF_DEF_BUG_EXCEPTION_2(excName, whatString, typ1, typ2) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2) noexcept : Exception(false, whatString, arg1, arg2) {} \
+  };
 
 #endif

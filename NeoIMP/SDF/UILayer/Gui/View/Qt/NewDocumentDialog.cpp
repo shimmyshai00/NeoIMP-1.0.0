@@ -129,7 +129,7 @@ namespace SDF::UILayer::Gui::View::Qt {
       spec.bitDepth = static_cast<Defs::EBitDepth>(m_ui->bitDepthSelector->currentIndex());
       spec.backgroundPreset =
         static_cast<Defs::EBackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
-      spec.backgroundColor = Defs::ARGB8888Color(255, 255, 255, 255);
+      spec.backgroundColor = Defs::ARGB32_8888_Color(255, 255, 255, 255);
 
       return spec;
     };

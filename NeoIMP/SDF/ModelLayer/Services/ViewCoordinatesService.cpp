@@ -24,6 +24,7 @@
 #include "ViewCoordinatesService.hpp"
 
 #include "../../Common/FunctionListener.hpp"
+#include "../Exceptions.hpp"
 
 namespace SDF::ModelLayer::Services {
   ViewCoordinatesService::ViewCoordinatesService(
@@ -35,17 +36,29 @@ namespace SDF::ModelLayer::Services {
 
   float
   ViewCoordinatesService::getViewingPointX(Common::Handle imageHandle) const {
-    return m_viewpointRepository->retrieve(imageHandle)->m_position.getX();
+    try {
+      return m_viewpointRepository->retrieve(imageHandle)->m_position.x();
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   float
   ViewCoordinatesService::getViewingPointY(Common::Handle imageHandle) const {
-    return m_viewpointRepository->retrieve(imageHandle)->m_position.getY();
+    try {
+      return m_viewpointRepository->retrieve(imageHandle)->m_position.y();
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   float
   ViewCoordinatesService::getViewingPointMagnification(Common::Handle imageHandle) const {
-    return m_viewpointRepository->retrieve(imageHandle)->m_magnification;
+    try {
+      return m_viewpointRepository->retrieve(imageHandle)->m_magnification;
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   void
@@ -53,12 +66,16 @@ namespace SDF::ModelLayer::Services {
                                            float x
                                           )
   {
-    auto vp = m_viewpointRepository->retrieve(imageHandle);
-    vp->m_position.setX(x);
-    m_viewpointRepository->update(imageHandle, vp);
+    try {
+      auto vp = m_viewpointRepository->retrieve(imageHandle);
+      vp->m_position.x() = x;
+      m_viewpointRepository->update(imageHandle, vp);
 
-    m_viewpointListeners.notify(imageHandle, vp->m_position.getX(), vp->m_position.getY(),
-      vp->m_magnification);
+      m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
+        vp->m_magnification);
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   void
@@ -66,12 +83,16 @@ namespace SDF::ModelLayer::Services {
                                            float y
                                           )
   {
-    auto vp = m_viewpointRepository->retrieve(imageHandle);
-    vp->m_position.setY(y);
-    m_viewpointRepository->update(imageHandle, vp);
+    try {
+      auto vp = m_viewpointRepository->retrieve(imageHandle);
+      vp->m_position.y() = y;
+      m_viewpointRepository->update(imageHandle, vp);
 
-    m_viewpointListeners.notify(imageHandle, vp->m_position.getX(), vp->m_position.getY(),
-      vp->m_magnification);
+      m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
+        vp->m_magnification);
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
 
@@ -80,12 +101,16 @@ namespace SDF::ModelLayer::Services {
                                                        float mag
                                                       )
   {
-    auto vp = m_viewpointRepository->retrieve(imageHandle);
-    vp->m_magnification = mag;
-    m_viewpointRepository->update(imageHandle, vp);
+    try {
+      auto vp = m_viewpointRepository->retrieve(imageHandle);
+      vp->m_magnification = mag;
+      m_viewpointRepository->update(imageHandle, vp);
 
-    m_viewpointListeners.notify(imageHandle, vp->m_position.getX(), vp->m_position.getY(),
-      vp->m_magnification);
+      m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
+        vp->m_magnification);
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   void
@@ -94,12 +119,16 @@ namespace SDF::ModelLayer::Services {
                                              float y
                                             )
   {
-    auto vp = m_viewpointRepository->retrieve(imageHandle);
-    vp->m_position = Math::Coord<float>(x, y);
-    m_viewpointRepository->update(imageHandle, vp);
+    try {
+      auto vp = m_viewpointRepository->retrieve(imageHandle);
+      vp->m_position = DomainObjects::Engine::ImagePoint(x, y);
+      m_viewpointRepository->update(imageHandle, vp);
 
-    m_viewpointListeners.notify(imageHandle, vp->m_position.getX(), vp->m_position.getY(),
-      vp->m_magnification);
+      m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
+        vp->m_magnification);
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   void
@@ -109,15 +138,19 @@ namespace SDF::ModelLayer::Services {
                                           float mag
                                          )
   {
-    auto vp = m_viewpointRepository->retrieve(imageHandle);
+    try {
+      auto vp = m_viewpointRepository->retrieve(imageHandle);
 
-    vp->m_position = Math::Coord<float>(x, y);
-    vp->m_magnification = mag;
+      vp->m_position = DomainObjects::Engine::ImagePoint(x, y);
+      vp->m_magnification = mag;
 
-    m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, vp);
 
-    m_viewpointListeners.notify(imageHandle, vp->m_position.getX(), vp->m_position.getY(),
-      vp->m_magnification);
+      m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
+        vp->m_magnification);
+    } catch(ObjectNotFoundInRepositoryException) {
+      throw ImageNotFoundException(imageHandle);
+    }
   }
 
   Common::PIConnection
@@ -128,7 +161,7 @@ namespace SDF::ModelLayer::Services {
     if(m_viewpointRepository->has(imageHandle)) {
       return m_viewpointListeners.addListener(imageHandle, listener);
     } else {
-      // TBA: throw
+      throw ImageNotFoundException(imageHandle);
     }
   }
 }

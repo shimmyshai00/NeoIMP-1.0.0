@@ -31,7 +31,7 @@ namespace SDF::ModelLayer::Services::Gil {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
-      Repositories::IRepository<DomainObjects::Engine::GridRendering>
+      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>
     >,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,

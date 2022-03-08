@@ -24,293 +24,192 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ImageTraits.hpp"
-
-#include "../../../AbstractData/Entity/Gil/Layer.hpp"
+#include "../../../Exceptions.hpp"
+#include "TraitExtender.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  template<class GilImageT>
-  Image<GilImageT>::Image(std::string name,
-                          std::string fileSpec,
-                          std::size_t widthPx,
-                          std::size_t heightPx,
-                          float resolutionPpi,
-                          typename GilImageT::value_type initialColor
-                         )
+  template<class GilBkgImageT, class GilImageT>
+  Image<GilBkgImageT, GilImageT>::Image(std::string name,
+                                        std::string fileSpec,
+                                        ImageMeasure widthPx,
+                                        ImageMeasure heightPx,
+                                        float resolutionPpi,
+                                        typename GilBkgImageT::value_type baseColor
+                                       )
     : m_name(name),
       m_fileSpec(fileSpec),
       m_widthPx(widthPx),
       m_heightPx(heightPx),
-      m_resolutionPpi(resolutionPpi)
+      m_resolutionPpi(resolutionPpi),
+      m_backgroundLayer(widthPx, heightPx, baseColor)
   {
-    m_layers.push_back(Layer<GilImageT>(widthPx, heightPx, initialColor));
   }
 
-  template<class GilImageT>
-  std::shared_ptr<AbstractData::Entity::Gil::Image<GilImageT>>
-  Image<GilImageT>::getEntity() const {
-    using namespace AbstractData;
-
-    std::shared_ptr<Entity::Gil::Image<GilImageT>> rv(new Entity::Gil::Image<GilImageT>);
-    rv->widthPx = m_widthPx;
-    rv->heightPx = m_heightPx;
-    rv->resolutionPpi = m_resolutionPpi;
-
-    rv->colorModel = getColorModel();
-    rv->bitDepth = getChannelBitDepth();
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      Entity::Gil::Layer<GilImageT> layer;
-      layer.widthPx = m_layers[i].getWidthPx();
-      layer.heightPx = m_layers[i].getHeightPx();
-      layer.imageView = m_layers[i].getView();
-
-      rv->layers.push_back(layer);
-    }
-
-    return rv;
-  }
-
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   std::string
-  Image<GilImageT>::getName() const {
+  Image<GilBkgImageT, GilImageT>::getName() const {
     return m_name;
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   std::string
-  Image<GilImageT>::getFileSpec() const {
+  Image<GilBkgImageT, GilImageT>::getFileSpec() const {
     return m_fileSpec;
   }
 
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getWidthPx() const {
+  template<class GilBkgImageT, class GilImageT>
+  ImageMeasure
+  Image<GilBkgImageT, GilImageT>::getWidthPx() const {
     return m_widthPx;
   }
 
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getHeightPx() const {
+  template<class GilBkgImageT, class GilImageT>
+  ImageMeasure
+  Image<GilBkgImageT, GilImageT>::getHeightPx() const {
     return m_heightPx;
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   float
-  Image<GilImageT>::getResolutionPpi() const {
+  Image<GilBkgImageT, GilImageT>::getResolutionPpi() const {
     return m_resolutionPpi;
   }
 
-  template<class GilImageT>
-  UILayer::AbstractModel::Defs::EColorModel
-  Image<GilImageT>::getColorModel() const {
-    return ImageTraits<GilImageT>::colorModel;
+  template<class GilBkgImageT, class GilImageT>
+  IColorModelImpl<typename GilBkgImageT::value_type> &
+  Image<GilBkgImageT, GilImageT>::getBkgColorModel() const {
+    return ExtTraits<GilBkgImageT>::color_model;
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
+  IColorModelImpl<typename GilImageT::value_type> &
+  Image<GilBkgImageT, GilImageT>::getColorModel() const {
+    return ExtTraits<GilImageT>::color_model;
+  }
+
+  template<class GilBkgImageT, class GilImageT>
   std::size_t
-  Image<GilImageT>::getNumChannels() const {
-    return ImageTraits<GilImageT>::numChannels;
+  Image<GilBkgImageT, GilImageT>::getNumLayers() const {
+    return 1 + m_layers.size();
   }
 
-  template<class GilImageT>
-  UILayer::AbstractModel::Defs::EBitDepth
-  Image<GilImageT>::getChannelBitDepth() const {
-    return ImageTraits<GilImageT>::bitDepth;
-  }
-
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getNumLayers() const {
-    return m_layers.size();
-  }
-
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getLayerWidthPx(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+  template<class GilBkgImageT, class GilImageT>
+  ImageMeasure
+  Image<GilBkgImageT, GilImageT>::getLayerWidthPx(std::size_t which) const {
+    if(which == 0) {
+      return m_backgroundLayer.getWidthPx();
     } else {
-      return m_layers[which].getWidthPx();
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getWidthPx();
+      }
     }
   }
 
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getLayerHeightPx(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+  template<class GilBkgImageT, class GilImageT>
+  ImageMeasure
+  Image<GilBkgImageT, GilImageT>::getLayerHeightPx(std::size_t which) const {
+    if(which == 0) {
+      return m_backgroundLayer.getHeightPx();
     } else {
-      return m_layers[which].getHeightPx();
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getHeightPx();
+      }
     }
   }
 
-  template<class GilImageT>
-  Math::Rect<std::size_t>
-  Image<GilImageT>::getLayerRect(std::size_t which) const {
-    if(which >= m_layers.size()) {
-      // TBA
+  template<class GilBkgImageT, class GilImageT>
+  ImageRect
+  Image<GilBkgImageT, GilImageT>::getLayerRect(std::size_t which) const {
+    if(which == 0) {
+      return m_backgroundLayer.getRect();
     } else {
-      return Math::Rect<std::size_t>(0, 0, m_layers[which].getWidthPx()-1,
-        m_layers[which].getHeightPx()-1);
+      if(which > m_layers.size()) {
+        // Oops
+        throw OutOfRangeException();
+      } else {
+        return m_layers[which-1].getRect();
+      }
     }
   }
 
-  template<class GilImageT>
-  bool
-  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
-                                   const std::vector<OpRegion> &regions,
-                                   IProgressListener *progress
-                                  )
-  {
-    return op.performOperation(*this, regions, progress);
+  template<class GilBkgImageT, class GilImageT>
+  typename GilBkgImageT::view_t
+  Image<GilBkgImageT, GilImageT>::getBkgLayerView() {
+    return m_backgroundLayer.getView();
   }
 
-  template<class GilImageT>
-  bool
-  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
-                                   Math::Rect<float> rect,
-                                   IProgressListener *progress
-                                  )
-  {
-    std::vector<OpRegion> regions;
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      regions.push_back(OpRegion(i, rect));
-    }
-
-    return op.performOperation(*this, regions, progress);
+  template<class GilBkgImageT, class GilImageT>
+  typename GilBkgImageT::const_view_t
+  Image<GilBkgImageT, GilImageT>::getBkgLayerView() const {
+    return m_backgroundLayer.getView();
   }
 
-  template<class GilImageT>
-  bool
-  Image<GilImageT>::applyOperation(IImageOperation<Image<GilImageT>> &op,
-                                   IProgressListener *progress
-                                  )
-  {
-    std::vector<OpRegion> regions;
-
-    for(std::size_t i(0); i < m_layers.size(); ++i) {
-      regions.push_back(OpRegion(i, getLayerRect(i)));
-    }
-
-    return op.performOperation(*this, regions, progress);
+  template<class GilBkgImageT, class GilImageT>
+  typename GilBkgImageT::view_t
+  Image<GilBkgImageT, GilImageT>::getBkgLayerView(ImageRect rect) {
+    return m_backgroundLayer.getView(rect);
   }
 
-  template<class GilImageT>
-  typename GilImageT::view_t::value_type
-  Image<GilImageT>::getLayerPixelAt(std::size_t layerNum,
-                                    Math::Coord<std::size_t> pos
-                                   ) const
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getPixelAt(pos);
-    }
+  template<class GilBkgImageT, class GilImageT>
+  typename GilBkgImageT::const_view_t
+  Image<GilBkgImageT, GilImageT>::getBkgLayerView(ImageRect rect) const {
+    return m_backgroundLayer.getView(rect);
   }
 
-  template<class GilImageT>
-  typename GilImageT::view_t::value_type
-  Image<GilImageT>::getLayerPixelAt(std::size_t layerNum,
-                                    std::size_t x,
-                                    std::size_t y
-                                   ) const
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getPixelAt(x, y);
-    }
-  }
-
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   typename GilImageT::view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum) {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+  Image<GilBkgImageT, GilImageT>::getLayerView(std::size_t layerNum) {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView();
+      return m_layers[layerNum-1].getView();
     }
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   typename GilImageT::const_view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum) const {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+  Image<GilBkgImageT, GilImageT>::getLayerView(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView();
+      return m_layers[layerNum-1].getView();
     }
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   typename GilImageT::view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum,
-                                 Math::Rect<std::size_t> rect
-                                )
+  Image<GilBkgImageT, GilImageT>::getLayerView(std::size_t layerNum,
+                                               ImageRect rect
+                                              )
   {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView(rect);
+      return m_layers[layerNum-1].getView(rect);
     }
   }
 
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   typename GilImageT::const_view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum,
-                                 Math::Rect<std::size_t> rect
-                                ) const
+  Image<GilBkgImageT, GilImageT>::getLayerView(std::size_t layerNum,
+                                               ImageRect rect
+                                              ) const
   {
-    if(layerNum >= m_layers.size()) {
-      // TBA
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
     } else {
-      return m_layers[layerNum].getView(rect);
+      return m_layers[layerNum-1].getView(rect);
     }
-  }
-
-  template<class GilImageT>
-  typename GilImageT::view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum,
-                                 std::size_t x1,
-                                 std::size_t y1,
-                                 std::size_t x2,
-                                 std::size_t y2
-                                )
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getView(x1, y1, x2, y2);
-    }
-  }
-
-  template<class GilImageT>
-  typename GilImageT::const_view_t
-  Image<GilImageT>::getLayerView(std::size_t layerNum,
-                                 std::size_t x1,
-                                 std::size_t y1,
-                                 std::size_t x2,
-                                 std::size_t y2
-                                ) const
-  {
-    if(layerNum >= m_layers.size()) {
-      // TBA
-    } else {
-      return m_layers[layerNum].getView(x1, y1, x2, y2);
-    }
-  }
-}
-
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  template<class GilImageT>
-  std::size_t
-  Image<GilImageT>::getMemorySizeForOneLayer(std::size_t width,
-                                             std::size_t height
-                                            )
-  {
-    return Layer<GilImageT>::getMemorySize(width, height);
   }
 }
 

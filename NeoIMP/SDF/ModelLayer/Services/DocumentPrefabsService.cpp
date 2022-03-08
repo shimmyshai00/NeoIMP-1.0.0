@@ -22,6 +22,7 @@
  */
 
 #include "DocumentPrefabsService.hpp"
+#include "../Exceptions.hpp"
 
 namespace SDF::ModelLayer::Services {
   DocumentPrefabsService::DocumentPrefabsService() {
@@ -39,7 +40,7 @@ namespace SDF::ModelLayer::Services {
         Defs::COLOR_MODEL_RGB,
         Defs::BIT_DEPTH_8,
         Defs::PRE_BACKGROUND_WHITE,
-        Defs::ARGB8888Color(255, 255, 255, 255)
+        Defs::RGB24_888_Color(255, 255, 255)
     };
 
     m_prefabNames[1] = "U.S. Letter, 8.5\" x 11\", 150 DPI";
@@ -53,7 +54,7 @@ namespace SDF::ModelLayer::Services {
         Defs::COLOR_MODEL_RGB,
         Defs::BIT_DEPTH_8,
         Defs::PRE_BACKGROUND_WHITE,
-        Defs::ARGB8888Color(255, 255, 255, 255)
+        Defs::RGB24_888_Color(255, 255, 255)
     };
   }
 
@@ -69,13 +70,19 @@ namespace SDF::ModelLayer::Services {
 
   std::string
   DocumentPrefabsService::getPrefabName(Common::Handle prefab) {
-    // N.B. add custom exception to harmonize if/when impl changes?
-    return m_prefabNames.at(prefab);
+    try {
+      return m_prefabNames.at(prefab);
+    } catch(std::out_of_range) {
+      throw PrefabNotFoundException(prefab);
+    }
   }
 
   UILayer::AbstractModel::Defs::ImageSpec
   DocumentPrefabsService::getPrefabSpec(Common::Handle prefab) {
-    // N.B. add custom exception to harmonize if/when impl changes?
-    return m_prefabSpecs.at(prefab);
+    try {
+      return m_prefabSpecs.at(prefab);
+    } catch(std::out_of_range) {
+      throw PrefabNotFoundException(prefab);
+    }
   }
 }

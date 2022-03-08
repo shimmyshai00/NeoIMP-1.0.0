@@ -38,6 +38,25 @@ namespace SDF::ModelLayer::Services::Gil {
     using namespace Metrics;
     using namespace DomainObjects;
 
+    // Input validation.
+    if(spec.width == 0)
+      throw InvalidImageWidthException(spec.width);
+
+    if(spec.widthUnit == LENGTH_UNIT_MAX)
+      throw InvalidLengthUnitException(spec.widthUnit);
+
+    if(spec.height == 0)
+      throw InvalidImageHeightException(spec.height);
+
+    if(spec.heightUnit == LENGTH_UNIT_MAX)
+      throw InvalidLengthUnitException(spec.heightUnit);
+
+    if(spec.resolution <= 0.0f)
+      throw InvalidImageResolutionException(spec.resolution);
+
+    if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
+      throw InvalidResolutionUnitException(spec.resolutionUnit);
+
     // Convert the dimensions to pixels.
     LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
     LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
@@ -47,7 +66,10 @@ namespace SDF::ModelLayer::Services::Gil {
 
     // What type to use depends on the combination of color model and bit depth parameters.
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      return Engine::Gil::RGB888Image::getMemorySizeForOneLayer(widthPx, heightPx);
+      //return Engine::Gil::RGB888Image::getMemorySizeForOneLayer(widthPx, heightPx);
+      return 0;
+    } else {
+      return 0;
     }
   }
 }

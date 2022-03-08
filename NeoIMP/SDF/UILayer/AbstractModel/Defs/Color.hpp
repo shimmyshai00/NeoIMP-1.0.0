@@ -33,37 +33,37 @@
 #include <variant>
 
 namespace SDF::UILayer::AbstractModel::Defs {
-  template<class ChannelT>
+  template<class ChannelR, class ChannelG, class ChannelB>
   struct RGBColor {
-    ChannelT m_r;
-    ChannelT m_g;
-    ChannelT m_b;
+    ChannelR m_r;
+    ChannelG m_g;
+    ChannelB m_b;
 
-    RGBColor(ChannelT r, ChannelT g, ChannelT b)
+    RGBColor(ChannelR r, ChannelG g, ChannelB b)
       : m_r(r), m_g(g), m_b(b)
     {}
   };
 
-  template<class ChannelT>
+  template<class ChannelA, class ChannelR, class ChannelG, class ChannelB>
   struct ARGBColor {
-    ChannelT m_a;
-    ChannelT m_r;
-    ChannelT m_g;
-    ChannelT m_b;
+    ChannelA m_a;
+    ChannelR m_r;
+    ChannelG m_g;
+    ChannelB m_b;
 
-    ARGBColor(ChannelT a, ChannelT r, ChannelT g, ChannelT b)
+    ARGBColor(ChannelA a, ChannelR r, ChannelG g, ChannelB b)
       : m_a(a), m_r(r), m_g(g), m_b(b)
     {}
   };
 
   // Color definitions. There should be one (alpha and non-alpha) for each color model in
   // EColorModel.
-  typedef RGBColor<Channel<8>> RGB888Color;
-  typedef ARGBColor<Channel<8>> ARGB8888Color;
+  typedef RGBColor<Channel<8>, Channel<8>, Channel<8>> RGB24_888_Color;
+  typedef ARGBColor<Channel<8>, Channel<8>, Channel<8>, Channel<8>> ARGB32_8888_Color;
 
   typedef std::variant<
-    RGB888Color,
-    ARGB8888Color
+    RGB24_888_Color,
+    ARGB32_8888_Color
   > AnyColor;
 }
 

@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    AnyLayer.tpp
- * PURPOSE: Implements the AnyLayer template.
+ * PURPOSE: Defines the AnyLayer template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,53 +26,51 @@
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class ... GilImageTs>
-  template<class T>
-  AnyLayer<GilImageTs...>::AnyLayer(const Layer<T> &layer)
-    : m_image(layer.m_image)
+  template<class GilImageT>
+  AnyLayer<GilImageTs...>::AnyLayer(const Layer<GilImageT> &layer)
+    : m_widthPx(layer.m_widthPx),
+      m_heightPx(layer.m_heightPx),
+      m_data(layer.m_data)
   {
   }
 
   template<class ... GilImageTs>
-  template<class T>
-  AnyLayer<GilImageTs...>::AnyLayer(Layer<T> &&layer)
-    : m_image(std::move(layer.m_image))
+  template<class GilImageT>
+  AnyLayer<GilImageTs...>::AnyLayer(Layer<GilImageT> &&layer)
+    : m_widthPx(std::move(layer.m_widthPx)),
+      m_heightPx(std::move(layer.m_heightPx)),
+      m_data(std::move(layer.m_data))
   {
   }
 
-  /*
-  template<class T, class ... GilImageTs>
-  Layer<T> *
-  AnyLayer<GilImageTs...>::specifize(bool doSwap) {
-    Layer<T> rv = new Layer<T>(1, 1);
-
-    if(!doSwap) {
-      rv.m_image =
-    }
-  }
-  */
-
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyLayer<GilImageTs...>::getWidthPx() const {
-    return m_image.dimensions().x;
+    return m_widthPx;
   }
 
   template<class ... GilImageTs>
-  std::size_t
+  ImageMeasure
   AnyLayer<GilImageTs...>::getHeightPx() const {
-    return m_image.dimensions().y;
+    return m_heightPx;
+  }
+
+  template<class ... GilImageTs>
+  ImageRect
+  AnyLayer<GilImageTs...>::getRect() const {
+    return ImageRect(0, 0, m_widthPx, m_heightPx);
   }
 
   template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::view_t
   AnyLayer<GilImageTs...>::getView() {
-    return boost::gil::view(m_image);
+    return boost::gil::view(m_data);
   }
 
   template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::const_view_t
   AnyLayer<GilImageTs...>::getView() const {
-    return boost::gil::const_view(m_image);
+    return boost::gil::const_view(m_data);
   }
 }
 

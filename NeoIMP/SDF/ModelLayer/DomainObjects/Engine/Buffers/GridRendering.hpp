@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GRIDRENDERING_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GRIDRENDERING_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_BUFFERS_GRIDRENDERING_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_BUFFERS_GRIDRENDERING_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,13 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Math/Rect.hpp"
+#include "../../../Math/Rect.hpp"
+#include "../ERenderPixelFormat.hpp"
 #include "RenderCell.hpp"
-#include "ERenderPixelFormat.hpp"
 
 #include <cstddef>
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::DomainObjects::Engine::Buffers {
   // Class:      GridRendering
   // Purpose:    Defines a large rendering as a grid of one or more uniformly-sized rendering cells.
   // Parameters: None.

@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Exceptions/Exceptions.hpp"
+#include "../Exceptions.hpp"
 
 namespace SDF::ModelLayer::Repositories {
   template<class ObjT>

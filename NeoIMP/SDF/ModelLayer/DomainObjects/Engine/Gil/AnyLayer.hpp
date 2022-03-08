@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYLAYER_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ANYLAYER_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYLAYER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_GIL_ANYLAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,65 +24,64 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Math/Rect.hpp"
-#include "../../../Math/Coord.hpp"
+#include "../Dimensions.hpp"
 
-#include "Layer.hpp"
-
-#include <boost/gil/extension/dynamic_image/dynamic_image_all.hpp>
-#include <boost/gil/image.hpp>
-
+#include <boost/gil/extension/dynamic_image/any_image.hpp>
+#include <boost/gil/extension/dynamic_image/any_image_view.hpp>
 #include <cstddef>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   // Class:      AnyLayer
-  // Purpose:    Describes an image layer variant implemented using Boost.GIL.
+  // Purpose:    Defines a variant layer that can store a variety of image types.
   // Parameters: GilImageTs - The Boost.GIL image types going into the variant.
   template<class ... GilImageTs>
   class AnyLayer {
   public:
     // Function:   AnyLayer
-    // Purpose:    Construct a new variant from a particular concrete layer type.
-    // Parameters: layer - The layer to construct to.
-    //             doSwap - Whether to swap the image data or copy it.
-    template<class T>
-    AnyLayer(const Layer<T> &layer);
+    // Purpose:    Construct a new variant layer.
+    // Parameters: layer - The specific layer to construct from.
+    template<class GilImageT>
+    AnyLayer(const Layer<GilImageT> &layer);
 
-    template<class T>
-    AnyLayer(Layer<T> &&layer);
-
-    // Function:   specifize
-    // Purpose:    Converts this variant back into a concrete layer type.
-    // Parameters: doSwap - Whether to do the conversion by swap.
-    //template<class T>
-    //Layer<T> *specifize(bool doSwap);
+    template<class GilImageT>
+    AnyLayer(Layer<GilImageT> &&layer);
 
     // Function:   getWidthPx
-    // Purpose:    Get the layer's width in pixels.
+    // Purpose:    Gets the layer width in pixels.
     // Parameters: None.
-    // Returns:    The layer's width in pixels.
-    std::size_t
+    // Returns:    The layer width in pixels.
+    ImageMeasure
     getWidthPx() const;
 
     // Function:   getHeightPx
-    // Purpose:    Get the layer's height in pixels.
+    // Purpose:    Gets the layer height in pixels.
     // Parameters: None.
-    // Returns:    The layer's height in pixels.
-    std::size_t
+    // Returns:    The layer height in pixels.
+    ImageMeasure
     getHeightPx() const;
 
-    // Function:   getView
-    // Purpose:    Gets a Boost.GIL view of the entire image. Note that because of the limits
-    //             in GIL, it is impossible to specialize to a specific region only.
+    // Function:   getRect
+    // Purpose:    Get the layer bounding rectangle.
     // Parameters: None.
-    // Returns:    The view reference.
+    // Returns:    The bounding rectangle for this layer.
+    ImageRect
+    getRect() const;
+
+    // Function:   getView
+    // Purpose:    Gets a view onto the layer data. Note that because of the limitations of
+    //             boost:gil::any_image, it is impossible to get a sub-view here.
+    // Parameters: None.
+    // Returns:    A view to the given rectangle.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getView();
 
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getView() const;
-  private:
-    boost::gil::any_image<GilImageTs...> m_image;
+  public:
+    ImageMeasure m_widthPx;
+    ImageMeasure m_heightPx;
+
+    boost::gil::any_image<GilImageTs...> m_data;
   };
 }
 

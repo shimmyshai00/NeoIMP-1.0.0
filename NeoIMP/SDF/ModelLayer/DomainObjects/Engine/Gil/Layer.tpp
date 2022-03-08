@@ -24,101 +24,72 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <boost/gil/image.hpp>
+#include <boost/gil/image_view.hpp>
+#include <boost/gil/image_view_factory.hpp>
+
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilImageT>
-  Layer<GilImageT>::Layer(std::size_t widthPx,
-                          std::size_t heightPx,
-                          typename GilImageT::value_type initialColor
+  Layer<GilImageT>::Layer(ImageMeasure widthPx,
+                          ImageMeasure heightPx,
+                          typename GilImageT::value_type fillColor
                          )
-    : m_image(widthPx, heightPx, initialColor, 0)
+    : m_widthPx(widthPx),
+      m_heightPx(heightPx),
+      m_data(widthPx, heightPx, fillColor, 0)
   {
   }
 
   template<class GilImageT>
-  std::size_t
+  ImageMeasure
   Layer<GilImageT>::getWidthPx() const {
-    return m_image.dimensions().x;
+    return m_widthPx;
   }
 
   template<class GilImageT>
-  std::size_t
+  ImageMeasure
   Layer<GilImageT>::getHeightPx() const {
-    return m_image.dimensions().y;
+    return m_heightPx;
   }
 
   template<class GilImageT>
-  typename GilImageT::view_t::value_type
-  Layer<GilImageT>::getPixelAt(Math::Coord<std::size_t> pos) const {
-    return *GilImageT::const_view(m_image).xy_at(pos.getX(), pos.getY());
-  }
-
-  template<class GilImageT>
-  typename GilImageT::view_t::value_type
-  Layer<GilImageT>::getPixelAt(std::size_t x,
-                               std::size_t y
-                              ) const
-  {
-    return getPixelAt(Math::Coord<std::size_t>(x, y));
+  ImageRect
+  Layer<GilImageT>::getRect() const {
+    return ImageRect(0, 0, m_widthPx, m_heightPx);
   }
 
   template<class GilImageT>
   typename GilImageT::view_t
   Layer<GilImageT>::getView() {
-    return boost::gil::view(m_image);
+    return boost::gil::view(m_data);
   }
 
   template<class GilImageT>
   typename GilImageT::const_view_t
   Layer<GilImageT>::getView() const {
-    return boost::gil::const_view(m_image);
+    return boost::gil::const_view(m_data);
   }
 
   template<class GilImageT>
   typename GilImageT::view_t
-  Layer<GilImageT>::getView(Math::Rect<std::size_t> rect) {
-    typename GilImageT::view_t masterView(getView());
-    return GilImageT::view_t(rect.getWidth(), rect.getHeight(), masterView.xy_at(rect.getX1(), rect.getY1()));
+  Layer<GilImageT>::getView(ImageRect rect) {
+    // Clip the rectangle if it exceeds the bounds (neatly allows for large selections, for
+    // example).
+    ImageRect clipRect = getRect().intersect(rect);
+    return boost::gil::subimage_view(boost::gil::view(m_data),
+      GilImageT::point_t(rect.x1(), rect.y1()),
+      GilImageT::point_t(rect.getWidth(), rect.getHeight())
+    );
   }
 
   template<class GilImageT>
   typename GilImageT::const_view_t
-  Layer<GilImageT>::getView(Math::Rect<std::size_t> rect) const {
-    typename GilImageT::const_view_t masterView(getView());
-    return GilImageT::const_view_t(rect.getWidth(), rect.getHeight(), masterView.xy_at(rect.getX1(), rect.getY1()));
-  }
-
-  template<class GilImageT>
-  typename GilImageT::view_t
-  Layer<GilImageT>::getView(std::size_t x1,
-                            std::size_t y1,
-                            std::size_t x2,
-                            std::size_t y2
-                           )
-  {
-    return getView(Math::Rect<std::size_t>(x1, y1, x2, y2));
-  }
-
-  template<class GilImageT>
-  typename GilImageT::const_view_t
-  Layer<GilImageT>::getView(std::size_t x1,
-                            std::size_t y1,
-                            std::size_t x2,
-                            std::size_t y2
-                           ) const
-  {
-    return getView(Math::Rect<std::size_t>(x1, y1, x2, y2));
-  }
-}
-
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  template<class GilImageT>
-  std::size_t
-  Layer<GilImageT>::getMemorySize(std::size_t width,
-                                  std::size_t height
-                                 )
-  {
-    // NB: not sure how accurate this is
-    return sizeof(typename GilImageT::value_type)*width*height;
+  Layer<GilImageT>::getView(ImageRect rect) const {
+    ImageRect clipRect = getRect().intersect(rect);
+    return boost::gil::subimage_view(boost::gil::const_view(m_data),
+      GilImageT::point_t(rect.x1(), rect.y1()),
+      GilImageT::point_t(rect.getWidth(), rect.getHeight())
+    );
   }
 }
 

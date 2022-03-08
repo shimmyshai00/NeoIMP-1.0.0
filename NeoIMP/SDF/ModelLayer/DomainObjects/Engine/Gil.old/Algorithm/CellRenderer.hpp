@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Math/Rect.hpp"
+#include "../../Math/Rect.hpp"
+#include "../../Dimensions.hpp"
 #include "../../IImageOperation.hpp"
 #include "../../RenderCell.hpp"
 #include "../Image.hpp"
@@ -54,25 +55,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
 
     bool
     performOperation(Image<GilImageT> &imageImpl,
-                     const std::vector<OpRegion> &regions,
-                     IProgressListener *progress
-                    );
-  private:
-    RenderCell *m_outCell;
-    Math::Rect<std::size_t> m_outRect;
-    bool m_antialias;
-  };
-
-  template<class ... GilImageTs>
-  class CellRenderer<AnyImage<GilImageTs...>> : public IImageOperation<AnyImage<GilImageTs...>> {
-  public:
-    CellRenderer(RenderCell *outCell,
-                 Math::Rect<std::size_t> outRect,
-                 bool antialias
-                );
-
-    bool
-    performOperation(AnyImage<GilImageTs...> &imageImpl,
                      const std::vector<OpRegion> &regions,
                      IProgressListener *progress
                     );

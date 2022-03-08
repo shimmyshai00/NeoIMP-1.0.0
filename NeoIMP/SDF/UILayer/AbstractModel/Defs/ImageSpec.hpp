@@ -59,7 +59,7 @@ namespace SDF::UILayer::AbstractModel::Defs {
         colorModel(COLOR_MODEL_RGB),
         bitDepth(BIT_DEPTH_8),
         backgroundPreset(PRE_BACKGROUND_BLACK),
-        backgroundColor(ARGB8888Color(255, 0, 0, 0))
+        backgroundColor(ARGB32_8888_Color(255, 0, 0, 0))
     {
     }
 

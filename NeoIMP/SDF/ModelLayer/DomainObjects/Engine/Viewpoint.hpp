@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Math/Coord.hpp"
+#include "Dimensions.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
   struct Viewpoint {
-    Math::Coord<float> m_position;
+    ImagePoint m_position;
     float m_magnification;
 
     Viewpoint()
@@ -37,14 +37,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     {
     }
 
-    Viewpoint(float x, float y)
-      : m_position(x, y),
+    Viewpoint(ImagePoint pos)
+      : m_position(pos),
         m_magnification(1.0f)
     {
     }
 
-    Viewpoint(float x, float y, float mag)
-      : m_position(x, y),
+    Viewpoint(ImagePoint pos, float mag)
+      : m_position(pos),
         m_magnification(mag)
     {
     }

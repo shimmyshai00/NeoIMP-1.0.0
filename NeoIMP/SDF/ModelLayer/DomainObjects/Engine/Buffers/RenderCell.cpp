@@ -23,7 +23,7 @@
 
 #include "RenderCell.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::DomainObjects::Engine::Buffers {
   RenderCell::RenderCell(std::size_t width,
                          std::size_t height,
                          ERenderPixelFormat pixelFormat

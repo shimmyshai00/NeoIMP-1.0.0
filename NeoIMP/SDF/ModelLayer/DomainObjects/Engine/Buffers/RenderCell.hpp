@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_RENDERCELL_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_RENDERCELL_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_BUFFERS_RENDERCELL_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_BUFFERS_RENDERCELL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ERenderPixelFormat.hpp"
+#include "../ERenderPixelFormat.hpp"
 
 #include <cstddef>
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::DomainObjects::Engine::Buffers {
   // Class:      RenderCell
   // Purpose:    Defines a single cell or tile of a multi-tile rendering. This format is used to
   //             break up large renderings so that other parts of the program can handle them, as
@@ -49,7 +49,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     ~RenderCell();
 
     // Function:   getWidth
-    // Purpose:    Get the width of this render cell.
+    // Purpose:    Get the width of this render cell. Note: since this is a low level buffer class,
+    //             we use std::size_t here, not ImageMeasure.
     // Parameters: None.
     // Returns:    The width of the render cell in pixels.
     std::size_t
