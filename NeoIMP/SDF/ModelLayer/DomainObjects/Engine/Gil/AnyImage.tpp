@@ -92,19 +92,21 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class ... GilImageTs>
-  IColorModel &
-  AnyImage<GilImageTs...>::getBkgColorModel() const {
-    // TBA
-    static ColorModels::RGB24_888 cm;
-    return cm;
+  ImageRect
+  AnyImage<GilImageTs...>::getRect() const {
+    return ImageRect(0, 0, m_widthPx, m_heightPx);
   }
 
   template<class ... GilImageTs>
-  IColorModel &
+  const IColorModel &
+  AnyImage<GilImageTs...>::getBkgColorModel() const {
+    return *m_bkgColorModel;
+  }
+
+  template<class ... GilImageTs>
+  const IColorModel &
   AnyImage<GilImageTs...>::getColorModel() const {
-    // TBA
-    static ColorModels::RGB24_888 cm;
-    return cm;
+    return *m_colorModel;
   }
 
   template<class ... GilImageTs>
@@ -172,6 +174,18 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
 
   template<class ... GilImageTs>
   typename boost::gil::any_image<GilImageTs...>::view_t
+  AnyImage<GilImageTs...>::getBkgLayerView(ImageRect rect) {
+    return m_backgroundLayer.getView(rect);
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::const_view_t
+  AnyImage<GilImageTs...>::getBkgLayerView(ImageRect rect) const {
+    return m_backgroundLayer.getView(rect);
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::view_t
   AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum) {
     if((layerNum == 0) || (layerNum > m_layers.size())) {
       // Oops
@@ -189,6 +203,34 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
       throw OutOfRangeException();
     } else {
       return m_layers[layerNum-1].getView();
+    }
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::view_t
+  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
+                                        ImageRect rect
+                                       )
+  {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return m_layers[layerNum-1].getView(rect);
+    }
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::const_view_t
+  AnyImage<GilImageTs...>::getLayerView(std::size_t layerNum,
+                                        ImageRect rect
+                                       ) const
+  {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return m_layers[layerNum-1].getView(rect);
     }
   }
 }

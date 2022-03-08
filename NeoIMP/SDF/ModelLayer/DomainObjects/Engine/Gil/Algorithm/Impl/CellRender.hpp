@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETYPES_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETYPES_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_IMPL_CELLRENDER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_IMPL_CELLRENDER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageTypes.hpp
- * PURPOSE: Defines a set of predefined image types.
+ * FILE:    CellRender.hpp
+ * PURPOSE: Defines the CellRender algorithm.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Image.hpp"
-#include "AnyImage.hpp"
+#include "../../../../../Math/Rect.hpp"
+#include "../../../Buffers/RenderCell.hpp"
+#include "../../../Dimensions.hpp"
+#include "../../../ERenderPixelFormat.hpp"
+#include "../../../IImage.hpp"
 
-#include <boost/gil/image.hpp>
-#include <boost/gil/typedefs.hpp>
-
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  typedef Image<boost::gil::rgb8_image_t, boost::gil::rgb8_image_t> RGB24_888_Image;
-
-  typedef AnyImage<boost::gil::rgb8_image_t> Any_Image;
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
+  // Provides implementation detail for rendering onto a single buffer cell.
+  template<class View>
+  void renderOntoCell(Engine::Buffers::RenderCell *dstCell,
+                      Math::Rect<std::size_t> dstRect,
+                      const View &view
+                     );
 }
 
 #endif

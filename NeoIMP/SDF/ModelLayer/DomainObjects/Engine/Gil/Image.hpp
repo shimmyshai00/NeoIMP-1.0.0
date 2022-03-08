@@ -78,6 +78,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     float
     getResolutionPpi() const;
 
+    ImageRect
+    getRect() const;
+
     const IColorModelImpl<typename GilBkgImageT::value_type> &
     getBkgColorModel() const;
 

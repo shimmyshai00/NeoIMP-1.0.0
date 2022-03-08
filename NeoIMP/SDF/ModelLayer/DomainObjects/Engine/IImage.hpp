@@ -74,6 +74,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     virtual float
     getResolutionPpi() const = 0;
 
+    // Function:   getRect
+    // Purpose:    Get the bounding rectangle of the whole image.
+    // Parameters: None.
+    // Returns:    The image bounding rectangle.
+    virtual ImageRect
+    getRect() const = 0;
+
     // Function:   getImageTopology
     // Purpose:    Gets the topology of the image.
     // Parameters: None.

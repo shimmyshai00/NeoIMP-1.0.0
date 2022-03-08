@@ -76,6 +76,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilBkgImageT, class GilImageT>
+  ImageRect
+  Image<GilBkgImageT, GilImageT>::getRect() const {
+    return ImageRect(0, 0, m_widthPx, m_heightPx);
+  }
+  
+  template<class GilBkgImageT, class GilImageT>
   const IColorModelImpl<typename GilBkgImageT::value_type> &
   Image<GilBkgImageT, GilImageT>::getBkgColorModel() const {
     return ExtTraits<GilBkgImageT>::color_model;

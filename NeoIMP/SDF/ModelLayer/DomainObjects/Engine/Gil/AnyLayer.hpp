@@ -28,6 +28,7 @@
 
 #include <boost/gil/extension/dynamic_image/any_image.hpp>
 #include <boost/gil/extension/dynamic_image/any_image_view.hpp>
+
 #include <cstddef>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
@@ -68,15 +69,20 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     getRect() const;
 
     // Function:   getView
-    // Purpose:    Gets a view onto the layer data. Note that because of the limitations of
-    //             boost:gil::any_image, it is impossible to get a sub-view here.
-    // Parameters: None.
+    // Purpose:    Gets a view onto the layer data.
+    // Parameters: rect - The rectangle to get the view onto.
     // Returns:    A view to the given rectangle.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getView();
 
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getView() const;
+
+    typename boost::gil::any_image<GilImageTs...>::view_t
+    getView(ImageRect rect);
+
+    typename boost::gil::any_image<GilImageTs...>::const_view_t
+    getView(ImageRect rect) const;
   public:
     ImageMeasure m_widthPx;
     ImageMeasure m_heightPx;

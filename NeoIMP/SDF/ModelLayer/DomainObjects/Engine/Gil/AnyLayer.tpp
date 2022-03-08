@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <boost/gil/extension/dynamic_image/image_view_factory.hpp>
+
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class ... GilImageTs>
   template<class GilImageT>
@@ -71,6 +73,28 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   typename boost::gil::any_image<GilImageTs...>::const_view_t
   AnyLayer<GilImageTs...>::getView() const {
     return boost::gil::const_view(m_data);
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::view_t
+  AnyLayer<GilImageTs...>::getView(ImageRect rect) {
+    // Clip the rectangle if it exceeds the bounds (neatly allows for large selections, for
+    // example).
+    ImageRect clipRect = getRect().intersect(rect);
+    return boost::gil::subimage_view(boost::gil::view(m_data),
+      typename boost::gil::any_image<GilImageTs...>::point_t(rect.x1(), rect.y1()),
+      typename boost::gil::any_image<GilImageTs...>::point_t(rect.getWidth(), rect.getHeight())
+    );
+  }
+
+  template<class ... GilImageTs>
+  typename boost::gil::any_image<GilImageTs...>::const_view_t
+  AnyLayer<GilImageTs...>::getView(ImageRect rect) const {
+    ImageRect clipRect = getRect().intersect(rect);
+    return boost::gil::subimage_view(boost::gil::const_view(m_data),
+      typename boost::gil::any_image<GilImageTs...>::point_t(rect.x1(), rect.y1()),
+      typename boost::gil::any_image<GilImageTs...>::point_t(rect.getWidth(), rect.getHeight())
+    );
   }
 }
 

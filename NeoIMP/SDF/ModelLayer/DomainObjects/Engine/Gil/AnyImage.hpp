@@ -68,10 +68,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     float
     getResolutionPpi() const;
 
-    IColorModel &
+    ImageRect
+    getRect() const;
+
+    const IColorModel &
     getBkgColorModel() const;
 
-    IColorModel &
+    const IColorModel &
     getColorModel() const;
 
     std::size_t
@@ -88,7 +91,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
 
     // Function:   getBkgLayerView
     // Purpose:    Gets a Boost.GIL view onto the data for the background layer.
-    // Parameters: None.
+    // Parameters: rect - The rectangle to get, for getting a subregion.
     // Returns:    The view onto the background layer.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getBkgLayerView();
@@ -96,15 +99,34 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getBkgLayerView() const;
 
+    typename boost::gil::any_image<GilImageTs...>::view_t
+    getBkgLayerView(ImageRect rect);
+
+    typename boost::gil::any_image<GilImageTs...>::const_view_t
+    getBkgLayerView(ImageRect rect) const;
+
     // Function:   getLayerView
     // Purpose:    Gets a Boost.GIL view onto the data for a single layer.
-    // Parameters: layerNum - The layer number to get the view onto. (still begins at 1)
+    // Parameters: layerNum - The layer number to get the view onto. (Note: this starts at 1, not 0,
+    //                        to keep consistency with the other methods. 0 is the background layer,
+    //                        but it may have a different Type.)
+    //             rect - The rectangle to get, for getting a subregion.
     // Returns:    The view onto this layer.
     typename boost::gil::any_image<GilImageTs...>::view_t
     getLayerView(std::size_t layerNum);
 
     typename boost::gil::any_image<GilImageTs...>::const_view_t
     getLayerView(std::size_t layerNum) const;
+
+    typename boost::gil::any_image<GilImageTs...>::view_t
+    getLayerView(std::size_t layerNum,
+                 ImageRect rect
+                );
+
+    typename boost::gil::any_image<GilImageTs...>::const_view_t
+    getLayerView(std::size_t layerNum,
+                 ImageRect rect
+                ) const;
   private:
     std::string m_name;
     std::string m_fileSpec;
@@ -113,8 +135,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
-    IColorModel *m_bkgColorModel;
-    IColorModel *m_colorModel;
+    const IColorModel *m_bkgColorModel;
+    const IColorModel *m_colorModel;
 
     AnyLayer<GilImageTs...> m_backgroundLayer;
     std::vector<AnyLayer<GilImageTs...>> m_layers;

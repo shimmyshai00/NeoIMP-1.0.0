@@ -24,7 +24,8 @@
 #include "RenderingService.hpp"
 
 #include "../../Math/Rect.hpp"
-//#include "../../DomainObjects/Engine/Gil/Algorithm/CellRenderer.hpp"
+#include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
+#include "../../DomainObjects/Engine/Gil/Algorithm/Apply.hpp"
 #include "../../Exceptions.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
@@ -166,7 +167,6 @@ namespace SDF::ModelLayer::Services::Gil {
 
   Common::Handle
   RenderingService::createStaticRendering(Common::Handle imageHandle) {
-    // NB: shift this complex rendering logic down into a new DomainObject?
     using namespace DomainObjects;
 
     Engine::Gil::Any_Image *image(m_imageRepository->retrieve(imageHandle));
@@ -177,17 +177,11 @@ namespace SDF::ModelLayer::Services::Gil {
       Common::Handle renderingHandle(m_nextRenderingHandle++);
       std::unique_ptr<Engine::Buffers::GridRendering> rendering(
         new Engine::Buffers::GridRendering(1, 1, imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
-      rendering->allocateCell(0, 0);
 
-      Engine::Buffers::RenderCell *renderCell = rendering->getCell(0, 0);
-      Math::Rect<std::size_t> outRect(0, 0, imageWidth-1, imageHeight-1);
-      Math::Rect<float> renderRect(0.0f, 0.0f, imageWidth - 1.0f, imageHeight - 1.0f);
+      Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
 
-      /*
-      Engine::Gil::Algorithm::CellRenderer<Engine::Gil::AnyGilImage> renderer(renderCell, outRect,
-        false);
-      image->applyOperation(renderer, renderRect, nullptr);
-      */
+      Engine::Gil::Algorithm::Render render(rendering.get(), outRect);
+      Engine::Gil::Algorithm::apply(render, *image);
 
       m_renderingRepository->insert(renderingHandle, std::move(rendering));
 

@@ -77,8 +77,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     // example).
     ImageRect clipRect = getRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::view(m_data),
-      GilImageT::point_t(rect.x1(), rect.y1()),
-      GilImageT::point_t(rect.getWidth(), rect.getHeight())
+      typename GilImageT::point_t(rect.x1(), rect.y1()),
+      typename GilImageT::point_t(rect.getWidth(), rect.getHeight())
     );
   }
 
@@ -87,8 +87,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   Layer<GilImageT>::getView(ImageRect rect) const {
     ImageRect clipRect = getRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::const_view(m_data),
-      GilImageT::point_t(rect.x1(), rect.y1()),
-      GilImageT::point_t(rect.getWidth(), rect.getHeight())
+      typename GilImageT::point_t(rect.x1(), rect.y1()),
+      typename GilImageT::point_t(rect.getWidth(), rect.getHeight())
     );
   }
 }
