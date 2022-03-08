@@ -25,7 +25,7 @@
 
 namespace SDF::ModelLayer::Services::Gil {
   GetDocumentNameService::GetDocumentNameService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository)
   {

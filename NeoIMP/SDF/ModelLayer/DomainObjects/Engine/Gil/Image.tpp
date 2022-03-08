@@ -76,13 +76,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilBkgImageT, class GilImageT>
-  IColorModelImpl<typename GilBkgImageT::value_type> &
+  const IColorModelImpl<typename GilBkgImageT::value_type> &
   Image<GilBkgImageT, GilImageT>::getBkgColorModel() const {
     return ExtTraits<GilBkgImageT>::color_model;
   }
 
   template<class GilBkgImageT, class GilImageT>
-  IColorModelImpl<typename GilImageT::value_type> &
+  const IColorModelImpl<typename GilImageT::value_type> &
   Image<GilBkgImageT, GilImageT>::getColorModel() const {
     return ExtTraits<GilImageT>::color_model;
   }

@@ -40,13 +40,13 @@ namespace SDF::ModelLayer::Services::Gil {
   class CreateImageService : public UILayer::AbstractModel::ICreateImageService {
   public:
     INJECT(CreateImageService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     Common::Handle
     createImage(UILayer::AbstractModel::Defs::ImageSpec spec);
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
 
     Common::Handle m_nextHandle;
   };

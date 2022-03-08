@@ -40,13 +40,13 @@ namespace SDF::ModelLayer::Services::Gil {
   class GetDocumentNameService : public UILayer::AbstractModel::IGetDocumentNameService {
   public:
     INJECT(GetDocumentNameService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     std::string
     getDocumentName(Common::Handle documentHandle);
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
 

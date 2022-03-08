@@ -40,7 +40,7 @@ namespace SDF::ModelLayer::Services::Gil {
   class RenderingService : public UILayer::AbstractModel::IRenderingService {
   public:
     INJECT(RenderingService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
       Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *renderingRepository
     ));
 
@@ -58,7 +58,7 @@ namespace SDF::ModelLayer::Services::Gil {
     void
     deleteRendering(Common::Handle renderHandle);
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *m_imageRepository;
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
     Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *m_renderingRepository;
 
     Common::Handle m_nextRenderingHandle;

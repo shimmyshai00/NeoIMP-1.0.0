@@ -42,7 +42,7 @@
 namespace SDF::ModelLayer::Services {
   fruit::Component<
     fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
       Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
       Repositories::IRepository<DomainObjects::Engine::Viewpoint>
     >,

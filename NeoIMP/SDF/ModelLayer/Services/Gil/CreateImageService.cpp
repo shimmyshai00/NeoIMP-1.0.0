@@ -29,7 +29,7 @@
 
 namespace SDF::ModelLayer::Services::Gil {
   CreateImageService::CreateImageService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository),
       m_nextHandle(0)
@@ -74,11 +74,11 @@ namespace SDF::ModelLayer::Services::Gil {
     std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
     // What type to use depends on the combination of color model and bit depth parameters.
-    std::unique_ptr<Engine::Gil::AnyGilImage> image;
+    std::unique_ptr<Engine::Gil::Any_Image> image;
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
       Engine::Gil::RGB24_888_Image proto(name, fileSpec, widthPx, heightPx, resPpi,
         boost::gil::rgb8_pixel_t(127, 127, 127));
-      image = std::make_unique<Engine::Gil::AnyGilImage>(std::move(proto));
+      image = std::make_unique<Engine::Gil::Any_Image>(std::move(proto));
     }
 
     Common::Handle rv(m_nextHandle++);

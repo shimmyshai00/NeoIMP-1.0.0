@@ -78,10 +78,10 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     float
     getResolutionPpi() const;
 
-    IColorModelImpl<typename GilBkgImageT::value_type> &
+    const IColorModelImpl<typename GilBkgImageT::value_type> &
     getBkgColorModel() const;
 
-    IColorModelImpl<typename GilImageT::value_type> &
+    const IColorModelImpl<typename GilImageT::value_type> &
     getColorModel() const;
 
     std::size_t

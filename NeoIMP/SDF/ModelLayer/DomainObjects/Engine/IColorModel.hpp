@@ -68,8 +68,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Returns:    The maximum value allowed in this channel.
     virtual float
     getChannelMaxValue(std::size_t channelNum) const = 0;
-
-
   };
 
   // Exposes the pixel implementation.

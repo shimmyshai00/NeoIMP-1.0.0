@@ -33,7 +33,7 @@
 
 namespace SDF::ModelLayer::Repositories {
   typedef fruit::Component<
-    IRepository<DomainObjects::Engine::Gil::AnyGilImage>,
+    IRepository<DomainObjects::Engine::Gil::Any_Image>,
     IRepository<DomainObjects::Engine::Buffers::GridRendering>,
     IRepository<DomainObjects::Engine::Viewpoint>
   >

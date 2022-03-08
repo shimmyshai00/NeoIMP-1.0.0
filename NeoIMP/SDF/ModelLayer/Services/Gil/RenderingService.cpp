@@ -155,7 +155,7 @@ namespace SDF::ModelLayer::Services::Gil {
   }
 
   RenderingService::RenderingService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::AnyGilImage> *imageRepository,
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
     Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *renderingRepository
   )
     : m_imageRepository(imageRepository),
@@ -169,7 +169,7 @@ namespace SDF::ModelLayer::Services::Gil {
     // NB: shift this complex rendering logic down into a new DomainObject?
     using namespace DomainObjects;
 
-    Engine::Gil::AnyGilImage *image(m_imageRepository->retrieve(imageHandle));
+    Engine::Gil::Any_Image *image(m_imageRepository->retrieve(imageHandle));
     if(image != nullptr) {
       std::size_t imageWidth(image->getWidthPx());
       std::size_t imageHeight(image->getHeightPx());

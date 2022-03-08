@@ -25,7 +25,7 @@
  */
 
 #include "Image.hpp"
-#include "AnyImage.hpp"
+#include "ImageVariant.hpp"
 
 #include <boost/gil/image.hpp>
 #include <boost/gil/typedefs.hpp>
@@ -33,7 +33,7 @@
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   typedef Image<boost::gil::rgb8_image_t, boost::gil::rgb8_image_t> RGB24_888_Image;
 
-  typedef AnyImage<boost::gil::rgb8_image_t> AnyGilImage;
+  typedef ImageVariant<RGB24_888_Image> Any_Image;
 }
 
 #endif

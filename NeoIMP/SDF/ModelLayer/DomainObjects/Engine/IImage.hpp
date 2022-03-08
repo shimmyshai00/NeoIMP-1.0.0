@@ -83,14 +83,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Get the background color model used by this image.
     // Parameters: None.
     // Returns:    The background color model used.
-    virtual IColorModel &
+    virtual const IColorModel &
     getBkgColorModel() const = 0;
 
     // Function:   getColorModel
     // Purpose:    Get the color model used by this image.
     // Parameters: None.
     // Returns:    The color model used.
-    virtual IColorModel &
+    virtual const IColorModel &
     getColorModel() const = 0;
 
     // Function:   getNumLayers
