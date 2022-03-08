@@ -55,16 +55,16 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
           Math::Rect<std::size_t> cellDestIntersect(cellRect.intersect(m_destRect));
           if(!m_gridBuffer->isCellAllocated(xCell, yCell)) {
             m_gridBuffer->allocateCell(xCell, yCell);
-
-            typename View::point_t ulPoint = invMapping(cellDestIntersect.getUpperLeft());
-            typename View::point_t lrPoint = invMapping(cellDestIntersect.getLowerRight());
-            typename View::point_t dims(lrPoint.x - ulPoint.x, lrPoint.y - ulPoint.y);
-
-            View subView = boost::gil::subimage_view(src, ulPoint, dims);
-
-            Buffers::RenderCell *cell = m_gridBuffer->findCell(xCell, yCell);
-            Impl::renderOntoCell(cell, cellDestIntersect, subView);
           }
+
+          typename View::point_t ulPoint = invMapping(cellDestIntersect.getUpperLeft());
+          typename View::point_t lrPoint = invMapping(cellDestIntersect.getLowerRight());
+          typename View::point_t dims(lrPoint.x - ulPoint.x, lrPoint.y - ulPoint.y);
+
+          View subView = boost::gil::subimage_view(src, ulPoint, dims);
+
+          Buffers::RenderCell *cell = m_gridBuffer->findCell(xCell, yCell);
+          Impl::renderOntoCell(cell, cellDestIntersect, subView);
         }
       }
     }

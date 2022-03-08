@@ -52,7 +52,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
     unsigned char *outYPtr = outOriginPtr +
       ((outRowStride * dstRect.y1()) + (outPixelWidth * dstRect.x1()));
     for(std::size_t y(dstRect.y1()); y < dstRect.y2(); ++y) {
-      unsigned char *outXPtr = outOriginPtr;
+      unsigned char *outXPtr = outYPtr;
       for(std::size_t x(dstRect.x1()); x < dstRect.x2(); ++x) {
         float inY = ((0.0f + y - dstRect.y1()) / dstRect.getHeight()) * view.height();
         float inX = ((0.0f + x - dstRect.x1()) / dstRect.getWidth()) * view.width();
