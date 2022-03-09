@@ -72,6 +72,20 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
     float
     viewportY2() const;
 
+    // Function:   viewportWidth
+    // Purpose:    Gets the viewport width in image space.
+    // Parameters: None.
+    // Returns:    The viewport width in image space.
+    float
+    viewportWidth() const;
+
+    // Function:   viewportHeight
+    // Purpose:    Gets the viewport height in image space.
+    // Parameters: None.
+    // Returns:    The viewport height in image space.
+    float
+    viewportHeight() const;
+
     // Function:   viewportMag
     // Purpose:    Gets the viewport magnification.
     // Parameters: None.

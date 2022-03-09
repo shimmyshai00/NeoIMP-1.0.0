@@ -27,6 +27,7 @@
 #include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
+#include "../../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
@@ -46,6 +47,7 @@ namespace SDF::ModelLayer::Services::Gil {
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
+    UILayer::AbstractModel::IGetDocumentMetricsService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent();

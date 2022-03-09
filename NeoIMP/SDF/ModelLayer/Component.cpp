@@ -33,6 +33,7 @@ namespace SDF::ModelLayer {
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
+    UILayer::AbstractModel::IGetDocumentMetricsService,
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IGetViewCoordinatesService,
     UILayer::AbstractModel::ISetViewCoordinatesService,

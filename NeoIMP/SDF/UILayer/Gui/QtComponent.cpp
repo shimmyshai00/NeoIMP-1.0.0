@@ -34,6 +34,7 @@ namespace SDF::UILayer::Gui {
       AbstractModel::IDocumentRequirementsService,
       AbstractModel::ICreateImageService,
       AbstractModel::IGetDocumentNameService,
+      AbstractModel::IGetDocumentMetricsService,
       AbstractModel::IGetViewCoordinatesService,
       AbstractModel::ISetViewCoordinatesService,
       AbstractModel::IRenderingService

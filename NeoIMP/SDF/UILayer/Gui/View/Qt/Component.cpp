@@ -33,6 +33,7 @@ namespace SDF::UILayer::Gui::View::Qt {
       AbstractModel::IDocumentRequirementsService,
       AbstractModel::ICreateImageService,
       AbstractModel::IGetDocumentNameService,
+      AbstractModel::IGetDocumentMetricsService,
       AbstractModel::IGetViewCoordinatesService,
       AbstractModel::ISetViewCoordinatesService,
       AbstractModel::IRenderingService

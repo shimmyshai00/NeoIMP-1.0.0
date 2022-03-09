@@ -66,7 +66,7 @@ namespace SDF::ModelLayer::Repositories {
   ObjT *
   MemoryOnlyRepository<ObjT>::retrieve(Common::Handle uid) {
     if(m_objMap.find(uid) == m_objMap.end()) {
-      return nullptr;
+      throw ObjectNotFoundInRepositoryException();
     } else {
       return m_objMap[uid].get();
     }

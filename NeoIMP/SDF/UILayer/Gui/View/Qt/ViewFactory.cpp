@@ -26,12 +26,14 @@
 #include "../../Controller/MainWindow/OnNew.hpp"
 #include "../../Controller/MainWindow/OnExit.hpp"
 #include "../../Controller/NewDocumentDialog/OnAccept.hpp"
+#include "../../Controller/DocumentView/OnScroll.hpp"
 
 namespace SDF::UILayer::Gui::View::Qt {
   ViewFactory::ViewFactory(AbstractModel::IMetricsService *metricsService,
                            AbstractModel::IDocumentPrefabsService *documentPrefabsService,
                            AbstractModel::IDocumentRequirementsService *documentRequirementsService,
                            AbstractModel::ICreateImageService *createImageService,
+                           AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
                            AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                            AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
                            AbstractModel::IRenderingService *renderingService
@@ -40,6 +42,7 @@ namespace SDF::UILayer::Gui::View::Qt {
       m_documentPrefabsService(documentPrefabsService),
       m_documentRequirementsService(documentRequirementsService),
       m_createImageService(createImageService),
+      m_getDocumentMetricsService(getDocumentMetricsService),
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_setViewCoordinatesService(setViewCoordinatesService),
       m_renderingService(renderingService),
@@ -87,9 +90,19 @@ namespace SDF::UILayer::Gui::View::Qt {
                                   QWidget *parent
                                  )
   {
-    DocumentView *rv = new DocumentView(m_renderingService, m_getViewCoordinatesService,
-      documentHandle, parent);
+    DocumentView *rv = new DocumentView(m_renderingService, m_getDocumentMetricsService,
+      m_getViewCoordinatesService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
+
+    std::unique_ptr<IController<Common::Handle, float>> hScrollController;
+    hScrollController = std::make_unique<Controller::DocumentView::OnHScroll>(
+      m_setViewCoordinatesService);
+    rv->hookOnHScroll(std::move(hScrollController))->connect();
+
+    std::unique_ptr<IController<Common::Handle, float>> vScrollController;
+    vScrollController = std::make_unique<Controller::DocumentView::OnVScroll>(
+      m_setViewCoordinatesService);
+    rv->hookOnVScroll(std::move(vScrollController))->connect();
 
     return rv;
   }

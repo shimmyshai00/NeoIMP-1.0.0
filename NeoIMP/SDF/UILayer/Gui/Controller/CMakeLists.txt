@@ -1,2 +1,3 @@
 add_subdirectory(MainWindow)
 add_subdirectory(NewDocumentDialog)
+add_subdirectory(DocumentView)

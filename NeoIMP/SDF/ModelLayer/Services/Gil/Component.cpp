@@ -25,6 +25,7 @@
 #include "DocumentRequirementsService.hpp"
 #include "CreateImageService.hpp"
 #include "GetDocumentNameService.hpp"
+#include "GetDocumentMetricsService.hpp"
 #include "RenderingService.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
@@ -37,6 +38,7 @@ namespace SDF::ModelLayer::Services::Gil {
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
+    UILayer::AbstractModel::IGetDocumentMetricsService,
     UILayer::AbstractModel::IRenderingService
   >
   getComponent() {
@@ -44,6 +46,7 @@ namespace SDF::ModelLayer::Services::Gil {
       .bind<UILayer::AbstractModel::IDocumentRequirementsService, DocumentRequirementsService>()
       .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>()
       .bind<UILayer::AbstractModel::IGetDocumentNameService, GetDocumentNameService>()
+      .bind<UILayer::AbstractModel::IGetDocumentMetricsService, GetDocumentMetricsService>()
       .bind<UILayer::AbstractModel::IRenderingService, RenderingService>();
   }
 }

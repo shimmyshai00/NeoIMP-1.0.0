@@ -26,6 +26,7 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
+#include "../../../AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "CustomWidgets/ImageEditor/Widget.hpp"
 
@@ -40,10 +41,17 @@ namespace SDF::UILayer::Gui::View::Qt {
     Q_OBJECT;
   public:
     DocumentView(AbstractModel::IRenderingService *renderingService,
+                 AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
                  AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                  Common::Handle documentHandle,
                  QWidget *parent = nullptr
                 );
+
+    Common::PIConnection
+    hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
+
+    Common::PIConnection
+    hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
   private:
     AbstractModel::IRenderingService *m_renderingService;
     Common::Handle m_documentHandle;

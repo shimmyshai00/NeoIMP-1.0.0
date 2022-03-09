@@ -29,6 +29,7 @@
 #include "../../../AbstractModel/IDocumentPrefabsService.hpp"
 #include "../../../AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../../AbstractModel/ICreateImageService.hpp"
+#include "../../../AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
@@ -52,6 +53,7 @@ namespace SDF::UILayer::Gui::View::Qt {
                        AbstractModel::IDocumentPrefabsService *documentPrefabsService,
                        AbstractModel::IDocumentRequirementsService *documentRequirementsService,
                        AbstractModel::ICreateImageService *createImageService,
+                       AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
                        AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                        AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
                        AbstractModel::IRenderingService *renderingService
@@ -75,6 +77,7 @@ namespace SDF::UILayer::Gui::View::Qt {
     AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
     AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;
     AbstractModel::ICreateImageService *m_createImageService;
+    AbstractModel::IGetDocumentMetricsService *m_getDocumentMetricsService;
     AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
     AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
     AbstractModel::IRenderingService *m_renderingService;

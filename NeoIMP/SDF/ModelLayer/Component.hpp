@@ -28,6 +28,7 @@
 #include "../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../UILayer/AbstractModel/IGetDocumentNameService.hpp"
+#include "../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../UILayer/AbstractModel/IMetricsService.hpp"
 #include "../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
@@ -41,6 +42,7 @@ namespace SDF::ModelLayer {
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
+    UILayer::AbstractModel::IGetDocumentMetricsService,
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IGetViewCoordinatesService,
     UILayer::AbstractModel::ISetViewCoordinatesService,

@@ -25,25 +25,37 @@
 
 #include "../../../../../../Common/FunctionListener.hpp"
 
+#include <cmath>
+
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   Widget::Widget(AbstractModel::IRenderingService *renderingService,
+                 AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
                  AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                  QWidget *parent
                 )
     : QWidget(parent),
+      m_getDocumentMetricsService(getDocumentMetricsService),
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_gridLayout(new QGridLayout(this)),
       m_horizontalRuler(new Impl::RulerWidget(::Qt::Horizontal, nullptr)),
       m_verticalRuler(new Impl::RulerWidget(::Qt::Vertical, nullptr)),
       m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr)),
       m_horizontalScroll(new QScrollBar(::Qt::Horizontal, nullptr)),
-      m_verticalScroll(new QScrollBar(::Qt::Vertical, nullptr))
+      m_verticalScroll(new QScrollBar(::Qt::Vertical, nullptr)),
+      m_documentHandle(Common::HANDLE_INVALID)
   {
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
     m_gridLayout->addWidget(m_renderDisplayWidget, 1, 1);
     m_gridLayout->addWidget(m_verticalScroll, 1, 2);
     m_gridLayout->addWidget(m_horizontalScroll, 2, 1);
+
+    connect(m_horizontalScroll, &QScrollBar::sliderMoved, [&](int value) {
+      m_hScrollEvent.trigger(m_documentHandle, value);
+    });
+    connect(m_verticalScroll, &QScrollBar::sliderMoved, [&](int value) {
+      m_vScrollEvent.trigger(m_documentHandle, value);
+    });
   }
 
   Widget::~Widget() {
@@ -54,25 +66,47 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
 
   void
   Widget::setEditedImage(Common::Handle imageHandle) {
+    using namespace UILayer::AbstractModel::Defs;
+
     printf("psize: %d %d\n", size().width(), size().height());
     if(m_viewportUpdateConn) {
       m_viewportUpdateConn->disconnect();
     }
     m_renderDisplayWidget->setDisplayedImage(imageHandle);
+    m_documentHandle = imageHandle;
+
     m_renderDisplayWidget->setAll(
       m_getViewCoordinatesService->getViewingPointX(imageHandle),
       m_getViewCoordinatesService->getViewingPointY(imageHandle),
       m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
     );
+
+    m_horizontalRuler->setAll(
+      m_getViewCoordinatesService->getViewingPointX(imageHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+    );
+
+    m_verticalRuler->setAll(
+      m_getViewCoordinatesService->getViewingPointY(imageHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+    );
+
+    recalibrateScrollBars(false);
     update();
 
     auto lis = std::shared_ptr<Common::IListener<float, float, float>>(
       new Common::FunctionListener<float, float, float>(
         [&](float x1, float y1, float mag) {
           if(m_renderDisplayWidget->viewportMag() != mag) {
+            m_horizontalRuler->setAll(x1, mag);
+            m_verticalRuler->setAll(y1, mag);
             m_renderDisplayWidget->setAll(x1, y1, mag);
+            recalibrateScrollBars(false);
           } else {
+            m_horizontalRuler->setViewportP1(x1);
+            m_verticalRuler->setViewportP1(y1);
             m_renderDisplayWidget->setViewportUpperLeft(x1, y1);
+            recalibrateScrollBars(true);
           }
         }
       )
@@ -100,5 +134,77 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   float
   Widget::viewportY2() const {
     return m_renderDisplayWidget->viewportY2();
+  }
+
+  Common::PIConnection
+  Widget::hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller) {
+    return m_hScrollEvent.hook(std::move(controller));
+  }
+
+  Common::PIConnection
+  Widget::hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> controller) {
+    return m_vScrollEvent.hook(std::move(controller));
+  }
+}
+
+namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
+  // Protected event handlers.
+  void
+  Widget::resizeEvent(QResizeEvent *event) {
+    recalibrateScrollBars(false);
+  }
+}
+
+namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
+  // Private helper functions.
+  std::pair<int, int>
+  Widget::calcScrollRange(float dimensionLength, float magnif, float viewportLength) {
+    int minVal(0);
+    int maxVal(std::max(0,
+      static_cast<int>(floor(((dimensionLength * magnif) - viewportLength) + 0.5f))));
+
+    return std::make_pair(minVal, maxVal);
+  }
+
+  int
+  Widget::calcScrollPos(float imageSpacePos, float magnif) {
+    return floor(imageSpacePos*magnif + 0.5f);
+  }
+
+  void
+  Widget::recalibrateScrollBars(bool positionsOnly) {
+    using namespace UILayer::AbstractModel::Defs;
+
+    if(!positionsOnly) {
+      auto hScrollRange = calcScrollRange(
+        m_getDocumentMetricsService->getDocumentWidth(m_documentHandle, LENGTH_UNIT_PIXEL),
+        m_renderDisplayWidget->viewportMag(),
+        m_renderDisplayWidget->viewportWidth()
+      );
+
+      m_horizontalScroll->setRange(hScrollRange.first, hScrollRange.second);
+
+      auto vScrollRange = calcScrollRange(
+        m_getDocumentMetricsService->getDocumentHeight(m_documentHandle, LENGTH_UNIT_PIXEL),
+        m_renderDisplayWidget->viewportMag(),
+        m_renderDisplayWidget->viewportHeight()
+      );
+
+      m_verticalScroll->setRange(vScrollRange.first, vScrollRange.second);
+    }
+
+    int hScrollPos = calcScrollPos(
+      m_getViewCoordinatesService->getViewingPointX(m_documentHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentHandle)
+    );
+
+    m_horizontalScroll->setValue(hScrollPos);
+
+    int vScrollPos = calcScrollPos(
+      m_getViewCoordinatesService->getViewingPointY(m_documentHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentHandle)
+    );
+
+    m_verticalScroll->setValue(vScrollPos);
   }
 }

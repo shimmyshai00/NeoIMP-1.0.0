@@ -27,7 +27,11 @@
 #include "../../../../../../Common/Handle.hpp"
 #include "../../../../../../Common/IConnection.hpp"
 #include "../../../../../AbstractModel/IRenderingService.hpp"
+#include "../../../../../AbstractModel/IRenderingService.hpp"
+#include "../../../../../AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../../../../AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../../../IController.hpp"
+#include "../../QtEvent.hpp"
 #include "Impl/RulerWidget.hpp"
 #include "Impl/RenderDisplayWidget.hpp"
 
@@ -35,16 +39,19 @@
 #include <QGridLayout>
 #include <QSize>
 #include <QScrollBar>
+#include <QResizeEvent>
 
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   // Class:      Widget
   // Purpose:    Defines the full image-editor custom widget. This is the one you should use in
-  //             user code.
+  //             user code. Note that this also acts in part like a view in that it can hook
+  //             controllers to manipulate the model layer.
   // Parameters: None.
   class Widget : public QWidget {
     Q_OBJECT
   public:
     Widget(AbstractModel::IRenderingService *renderingService,
+           AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
            AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
            QWidget *parent = nullptr
           );
@@ -73,7 +80,17 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
 
     float
     viewportY2() const;
+
+    Common::PIConnection
+    hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
+
+    Common::PIConnection
+    hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
+  protected:
+    void
+    resizeEvent(QResizeEvent *event) override;
   private:
+    AbstractModel::IGetDocumentMetricsService *m_getDocumentMetricsService;
     AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
 
     QGridLayout *m_gridLayout;
@@ -86,6 +103,20 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     QScrollBar *m_verticalScroll;
 
     Common::PIConnection m_viewportUpdateConn;
+
+    QtEvent<Common::Handle, float> m_hScrollEvent;
+    QtEvent<Common::Handle, float> m_vScrollEvent;
+
+    Common::Handle m_documentHandle;
+
+    std::pair<int, int>
+    calcScrollRange(float dimensionLength, float magnif, float viewportLength);
+
+    int
+    calcScrollPos(float imageSpacePos, float magnif);
+
+    void
+    recalibrateScrollBars(bool positionsOnly);
   };
 }
 
