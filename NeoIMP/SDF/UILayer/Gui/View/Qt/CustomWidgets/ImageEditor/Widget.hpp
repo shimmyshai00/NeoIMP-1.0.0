@@ -25,13 +25,16 @@
  */
 
 #include "../../../../../../Common/Handle.hpp"
+#include "../../../../../../Common/IConnection.hpp"
 #include "../../../../../AbstractModel/IRenderingService.hpp"
+#include "../../../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "Impl/RulerWidget.hpp"
 #include "Impl/RenderDisplayWidget.hpp"
 
 #include <QWidget>
 #include <QGridLayout>
 #include <QSize>
+#include <QScrollBar>
 
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   // Class:      Widget
@@ -42,6 +45,7 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     Q_OBJECT
   public:
     Widget(AbstractModel::IRenderingService *renderingService,
+           AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
            QWidget *parent = nullptr
           );
 
@@ -70,11 +74,18 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     float
     viewportY2() const;
   private:
+    AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
+
     QGridLayout *m_gridLayout;
 
     Impl::RulerWidget *m_horizontalRuler;
     Impl::RulerWidget *m_verticalRuler;
     Impl::RenderDisplayWidget *m_renderDisplayWidget;
+
+    QScrollBar *m_horizontalScroll;
+    QScrollBar *m_verticalScroll;
+
+    Common::PIConnection m_viewportUpdateConn;
   };
 }
 

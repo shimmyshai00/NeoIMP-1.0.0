@@ -89,6 +89,11 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
     return m_viewUpperLeftY + (size().height() / m_viewMagnification);
   }
 
+  float
+  RenderDisplayWidget::viewportMag() const {
+    return m_viewMagnification;
+  }
+
   void
   RenderDisplayWidget::setViewportX1(float x1) {
     m_viewUpperLeftX = x1;

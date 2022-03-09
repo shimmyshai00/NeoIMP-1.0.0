@@ -29,6 +29,8 @@
 #include "../AbstractModel/IDocumentRequirementsService.hpp"
 #include "../AbstractModel/ICreateImageService.hpp"
 #include "../AbstractModel/IGetDocumentNameService.hpp"
+#include "../AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../AbstractModel/IRenderingService.hpp"
 
 #include "../IApplication.hpp"
@@ -43,6 +45,8 @@ namespace SDF::UILayer::Gui {
       AbstractModel::IDocumentRequirementsService,
       AbstractModel::ICreateImageService,
       AbstractModel::IGetDocumentNameService,
+      AbstractModel::IGetViewCoordinatesService,
+      AbstractModel::ISetViewCoordinatesService,
       AbstractModel::IRenderingService
     >,
     IApplication

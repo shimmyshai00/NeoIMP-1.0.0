@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_SERVICES_MESSAGES_OBJECT_HPP
+#define SDF_MODELLAYER_SERVICES_MESSAGES_OBJECT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.cpp
- * PURPOSE: Implements the DI component for the Qt-based GUI subsystem.
+ * FILE:    Object.hpp
+ * PURPOSE: Defines messages related to object creation and destruction.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "QtComponent.hpp"
+#include "../../../Common/Handle.hpp"
 
-#include "View/Qt/Component.hpp"
-#include "QtApplication.hpp"
+namespace SDF::ModelLayer::Services::Messages {
+  enum EObjectMessage {
+    OBJECT_ADDED,
+    OBJECT_REMOVED
+  };
 
-namespace SDF::UILayer::Gui {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::IDocumentPrefabsService,
-      AbstractModel::IDocumentRequirementsService,
-      AbstractModel::ICreateImageService,
-      AbstractModel::IGetDocumentNameService,
-      AbstractModel::IGetViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService
-    >,
-    IApplication
-  >
-  getQtComponent() {
-    return fruit::createComponent()
-      .bind<IApplication, QtApplication>()
-      .install(View::Qt::getComponent);
-  }
+  enum EObjectType {
+    OBJECT_IMAGE
+  };
 }
+
+namespace SDF::ModelLayer::Services::Messages {
+  struct Object {
+    EObjectMessage m_messageType;
+    EObjectType m_objectType;
+    Common::Handle m_objectHandle;
+
+    Object(EObjectMessage messageType,
+           EObjectType objectType,
+           Common::Handle objectHandle
+          )
+      : m_messageType(messageType),
+        m_objectType(objectType),
+        m_objectHandle(objectHandle)
+    {
+    }
+  };
+}
+
+#endif

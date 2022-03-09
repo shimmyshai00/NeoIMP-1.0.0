@@ -24,6 +24,7 @@
 #include "Component.hpp"
 
 #include "Repositories/Component.hpp"
+#include "MessageSystem/Component.hpp"
 #include "Services/Component.hpp"
 
 namespace SDF::ModelLayer {
@@ -40,6 +41,7 @@ namespace SDF::ModelLayer {
   getComponent() {
     return fruit::createComponent()
       .install(Repositories::getComponent)
+      .install(MessageSystem::getComponent)
       .install(Services::getComponent);
   }
 }

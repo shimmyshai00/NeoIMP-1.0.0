@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.cpp
- * PURPOSE: Implements the DI component for the Qt-based GUI subsystem.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the message system subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "QtComponent.hpp"
+#include "Component.hpp"
 
-#include "View/Qt/Component.hpp"
-#include "QtApplication.hpp"
+#include "../Services/Messages/Object.hpp"
+#include "AllToAll.hpp"
 
-namespace SDF::UILayer::Gui {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::IDocumentPrefabsService,
-      AbstractModel::IDocumentRequirementsService,
-      AbstractModel::ICreateImageService,
-      AbstractModel::IGetDocumentNameService,
-      AbstractModel::IGetViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService
-    >,
-    IApplication
-  >
-  getQtComponent() {
+namespace SDF::ModelLayer::MessageSystem {
+  Component
+  getComponent() {
     return fruit::createComponent()
-      .bind<IApplication, QtApplication>()
-      .install(View::Qt::getComponent);
+      .bind<IChannel<Services::Messages::Object>, AllToAll<Services::Messages::Object>>();
   }
 }

@@ -23,29 +23,63 @@
 
 #include "Widget.hpp"
 
+#include "../../../../../../Common/FunctionListener.hpp"
+
 namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   Widget::Widget(AbstractModel::IRenderingService *renderingService,
+                 AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                  QWidget *parent
                 )
     : QWidget(parent),
+      m_getViewCoordinatesService(getViewCoordinatesService),
       m_gridLayout(new QGridLayout(this)),
       m_horizontalRuler(new Impl::RulerWidget(::Qt::Horizontal, nullptr)),
       m_verticalRuler(new Impl::RulerWidget(::Qt::Vertical, nullptr)),
-      m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr))
+      m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr)),
+      m_horizontalScroll(new QScrollBar(::Qt::Horizontal, nullptr)),
+      m_verticalScroll(new QScrollBar(::Qt::Vertical, nullptr))
   {
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
     m_gridLayout->addWidget(m_renderDisplayWidget, 1, 1);
+    m_gridLayout->addWidget(m_verticalScroll, 1, 2);
+    m_gridLayout->addWidget(m_horizontalScroll, 2, 1);
   }
 
   Widget::~Widget() {
+    if(m_viewportUpdateConn) {
+      m_viewportUpdateConn->disconnect();
+    }
   }
 
   void
   Widget::setEditedImage(Common::Handle imageHandle) {
     printf("psize: %d %d\n", size().width(), size().height());
+    if(m_viewportUpdateConn) {
+      m_viewportUpdateConn->disconnect();
+    }
     m_renderDisplayWidget->setDisplayedImage(imageHandle);
+    m_renderDisplayWidget->setAll(
+      m_getViewCoordinatesService->getViewingPointX(imageHandle),
+      m_getViewCoordinatesService->getViewingPointY(imageHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+    );
     update();
+
+    auto lis = std::shared_ptr<Common::IListener<float, float, float>>(
+      new Common::FunctionListener<float, float, float>(
+        [&](float x1, float y1, float mag) {
+          if(m_renderDisplayWidget->viewportMag() != mag) {
+            m_renderDisplayWidget->setAll(x1, y1, mag);
+          } else {
+            m_renderDisplayWidget->setViewportUpperLeft(x1, y1);
+          }
+        }
+      )
+    );
+
+    m_viewportUpdateConn = m_getViewCoordinatesService->addViewingPointListener(imageHandle, lis);
+    m_viewportUpdateConn->connect();
   }
 
   float

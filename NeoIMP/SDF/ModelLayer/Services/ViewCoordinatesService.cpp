@@ -26,12 +26,29 @@
 #include "../../Common/FunctionListener.hpp"
 #include "../Exceptions.hpp"
 
+#include <boost/uuid/uuid_generators.hpp>
+
 namespace SDF::ModelLayer::Services {
   ViewCoordinatesService::ViewCoordinatesService(
-    Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository
+    Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository,
+    MessageSystem::IChannel<Messages::Object> *objectMessageChannel
   )
-    : m_viewpointRepository(viewpointRepository)
+    : m_uuid(boost::uuids::random_generator()()),
+      m_viewpointRepository(viewpointRepository)
   {
+    m_messageConn = objectMessageChannel->subscribe(this, [](const Messages::Object &msg) {
+      return msg.m_objectType == Messages::OBJECT_IMAGE;
+    });
+    m_messageConn->connect();
+  }
+
+  ViewCoordinatesService::~ViewCoordinatesService() {
+    m_messageConn->disconnect();
+  }
+
+  boost::uuids::uuid
+  ViewCoordinatesService::getUuid() const {
+    return m_uuid;
   }
 
   float
@@ -150,6 +167,23 @@ namespace SDF::ModelLayer::Services {
         vp->m_magnification);
     } catch(ObjectNotFoundInRepositoryException) {
       throw ImageNotFoundException(imageHandle);
+    }
+  }
+
+  void
+  ViewCoordinatesService::receiveMessage(const MessageSystem::IChannel<Messages::Object> *channel,
+                                         const boost::uuids::uuid senderUuid,
+                                         const Messages::Object &message
+                                        )
+  {
+    using namespace DomainObjects;
+
+    if(message.m_objectType == Messages::OBJECT_IMAGE) {
+      std::unique_ptr<Engine::Viewpoint> viewpoint(new Engine::Viewpoint(
+        DomainObjects::Engine::ImagePoint(0.0f, 0.0f), 1.0f));
+      m_viewpointRepository->insert(message.m_objectHandle, std::move(viewpoint));
+    } else if(message.m_objectType == Messages::OBJECT_IMAGE) {
+      m_viewpointRepository->erase(message.m_objectHandle);
     }
   }
 

@@ -30,23 +30,37 @@
 
 #include "../../Repositories/IRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../../DomainObjects/IUUIDable.hpp"
 
+#include "../../MessageSystem/IChannel.hpp"
+#include "../Messages/Object.hpp"
+
+#include <boost/uuid/uuid.hpp>
 #include <fruit/fruit.h>
 
 namespace SDF::ModelLayer::Services::Gil {
   // Class:      CreateImageService
   // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
   // Parameters: None.
-  class CreateImageService : public UILayer::AbstractModel::ICreateImageService {
+  class CreateImageService : public UILayer::AbstractModel::ICreateImageService,
+                             public DomainObjects::IUUIDable
+  {
   public:
     INJECT(CreateImageService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+      MessageSystem::IChannel<Messages::Object> *objectMessageChannel
     ));
+
+    boost::uuids::uuid
+    getUuid() const;
 
     Common::Handle
     createImage(UILayer::AbstractModel::Defs::ImageSpec spec);
   private:
+    boost::uuids::uuid m_uuid;
+
     Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    MessageSystem::IChannel<Messages::Object> *m_objectMessageChannel;
 
     Common::Handle m_nextHandle;
   };

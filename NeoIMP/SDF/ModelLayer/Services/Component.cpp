@@ -32,7 +32,8 @@ namespace SDF::ModelLayer::Services {
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
       Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
-      Repositories::IRepository<DomainObjects::Engine::Viewpoint>
+      Repositories::IRepository<DomainObjects::Engine::Viewpoint>,
+      MessageSystem::IChannel<Messages::Object>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,

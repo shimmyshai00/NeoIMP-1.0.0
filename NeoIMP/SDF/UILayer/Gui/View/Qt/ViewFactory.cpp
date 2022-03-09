@@ -32,12 +32,16 @@ namespace SDF::UILayer::Gui::View::Qt {
                            AbstractModel::IDocumentPrefabsService *documentPrefabsService,
                            AbstractModel::IDocumentRequirementsService *documentRequirementsService,
                            AbstractModel::ICreateImageService *createImageService,
+                           AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+                           AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
                            AbstractModel::IRenderingService *renderingService
                           )
     : m_metricsService(metricsService),
       m_documentPrefabsService(documentPrefabsService),
       m_documentRequirementsService(documentRequirementsService),
       m_createImageService(createImageService),
+      m_getViewCoordinatesService(getViewCoordinatesService),
+      m_setViewCoordinatesService(setViewCoordinatesService),
       m_renderingService(renderingService),
       m_viewManager(nullptr)
   {
@@ -83,7 +87,8 @@ namespace SDF::UILayer::Gui::View::Qt {
                                   QWidget *parent
                                  )
   {
-    DocumentView *rv = new DocumentView(m_renderingService, documentHandle, parent);
+    DocumentView *rv = new DocumentView(m_renderingService, m_getViewCoordinatesService,
+      documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     return rv;

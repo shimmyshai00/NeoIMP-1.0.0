@@ -31,6 +31,8 @@
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../Repositories/IRepository.hpp"
+#include "../../MessageSystem/IChannel.hpp"
+#include "../Messages/Object.hpp"
 
 #include <fruit/fruit.h>
 
@@ -38,7 +40,8 @@ namespace SDF::ModelLayer::Services::Gil {
   fruit::Component<
     fruit::Required<
       Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>
+      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
+      MessageSystem::IChannel<Messages::Object>
     >,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,

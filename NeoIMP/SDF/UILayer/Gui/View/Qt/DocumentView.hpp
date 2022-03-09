@@ -26,6 +26,7 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
+#include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "CustomWidgets/ImageEditor/Widget.hpp"
 
 #include <QWidget>
@@ -39,6 +40,7 @@ namespace SDF::UILayer::Gui::View::Qt {
     Q_OBJECT;
   public:
     DocumentView(AbstractModel::IRenderingService *renderingService,
+                 AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
                  Common::Handle documentHandle,
                  QWidget *parent = nullptr
                 );

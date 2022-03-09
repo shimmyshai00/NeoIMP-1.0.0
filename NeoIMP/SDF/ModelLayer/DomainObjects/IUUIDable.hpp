@@ -1,9 +1,12 @@
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_IUUIDABLE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_IUUIDABLE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.cpp
- * PURPOSE: Implements the DI component for the Qt-based GUI subsystem.
+ * FILE:    IUUIDable.hpp
+ * PURPOSE: Defines the IUUIDable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,28 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "QtComponent.hpp"
+#include <boost/uuid/uuid.hpp>
 
-#include "View/Qt/Component.hpp"
-#include "QtApplication.hpp"
+namespace SDF::ModelLayer::DomainObjects {
+  // Class:      IUUIDable
+  // Purpose:    Defines an interface for objects identifiable with a universal unique identifier
+  //             (UUID).
+  // Parameters: None.
+  class IUUIDable {
+  public:
+    virtual ~IUUIDable() = default;
 
-namespace SDF::UILayer::Gui {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::IDocumentPrefabsService,
-      AbstractModel::IDocumentRequirementsService,
-      AbstractModel::ICreateImageService,
-      AbstractModel::IGetDocumentNameService,
-      AbstractModel::IGetViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService
-    >,
-    IApplication
-  >
-  getQtComponent() {
-    return fruit::createComponent()
-      .bind<IApplication, QtApplication>()
-      .install(View::Qt::getComponent);
-  }
+    // Function:   getUuid
+    // Purpose:    Gets this object's UUID.
+    // Parameters: None.
+    // Returns:    The UUID of the domain object.
+    virtual boost::uuids::uuid
+    getUuid() const = 0;
+  };
 }
+
+#endif

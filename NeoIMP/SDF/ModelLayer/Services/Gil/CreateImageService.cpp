@@ -27,13 +27,23 @@
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
 
+#include <boost/uuid/uuid_generators.hpp>
+
 namespace SDF::ModelLayer::Services::Gil {
   CreateImageService::CreateImageService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    MessageSystem::IChannel<Messages::Object> *objectMessageChannel
   )
-    : m_imageRepository(imageRepository),
+    : m_uuid(boost::uuids::random_generator()()),
+      m_imageRepository(imageRepository),
+      m_objectMessageChannel(objectMessageChannel),
       m_nextHandle(0)
   {
+  }
+
+  boost::uuids::uuid
+  CreateImageService::getUuid() const {
+    return m_uuid;
   }
 
   Common::Handle
@@ -83,6 +93,9 @@ namespace SDF::ModelLayer::Services::Gil {
 
     Common::Handle rv(m_nextHandle++);
     m_imageRepository->insert(rv, std::move(image));
+
+    Messages::Object msg(Messages::OBJECT_ADDED, Messages::OBJECT_IMAGE, rv);
+    m_objectMessageChannel->publishMessage(getUuid(), msg);
 
     return rv;
   }

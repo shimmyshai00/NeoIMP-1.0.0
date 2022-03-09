@@ -33,6 +33,8 @@ namespace SDF::UILayer::Gui::View::Qt {
       AbstractModel::IDocumentRequirementsService,
       AbstractModel::ICreateImageService,
       AbstractModel::IGetDocumentNameService,
+      AbstractModel::IGetViewCoordinatesService,
+      AbstractModel::ISetViewCoordinatesService,
       AbstractModel::IRenderingService
     >,
     IViewManager<EViewType>

@@ -32,7 +32,11 @@
 #include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../Repositories/IRepository.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
+#include "../MessageSystem/ISubscriber.hpp"
+#include "../MessageSystem/IChannel.hpp"
+#include "Messages/Object.hpp"
 
+#include <boost/uuid/uuid.hpp>
 #include <fruit/fruit.h>
 
 #include <memory>
@@ -42,12 +46,19 @@ namespace SDF::ModelLayer::Services {
   // Purpose:    Implements the MVC service to manage image viewing coordinates.
   // Parameters: None.
   class ViewCoordinatesService : public UILayer::AbstractModel::IGetViewCoordinatesService,
-                                 public UILayer::AbstractModel::ISetViewCoordinatesService
+                                 public UILayer::AbstractModel::ISetViewCoordinatesService,
+                                 public MessageSystem::ISubscriber<Messages::Object>
   {
   public:
     INJECT(ViewCoordinatesService(
-      Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository
+      Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository,
+      MessageSystem::IChannel<Messages::Object> *objectMessageChannel
     ));
+
+    ~ViewCoordinatesService();
+
+    boost::uuids::uuid
+    getUuid() const;
 
     float
     getViewingPointX(Common::Handle imageHandle) const;
@@ -86,13 +97,23 @@ namespace SDF::ModelLayer::Services {
                     float mag
                    );
 
+    void
+    receiveMessage(const MessageSystem::IChannel<Messages::Object> *channel,
+                   const boost::uuids::uuid senderUuid,
+                   const Messages::Object &message
+                  );
+
     Common::PIConnection
     addViewingPointListener(Common::Handle imageHandle,
                             std::shared_ptr<Common::IListener<float, float, float>> listener
                            );
   private:
+    boost::uuids::uuid m_uuid;
+
     Repositories::IRepository<DomainObjects::Engine::Viewpoint> *m_viewpointRepository;
     Common::ListenerMapContainer<Common::Handle, float, float, float> m_viewpointListeners;
+
+    Common::PIConnection m_messageConn;
   };
 }
 

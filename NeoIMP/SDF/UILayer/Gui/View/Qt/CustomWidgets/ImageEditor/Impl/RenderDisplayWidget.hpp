@@ -72,6 +72,13 @@ namespace SDF::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
     float
     viewportY2() const;
 
+    // Function:   viewportMag
+    // Purpose:    Gets the viewport magnification.
+    // Parameters: None.
+    // Returns:    The viewport magnification.
+    float
+    viewportMag() const;
+
     // Function:   setViewportX1, setViewportY1, setViewportUpperLeft
     // Purpose:    Sets the viewport position.
     // Parameters: x1, y1 - The coordinates to set.
