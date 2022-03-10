@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ColorModels/Base/Rgb.hpp"
+#include "../../ColorModels/Base.hpp"
 
 #include <cstddef>
 
@@ -36,14 +36,17 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
   //             BitsR - The number of bits in the Red channel.
   //             BitsG - The number of bits in the Green channel.
   //             BitsB - The number of bits in the Blue channel.
+  template<class GilPixelT>
+  using RgbPixel = GilPixelT;
+
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class Rgb : public Engine::ColorModels::Base::Rgb<GilPixelT, BitsR, BitsG, BitsB> {
+  class Rgb : public Engine::ColorModels::Base<GilPixelT, BitsR, BitsG, BitsB> {
   public:
-    inline GilPixelT
+    inline RgbPixel<GilPixelT>
     encode(float *values) const;
 
     inline void
-    decode(GilPixelT pixel,
+    decode(RgbPixel<GilPixelT> pixel,
            float *values
           ) const;
   };

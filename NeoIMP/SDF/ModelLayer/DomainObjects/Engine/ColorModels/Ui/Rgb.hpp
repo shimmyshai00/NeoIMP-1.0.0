@@ -26,7 +26,7 @@
 
 #include "../../../../../UILayer/AbstractModel/Defs/Color.hpp"
 #include "../../../../../UILayer/AbstractModel/Defs/Channel.hpp"
-#include "../Base/Rgb.hpp"
+#include "../Categories.hpp"
 
 #include <cstddef>
 
@@ -37,28 +37,21 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
   //             BitsG - The number of bits in the Green channel.
   //             BitsB - The number of bits in the Blue channel.
   template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class Rgb : public ColorModels::Base::Rgb<
-    UILayer::AbstractModel::Defs::RGBColor<
-      UILayer::AbstractModel::Defs::Channel<BitsR>,
-      UILayer::AbstractModel::Defs::Channel<BitsG>,
-      UILayer::AbstractModel::Defs::Channel<BitsB>
-    >
+  using RgbPixel = UILayer::AbstractModel::Defs::RGBColor<
+    UILayer::AbstractModel::Defs::Channel<BitsR>,
+    UILayer::AbstractModel::Defs::Channel<BitsG>,
+    UILayer::AbstractModel::Defs::Channel<BitsB>
+  >;
+
+  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  class Rgb : public ColorModels::RgbBase<RgbPixel<BitsR, BitsG, BitsB>, BitsR, BitsG, BitsB>
   {
   public:
-    inline
-    UILayer::AbstractModel::Defs::RGBColor<
-      UILayer::AbstractModel::Defs::Channel<BitsR>,
-      UILayer::AbstractModel::Defs::Channel<BitsG>,
-      UILayer::AbstractModel::Defs::Channel<BitsB>
-    >
+    inline RgbPixel<BitsR, BitsG, BitsB>
     encode(float *values) const;
 
     inline void
-    decode(UILayer::AbstractModel::Defs::RGBColor<
-            UILayer::AbstractModel::Defs::Channel<BitsR>,
-            UILayer::AbstractModel::Defs::Channel<BitsG>,
-            UILayer::AbstractModel::Defs::Channel<BitsB>
-           > pixel,
+    decode(RgbPixel<BitsR, BitsG, BitsB> pixel,
            float *values
           ) const;
   };

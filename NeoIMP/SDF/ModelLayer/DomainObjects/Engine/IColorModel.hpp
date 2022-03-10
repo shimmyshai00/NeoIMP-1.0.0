@@ -37,6 +37,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   //             monitor itself constitutes an implicit color space. Minding this fact can allow us
   //             to adjust the image to create consistency across a variety of display media.
   // Parameters: PixelDataT - The data type of pixel the color model produces.
+  //             ChannelBits - The number of bits in each pixel data channel.
   class IColorModel {
   public:
     virtual ~IColorModel() = default;
@@ -71,7 +72,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   };
 
   // Exposes the pixel implementation.
-  template<class PixelDataT>
+  template<class PixelDataT, std::size_t ... ChannelBits>
   class IColorModelImpl : public IColorModel {
   public:
     virtual ~IColorModelImpl() = default;

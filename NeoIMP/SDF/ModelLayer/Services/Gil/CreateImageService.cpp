@@ -23,6 +23,8 @@
 
 #include "CreateImageService.hpp"
 
+#include "../../DomainObjects/Engine/Gil/ColorModels/Rgb.hpp"
+#include "../../DomainObjects/Engine/ColorModels/Rgb.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"

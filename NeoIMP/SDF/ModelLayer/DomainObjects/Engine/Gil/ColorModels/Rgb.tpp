@@ -30,14 +30,14 @@
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline GilPixelT
+  inline RgbPixel<GilPixelT>
   Rgb<GilPixelT, BitsR, BitsG, BitsB>::encode(float *values) const {
     return GilPixelT(values[0], values[1], values[2]);
   }
 
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline void
-  Rgb<GilPixelT, BitsR, BitsG, BitsB>::decode(GilPixelT pixel,
+  Rgb<GilPixelT, BitsR, BitsG, BitsB>::decode(RgbPixel<GilPixelT> pixel,
                                               float *values
                                              ) const
   {

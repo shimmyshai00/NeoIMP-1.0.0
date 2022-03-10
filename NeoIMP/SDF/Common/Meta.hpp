@@ -1,12 +1,15 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
+#ifndef SDF_COMMON_META_HPP
+#define SDF_COMMON_META_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGB.tpp
- * PURPOSE: Implements the Rgb template.
+ * FILE:    Meta.hpp
+ * PURPOSE: Defines some template meta-programming features for dealing with runtime access to
+ *          compile-time template parameter packs. Note: presumably there is some way to do this
+ *          with Boost::mp11 or even C++ builtins in latest versions however this author is
+ *          unfamiliar with them right now. NB: NEEDS REVISITING
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +27,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Exceptions.hpp"
+#include <list>
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline RgbPixel<BitsR, BitsG, BitsB>
-  Rgb<BitsR, BitsG, BitsB>::encode(float *values) const {
-    return pixel_type(floor(values[0], values[1], values[2]);
+namespace SDF::Common::Meta {
+  // For converting a meta constant pack into a run-time accessible list.
+  template<typename T>
+  void push_into(std::list<T> &vec) {
+    // null case
   }
 
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline void
-  Rgb<BitsR, BitsG, BitsB>::decode(RgbPixel<BitsR, BitsG, BitsB> pixel,
-                                   float *values
-                                  ) const
-  {
-    values[0] = pixel.m_r;
-    values[1] = pixel.m_g;
-    values[2] = pixel.m_b;
+  template<typename T, T Const, T ... Consts>
+  void push_into(std::list<T> &vec) {
+    vec.push_front(Const);
+    push_into<T, Consts...>(vec);
   }
 }
 
