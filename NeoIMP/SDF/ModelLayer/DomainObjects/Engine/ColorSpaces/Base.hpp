@@ -27,6 +27,9 @@
 #include "../IColorModel.hpp"
 #include "../IColorSpace.hpp"
 
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/list.hpp>
+
 #include <tuple>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
@@ -34,25 +37,55 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
   // Purpose:    Defines a base for low dynamic range color spaces.
   // Parameters: PixelDataT - The type of pixel data to build this space on.
   //             FundamentalChannelCount - The number of fundamental space channels.
-  //             BitCounts - The bit counts of the underlying channels.
+  //             BitCounts - The bit counts of the pixel channels.
   template<class PixelDataT, std::size_t FundamentalChannelCount, std::size_t ... BitCounts>
   class LDRBase : public IColorSpace<PixelDataT, FundamentalChannelCount> {
+  private:
+    typedef boost::mp11::mp_list_c<std::size_t, BitCounts...> channel_counts_type;
+    static const std::size_t NUM_CHANNELS = boost::mp11::mp_size<channel_counts_type>::value;
+
+    const IColorModelImpl<PixelDataT, BitCounts...> *m_colorModel;
   public:
     // Class:      LDRBase
     // Purpose:    Constructs a color space base on top of a given color model.
     // Parameters: colorModel - The color model to use.
-    LDRBase(const IColorModel<PixelDataT> *colorModel);
+    LDRBase(const IColorModelImpl<PixelDataT, BitCounts...> *colorModel)
+      : m_colorModel(colorModel)
+    {
+    }
 
     const IColorModel<PixelDataT> &
-    getColorModel() const;
+    getColorModel() const {
+      return *m_colorModel;
+    }
 
     void
     pixelToFundamental(PixelDataT pixel,
                        float *fs
-                      ) const;
+                      ) const
+    {
+      float nrml[NUM_CHANNELS];
+      m_colorModel->decode(pixel, nrml);
+      for(std::size_t i(0); i < NUM_CHANNELS; ++i) {
+        nrml[i] = (nrml[i] - m_colorModel->getChannelMinValue(i)) /
+          (m_colorModel->getChannelMaxValue(i) - m_colorModel->getChannelMinValue(i));
+      }
+
+      nrmlToFundamental(fs, nrml);
+    }
 
     PixelDataT
-    fundamentalToPixel(float *fs) const;
+    fundamentalToPixel(float *fs) const {
+      float vals[NUM_CHANNELS];
+      fundamentalToNrml(vals, fs);
+      for(std::size_t i(0); i < NUM_CHANNELS; ++i) {
+        vals[i] =
+          (vals[i] * (m_colorModel->getChannelMaxValue(i) - m_colorModel->getChannelMinValue(i))) +
+          m_colorModel->getChannelMinValue(i);
+      }
+
+      return m_colorModel->encode(vals);
+    }
   protected:
     // Function:   nrmlToFundamental
     // Purpose:    Converts normalized floating-point values coming out of the color model, i.e. in
@@ -75,8 +108,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
     fundamentalToNrml(float *nrml,
                       float *fs
                      ) const = 0;
-  private:
-    const IColorModel<PixelDataT> *m_colorModel;
   };
 }
 

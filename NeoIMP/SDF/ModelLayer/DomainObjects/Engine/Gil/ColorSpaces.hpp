@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGB.tpp
- * PURPOSE: Implements the Rgb template.
+ * FILE:    ColorSpaces.hpp
+ * PURPOSE: Defines static color space references for the Boost.GIL engine.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Exceptions.hpp"
+#include "../ColorSpaces/Defs.hpp"
+#include "ColorModels/Defs.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline UiPixelT
-  Rgb<BitsR, BitsG, BitsB>::encode(float *values) const {
-    return pixel_type(floor(values[0], values[1], values[2]);
-  }
+#include <boost/gil/rgb.hpp>
 
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline void
-  Rgb<BitsR, BitsG, BitsB>::decode(UiPixelT pixel,
-                                   float *values
-                                  ) const
-  {
-    values[0] = pixel.m_r;
-    values[1] = pixel.m_g;
-    values[2] = pixel.m_b;
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  static const auto g_iec61966_sRGB_rgb24_888 =
+    ColorSpaces::IEC61966_sRGB_RGB24_888<boost::gil::rgb8_pixel_t>(&ColorModels::g_rgb24_888);
 }
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
+#ifndef SDF_COMMON_OVERLOAD_HPP
+#define SDF_COMMON_OVERLOAD_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGB.tpp
- * PURPOSE: Implements the Rgb template.
+ * FILE:    Overload.hpp
+ * PURPOSE: Defines the overload pattern for std::variant and std::visit.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Exceptions.hpp"
+namespace SDF::Common {
+  template<typename ... Ts>
+  struct Overload : Ts ... {
+      using Ts::operator() ...;
+  };
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline UiPixelT
-  Rgb<BitsR, BitsG, BitsB>::encode(float *values) const {
-    return pixel_type(floor(values[0], values[1], values[2]);
-  }
-
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline void
-  Rgb<BitsR, BitsG, BitsB>::decode(UiPixelT pixel,
-                                   float *values
-                                  ) const
-  {
-    values[0] = pixel.m_r;
-    values[1] = pixel.m_g;
-    values[2] = pixel.m_b;
-  }
+  template<class... Ts> Overload(Ts...) -> Overload<Ts...>;
 }
 
 #endif
