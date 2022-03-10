@@ -23,10 +23,8 @@
 
 #include "CreateImageService.hpp"
 
-#include "../../../Common/Overload.hpp"
-
-#include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
-#include "../../DomainObjects/Engine/UiColorConverter.hpp"
+#include "../../DomainObjects/Engine/Gil/ColorModels/Rgb.hpp"
+#include "../../DomainObjects/Engine/ColorModels/Rgb.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
@@ -90,15 +88,8 @@ namespace SDF::ModelLayer::Services::Gil {
     // What type to use depends on the combination of color model and bit depth parameters.
     std::unique_ptr<Engine::Gil::Any_Image> image;
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      // NB: very STUBby and full of assumptions
-      auto bkgColor =
-        Engine::UiColorConverter<typename Engine::Gil::RGB24_888_Image::gil_bkg_image_value_type>(
-          &Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888
-        ).convert(spec.backgroundColor);
-
-      auto proto = std::make_unique<Engine::Gil::RGB24_888_Image>("Untitled", "",
-        widthPx, heightPx, resPpi, bkgColor);
-
+      Engine::Gil::RGB24_888_Image proto(name, fileSpec, widthPx, heightPx, resPpi,
+        boost::gil::rgb8_pixel_t(127, 127, 127));
       image = std::make_unique<Engine::Gil::Any_Image>(std::move(proto));
     }
 

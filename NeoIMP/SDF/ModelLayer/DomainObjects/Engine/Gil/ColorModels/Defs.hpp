@@ -31,8 +31,4 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
   typedef Rgb<boost::gil::rgb8_pixel_t, 8, 8, 8> RGB24_888;
 }
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
-  static const auto g_rgb24_888 = RGB24_888();
-}
-
 #endif

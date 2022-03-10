@@ -28,14 +28,14 @@
 
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
   template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline UiPixelT
+  inline RgbPixel<BitsR, BitsG, BitsB>
   Rgb<BitsR, BitsG, BitsB>::encode(float *values) const {
     return pixel_type(floor(values[0], values[1], values[2]);
   }
 
   template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline void
-  Rgb<BitsR, BitsG, BitsB>::decode(UiPixelT pixel,
+  Rgb<BitsR, BitsG, BitsB>::decode(RgbPixel<BitsR, BitsG, BitsB> pixel,
                                    float *values
                                   ) const
   {
