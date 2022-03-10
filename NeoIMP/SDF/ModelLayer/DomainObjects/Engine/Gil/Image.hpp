@@ -47,6 +47,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilBkgImageT, class GilImageT>
   class Image : public IImage {
   public:
+    typedef GilBkgImageT gil_bkg_image_type;
+    typedef GilImageT gil_image_type;
+    typedef typename GilBkgImageT::view_t gil_bkg_image_view_type;
+    typedef typename GilImageT::view_t gil_image_view_type;
+    typedef typename GilBkgImageT::value_type gil_bkg_image_value_type;
+    typedef typename GilImageT::value_type gil_image_value_type;
+  public:
     // Function:   Image
     // Purpose:    Constructs a new GIL-based image.
     // Parameters: name - The name to give to the image.

@@ -24,8 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../UILayer/AbstractModel/Defs/Color.hpp"
-#include "../../../../../UILayer/AbstractModel/Defs/Channel.hpp"
 #include "../Categories.hpp"
 
 #include <cstddef>
@@ -33,25 +31,19 @@
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
   // Class:      Rgb
   // Purpose:    Defines a family of RGB-based UI-facing color models.
-  // Parameters: BitsR - The number of bits in the Red channel.
+  // Parameters: UiPixelT - The pixel type defined in the abstract UI layer.
+  //             BitsR - The number of bits in the Red channel.
   //             BitsG - The number of bits in the Green channel.
   //             BitsB - The number of bits in the Blue channel.
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  using RgbPixel = UILayer::AbstractModel::Defs::RGBColor<
-    UILayer::AbstractModel::Defs::Channel<BitsR>,
-    UILayer::AbstractModel::Defs::Channel<BitsG>,
-    UILayer::AbstractModel::Defs::Channel<BitsB>
-  >;
-
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   class Rgb : public ColorModels::RgbBase<RgbPixel<BitsR, BitsG, BitsB>, BitsR, BitsG, BitsB>
   {
   public:
-    inline RgbPixel<BitsR, BitsG, BitsB>
+    inline UiPixelT
     encode(float *values) const;
 
     inline void
-    decode(RgbPixel<BitsR, BitsG, BitsB> pixel,
+    decode(UiPixelT pixel,
            float *values
           ) const;
   };
