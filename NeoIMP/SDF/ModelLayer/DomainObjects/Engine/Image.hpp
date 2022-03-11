@@ -26,7 +26,7 @@
 
 #include "Dimensions.hpp"
 #include "Layer.hpp"
-#include "ConvertibleLayer.hpp"
+#include "ForegroundLayer.hpp"
 
 #include <cstddef>
 #include <string>
@@ -57,7 +57,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
           ImageMeasure widthPx,
           ImageMeasure heightPx,
           float resolutionPpi,
-          std::unique_ptr<Layer<ImplType>> backgroundLayer
+          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
          );
 
     // Function:   getName
@@ -116,10 +116,10 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Access a foreground layer of this image.
     // Parameters: layerNum - The layer number to get. 0 is the background layer so will not work.
     // Returns:    The requested layer.
-    ConvertibleLayer<ImplSpecT> &
+    ForegroundLayer<ImplSpecT> &
     getLayer(std::size_t layerNum);
 
-    const ConvertibleLayer<ImplSpecT> &
+    const ForegroundLayer<ImplSpecT> &
     getLayer(std::size_t layerNum) const;
   private:
     std::string m_name;
@@ -130,7 +130,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     float m_resolutionPpi;
 
     std::unique_ptr<Layer<ImplSpecT>> m_backgroundLayer;
-    std::vector<ConvertibleLayer<ImplSpecT>> m_layers;
+    std::vector<ForegroundLayer<ImplSpecT>> m_layers;
   };
 }
 

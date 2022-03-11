@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ECONTENTTYPE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ECONTENTTYPE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETYPES_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGETYPES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EContentType.hpp
- * PURPOSE: Enumerates the different content types.
+ * FILE:    ImageTypes.hpp
+ * PURPOSE: Defines a set of predefined image types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Components {
-  enum EContentType {
-    CONTENT_RASTER
-  };
+#include "../Image.hpp"
+#include "../ImageVariant.hpp"
+
+#include "ImplTraits.hpp"
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  typedef Image<RGB24_888_Image_Impl> RGB24_888_Image;
+
+  typedef ImageVariant<RGB24_888_Image_Impl> Any_Image;
 }
 
 #endif

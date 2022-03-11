@@ -1,12 +1,9 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ECONTENTTYPE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ECONTENTTYPE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EContentType.hpp
- * PURPOSE: Enumerates the different content types.
+ * FILE:    Render.cpp
+ * PURPOSE: Implements the non-template parts of the Render algorithm.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +21,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Components {
-  enum EContentType {
-    CONTENT_RASTER
-  };
-}
+#include "Render.hpp"
 
-#endif
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
+  Render::Render(Engine::Buffers::GridRendering *gridBuffer,
+                 Math::Rect<std::size_t> dstRect,
+                 ImageRect srcRect
+                )
+    : m_gridBuffer(gridBuffer),
+      m_dstRect(dstRect),
+      m_srcRect(srcRect)
+  {
+  }
+}

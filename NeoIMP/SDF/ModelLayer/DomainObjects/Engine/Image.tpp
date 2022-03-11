@@ -1,7 +1,6 @@
 #ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_TPP
 #define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_TPP
 
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
@@ -25,14 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer:DomainObjects::Engine {
+#include "../../Exceptions.hpp"
+
+namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
   Image<ImplSpecT>::Image(std::string name,
                           std::string fileSpec,
                           ImageMeasure widthPx,
                           ImageMeasure heightPx,
                           float resolutionPpi,
-                          std::unique_ptr<Layer<ImplType>> backgroundLayer
+                          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
                          )
     : m_name(name),
       m_fileSpec(fileSpec),
@@ -87,15 +88,31 @@ namespace SDF::ModelLayer:DomainObjects::Engine {
 
   template<class ImplSpecT>
   const Layer<ImplSpecT> &
-  Image<ImplSpecT>::getBackgroundLayer() const;
+  Image<ImplSpecT>::getBackgroundLayer() const {
+    return m_backgroundLayer;
+  }
 
   template<class ImplSpecT>
-  ConvertibleLayer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum);
+  ForegroundLayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return m_layers[layerNum-1];
+    }
+  }
 
   template<class ImplSpecT>
-  const ConvertibleLayer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) const;
+  const ForegroundLayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return m_layers[layerNum-1];
+    }
+  }
 }
 
 #endif

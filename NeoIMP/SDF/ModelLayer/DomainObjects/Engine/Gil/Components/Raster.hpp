@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_BACKGROUND_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_BACKGROUND_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COMPONENTS_RASTER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COMPONENTS_RASTER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Background.hpp
- * PURPOSE: Defines the Background template.
+ * FILE:    Raster.hpp
+ * PURPOSE: Defines the Raster template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +25,28 @@
  */
 
 #include "../../Components/IContent.hpp"
+#include "../../Components/EContentType.hpp"
 #include "../../Dimensions.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components {
-  // Class:      Background
-  // Purpose:    Defines a background content raster for the Boost.GIL-based engine implementation.
+  // Class:      Raster
+  // Purpose:    Defines a content raster for the Boost.GIL-based engine implementation.
   // Parameters: GilImplT - The traits struct for this implementation.
-  template<class GilImplT>
-  class Background : public Engine::Components::IContent<GilImplT> {
+  //             GilImageT - The image type to use.
+  //             GilViewT - The view type to use.
+  //             GilPixelT - The pixel type to use.
+  template<class GilImplT, class GilImageT, class GilViewT, class GilPixelT>
+  class Raster : public Engine::Components::IContent<GilImplT> {
   public:
-    // Function:   Background
-    // Purpose:    Create a fresh background raster.
+    // Function:   Raster
+    // Purpose:    Create a fresh raster.
     // Parameters: widthPx - The width in pixels.
     //             heightPx - The height in pixels.
-    //             initialColor - The initial color to make the background.
-    Background(ImageMeasure widthPx,
-               ImageMeasure heightPx,
-               typename GilImplT::pixel_t initialColor
-              );
+    //             initialColor - The initial color to make the raster.
+    Raster(ImageMeasure widthPx,
+           ImageMeasure heightPx,
+           GilPixelT initialColor
+          );
 
     Engine::Components::EContentType
     getType() const;
@@ -54,22 +58,41 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components {
     // Purpose:    Gets a view onto the raster data.
     // Parameters: rect - The rectangle to get the view into.
     // Returns:    A view into all or part of the data.
-    typename GilImplT::view_t
+    GilViewT
     getView();
 
-    typename GilImplT::view_t::const_t
+    typename GilViewT::const_t
     getView() const;
 
-    typename GilImplT::view_t
+    GilViewT
     getView(ImageRect rect);
 
-    typename GilImplT::view_t::const_t
+    typename GilViewT::const_t
     getView(ImageRect rect) const;
   private:
-    typename GilImplT::image_t m_data;
+    GilImageT m_data;
   };
 }
 
-#include "Background.tpp"
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components {
+  // Convenience aliases.
+  template<class GilImplT>
+  using ForegroundRaster = Raster<
+    GilImplT,
+    typename GilImplT::image_t,
+    typename GilImplT::view_t,
+    typename GilImplT::pixel_t
+  >;
+
+  template<class GilImplT>
+  using BackgroundRaster = Raster<
+    GilImplT,
+    typename GilImplT::bkg_image_t,
+    typename GilImplT::bkg_view_t,
+    typename GilImplT::bkg_pixel_t
+  >;
+}
+
+#include "Raster.tpp"
 
 #endif
