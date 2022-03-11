@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_DEFS_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_DEFS_HPP
+#ifndef SDF_MODELLAYER_SERVICES_COLORSPACES_DEFS_HPP
+#define SDF_MODELLAYER_SERVICES_COLORSPACES_DEFS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,15 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ColorSpaces/Defs.hpp"
-#include <boost/gil/rgb.hpp>
+#include "../../DomainObjects/Engine/ColorSpaces/Defs.hpp"
+#include "../ColorModels/Defs.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
-  typedef Rgb<boost::gil::rgb8_pixel_t, 8, 8, 8> RGB24_888;
+namespace SDF::ModelLayer::Services::ColorSpaces {
+  typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB_RGB24_888<
+    UILayer::AbstractModel::Defs::RGB24_888_Color
+  > IEC61966_sRGB_RGB24_888;
 }
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
-  static const auto g_rgb24_888 = RGB24_888();
+namespace SDF::ModelLayer::Services::ColorSpaces {
+  static const auto g_iec61966_sRGB_rgb24_888 = IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
 }
 
 #endif

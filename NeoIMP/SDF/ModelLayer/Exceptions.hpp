@@ -44,6 +44,7 @@ namespace SDF::ModelLayer {
   SDF_DEF_BUG_EXCEPTION(InvalidSizeException, "Invalid size passed.")
   SDF_DEF_BUG_EXCEPTION(OutOfRangeException, "Tried to perform an out-of-bounds access.")
   SDF_DEF_BUG_EXCEPTION(ObjectNotFoundInRepositoryException, "Object not found in repository.")
+  SDF_DEF_BUG_EXCEPTION(BadCastException, "Tried to cast to wrong type.")
 }
 
 #endif

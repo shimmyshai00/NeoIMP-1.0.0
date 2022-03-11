@@ -25,12 +25,13 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color.hpp"
-#include "IColorSpace.hpp"
+#include "../../DomainObjects/Engine/IColorSpace.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::Services::ColorSpaces {
   // Class:      UiColorConverter
   // Purpose:    Converts a UI variant color object to a desired model color type. Not efficient -
-  //             only for user color selections.
+  //             only for user color selections. Again we keep this in the service layer due to its
+  //             bridging nature.
   // Parameters: DstPixelT - The destination pixel type.
   template<class DstPixelT>
   class UiColorConverter {
@@ -38,7 +39,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Function:   UiColorConverter
     // Purpose:    Creates a new color converter.
     // Parameters: dstColorSpace - The destination color space.
-    UiColorConverter(const IColorSpace<DstPixelT> *dstColorSpace);
+    UiColorConverter(const DomainObjects::Engine::IColorSpace<DstPixelT> *dstColorSpace);
 
     // Function:   convert
     // Purpose:    Convert a UI color variant.
@@ -47,7 +48,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     DstPixelT
     convert(UILayer::AbstractModel::Defs::AnyColor anyColor);
   private:
-    const IColorSpace<DstPixelT> *m_dstColorSpace;
+    const DomainObjects::Engine::IColorSpace<DstPixelT> *m_dstColorSpace;
   };
 }
 

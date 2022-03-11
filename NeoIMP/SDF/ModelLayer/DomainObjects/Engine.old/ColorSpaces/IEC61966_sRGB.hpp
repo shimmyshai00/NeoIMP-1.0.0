@@ -42,12 +42,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
   // Parameters: PixelDataT - The pixel data format to use.
   //             BitsR, BitsG, BitsB - The bit widths of the pixel data channels.
   template<class PixelDataT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class IEC61966_sRGB : public Base<PixelDataT, 3, BitsR, BitsG, BitsB> {
-  protected:
+  class IEC61966_sRGB : public LDRBase<PixelDataT, 3, BitsR, BitsG, BitsB> {
+  public:
     IEC61966_sRGB(const IColorModelImpl<PixelDataT, BitsR, BitsG, BitsB> *rgbColorModel)
-      : Base(rgbColorModel)
+      : LDRBase<PixelDataT, 3, BitsR, BitsG, BitsB>(rgbColorModel)
     {}
 
+  protected:
     // The color space is simply a mapping defined by a matrix operation. NOTE / CONTRIB REQ: these
     // color values were taken from third-party online reference - this author does not have the
     // riches to pay $180 to get the standards document from IEC to confirm the full conformance of

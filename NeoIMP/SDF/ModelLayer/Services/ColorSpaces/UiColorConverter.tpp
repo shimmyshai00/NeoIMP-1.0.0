@@ -25,14 +25,16 @@
  */
 
 #include "../../../Common/Overload.hpp"
-#include "ColorSpaces/Ui/Defs.hpp"
-#include "ColorSpaces/Adapter.hpp"
+#include "../../DomainObjects/Engine/ColorSpaces/Adapter.hpp"
+#include "Defs.hpp"
 
 #include <variant>
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
+namespace SDF::ModelLayer::Services::ColorSpaces {
   template<class DstPixelT>
-  UiColorConverter<DstPixelT>::UiColorConverter(const IColorSpace<DstPixelT> *dstColorSpace)
+  UiColorConverter<DstPixelT>::UiColorConverter(
+    const DomainObjects::Engine::IColorSpace<DstPixelT> *dstColorSpace
+  )
     : m_dstColorSpace(dstColorSpace)
   {
   }
@@ -40,13 +42,14 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class DstPixelT>
   DstPixelT
   UiColorConverter<DstPixelT>::convert(UILayer::AbstractModel::Defs::AnyColor anyColor) {
+    using namespace DomainObjects;
     using namespace UILayer:AbstractModel;
 
     // NB: assumes display is sRGB - reconfig TBA
     auto vis = Common::Overload {
       [](Defs::RGB24_888_Color &c) {
-        return ColorSpaces::adapt<DstPixelT, Defs::RGB24_888_Color, 3>(
-          m_dstColorSpace, &ColorSpaces::Ui::g_iec61966_sRGB_rgb24_888, c
+        return Engine::ColorSpaces::adapt<DstPixelT, Defs::RGB24_888_Color, 3>(
+          m_dstColorSpace, &g_iec61966_sRGB_rgb24_888, c
         );
       }
 

@@ -26,10 +26,10 @@
 #include "../../../Common/Overload.hpp"
 
 #include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
-#include "../../DomainObjects/Engine/UiColorConverter.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
+#include "../ColorSpaces/UiColorConverter.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
 
@@ -55,6 +55,7 @@ namespace SDF::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs;
     using namespace Metrics;
     using namespace DomainObjects;
+    using Services::ColorSpaces::UiColorConverter;
 
     // Input validation.
     if(spec.width == 0)
@@ -91,10 +92,9 @@ namespace SDF::ModelLayer::Services::Gil {
     std::unique_ptr<Engine::Gil::Any_Image> image;
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
       // NB: very STUBby and full of assumptions
-      auto bkgColor =
-        Engine::UiColorConverter<typename Engine::Gil::RGB24_888_Image::gil_bkg_image_value_type>(
-          &Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888
-        ).convert(spec.backgroundColor);
+      auto bkgColor = UiColorConverter<
+          typename Engine::Gil::RGB24_888_Image::gil_bkg_image_value_type
+        >(&Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888).convert(spec.backgroundColor);
 
       auto proto = std::make_unique<Engine::Gil::RGB24_888_Image>("Untitled", "",
         widthPx, heightPx, resPpi, bkgColor);

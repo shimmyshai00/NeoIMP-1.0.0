@@ -54,7 +54,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Gets the underlying color model.
     // Parameters: None.
     // Returns:    The color model object.
-    virtual const IColorModel<PixelDataT> &
+    virtual const IColorModel &
     getColorModel() const = 0;
 
     // Function:   pixelToFundamental

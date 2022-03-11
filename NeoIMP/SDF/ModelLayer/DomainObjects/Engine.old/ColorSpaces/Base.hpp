@@ -54,7 +54,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
     {
     }
 
-    const IColorModel<PixelDataT> &
+    const IColorModel &
     getColorModel() const {
       return *m_colorModel;
     }

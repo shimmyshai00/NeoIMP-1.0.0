@@ -1,13 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_DEFS_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_DEFS_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_DIMENSIONS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_DIMENSIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Defs.hpp
- * PURPOSE: Provides type definitions for all the color models actually used by the program on the
- *          UI-facing side.
+ * FILE:    Dimensions.hpp
+ * PURPOSE: Defines some dimension types for images.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,15 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../UILayer/AbstractModel/Defs/Color.hpp"
-#include "Rgb.hpp"
+#include "../../Math/Point2D.hpp"
+#include "../../Math/Vec2D.hpp"
+#include "../../Math/Rect.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  typedef Rgb<UILayer::AbstractModel::Defs::RGB24_888_Color, 8, 8, 8> RGB24_888;
-}
-
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  static const auto g_rgb24_888 = RGB24_888();
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // Note: the type used for ImageMeasure should have a range that fits within an std::ptrdiff_t
+  typedef int ImageMeasure;
+  typedef Math::Point2D<ImageMeasure> ImagePoint;
+  typedef Math::Vec2D<ImageMeasure> ImageVec;
+  typedef Math::Rect<ImageMeasure> ImageRect;
 }
 
 #endif

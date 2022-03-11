@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_BASE_RGB_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_BASE_RGB_HPP
+#ifndef SDF_MODELLAYER_SERVICES_COLORMODELS_RGB_HPP
+#define SDF_MODELLAYER_SERVICES_COLORMODELS_RGB_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,29 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ColorModels/Base.hpp"
+#include "../../DomainObjects/Engine/ColorModels/Categories.hpp"
 
 #include <cstddef>
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+namespace SDF::ModelLayer::Services::ColorModels {
   // Class:      Rgb
-  // Purpose:    Defines a family of RGB-based color models for the Boost.GIL engine implementation.
-  //             The bit depths of each channel can be specified independently.
-  // Parameters: GilPixelT - The type of GIL pixel used.
+  // Purpose:    Defines a family of RGB-based UI-facing color models. This is kept in the service
+  //             layer because it bridges the domain sublayer and the UI layer and thus keeps the
+  //             domain sublayer free of UI cruft.
+  // Parameters: UiPixelT - The pixel type defined in the abstract UI layer.
   //             BitsR - The number of bits in the Red channel.
   //             BitsG - The number of bits in the Green channel.
   //             BitsB - The number of bits in the Blue channel.
-  template<class GilPixelT>
-  using RgbPixel = GilPixelT;
-
-  template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class Rgb : public Engine::ColorModels::Base<GilPixelT, BitsR, BitsG, BitsB> {
+  template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  class Rgb : public DomainObjects::Engine::ColorModels::RgbBase<UiPixelT, BitsR, BitsG, BitsB>
+  {
   public:
-    inline RgbPixel<GilPixelT>
+    inline UiPixelT
     encode(float *values) const;
 
     inline void
-    decode(RgbPixel<GilPixelT> pixel,
+    decode(UiPixelT pixel,
            float *values
           ) const;
   };

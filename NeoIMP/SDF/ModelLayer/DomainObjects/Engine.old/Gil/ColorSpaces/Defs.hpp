@@ -1,13 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_UI_DEFS_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_UI_DEFS_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_DEFS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_DEFS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Defs.hpp
- * PURPOSE: Provides type definitions for all the color spaces actually used by the program on the
- *          UI-facing side.
+ * PURPOSE: Provides type definitions for all the color spaces actually used by the engine.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,15 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../UILayer/AbstractModel/Defs/Color.hpp"
-#include "../../ColorModels/Ui/Defs.hpp"
-#include "../Defs.hpp"
+#include "../../ColorSpaces/Defs.hpp"
+#include "../ColorModels/Defs.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces::Ui {
-  // Nb: Move these to the Services sublayer, because they do use UILayer?
-  static const auto g_iec61966_sRGB_rgb24_888 =
-    IEC61966_sRGB_RGB24_888<UILayer::AbstractModel::Defs::RGB24_888_Color>(
-      &ColorModels::Ui::g_rgb24_888);
+#include <boost/gil/rgb.hpp>
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
+  typedef Engine::ColorSpaces::IEC61966_sRGB_RGB24_888<boost::gil::rgb8_pixel_t>
+    IEC61966_sRGB_RGB24_888;
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
+  static const auto g_iec61966_sRGB_rgb24_888 = IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
 }
 
 #endif

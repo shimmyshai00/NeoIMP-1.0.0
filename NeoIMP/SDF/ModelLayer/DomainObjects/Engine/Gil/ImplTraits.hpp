@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_UI_RGB_TPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGB.tpp
- * PURPOSE: Implements the Rgb template.
+ * FILE:    ImplTraits.hpp
+ * PURPOSE: Defines traits for each implemented image type in the Boost.GIL-based engine.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Exceptions.hpp"
+#include <boost/gil/rgb.hpp>
+#include <boost/gil/rgba.hpp>
 
-namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels::Ui {
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline UiPixelT
-  Rgb<BitsR, BitsG, BitsB>::encode(float *values) const {
-    return pixel_type(floor(values[0], values[1], values[2]);
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  struct RGB24_888_Image_Impl {
+    typedef boost::gil::rgb8_image_t bkg_raster_t;
+    typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
 
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline void
-  Rgb<BitsR, BitsG, BitsB>::decode(UiPixelT pixel,
-                                   float *values
-                                  ) const
-  {
-    values[0] = pixel.m_r;
-    values[1] = pixel.m_g;
-    values[2] = pixel.m_b;
-  }
+    typedef boost::gil::rgba8_image_t raster_t;
+    typedef boost::gil::rgba8_pixel_t pixel_t;
+  };
 }
 
 #endif

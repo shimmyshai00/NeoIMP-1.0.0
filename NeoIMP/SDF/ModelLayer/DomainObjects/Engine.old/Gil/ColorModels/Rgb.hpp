@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_RGB_TPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_RGB_TPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_BASE_RGB_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_BASE_RGB_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RGB.tpp
- * PURPOSE: Implements the Rgb template.
+ * FILE:    RGB.hpp
+ * PURPOSE: Defines the Rgb template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,27 +24,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Exceptions.hpp"
+#include "../../ColorModels/Base.hpp"
 
-#include <boost/gil/rgb.hpp>
+#include <cstddef>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Class:      Rgb
+  // Purpose:    Defines a family of RGB-based color models for the Boost.GIL engine implementation.
+  //             The bit depths of each channel can be specified independently.
+  // Parameters: GilPixelT - The type of GIL pixel used.
+  //             BitsR - The number of bits in the Red channel.
+  //             BitsG - The number of bits in the Green channel.
+  //             BitsB - The number of bits in the Blue channel.
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline RgbPixel<GilPixelT>
-  Rgb<GilPixelT, BitsR, BitsG, BitsB>::encode(float *values) const {
-    return GilPixelT(values[0], values[1], values[2]);
-  }
+  class Rgb : public Engine::ColorModels::Base<GilPixelT, BitsR, BitsG, BitsB> {
+  public:
+    inline GilPixelT
+    encode(float *values) const;
 
-  template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  inline void
-  Rgb<GilPixelT, BitsR, BitsG, BitsB>::decode(RgbPixel<GilPixelT> pixel,
-                                              float *values
-                                             ) const
-  {
-    values[0] = boost::gil::at_c<0>(pixel);
-    values[1] = boost::gil::at_c<1>(pixel);
-    values[2] = boost::gil::at_c<2>(pixel);
-  }
+    inline void
+    decode(GilPixelT pixel,
+           float *values
+          ) const;
+  };
 }
+
+#include "Rgb.tpp"
 
 #endif
