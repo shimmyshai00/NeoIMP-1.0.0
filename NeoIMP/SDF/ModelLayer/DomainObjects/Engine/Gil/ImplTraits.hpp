@@ -29,10 +29,12 @@
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   struct RGB24_888_Image_Impl {
-    typedef boost::gil::rgb8_image_t bkg_raster_t;
+    typedef boost::gil::rgb8_image_t bkg_image_t;
+    typedef boost::gil::rgb8_view_t bkg_view_t;
     typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
 
-    typedef boost::gil::rgba8_image_t raster_t;
+    typedef boost::gil::rgba8_image_t image_t;
+    typedef boost::gil::rgba8_view_t view_t;
     typedef boost::gil::rgba8_pixel_t pixel_t;
   };
 }

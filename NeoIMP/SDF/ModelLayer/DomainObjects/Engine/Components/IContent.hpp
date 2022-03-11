@@ -43,12 +43,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Components {
     virtual EContentType
     getType() const = 0;
 
-    // Function:   getBoundingRect
-    // Purpose:    Gets the bounding rectangle of the content.
+    // Function:   getIntrinsicRect
+    // Purpose:    Gets the intrinsic bounding rectangle of the content.
     // Parameters: None.
-    // Returns:    The content's bounding rectangle.
+    // Returns:    The content's intrinsic (no transformations) bounding rectangle.
     virtual ImageRect
-    getBoundingRect() const = 0;
+    getIntrinsicRect() const = 0;
   };
 }
 
