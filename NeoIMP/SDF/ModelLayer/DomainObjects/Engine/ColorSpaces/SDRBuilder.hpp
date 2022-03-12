@@ -58,10 +58,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
                       float *nrml
                      ) const
     {
-      printf("F2N\n");
-      printf("fs: %f %f %f\n", fs[0], fs[1], fs[2]);
       MapT().fundamentalToNrml(fs, nrml);
-      printf("nrmlV: %f %f %f\n", nrml[0], nrml[1], nrml[2]);
     }
   };
 }
