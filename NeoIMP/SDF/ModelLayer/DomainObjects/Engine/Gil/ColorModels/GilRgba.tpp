@@ -30,7 +30,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
   >
   inline GilPixelT
   GilRgba<GilPixelT, BitsR, BitsG, BitsB, BitsA>::convertToPixel(float *values) const {
-    return GilPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f), floor(values[3] + 0.5f));
+    return GilPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f),
+      floor(values[3] + 0.5f));
   }
 
   template<

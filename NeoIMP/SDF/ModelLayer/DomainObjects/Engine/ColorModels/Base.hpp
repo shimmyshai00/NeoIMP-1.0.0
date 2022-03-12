@@ -87,11 +87,11 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels {
 
     inline float
     getChannelMin(std::size_t channelNum) const {
-      #ifndef NDEBUG
-        if(channelNum >= NUM_CHANNELS) {
-          throw OutOfRangeException();
-        }
-      #endif
+#ifndef NDEBUG
+      if(channelNum >= NUM_CHANNELS) {
+        throw OutOfRangeException();
+      }
+#endif
       return m_channelMins[channelNum];
     }
   };
