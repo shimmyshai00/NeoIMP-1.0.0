@@ -28,18 +28,22 @@
 
 #include "ColorModels/Defs.hpp"
 
-#include <boost/gil/rgb.hpp>
+#include <boost/gil/typedefs.hpp>
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
   // Types.
   typedef Engine::ColorSpaces::IEC61966_sRGB<boost::gil::rgb8_pixel_t, 8, 8, 8>
     IEC61966_sRGB_RGB24_888;
+  typedef Engine::ColorSpaces::IEC61966_sRGB_Alpha<boost::gil::rgba8_pixel_t, 8, 8, 8, 8>
+    IEC61966_sRGB_RGBA32_8888;
 }
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
   // Constants.
   static const IEC61966_sRGB_RGB24_888 g_iec61966_sRGB_rgb24_888 =
     IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
+  static const IEC61966_sRGB_RGBA32_8888 g_iec61966_sRGB_rgba32_8888 =
+    IEC61966_sRGB_RGBA32_8888(&ColorModels::g_rgba32_8888);
 }
 
 #endif

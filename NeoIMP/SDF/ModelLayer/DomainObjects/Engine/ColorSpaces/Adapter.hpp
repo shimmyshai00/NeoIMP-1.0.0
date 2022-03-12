@@ -35,7 +35,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
                       PixelDataSrcT srcVal
                      )
   {
-    float fundamentals[FundamentalTraitsT::num_channels];
+    // Allow +1 for alpha channel-including spaces
+    float fundamentals[FundamentalTraitsT::num_channels+1];
 
     srcSpace.pixelToFundamental(srcVal, fundamentals);
     return dstSpace.fundamentalToPixel(fundamentals);

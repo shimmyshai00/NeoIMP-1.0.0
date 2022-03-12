@@ -54,9 +54,9 @@ namespace SDF::ModelLayer::Services::ColorSpaces {
       },
 
       [=](Defs::ARGB32_8888_Color &c) {
+        printf("alpha color: %d %d %d %d\n", (int)c.m_r, (int)c.m_g, (int)c.m_b, (int)c.m_a);
         // TBA to appease the compiler rn - this bit will require some more thought
-        Defs::RGB24_888_Color k(0, 0, 0);
-        return Engine::ColorSpaces::adapt(*m_dstColorSpace, g_iec61966_sRGB_rgb24_888, k);
+        return Engine::ColorSpaces::adapt(*m_dstColorSpace, g_iec61966_sRGB_rgba32_8888, c);
       }
     };
 

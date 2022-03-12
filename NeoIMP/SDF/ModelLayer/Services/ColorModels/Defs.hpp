@@ -27,13 +27,16 @@
 
 #include "../../../UILayer/AbstractModel/Defs/Color.hpp"
 #include "UiRgb.hpp"
+#include "UiRgba.hpp"
 
 namespace SDF::ModelLayer::Services::ColorModels {
   typedef UiRgb<UILayer::AbstractModel::Defs::RGB24_888_Color, 8, 8, 8> RGB24_888;
+  typedef UiRgba<UILayer::AbstractModel::Defs::ARGB32_8888_Color, 8, 8, 8, 8> RGBA32_8888;
 }
 
 namespace SDF::ModelLayer::Services::ColorModels {
   static const auto g_rgb24_888 = RGB24_888();
+  static const auto g_rgba32_8888 = RGBA32_8888();
 }
 
 #endif

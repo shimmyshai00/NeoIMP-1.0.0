@@ -35,9 +35,11 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
   //             BitDepths - The bit depths of the channels.
   template<class PixelDataT, class FundamentalTraitsT, std::size_t ... BitDepths>
   class SDRBase : public IColorSpace<PixelDataT, FundamentalTraitsT> {
-  private:
-    typedef boost::mp11::mp_list_c<std::size_t, BitCounts...> channel_counts_type;
+  protected:
+    typedef boost::mp11::mp_list_c<std::size_t, BitDepths...> channel_counts_type;
     static const std::size_t NUM_CHANNELS = boost::mp11::mp_size<channel_counts_type>::value;
+  private:
+    const ColorModels::Base<PixelDataT, BitDepths...> *m_colorModel;
 
     float m_nrmlScaleFactors[NUM_CHANNELS];
     float m_nrmlOffsets[NUM_CHANNELS];
@@ -87,8 +89,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
       return m_colorModel->convertToPixel(unnValues);
     }
   protected:
-    const ColorModels::Base<PixelDataT, BitDepths...> *m_colorModel;
-
     // Function:   nrmlToFundamental
     // Purpose:    Convert normalized RGB input in the range [0, 1] to XYZ space values.
     // Parameters: nrml - The incoming normalized RGB input.
