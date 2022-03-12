@@ -1,12 +1,13 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    Categories.hpp
+ * PURPOSE: Defines bases for different categories of color models. This allows for building type
+ *          safety into color model matching with other features.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +25,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "Base.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
-  }
+#include <cstddef>
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels {
+  template<class PixelDataT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  class RgbBase : public Base<PixelDataT, BitsR, BitsG, BitsB> {};
 }
 
 #endif

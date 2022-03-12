@@ -1,12 +1,13 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_XYZD65_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_XYZD65_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImplTraits.hpp
- * PURPOSE: Defines traits for each implemented image type in the Boost.GIL-based engine.
+ * FILE:    XyzD65.hpp
+ * PURPOSE: Defines the traits for the fundamental space given by CIE 1931 XYZ with a D65 standard
+ *          illuminant white point.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +25,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/gil/pixel.hpp>
-#include <boost/gil/image.hpp>
-#include <boost/gil/image_view.hpp>
+#include <cstddef>
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  struct RGB24_888_Image_Impl {
-    typedef boost::gil::rgb8_image_t bkg_image_t;
-    typedef boost::gil::rgb8_view_t bkg_view_t;
-    typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
+namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental {
+  struct XyzD65 {
+    static constexpr const std::size_t num_channels = 3;
 
-    typedef boost::gil::rgba8_image_t image_t;
-    typedef boost::gil::rgba8_view_t view_t;
-    typedef boost::gil::rgba8_pixel_t pixel_t;
+    // The white point for this color space.
+    static constexpr const float white_point_x = 0.31271f;
+    static constexpr const float white_point_y = 0.32902f;
+    static constexpr const float white_point_z = 0.35827f;
+
+    // The normalization factor - in this case we want to normalize the Y-component to be equal to
+    // 1.
+    static constexpr const float white_point_nrml_fac = white_point_y;
   };
 }
 

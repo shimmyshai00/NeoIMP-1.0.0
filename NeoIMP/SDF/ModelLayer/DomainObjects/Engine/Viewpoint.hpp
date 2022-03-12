@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    Viewpoint.hpp
+ * PURPOSE: Defines the Viewpoint struct.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "Dimensions.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // NB: should include image handle
+  struct Viewpoint {
+    ImagePoint m_position;
+    float m_magnification;
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
-  }
+    Viewpoint()
+      : m_position(0.0f, 0.0f),
+        m_magnification(1.0f)
+    {
+    }
+
+    Viewpoint(ImagePoint pos)
+      : m_position(pos),
+        m_magnification(1.0f)
+    {
+    }
+
+    Viewpoint(ImagePoint pos, float mag)
+      : m_position(pos),
+        m_magnification(mag)
+    {
+    }
+  };
 }
 
 #endif

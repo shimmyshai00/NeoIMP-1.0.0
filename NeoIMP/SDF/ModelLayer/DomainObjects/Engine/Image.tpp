@@ -69,6 +69,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
+  ImageRect
+  Image<ImplSpecT>::getRect() const {
+    return ImageRect(0, 0, m_widthPx, m_heightPx);
+  }
+
+  template<class ImplSpecT>
   float
   Image<ImplSpecT>::getResolutionPpi() const {
     return m_resolutionPpi;
@@ -83,13 +89,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
   Layer<ImplSpecT> &
   Image<ImplSpecT>::getBackgroundLayer() {
-    return m_backgroundLayer;
+    return *m_backgroundLayer;
   }
 
   template<class ImplSpecT>
   const Layer<ImplSpecT> &
   Image<ImplSpecT>::getBackgroundLayer() const {
-    return m_backgroundLayer;
+    return *m_backgroundLayer;
   }
 
   template<class ImplSpecT>

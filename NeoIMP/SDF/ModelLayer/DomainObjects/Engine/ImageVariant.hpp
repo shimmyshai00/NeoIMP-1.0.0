@@ -27,8 +27,8 @@
 #include "Image.hpp"
 #include "Dimensions.hpp"
 
+#include <boost/variant2/variant.hpp>
 #include <cstddef>
-#include <variant>
 #include <string>
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
@@ -40,7 +40,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   //             on top and so must roll our own.
   // Parameters: ImplSpecTs - The implementation spec types going into the variant.
   template<class ... ImplSpecTs>
-  class ImageVariant : public std::variant<Image<ImageSpecTs>...>
+  class ImageVariant : public boost::variant2::variant<Image<ImplSpecTs>...>
   {
   public:
     // Function:   ImageVariant
@@ -49,7 +49,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     //                     consumptive move implementation is provided. We need a component clone
     //                     method for non-consumptive variant creation.
     template<class ImplSpecT>
-    Image(Image<ImplSpecT> &&image);
+    ImageVariant(Image<ImplSpecT> &&image);
 
     // Function:   getName
     // Purpose:    Gets the name of the image.
@@ -79,13 +79,36 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     ImageMeasure
     getHeightPx() const;
 
+    // Function:   getRect
+    // Purpose:    Get the image's total bounding rectangle.
+    // Parameters: None.
+    // Returns:    The total bounding rectangle.
+    ImageRect
+    getRect() const;
+
     // Function:   getResolutionPpi
     // Purpose:    Gets the resolution of the image in PPI.
     // Parameters: None.
     // Returns:    The resolution of the image in PPI.
     float
     getResolutionPpi() const;
+
+    // Function:   getNumLayers
+    // Purpose:    Gets the number of image layers.
+    // Parameters: None.
+    // Returns:    The number of layers in the image.
+    std::size_t
+    getNumLayers() const;
   };
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // Helper method.
+  template<typename V, class Variant>
+  auto visitImage(V&& visitor, Variant &&variant) {
+    // nb: this weird construct seems sus; may need to rethink this.
+    return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+  }
 }
 
 #include "ImageVariant.tpp"

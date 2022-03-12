@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_FOREGROUNDLAYER_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_FOREGROUNDLAYER_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_BACKGROUNDLAYER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_BACKGROUNDLAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ForegroundLayer.hpp
- * PURPOSE: Defines the ForegroundLayer template.
+ * FILE:    BackgroundLayer.hpp
+ * PURPOSE: Defines the BackgroundLayer template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,44 +24,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/IContent.hpp"
-#include "Dimensions.hpp"
-#include "Layer.hpp"
+#include "../Components/IContent.hpp"
+#include "../Dimensions.hpp"
+#include "../Layer.hpp"
+#include "Components/Raster.hpp"
 
 #include <memory>
 
-namespace SDF::ModelLayer::DomainObjects::Engine {
-  // Class:      ForegroundLayer
-  // Purpose:    Defines a foreground layer, with switchable content.
-  // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
-  template<class ImplSpecT>
-  class ForegroundLayer : public Layer<ImplSpecT> {
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
+  // Class:      BackgroundLayer
+  // Purpose:    Defines a Boost.GIL-based background layer.
+  // Parameters: GilSpecT - The GIL implementation traits spec.
+  template<class GilSpecT>
+  class BackgroundLayer : public Layer<GilSpecT> {
   public:
-    // Function:   ForegroundLayer
+    // Function:   BackgroundLayer
     // Purpose:    Constructs a new layer to the specified parameters.
     // Parameters: widthPx - The width of the layer in pixels.
     //             heightPx - The height of the layer in pixels.
-    ForegroundLayer(ImageMeasure widthPx,
-                    ImageMeasure heightPx
+    //             bkgColor - The color of the new layer.
+    BackgroundLayer(ImageMeasure widthPx,
+                    ImageMeasure heightPx,
+                    typename GilSpecT::bkg_pixel_t bkgColor
                    );
 
-    // Function:   setContentComponent
-    // Purpose:    Inserts a content component into this layer.
-    // Parameters: content - The content to add.
-    // Returns:    None.
-    void
-    setContentComponent(std::unique_ptr<Components::IContent<ImplSpecT>> content);
-
-    Components::IContent<ImplSpecT> *
+    Engine::Components::IContent<GilSpecT> *
     getContentComponent();
 
-    const Components::IContent<ImplSpecT> *
+    const Engine::Components::IContent<GilSpecT> *
     getContentComponent() const;
   private:
-    std::unique_ptr<Components::IContent<ImplSpecT>> m_content;
+    std::unique_ptr<Components::BackgroundRaster<GilSpecT>> m_content;
   };
 }
 
-#include "ForegroundLayer.tpp"
+#include "BackgroundLayer.tpp"
 
 #endif

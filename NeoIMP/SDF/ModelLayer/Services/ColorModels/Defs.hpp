@@ -1,12 +1,13 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
+#define SDF_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    Defs.hpp
+ * PURPOSE: Provides type definitions for all the color models actually used by the program on the
+ *          UI-facing side.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +25,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color.hpp"
+#include "UiRgb.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
-  }
+namespace SDF::ModelLayer::Services::ColorModels {
+  typedef UiRgb<UILayer::AbstractModel::Defs::RGB24_888_Color, 8, 8, 8> RGB24_888;
+}
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
-  }
+namespace SDF::ModelLayer::Services::ColorModels {
+  static const auto g_rgb24_888 = RGB24_888();
 }
 
 #endif

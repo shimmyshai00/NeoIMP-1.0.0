@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMPLTRAITS_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGEFACTORY_TPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_IMAGEFACTORY_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImplTraits.hpp
- * PURPOSE: Defines traits for each implemented image type in the Boost.GIL-based engine.
+ * FILE:    ImageFactory.tpp
+ * PURPOSE: Implements the ImageFactory template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/gil/pixel.hpp>
-#include <boost/gil/image.hpp>
-#include <boost/gil/image_view.hpp>
+#include "Components/Raster.hpp"
+#include "BackgroundLayer.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
-  struct RGB24_888_Image_Impl {
-    typedef boost::gil::rgb8_image_t bkg_image_t;
-    typedef boost::gil::rgb8_view_t bkg_view_t;
-    typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
-
-    typedef boost::gil::rgba8_image_t image_t;
-    typedef boost::gil::rgba8_view_t view_t;
-    typedef boost::gil::rgba8_pixel_t pixel_t;
-  };
+  template<class GilSpecT>
+  Image<GilSpecT> *
+  ImageFactory<GilSpecT>::create(std::string name,
+                                 std::string fileSpec,
+                                 ImageMeasure widthPx,
+                                 ImageMeasure heightPx,
+                                 float resolutionPpi,
+                                 typename GilSpecT::bkg_pixel_t backgroundColor
+                                )
+  {
+    auto bkgLayer = std::make_unique<BackgroundLayer<GilSpecT>>(widthPx, heightPx, backgroundColor);
+    return new Image<GilSpecT>(name, fileSpec, widthPx, heightPx, resolutionPpi,
+      std::move(bkgLayer));
+  }
 }
 
 #endif

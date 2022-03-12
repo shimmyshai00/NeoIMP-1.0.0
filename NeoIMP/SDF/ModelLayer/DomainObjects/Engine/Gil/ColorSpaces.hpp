@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORSPACES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    ColorSpaces.hpp
+ * PURPOSE: Provides static definitions for the Boost.GIL engine's color spaces.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "../ColorSpaces/IEC61966_sRGB.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
-  }
+#include "ColorModels/Defs.hpp"
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
-  }
+#include <boost/gil/rgb.hpp>
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
+  // Types.
+  typedef Engine::ColorSpaces::IEC61966_sRGB<boost::gil::rgb8_pixel_t, 8, 8, 8>
+    IEC61966_sRGB_RGB24_888;
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorSpaces {
+  // Constants.
+  static const IEC61966_sRGB_RGB24_888 g_iec61966_sRGB_rgb24_888 =
+    IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
 }
 
 #endif

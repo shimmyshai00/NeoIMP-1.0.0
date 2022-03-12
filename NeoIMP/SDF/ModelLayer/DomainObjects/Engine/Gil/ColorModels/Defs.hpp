@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_DEFS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_DEFS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    Defs.hpp
+ * PURPOSE: Defines the color models used by the Boost.GIL-based engine.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "GilRgb.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
-  }
+#include <boost/gil/rgb.hpp>
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
-  }
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Types.
+  typedef GilRgb<boost::gil::rgb8_pixel_t, 8, 8, 8> RGB24_888;
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Constants.
+  static const RGB24_888 g_rgb24_888 = RGB24_888();
 }
 
 #endif

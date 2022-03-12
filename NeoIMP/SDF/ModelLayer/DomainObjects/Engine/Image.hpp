@@ -88,6 +88,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     ImageMeasure
     getHeightPx() const;
 
+    // Function:   getRect
+    // Purpose:    Get the image's total bounding rectangle.
+    // Parameters: None.
+    // Returns:    The total bounding rectangle.
+    ImageRect
+    getRect() const;
+
     // Function:   getResolutionPpi
     // Purpose:    Gets the resolution of the image in PPI.
     // Parameters: None.

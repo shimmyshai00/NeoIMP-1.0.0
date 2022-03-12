@@ -180,7 +180,7 @@ namespace SDF::ModelLayer::Services::Gil {
 
       Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
 
-      Engine::Gil::Algorithm::Render render(rendering.get(), outRect);
+      Engine::Gil::Algorithm::Render render(rendering.get(), outRect, image->getRect());
       Engine::Gil::Algorithm::apply(render, *image);
 
       m_renderingRepository->insert(renderingHandle, std::move(rendering));

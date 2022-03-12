@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_APPLY_HPP
+#ifndef SDF_MODELLAYER_SERVICES_COLORMODELS_UIRGB_TPP
+#define SDF_MODELLAYER_SERVICES_COLORMODELS_UIRGB_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
- * PURPOSE: Defines methods to apply an algorithm to images.
+ * FILE:    UiRgb.tpp
+ * PURPOSE: Implements the UiRgb template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "../../Exceptions.hpp"
 
-namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  // Applies the algorithm passed to the given image.
-  template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
-    alg(image);
+namespace SDF::ModelLayer::Services::ColorModels {
+  template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  inline UiPixelT
+  UiRgb<UiPixelT, BitsR, BitsG, BitsB>::convertToPixel(float *values) const {
+    return UiPixelT(floor(values[0]), floor(values[1]), floor(values[2]));
   }
 
-  template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
+  template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  inline void
+  UiRgb<UiPixelT,BitsR, BitsG, BitsB>::convertPixelTo(UiPixelT px,
+                                                      float *values
+                                                     ) const
+  {
+    values[0] = px.m_r;
+    values[1] = px.m_g;
+    values[2] = px.m_b;
   }
 }
 

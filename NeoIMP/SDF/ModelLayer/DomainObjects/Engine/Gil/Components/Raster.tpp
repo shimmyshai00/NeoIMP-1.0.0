@@ -41,7 +41,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components {
       throw InvalidSizeException();
     }
 
-    m_data = typename GilImplT::image_t(widthPx, heightPx, initialColor, 0);
+    m_data = GilImageT(widthPx, heightPx, initialColor, 0);
   }
 
   template<class GilImplT, class GilImageT, class GilViewT, class GilPixelT>

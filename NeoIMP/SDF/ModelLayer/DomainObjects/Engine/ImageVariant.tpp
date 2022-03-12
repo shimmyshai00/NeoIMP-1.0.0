@@ -28,44 +28,50 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class ... ImplSpecTs>
   template<class ImplSpecT>
   ImageVariant<ImplSpecTs...>::ImageVariant(Image<ImplSpecT> &&image)
-    : variant<Image<ImplSpecTs>...>(std::move(image)),
+    : boost::variant2::variant<Image<ImplSpecTs>...>(std::move(image))
   {
   }
 
   template<class ... ImplSpecTs>
   std::string
   ImageVariant<ImplSpecTs...>::getName() const {
-    return std::visit([](auto &&arg) { return arg.getName(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getName(); }, *this);
   }
 
   template<class ... ImplSpecTs>
   std::string
   ImageVariant<ImplSpecTs...>::getFileSpec() const {
-    return std::visit([](auto &&arg) { return arg.getFileSpec(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getFileSpec(); }, *this);
   }
 
   template<class ... ImplSpecTs>
   ImageMeasure
   ImageVariant<ImplSpecTs...>::getWidthPx() const {
-    return std::visit([](auto &&arg) { return arg.getWidthPx(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getWidthPx(); }, *this);
   }
 
   template<class ... ImplSpecTs>
   ImageMeasure
   ImageVariant<ImplSpecTs...>::getHeightPx() const {
-    return std::visit([](auto &&arg) { return arg.getFileSpec(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getHeightPx(); }, *this);
+  }
+
+  template<class ... ImplSpecTs>
+  ImageRect
+  ImageVariant<ImplSpecTs...>::getRect() const {
+    return visitImage([](auto &&arg) { return arg.getRect(); }, *this);
   }
 
   template<class ... ImplSpecTs>
   float
   ImageVariant<ImplSpecTs...>::getResolutionPpi() const {
-    return std::visit([](auto &&arg) { return arg.getResolutionPpi(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getResolutionPpi(); }, *this);
   }
 
   template<class ... ImplSpecTs>
   std::size_t
   ImageVariant<ImplSpecTs...>::getNumLayers() const {
-    return std::visit([](auto &&arg) { return arg.getNumLayers(); }, *this);
+    return visitImage([](auto &&arg) { return arg.getNumLayers(); }, *this);
   }
 }
 
