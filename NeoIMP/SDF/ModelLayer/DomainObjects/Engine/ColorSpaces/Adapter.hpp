@@ -39,6 +39,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
     float fundamentals[FundamentalTraitsT::num_channels+1];
 
     srcSpace.pixelToFundamental(srcVal, fundamentals);
+    printf("fundamentals: %f %f %f\n", fundamentals[0], fundamentals[1], fundamentals[2]);
     return dstSpace.fundamentalToPixel(fundamentals);
   }
 }

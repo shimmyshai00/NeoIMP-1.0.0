@@ -36,6 +36,17 @@
 #include <boost/uuid/uuid_generators.hpp>
 
 namespace SDF::ModelLayer::Services::Gil {
+  namespace Impl {
+    // Preset background colors.
+    static const UILayer::AbstractModel::Defs::ARGB32_8888_Color g_bkgRgbPresets
+      [UILayer::AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
+        UILayer::AbstractModel::Defs::ARGB32_8888_Color(255, 255, 255, 255),
+        UILayer::AbstractModel::Defs::ARGB32_8888_Color(255, 0, 0, 0),
+        UILayer::AbstractModel::Defs::ARGB32_8888_Color(0, 255, 255, 255),
+        UILayer::AbstractModel::Defs::ARGB32_8888_Color(0, 0, 0, 0),
+      };
+  }
+
   CreateImageService::CreateImageService(
     Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
     MessageSystem::IChannel<Messages::Object> *objectMessageChannel
@@ -90,13 +101,19 @@ namespace SDF::ModelLayer::Services::Gil {
     std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
     std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
+    // Get the background color from presets.
+    AnyColor specBackgroundColor = Impl::g_bkgRgbPresets[spec.backgroundPreset];
+    if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
+      specBackgroundColor = spec.backgroundColor;
+    }
+
     // What type to use depends on the combination of color model and bit depth parameters.
     std::unique_ptr<Engine::Gil::Any_Image> image;
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
       // NB: very STUBby and full of assumptions
       auto conv = UiXyzD65Converter<typename Engine::Gil::RGB24_888_Image_Impl::bkg_pixel_t>
         (&Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888);
-      auto bkgColor = conv.convert(spec.backgroundColor);
+      auto bkgColor = conv.convert(specBackgroundColor);
 
       printf("bkgColor is: %d %d %d\n", boost::gil::at_c<0>(bkgColor), boost::gil::at_c<1>(bkgColor), boost::gil::at_c<2>(bkgColor));
 

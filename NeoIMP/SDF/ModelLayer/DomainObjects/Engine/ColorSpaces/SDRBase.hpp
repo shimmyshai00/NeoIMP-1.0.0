@@ -83,7 +83,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
       fundamentalToNrml(fs, unnValues);
 
       for(std::size_t i(0) ; i < NUM_CHANNELS; ++i)
-        unnValues[0] = (unnValues[0] * m_nrmlScaleFactors[0]) + m_nrmlOffsets[0];
+        unnValues[i] = (unnValues[i] * m_nrmlScaleFactors[i]) + m_nrmlOffsets[i];
 
 
       return m_colorModel->convertToPixel(unnValues);
