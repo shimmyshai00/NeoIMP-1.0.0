@@ -23,7 +23,7 @@
 
 #include "DocumentRequirementsService.hpp"
 
-#include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 
 namespace SDF::ModelLayer::Services::Gil {
@@ -66,8 +66,8 @@ namespace SDF::ModelLayer::Services::Gil {
 
     // What type to use depends on the combination of color model and bit depth parameters.
     if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      //return Engine::Gil::RGB888Image::getMemorySizeForOneLayer(widthPx, heightPx);
-      return 0;
+      return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
+        widthPx, heightPx);
     } else {
       return 0;
     }

@@ -209,7 +209,7 @@
     <item>
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>Memory req for one layer:</string>
+       <string>Memory req for single-layer image:</string>
       </property>
      </widget>
     </item>
