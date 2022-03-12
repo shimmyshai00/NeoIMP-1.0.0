@@ -61,6 +61,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
         boost::gil::rgb8_view_t::x_coord_t viewX(inY);
 
         boost::gil::rgb8_pixel_t imagePixel(*view.xy_at(viewX, viewY));
+        printf("pix: %d %d %d\n", boost::gil::at_c<0>(imagePixel), boost::gil::at_c<1>(imagePixel), boost::gil::at_c<2>(imagePixel));
         unsigned int pixelCode = 0xFF000000U
           ^ ((unsigned int)boost::gil::at_c<0>(imagePixel) << 16)
           ^ ((unsigned int)boost::gil::at_c<1>(imagePixel) <<  8)

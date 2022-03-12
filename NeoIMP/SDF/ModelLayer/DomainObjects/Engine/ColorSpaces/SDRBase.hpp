@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_RGBBASE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_RGBBASE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_COLORSPACES_SDRBASE_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_COLORSPACES_SDRBASE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    RgbBase.hpp
- * PURPOSE: Defines the RgbBase template.
+ * FILE:    SDRBase.hpp
+ * PURPOSE: Defines the SDRBase template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,32 +28,30 @@
 #include "../IColorSpace.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
-  // Class:   RgbBase
-  // Purpose: Defines a base template for families of RGB color spaces. These spaces
+  // Class:   SDRBase
+  // Purpose: Defines a base template for short dynamic range (SDR) color space families.
   // Parameters: PixelDataT - The pixel data type.
-  //             FundamentalTraitsT - The fundamental space traits class. This should be an XYZ
-  //                                  fundamental space (i.e. either Fundamental::XyzD65 or
-  //                                  XyzD50 [TBA]).
-  //             BitsR, BitsG, BitsB - The bit depths.
-  template<
-    class PixelDataT, class FundamentalTraitsT,
-    std::size_t BitsR, std::size_t BitsG, std::size_t BitsB
-  >
-  class RgbBase : public IColorSpace<PixelDataT, FundamentalTraitsT> {
+  //             FundamentalTraitsT - The fundamental space traits class.
+  //             BitDepths - The bit depths of the channels.
+  template<class PixelDataT, class FundamentalTraitsT, std::size_t ... BitDepths>
+  class SDRBase : public IColorSpace<PixelDataT, FundamentalTraitsT> {
+  private:
+    typedef boost::mp11::mp_list_c<std::size_t, BitCounts...> channel_counts_type;
+    static const std::size_t NUM_CHANNELS = boost::mp11::mp_size<channel_counts_type>::value;
+
+    float m_nrmlScaleFactors[NUM_CHANNELS];
+    float m_nrmlOffsets[NUM_CHANNELS];
   public:
-    // Function:   RgbBase
-    // Purpose:    Construct with a given color model. Gatekeeps the color model to RGB types only.
-    // Parameters: colorModel - The color model to construct with.
-    RgbBase(const ColorModels::RgbBase<PixelDataT, BitsR, BitsG, BitsB> *colorModel)
+    // Function:   SDRBase
+    // Purpose:    Construct with a given color model.
+    SDRBase(const ColorModels::Base<PixelDataT, BitDepths...> *colorModel)
       : m_colorModel(colorModel)
     {
-      m_nrmlScaleFactors[0] = m_colorModel->getChannelMax(0) - m_colorModel->getChannelMin(0);
-      m_nrmlScaleFactors[1] = m_colorModel->getChannelMax(1) - m_colorModel->getChannelMin(1);
-      m_nrmlScaleFactors[2] = m_colorModel->getChannelMax(2) - m_colorModel->getChannelMin(2);
+      for(std::size_t i(0); i < NUM_CHANNELS; ++i)
+        m_nrmlScaleFactors[i] = m_colorModel->getChannelMax(i) - m_colorModel->getChannelMin(i);
 
-      m_nrmlOffsets[0] = m_colorModel->getChannelMin(0);
-      m_nrmlOffsets[1] = m_colorModel->getChannelMin(1);
-      m_nrmlOffsets[2] = m_colorModel->getChannelMin(2);
+      for(std::size_t i(0); i < NUM_CHANNELS; ++i)
+        m_nrmlOffsets[i] = m_colorModel->getChannelMin(i);
     }
 
     const IColorModel<PixelDataT> &
@@ -66,34 +64,30 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
                        float *fs
                       ) const
     {
-      float nrmlRgb[3];
+      float nrmlValues[NUM_CHANNELS];
 
-      m_colorModel->convertPixelTo(pixel, nrmlRgb);
+      m_colorModel->convertPixelTo(pixel, nrmlValues);
 
-      nrmlRgb[0] = (nrmlRgb[0] - m_nrmlOffsets[0]) / m_nrmlScaleFactors[0];
-      nrmlRgb[1] = (nrmlRgb[1] - m_nrmlOffsets[1]) / m_nrmlScaleFactors[1];
-      nrmlRgb[2] = (nrmlRgb[2] - m_nrmlOffsets[2]) / m_nrmlScaleFactors[2];
+      for(std::size_t i(0); i < NUM_CHANNELS; ++i)
+        nrmlValues[i] = (nrmlValues[i] - m_nrmlOffsets[i]) / m_nrmlScaleFactors[i];
 
-      nrmlToFundamental(nrmlRgb, fs);
+      nrmlToFundamental(nrmlValues, fs);
     }
 
     PixelDataT
     fundamentalToPixel(float *fs) const {
-      float unnRgb[3];
+      float unnValues[4];
 
-      fundamentalToNrml(fs, unnRgb);
+      fundamentalToNrml(fs, unnValues);
 
-      unnRgb[0] = (unnRgb[0] * m_nrmlScaleFactors[0]) + m_nrmlOffsets[0];
-      unnRgb[1] = (unnRgb[1] * m_nrmlScaleFactors[1]) + m_nrmlOffsets[1];
-      unnRgb[2] = (unnRgb[2] * m_nrmlScaleFactors[2]) + m_nrmlOffsets[2];
+      for(std::size_t i(0) ; i < NUM_CHANNELS; ++i)
+        unnValues[0] = (unnValues[0] * m_nrmlScaleFactors[0]) + m_nrmlOffsets[0];
 
-      return m_colorModel->convertToPixel(unnRgb);
+
+      return m_colorModel->convertToPixel(unnValues);
     }
   protected:
-    const ColorModels::RgbBase<PixelDataT, BitsR, BitsG, BitsB> *m_colorModel;
-
-    float m_nrmlScaleFactors[3];
-    float m_nrmlOffsets[3];
+    const ColorModels::Base<PixelDataT, BitDepths...> *m_colorModel;
 
     // Function:   nrmlToFundamental
     // Purpose:    Convert normalized RGB input in the range [0, 1] to XYZ space values.

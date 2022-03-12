@@ -98,6 +98,8 @@ namespace SDF::ModelLayer::Services::Gil {
         (&Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888);
       auto bkgColor = conv.convert(spec.backgroundColor);
 
+      printf("bkgColor is: %d %d %d\n", boost::gil::at_c<0>(bkgColor), boost::gil::at_c<1>(bkgColor), boost::gil::at_c<2>(bkgColor));
+
       auto proto = Engine::Gil::ImageFactory<Engine::Gil::RGB24_888_Image_Impl>().createU(
         "Untitled", "", widthPx, heightPx, resPpi, bkgColor);
 

@@ -27,7 +27,7 @@
 #include "../ColorModels/Categories.hpp"
 #include "../IColorModel.hpp"
 #include "Fundamental/XyzD65.hpp"
-#include "RgbBase.hpp"
+#include "Superfamilies.hpp"
 
 #include <algorithm>
 #include <cmath>

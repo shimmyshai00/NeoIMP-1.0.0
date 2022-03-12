@@ -41,6 +41,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components {
       throw InvalidSizeException();
     }
 
+    printf("Making layer with color: %d %d %d\n", boost::gil::at_c<0>(initialColor), boost::gil::at_c<1>(initialColor), boost::gil::at_c<2>(initialColor));
     m_data = GilImageT(widthPx, heightPx, initialColor, 0);
   }
 
