@@ -25,57 +25,29 @@
  */
 
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
-  // Class:    Alphaize
-  // Purpose:  A decorator to adapt a "normal" color space to append an alpha channel.
+  // Class:      Alphaize
+  // Purpose:    Adapts a color space defined for an initially alpha channel-free pixel format to an
+  //             alpha channel-possessing one. Note that a converter object must be supplied to
+  //             append and remove the alpha channel. This is a sort of decorator pattern.
+  // Parameters: BaseSpaceT - The base color space type.
+  //             AlphaPixelT - The type of pixel with added alpha channel.
+  //             AlphaBits - The number of bits in the added alpha channel.
+  //             ConverterT - The converter type.
   template<
-    template<class PixelDataT, class FundamentalTraitsT, std::size_t ... BitDepths>
-      class BaseSpaceT,
-    class AlphaPixelDataT, std::size_t AlphaBits,
-    class AlphaCombiner
+    template<class PixelDataT, class FundamentalTraitsT> class BaseSpaceT,
+    std::size_t AlphaPixelT,
+    class ConverterT
   >
-  class Alphaize : public IColorSpace<AlphaPixelDataT, FundamentalTraitsT>,
-                   public BaseSpaceT
-  {
+  class Alphaize : public IColorSpace<AlphaPixelT, FundamentalTraitsT> {
   private:
-    ColorModels::Alphaize<IColorModel<PixelDataT>, AlphaPixelDataT, AlphaBits, AlphaCombiner>
-      m_colorModel;
-
-    float m_nrmlScaleFactor;
-    float m_nrmlOffset;
+    const BaseSpaceT *m_baseSpace;
   public:
-    inline
-    Alphaize(const BaseSpaceT &baseSpace)
-      : BaseSpaceT(baseSpace),
-        m_colorModel(BaseSpaceT::getColorModel()),
-        m_nrmlScaleFactor(m_colorModel->getAlphaMax() - m_colorModel->getAlphaMin()),
-        m_nrmlOffset(m_colorMode->getAlphaMin())
-    {}
-
-    const IColorModel<AlphaPixelDataT> &
-    getColorModel() const {
-      return m_colorModel;
-    }
-
-    void
-    pixelToFundamental(AlphaPixelDataT pixel,
-                       float *fs
-                      ) const
+    Alphaize(const BaseSpaceT *baseSpace)
+      : m_baseSpace(baseSpace)
     {
-      AlphaCombiner ac;
-      std::pair<PixelDataT, float> splitPixel = ac.split(pixel);
-
-      BaseSpaceT::pixelToFundamental(splitPixel.first, fs);
-      fs[m_colorModel->getNumChannels()-1] = splitPixel.second;
     }
 
-    AlphaPixelDataT
-    fundamentalToPixel(float *fs) const {
-      AlphaCombiner ac;
-      PixelDataT pixel = BaseSpaceT::fundamentaToPixel(fs);
 
-      return ac.combine(pixel, fs[m_colorModel->getNumChannels()-1]);
-    }
-  };
+  }
 }
-
 #endif

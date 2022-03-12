@@ -32,6 +32,12 @@
 namespace SDF::ModelLayer::DomainObjects::Engine::ColorModels {
   template<class PixelDataT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   class RgbBase : public Base<PixelDataT, BitsR, BitsG, BitsB> {};
+
+  template<
+    class PixelDataT,
+    std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
+  >
+  class RgbaBase : public Base<PixelDataT, BitsR, BitsG, BitsB, BitsA> {};
 }
 
 #endif
