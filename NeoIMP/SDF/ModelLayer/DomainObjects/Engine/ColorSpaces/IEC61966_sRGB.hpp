@@ -85,9 +85,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
                        ) const
       {
         // This function was actually coded first.
-        float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[0] - 0.4986286f*fs[0], 0.0f, 1.0f);
-        float GL = std::clamp<float>(-0.9689307f*fs[1] + 1.8757561f*fs[1] + 0.0415175f*fs[1], 0.0f, 1.0f);
-        float BL = std::clamp<float>(0.0557101f*fs[2] - 0.2040211f*fs[2] + 1.0569959f*fs[2], 0.0f, 1.0f);
+        float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[1] - 0.4986286f*fs[2], 0.0f, 1.0f);
+        float GL = std::clamp<float>(-0.9689307f*fs[0] + 1.8757561f*fs[1] + 0.0415175f*fs[2], 0.0f, 1.0f);
+        float BL = std::clamp<float>(0.0557101f*fs[0] - 0.2040211f*fs[1] + 1.0569959f*fs[2], 0.0f, 1.0f);
 
         // Standardized gamma correction
         if(RL <= 0.0031308) {

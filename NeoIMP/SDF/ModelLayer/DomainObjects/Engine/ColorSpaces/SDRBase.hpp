@@ -73,7 +73,11 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
       for(std::size_t i(0); i < NUM_CHANNELS; ++i)
         nrmlValues[i] = (nrmlValues[i] - m_nrmlOffsets[i]) / m_nrmlScaleFactors[i];
 
+      printf("   nrml pixel rgb: %f %f %f\n", nrmlValues[0], nrmlValues[1], nrmlValues[2]);
+
       nrmlToFundamental(nrmlValues, fs);
+
+      printf("   fs: %f %f %f\n", fs[0], fs[1], fs[2]);
     }
 
     PixelDataT
@@ -84,7 +88,6 @@ namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces {
 
       for(std::size_t i(0) ; i < NUM_CHANNELS; ++i)
         unnValues[i] = (unnValues[i] * m_nrmlScaleFactors[i]) + m_nrmlOffsets[i];
-
 
       return m_colorModel->convertToPixel(unnValues);
     }

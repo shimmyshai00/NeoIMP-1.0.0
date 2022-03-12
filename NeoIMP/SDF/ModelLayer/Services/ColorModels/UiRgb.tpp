@@ -30,7 +30,7 @@ namespace SDF::ModelLayer::Services::ColorModels {
   template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline UiPixelT
   UiRgb<UiPixelT, BitsR, BitsG, BitsB>::convertToPixel(float *values) const {
-    return UiPixelT(floor(values[0]), floor(values[1]), floor(values[2]));
+    return UiPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f));
   }
 
   template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>

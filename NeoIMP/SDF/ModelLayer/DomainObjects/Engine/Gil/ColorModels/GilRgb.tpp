@@ -28,7 +28,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline GilPixelT
   GilRgb<GilPixelT, BitsR, BitsG, BitsB>::convertToPixel(float *values) const {
-    return GilPixelT(values[0], values[1], values[2]);
+    return GilPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f));
   }
 
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
