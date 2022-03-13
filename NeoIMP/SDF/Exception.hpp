@@ -85,6 +85,18 @@ namespace SDF {
     excName(typ1 arg1, typ2 arg2) noexcept : Exception(false, whatString, arg1, arg2) {} \
   };
 
+#define SDF_DEF_NRM_EXCEPTION_3(excName, whatString, typ1, typ2, typ3) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2, typ3 arg3) noexcept \
+      : Exception(false, whatString, arg1, arg2, arg3) {} \
+  };
+
+#define SDF_DEF_NRM_EXCEPTION_4(excName, whatString, typ1, typ2, typ3, typ4) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2, typ3 arg3, typ4 arg4) noexcept \
+      : Exception(false, whatString, arg1, arg2, arg3, arg4) {} \
+  };
+
 #define SDF_DEF_BUG_EXCEPTION(excName, whatString) \
   struct excName : public SDF::Exception { \
     excName() noexcept : Exception(false, whatString) {} \

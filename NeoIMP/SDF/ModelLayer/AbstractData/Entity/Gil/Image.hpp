@@ -24,26 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
-#include "../../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
-
 #include "Layer.hpp"
 
+#include <boost/gil/image.hpp>
 #include <cstddef>
 
-#include <boost/gil/image.hpp>
-
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class GilImageT>
+  template<class GilBkgImageT, class GilImageT>
   struct Image {
-    std::size_t widthPx;
-    std::size_t heightPx;
-    float resolutionPpi;
+    std::size_t m_fileSpec;
+    std::size_t m_widthPx;
+    std::size_t m_heightPx;
+    float m_resolutionPpi;
 
-    UILayer::AbstractModel::Defs::EColorModel colorModel;
-    UILayer::AbstractModel::Defs::EBitDepth bitDepth;
-
-    std::vector<Layer<GilImageT>> layers;
+    Layer<GilBkgImageT> m_backgroundLayer;
+    std::vector<Layer<GilImageT>> m_layers;
   };
 }
 

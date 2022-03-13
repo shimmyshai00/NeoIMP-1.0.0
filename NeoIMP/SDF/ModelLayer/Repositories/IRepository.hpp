@@ -58,6 +58,22 @@ namespace SDF::ModelLayer::Repositories {
     virtual void
     erase(Common::Handle uid) = 0;
 
+    /*
+    // asynchrone access - generally for expensive databases and/or big objects requiring long
+    // read/write operations
+    virtual std::future<ObjT *>
+    insertAsync(Common::Handle uid, std::unique_ptr<objT> obj) = 0;
+
+    virtual std::future<ObjT *>
+    retrieveAsync(Common::Handle uid) = 0;
+
+    virtual std::future<void>
+    updateAsync(Common::Handle uid, ObjT *obj) = 0;
+
+    virtual std::future<void>
+    eraseAsync(Common::Handle uid, ObjT *obj) = 0;
+    */
+
     virtual Common::PIConnection
     addInsertListener(std::shared_ptr<Common::IListener<Common::Handle>> listener) = 0;
 

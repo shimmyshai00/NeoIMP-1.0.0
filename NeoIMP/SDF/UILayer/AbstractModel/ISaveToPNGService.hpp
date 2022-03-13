@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_IDATAMAPPER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_IDATAMAPPER_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_ISAVETOPNGSERVICE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_ISAVETOPNGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDataMapper.hpp
- * PURPOSE: Defines the IDataMapper interface.
+ * FILE:    ISaveToPNGService.hpp
+ * PURPOSE: Defines the ISaveToPNGService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,29 +27,26 @@
 #include "../../Common/Handle.hpp"
 
 #include <memory>
+#include <string>
 
-namespace SDF::ModelLayer::AbstractData {
-  // Class:      IDataMapper
-  // Purpose:    Defines an interface for a data mapper (object to move data between persistent
-  //             storage and memory).
-  // Parameters: EntityT - The type of entity mapped into the persistent storage.
-  template<class EntityT>
-  class IDataMapper {
+namespace SDF::UILayer::AbstractModel {
+  // Class:      ISaveToPNGService
+  // Purpose:    Defines the interface for an MVC service that saves image documents to PNG files.
+  // Parameters: None.
+  class ISaveToPNGService {
   public:
-    virtual ~IDataMapper() = default;
+    virtual ~ISaveToPNGService() = default;
 
-    // The usual database access methods (CRUD).
+    // Function:   save
+    // Purpose:    Saves an image document to a .PNG file.
+    // Parameters: imageHandle - The handle of the image to save.
+    //             fileSpec - The file spec to save to.
+    //             fileFormat - The file format to save in.
+    // Returns:    None.
     virtual void
-    insert(Common::Handle uid, EntityT *entity) = 0;
-
-    virtual std::unique_ptr<EntityT>
-    retrieve(Common::Handle uid) = 0;
-
-    virtual void
-    update(Common::Handle uid, EntityT *entity) = 0;
-
-    virtual void
-    erase(Common::Handle uid) = 0;
+    save(Common::Handle imageHandle,
+         std::string fileSpec
+        ) = 0;
   };
 }
 

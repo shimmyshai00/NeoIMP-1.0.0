@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYIMAGE_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYIMAGE_HPP
+#ifndef SDF_MODELLAYER_SERVICES_GIL_PERSISTENCE_SAVETOPNGSERVICE_HPP
+#define SDF_MODELLAYER_SERVICES_GIL_PERSISTENCE_SAVETOPNGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AnyImage.hpp
- * PURPOSE: Defines the AnyImage struct.
+ * FILE:    SaveToPNGService.hpp
+ * PURPOSE: Defines the SaveToPNGService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "AnyLayer.hpp"
+#include "../../../../Common/Handle.hpp"
+#include "../../../../UILayer/AbstractModel/ISaveToPNGService.hpp"
 
-#include <cstddef>
+#include <string>
 
-#include <boost/gil/extension/dynamic_image/any_image.hpp>
+namespace SDF::ModelLayer::Services::Gil::Persistence {
+  // Class:       SaveToPNGService
+  // Purpose:     Implements the ISaveToPNGService interface for the Boost.GIL engine framework.
+  // Parammeters: None.
+  class SaveToPNGService : public UILayer::AbstractModel::ISaveToPNGService {
+  public:
+    INJECT(SaveToPNGService(
+      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    ));
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class ... GilImageTs>
-  struct AnyImage {
-    std::size_t widthPx;
-    std::size_t heightPx;
-    float resolutionPpi;
-
-    std::vector<AnyLayer<GilImageTs...>> layers;
-  };
+    void
+    save(Common::Handle imageHandle,
+         std::string fileSpec
+        );
+  }
 }
-
 #endif

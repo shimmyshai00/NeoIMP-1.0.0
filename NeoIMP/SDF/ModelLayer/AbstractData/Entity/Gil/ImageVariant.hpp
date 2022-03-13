@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYLAYER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ANYLAYER_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGEVARIANT_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGEVARIANT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AnyLayer.hpp
- * PURPOSE: Defines the AnyLayer struct.
+ * FILE:    ImageVariant.hpp
+ * PURPOSE: Defines the entity variant for Boost.GIL-based images.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <cstddef>
-
-#include <boost/gil/extension/dynamic_image/any_image.hpp>
+#include <boost/variant2/variant.hpp>
 
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class ... GilImageTs>
-  struct AnyLayer {
-    std::size_t widthPx;
-    std::size_t heightPx;
+  template<class ... ImageEntityTs>
+  typedef boost::variant2::variant<ImageEntityTs...> ImageVariant;
+}
 
-    typename boost::gil::any_image<GilImageTs...>::const_view_t imageView;
-  };
+namespace SDF::ModelLayer::AbstractData::Entity::Gil {
+  // Helper method.
+  template<typename V, class Variant>
+  auto visitEntity(V&& visitor, Variant &&variant) {
+    // nb: this weird construct seems sus; may need to rethink this.
+    return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+  }
 }
 
 #endif

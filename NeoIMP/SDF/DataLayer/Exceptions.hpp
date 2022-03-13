@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_LAYER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_LAYER_HPP
+#ifndef SDF_DATALAYER_EXCEPTIONS_HPP
+#define SDF_DATALAYER_EXCEPTIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Layer.hpp
- * PURPOSE: Defines the entity for Boost.GIL-based image layers.
+ * FILE:    Exceptions.hpp
+ * PURPOSE: Defines the exceptions thrown from the data layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/gil/image.hpp>
-#include <cstddef>
+#include "../Common/Handle.hpp"
+#include "../Exception.hpp"
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class GilImageT>
-  class Layer {
-  public:
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
+namespace SDF::DataLayer {
+  SDF_DEF_BUG_EXCEPTION(UidInUseException, "UID is already in use")
+  SDF_DEF_BUG_EXCEPTION(FileSpecNotFoundException, "File spec not found")
 
-    GilImageT *m_data;
-
-    Layer(std::size_t widthPx,
-          std::size_t heightPx,
-          GilImageT *data
-         )
-      : m_widthPx(widthPx),
-        m_heightPx(heightPx),
-        m_data(data)
-    {
-    }
-  };
+  SDF_DEF_NRM_EXCEPTION_4(InconsistentDimensionsException, "Image with inconsistent background dimensionality tried (%u x %u background layer in %u x %u image)", std::size_t, std::size_t, std::size_t, std::size_t)
+  SDF_DEF_NRM_EXCEPTION_1(EntityAlreadyInsertedException, "Entity %d already inserted", Common::Handle)
+  SDF_DEF_NRM_EXCEPTION_1(EntityNotFoundException, "Entity %d not found", Common::Handle)
 }
 
 #endif
