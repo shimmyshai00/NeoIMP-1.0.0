@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGE_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGE_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYSPEC_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYSPEC_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Image.hpp
- * PURPOSE: Defines the Image struct.
+ * FILE:    EntitySpec.hpp
+ * PURPOSE: Defines traits for layer output entities.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Layer.hpp"
-
-#include <boost/gil/image.hpp>
-#include <cstddef>
+#include <boost/gil/typedefs.hpp>
 
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class GilBkgImageT, class GilImageT>
-  struct Image {
-    std::size_t m_fileSpec;
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
-    float m_resolutionPpi;
-
-    Layer<GilBkgImageT> m_backgroundLayer;
-    std::vector<Layer<GilImageT>> m_layers;
+  struct RGB24_888_Image_Entity {
+    typedef boost::gil::rgb8_image_t bg_buffer_t;
+    typedef boost::gil::rgba8_image_t fg_buffer_t;
   };
-}
+};
 
 #endif

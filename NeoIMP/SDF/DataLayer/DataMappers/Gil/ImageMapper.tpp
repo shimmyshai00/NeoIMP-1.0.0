@@ -43,7 +43,7 @@ namespace SDF::DataLayer::DataMappers::Gil {
     }
 
     m_fileRegistry->registerFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(entity->m_fileSpec, Persisters::DIR_SAVE);
+    PersisterT persister(Persisters::DIR_SAVE);
     Persisters::apply(persister, *entity);
   }
 
@@ -61,7 +61,7 @@ namespace SDF::DataLayer::DataMappers::Gil {
     }
 
     m_fileRegistry->updateFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(entity->m_fileSpec, Persisters::DIR_SAVE);
+    PersisterT persister(Persisters::DIR_SAVE);
     Persisters::apply(persister, *entity);
   }
 

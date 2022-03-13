@@ -1,5 +1,5 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_LAYER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_LAYER_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_LAYER_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_LAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,27 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/gil/image.hpp>
+#include "Components/Raster.hpp"
+
 #include <cstddef>
+#include <memory>
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class GilImageT>
-  class Layer {
-  public:
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
-
-    GilImageT *m_data;
-
-    Layer(std::size_t widthPx,
-          std::size_t heightPx,
-          GilImageT *data
-         )
-      : m_widthPx(widthPx),
-        m_heightPx(heightPx),
-        m_data(data)
-    {
-    }
+namespace SDF::ModelLayer::AbstractData::Entity {
+  template<class ImgEntSpecT>
+  struct Layer {
+    // Component slots. Only one of the content component slots should be filled at a time.
+    std::unique_ptr<Components::Raster<typename ImgEntSpecT::fg_buffer_t>> m_fgRasterContent;
+    std::unique_ptr<Components::Raster<typename ImgEntSpecT::bg_buffer_t>> m_bgRasterContent;
   };
 }
 
