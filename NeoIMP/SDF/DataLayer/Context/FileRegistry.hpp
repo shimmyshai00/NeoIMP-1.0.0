@@ -29,6 +29,7 @@
 
 #include <fruit/fruit.h>
 #include <string>
+#include <map>
 
 namespace SDF::DataLayer::Context {
   // Class:      FileRegistry
@@ -41,8 +42,12 @@ namespace SDF::DataLayer::Context {
     // Parameters: None.
     INJECT(FileRegistry());
 
+    // Function:   hasFileUid
+    // Purpose:    Checks if a given uid is known to the registry.
+    // Parameters: uid - The uid to check.
+    // Returns:    Whether the uid is known.
     bool
-    hasFileSpec(std::string fileSpec) const;
+    hasFileUid(Common::Handle uid) const;
 
     Common::Handle
     getFileUid(std::string fileSpec);

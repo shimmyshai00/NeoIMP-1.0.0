@@ -29,7 +29,7 @@
 
 #include <boost/variant2/variant.hpp>
 
-namespace SDF::DataLayer::DataMappers::Gil::Persisters::Apply {
+namespace SDF::DataLayer::DataMappers::Gil::Persisters {
   template<class Persister, class GilBkgImageT, class GilImageT>
   void apply(Persister pers,
              ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> &entity
@@ -40,7 +40,7 @@ namespace SDF::DataLayer::DataMappers::Gil::Persisters::Apply {
 
   template<class Persister, class ... ImageEntityTs>
   void apply(Persister pers,
-             ModelLayer::AbstractData::Entity::Gil::ImageVariant<GilImplTs...> &entity;
+             ModelLayer::AbstractData::Entity::Gil::ImageVariant<ImageEntityTs...> &entity
             )
   {
     using namespace ModelLayer::AbstractData::Entity::Gil;

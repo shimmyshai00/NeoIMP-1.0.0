@@ -26,23 +26,14 @@
 #include "../Exceptions.hpp"
 
 namespace SDF::DataLayer::Context {
-  FileRegistry::FileRegistry()
-    : m_nextHandle(0)
-  {
+  FileRegistry::FileRegistry() {
   }
 
   bool
-  FileRegistry::hasFileSpec(std::string fileSpec) const {
-    // Note: This reverse lookup is not efficient, but should not matter for this use case.
-    for(const auto &kvp : m_fileSpecMap) {
-      if(kvp.second == fileSpec) {
-        return true;
-      }
-    }
-
-    return false;
+  FileRegistry::hasFileUid(Common::Handle uid) const {
+    return (m_fileSpecMap.find(uid) != m_fileSpecMap.end());
   }
-  
+
   Common::Handle
   FileRegistry::getFileUid(std::string fileSpec) {
     // Note: This reverse lookup is not efficient, but should not matter for this use case.

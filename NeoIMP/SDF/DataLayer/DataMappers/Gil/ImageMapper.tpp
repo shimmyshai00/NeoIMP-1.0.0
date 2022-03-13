@@ -24,38 +24,39 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../Exceptions.hpp"
 #include "Persisters/Apply.hpp"
 #include "Persisters/Png.hpp"
 
 namespace SDF::DataLayer::DataMappers::Gil {
-  template<class ImageEntityT, class PersisterT>
-  ImageMapper<ImageEntityT, PersisterT>::ImageMapper(Context::FileRegistry *fileRegistry)
+  template<class PersisterT, class ImageEntityT>
+  ImageMapper<PersisterT, ImageEntityT>::ImageMapper(Context::FileRegistry *fileRegistry)
     : m_fileRegistry(fileRegistry)
   {
   }
 
-  template<class ImageEntityT, class PersisterT>
+  template<class PersisterT, class ImageEntityT>
   void
-  ImageMapper<ImageEntityT, PersisterT>::insert(Common::Handle uid, entity_t *entity) {
-    if(m_fileRegistry->hasFileSpec(uid)) {
+  ImageMapper<PersisterT, ImageEntityT>::insert(Common::Handle uid, ImageEntityT *entity) {
+    if(m_fileRegistry->hasFileUid(uid)) {
       throw EntityAlreadyInsertedException(uid);
     }
 
-    m_fileRegistry.registerFileSpec(uid, entity->m_fileSpec);
+    m_fileRegistry->registerFileSpec(uid, entity->m_fileSpec);
     PersisterT persister(entity->m_fileSpec, Persisters::DIR_SAVE);
     Persisters::apply(persister, *entity);
   }
 
-  template<class ImageEntityT, class PersisterT>
-  std::unique_ptr<entity_t>
-  ImageMapper<ImageEntityT, PersisterT>::retrieve(Common::Handle uid) {
+  template<class PersisterT, class ImageEntityT>
+  std::unique_ptr<ImageEntityT>
+  ImageMapper<PersisterT, ImageEntityT>::retrieve(Common::Handle uid) {
     throw "NOT YET IMPLEMENTED";
   }
 
-  template<class ImageEntityT, class PersisterT>
+  template<class PersisterT, class ImageEntityT>
   void
-  ImageMapper<ImageEntityT, PersisterT>::update(Common::Handle uid, entity_t *entity) {
-    if(!m_fileRegistry->hasFileSpec(uid)) {
+  ImageMapper<PersisterT, ImageEntityT>::update(Common::Handle uid, ImageEntityT *entity) {
+    if(!m_fileRegistry->hasFileUid(uid)) {
       throw EntityNotFoundException(uid);
     }
 
@@ -64,9 +65,9 @@ namespace SDF::DataLayer::DataMappers::Gil {
     Persisters::apply(persister, *entity);
   }
 
-  template<class ImageEntityT, class PersisterT>
+  template<class PersisterT, class ImageEntityT>
   void
-  ImageMapper<ImageEntityT, PersisterT>::erase(Common::Handle uid) {
+  ImageMapper<PersisterT, ImageEntityT>::erase(Common::Handle uid) {
     // Just forget about the file UID - no deletion!
     m_fileRegistry->forgetFileSpec(uid);
   }

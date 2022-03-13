@@ -32,7 +32,6 @@ namespace SDF::DataLayer::DataMappers::Gil::Persisters {
   template<class GilBkgImageT, class GilImageT>
   void
   Png::operator()(ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> &ent) {
-    using namespace boost::gil::extension::io;
     using namespace boost::gil;
 
     if(m_direction == DIR_SAVE) {

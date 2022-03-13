@@ -28,7 +28,7 @@
 
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
   template<class ... ImageEntityTs>
-  typedef boost::variant2::variant<ImageEntityTs...> ImageVariant;
+  using ImageVariant = boost::variant2::variant<ImageEntityTs...>;
 }
 
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {

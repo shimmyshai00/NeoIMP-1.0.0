@@ -34,10 +34,10 @@
 namespace SDF::DataLayer::DataMappers::Gil {
   // Class:      ImageMapper
   // Purpose:    Defines a data mapper for mapping Boost.GIL-based NeoIMP images.
-  // Parameters: ImageEntityT - The image entity type (either Image or ImageVariant from
+  // Parameters: PersisterT - The type of persister to use (allows changing file format).
+  //             ImageEntityT - The image entity type (either Image or ImageVariant from
   //                            ModelLayer::AbstractData::Entity::Gil).
-  //             PersisterT - The type of persister to use (allows changing file format).
-  template<class ImageEntityT, class PersisterT>
+  template<class PersisterT, class ImageEntityT>
   class ImageMapper : public ModelLayer::AbstractData::IDataMapper<ImageEntityT> {
   public:
     // Function:   ImageMapper
@@ -62,13 +62,13 @@ namespace SDF::DataLayer::DataMappers::Gil {
 
 namespace SDF::DataLayer::DataMappers::Gil {
   // Conveniene typedefs.
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  template<class PersisterT, class GilBkgImageT, class GilImageT>
   using SingleImageMapper =
-    ImageMapper<ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT>, PersisterT>;
+    ImageMapper<PersisterT, ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT>>;
 
-  template<class ... ImageEntityTs, class PersisterT>
+  template<class PersisterT, class ... ImageEntityTs>
   using MultiImageMapper =
-    ImageMapper<ModelLayer::AbstractData::Entity::Gil::ImageVariant<ImageEntityTs...>, PersisterT>;
+    ImageMapper<PersisterT, ModelLayer::AbstractData::Entity::Gil::ImageVariant<ImageEntityTs...>>;
 }
 
 #include "ImageMapper.tpp"
