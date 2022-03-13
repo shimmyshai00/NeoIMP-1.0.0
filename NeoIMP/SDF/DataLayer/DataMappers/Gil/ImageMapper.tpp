@@ -24,48 +24,49 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "Persisters/Apply.hpp"
 #include "Persisters/Png.hpp"
 
 namespace SDF::DataLayer::DataMappers::Gil {
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
-  ImageMapper<GilBkgImageT, GilImageT, PersisterT>::ImageMapper(Context::FileRegistry *fileRegistry)
+  template<class ImageEntityT, class PersisterT>
+  ImageMapper<ImageEntityT, PersisterT>::ImageMapper(Context::FileRegistry *fileRegistry)
     : m_fileRegistry(fileRegistry)
   {
   }
 
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  template<class ImageEntityT, class PersisterT>
   void
-  ImageMapper<GilBkgImageT, GilImageT, PersisterT>::insert(Common::Handle uid, entity_t *entity) {
+  ImageMapper<ImageEntityT, PersisterT>::insert(Common::Handle uid, entity_t *entity) {
     if(m_fileRegistry->hasFileSpec(uid)) {
       throw EntityAlreadyInsertedException(uid);
     }
 
     m_fileRegistry.registerFileSpec(uid, entity->m_fileSpec);
     PersisterT persister(entity->m_fileSpec, Persisters::DIR_SAVE);
-    persister(*entity);
+    Persisters::apply(persister, *entity);
   }
 
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  template<class ImageEntityT, class PersisterT>
   std::unique_ptr<entity_t>
-  ImageMapper<GilBkgImageT, GilImageT, PersisterT>::retrieve(Common::Handle uid) {
+  ImageMapper<ImageEntityT, PersisterT>::retrieve(Common::Handle uid) {
     throw "NOT YET IMPLEMENTED";
   }
 
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  template<class ImageEntityT, class PersisterT>
   void
-  ImageMapper<GilBkgImageT, GilImageT, PersisterT>::update(Common::Handle uid, entity_t *entity) {
+  ImageMapper<ImageEntityT, PersisterT>::update(Common::Handle uid, entity_t *entity) {
     if(!m_fileRegistry->hasFileSpec(uid)) {
       throw EntityNotFoundException(uid);
     }
 
     m_fileRegistry->updateFileSpec(uid, entity->m_fileSpec);
     PersisterT persister(entity->m_fileSpec, Persisters::DIR_SAVE);
-    persister(*entity);
+    Persisters::apply(persister, *entity);
   }
 
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  template<class ImageEntityT, class PersisterT>
   void
-  ImageMapper<GilBkgImageT, GilImageT, PersisterT>::erase(Common::Handle uid) {
+  ImageMapper<ImageEntityT, PersisterT>::erase(Common::Handle uid) {
     // Just forget about the file UID - no deletion!
     m_fileRegistry->forgetFileSpec(uid);
   }

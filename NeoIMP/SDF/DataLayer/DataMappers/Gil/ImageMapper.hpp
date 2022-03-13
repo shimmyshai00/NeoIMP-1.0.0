@@ -34,34 +34,41 @@
 namespace SDF::DataLayer::DataMappers::Gil {
   // Class:      ImageMapper
   // Purpose:    Defines a data mapper for mapping Boost.GIL-based NeoIMP images.
-  // Parameters: GilBkgImageT, GilImageT - The Boost.GIL image base types.
+  // Parameters: ImageEntityT - The image entity type (either Image or ImageVariant from
+  //                            ModelLayer::AbstractData::Entity::Gil).
   //             PersisterT - The type of persister to use (allows changing file format).
-  template<class GilBkgImageT, class GilImageT, class PersisterT>
-  class ImageMapper : public ModelLayer::AbstractData::IDataMapper<
-                        ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT>
-                      >
-  {
+  template<class ImageEntityT, class PersisterT>
+  class ImageMapper : public ModelLayer::AbstractData::IDataMapper<ImageEntityT> {
   public:
-    typedef ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> entity_t;
-
     // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
     INJECT(ImageMapper(Context::FileRegistry *fileRegistry));
 
     void
-    insert(Common::Handle uid, entity_t *entity);
+    insert(Common::Handle uid, ImageEntityT *entity);
 
-    std::unique_ptr<entity_t>
+    std::unique_ptr<ImageEntityT>
     retrieve(Common::Handle uid);
 
     void
-    update(Common::Handle uid, entity_t *entity);
+    update(Common::Handle uid, ImageEntityT *entity);
 
     void
     erase(Common::Handle uid);
   private:
     Context::FileRegistry *m_fileRegistry;
   };
+}
+
+namespace SDF::DataLayer::DataMappers::Gil {
+  // Conveniene typedefs.
+  template<class GilBkgImageT, class GilImageT, class PersisterT>
+  using SingleImageMapper =
+    ImageMapper<ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT>, PersisterT>;
+
+  template<class ... ImageEntityTs, class PersisterT>
+  using MultiImageMapper =
+    ImageMapper<ModelLayer::AbstractData::Entity::Gil::ImageVariant<ImageEntityTs...>, PersisterT>;
 }
 
 #include "ImageMapper.tpp"

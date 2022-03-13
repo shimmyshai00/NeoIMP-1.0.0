@@ -1,12 +1,9 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EntityTypes.hpp
- * PURPOSE: Defines a set of predefined image entity types.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the Boost.GIL-based data mapper subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +21,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Image.hpp"
-#include "ImageVariant.hpp"
+#include "Component.hpp"
 
-#include <boost/gil/typedefs.hpp>
-#include <boost/gil/image.hpp>
+#include "Persisters/Png.hpp"
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  typedef Image<boost::gil::rgb8_image_t, boost::gil::rgba8_image_t> RGB24_888_Image;
-  
-  typedef ImageVariant<RGB24_888_Image> Any_Image;
+namespace SDF::DataLayer::DataMappers::Gil {
+  Component
+  getComponent() {
+    using namespace ModelLayer::AbstractData;
+
+    return fruit::createComponent()
+      .bind<
+        fruit::Annotated<Formats::PNG, IDataMapper<Entity::Gil::RGB24_888_Image>>,
+        ImageMapper<Entity::Gil::RGB24_888_Image, Persisters::Png>
+       >()
+      .bind<
+        fruit::Annotated<Formats::PNG, IDataMapper<Entity::Gil::Any_Image>>,
+        ImageMapper<Entity::Gil::Any_Image, Persisters::Png>
+       >()
+  };
 }
-
-#endif
