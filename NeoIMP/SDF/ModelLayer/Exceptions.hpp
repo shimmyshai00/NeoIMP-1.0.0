@@ -45,6 +45,7 @@ namespace SDF::ModelLayer {
   SDF_DEF_BUG_EXCEPTION(OutOfRangeException, "Tried to perform an out-of-bounds access.")
   SDF_DEF_BUG_EXCEPTION(ObjectNotFoundInRepositoryException, "Object not found in repository.")
   SDF_DEF_BUG_EXCEPTION(BadCastException, "Tried to cast to wrong type.")
+  SDF_DEF_BUG_EXCEPTION(ComponentAlreadyAddedException, "Tried to add the same kind of component to a layer twice.")
 }
 
 #endif

@@ -1,12 +1,13 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_COMPONENTS_RASTER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_COMPONENTS_RASTER_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_XYZD65_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_XYZD65_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Raster.hpp
- * PURPOSE: Defines the Raster struct.
+ * FILE:    XyzD65.hpp
+ * PURPOSE: Defines the traits for the fundamental space given by CIE 1931 XYZ with a D65 standard
+ *          illuminant white point.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,23 +27,18 @@
 
 #include <cstddef>
 
-namespace SDF::ModelLayer::AbstractData::Entity::Components {
-  template<class DataT>
-  struct Raster {
-    std::size_t m_widthPx;
-    std::size_t m_heightPx;
+namespace SDF::ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental {
+  struct XyzD65 {
+    static constexpr const std::size_t num_channels = 3;
 
-    DataT *m_data;
+    // The white point for this color space.
+    static constexpr const float white_point_x = 0.31271f;
+    static constexpr const float white_point_y = 0.32902f;
+    static constexpr const float white_point_z = 0.35827f;
 
-    Raster(std::size_t widthPx,
-           std::size_t heightPx,
-           DataT *data
-          )
-      : m_widthPx(widthPx),
-        m_heightPx(heightPx),
-        m_data(data)
-    {
-    }
+    // The normalization factor - in this case we want to normalize the Y-component to be equal to
+    // 1.
+    static constexpr const float white_point_nrml_fac = white_point_y;
   };
 }
 

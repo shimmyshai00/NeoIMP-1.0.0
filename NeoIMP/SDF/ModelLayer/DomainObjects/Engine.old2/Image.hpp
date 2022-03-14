@@ -36,10 +36,8 @@
 namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      Image
   // Purpose:    Defines an image object. This is actually a fully-instantiatable class template.
-  //             The engine uses a composition-favoring system that builds images up from components
-  //             (sort of like the "entity-component-system" architecture common in games, but with
-  //             a little less freedom). The image object defines some basic characteristics and
-  //             provides the layer stack, which is common to all engine implementations.
+  //             The idea is to use a composition-favoring system allowing for extension and
+  //             modification of layers as well as the easy addition of new layer types.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
   class Image {
@@ -57,7 +55,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
           ImageMeasure widthPx,
           ImageMeasure heightPx,
           float resolutionPpi,
-          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
+          std::unique_ptr<typename ImplSpecT::background_layer_t> backgroundLayer
          );
 
     // Function:   getName
@@ -109,15 +107,44 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     std::size_t
     getNumLayers() const;
 
-    // Function:   getLayer
-    // Purpose:    Access a layer of this image.
+    // Function:   getBackgroundLayer
+    // Purpose:    Gets the non-convertible background layer of this image.
+    // Parameters: None.
+    // Returns:    A reference to the background layer.
+    typename ImplSpecT::background_layer_t &
+    getBackgroundLayer();
+
+    const typename ImplSpecT::background_layer_t &
+    getBackgroundLayer() const;
+
+    // Function:   getLayerType
+    // Purpose:    Gets the type of a given image layer.
     // Parameters: layerNum - The layer number to get.
+    // Returns:    The type of the requested layer.
+    ELayerType
+    getLayerType(std::size_t layerNum) const;
+
+    // Function:   getLayer
+    // Purpose:    Access a foreground layer of this image.
+    // Parameters: layerNum - The layer number to get. 0 is the background layer so will not work.
     // Returns:    The requested layer.
-    Layer<ImplSpecT> &
+    ILayer<ImplSpecT> &
     getLayer(std::size_t layerNum);
 
-    const Layer<ImplSpecT> &
+    const ILayer<ImplSpecT> &
     getLayer(std::size_t layerNum) const;
+
+    // Function:   getLayerAs
+    // Purpose:    Access a foreground layer of this image as its type.
+    // Parameters: layerNum - The layer number to get. 0 is the background layer so will not work.
+    // Returns:    The requested layer.
+    template<class U>
+    U &
+    getLayerAs(std::size_t layerNum);
+
+    template<class U>
+    const U &
+    getLayerAs(std::size_t layerNum) const;
   private:
     std::string m_name;
     std::string m_fileSpec;
@@ -126,7 +153,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
-    std::vector<std::unique_ptr<Layer<ImplSpecT>>> m_layers;
+    std::unique_ptr<ImplSpecT::background_layer_t> m_backgroundLayer;
+    std::vector<std::unique_ptr<ILayer<ImplSpecT>>> m_layers;
   };
 }
 

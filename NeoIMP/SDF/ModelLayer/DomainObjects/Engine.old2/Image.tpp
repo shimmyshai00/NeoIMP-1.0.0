@@ -33,15 +33,15 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
                           ImageMeasure widthPx,
                           ImageMeasure heightPx,
                           float resolutionPpi,
-                          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
+                          std::unique_ptr<typename ImplSpecT::background_layer_t> backgroundLayer
                          )
     : m_name(name),
       m_fileSpec(fileSpec),
       m_widthPx(widthPx),
       m_heightPx(heightPx),
-      m_resolutionPpi(resolutionPpi)
+      m_resolutionPpi(resolutionPpi),
+      m_backgroundLayer(std::move(backgroundLayer))
   {
-    m_layers.push_back(std::move(backgroundLayer));
   }
 
   template<class ImplSpecT>
@@ -87,24 +87,79 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
-  Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
-    if(layerNum >= m_layers.size()) {
+  typename ImplSpecT::background_layer_t &
+  Image<ImplSpecT>::getBackgroundLayer() {
+    return *m_backgroundLayer;
+  }
+
+  template<class ImplSpecT>
+  const typename ImplSpecT::background_layer_t &
+  Image<ImplSpecT>::getBackgroundLayer() const {
+    return *m_backgroundLayer;
+  }
+
+  template<class ImplSpecT>
+  ELayerType
+  Image<ImplSpecT>::getLayerType(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
       // Oops
       throw OutOfRangeException();
     } else {
-      return *m_layers[layerNum];
+      return m_layers[layerNum-1]->getType();
     }
   }
 
   template<class ImplSpecT>
-  const Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
-    if(layerNum >= m_layers.size()) {
+  ILayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
       // Oops
       throw OutOfRangeException();
     } else {
-      return *m_layers[layerNum];
+      return *m_layers[layerNum-1];
+    }
+  }
+
+  template<class ImplSpecT>
+  const ILayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return *m_layers[layerNum-1];
+    }
+  }
+
+  template<class ImplSpecT>
+  template<class U>
+  U &
+  Image<ImplSpecT>::getLayerAs(std::size_t layerNum) {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      if(auto p = dynamic_cast<U *>(m_layers[layerNum-1].get())) {
+        return *p;
+      } else {
+        throw BadCastException();
+      }
+    }
+  }
+
+  template<class ImplSpecT>
+  template<class U>
+  const U &
+  Image<ImplSpecT>::getLayerAs(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      if(auto p = dynamic_cast<const U *>(m_layers[layerNum-1].get())) {
+        return *p;
+      } else {
+        throw BadCastException();
+      }
     }
   }
 }

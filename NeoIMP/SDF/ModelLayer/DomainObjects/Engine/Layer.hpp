@@ -24,60 +24,85 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/IContent.hpp"
+#include "Components/IComponent.hpp"
 #include "Dimensions.hpp"
+
+#include <cstddef>
+#include <string>
+#include <memory>
+#include <map>
+#include <typeinfo>
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      Layer
-  // Purpose:    Defines a base class for layer objects.
+  // Purpose:    Defines a layer object. This is actually a fully-instantiatable class template.
+  //             Layers are built up from components, similar to a common pattern used in computer
+  //             games. These can be exchanged to change the different aspects of the layer and
+  //             powerfully add functionality in a compositional manner instead of forming a complex
+  //             inheritance hierarchy. It also eases layer conversions somewhat.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
   class Layer {
   public:
     // Function:   Layer
-    // Purpose:    Constructs a new layer to the specified parameters.
-    // Parameters: widthPx - The width of the layer in pixels.
-    //             heightPx - The height of the layer in pixels.
-    Layer(ImageMeasure widthPx,
-          ImageMeasure heightPx
-         );
-
-    // Function:   getWidthPx
-    // Purpose:    Gets the width of the layer in pixels.
+    // Purpose:    Constructs a new layer.
     // Parameters: None.
-    // Returns:    The width of the layer in pixels.
+    Layer();
+
+    // Function:   getContentWidth
+    // Purpose:    Gets the width of this layer's content.
+    // Parameters: None.
+    // Returns:    The width of the content in pixels.
     ImageMeasure
-    getWidthPx() const;
+    getContentWidth() const;
 
-    // Function:   getHeightPx
-    // Purpose:    Gets the height of the layer in pixels.
+    // Function:   getContentHeight
+    // Purpose:    Gets the height of this layer's content.
     // Parameters: None.
-    // Returns:    The height of the layer in pixels.
+    // Returns:    The height of the content in pixels.
     ImageMeasure
-    getHeightPx() const;
+    getContentHeight() const;
 
-    // Function:   getContentComponent
-    // Purpose:    Gets the content component for this layer.
+    // Function:   getContentRect
+    // Purpose:    Gets the bounding rectangle of the layer content on the image.
     // Parameters: None.
-    // Returns:    The layer's content component, or nullptr if none.
-    virtual Components::IContent<ImplSpecT> *
-    getContentComponent() = 0;
+    // Returns:    The bounding rectangle, suitably positioned and transformed.
+    ImageRect
+    getContentRect() const;
 
-    virtual const Components::IContent<ImplSpecT> *
-    getContentComponent() const = 0;
-
-    // Function:   contentAs
-    // Purpose:    Helper downcasting function.
-    // Parameters: None.
-    // Returns:    The downcast content component of the given type, or else throws if a bad cast.
+    // Function:   hasComponent
+    // Purpose:    Returns if the layer has a component of a given type.
+    // Parameters: None. (Template parameter)
+    // Returns:    Whether the layer has a component of this type.
     template<class U>
-    U *contentAs();
+    bool
+    hasComponent();
+
+    // Function:   attachComponent
+    // Purpose:    Attaches a component to the layer.
+    // Parameters: component - The component to attach.
+    // Returns:    A non-owning pointer to the passed component.
+    template<class U>
+    U *
+    attachComponent(std::unique_ptr<U> component);
+
+    // Function:   getComponent
+    // Purpose:    Gets the attached component of a given type, if one exists.
+    // Parameters: None. (Template parameter)
+    // Returns:    A pointer to the given component, or nullptr if none exists.
+    template<class U>
+    U *
+    getComponent();
 
     template<class U>
-    const U *contentAs() const;
+    const U *
+    getComponent() const;
   private:
-    ImageMeasure m_widthPx;
-    ImageMeasure m_heightPx;
+    std::map<std::type_index, std::unique_ptr<Components::IComponent<ImplSpecT>>> m_components;
+
+    template<class U>
+    U *
+    findFirstComponentByFamily(Components::EFamily family);
   };
 }
 

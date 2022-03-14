@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYSPEC_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYSPEC_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_DEFS_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_DEFS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EntitySpec.hpp
- * PURPOSE: Defines traits for layer output entities.
+ * FILE:    Defs.hpp
+ * PURPOSE: Defines the color models used by the Boost.GIL-based engine.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <boost/gil/typedefs.hpp>
+#include "GilRgb.hpp"
+#include "GilRgba.hpp"
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  struct RGB24_888_Image_Entity {
-    typedef boost::gil::rgb8_image_t bg_buffer_t;
-    typedef boost::gil::rgba8_image_t fg_buffer_t;
-  };
-};
+#include <boost/gil/pixel.hpp>
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Types.
+  typedef GilRgb<boost::gil::rgb8_pixel_t, 8, 8, 8> RGB24_888;
+  typedef GilRgba<boost::gil::rgba8_pixel_t, 8, 8, 8, 8> RGBA32_8888;
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Constants.
+  static const RGB24_888 g_rgb24_888 = RGB24_888();
+  static const RGBA32_8888 g_rgba32_8888 = RGBA32_8888();
+}
 
 #endif

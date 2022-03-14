@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_BACKGROUNDLAYER_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_BACKGROUNDLAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EntityTypes.hpp
- * PURPOSE: Defines a set of predefined image entity types.
+ * FILE:    BackgroundLayer.hpp
+ * PURPOSE: Defines the entity for Boost.GIL-based image layers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Image.hpp"
-#include "ImageVariant.hpp"
+#include "Components/Raster.hpp"
 
-#include <boost/gil/typedefs.hpp>
-#include <boost/gil/image.hpp>
+#include <cstddef>
+#include <memory>
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  typedef Image<boost::gil::rgb8_image_t, boost::gil::rgba8_image_t> RGB24_888_Image;
-  
-  typedef ImageVariant<RGB24_888_Image> Any_Image;
+namespace SDF::ModelLayer::AbstractData::Entity {
+  template<class ImgEntSpecT>
+  struct Layer {
+    // Component slots. Only one of the content component slots should be filled at a time.
+    std::unique_ptr<Components::Raster<typename ImgEntSpecT::fg_buffer_t>> m_fgRasterContent;
+    std::unique_ptr<Components::Raster<typename ImgEntSpecT::bg_buffer_t>> m_bgRasterContent;
+  };
 }
 
 #endif

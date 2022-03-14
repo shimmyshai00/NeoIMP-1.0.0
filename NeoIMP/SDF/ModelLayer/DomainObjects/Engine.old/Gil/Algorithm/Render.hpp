@@ -42,8 +42,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
            ImageRect srcRect
           );
 
-    template<class GilSpecT>
-    void operator()(Image<GilSpecT> &image);
+    template<class GilImplT>
+    void operator()(Image<GilImplT> &image);
   private:
     Engine::Buffers::GridRendering *m_gridBuffer;
     Math::Rect<std::size_t> m_dstRect;

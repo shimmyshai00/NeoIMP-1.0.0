@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGEVARIANT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGEVARIANT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Image.hpp
- * PURPOSE: Defines the Image template.
+ * FILE:    ImageVariant.hpp
+ * PURPOSE: Defines the ImageVariant template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,41 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "Image.hpp"
 #include "Dimensions.hpp"
-#include "Layer.hpp"
-#include "ForegroundLayer.hpp"
 
+#include <boost/variant2/variant.hpp>
 #include <cstddef>
 #include <string>
-#include <memory>
-#include <vector>
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
-  // Class:      Image
-  // Purpose:    Defines an image object. This is actually a fully-instantiatable class template.
-  //             The engine uses a composition-favoring system that builds images up from components
-  //             (sort of like the "entity-component-system" architecture common in games, but with
-  //             a little less freedom). The image object defines some basic characteristics and
-  //             provides the layer stack, which is common to all engine implementations.
-  // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
-  template<class ImplSpecT>
-  class Image {
+  // Class:      ImageVariant
+  // Purpose:    Defines a variant type which can hold a variety of different kinds of images.
+  //             This is useful for storing images in repositories as a homogenized collection. In
+  //             order to use the variant, it must be visited with std::visit. This is like
+  //             Boost.GIL's any_image; but we cannot use that here as we have too much elaboration
+  //             on top and so must roll our own.
+  // Parameters: ImplSpecTs - The implementation spec types going into the variant.
+  template<class ... ImplSpecTs>
+  class ImageVariant : public boost::variant2::variant<Image<ImplSpecTs>...>
+  {
   public:
-    // Function:   Image
-    // Purpose:    Constructs a new image to the specified parameters.
-    // Parameters: name - The name of the image.
-    //             fileSpec - The image file spec.
-    //             widthPx - The width of the image in pixels.
-    //             heightPx - The height of the image in pixels.
-    //             resolutionPpi - The resolution of the image in PPI.
-    //             backgroundLayer - The initial background layer.
-    Image(std::string name,
-          std::string fileSpec,
-          ImageMeasure widthPx,
-          ImageMeasure heightPx,
-          float resolutionPpi,
-          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
-         );
+    // Function:   ImageVariant
+    // Purpose:    Constructs a new variant.
+    // Parameters: image - The specific-type image going into the variant. Note: so far only
+    //                     consumptive move implementation is provided. We need a component clone
+    //                     method for non-consumptive variant creation.
+    template<class ImplSpecT>
+    ImageVariant(Image<ImplSpecT> &&image);
 
     // Function:   getName
     // Purpose:    Gets the name of the image.
@@ -108,28 +99,18 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Returns:    The number of layers in the image.
     std::size_t
     getNumLayers() const;
-
-    // Function:   getLayer
-    // Purpose:    Access a layer of this image.
-    // Parameters: layerNum - The layer number to get.
-    // Returns:    The requested layer.
-    Layer<ImplSpecT> &
-    getLayer(std::size_t layerNum);
-
-    const Layer<ImplSpecT> &
-    getLayer(std::size_t layerNum) const;
-  private:
-    std::string m_name;
-    std::string m_fileSpec;
-
-    ImageMeasure m_widthPx;
-    ImageMeasure m_heightPx;
-    float m_resolutionPpi;
-
-    std::vector<std::unique_ptr<Layer<ImplSpecT>>> m_layers;
   };
 }
 
-#include "Image.tpp"
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // Helper method.
+  template<typename V, class Variant>
+  auto visitImage(V&& visitor, Variant &&variant) {
+    // nb: this weird construct seems sus; may need to rethink this.
+    return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+  }
+}
+
+#include "ImageVariant.tpp"
 
 #endif

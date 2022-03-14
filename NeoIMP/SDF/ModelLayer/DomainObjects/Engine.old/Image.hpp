@@ -109,14 +109,24 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     std::size_t
     getNumLayers() const;
 
-    // Function:   getLayer
-    // Purpose:    Access a layer of this image.
-    // Parameters: layerNum - The layer number to get.
-    // Returns:    The requested layer.
+    // Function:   getBackgroundLayer
+    // Purpose:    Gets the non-convertible background layer of this image.
+    // Parameters: None.
+    // Returns:    A reference to the background layer.
     Layer<ImplSpecT> &
-    getLayer(std::size_t layerNum);
+    getBackgroundLayer();
 
     const Layer<ImplSpecT> &
+    getBackgroundLayer() const;
+
+    // Function:   getLayer
+    // Purpose:    Access a foreground layer of this image.
+    // Parameters: layerNum - The layer number to get. 0 is the background layer so will not work.
+    // Returns:    The requested layer.
+    ForegroundLayer<ImplSpecT> &
+    getLayer(std::size_t layerNum);
+
+    const ForegroundLayer<ImplSpecT> &
     getLayer(std::size_t layerNum) const;
   private:
     std::string m_name;
@@ -126,7 +136,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
-    std::vector<std::unique_ptr<Layer<ImplSpecT>>> m_layers;
+    std::unique_ptr<Layer<ImplSpecT>> m_backgroundLayer;
+    std::vector<ForegroundLayer<ImplSpecT>> m_layers;
   };
 }
 

@@ -24,22 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Components/Content/Background.hpp"
+#include "../Components/Raster.hpp"
 #include "Impl/CellRender.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  template<class GilSpecT>
-  void Render::operator()(Image<GilSpecT> &image) {
+  template<class GilImplT>
+  void Render::operator()(Image<GilImplT> &image) {
     // For now, only render the background layer.
     typedef typename GilImplT::bkg_view_t View;
-    auto contentComponent = image.getLayer(0)
-      .getComponent<Components::Content::Background<GilSpecT>>();
-
-    if(contentComponent == nullptr) {
-      break; // nothing to render!
-    }
-
-    View src = contentComponent->getView(m_srcRect);
+    View src = image.getBackgroundLayer()
+      .template contentAs<Components::BackgroundRaster<GilImplT>>()
+      ->getView(m_srcRect);
 
     // Figure out a mapping from the rectangle src into m_destRect (actually, again, the inverse
     // mapping). We can then intersect the cell rectangles with m_destRect and map them to

@@ -28,44 +28,87 @@
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
-  Layer<ImplSpecT>::Layer(ImageMeasure widthPx,
-                          ImageMeasure heightPx
-                         )
-    : m_widthPx(widthPx),
-      m_heightPx(heightPx)
+  Layer<ImplSpecT>::Layer()
   {
   }
 
   template<class ImplSpecT>
   ImageMeasure
-  Layer<ImplSpecT>::getWidthPx() const {
-    return m_widthPx;
+  Layer<ImplSpecT>::getContentWidth() const {
+    return getContentRect().width();
   }
 
   template<class ImplSpecT>
   ImageMeasure
-  Layer<ImplSpecT>::getHeightPx() const {
-    return m_heightPx;
+  Layer<ImplSpecT>::getContentHeight() const {
+    return getContentRect().height();
+  }
+
+  template<class ImplSpecT>
+  ImageRect
+  Layer<ImplSpecT>::getContentRect() const {
+    using namespace Components;
+
+    return findFirstComponentByFamily<ContentComponent<ImplSpecT>>(COMPONENT_CONTENT)->
+      getIntrinsicRect();
   }
 
   template<class ImplSpecT>
   template<class U>
-  U *Layer<ImplSpecT>::contentAs() {
-    if(auto p = dynamic_cast<U *>(getContentComponent())) {
-      return p;
+  bool
+  Layer<ImplSpecT>::hasComponent() {
+    return (m_components.find(typeid(U)) != m_components.end());
+  }
+
+  template<class ImplSpecT>
+  template<class U>
+  U *
+  Layer<ImplSpecT>::attachComponent(std::unique_ptr<U> component) {
+    if(!hasComponent<U>()) {
+      U *rv = component.get();
+      m_components[typeid(U)] = std::move(component);
+      return rv;
     } else {
-      throw BadCastException();
+      throw ComponentAlreadyAddedException();
     }
   }
 
   template<class ImplSpecT>
   template<class U>
-  const U *Layer<ImplSpecT>::contentAs() const {
-    if(auto p = dynamic_cast<const U *>(getContentComponent())) {
-      return p;
-    } else {
-      throw BadCastException();
+  U *
+  Layer<ImplSpecT>::getComponent() {
+    if(m_components.find(typeid(U)) != m_components.end()) {
+      return dynamic_cast<U *>(m_components[typeid(U)].get());
     }
+  }
+
+  template<class ImplSpecT>
+  template<class U>
+  const U *
+  Layer<ImplSpecT>::getComponent() const {
+    if(m_components.find(typeid(U)) != m_components.end()) {
+      return dynamic_cast<const U *>(m_components[typeid(U)].get());
+    }
+  }
+}
+
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  template<class ImplSpecT>
+  template<class U>
+  U *
+  Layer<ImplSpecT>::findFirstComponentByFamily(Components::EFamily family) {
+    for(const auto &kvp : m_components) {
+      if(kvp.second->getFamily() == family) {
+        if(auto p = dynamic_cast<U>(kvp.second.get())) {
+          return p;
+        } else {
+          throw BadCastException();
+        }
+      }
+    }
+
+    // not found
+    return nullptr;
   }
 }
 

@@ -39,9 +39,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
       m_fileSpec(fileSpec),
       m_widthPx(widthPx),
       m_heightPx(heightPx),
-      m_resolutionPpi(resolutionPpi)
+      m_resolutionPpi(resolutionPpi),
+      m_backgroundLayer(std::move(backgroundLayer))
   {
-    m_layers.push_back(std::move(backgroundLayer));
   }
 
   template<class ImplSpecT>
@@ -88,23 +88,35 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
 
   template<class ImplSpecT>
   Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
-    if(layerNum >= m_layers.size()) {
-      // Oops
-      throw OutOfRangeException();
-    } else {
-      return *m_layers[layerNum];
-    }
+  Image<ImplSpecT>::getBackgroundLayer() {
+    return *m_backgroundLayer;
   }
 
   template<class ImplSpecT>
   const Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
-    if(layerNum >= m_layers.size()) {
+  Image<ImplSpecT>::getBackgroundLayer() const {
+    return *m_backgroundLayer;
+  }
+
+  template<class ImplSpecT>
+  ForegroundLayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
       // Oops
       throw OutOfRangeException();
     } else {
-      return *m_layers[layerNum];
+      return m_layers[layerNum-1];
+    }
+  }
+
+  template<class ImplSpecT>
+  const ForegroundLayer<ImplSpecT> &
+  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
+    if((layerNum == 0) || (layerNum > m_layers.size())) {
+      // Oops
+      throw OutOfRangeException();
+    } else {
+      return m_layers[layerNum-1];
     }
   }
 }

@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/Content/Background.hpp"
-#include "../Layer.hpp"
+#include "Components/Raster.hpp"
+#include "BackgroundLayer.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilSpecT>
@@ -38,11 +38,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
                                  typename GilSpecT::bkg_pixel_t backgroundColor
                                 )
   {
-    auto bkgLayer = std::make_unique<Layer<GilSpecT>>();
-    auto bkgContent = std::make_unique<Components::Content::Background<GilSpecT>>(widthPx, heightPx,
-      backgroundColor);
-
-    bkgLayer->attachComponent(std::move(bkgContent));
+    auto bkgLayer = std::make_unique<BackgroundLayer<GilSpecT>>(widthPx, heightPx, backgroundColor);
     return new Image<GilSpecT>(name, fileSpec, widthPx, heightPx, resolutionPpi,
       std::move(bkgLayer));
   }

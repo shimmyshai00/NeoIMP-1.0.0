@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICONTENT_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICONTENT_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_ILAYER_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_ILAYER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IContent.hpp
- * PURPOSE: Defines the IContent interface.
+ * FILE:    ILayer.hpp
+ * PURPOSE: Defines the ILayer interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,31 +24,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Exceptions.hpp"
-#include "EContentType.hpp"
-
-namespace SDF::ModelLayer::DomainObjects::Engine::Components {
-  // Class:      IContent
-  // Purpose:    Defines an interface for content components.
-  // Parameters: ImplSpecT - The implementation traits type.
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // Class:      ILayer
+  // Purpose:    Defines an interface for the different kinds of image layer.
+  // Parameters: ImplSpecT - The image implementation traits.
   template<class ImplSpecT>
-  class IContent {
+  class ILayer {
   public:
-    virtual ~IContent() = default;
+    virtual ~ILayer() = default;
 
     // Function:   getType
-    // Purpose:    Get the type of content stored.
+    // Purpose:    Gets the type of this layer.
     // Parameters: None.
-    // Returns:    The type of stored content.
-    virtual EContentType
+    // Returns:    The layer type.
+    virtual ELayerType
     getType() const = 0;
-
+    
     // Function:   getIntrinsicRect
-    // Purpose:    Gets the intrinsic bounding rectangle of the content.
+    // Purpose:    Gets the intrinsic (untransformed) bounding rectangle of this layer.
     // Parameters: None.
-    // Returns:    The content's intrinsic (no transformations) bounding rectangle.
+    // Returns:    The untransformed rectangle.
     virtual ImageRect
     getIntrinsicRect() const = 0;
+
+    // Function:   getEffectiveRect
+    // Purpose:    Gets the transformed bounding rectangle of the layer.
+    // Parameters: None.
+    // Returns:    The actual bounding rectangle on the image.
+    virtual ImageRect
+    getEffectiveRect() const = 0;
   };
 }
 
