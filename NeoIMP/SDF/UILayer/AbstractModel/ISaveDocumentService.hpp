@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_ISAVETOPNGSERVICE_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_ISAVETOPNGSERVICE_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_ISAVEDOCUMENTSERVICE_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_ISAVEDOCUMENTSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISaveToPNGService.hpp
- * PURPOSE: Defines the ISaveToPNGService interface.
+ * FILE:    ISaveDocumentService.hpp
+ * PURPOSE: Defines the ISaveDocumentService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,28 +25,29 @@
  */
 
 #include "../../Common/Handle.hpp"
+#include "Defs/EFileFormat.hpp"
 
-#include <memory>
 #include <string>
 
 namespace SDF::UILayer::AbstractModel {
-  // Class:      ISaveToPNGService
-  // Purpose:    Defines the interface for an MVC service that saves image documents to PNG files.
+  // Class:      ISaveDocumentService
+  // Purpose:    Defines the interface for an MVC service to save a document to persistent storage.
   // Parameters: None.
-  class ISaveToPNGService {
+  class ISaveDocumentService {
   public:
-    virtual ~ISaveToPNGService() = default;
+    virtual ~ISaveDocumentService() = default;
 
-    // Function:   save
-    // Purpose:    Saves an image document to a .PNG file.
-    // Parameters: imageHandle - The handle of the image to save.
+    // Function:   saveDocument
+    // Purpose:    Saves a document to persistent storage.
+    // Parameters: imageHandle - The handle of the image document.
     //             fileSpec - The file spec to save to.
-    //             fileFormat - The file format to save in.
+    //             fileFormat - The file format to save as.
     // Returns:    None.
     virtual void
-    save(Common::Handle imageHandle,
-         std::string fileSpec
-        ) = 0;
+    saveDocument(Common::Handle imageHandle,
+                 std::string fileSpec,
+                 Defs::EFileFormat fileFormat
+                ) = 0;
   };
 }
 
