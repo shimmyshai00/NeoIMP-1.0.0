@@ -45,6 +45,19 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
+  std::shared_ptr<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>>
+  Image<ImplSpecT>::getEntity() const {
+    auto entity = std::make_shared<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>>(m_name,
+      m_fileSpec, m_widthPx, m_heightPx, m_resolutionPpi);
+
+    for(const auto &layer : m_layers) {
+      layer->addToImageEntity(*entity);
+    }
+
+    return entity;
+  }
+
+  template<class ImplSpecT>
   std::string
   Image<ImplSpecT>::getName() const {
     return m_name;

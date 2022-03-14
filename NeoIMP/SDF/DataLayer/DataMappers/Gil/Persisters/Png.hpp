@@ -25,8 +25,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../ModelLayer/AbstractData/Entity/Gil/Image.hpp"
-#include "EDirection.hpp"
+#include "../../../../ModelLayer/AbstractData/Entity/Image.hpp"
+#include "../../EDirection.hpp"
 
 namespace SDF::DataLayer::DataMappers::Gil::Persisters {
   // Note: The PNG persister can only persist the background layer because PNG is a single-layer
@@ -42,9 +42,9 @@ namespace SDF::DataLayer::DataMappers::Gil::Persisters {
            m_direction(direction)
     {}
 
-    template<class GilBkgImageT, class GilImageT>
+    template<class GilSpecT>
     void
-    operator()(ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> &ent);
+    operator()(ModelLayer::AbstractData::Entity::Image<GilSpecT> &ent);
   };
 }
 

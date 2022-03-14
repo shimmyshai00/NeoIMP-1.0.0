@@ -33,6 +33,19 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
+  void
+  Layer<ImplSpecT>::addToImageEntity(AbstractData::Entity::Image<ImplSpecT::entity_spec_t> &entity
+                                    ) const
+  {
+    auto layerEntity = AbstractData::Entity::Layer<ImplSpecT::entity_spec_t>();
+    for(const auto &c : m_components) {
+      c->addToLayerEntity(layerEntity);
+    }
+
+    entity.m_layers.push_back(layerEntity);
+  }
+
+  template<class ImplSpecT>
   ImageMeasure
   Layer<ImplSpecT>::getContentWidth() const {
     return getContentRect().width();

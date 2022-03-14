@@ -24,27 +24,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../Exceptions.hpp"
+
 #include <boost/gil/extension/io/png.hpp>
 #include <boost/gil/image.hpp>
 #include <boost/gil/image_view.hpp>
 
 namespace SDF::DataLayer::DataMappers::Gil::Persisters {
-  template<class GilBkgImageT, class GilImageT>
+  template<class GilSpecT>
   void
-  Png::operator()(ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> &ent) {
+  Png::operator()(ModelLayer::AbstractData::Entity::Image<GilSpecT> &ent) {
     using namespace boost::gil;
 
     if(m_direction == DIR_SAVE) {
       // Sanity check
-      if((ent.m_widthPx != ent.m_backgroundLayer.m_widthPx) ||
-         (ent.m_heightPx != ent.m_backgroundLayer.m_heightPx)
-        )
-      {
-        throw InconsistentDimensionsException(ent.m_backgroundLayer.m_widthPx,
-          ent.m_backgroundLayer.m_heightPx, ent.m_widthPx, ent.m_heightPx);
+      if(ent.m_layers.size() == 0) {
+        throw EmptyEntityException();
+      } else {
+        if(!ent.m_layers(0).m_bgRasterContent) {
+          throw InvalidBackgroundLayerException();
+        } else {
+          if((ent.m_widthPx != ent.m_layers(0).m_bgRasterContent->m_view.width()) ||
+             (ent.m_heightPx != ent.m_layers(0).m_bgRasterContent->m_view.height())
+            )
+          {
+            throw InconsistentDimensionsException(ent.m_backgroundLayer.m_widthPx,
+              ent.m_backgroundLayer.m_heightPx, ent.m_widthPx, ent.m_heightPx);
+          }
+        }
       }
 
-      write_view(m_fileSpec, view(*ent.m_backgroundLayer.m_data), png_tag());
+      write_view(m_fileSpec, view(*ent.m_layers(0).m_bgRasterContent->m_data), png_tag());
     } else {
       throw "NOT YET IMPLEMENTED";
     }

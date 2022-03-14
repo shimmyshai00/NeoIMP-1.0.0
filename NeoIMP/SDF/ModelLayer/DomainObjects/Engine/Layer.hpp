@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../AbstractData/Entity/Image.hpp"
+#include "../IMappable.hpp"
 #include "Components/IComponent.hpp"
 #include "Dimensions.hpp"
 
@@ -48,6 +50,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Purpose:    Constructs a new layer.
     // Parameters: None.
     Layer();
+
+    // Function:   addToImageEntity
+    // Purpose:    Adds this layer to an image entity for serialization.
+    // Parameters: entity - The image entity to add to.
+    // Returns:    None.
+    void
+    addToImageEntity(AbstractData::Entity::Image<ImplSpecT::entity_spec_t> &entity) const;
 
     // Function:   getContentWidth
     // Purpose:    Gets the width of this layer's content.

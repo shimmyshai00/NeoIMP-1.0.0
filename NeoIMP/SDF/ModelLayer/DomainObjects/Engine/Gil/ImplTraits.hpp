@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractData/Entity/Gil/Image.hpp"
+#include "../../../AbstractData/Entity/Gil/EntityTraits.hpp"
 
 #include <boost/gil/pixel.hpp>
 #include <boost/gil/image.hpp>
@@ -40,10 +40,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil {
     typedef boost::gil::rgba8_view_t view_t;
     typedef boost::gil::rgba8_pixel_t pixel_t;
 
-    typedef AbstractData::Entity::Gil::Image<boost::gil::rgb8_image_t, boost::gil::rgba8_image_t>
-      image_entity_t;
-    typedef AbstractData::Entity::Gil::Layer<boost::gil::rgb8_image_t> bg_layer_entity_t;
-    typedef AbstractData::Entity::Gil::Layer<boost::gil::rgba8_image_t> fg_layer_entity_t;
+    typedef AbstractData::Entity::Gil::RGB24_888_Entity_Spec entity_spec_t;
+
+    typedef Components::Content::Background<RGB24_888_Image_Impl> background_content_component_t;
   };
 }
 

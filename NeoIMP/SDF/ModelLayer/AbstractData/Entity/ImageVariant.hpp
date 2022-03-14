@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGEVARIANT_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_IMAGEVARIANT_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_IMAGEVARIANT_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_IMAGEVARIANT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    ImageVariant.hpp
- * PURPOSE: Defines the entity variant for Boost.GIL-based images.
+ * PURPOSE: Defines the variant for image entities, so to permit passing variants to data mappers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "Image.hpp"
+
 #include <boost/variant2/variant.hpp>
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
-  template<class ... ImageEntityTs>
-  using ImageVariant = boost::variant2::variant<ImageEntityTs...>;
+namespace SDF::ModelLayer::AbstractData::Entity {
+  template<class ... EntitySpecTs>
+  using ImageVariant = boost::variant2::variant<Image<EntitySpecTs>...>;
 }
 
-namespace SDF::ModelLayer::AbstractData::Entity::Gil {
+namespace SDF::ModelLayer::AbstractData::Entity {
   // Helper method.
   template<typename V, class Variant>
   auto visitEntity(V&& visitor, Variant &&variant) {

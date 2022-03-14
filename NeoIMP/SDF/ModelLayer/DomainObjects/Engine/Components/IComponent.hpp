@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../AbstractData/Entity/Layer.hpp"
 #include "EFamily.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine::Components {
@@ -42,6 +43,13 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Components {
     // Returns:    The component family.
     virtual EFamily
     getFamily() const = 0;
+
+    // Function:   addToLayerEntity
+    // Purpose:    Adds this component to a layer entity for serialization.
+    // Parameters: entity - The layer entity to add to.
+    // Returns:    None.
+    virtual void
+    addToLayerEntity(AbstractData::Entity::Layer<ImplSpecT::entity_spec_t> &entity) const = 0;
   };
 }
 

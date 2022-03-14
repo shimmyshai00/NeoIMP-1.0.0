@@ -34,6 +34,8 @@ namespace SDF::DataLayer {
   SDF_DEF_NRM_EXCEPTION_4(InconsistentDimensionsException, "Image with inconsistent background dimensionality tried (%u x %u background layer in %u x %u image)", std::size_t, std::size_t, std::size_t, std::size_t)
   SDF_DEF_NRM_EXCEPTION_1(EntityAlreadyInsertedException, "Entity %d already inserted", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(EntityNotFoundException, "Entity %d not found", Common::Handle)
+  SDF_DEF_NRM_EXCEPTION(EmptyEntityException, "Cannot save an entity with no image data!")
+  SDF_DEF_NRM_EXCEPTION(InvalidBackgroundLayerException, "Invalid or malformed background layer encountered")
 }
 
 #endif

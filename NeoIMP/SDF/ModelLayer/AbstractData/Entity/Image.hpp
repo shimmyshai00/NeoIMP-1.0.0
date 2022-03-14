@@ -27,17 +27,33 @@
 #include "Layer.hpp"
 
 #include <cstddef>
+#include <string>
+#include <vector>
 
 namespace SDF::ModelLayer::AbstractData::Entity {
-  template<class ImgEntSpecT>
+  template<class EntitySpecT>
   struct Image {
-    std::size_t m_fileSpec;
+    std::string m_name;
+    std::string m_fileSpec;
     std::size_t m_widthPx;
     std::size_t m_heightPx;
     float m_resolutionPpi;
 
-    Layer<ImgEntSpecT> m_backgroundLayer;
-    std::vector<Layer<ImgEntSpecT>> m_layers;
+    std::vector<Layer<EntitySpecT>> m_layers;
+
+    Image(std::string name,
+          std::string fileSpec,
+          std::size_t widthPx,
+          std::size_t heightPx,
+          float resolutionPpi
+         )
+      : m_name(name),
+        m_fileSpec(fileSpec),
+        m_widthPx(widthPx),
+        m_heightPx(heightPx),
+        m_resolutionPpi(resolutionPpi)
+    {
+    }
   };
 }
 

@@ -1,11 +1,11 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_APPLY_HPP
-#define SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_APPLY_HPP
+#ifndef SDF_DATALAYER_DATAMAPPERS_APPLYPERSISTER_HPP
+#define SDF_DATALAYER_DATAMAPPERS_APPLYPERSISTER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Apply.hpp
+ * FILE:    ApplyPersister.hpp
  * PURPOSE: Defines methods to apply a persister to an image.
  */
 
@@ -24,26 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../ModelLayer/AbstractData/Entity/Gil/Image.hpp"
-#include "../../../../ModelLayer/AbstractData/Entity/Gil/ImageVariant.hpp"
+#include "../../ModelLayer/AbstractData/Entity/Image.hpp"
+#include "../../ModelLayer/AbstractData/Entity/ImageVariant.hpp"
 
 #include <boost/variant2/variant.hpp>
 
-namespace SDF::DataLayer::DataMappers::Gil::Persisters {
-  template<class Persister, class GilBkgImageT, class GilImageT>
-  void apply(Persister pers,
-             ModelLayer::AbstractData::Entity::Gil::Image<GilBkgImageT, GilImageT> &entity
-            )
+namespace SDF::DataLayer::DataMappers {
+  template<class Persister, class EntitySpecT>
+  void applyPersister(Persister pers,
+                      ModelLayer::AbstractData::Entity::Image<EntitySpecT> &entity
+                     )
   {
     pers(entity);
   }
 
   template<class Persister, class ... ImageEntityTs>
-  void apply(Persister pers,
-             ModelLayer::AbstractData::Entity::Gil::ImageVariant<ImageEntityTs...> &entity
-            )
+  void applyPersister(Persister pers,
+                      ModelLayer::AbstractData::Entity::ImageVariant<ImageEntityTs...> &entity
+                     )
   {
-    using namespace ModelLayer::AbstractData::Entity::Gil;
+    using namespace ModelLayer::AbstractData::Entity;
 
     visitEntity([=](auto &&rhs) { pers(rhs); }, entity);
   }

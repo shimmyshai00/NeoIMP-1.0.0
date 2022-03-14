@@ -34,11 +34,11 @@ namespace SDF::DataLayer::DataMappers::Gil {
   typedef fruit::Component<
     fruit::Annotated<
       ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Image>
+      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Entity>
     >,
     fruit::Annotated<
       ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Image>
+      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Entity>
     >
   > Component;
 

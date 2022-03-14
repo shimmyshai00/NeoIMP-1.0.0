@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../AbstractData/Entity/Image.hpp"
+#include "../IMappable.hpp"
 #include "Dimensions.hpp"
 #include "Layer.hpp"
 #include "ForegroundLayer.hpp"
@@ -42,7 +44,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   //             provides the layer stack, which is common to all engine implementations.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Image {
+  class Image : public IMappable<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>> {
   public:
     // Function:   Image
     // Purpose:    Constructs a new image to the specified parameters.
@@ -59,6 +61,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
           float resolutionPpi,
           std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
          );
+
+    std::shared_ptr<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>>
+    getEntity() const;
 
     // Function:   getName
     // Purpose:    Gets the name of the image.

@@ -1,5 +1,5 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_IMAGEMAPPER_TPP
-#define SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_IMAGEMAPPER_TPP
+#ifndef SDF_DATALAYER_DATAMAPPERS_IMAGEMAPPER_TPP
+#define SDF_DATALAYER_DATAMAPPERS_IMAGEMAPPER_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Exceptions.hpp"
-#include "Persisters/Apply.hpp"
-#include "Persisters/Png.hpp"
+#include "../Exceptions.hpp"
+#include "ApplyPersister.hpp"
+#include "EDirection.hpp"
 
-namespace SDF::DataLayer::DataMappers::Gil {
+namespace SDF::DataLayer::DataMappers {
   template<class PersisterT, class ImageEntityT>
   ImageMapper<PersisterT, ImageEntityT>::ImageMapper(Context::FileRegistry *fileRegistry)
     : m_fileRegistry(fileRegistry)
@@ -43,8 +43,8 @@ namespace SDF::DataLayer::DataMappers::Gil {
     }
 
     m_fileRegistry->registerFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(Persisters::DIR_SAVE);
-    Persisters::apply(persister, *entity);
+    PersisterT persister(DIR_SAVE);
+    applyPersister(persister, *entity);
   }
 
   template<class PersisterT, class ImageEntityT>
@@ -61,8 +61,8 @@ namespace SDF::DataLayer::DataMappers::Gil {
     }
 
     m_fileRegistry->updateFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(Persisters::DIR_SAVE);
-    Persisters::apply(persister, *entity);
+    PersisterT persister(DIR_SAVE);
+    applyPersister(persister, *entity);
   }
 
   template<class PersisterT, class ImageEntityT>

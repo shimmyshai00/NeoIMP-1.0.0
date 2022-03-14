@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../AbstractData/Entity/Gil/Component/Background.hpp"
+
 #include <boost/gil/image.hpp>
 #include <boost/gil/image_view.hpp>
 #include <boost/gil/image_view_factory.hpp>
@@ -32,10 +34,21 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
   template<class GilSpecT>
   Background<GilSpecT>::Background(std::size_t widthPx,
                                    std::size_t heightPx,
-                                   typename GilImplT::bkg_pixel_t bkgColor
+                                   typename GilSpecT::bkg_pixel_t bkgColor
                                   )
     : m_data(widthPx, heightPx, bkgColor, 0)
   {
+  }
+
+  template<class GilSpecT>
+  void
+  Background<GilSpecT>::addToLayerEntity(AbstractData::Entity::Layer<GilSpecT::entity_spec_t> &
+                                          entity
+                                        ) const
+  {
+    entity.m_bgRasterContent =
+      std::make_shared<AbstractData::Entity::Gil::Component::Background<GilSpecT::bkg_view_t>>(
+        getView());
   }
 
   template<class GilSpecT>

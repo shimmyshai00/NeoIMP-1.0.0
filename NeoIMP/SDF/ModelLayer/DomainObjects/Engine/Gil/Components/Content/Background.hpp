@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../AbstractData/Entity/Layer.hpp"
 #include "../../../Components/ContentComponent.hpp"
 #include "../../../Dimensions.hpp"
 
@@ -45,6 +46,9 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
                std::size_t heightPx,
                typename GilSpecT::bkg_pixel_t bkgColor
               );
+
+    void
+    addToLayerEntity(AbstractData::Entity::Layer<GilSpecT::entity_spec_t> &entity) const
 
     ImageRect
     getIntrinsicRect() const;

@@ -1,5 +1,5 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_EDIRECTION_HPP
-#define SDF_DATALAYER_DATAMAPPERS_GIL_PERSISTERS_EDIRECTION_HPP
+#ifndef SDF_DATALAYER_DATAMAPPERS_EDIRECTION_HPP
+#define SDF_DATALAYER_DATAMAPPERS_EDIRECTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::DataLayer::DataMappers::Gil::Persisters {
+namespace SDF::DataLayer::DataMappers {
   enum EDirection {
     DIR_SAVE,
     DIR_LOAD

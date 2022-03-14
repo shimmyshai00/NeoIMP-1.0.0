@@ -24,17 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/Raster.hpp"
-
 #include <cstddef>
 #include <memory>
 
 namespace SDF::ModelLayer::AbstractData::Entity {
-  template<class ImgEntSpecT>
+  template<class EntitySpecT>
   struct Layer {
     // Component slots. Only one of the content component slots should be filled at a time.
-    std::unique_ptr<Components::Raster<typename ImgEntSpecT::fg_buffer_t>> m_fgRasterContent;
-    std::unique_ptr<Components::Raster<typename ImgEntSpecT::bg_buffer_t>> m_bgRasterContent;
+    std::shared_ptr<typename EntitySpecT::background_component_entity_t> m_bgRasterContent;
   };
 }
 

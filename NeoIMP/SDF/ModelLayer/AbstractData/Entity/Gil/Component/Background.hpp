@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_BACKGROUNDLAYER_HPP
-#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_BACKGROUNDLAYER_HPP
+#ifndef SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_COMPONENT_BACKGROUND_HPP
+#define SDF_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_COMPONENT_BACKGROUND_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    BackgroundLayer.hpp
- * PURPOSE: Defines the entity for Boost.GIL-based image layers.
+ * FILE:    Background.hpp
+ * PURPOSE: Defines the entity for Boost.GIL-based background components.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/Raster.hpp"
+namespace SDF::ModelLayer::AbstractData::Entity::Gil::Component {
+  template<class GilBkgViewT>
+  struct Background {
+    GilBkgViewT m_view;
 
-#include <cstddef>
-#include <memory>
-
-namespace SDF::ModelLayer::AbstractData::Entity {
-  template<class ImgEntSpecT>
-  struct Layer {
-    // Component slots. Only one of the content component slots should be filled at a time.
-    std::unique_ptr<Components::Raster<typename ImgEntSpecT::fg_buffer_t>> m_fgRasterContent;
-    std::unique_ptr<Components::Raster<typename ImgEntSpecT::bg_buffer_t>> m_bgRasterContent;
+    Background(GilBkgViewT view)
+      : m_view(view)
+    {}
   };
 }
 
