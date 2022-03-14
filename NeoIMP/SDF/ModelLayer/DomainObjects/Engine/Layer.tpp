@@ -25,6 +25,7 @@
  */
 
 #include "../../Exceptions.hpp"
+#include "Components/ContentComponent.hpp"
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
@@ -34,12 +35,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
 
   template<class ImplSpecT>
   void
-  Layer<ImplSpecT>::addToImageEntity(AbstractData::Entity::Image<ImplSpecT::entity_spec_t> &entity
-                                    ) const
-  {
-    auto layerEntity = AbstractData::Entity::Layer<ImplSpecT::entity_spec_t>();
+  Layer<ImplSpecT>::addToImageEntity(
+    AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t> &entity
+  ) const {
+    auto layerEntity = AbstractData::Entity::Layer<typename ImplSpecT::entity_spec_t>();
     for(const auto &c : m_components) {
-      c->addToLayerEntity(layerEntity);
+      c.second->addToLayerEntity(layerEntity);
     }
 
     entity.m_layers.push_back(layerEntity);
@@ -92,6 +93,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   Layer<ImplSpecT>::getComponent() {
     if(m_components.find(typeid(U)) != m_components.end()) {
       return dynamic_cast<U *>(m_components[typeid(U)].get());
+    } else {
+      return nullptr;
     }
   }
 
@@ -101,6 +104,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   Layer<ImplSpecT>::getComponent() const {
     if(m_components.find(typeid(U)) != m_components.end()) {
       return dynamic_cast<const U *>(m_components[typeid(U)].get());
+    } else {
+      return nullptr;
     }
   }
 }

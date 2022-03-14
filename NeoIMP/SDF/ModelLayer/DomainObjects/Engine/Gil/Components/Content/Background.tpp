@@ -42,31 +42,19 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
 
   template<class GilSpecT>
   void
-  Background<GilSpecT>::addToLayerEntity(AbstractData::Entity::Layer<GilSpecT::entity_spec_t> &
-                                          entity
-                                        ) const
-  {
+  Background<GilSpecT>::addToLayerEntity(
+    AbstractData::Entity::Layer<typename GilSpecT::entity_spec_t> &entity
+  ) const {
     entity.m_bgRasterContent =
-      std::make_shared<AbstractData::Entity::Gil::Component::Background<GilSpecT::bkg_view_t>>(
-        getView());
+      std::make_shared<
+        AbstractData::Entity::Gil::Component::Background<typename GilSpecT::bkg_view_t::const_t>
+      >(getView());
   }
 
   template<class GilSpecT>
   ImageRect
   Background<GilSpecT>::getIntrinsicRect() const {
     return ImageRect(0, 0, m_data.width(), m_data.height());
-  }
-
-  template<class GilSpecT>
-  typename GilSpecT::bkg_image_t &
-  Background<GilSpecT>::getData() {
-    return m_data;
-  }
-
-  template<class GilSpecT>
-  const typename GilSpecT::bkg_image_t &
-  Background<GilSpecT>::getData() const {
-    return m_data;
   }
 
   template<class GilSpecT>
@@ -88,8 +76,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
     // example).
     ImageRect clipRect = getIntrinsicRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::view(m_data),
-      typename GilImageT::point_t(rect.x1(), rect.y1()),
-      typename GilImageT::point_t(rect.getWidth(), rect.getHeight())
+      typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
+      typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())
     );
   }
 
@@ -98,8 +86,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
   Background<GilSpecT>::getView(ImageRect rect) const {
     ImageRect clipRect = getIntrinsicRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::const_view(m_data),
-      typename GilImageT::point_t(rect.x1(), rect.y1()),
-      typename GilImageT::point_t(rect.getWidth(), rect.getHeight())
+      typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
+      typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())
     );
   }
 }

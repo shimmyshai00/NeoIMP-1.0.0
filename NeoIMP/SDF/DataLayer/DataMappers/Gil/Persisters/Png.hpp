@@ -33,14 +33,9 @@ namespace SDF::DataLayer::DataMappers::Gil::Persisters {
   //       format. For clean persisting of multilayer images to PNG, preprocessing in the model
   //       is required to merge the layers (effectively a rendering operation).
   struct Png {
-    std::string m_fileSpec;
     EDirection m_direction;
 
-    Png(std::string fileSpec,
-        EDirection direction
-       ) : m_fileSpec(fileSpec),
-           m_direction(direction)
-    {}
+    Png(EDirection direction) : m_direction(direction) {}
 
     template<class GilSpecT>
     void

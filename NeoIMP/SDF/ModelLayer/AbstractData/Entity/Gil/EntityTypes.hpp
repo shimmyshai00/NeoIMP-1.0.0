@@ -33,7 +33,7 @@
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
   typedef Image<RGB24_888_Entity_Spec> RGB24_888_Entity;
 
-  typedef ImageVariant<RGB24_888_Entity> Any_Entity;
+  typedef ImageVariant<RGB24_888_Entity_Spec> Any_Entity;
 }
 
 #endif

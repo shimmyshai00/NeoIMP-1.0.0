@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_COMPONENT_HPP
-#define SDF_DATALAYER_DATAMAPPERS_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the whole data mapper subsystem.
+ * FILE:    Viewpoint.hpp
+ * PURPOSE: Defines the Viewpoint struct.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/Entity/Gil/EntityTypes.hpp"
-#include "../../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../../ModelLayer/AbstractData/Formats.hpp"
+#include "Dimensions.hpp"
 
-#include <fruit/fruit.h>
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  // NB: should include image handle
+  struct Viewpoint {
+    ImagePoint m_position;
+    float m_magnification;
 
-namespace SDF::DataLayer::DataMappers {
-  typedef fruit::Component<
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Entity>
-    >,
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Entity>
-    >
-  > Component;
+    Viewpoint()
+      : m_position(0.0f, 0.0f),
+        m_magnification(1.0f)
+    {
+    }
 
-  Component
-  getComponent();
+    Viewpoint(ImagePoint pos)
+      : m_position(pos),
+        m_magnification(1.0f)
+    {
+    }
+
+    Viewpoint(ImagePoint pos, float mag)
+      : m_position(pos),
+        m_magnification(mag)
+    {
+    }
+  };
 }
 
 #endif

@@ -25,6 +25,7 @@
  */
 
 #include "../../../AbstractData/Entity/Gil/EntityTraits.hpp"
+#include "Components/Content/Background.hpp"
 
 #include <boost/gil/pixel.hpp>
 #include <boost/gil/image.hpp>

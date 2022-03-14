@@ -41,20 +41,21 @@ namespace SDF::DataLayer::DataMappers::Gil::Persisters {
       if(ent.m_layers.size() == 0) {
         throw EmptyEntityException();
       } else {
-        if(!ent.m_layers(0).m_bgRasterContent) {
+        if(!ent.m_layers[0].m_bgRasterContent) {
           throw InvalidBackgroundLayerException();
         } else {
-          if((ent.m_widthPx != ent.m_layers(0).m_bgRasterContent->m_view.width()) ||
-             (ent.m_heightPx != ent.m_layers(0).m_bgRasterContent->m_view.height())
-            )
+          std::size_t contentWidth = ent.m_layers[0].m_bgRasterContent->m_view.width();
+          std::size_t contentHeight = ent.m_layers[0].m_bgRasterContent->m_view.height();
+
+          if((ent.m_widthPx != contentWidth) || (ent.m_heightPx != contentHeight))
           {
-            throw InconsistentDimensionsException(ent.m_backgroundLayer.m_widthPx,
-              ent.m_backgroundLayer.m_heightPx, ent.m_widthPx, ent.m_heightPx);
+            throw InconsistentDimensionsException(contentWidth, contentHeight, ent.m_widthPx,
+              ent.m_heightPx);
           }
         }
       }
 
-      write_view(m_fileSpec, view(*ent.m_layers(0).m_bgRasterContent->m_data), png_tag());
+      write_view(ent.m_fileSpec, ent.m_layers[0].m_bgRasterContent->m_view, png_tag());
     } else {
       throw "NOT YET IMPLEMENTED";
     }

@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_IMAGEMAPPER_HPP
-#define SDF_DATALAYER_DATAMAPPERS_IMAGEMAPPER_HPP
+#ifndef SDF_DATALAYER_DATAMAPPERS_IMAGEVARIANTMAPPER_HPP
+#define SDF_DATALAYER_DATAMAPPERS_IMAGEVARIANTMAPPER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageMapper.hpp
- * PURPOSE: Defines the ImageMapper template.
+ * FILE:    ImageVariantMapper.hpp
+ * PURPOSE: Defines the ImageVariantMapper template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -30,26 +30,29 @@
 #include <fruit/fruit.h>
 
 namespace SDF::DataLayer::DataMappers {
-  // Class:      ImageMapper
-  // Purpose:    Defines a data mapper for mapping NeoIMP images.
+  // Class:      ImageVariantMapper
+  // Purpose:    Defines a data mapper for mapping NeoIMP image variants.
   // Parameters: PersisterT - The type of persister to use (allows changing file format).
-  //             ImageEntityT - The image entity type (either Image or ImageVariant from
-  //                            ModelLayer::AbstractData::Entity).
-  template<class PersisterT, class ImageEntityT>
-  class ImageMapper : public ModelLayer::AbstractData::IDataMapper<ImageEntityT> {
+  //             ImageVariantT - The type of variant to persist.
+  template<class PersisterT, class ImageVariantT>
+  class ImageVariantMapper : public ModelLayer::AbstractData::IDataMapper<ImageVariantT> {
   public:
-    // Function:   ImageMapper
+    // Function:   ImageVariantMapper
     // Purpose:    Construct the new data mapper.
-    INJECT(ImageMapper(Context::FileRegistry *fileRegistry));
+    INJECT(ImageVariantMapper(Context::FileRegistry *fileRegistry));
 
     void
-    insert(Common::Handle uid, ImageEntityT *entity);
+    insert(Common::Handle uid,
+           ImageVariantT *entity
+          );
 
-    std::unique_ptr<ImageEntityT>
+    std::unique_ptr<ImageVariantT>
     retrieve(Common::Handle uid);
 
     void
-    update(Common::Handle uid, ImageEntityT *entity);
+    update(Common::Handle uid,
+           ImageVariantT *entity
+          );
 
     void
     erase(Common::Handle uid);
@@ -58,6 +61,6 @@ namespace SDF::DataLayer::DataMappers {
   };
 }
 
-#include "ImageMapper.tpp"
+#include "ImageVariantMapper.tpp"
 
 #endif

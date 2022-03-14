@@ -1,12 +1,12 @@
-#ifndef SDF_DATALAYER_DATAMAPPERS_COMPONENT_HPP
-#define SDF_DATALAYER_DATAMAPPERS_COMPONENT_HPP
+#ifndef SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_ERENDERPIXELFORMAT_HPP
+#define SDF_MODELLAYER_DOMAINOBJECTS_ENGINE_ERENDERPIXELFORMAT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the whole data mapper subsystem.
+ * FILE:    ERenderPixelFormat.hpp
+ * PURPOSE: Enumerates the available rendering pixel formats.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/Entity/Gil/EntityTypes.hpp"
-#include "../../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../../ModelLayer/AbstractData/Formats.hpp"
+#include <cstddef>
 
-#include <fruit/fruit.h>
+namespace SDF::ModelLayer::DomainObjects::Engine {
+  enum ERenderPixelFormat {
+    RENDERFMT_RGB32,
+    RENDERFMT_MAX
+  };
 
-namespace SDF::DataLayer::DataMappers {
-  typedef fruit::Component<
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Entity>
-    >,
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Entity>
-    >
-  > Component;
-
-  Component
-  getComponent();
+  // The sizes of the above formats in bytes.
+  static const std::size_t g_pixelFormatWidths[RENDERFMT_MAX] = {
+    4
+  };
 }
 
 #endif

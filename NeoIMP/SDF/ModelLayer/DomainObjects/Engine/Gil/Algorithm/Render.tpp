@@ -31,12 +31,12 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   template<class GilSpecT>
   void Render::operator()(Image<GilSpecT> &image) {
     // For now, only render the background layer.
-    typedef typename GilImplT::bkg_view_t View;
+    typedef typename GilSpecT::bkg_view_t View;
     auto contentComponent = image.getLayer(0)
-      .getComponent<Components::Content::Background<GilSpecT>>();
+      .template getComponent<Components::Content::Background<GilSpecT>>();
 
     if(contentComponent == nullptr) {
-      break; // nothing to render!
+      return; // nothing to render!
     }
 
     View src = contentComponent->getView(m_srcRect);

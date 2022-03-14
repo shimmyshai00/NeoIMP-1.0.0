@@ -48,7 +48,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
               );
 
     void
-    addToLayerEntity(AbstractData::Entity::Layer<GilSpecT::entity_spec_t> &entity) const
+    addToLayerEntity(AbstractData::Entity::Layer<typename GilSpecT::entity_spec_t> &entity) const;
 
     ImageRect
     getIntrinsicRect() const;

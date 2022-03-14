@@ -28,7 +28,6 @@
 #include "../IMappable.hpp"
 #include "Dimensions.hpp"
 #include "Layer.hpp"
-#include "ForegroundLayer.hpp"
 
 #include <cstddef>
 #include <string>
@@ -44,7 +43,11 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
   //             provides the layer stack, which is common to all engine implementations.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Image : public IMappable<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>> {
+  class Image : public IMappable<
+                                 Image<ImplSpecT>,
+                                 AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>
+                                >
+  {
   public:
     // Function:   Image
     // Purpose:    Constructs a new image to the specified parameters.
@@ -62,7 +65,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
           std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
          );
 
-    std::shared_ptr<AbstractData::Entity::Image<ImplSpecT::entity_spec_t>>
+    std::shared_ptr<AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>>
     getEntity() const;
 
     // Function:   getName

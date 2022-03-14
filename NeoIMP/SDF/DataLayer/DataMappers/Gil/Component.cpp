@@ -24,6 +24,7 @@
 #include "Component.hpp"
 
 #include "../ImageMapper.hpp"
+#include "../ImageVariantMapper.hpp"
 #include "Persisters/Png.hpp"
 
 namespace SDF::DataLayer::DataMappers::Gil {
@@ -38,7 +39,7 @@ namespace SDF::DataLayer::DataMappers::Gil {
        >()
       .bind<
         fruit::Annotated<Formats::PNG, IDataMapper<Entity::Gil::Any_Entity>>,
-        ImageMapper<Persisters::Png, Entity::Gil::Any_Entity>
+        ImageVariantMapper<Persisters::Png, Entity::Gil::Any_Entity>
        >();
   };
 }

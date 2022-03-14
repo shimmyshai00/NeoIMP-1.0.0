@@ -33,7 +33,7 @@
 
 namespace SDF::ModelLayer::AbstractData::Entity::Gil {
   struct RGB24_888_Entity_Spec {
-    typedef Component::Background<boost::gil::rgb8_view_t> background_component_entity_t;
+    typedef Component::Background<boost::gil::rgb8_view_t::const_t> background_component_entity_t;
   };
 }
 

@@ -36,7 +36,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Components {
   template<class ImplSpecT>
   class ContentComponent : public IComponent<ImplSpecT> {
   public:
-    virtual ~IContentComponent() = default;
+    virtual ~ContentComponent() = default;
 
     EFamily
     getFamily() const {

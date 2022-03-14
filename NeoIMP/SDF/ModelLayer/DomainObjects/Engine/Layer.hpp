@@ -34,6 +34,7 @@
 #include <memory>
 #include <map>
 #include <typeinfo>
+#include <typeindex>
 
 namespace SDF::ModelLayer::DomainObjects::Engine {
   // Class:      Layer
@@ -56,7 +57,7 @@ namespace SDF::ModelLayer::DomainObjects::Engine {
     // Parameters: entity - The image entity to add to.
     // Returns:    None.
     void
-    addToImageEntity(AbstractData::Entity::Image<ImplSpecT::entity_spec_t> &entity) const;
+    addToImageEntity(AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t> &entity) const;
 
     // Function:   getContentWidth
     // Purpose:    Gets the width of this layer's content.

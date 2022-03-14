@@ -49,7 +49,8 @@ namespace SDF::ModelLayer::DomainObjects::Engine::Components {
     // Parameters: entity - The layer entity to add to.
     // Returns:    None.
     virtual void
-    addToLayerEntity(AbstractData::Entity::Layer<ImplSpecT::entity_spec_t> &entity) const = 0;
+    addToLayerEntity(AbstractData::Entity::Layer<typename ImplSpecT::entity_spec_t> &entity
+                    ) const = 0;
   };
 }
 

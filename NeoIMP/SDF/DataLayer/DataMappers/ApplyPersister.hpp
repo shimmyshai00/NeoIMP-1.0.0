@@ -45,7 +45,7 @@ namespace SDF::DataLayer::DataMappers {
   {
     using namespace ModelLayer::AbstractData::Entity;
 
-    visitEntity([=](auto &&rhs) { pers(rhs); }, entity);
+    visitEntity([&](auto &&rhs) { pers(rhs); }, entity);
   }
 }
 
