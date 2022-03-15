@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_IUUIDABLE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_IUUIDABLE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    IUUIDable.hpp
+ * PURPOSE: Defines the IUUIDable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include <boost/uuid/uuid.hpp>
 
-#include <fruit/fruit.h>
-#include <memory>
+namespace SDF::Editor::ModelLayer::DomainObjects {
+  // Class:      IUUIDable
+  // Purpose:    Defines an interface for objects identifiable with a universal unique identifier
+  //             (UUID).
+  // Parameters: None.
+  class IUUIDable {
+  public:
+    virtual ~IUUIDable() = default;
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+    // Function:   getUuid
+    // Purpose:    Gets this object's UUID.
+    // Parameters: None.
+    // Returns:    The UUID of the domain object.
+    virtual boost::uuids::uuid
+    getUuid() const = 0;
+  };
 }
+
+#endif

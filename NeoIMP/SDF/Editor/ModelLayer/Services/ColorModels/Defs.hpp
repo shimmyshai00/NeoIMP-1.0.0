@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    Defs.hpp
+ * PURPOSE: Provides type definitions for all the color models actually used by the program on the
+ *          UI-facing side.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +25,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color.hpp"
+#include "UiRgb.hpp"
+#include "UiRgba.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
-
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+namespace SDF::Editor::ModelLayer::Services::ColorModels {
+  typedef UiRgb<UILayer::AbstractModel::Defs::RGB24_888_Color, 8, 8, 8> RGB24_888;
+  typedef UiRgba<UILayer::AbstractModel::Defs::ARGB32_8888_Color, 8, 8, 8, 8> RGBA32_8888;
 }
+
+namespace SDF::Editor::ModelLayer::Services::ColorModels {
+  static const auto g_rgb24_888 = RGB24_888();
+  static const auto g_rgba32_8888 = RGBA32_8888();
+}
+
+#endif

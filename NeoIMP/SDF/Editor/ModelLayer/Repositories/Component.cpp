@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    Component.cpp
+ * PURPOSE: Implements the DI component for the repository subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "Component.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include "MemoryOnlyRepository.hpp"
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::Repositories {
+  Component
+  getComponent() {
+    using namespace DomainObjects;
 
-  return application->exec(argc, argv);
+    return fruit::createComponent()
+      .bind<IRepository<Engine::Gil::Any_Image>, MemoryOnlyRepository<Engine::Gil::Any_Image>>
+        ()
+      .bind<IRepository<
+        Engine::Buffers::GridRendering>,
+        MemoryOnlyRepository<Engine::Buffers::GridRendering
+       >>()
+      .bind<IRepository<Engine::Viewpoint>, MemoryOnlyRepository<Engine::Viewpoint>>();
+  }
 }

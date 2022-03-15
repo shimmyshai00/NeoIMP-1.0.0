@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ELENGTHUNIT_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ELENGTHUNIT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    ELengthUnit.hpp
+ * PURPOSE: Defines the ELengthUnit enum.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
-
-#include <fruit/fruit.h>
-#include <memory>
-
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+namespace SDF::Editor::UILayer::AbstractModel::Defs {
+  enum ELengthUnit {
+    LENGTH_UNIT_PIXEL,
+    LENGTH_UNIT_POINT,
+    LENGTH_UNIT_MILLIMETER,
+    LENGTH_UNIT_PICA,
+    LENGTH_UNIT_CENTIMETER,
+    LENGTH_UNIT_INCH,
+    LENGTH_UNIT_MAX
+  };
 }
+
+#endif

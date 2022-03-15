@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTHUNITLABELS_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTHUNITLABELS_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    LengthUnitLabels.hpp
+ * PURPOSE: Defines the labels for length units.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "ELengthUnit.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+namespace SDF::Editor::UILayer::AbstractModel::Defs {
+  // NB: The labels and symbols should appear in the same order the units do in the enum
+  static const char *g_lengthUnitLabels[LENGTH_UNIT_MAX] = {
+    "pixels",
+    "points",
+    "millimeters",
+    "picas",
+    "centimeters",
+    "inches"
+  };
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+  static const char *g_lengthUnitSymbols[LENGTH_UNIT_MAX] = {
+    "px",
+    "pt",
+    "mm",
+    "pica",
+    "cm",
+    "in"
+  };
 }
+
+#endif

@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    Categories.hpp
+ * PURPOSE: Defines bases for different categories of color models. This allows for building type
+ *          safety into color model matching with other features.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +25,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "Base.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <cstddef>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
+  template<class PixelDataT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  class RgbBase : public Base<PixelDataT, BitsR, BitsG, BitsB> {};
 
-  return application->exec(argc, argv);
+  template<
+    class PixelDataT,
+    std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
+  >
+  class RgbaBase : public Base<PixelDataT, BitsR, BitsG, BitsB, BitsA> {};
 }
+
+#endif

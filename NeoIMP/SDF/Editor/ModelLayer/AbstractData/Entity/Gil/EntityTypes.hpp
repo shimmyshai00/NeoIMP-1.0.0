@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
+#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_ENTITY_GIL_ENTITYTYPES_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    EntityTypes.hpp
+ * PURPOSE: Defines a set of predefined entity types. These should correspond to ImplTypes.hpp in
+ *          the domain GIL sublayer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +25,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "../Image.hpp"
+#include "../ImageVariant.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include "EntityTraits.hpp"
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::AbstractData::Entity::Gil {
+  typedef Image<RGB24_888_Entity_Spec> RGB24_888_Entity;
 
-  return application->exec(argc, argv);
+  typedef ImageVariant<RGB24_888_Entity_Spec> Any_Entity;
 }
+
+#endif

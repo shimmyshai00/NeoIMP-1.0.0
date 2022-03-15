@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_ERENDERPIXELFORMAT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_ERENDERPIXELFORMAT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    ERenderPixelFormat.hpp
+ * PURPOSE: Enumerates the available rendering pixel formats.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include <cstddef>
 
-#include <fruit/fruit.h>
-#include <memory>
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+  enum ERenderPixelFormat {
+    RENDERFMT_RGB32,
+    RENDERFMT_MAX
+  };
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+  // The sizes of the above formats in bytes.
+  static const std::size_t g_pixelFormatWidths[RENDERFMT_MAX] = {
+    4
+  };
 }
+
+#endif

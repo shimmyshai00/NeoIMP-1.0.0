@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_GILCOMBINER_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_GILCOMBINER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    GilCombiner.hpp
+ * PURPOSE: Defines the combiner for alpha channels into Boost.GIL pixels.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "../../ColorModels/Alphaize.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
-
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
+  // Class:      GilCombiner
+  // Purpose:    Augments a pixel with an alpha channel.
+  // Parameters: GilPixelT - The source type.
+  //             GilAlphaPixelT - The alpha-augmented type.
+  template<class GilPixelT, class GilAlphaPixelT>
+  struct GilCombiner {
+    GilAlphaPixelT
+    combine(GilPixelT pixel, float alpha) {
+      return GilAlphaPixelT()
+    }
+  };
 }
+#endif

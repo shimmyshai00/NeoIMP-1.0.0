@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    ResolutionConvertible.cpp
+ * PURPOSE: Implements the ResolutionConvertible class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "ResolutionConvertible.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include "ResolutionConversions.hpp"
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::Metrics {
+  ResolutionConvertible::ResolutionConvertible(float quantity,
+                                               UILayer::AbstractModel::Defs::EResolutionUnit unit
+                                              )
+    : m_quantity(quantity),
+      m_unit(unit)
+  {
+  }
 
-  return application->exec(argc, argv);
+  float
+  ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit unit) {
+    return (m_quantity * g_resolutionUnitSizes[m_unit]) / g_resolutionUnitSizes[unit];
+  }
 }

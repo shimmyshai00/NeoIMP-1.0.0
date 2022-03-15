@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_GIL_DOCUMENTREQUIREMENTSSERVICE_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_GIL_DOCUMENTREQUIREMENTSSERVICE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    DocumentRequirementsService.hpp
+ * PURPOSE: Defines the DocumentRequirementsService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 
 #include <fruit/fruit.h>
-#include <memory>
+#include <cstddef>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::Services::Gil {
+  // Class:      DocumentRequirementsService
+  // Purpose:    Implements the IDocumentRequirementsService interface for the Boost.GIL framework.
+  // Parameters: None.
+  class DocumentRequirementsService : public UILayer::AbstractModel::IDocumentRequirementsService {
+  public:
+    INJECT(DocumentRequirementsService());
 
-  return application->exec(argc, argv);
+    std::size_t
+    getMemoryRequiredForOneLayer(UILayer::AbstractModel::Defs::ImageSpec spec);
+  };
 }
+
+#endif

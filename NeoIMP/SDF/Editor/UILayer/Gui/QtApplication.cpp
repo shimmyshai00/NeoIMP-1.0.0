@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    QtApplication.cpp
+ * PURPOSE: Implements the QtApplication class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "QtApplication.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <QApplication>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::UILayer::Gui {
+  QtApplication::QtApplication(IViewManager<View::EViewType> *viewManager)
+    : m_viewManager(viewManager)
+  {
+  }
 
-  return application->exec(argc, argv);
+  int
+  QtApplication::exec(int argc,
+                      char **argv
+                     )
+  {
+    QApplication qa(argc, argv);
+    m_viewManager->produceView(View::VIEW_MAIN_WINDOW, std::shared_ptr<Support::Bundle>());
+    return qa.exec();
+  }
 }

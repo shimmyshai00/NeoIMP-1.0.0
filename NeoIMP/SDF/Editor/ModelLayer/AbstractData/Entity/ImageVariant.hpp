@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_ENTITY_IMAGEVARIANT_HPP
+#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_ENTITY_IMAGEVARIANT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    ImageVariant.hpp
+ * PURPOSE: Defines the variant for image entities, so to permit passing variants to data mappers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
+#include "Image.hpp"
 
-#include <fruit/fruit.h>
-#include <memory>
+#include <boost/variant2/variant.hpp>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
-
-  return application->exec(argc, argv);
+namespace SDF::Editor::ModelLayer::AbstractData::Entity {
+  template<class ... EntitySpecTs>
+  using ImageVariant = boost::variant2::variant<Image<EntitySpecTs>...>;
 }
+
+namespace SDF::Editor::ModelLayer::AbstractData::Entity {
+  // Helper method.
+  template<typename V, class Variant>
+  auto visitEntity(V&& visitor, Variant &&variant) {
+    // nb: this weird construct seems sus; may need to rethink this.
+    return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+  }
+}
+
+#endif

@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_IMAPPABLE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_IMAPPABLE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Main.cpp
- * PURPOSE: The main program.
+ * FILE:    IMappable.hpp
+ * PURPOSE: Defines the IMappable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
-
-#include <fruit/fruit.h>
 #include <memory>
 
-int
-main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(appInjector.get<SDF::Editor::UILayer::IApplication *>());
+namespace SDF::Editor::ModelLayer::DomainObjects {
+  // Class:      IMappable
+  // Purpose:    Defines an interface for mappable domain objects.
+  // Parameters: T - The user should CRTP-inherit this class.
+  //             EntityT - The entity type mapped to.
+  template<class T, class EntityT>
+  class IMappable {
+  public:
+    virtual ~IMappable() = default;
 
-  return application->exec(argc, argv);
+    // Function:   getEntity
+    // Purpose:    Get the entity corresponding to this object's current state.
+    // Parameters: None.
+    // Returns:    The corresponding entity data.
+    virtual std::shared_ptr<EntityT>
+    getEntity() const = 0;
+  };
 }
+
+#endif
