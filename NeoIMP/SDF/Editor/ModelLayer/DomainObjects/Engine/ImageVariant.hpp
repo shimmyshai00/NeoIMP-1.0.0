@@ -40,8 +40,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             on top and so must roll our own.
   // Parameters: ImplSpecTs - The implementation spec types going into the variant.
   template<class ... ImplSpecTs>
-  class ImageVariant : public boost::variant2::variant<Image<ImplSpecTs>...>
-  {
+  class ImageVariant : public boost::variant2::variant<Image<ImplSpecTs>...> {
   public:
     // Function:   ImageVariant
     // Purpose:    Constructs a new variant.
@@ -92,6 +91,21 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Returns:    The resolution of the image in PPI.
     float
     getResolutionPpi() const;
+
+    // Function:   setName
+    // Purpose:    Sets the name of the image.
+    // Parameters: name - The new name to set.
+    // Returns:    None.
+    void
+    setName(std::string name);
+
+    // Function:   setResolutionPpi
+    // Purpose:    Sets the image resolution (the conversion factor between pixels and physical
+    //             units).
+    // Parameters: resolutionPpi - The new resolution in PPI.
+    // Returns:    None.
+    void
+    setResolutionPpi(float resolutionPpi);
 
     // Function:   getNumLayers
     // Purpose:    Gets the number of image layers.

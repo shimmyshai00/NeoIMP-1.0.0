@@ -35,10 +35,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilImplT>
   struct MemoryEstimator {
     static std::size_t
-    singleLayerEstimate(ImageMeasure widthPx,
-                        ImageMeasure heightPx
-                       )
-    {
+    singleLayerEstimate(ImageMeasure widthPx, ImageMeasure heightPx) {
       if((widthPx <= 0) || (heightPx <= 0)) {
         throw InvalidSizeException();
       } else {

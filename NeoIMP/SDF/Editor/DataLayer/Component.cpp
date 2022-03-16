@@ -24,11 +24,13 @@
 #include "Component.hpp"
 
 #include "DataMappers/Component.hpp"
+#include "Repositories/Component.hpp"
 
 namespace SDF::Editor::DataLayer {
   Component
   getComponent() {
     return fruit::createComponent()
-      .install(DataMappers::getComponent);
+      .install(DataMappers::getComponent)
+      .install(Repositories::getComponent);
   }
 }

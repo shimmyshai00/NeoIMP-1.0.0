@@ -24,8 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../Context/FileRegistry.hpp"
+#include "../../../Common/Data/Adapters/IFilesystemAdapter.hpp"
+#include "../../../Common/Data/IDataMapper.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
 
 #include <fruit/fruit.h>
 
@@ -33,31 +34,31 @@ namespace SDF::Editor::DataLayer::DataMappers {
   // Class:      ImageVariantMapper
   // Purpose:    Defines a data mapper for mapping NeoIMP image variants.
   // Parameters: PersisterT - The type of persister to use (allows changing file format).
-  //             ImageVariantT - The type of variant to persist.
+  //             ImageVariantT - The image variant type itself.
   template<class PersisterT, class ImageVariantT>
-  class ImageVariantMapper : public ModelLayer::AbstractData::IDataMapper<ImageVariantT> {
+  class ImageVariantMapper : public Common::Data::IDataMapper<std::string, ImageVariantT> {
   public:
-    // Function:   ImageVariantMapper
+    // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
-    INJECT(ImageVariantMapper(Context::FileRegistry *fileRegistry));
+    // Parameters: filesystemAdapter - The filesystem adapter to use.
+    INJECT(ImageVariantMapper(Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter));
+
+    bool
+    has(std::string fileSpec);
 
     void
-    insert(Common::Handle uid,
-           ImageVariantT *entity
-          );
-
-    std::unique_ptr<ImageVariantT>
-    retrieve(Common::Handle uid);
+    insert(std::string fileSpec, ImageVariantT &obj);
 
     void
-    update(Common::Handle uid,
-           ImageVariantT *entity
-          );
+    retrieve(std::string fileSpec, ImageVariantT &obj);
 
     void
-    erase(Common::Handle uid);
+    update(std::string fileSpec, ImageVariantT &obj);
+
+    void
+    erase(std::string fileSpec);
   private:
-    Context::FileRegistry *m_fileRegistry;
+    Common::Data::Adapters::IFilesystemAdapter *m_filesystemAdapter;
   };
 }
 

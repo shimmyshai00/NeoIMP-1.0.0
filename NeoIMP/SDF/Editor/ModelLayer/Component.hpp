@@ -33,11 +33,12 @@
 #include "../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/IRenderingService.hpp"
+#include "../UILayer/AbstractModel/ISaveDocumentService.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer {
-  fruit::Component<
+  typedef fruit::Component<
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
@@ -46,8 +47,11 @@ namespace SDF::Editor::ModelLayer {
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IGetViewCoordinatesService,
     UILayer::AbstractModel::ISetViewCoordinatesService,
-    UILayer::AbstractModel::IRenderingService
-  >
+    UILayer::AbstractModel::IRenderingService,
+    UILayer::AbstractModel::ISaveDocumentService
+  > Component;
+
+  Component
   getComponent();
 }
 

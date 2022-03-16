@@ -24,8 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../AbstractData/Entity/Image.hpp"
-#include "../IMappable.hpp"
 #include "Components/IComponent.hpp"
 #include "Dimensions.hpp"
 
@@ -33,8 +31,7 @@
 #include <string>
 #include <memory>
 #include <map>
-#include <typeinfo>
-#include <typeindex>
+#include <list>
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   // Class:      Layer
@@ -47,17 +44,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
   class Layer {
   public:
+    // The content component must be added with this id to be properly recognized.
+    static constexpr const char *c_contentComponentId = "content";
+  public:
     // Function:   Layer
     // Purpose:    Constructs a new layer.
     // Parameters: None.
     Layer();
-
-    // Function:   addToImageEntity
-    // Purpose:    Adds this layer to an image entity for serialization.
-    // Parameters: entity - The image entity to add to.
-    // Returns:    None.
-    void
-    addToImageEntity(AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t> &entity) const;
 
     // Function:   getContentWidth
     // Purpose:    Gets the width of this layer's content.
@@ -80,39 +73,41 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     ImageRect
     getContentRect() const;
 
-    // Function:   hasComponent
-    // Purpose:    Returns if the layer has a component of a given type.
-    // Parameters: None. (Template parameter)
-    // Returns:    Whether the layer has a component of this type.
-    template<class U>
-    bool
-    hasComponent();
-
     // Function:   attachComponent
-    // Purpose:    Attaches a component to the layer.
-    // Parameters: component - The component to attach.
-    // Returns:    A non-owning pointer to the passed component.
-    template<class U>
-    U *
-    attachComponent(std::unique_ptr<U> component);
+    // Purpose:    Attaches a component to this layer.
+    // Parameters: id - The string resource ID of the component to add.
+    //             component - The component itself.
+    // Returns:    None.
+    void
+    attachComponent(std::string id, std::unique_ptr<Components::IComponent<ImplSpecT>> component);
 
-    // Function:   getComponent
-    // Purpose:    Gets the attached component of a given type, if one exists.
-    // Parameters: None. (Template parameter)
-    // Returns:    A pointer to the given component, or nullptr if none exists.
+    // Function:   findComponentById
+    // Purpose:    Obtains a component by its ID string.
+    // Parameters: id - The ID of the component to obtain.
+    //             Template parameter: The type to get it as.
+    // Returns:    A non-owning reference to the component, or nullptr if none (or throw a bad cast
+    //             if found but the wrong type).
     template<class U>
     U *
-    getComponent();
+    findComponentById(std::string id);
 
     template<class U>
     const U *
-    getComponent() const;
-  private:
-    std::map<std::type_index, std::unique_ptr<Components::IComponent<ImplSpecT>>> m_components;
+    findComponentById(std::string id) const;
 
-    template<class U>
-    U *
-    findFirstComponentByFamily(Components::EFamily family);
+    // Function:   visitComponents
+    // Purpose:    Visits each of the contained components with a visitor. The components are
+    //             visited in the order in which they were added.
+    // Parameters: visitor - The visitor to visit with.
+    // Returns:    None.
+    void
+    visitComponents(typename ImplSpecT::component_visitor_t &visitor);
+
+    void
+    visitComponents(typename ImplSpecT::const_component_visitor_t &visitor) const;
+  private:
+    std::map<std::string, std::unique_ptr<Components::IComponent<ImplSpecT>>> m_components;
+    std::list<Components::IComponent<ImplSpecT> *> m_visitationList;
   };
 }
 

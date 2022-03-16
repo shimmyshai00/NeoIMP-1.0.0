@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../Common/Model/ICrudRepository.hpp"
+#include "../../../Common/MessageSystem/IChannel.hpp"
 #include "../../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
 #include "../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../UILayer/AbstractModel/ICreateImageService.hpp"
@@ -33,22 +35,21 @@
 #include "../../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/IRenderingService.hpp"
+#include "../../UILayer/AbstractModel/ISaveDocumentService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
-#include "../Repositories/IRepository.hpp"
-#include "../MessageSystem/IChannel.hpp"
+#include "../AbstractData/IImageRepository.hpp"
 #include "Messages/Object.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer::Services {
-  fruit::Component<
+  typedef fruit::Component<
     fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
-      Repositories::IRepository<DomainObjects::Engine::Viewpoint>,
-      MessageSystem::IChannel<Messages::Object>
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint>
     >,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
@@ -58,8 +59,11 @@ namespace SDF::Editor::ModelLayer::Services {
     UILayer::AbstractModel::IMetricsService,
     UILayer::AbstractModel::IGetViewCoordinatesService,
     UILayer::AbstractModel::ISetViewCoordinatesService,
-    UILayer::AbstractModel::IRenderingService
-  >
+    UILayer::AbstractModel::IRenderingService,
+    UILayer::AbstractModel::ISaveDocumentService
+  > Component;
+
+  Component
   getComponent();
 }
 

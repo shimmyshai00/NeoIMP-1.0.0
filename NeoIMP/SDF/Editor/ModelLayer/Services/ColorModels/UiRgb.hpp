@@ -45,9 +45,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     convertToPixel(float *values) const;
 
     inline void
-    convertPixelTo(UiPixelT px,
-                   float *values
-                  ) const;
+    convertPixelTo(UiPixelT px, float *values) const;
   };
 }
 

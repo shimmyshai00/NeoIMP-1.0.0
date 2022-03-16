@@ -24,14 +24,16 @@
 #include "ViewCoordinatesService.hpp"
 
 #include "../../../Common/FunctionListener.hpp"
+#include "../../../Common/Exceptions.hpp"
 #include "../Exceptions.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
 
 namespace SDF::Editor::ModelLayer::Services {
   ViewCoordinatesService::ViewCoordinatesService(
-    Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository,
-    MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint> *
+      viewpointRepository,
+    Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
   )
     : m_uuid(boost::uuids::random_generator()()),
       m_viewpointRepository(viewpointRepository)
@@ -55,7 +57,7 @@ namespace SDF::Editor::ModelLayer::Services {
   ViewCoordinatesService::getViewingPointX(Common::Handle imageHandle) const {
     try {
       return m_viewpointRepository->retrieve(imageHandle)->m_position.x();
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -64,7 +66,7 @@ namespace SDF::Editor::ModelLayer::Services {
   ViewCoordinatesService::getViewingPointY(Common::Handle imageHandle) const {
     try {
       return m_viewpointRepository->retrieve(imageHandle)->m_position.y();
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -73,7 +75,7 @@ namespace SDF::Editor::ModelLayer::Services {
   ViewCoordinatesService::getViewingPointMagnification(Common::Handle imageHandle) const {
     try {
       return m_viewpointRepository->retrieve(imageHandle)->m_magnification;
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -86,11 +88,11 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position.x() = x;
-      m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, *vp);
 
       m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
         vp->m_magnification);
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -103,11 +105,11 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position.y() = y;
-      m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, *vp);
 
       m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
         vp->m_magnification);
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -121,11 +123,11 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_magnification = mag;
-      m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, *vp);
 
       m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
         vp->m_magnification);
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -139,11 +141,11 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position = DomainObjects::Engine::ImagePoint(x, y);
-      m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, *vp);
 
       m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
         vp->m_magnification);
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -161,21 +163,21 @@ namespace SDF::Editor::ModelLayer::Services {
       vp->m_position = DomainObjects::Engine::ImagePoint(x, y);
       vp->m_magnification = mag;
 
-      m_viewpointRepository->update(imageHandle, vp);
+      m_viewpointRepository->update(imageHandle, *vp);
 
       m_viewpointListeners.notify(imageHandle, vp->m_position.x(), vp->m_position.y(),
         vp->m_magnification);
-    } catch(ObjectNotFoundInRepositoryException) {
+    } catch(Common::ObjectNotFoundException) { // NB: Abstraction leak!
       throw ImageNotFoundException(imageHandle);
     }
   }
 
   void
-  ViewCoordinatesService::receiveMessage(const MessageSystem::IChannel<Messages::Object> *channel,
-                                         const boost::uuids::uuid senderUuid,
-                                         const Messages::Object &message
-                                        )
-  {
+  ViewCoordinatesService::receiveMessage(
+    const Common::MessageSystem::IChannel<Messages::Object> *channel,
+    const boost::uuids::uuid senderUuid,
+    const Messages::Object &message
+  ) {
     using namespace DomainObjects;
 
     if(message.m_objectType == Messages::OBJECT_IMAGE) {

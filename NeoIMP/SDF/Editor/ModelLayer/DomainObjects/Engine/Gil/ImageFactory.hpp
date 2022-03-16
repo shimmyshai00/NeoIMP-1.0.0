@@ -44,13 +44,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   > {
   public:
     Image<GilSpecT> *
-    create(std::string name,
-           std::string fileSpec,
-           ImageMeasure widthPx,
-           ImageMeasure heightPx,
-           float resolutionPpi,
-           typename GilSpecT::bkg_pixel_t backgroundColor
-          );
+    create(
+      std::string name,
+      std::string fileSpec,
+      ImageMeasure widthPx,
+      ImageMeasure heightPx,
+      float resolutionPpi,
+      typename GilSpecT::bkg_pixel_t backgroundColor
+    );
   };
 }
 

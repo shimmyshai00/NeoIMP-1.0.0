@@ -23,13 +23,14 @@
 
 #include "GetDocumentMetricsService.hpp"
 
+#include "../../../DataLayer/Exceptions.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentMetricsService::GetDocumentMetricsService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository)
   {
@@ -44,11 +45,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace DomainObjects::Engine;
 
     try {
-      ImageMeasure widthPx = m_imageRepository->retrieve(documentHandle)->getWidthPx();
-      float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
+      ImageMeasure widthPx = m_imageRepository->getImage(documentHandle)->getWidthPx();
+      float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
       return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
         RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(OutOfRangeException) {
+    } catch(DataLayer::ImageNotFoundException) {
       throw ImageNotFoundException(documentHandle);
     }
   }
@@ -62,11 +63,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace DomainObjects::Engine;
 
     try {
-      ImageMeasure heightPx = m_imageRepository->retrieve(documentHandle)->getHeightPx();
-      float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
+      ImageMeasure heightPx = m_imageRepository->getImage(documentHandle)->getHeightPx();
+      float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
       return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
         RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(OutOfRangeException) {
+    } catch(DataLayer::ImageNotFoundException) {
       throw ImageNotFoundException(documentHandle);
     }
   }

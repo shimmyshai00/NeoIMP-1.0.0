@@ -24,10 +24,11 @@
 #include "Render.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  Render::Render(Engine::Buffers::GridRendering *gridBuffer,
-                 Math::Rect<std::size_t> dstRect,
-                 ImageRect srcRect
-                )
+  Render::Render(
+    Engine::Buffers::GridRendering *gridBuffer,
+    Math::Rect<std::size_t> dstRect,
+    ImageRect srcRect
+  )
     : m_gridBuffer(gridBuffer),
       m_dstRect(dstRect),
       m_srcRect(srcRect)

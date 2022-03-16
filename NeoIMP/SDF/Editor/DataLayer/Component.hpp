@@ -24,22 +24,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../ModelLayer/AbstractData/Entity/Gil/EntityTypes.hpp"
-#include "../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../ModelLayer/AbstractData/Formats.hpp"
+#include "../../Common/Data/IDataMapper.hpp"
+#include "../../Common/Model/ICrudRepository.hpp"
+
+#include "../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
+#include "../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../ModelLayer/DomainObjects/Engine/Viewpoint.hpp"
+
+#include "../ModelLayer/AbstractData/IImageRepository.hpp"
+
+#include "Repositories/Formats.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::DataLayer {
   typedef fruit::Component<
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Entity>
+    ModelLayer::AbstractData::IImageRepository<
+      ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
     >,
-    fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Entity>
-    >
+    ModelLayer::AbstractData::IImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    Common::Model::ICrudRepository<
+      Common::Handle,
+      ModelLayer::DomainObjects::Engine::Buffers::GridRendering
+    >,
+    Common::Model::ICrudRepository<Common::Handle, ModelLayer::DomainObjects::Engine::Viewpoint>
   > Component;
 
   Component

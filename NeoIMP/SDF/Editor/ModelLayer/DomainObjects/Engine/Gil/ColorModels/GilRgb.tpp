@@ -33,10 +33,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
 
   template<class GilPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline void
-  GilRgb<GilPixelT, BitsR, BitsG, BitsB>::convertPixelTo(GilPixelT px,
-                                                         float *values
-                                                        ) const
-  {
+  GilRgb<GilPixelT, BitsR, BitsG, BitsB>::convertPixelTo(GilPixelT px, float *values) const {
     values[0] = boost::gil::at_c<0>(px);
     values[1] = boost::gil::at_c<1>(px);
     values[2] = boost::gil::at_c<2>(px);

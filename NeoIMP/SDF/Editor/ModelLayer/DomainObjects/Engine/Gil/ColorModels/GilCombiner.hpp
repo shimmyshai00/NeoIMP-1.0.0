@@ -39,4 +39,5 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
     }
   };
 }
+
 #endif

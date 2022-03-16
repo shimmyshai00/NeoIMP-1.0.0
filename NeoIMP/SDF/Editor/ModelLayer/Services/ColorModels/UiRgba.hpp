@@ -37,19 +37,26 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   //             BitsB - The number of bits in the Blue channel.
   //             BitsA - The number of bits in the alpha channel.
   template<
-    class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
+    class UiPixelT,
+    std::size_t BitsR,
+    std::size_t BitsG,
+    std::size_t BitsB,
+    std::size_t BitsA
   >
   class UiRgba : public DomainObjects::Engine::ColorModels::RgbaBase<
-    UiPixelT, BitsR, BitsG, BitsB, BitsA
-  > {
+                  UiPixelT,
+                  BitsR,
+                  BitsG,
+                  BitsB,
+                  BitsA
+                 >
+  {
   public:
     inline UiPixelT
     convertToPixel(float *values) const;
 
     inline void
-    convertPixelTo(UiPixelT px,
-                   float *values
-                  ) const;
+    convertPixelTo(UiPixelT px, float *values) const;
   };
 }
 

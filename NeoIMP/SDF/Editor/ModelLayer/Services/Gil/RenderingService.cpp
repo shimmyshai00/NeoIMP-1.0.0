@@ -23,6 +23,8 @@
 
 #include "RenderingService.hpp"
 
+#include "../../../../Common/Exceptions.hpp" // NB: abstraction leak!
+#include "../../../DataLayer/Exceptions.hpp"
 #include "../../Math/Rect.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Apply.hpp"
@@ -32,12 +34,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   namespace Impl {
     class RenderRegion : public UILayer::AbstractModel::Defs::IRenderRegion {
     public:
-      RenderRegion(DomainObjects::Engine::Buffers::GridRendering *rendering,
-                   std::size_t x1,
-                   std::size_t y1,
-                   std::size_t x2,
-                   std::size_t y2
-                  )
+      RenderRegion(
+        DomainObjects::Engine::Buffers::GridRendering *rendering,
+        std::size_t x1,
+        std::size_t y1,
+        std::size_t x2,
+        std::size_t y2
+      )
         : m_rendering(rendering),
           m_x1(x1),
           m_y1(y1),
@@ -156,8 +159,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   RenderingService::RenderingService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-    Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *renderingRepository
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
+      renderingRepository
   )
     : m_imageRepository(imageRepository),
       m_renderingRepository(renderingRepository),
@@ -169,8 +173,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   RenderingService::createStaticRendering(Common::Handle imageHandle) {
     using namespace DomainObjects;
 
-    Engine::Gil::Any_Image *image(m_imageRepository->retrieve(imageHandle));
-    if(image != nullptr) {
+    try {
+      Engine::Gil::Any_Image *image(m_imageRepository->getImage(imageHandle));
+
       std::size_t imageWidth(image->getWidthPx());
       std::size_t imageHeight(image->getHeightPx());
 
@@ -186,7 +191,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       m_renderingRepository->insert(renderingHandle, std::move(rendering));
 
       return renderingHandle;
-    } else {
+    } catch(DataLayer::ImageNotFoundException) {
       throw ImageNotFoundException(imageHandle);
     }
   }
@@ -202,13 +207,14 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer;
     using namespace DomainObjects;
 
-    Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
-    if(rendering != nullptr) {
+    try {
+      Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
+
       // Right now, we only support static renderings with 1 cell.
       return std::shared_ptr<AbstractModel::Defs::IRenderRegion>(
         new Impl::RenderRegion(rendering, x1, y1, x2, y2)
       );
-    } else {
+    } catch(Common::ObjectNotFoundException) { // NB: abstraction leak!
       throw ImageNotFoundException(renderHandle);
     }
   }

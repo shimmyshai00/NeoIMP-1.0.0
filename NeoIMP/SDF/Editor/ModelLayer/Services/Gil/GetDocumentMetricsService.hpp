@@ -29,7 +29,7 @@
 #include "../../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 
-#include "../../Repositories/IRepository.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
 
 #include <fruit/fruit.h>
 #include <string>
@@ -41,7 +41,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class GetDocumentMetricsService : public UILayer::AbstractModel::IGetDocumentMetricsService {
   public:
     INJECT(GetDocumentMetricsService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     float
@@ -54,7 +54,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
                       UILayer::AbstractModel::Defs::ELengthUnit inUnit
                      );
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
 

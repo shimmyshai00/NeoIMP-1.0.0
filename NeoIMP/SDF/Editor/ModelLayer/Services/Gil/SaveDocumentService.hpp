@@ -24,9 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/Handle.hpp"
+#include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
 #include "../../../UILayer/AbstractModel/ISaveDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../Repositories/IRepository.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
+
+#include <fruit/fruit.h>
+
+#include <string>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      SaveDocumentService
@@ -35,18 +41,17 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class SaveDocumentService : public UILayer::AbstractModel::ISaveDocumentService {
   public:
     INJECT(SaveDocumentService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *pngRepository
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     void
-    saveDocument(Common::Handle imageHandle,
-                 std::string fileSpec,
-                 Defs::EFileFormat fileFormat
-               );
+    saveDocument(
+      Common::Handle imageHandle,
+      std::string fileSpec,
+      UILayer::AbstractModel::Defs::EFileFormat fileFormat
+    );
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_pngRepository;
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
 

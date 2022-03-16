@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../ModelLayer/DomainObjects/Engine/Gil/Components/Content/Background.hpp"
+#include "../../../../ModelLayer/Exceptions.hpp"
 #include "../../../Exceptions.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
@@ -33,29 +35,33 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   template<class GilSpecT>
   void
-  Png::operator()(ModelLayer::AbstractData::Entity::Image<GilSpecT> &ent) {
+  Png::operator()(ModelLayer::DomainObjects::Engine::Image<GilSpecT> &image) {
+    using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 
     if(m_direction == DIR_SAVE) {
-      // Sanity check
-      if(ent.m_layers.size() == 0) {
-        throw EmptyEntityException();
-      } else {
-        if(!ent.m_layers[0].m_bgRasterContent) {
-          throw InvalidBackgroundLayerException();
-        } else {
-          std::size_t contentWidth = ent.m_layers[0].m_bgRasterContent->m_view.width();
-          std::size_t contentHeight = ent.m_layers[0].m_bgRasterContent->m_view.height();
+      Engine::Gil::Components::Content::Background<GilSpecT> *bkgComponent(nullptr);
 
-          if((ent.m_widthPx != contentWidth) || (ent.m_heightPx != contentHeight))
-          {
-            throw InconsistentDimensionsException(contentWidth, contentHeight, ent.m_widthPx,
-              ent.m_heightPx);
+      // Sanity check
+      if(image.getNumLayers() == 0) {
+        throw EmptyImageException();
+      } else {
+        // Validate the background layer structure.
+        try {
+          bkgComponent = image.getLayer(0)
+            .template findComponentById<Engine::Gil::Components::Content::Background<GilSpecT>>(
+              Engine::Layer<GilSpecT>::c_contentComponentId
+            );
+
+          if(bkgComponent == nullptr) {
+            throw InvalidBackgroundLayerException();
           }
+        } catch(ModelLayer::BadCastException) {
+          throw InvalidBackgroundLayerException();
         }
       }
 
-      write_view(ent.m_fileSpec, ent.m_layers[0].m_bgRasterContent->m_view, png_tag());
+      write_view(m_fileSpec, bkgComponent->getView(), png_tag());
     } else {
       throw "NOT YET IMPLEMENTED";
     }

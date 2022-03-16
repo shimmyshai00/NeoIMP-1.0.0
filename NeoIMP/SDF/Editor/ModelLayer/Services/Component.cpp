@@ -22,31 +22,22 @@
  */
 #include "Component.hpp"
 
+#include "../../../Common/MessageSystem/AllToAll.hpp"
+#include "Messages/Object.hpp"
+
 #include "Gil/Component.hpp"
 #include "MetricsService.hpp"
 #include "DocumentPrefabsService.hpp"
 #include "ViewCoordinatesService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
-  fruit::Component<
-    fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
-      Repositories::IRepository<DomainObjects::Engine::Viewpoint>,
-      MessageSystem::IChannel<Messages::Object>
-    >,
-    UILayer::AbstractModel::IDocumentPrefabsService,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IMetricsService,
-    UILayer::AbstractModel::IGetViewCoordinatesService,
-    UILayer::AbstractModel::ISetViewCoordinatesService,
-    UILayer::AbstractModel::IRenderingService
-  >
+  Component
   getComponent() {
     return fruit::createComponent()
+      .bind<
+        Common::MessageSystem::IChannel<Messages::Object>,
+        Common::MessageSystem::AllToAll<Messages::Object>
+       >()
       .bind<UILayer::AbstractModel::IDocumentPrefabsService, Services::DocumentPrefabsService>()
       .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>()
       .bind<UILayer::AbstractModel::IGetViewCoordinatesService, Services::ViewCoordinatesService>()

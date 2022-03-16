@@ -30,11 +30,18 @@
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   // Types.
   typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB<
-    UILayer::AbstractModel::Defs::RGB24_888_Color, 8, 8, 8
+    UILayer::AbstractModel::Defs::RGB24_888_Color,
+    8,
+    8,
+    8
   > IEC61966_sRGB_RGB24_888;
 
   typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB_Alpha<
-    UILayer::AbstractModel::Defs::ARGB32_8888_Color, 8, 8, 8, 8
+    UILayer::AbstractModel::Defs::ARGB32_8888_Color,
+    8,
+    8,
+    8,
+    8
   > IEC61966_sRGB_RGBA32_8888;
 }
 

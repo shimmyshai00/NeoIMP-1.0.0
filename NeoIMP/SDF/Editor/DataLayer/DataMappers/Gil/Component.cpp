@@ -23,6 +23,8 @@
 
 #include "Component.hpp"
 
+#include "../../../../Common/Data/Adapters/Component.hpp"
+
 #include "../ImageMapper.hpp"
 #include "../ImageVariantMapper.hpp"
 #include "Persisters/Png.hpp"
@@ -30,16 +32,23 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil {
   Component
   getComponent() {
-    using namespace ModelLayer::AbstractData;
+    using namespace ModelLayer::DomainObjects;
 
     return fruit::createComponent()
       .bind<
-        fruit::Annotated<Formats::PNG, IDataMapper<Entity::Gil::RGB24_888_Entity>>,
-        ImageMapper<Persisters::Png, Entity::Gil::RGB24_888_Entity>
+        fruit::Annotated<
+          Repositories::Formats::PNG,
+          Common::Data::IDataMapper<std::string, Engine::Gil::RGB24_888_Image>
+        >,
+        ImageMapper<Persisters::Png, Engine::Gil::RGB24_888_Image>
        >()
       .bind<
-        fruit::Annotated<Formats::PNG, IDataMapper<Entity::Gil::Any_Entity>>,
-        ImageVariantMapper<Persisters::Png, Entity::Gil::Any_Entity>
-       >();
+        fruit::Annotated<
+          Repositories::Formats::PNG,
+          Common::Data::IDataMapper<std::string, Engine::Gil::Any_Image>
+        >,
+        ImageVariantMapper<Persisters::Png, Engine::Gil::Any_Image>
+       >()
+      .install(Common::Data::Adapters::getComponent);
   };
 }

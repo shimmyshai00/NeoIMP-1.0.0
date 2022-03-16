@@ -30,11 +30,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
   //       space. We can typecheck the number of fundamental channels, but not (yet) the semantics.
   //       NB!
   template<class PixelDataDstT, class PixelDataSrcT, class FundamentalTraitsT>
-  PixelDataDstT adapt(const IColorSpace<PixelDataDstT, FundamentalTraitsT> &dstSpace,
-                      const IColorSpace<PixelDataSrcT, FundamentalTraitsT> &srcSpace,
-                      PixelDataSrcT srcVal
-                     )
-  {
+  PixelDataDstT adapt(
+    const IColorSpace<PixelDataDstT, FundamentalTraitsT> &dstSpace,
+    const IColorSpace<PixelDataSrcT, FundamentalTraitsT> &srcSpace,
+    PixelDataSrcT srcVal
+  ) {
     // Allow +1 for alpha channel-including spaces
     float fundamentals[FundamentalTraitsT::num_channels+1];
 

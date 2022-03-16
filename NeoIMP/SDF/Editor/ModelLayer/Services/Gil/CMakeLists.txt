@@ -4,5 +4,6 @@ target_sources(neoimp PUBLIC
                GetDocumentNameService.cpp
                GetDocumentMetricsService.cpp
                RenderingService.cpp
+               SaveDocumentService.cpp
                Component.cpp
               )

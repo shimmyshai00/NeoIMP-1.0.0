@@ -24,11 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/Model/ICrudRepository.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../../Repositories/IRepository.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
 #include <fruit/fruit.h>
 
 #include <map>
@@ -40,26 +41,29 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class RenderingService : public UILayer::AbstractModel::IRenderingService {
   public:
     INJECT(RenderingService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *renderingRepository
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>
+        *renderingRepository
     ));
 
     Common::Handle
     createStaticRendering(Common::Handle imageHandle);
 
     std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
-    getRegion(Common::Handle renderHandle,
-              std::size_t x1,
-              std::size_t y1,
-              std::size_t x2,
-              std::size_t y2
-             );
+    getRegion(
+      Common::Handle renderHandle,
+      std::size_t x1,
+      std::size_t y1,
+      std::size_t x2,
+      std::size_t y2
+    );
 
     void
     deleteRendering(Common::Handle renderHandle);
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering> *m_renderingRepository;
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
+      m_renderingRepository;
 
     Common::Handle m_nextRenderingHandle;
   };

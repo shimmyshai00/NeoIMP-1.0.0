@@ -31,10 +31,11 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
   // Provides implementation detail for rendering onto a single buffer cell.
   template<class View>
-  void renderOntoCell(Engine::Buffers::RenderCell *dstCell,
-                      Math::Rect<std::size_t> dstRect,
-                      const View &view
-                     );
+  void renderOntoCell(
+    Engine::Buffers::RenderCell *dstCell,
+    Math::Rect<std::size_t> dstRect,
+    const View &view
+  );
 }
 
 #endif

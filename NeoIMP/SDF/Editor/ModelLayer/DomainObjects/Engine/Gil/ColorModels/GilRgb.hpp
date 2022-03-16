@@ -38,9 +38,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
     convertToPixel(float *values) const;
 
     inline void
-    convertPixelTo(GilPixelT px,
-                   float *values
-                  ) const;
+    convertPixelTo(GilPixelT px, float *values) const;
   };
 }
 

@@ -24,8 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../AbstractData/Entity/Layer.hpp"
-#include "../../../Components/ContentComponent.hpp"
+#include "../../../Components/IContentComponent.hpp"
 #include "../../../Dimensions.hpp"
 
 #include <cstddef>
@@ -35,23 +34,23 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
   // Purpose:    Implements the background component for the Boost.GIL-based engine.
   // Parameters: GilSpecT - The implementation traits type.
   template<class GilSpecT>
-  class Background : public Engine::Components::ContentComponent<GilSpecT> {
+  class Background : public Engine::Components::IContentComponent<GilSpecT> {
   public:
     // Function:   Background
     // Purpose:    Construct a new background content component.
     // Parameters: widthPx - The width of the raster in pixels.
     //             heightPx - The height of the raster in pixels.
     //             bkgColor - The initial background color.
-    Background(std::size_t widthPx,
-               std::size_t heightPx,
-               typename GilSpecT::bkg_pixel_t bkgColor
-              );
-
-    void
-    addToLayerEntity(AbstractData::Entity::Layer<typename GilSpecT::entity_spec_t> &entity) const;
+    Background(std::size_t widthPx, std::size_t heightPx, typename GilSpecT::bkg_pixel_t bkgColor);
 
     ImageRect
     getIntrinsicRect() const;
+
+    void
+    accept(typename GilSpecT::component_visitor_t &visitor);
+
+    virtual void
+    accept(typename GilSpecT::const_component_visitor_t &visitor);
 
     // Function:   getView
     // Purpose:    Gets a view onto the image data.

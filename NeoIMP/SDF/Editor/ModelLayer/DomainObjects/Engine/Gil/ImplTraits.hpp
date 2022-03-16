@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractData/Entity/Gil/EntityTraits.hpp"
 #include "Components/Content/Background.hpp"
+#include "Components/Visitor.hpp"
 
 #include <boost/gil/pixel.hpp>
 #include <boost/gil/image.hpp>
@@ -33,6 +33,7 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   struct RGB24_888_Image_Impl {
+    // These types are for internal convenience
     typedef boost::gil::rgb8_image_t bkg_image_t;
     typedef boost::gil::rgb8_view_t bkg_view_t;
     typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
@@ -41,9 +42,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
     typedef boost::gil::rgba8_view_t view_t;
     typedef boost::gil::rgba8_pixel_t pixel_t;
 
-    typedef AbstractData::Entity::Gil::RGB24_888_Entity_Spec entity_spec_t;
-
+    // These types must be defined in every image implementation traits class.
     typedef Components::Content::Background<RGB24_888_Image_Impl> background_content_component_t;
+
+    typedef Components::Visitor<RGB24_888_Image_Impl> component_visitor_t;
+    typedef Components::ConstVisitor<RGB24_888_Image_Impl> const_component_visitor_t;
   };
 }
 

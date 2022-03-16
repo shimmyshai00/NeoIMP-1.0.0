@@ -62,10 +62,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     }
 
     void
-    pixelToFundamental(PixelDataT pixel,
-                       float *fs
-                      ) const
-    {
+    pixelToFundamental(PixelDataT pixel, float *fs) const {
       float nrmlValues[NUM_CHANNELS];
 
       m_colorModel->convertPixelTo(pixel, nrmlValues);
@@ -97,9 +94,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     //                  fundamental space traits class.
     // Returns:    None.
     virtual void
-    nrmlToFundamental(float *nrml,
-                      float *fs
-                     ) const = 0;
+    nrmlToFundamental(float *nrml, float *fs) const = 0;
 
     // Function:   fundamentalToNrml
     // Purpose:    Does the inverse of the above mapping.
@@ -107,9 +102,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     //             nrml - The output normalized RGB values.
     // Returns:    None.
     virtual void
-    fundamentalToNrml(float *fs,
-                      float *nrml
-                     ) const = 0;
+    fundamentalToNrml(float *fs, float *nrml) const = 0;
   };
 }
 

@@ -23,9 +23,12 @@
 
 #include "GetDocumentNameService.hpp"
 
+#include "../../../DataLayer/Exceptions.hpp"
+#include "../../Exceptions.hpp"
+
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentNameService::GetDocumentNameService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository)
   {
@@ -33,10 +36,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   std::string
   GetDocumentNameService::getDocumentName(Common::Handle documentHandle) {
-    if(auto p = m_imageRepository->retrieve(documentHandle)) {
-      return p->getName();
-    } else {
-      return "ERROR";
+    try {
+      return m_imageRepository->getImage(documentHandle)->getName();
+    } catch(DataLayer::ImageNotFoundException) {
+      throw ImageNotFoundException(documentHandle);
     }
   }
 }

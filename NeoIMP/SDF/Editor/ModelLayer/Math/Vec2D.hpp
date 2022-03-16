@@ -92,37 +92,25 @@ namespace SDF::Editor::ModelLayer::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Vec2D<T> &lhs,
-             const Vec2D<T> &rhs
-            )
-  {
+  operator==(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
     return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
   }
 
   template<class T>
   static inline bool
-  operator!=(const Vec2D<T> &lhs,
-             const Vec2D<T> &rhs
-            )
-  {
+  operator!=(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
     return !(lhs == rhs);
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator+(const Vec2D<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator+(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
     return Vec2D<T>(lhs) += rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Vec2D<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator-(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
     return Vec2D<T>(lhs) -= rhs;
   }
 
@@ -134,10 +122,7 @@ namespace SDF::Editor::ModelLayer::Math {
 
   template<class T>
   static inline Vec2D<T>
-  operator*(double s,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator*(double s, const Vec2D<T> &rhs) {
     return Vec2D<T>(rhs) *= s;
   }
 }

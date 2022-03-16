@@ -44,10 +44,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     //  which is presumably a reliable enough source to achieve this aim.
     struct IEC61966_sRGB {
       void
-      nrmlToFundamental(float *nrml,
-                        float *fs
-                       ) const
-      {
+      nrmlToFundamental(float *nrml, float *fs) const {
         // This is the matrix inverse of the matrix below. The 4-digits is not an accident; it
         // appears the matrix given in the pdf was obtained by inverting an original defined to 4
         // digit precision. Note that this may be important for high depth color, so should be
@@ -80,10 +77,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
       }
 
       void
-      fundamentalToNrml(float *fs,
-                        float *nrml
-                       ) const
-      {
+      fundamentalToNrml(float *fs, float *nrml) const {
         // This function was actually coded first.
         float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[1] - 0.4986286f*fs[2], 0.0f, 1.0f);
         float GL = std::clamp<float>(-0.9689307f*fs[0] + 1.8757561f*fs[1] + 0.0415175f*fs[2], 0.0f, 1.0f);

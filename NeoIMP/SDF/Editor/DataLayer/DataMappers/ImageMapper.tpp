@@ -29,47 +29,56 @@
 #include "EDirection.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers {
-  template<class PersisterT, class ImageEntityT>
-  ImageMapper<PersisterT, ImageEntityT>::ImageMapper(Context::FileRegistry *fileRegistry)
-    : m_fileRegistry(fileRegistry)
+  template<class PersisterT, class ImageT>
+  ImageMapper<PersisterT, ImageT>::ImageMapper(
+    Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter
+  )
+    : m_filesystemAdapter(filesystemAdapter)
   {
   }
 
-  template<class PersisterT, class ImageEntityT>
-  void
-  ImageMapper<PersisterT, ImageEntityT>::insert(Common::Handle uid, ImageEntityT *entity) {
-    if(m_fileRegistry->hasFileUid(uid)) {
-      throw EntityAlreadyInsertedException(uid);
-    }
-
-    m_fileRegistry->registerFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(DIR_SAVE);
-    applyPersister(persister, *entity);
+  template<class PersisterT, class ImageT>
+  bool
+  ImageMapper<PersisterT, ImageT>::has(std::string fileSpec) {
+    Common::Data::Adapters::FilesystemKey fsk(fileSpec, 0, 0);
+    return m_filesystemAdapter->exist(fsk);
   }
 
-  template<class PersisterT, class ImageEntityT>
-  std::unique_ptr<ImageEntityT>
-  ImageMapper<PersisterT, ImageEntityT>::retrieve(Common::Handle uid) {
+  template<class PersisterT, class ImageT>
+  void
+  ImageMapper<PersisterT, ImageT>::insert(std::string fileSpec, ImageT &obj) {
+    if(has(fileSpec)) {
+      throw FileSpecInUseException();
+    }
+
+    // Boost.GIL does not require direct interaction with the file system by us
+    PersisterT persister(fileSpec, DIR_SAVE);
+    applyPersister(persister, obj);
+  }
+
+  template<class PersisterT, class ImageT>
+  void
+  ImageMapper<PersisterT, ImageT>::retrieve(std::string fileSpec, ImageT &obj) {
     throw "NOT YET IMPLEMENTED";
   }
 
-  template<class PersisterT, class ImageEntityT>
+  template<class PersisterT, class ImageT>
   void
-  ImageMapper<PersisterT, ImageEntityT>::update(Common::Handle uid, ImageEntityT *entity) {
-    if(!m_fileRegistry->hasFileUid(uid)) {
-      throw EntityNotFoundException(uid);
+  ImageMapper<PersisterT, ImageT>::update(std::string fileSpec, ImageT &obj) {
+    if(!has(fileSpec)) {
+      throw FileSpecNotFoundException();
     }
 
-    m_fileRegistry->updateFileSpec(uid, entity->m_fileSpec);
-    PersisterT persister(DIR_SAVE);
-    applyPersister(persister, *entity);
+    // Boost.GIL does not require direct interaction with the file system by us
+    PersisterT persister(fileSpec, DIR_SAVE);
+    applyPersister(persister, obj);
   }
 
-  template<class PersisterT, class ImageEntityT>
+  template<class PersisterT, class ImageT>
   void
-  ImageMapper<PersisterT, ImageEntityT>::erase(Common::Handle uid) {
-    // Just forget about the file UID - no deletion!
-    m_fileRegistry->forgetFileSpec(uid);
+  ImageMapper<PersisterT, ImageT>::erase(std::string fileSpec) {
+    // NB: delete a file??? May be dangerous! what this should do, if anything, TBA
+    throw "NOT YET IMPLEMENTED";
   }
 }
 

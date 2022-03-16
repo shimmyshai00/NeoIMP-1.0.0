@@ -24,10 +24,7 @@
 #include "RenderCell.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
-  RenderCell::RenderCell(std::size_t width,
-                         std::size_t height,
-                         ERenderPixelFormat pixelFormat
-                        )
+  RenderCell::RenderCell(std::size_t width, std::size_t height, ERenderPixelFormat pixelFormat)
     : m_width(width),
       m_height(height),
       m_pixelFormat(pixelFormat),

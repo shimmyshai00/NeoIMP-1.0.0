@@ -37,10 +37,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // good faith and the programmer is expected to supply a template operator() that applies the
   // algorithm to an image.
   struct Render {
-    Render(Engine::Buffers::GridRendering *gridBuffer,
-           Math::Rect<std::size_t> dstRect,
-           ImageRect srcRect
-          );
+    Render(
+      Engine::Buffers::GridRendering *gridBuffer,
+      Math::Rect<std::size_t> dstRect,
+      ImageRect srcRect
+    );
 
     template<class GilSpecT>
     void operator()(Image<GilSpecT> &image);

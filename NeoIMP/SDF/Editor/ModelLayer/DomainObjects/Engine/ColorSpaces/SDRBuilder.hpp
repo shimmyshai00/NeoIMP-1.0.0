@@ -46,18 +46,12 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     {}
   protected:
     void
-    nrmlToFundamental(float *nrml,
-                      float *fs
-                     ) const
-    {
+    nrmlToFundamental(float *nrml, float *fs) const {
       MapT().nrmlToFundamental(nrml, fs);
     }
 
     void
-    fundamentalToNrml(float *fs,
-                      float *nrml
-                     ) const
-    {
+    fundamentalToNrml(float *fs, float *nrml) const {
       MapT().fundamentalToNrml(fs, nrml);
     }
   };
@@ -83,10 +77,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     {}
   protected:
     void
-    nrmlToFundamental(float *nrml,
-                      float *fs
-                     ) const
-    {
+    nrmlToFundamental(float *nrml, float *fs) const {
       // The last channel is the alpha channel.
       MapT().nrmlToFundamental(nrml, fs);
       fs[SDRBase<AlphaPixelT, FundamentalTraitsT, BitDepths...>::NUM_CHANNELS-1] =
@@ -94,10 +85,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     }
 
     void
-    fundamentalToNrml(float *fs,
-                      float *nrml
-                     ) const
-    {
+    fundamentalToNrml(float *fs, float *nrml) const {
       MapT().fundamentalToNrml(fs, nrml);
       nrml[SDRBase<AlphaPixelT, FundamentalTraitsT, BitDepths...>::NUM_CHANNELS-1] =
         fs[SDRBase<AlphaPixelT, FundamentalTraitsT, BitDepths...>::NUM_CHANNELS-1];

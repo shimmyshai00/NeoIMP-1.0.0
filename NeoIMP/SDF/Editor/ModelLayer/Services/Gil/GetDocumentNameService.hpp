@@ -28,7 +28,7 @@
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 
-#include "../../Repositories/IRepository.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
 
 #include <fruit/fruit.h>
 #include <string>
@@ -40,13 +40,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class GetDocumentNameService : public UILayer::AbstractModel::IGetDocumentNameService {
   public:
     INJECT(GetDocumentNameService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     std::string
     getDocumentName(Common::Handle documentHandle);
   private:
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
 

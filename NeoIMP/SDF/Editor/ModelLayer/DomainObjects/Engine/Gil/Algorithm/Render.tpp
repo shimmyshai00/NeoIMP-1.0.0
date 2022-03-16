@@ -33,7 +33,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
     // For now, only render the background layer.
     typedef typename GilSpecT::bkg_view_t View;
     auto contentComponent = image.getLayer(0)
-      .template getComponent<Components::Content::Background<GilSpecT>>();
+      .template findComponentById<Components::Content::Background<GilSpecT>>(
+        Layer<GilSpecT>::c_contentComponentId
+      );
 
     if(contentComponent == nullptr) {
       return; // nothing to render!

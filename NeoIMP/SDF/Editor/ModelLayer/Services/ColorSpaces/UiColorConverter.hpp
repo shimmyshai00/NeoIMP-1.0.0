@@ -64,6 +64,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
     DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
   >;
 }
+
 #include "UiColorConverter.tpp"
 
 #endif

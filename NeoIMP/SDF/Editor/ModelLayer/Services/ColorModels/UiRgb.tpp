@@ -35,10 +35,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
   template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   inline void
-  UiRgb<UiPixelT,BitsR, BitsG, BitsB>::convertPixelTo(UiPixelT px,
-                                                      float *values
-                                                     ) const
-  {
+  UiRgb<UiPixelT,BitsR, BitsG, BitsB>::convertPixelTo(UiPixelT px, float *values) const {
     values[0] = px.m_r;
     values[1] = px.m_g;
     values[2] = px.m_b;

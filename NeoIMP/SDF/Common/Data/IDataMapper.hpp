@@ -24,33 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Model/IPersistibleDomainObject.hpp"
-#include "../Handle.hpp"
-
-#include <memory>
-
 namespace SDF::Common::Data {
   // Class:      IDataMapper
   // Purpose:    Defines an interface for a data mapper (object to move data between persistent
-  //             storage and memory).
-  // Parameters: ObjT - The type of domain object mapped into the persistent storage.
-  template<class ObjT>
+  //             storage and memory without regard to which database system is used).
+  // Parameters: KeyT - The type of database key accepted by this mapper.
+  //             ObjT - The type of domain object mapped into the persistent storage.
+  template<class KeyT, class ObjT>
   class IDataMapper {
   public:
     virtual ~IDataMapper() = default;
 
     // The usual database access methods (CRUD).
-    virtual void
-    insert(Handle uid, Model::IPersistibleDomainObject<ObjT> *obj) = 0;
-
-    virtual std::unique_ptr<ObjT>
-    retrieve(Handle uid) = 0;
+    virtual bool
+    has(KeyT key) = 0;
 
     virtual void
-    update(Handle uid, ObjT *obj) = 0;
+    insert(KeyT key, ObjT &obj) = 0;
 
     virtual void
-    erase(Handle uid) = 0;
+    retrieve(KeyT key, ObjT &obj) = 0;
+
+    virtual void
+    update(KeyT key, ObjT& obj) = 0;
+
+    virtual void
+    erase(KeyT key) = 0;
   };
 }
 

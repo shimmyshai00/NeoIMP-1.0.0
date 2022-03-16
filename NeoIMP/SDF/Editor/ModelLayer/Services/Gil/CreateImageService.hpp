@@ -24,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../../Common/Handle.hpp"
+#include "../../../../Common/IUUIDable.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
 
-#include "../../Repositories/IRepository.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../DomainObjects/IUUIDable.hpp"
 
-#include "../../MessageSystem/IChannel.hpp"
 #include "../Messages/Object.hpp"
 
 #include <boost/uuid/uuid.hpp>
@@ -43,12 +43,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
   // Parameters: None.
   class CreateImageService : public UILayer::AbstractModel::ICreateImageService,
-                             public DomainObjects::IUUIDable
+                             public Common::IUUIDable
   {
   public:
     INJECT(CreateImageService(
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+      Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
     ));
 
     boost::uuids::uuid
@@ -59,8 +59,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   private:
     boost::uuids::uuid m_uuid;
 
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    MessageSystem::IChannel<Messages::Object> *m_objectMessageChannel;
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    Common::MessageSystem::IChannel<Messages::Object> *m_objectMessageChannel;
 
     Common::Handle m_nextHandle;
   };

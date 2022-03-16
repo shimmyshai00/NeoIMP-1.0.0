@@ -24,61 +24,61 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/Entity/ImageVariant.hpp"
 #include "../Exceptions.hpp"
 #include "ApplyPersister.hpp"
 #include "EDirection.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers {
   template<class PersisterT, class ImageVariantT>
-  ImageVariantMapper<PersisterT, ImageVariantT>::ImageVariantMapper(Context::FileRegistry *
-                                                                      fileRegistry
-                                                                   )
-    : m_fileRegistry(fileRegistry)
+  ImageVariantMapper<PersisterT, ImageVariantT>::ImageVariantMapper(
+    Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter
+  )
+    : m_filesystemAdapter(filesystemAdapter)
   {
   }
 
   template<class PersisterT, class ImageVariantT>
-  void
-  ImageVariantMapper<PersisterT, ImageVariantT>::insert(Common::Handle uid, ImageVariantT *entity) {
-    using namespace ModelLayer::AbstractData;
-
-    if(m_fileRegistry->hasFileUid(uid)) {
-      throw EntityAlreadyInsertedException(uid);
-    }
-
-    m_fileRegistry->registerFileSpec(uid,
-      Entity::visitEntity([](auto && e) { return e.m_fileSpec; }, *entity));
-    PersisterT persister(DIR_SAVE);
-    applyPersister(persister, *entity);
+  bool
+  ImageVariantMapper<PersisterT, ImageVariantT>::has(std::string fileSpec) {
+    Common::Data::Adapters::FilesystemKey fsk(fileSpec, 0, 0);
+    return m_filesystemAdapter->exist(fsk);
   }
 
   template<class PersisterT, class ImageVariantT>
-  std::unique_ptr<ImageVariantT>
-  ImageVariantMapper<PersisterT, ImageVariantT>::retrieve(Common::Handle uid) {
+  void
+  ImageVariantMapper<PersisterT, ImageVariantT>::insert(std::string fileSpec, ImageVariantT &obj) {
+    if(has(fileSpec)) {
+      throw FileSpecInUseException();
+    }
+
+    // Boost.GIL does not require direct interaction with the file system by us
+    PersisterT persister(fileSpec, DIR_SAVE);
+    applyPersister(persister, obj);
+  }
+
+  template<class PersisterT, class ImageVariantT>
+  void
+  ImageVariantMapper<PersisterT, ImageVariantT>::retrieve(std::string fileSpec, ImageVariantT &obj)
+  {
     throw "NOT YET IMPLEMENTED";
   }
 
   template<class PersisterT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::update(Common::Handle uid, ImageVariantT *entity) {
-    using namespace ModelLayer::AbstractData;
-
-    if(!m_fileRegistry->hasFileUid(uid)) {
-      throw EntityNotFoundException(uid);
+  ImageVariantMapper<PersisterT, ImageVariantT>::update(std::string fileSpec, ImageVariantT &obj) {
+    if(!has(fileSpec)) {
+      throw FileSpecNotFoundException();
     }
 
-    m_fileRegistry->updateFileSpec(uid,
-      Entity::visitEntity([](auto && e) { return e.m_fileSpec; }, *entity));
-    PersisterT persister(DIR_SAVE);
-    applyPersister(persister, *entity);
+    // Boost.GIL does not require direct interaction with the file system by us
+    PersisterT persister(fileSpec, DIR_SAVE);
+    applyPersister(persister, obj);
   }
 
   template<class PersisterT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::erase(Common::Handle uid) {
-    // Just forget about the file UID - no deletion!
-    m_fileRegistry->forgetFileSpec(uid);
+  ImageVariantMapper<PersisterT, ImageVariantT>::erase(std::string fileSpec) {
+    throw "NOT YET IMPLEMENTED";
   }
 }
 

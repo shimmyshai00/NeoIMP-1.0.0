@@ -24,8 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../Context/FileRegistry.hpp"
+#include "../../../Common/Data/Adapters/IFilesystemAdapter.hpp"
+#include "../../../Common/Data/IDataMapper.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
 
 #include <fruit/fruit.h>
 
@@ -33,28 +34,31 @@ namespace SDF::Editor::DataLayer::DataMappers {
   // Class:      ImageMapper
   // Purpose:    Defines a data mapper for mapping NeoIMP images.
   // Parameters: PersisterT - The type of persister to use (allows changing file format).
-  //             ImageEntityT - The image entity type (either Image or ImageVariant from
-  //                            ModelLayer::AbstractData::Entity).
-  template<class PersisterT, class ImageEntityT>
-  class ImageMapper : public ModelLayer::AbstractData::IDataMapper<ImageEntityT> {
+  //             ImageT - The image type.
+  template<class PersisterT, class ImageT>
+  class ImageMapper : public Common::Data::IDataMapper<std::string, ImageT> {
   public:
     // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
-    INJECT(ImageMapper(Context::FileRegistry *fileRegistry));
+    // Parameters: filesystemAdapter - The filesystem adapter to use.
+    INJECT(ImageMapper(Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter));
+
+    bool
+    has(std::string fileSpec);
 
     void
-    insert(Common::Handle uid, ImageEntityT *entity);
-
-    std::unique_ptr<ImageEntityT>
-    retrieve(Common::Handle uid);
+    insert(std::string fileSpec, ImageT &obj);
 
     void
-    update(Common::Handle uid, ImageEntityT *entity);
+    retrieve(std::string fileSpec, ImageT &obj);
 
     void
-    erase(Common::Handle uid);
+    update(std::string fileSpec, ImageT &obj);
+
+    void
+    erase(std::string fileSpec);
   private:
-    Context::FileRegistry *m_fileRegistry;
+    Common::Data::Adapters::IFilesystemAdapter *m_filesystemAdapter;
   };
 }
 

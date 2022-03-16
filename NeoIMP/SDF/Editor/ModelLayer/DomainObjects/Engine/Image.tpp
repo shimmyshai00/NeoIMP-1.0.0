@@ -28,33 +28,10 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
-  Image<ImplSpecT>::Image(std::string name,
-                          std::string fileSpec,
-                          ImageMeasure widthPx,
-                          ImageMeasure heightPx,
-                          float resolutionPpi,
-                          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
-                         )
+  Image<ImplSpecT>::Image(std::string name, float resolutionPpi)
     : m_name(name),
-      m_fileSpec(fileSpec),
-      m_widthPx(widthPx),
-      m_heightPx(heightPx),
       m_resolutionPpi(resolutionPpi)
   {
-    m_layers.push_back(std::move(backgroundLayer));
-  }
-
-  template<class ImplSpecT>
-  std::shared_ptr<AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>>
-  Image<ImplSpecT>::getEntity() const {
-    auto entity = std::make_shared<AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>>(
-      m_name, m_fileSpec, m_widthPx, m_heightPx, m_resolutionPpi);
-
-    for(const auto &layer : m_layers) {
-      layer->addToImageEntity(*entity);
-    }
-
-    return entity;
   }
 
   template<class ImplSpecT>
@@ -64,27 +41,33 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
-  std::string
-  Image<ImplSpecT>::getFileSpec() const {
-    return m_fileSpec;
-  }
-
-  template<class ImplSpecT>
   ImageMeasure
   Image<ImplSpecT>::getWidthPx() const {
-    return m_widthPx;
+    if(m_layers.size() == 0) {
+      return 0;
+    } else {
+      return m_layers[0]->getContentWidth();
+    }
   }
 
   template<class ImplSpecT>
   ImageMeasure
   Image<ImplSpecT>::getHeightPx() const {
-    return m_heightPx;
+    if(m_layers.size() == 0) {
+      return 0;
+    } else {
+      return m_layers[0]->getContentHeight();
+    }
   }
 
   template<class ImplSpecT>
   ImageRect
   Image<ImplSpecT>::getRect() const {
-    return ImageRect(0, 0, m_widthPx, m_heightPx);
+    if(m_layers.size() == 0) {
+      return ImageRect(0, 0, 0, 0);
+    } else {
+      return m_layers[0]->getContentRect();
+    }
   }
 
   template<class ImplSpecT>
@@ -96,14 +79,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
   std::size_t
   Image<ImplSpecT>::getNumLayers() const {
-    return 1 + m_layers.size();
+    return m_layers.size();
   }
 
   template<class ImplSpecT>
   Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
-      // Oops
       throw OutOfRangeException();
     } else {
       return *m_layers[layerNum];
@@ -114,11 +96,28 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   const Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
     if(layerNum >= m_layers.size()) {
-      // Oops
       throw OutOfRangeException();
     } else {
       return *m_layers[layerNum];
     }
+  }
+
+  template<class ImplSpecT>
+  void
+  Image<ImplSpecT>::setName(std::string name) {
+    m_name = name;
+  }
+
+  template<class ImplSpecT>
+  void
+  Image<ImplSpecT>::setResolutionPpi(float resolutionPpi) {
+    m_resolutionPpi = resolutionPpi;
+  }
+
+  template<class ImplSpecT>
+  void
+  Image<ImplSpecT>::addLayer(std::unique_ptr<Layer<ImplSpecT>> layer) {
+    m_layers.push_back(std::move(layer));
   }
 }
 

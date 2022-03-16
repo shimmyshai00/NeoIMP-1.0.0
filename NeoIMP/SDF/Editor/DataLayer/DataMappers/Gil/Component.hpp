@@ -24,21 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../ModelLayer/AbstractData/Entity/Gil/EntityTypes.hpp"
-#include "../../../ModelLayer/AbstractData/IDataMapper.hpp"
-#include "../../../ModelLayer/AbstractData/Formats.hpp"
+#include "../../../../Common/Data/IDataMapper.hpp"
+#include "../../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../../Repositories/Formats.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::DataLayer::DataMappers::Gil {
   typedef fruit::Component<
     fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::RGB24_888_Entity>
+      Repositories::Formats::PNG,
+      Common::Data::IDataMapper<
+        std::string,
+        ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
+      >
     >,
     fruit::Annotated<
-      ModelLayer::AbstractData::Formats::PNG,
-      ModelLayer::AbstractData::IDataMapper<ModelLayer::AbstractData::Entity::Gil::Any_Entity>
+      Repositories::Formats::PNG,
+      Common::Data::IDataMapper<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
     >
   > Component;
 

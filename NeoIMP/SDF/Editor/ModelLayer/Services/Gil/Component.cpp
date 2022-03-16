@@ -27,26 +27,17 @@
 #include "GetDocumentNameService.hpp"
 #include "GetDocumentMetricsService.hpp"
 #include "RenderingService.hpp"
+#include "SaveDocumentService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
-  fruit::Component<
-    fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
-      MessageSystem::IChannel<Messages::Object>
-    >,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IRenderingService
-  >
+  Component
   getComponent() {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::IDocumentRequirementsService, DocumentRequirementsService>()
       .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>()
       .bind<UILayer::AbstractModel::IGetDocumentNameService, GetDocumentNameService>()
       .bind<UILayer::AbstractModel::IGetDocumentMetricsService, GetDocumentMetricsService>()
-      .bind<UILayer::AbstractModel::IRenderingService, RenderingService>();
+      .bind<UILayer::AbstractModel::IRenderingService, RenderingService>()
+      .bind<UILayer::AbstractModel::ISaveDocumentService, SaveDocumentService>();
   }
 }

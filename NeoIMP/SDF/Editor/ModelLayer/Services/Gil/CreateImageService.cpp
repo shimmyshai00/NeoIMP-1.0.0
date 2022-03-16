@@ -48,8 +48,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   CreateImageService::CreateImageService(
-    Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-    MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
   )
     : m_uuid(boost::uuids::random_generator()()),
       m_imageRepository(imageRepository),
@@ -122,7 +122,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     }
 
     Common::Handle rv(m_nextHandle++);
-    m_imageRepository->insert(rv, std::move(image));
+    m_imageRepository->insertImage(rv, std::move(image));
 
     Messages::Object msg(Messages::OBJECT_ADDED, Messages::OBJECT_IMAGE, rv);
     m_objectMessageChannel->publishMessage(getUuid(), msg);

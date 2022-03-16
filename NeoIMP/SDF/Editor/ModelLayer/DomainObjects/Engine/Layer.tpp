@@ -25,7 +25,7 @@
  */
 
 #include "../../Exceptions.hpp"
-#include "Components/ContentComponent.hpp"
+#include "Components/IContentComponent.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
@@ -34,28 +34,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ImplSpecT>
-  void
-  Layer<ImplSpecT>::addToImageEntity(
-    AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t> &entity
-  ) const {
-    auto layerEntity = AbstractData::Entity::Layer<typename ImplSpecT::entity_spec_t>();
-    for(const auto &c : m_components) {
-      c.second->addToLayerEntity(layerEntity);
-    }
-
-    entity.m_layers.push_back(layerEntity);
-  }
-
-  template<class ImplSpecT>
   ImageMeasure
   Layer<ImplSpecT>::getContentWidth() const {
-    return getContentRect().width();
+    return getContentRect().getWidth();
   }
 
   template<class ImplSpecT>
   ImageMeasure
   Layer<ImplSpecT>::getContentHeight() const {
-    return getContentRect().height();
+    return getContentRect().getHeight();
   }
 
   template<class ImplSpecT>
@@ -63,70 +50,70 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   Layer<ImplSpecT>::getContentRect() const {
     using namespace Components;
 
-    return findFirstComponentByFamily<ContentComponent<ImplSpecT>>(COMPONENT_CONTENT)->
-      getIntrinsicRect();
-  }
-
-  template<class ImplSpecT>
-  template<class U>
-  bool
-  Layer<ImplSpecT>::hasComponent() {
-    return (m_components.find(typeid(U)) != m_components.end());
-  }
-
-  template<class ImplSpecT>
-  template<class U>
-  U *
-  Layer<ImplSpecT>::attachComponent(std::unique_ptr<U> component) {
-    if(!hasComponent<U>()) {
-      U *rv = component.get();
-      m_components[typeid(U)] = std::move(component);
-      return rv;
+    if(auto *p = findComponentById<IContentComponent<ImplSpecT>>(c_contentComponentId)) {
+      return p->getIntrinsicRect();
     } else {
+      return ImageRect(0, 0, 0, 0); // no recognizable content!
+    }
+  }
+
+  template<class ImplSpecT>
+  void
+  Layer<ImplSpecT>::attachComponent(
+    std::string id,
+    std::unique_ptr<Components::IComponent<ImplSpecT>> component
+  ) {
+    if(m_components.find(id) != m_components.end()) {
       throw ComponentAlreadyAddedException();
+    } else {
+      m_components[id] = std::move(component);
     }
   }
 
   template<class ImplSpecT>
   template<class U>
   U *
-  Layer<ImplSpecT>::getComponent() {
-    if(m_components.find(typeid(U)) != m_components.end()) {
-      return dynamic_cast<U *>(m_components[typeid(U)].get());
-    } else {
+  Layer<ImplSpecT>::findComponentById(std::string id) {
+    if(m_components.find(id) == m_components.end()) {
       return nullptr;
+    } else {
+      if(U *p = dynamic_cast<U *>(m_components[id].get())) {
+        return p;
+      } else {
+        throw BadCastException();
+      }
     }
   }
 
   template<class ImplSpecT>
   template<class U>
   const U *
-  Layer<ImplSpecT>::getComponent() const {
-    if(m_components.find(typeid(U)) != m_components.end()) {
-      return dynamic_cast<const U *>(m_components[typeid(U)].get());
-    } else {
+  Layer<ImplSpecT>::findComponentById(std::string id) const {
+    if(m_components.find(id) == m_components.end()) {
       return nullptr;
-    }
-  }
-}
-
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
-  template<class ImplSpecT>
-  template<class U>
-  U *
-  Layer<ImplSpecT>::findFirstComponentByFamily(Components::EFamily family) {
-    for(const auto &kvp : m_components) {
-      if(kvp.second->getFamily() == family) {
-        if(auto p = dynamic_cast<U>(kvp.second.get())) {
-          return p;
-        } else {
-          throw BadCastException();
-        }
+    } else {
+      if(const U *p = dynamic_cast<const U *>(m_components.at(id).get())) {
+        return p;
+      } else {
+        throw BadCastException();
       }
     }
+  }
 
-    // not found
-    return nullptr;
+  template<class ImplSpecT>
+  void
+  Layer<ImplSpecT>::visitComponents(typename ImplSpecT::component_visitor_t &visitor) {
+    for(auto &component : m_visitationList) {
+      component->accept(visitor);
+    }
+  }
+
+  template<class ImplSpecT>
+  void
+  Layer<ImplSpecT>::visitComponents(typename ImplSpecT::const_component_visitor_t &visitor) const {
+    for(auto &component : m_visitationList) {
+      component->accept(visitor);
+    }
   }
 }
 

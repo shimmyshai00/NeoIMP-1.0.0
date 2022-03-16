@@ -25,21 +25,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../ModelLayer/AbstractData/Entity/Image.hpp"
+#include "../../../../ModelLayer/DomainObjects/Engine/Image.hpp"
 #include "../../EDirection.hpp"
+
+#include <string>
 
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   // Note: The PNG persister can only persist the background layer because PNG is a single-layer
   //       format. For clean persisting of multilayer images to PNG, preprocessing in the model
   //       is required to merge the layers (effectively a rendering operation).
   struct Png {
+    std::string m_fileSpec;
     EDirection m_direction;
 
-    Png(EDirection direction) : m_direction(direction) {}
+    Png(std::string fileSpec, EDirection direction)
+      : m_fileSpec(fileSpec),
+        m_direction(direction)
+    {
+    }
 
     template<class GilSpecT>
     void
-    operator()(ModelLayer::AbstractData::Entity::Image<GilSpecT> &ent);
+    operator()(ModelLayer::DomainObjects::Engine::Image<GilSpecT> &image);
   };
 }
 

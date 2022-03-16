@@ -24,28 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/Entity/Image.hpp"
-#include "../../ModelLayer/AbstractData/Entity/ImageVariant.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
 
 #include <boost/variant2/variant.hpp>
 
 namespace SDF::Editor::DataLayer::DataMappers {
-  template<class Persister, class EntitySpecT>
-  void applyPersister(Persister pers,
-                      ModelLayer::AbstractData::Entity::Image<EntitySpecT> &entity
-                     )
-  {
-    pers(entity);
+  template<class Persister, class ImplSpecT>
+  void applyPersister(Persister pers, ModelLayer::DomainObjects::Engine::Image<ImplSpecT> &image) {
+    pers(image);
   }
 
-  template<class Persister, class ... ImageEntityTs>
-  void applyPersister(Persister pers,
-                      ModelLayer::AbstractData::Entity::ImageVariant<ImageEntityTs...> &entity
-                     )
-  {
-    using namespace ModelLayer::AbstractData::Entity;
-
-    visitEntity([&](auto &&rhs) { pers(rhs); }, entity);
+  template<class Persister, class ... ImplSpecTs>
+  void applyPersister(
+    Persister pers,
+    ModelLayer::DomainObjects::Engine::ImageVariant<ImplSpecTs...> &image
+  ) {
+    using namespace ModelLayer::DomainObjects;
+    Engine::visitImage([&](auto &&rhs) { pers(rhs); }, image);
   }
 }
 

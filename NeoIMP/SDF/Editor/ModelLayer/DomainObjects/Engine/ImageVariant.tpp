@@ -69,6 +69,18 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   }
 
   template<class ... ImplSpecTs>
+  void
+  ImageVariant<ImplSpecTs...>::setName(std::string name) {
+    visitImage([=](auto &&arg) { arg.setName(name); }, *this);
+  }
+
+  template<class ... ImplSpecTs>
+  void
+  ImageVariant<ImplSpecTs...>::setResolutionPpi(float resolutionPpi) {
+    visitImage([=](auto &&arg) { arg.setResolutionPpi(resolutionPpi); }, *this);
+  }
+
+  template<class ... ImplSpecTs>
   std::size_t
   ImageVariant<ImplSpecTs...>::getNumLayers() const {
     return visitImage([](auto &&arg) { return arg.getNumLayers(); }, *this);

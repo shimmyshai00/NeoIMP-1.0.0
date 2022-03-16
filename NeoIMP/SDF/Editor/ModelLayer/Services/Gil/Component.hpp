@@ -24,32 +24,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/Model/ICrudRepository.hpp"
+#include "../../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
 #include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
 #include "../../../UILayer/AbstractModel/IRenderingService.hpp"
+#include "../../../UILayer/AbstractModel/ISaveDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../../Repositories/IRepository.hpp"
-#include "../../MessageSystem/IChannel.hpp"
+#include "../../AbstractData/IImageRepository.hpp"
 #include "../Messages/Object.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
-  fruit::Component<
+  typedef fruit::Component<
     fruit::Required<
-      Repositories::IRepository<DomainObjects::Engine::Gil::Any_Image>,
-      Repositories::IRepository<DomainObjects::Engine::Buffers::GridRendering>,
-      MessageSystem::IChannel<Messages::Object>
+      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
+      Common::MessageSystem::IChannel<Messages::Object>
     >,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
     UILayer::AbstractModel::IGetDocumentNameService,
     UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IRenderingService
-  >
+    UILayer::AbstractModel::IRenderingService,
+    UILayer::AbstractModel::ISaveDocumentService
+  > Component;
+
+  Component
   getComponent();
 }
 

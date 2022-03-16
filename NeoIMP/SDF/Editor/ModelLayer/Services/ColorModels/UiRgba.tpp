@@ -28,21 +28,27 @@
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   template<
-    class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
+    class UiPixelT,
+    std::size_t BitsR,
+    std::size_t BitsG,
+    std::size_t BitsB,
+    std::size_t BitsA
   >
   inline UiPixelT
   UiRgba<UiPixelT, BitsR, BitsG, BitsB, BitsA>::convertToPixel(float *values) const {
-    return UiPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f), floor(values[3] + 0.5f));
+    return UiPixelT(floor(values[0] + 0.5f), floor(values[1] + 0.5f), floor(values[2] + 0.5f),
+      floor(values[3] + 0.5f));
   }
 
   template<
-    class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
+    class UiPixelT,
+    std::size_t BitsR,
+    std::size_t BitsG,
+    std::size_t BitsB,
+    std::size_t BitsA
   >
   inline void
-  UiRgba<UiPixelT,BitsR, BitsG, BitsB, BitsA>::convertPixelTo(UiPixelT px,
-                                                              float *values
-                                                             ) const
-  {
+  UiRgba<UiPixelT,BitsR, BitsG, BitsB, BitsA>::convertPixelTo(UiPixelT px, float *values) const {
     values[0] = px.m_r;
     values[1] = px.m_g;
     values[2] = px.m_b;

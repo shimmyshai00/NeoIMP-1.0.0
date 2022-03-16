@@ -44,11 +44,7 @@ namespace SDF::Editor::ModelLayer::Math {
     {
     }
 
-    Rect(T x1,
-         T y1,
-         T x2,
-         T y2
-        )
+    Rect(T x1, T y1, T x2, T y2)
       : m_upperLeft(x1, y1),
         m_lowerRight(x2, y2)
     {
@@ -61,17 +57,13 @@ namespace SDF::Editor::ModelLayer::Math {
       }
     }
 
-    Rect(Point2D<T> upperLeft,
-         Point2D<T> lowerRight
-        )
+    Rect(Point2D<T> upperLeft, Point2D<T> lowerRight)
       : m_upperLeft(upperLeft),
         m_lowerRight(lowerRight)
     {}
 
     template<class U>
-    Rect(Point2D<U> upperLeft,
-         Point2D<U> lowerRight
-        )
+    Rect(Point2D<U> upperLeft, Point2D<U> lowerRight)
       : m_upperLeft(upperLeft),
         m_lowerRight(lowerRight)
     {}
@@ -198,38 +190,26 @@ namespace SDF::Editor::ModelLayer::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Rect<T> &lhs,
-             const Rect<T> &rhs
-            )
-  {
+  operator==(const Rect<T> &lhs, const Rect<T> &rhs) {
     return ((lhs.getUpperLeft() == rhs.getUpperLeft()) &&
       (lhs.getLowerRight() == rhs.getLowerRight()));
   }
 
   template<class T>
   static inline bool
-  operator!=(const Rect<T> &lhs,
-             const Rect<T> &rhs
-            )
-  {
+  operator!=(const Rect<T> &lhs, const Rect<T> &rhs) {
     return !(lhs == rhs);
   }
 
   template<class T>
   static inline Rect<T>
-  operator+(const Rect<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator+(const Rect<T> &lhs, const Vec2D<T> &rhs) {
     return Rect<T>(lhs) += rhs;
   }
 
   template<class T>
   static inline Rect<T>
-  operator-(const Rect<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator-(const Rect<T> &lhs, const Vec2D<T> &rhs) {
     return Rect<T>(lhs) -= rhs;
   }
 }

@@ -24,8 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../AbstractData/Entity/Image.hpp"
-#include "../IMappable.hpp"
 #include "Dimensions.hpp"
 #include "Layer.hpp"
 
@@ -43,30 +41,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             provides the layer stack, which is common to all engine implementations.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Image : public IMappable<
-                                 Image<ImplSpecT>,
-                                 AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>
-                                >
-  {
+  class Image {
   public:
     // Function:   Image
     // Purpose:    Constructs a new image to the specified parameters.
     // Parameters: name - The name of the image.
-    //             fileSpec - The image file spec.
-    //             widthPx - The width of the image in pixels.
-    //             heightPx - The height of the image in pixels.
-    //             resolutionPpi - The resolution of the image in PPI.
-    //             backgroundLayer - The initial background layer.
-    Image(std::string name,
-          std::string fileSpec,
-          ImageMeasure widthPx,
-          ImageMeasure heightPx,
-          float resolutionPpi,
-          std::unique_ptr<Layer<ImplSpecT>> backgroundLayer
-         );
-
-    std::shared_ptr<AbstractData::Entity::Image<typename ImplSpecT::entity_spec_t>>
-    getEntity() const;
+    //             resolutionPpi - The resolution of the image.
+    Image(std::string name, float resolutionPpi);
 
     // Function:   getName
     // Purpose:    Gets the name of the image.
@@ -75,22 +56,17 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     std::string
     getName() const;
 
-    // Function:   getFileSpec
-    // Purpose:    Gets the file spec of the image.
-    // Parameters: None.
-    // Returns:    The image file spec.
-    std::string
-    getFileSpec() const;
-
     // Function:   getWidthPx
-    // Purpose:    Gets the width of the image in pixels.
+    // Purpose:    Gets the width of the image in pixels. This width is set by that of the image's
+    //             background layer.
     // Parameters: None.
     // Returns:    The width of the image in pixels.
     ImageMeasure
     getWidthPx() const;
 
     // Function:   getHeightPx
-    // Purpose:    Gets the height of the image in pixels.
+    // Purpose:    Gets the height of the image in pixels. This height is set by that of the image's
+    //             background layer.
     // Parameters: None.
     // Returns:    The height of the image in pixels.
     ImageMeasure
@@ -126,12 +102,30 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
 
     const Layer<ImplSpecT> &
     getLayer(std::size_t layerNum) const;
+
+    // Function:   setName
+    // Purpose:    Sets the name of the image.
+    // Parameters: name - The new name to set.
+    // Returns:    None.
+    void
+    setName(std::string name);
+
+    // Function:   setResolutionPpi
+    // Purpose:    Sets the image resolution (the conversion factor between pixels and physical
+    //             units).
+    // Parameters: resolutionPpi - The new resolution in PPI.
+    // Returns:    None.
+    void
+    setResolutionPpi(float resolutionPpi);
+
+    // Function:   addLayer
+    // Purpose:    Injects a new layer into the image.
+    // Parameters: layer - The layer to insert.
+    // Returns:    None.
+    void
+    addLayer(std::unique_ptr<Layer<ImplSpecT>> layer);
   private:
     std::string m_name;
-    std::string m_fileSpec;
-
-    ImageMeasure m_widthPx;
-    ImageMeasure m_heightPx;
     float m_resolutionPpi;
 
     std::vector<std::unique_ptr<Layer<ImplSpecT>>> m_layers;

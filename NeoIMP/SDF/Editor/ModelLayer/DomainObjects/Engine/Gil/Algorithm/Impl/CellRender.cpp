@@ -31,11 +31,11 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
   // The actual renderer implementations.
   template<>
-  void renderOntoCell<boost::gil::rgb8_view_t>(Engine::Buffers::RenderCell *dstCell,
-                                               Math::Rect<std::size_t> dstRect,
-                                               const boost::gil::rgb8_view_t &view
-                                              )
-  {
+  void renderOntoCell<boost::gil::rgb8_view_t>(
+    Engine::Buffers::RenderCell *dstCell,
+    Math::Rect<std::size_t> dstRect,
+    const boost::gil::rgb8_view_t &view
+  ) {
     // Render the entirety of rectangle view into the destination rectangle dstRect. This is
     // designed to scale the rectangle appropriately. There is no compositing here; typically a
     // pure RGB layer (no alpha) is a background layer. Hence we first simply establish a linear

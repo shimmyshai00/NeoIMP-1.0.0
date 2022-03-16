@@ -24,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../Common/Model/ICrudRepository.hpp"
+#include "../../../Common/MessageSystem/ISubscriber.hpp"
+#include "../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../Common/Handle.hpp"
 #include "../../../Common/IConnection.hpp"
 #include "../../../Common/IListener.hpp"
 #include "../../../Common/ListenerMapContainer.hpp"
 #include "../../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
-#include "../Repositories/IRepository.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
-#include "../MessageSystem/ISubscriber.hpp"
-#include "../MessageSystem/IChannel.hpp"
 #include "Messages/Object.hpp"
 
 #include <boost/uuid/uuid.hpp>
@@ -47,12 +47,13 @@ namespace SDF::Editor::ModelLayer::Services {
   // Parameters: None.
   class ViewCoordinatesService : public UILayer::AbstractModel::IGetViewCoordinatesService,
                                  public UILayer::AbstractModel::ISetViewCoordinatesService,
-                                 public MessageSystem::ISubscriber<Messages::Object>
+                                 public Common::MessageSystem::ISubscriber<Messages::Object>
   {
   public:
     INJECT(ViewCoordinatesService(
-      Repositories::IRepository<DomainObjects::Engine::Viewpoint> *viewpointRepository,
-      MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint> *
+        viewpointRepository,
+      Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
     ));
 
     ~ViewCoordinatesService();
@@ -98,7 +99,7 @@ namespace SDF::Editor::ModelLayer::Services {
                    );
 
     void
-    receiveMessage(const MessageSystem::IChannel<Messages::Object> *channel,
+    receiveMessage(const Common::MessageSystem::IChannel<Messages::Object> *channel,
                    const boost::uuids::uuid senderUuid,
                    const Messages::Object &message
                   );
@@ -110,7 +111,8 @@ namespace SDF::Editor::ModelLayer::Services {
   private:
     boost::uuids::uuid m_uuid;
 
-    Repositories::IRepository<DomainObjects::Engine::Viewpoint> *m_viewpointRepository;
+    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint> *
+      m_viewpointRepository;
     Common::ListenerMapContainer<Common::Handle, float, float, float> m_viewpointListeners;
 
     Common::PIConnection m_messageConn;

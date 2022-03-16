@@ -24,33 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractData/Entity/Layer.hpp"
-#include "EFamily.hpp"
-
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Components {
   // Class:      IComponent
-  // Purpose:    Defines the base interface for all image components. This doesn't really do
-  //             much except provide a header under which to aggregate them.
+  // Purpose:    Defines the base interface for all image components.
   // Parameters: ImplSpecT - The implementation traits type.
   template<class ImplSpecT>
   class IComponent {
   public:
     virtual ~IComponent() = default;
 
-    // Function:   getFamily
-    // Purpose:    Gets the family of components this component belongs to.
-    // Parameters: None.
-    // Returns:    The component family.
-    virtual EFamily
-    getFamily() const = 0;
-
-    // Function:   addToLayerEntity
-    // Purpose:    Adds this component to a layer entity for serialization.
-    // Parameters: entity - The layer entity to add to.
+    // Function:   accept
+    // Purpose:    Accepts a visitor into this component.
+    // Parameters: visitor - The visitor to accept.
     // Returns:    None.
     virtual void
-    addToLayerEntity(AbstractData::Entity::Layer<typename ImplSpecT::entity_spec_t> &entity
-                    ) const = 0;
+    accept(typename ImplSpecT::component_visitor_t &visitor) = 0;
+
+    virtual void
+    accept(typename ImplSpecT::const_component_visitor_t &visitor) = 0;
   };
 }
 

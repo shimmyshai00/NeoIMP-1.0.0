@@ -36,9 +36,7 @@ namespace SDF::Editor::ModelLayer::Math {
         m_y(0)
     {}
 
-    Point2D(T x,
-            T y
-           )
+    Point2D(T x, T y)
       : m_x(x),
         m_y(y)
     {}
@@ -94,46 +92,31 @@ namespace SDF::Editor::ModelLayer::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Point2D<T> &lhs,
-             const Point2D<T> &rhs
-            )
-  {
+  operator==(const Point2D<T> &lhs, const Point2D<T> &rhs) {
     return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
   }
 
   template<class T>
   static inline bool
-  operator!=(const Point2D<T> &lhs,
-             const Point2D<T> &rhs
-            )
-  {
+  operator!=(const Point2D<T> &lhs, const Point2D<T> &rhs) {
     return !(lhs == rhs);
   }
 
   template<class T>
   static inline Point2D<T>
-  operator+(const Point2D<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator+(const Point2D<T> &lhs, const Vec2D<T> &rhs) {
     return Point2D<T>(lhs) += rhs;
   }
 
   template<class T>
   static inline Point2D<T>
-  operator-(const Point2D<T> &lhs,
-            const Vec2D<T> &rhs
-           )
-  {
+  operator-(const Point2D<T> &lhs, const Vec2D<T> &rhs) {
     return Point2D<T>(lhs) -= rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Point2D<T> &lhs,
-            const Point2D<T> &rhs
-           )
-  {
+  operator-(const Point2D<T> &lhs, const Point2D<T> &rhs) {
     return Vec2D<T>(lhs.x() - rhs.x(), lhs.y() - rhs.y());
   }
 }

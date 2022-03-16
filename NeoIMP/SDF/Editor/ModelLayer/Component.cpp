@@ -23,26 +23,14 @@
 
 #include "Component.hpp"
 
-#include "Repositories/Component.hpp"
-#include "MessageSystem/Component.hpp"
+#include "../DataLayer/Component.hpp"
 #include "Services/Component.hpp"
 
 namespace SDF::Editor::ModelLayer {
-  fruit::Component<
-    UILayer::AbstractModel::IDocumentPrefabsService,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IMetricsService,
-    UILayer::AbstractModel::IGetViewCoordinatesService,
-    UILayer::AbstractModel::ISetViewCoordinatesService,
-    UILayer::AbstractModel::IRenderingService
-  >
+  Component
   getComponent() {
     return fruit::createComponent()
-      .install(Repositories::getComponent)
-      .install(MessageSystem::getComponent)
-      .install(Services::getComponent);
+      .install(Services::getComponent)
+      .install(DataLayer::getComponent);
   }
 }
