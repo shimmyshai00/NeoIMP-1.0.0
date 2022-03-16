@@ -38,7 +38,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT>
   ImageT *
   ImageRepository<ImageT>::getImage(Common::Handle id) {
-    if(m_imageMap.find(id) == m_imageMap.end()) {
+    if(m_imageMap.find(id) != m_imageMap.end()) {
       return m_imageMap[id].get();
     } else {
       throw ImageNotFoundException(id);
@@ -48,6 +48,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT>
   void
   ImageRepository<ImageT>::insertImage(Common::Handle id, std::unique_ptr<ImageT> image) {
+    printf("inserting with id %u\n", id);
     if(m_imageMap.find(id) != m_imageMap.end()) {
       throw ImageAlreadyInsertedException(id);
     } else {
