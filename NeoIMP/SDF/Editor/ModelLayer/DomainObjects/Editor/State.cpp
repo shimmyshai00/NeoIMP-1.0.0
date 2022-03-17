@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_EVIEWTYPE_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_EVIEWTYPE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EViewType.hpp
- * PURPOSE: Enumerates the available view types.
+ * FILE:    State.cpp
+ * PURPOSE: Implements the State class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +21,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::Gui::View {
-  enum EViewType {
-    VIEW_MAIN_WINDOW,
-    VIEW_NEW_DOCUMENT_DIALOG,
-    VIEW_SAVE_DOCUMENT_DIALOG,
-    VIEW_DOCUMENT_VIEW,
-  };
-}
+namespace SDF::ModelLayer::DomainObjects {
 
-#endif
+}

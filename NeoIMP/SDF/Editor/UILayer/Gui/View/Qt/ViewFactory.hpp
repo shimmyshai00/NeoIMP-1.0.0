@@ -33,11 +33,13 @@
 #include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
+#include "../../../AbstractModel/ISaveDocumentService.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
 
 #include "MainWindow.hpp"
 #include "NewDocumentDialog.hpp"
+#include "FileChooserDialog.hpp"
 #include "DocumentView.hpp"
 
 #include <QWidget>
@@ -57,7 +59,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
       AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
       AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-      AbstractModel::IRenderingService *renderingService
+      AbstractModel::IRenderingService *renderingService,
+      AbstractModel::ISaveDocumentService *saveDocumentService
     ));
 
     void
@@ -68,6 +71,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
     NewDocumentDialog *
     createNewDocumentDialog(QWidget *parent = nullptr);
+
+    FileChooserDialog *
+    createSaveDocumentDialog(QWidget *parent = nullptr);
 
     DocumentView *
     createDocumentView(Common::Handle documentHandle, QWidget *parent = nullptr);
@@ -80,6 +86,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
     AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
     AbstractModel::IRenderingService *m_renderingService;
+    AbstractModel::ISaveDocumentService *m_saveDocumentService;
 
     IViewManager<EViewType> *m_viewManager;
   };

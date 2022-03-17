@@ -37,7 +37,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
     AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
     AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-    AbstractModel::IRenderingService *renderingService
+    AbstractModel::IRenderingService *renderingService,
+    AbstractModel::ISaveDocumentService *saveDocumentService
   )
     : m_metricsService(metricsService),
       m_documentPrefabsService(documentPrefabsService),
@@ -47,6 +48,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_setViewCoordinatesService(setViewCoordinatesService),
       m_renderingService(renderingService),
+      m_saveDocumentService(saveDocumentService)
       m_viewManager(nullptr)
   {
   }
@@ -84,6 +86,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     return rv;
+  }
+
+  FileChooserDialog *
+  ViewFactory::createSaveDocumentDialog(QWidget *parent) {
+    
   }
 
   DocumentView *
