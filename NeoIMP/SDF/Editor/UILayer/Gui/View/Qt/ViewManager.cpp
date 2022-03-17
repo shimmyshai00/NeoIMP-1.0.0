@@ -33,10 +33,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  void ViewManager::addViewIfNotPresent(Common::Handle handle,
-                                        QWidget *view
-                                       )
-  {
+  void ViewManager::addViewIfNotPresent(Common::Handle handle, QWidget *view) {
     if(m_views.find(handle) == m_views.end()) {
       m_views[handle] = view;
       m_views[handle]->show();
@@ -47,9 +44,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  ViewManager::ViewManager(AbstractModel::IGetDocumentNameService *documentNameService,
-                           ViewFactory *viewFactory
-                          )
+  ViewManager::ViewManager(
+    AbstractModel::IGetDocumentNameService *documentNameService,
+    ViewFactory *viewFactory
+  )
     : m_documentNameService(documentNameService),
       m_viewFactory(viewFactory),
       m_nextDocumentViewHandle(Impl::HANDLE_DOCUMENT_VIEW_ORIGIN)
@@ -61,10 +59,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   Common::Handle
-  ViewManager::produceView(EViewType viewType,
-                           std::shared_ptr<Support::Bundle> argBundle
-                          )
-  {
+  ViewManager::produceView(EViewType viewType, std::shared_ptr<Support::Bundle> argBundle) {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
         addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());

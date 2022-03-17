@@ -27,7 +27,7 @@
 #include "Gui/QtComponent.hpp"
 
 namespace SDF::Editor::UILayer {
-  fruit::Component<IApplication>
+  Component
   getComponent() {
     return fruit::createComponent()
       .install(Gui::getQtComponent)

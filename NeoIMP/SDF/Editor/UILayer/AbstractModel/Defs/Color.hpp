@@ -61,10 +61,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
   typedef RGBColor<Channel<8>, Channel<8>, Channel<8>> RGB24_888_Color;
   typedef ARGBColor<Channel<8>, Channel<8>, Channel<8>, Channel<8>> ARGB32_8888_Color;
 
-  typedef std::variant<
-    RGB24_888_Color,
-    ARGB32_8888_Color
-  > AnyColor;
+  typedef std::variant<RGB24_888_Color, ARGB32_8888_Color> AnyColor;
 }
 
 #endif

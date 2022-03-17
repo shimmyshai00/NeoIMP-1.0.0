@@ -88,11 +88,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   template<class UnitEnumT>
   class DimensionalQuantityEdit : public Impl::DQESignalsSlots {
   public:
-    DimensionalQuantityEdit(const char *unitNameStrings[],
-                            std::size_t numUnitsToAdd,
-                            AbstractModel::IMetricsService *metricsService = nullptr,
-                            QWidget *parent = nullptr
-                           );
+    DimensionalQuantityEdit(
+      const char *unitNameStrings[],
+      std::size_t numUnitsToAdd,
+      AbstractModel::IMetricsService *metricsService = nullptr,
+      QWidget *parent = nullptr
+    );
 
     ~DimensionalQuantityEdit();
 

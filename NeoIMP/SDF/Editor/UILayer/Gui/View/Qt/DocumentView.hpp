@@ -40,12 +40,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class DocumentView : public QWidget {
     Q_OBJECT;
   public:
-    DocumentView(AbstractModel::IRenderingService *renderingService,
-                 AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-                 AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-                 Common::Handle documentHandle,
-                 QWidget *parent = nullptr
-                );
+    DocumentView(
+      AbstractModel::IRenderingService *renderingService,
+      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+      Common::Handle documentHandle,
+      QWidget *parent = nullptr
+    );
 
     Common::PIConnection
     hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller);

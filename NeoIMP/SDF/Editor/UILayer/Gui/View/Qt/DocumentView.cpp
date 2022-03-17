@@ -24,12 +24,13 @@
 #include "DocumentView.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  DocumentView::DocumentView(AbstractModel::IRenderingService *renderingService,
-                             AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-                             AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-                             Common::Handle documentHandle,
-                             QWidget *parent
-                            )
+  DocumentView::DocumentView(
+    AbstractModel::IRenderingService *renderingService,
+    AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+    AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+    Common::Handle documentHandle,
+    QWidget *parent
+  )
     : QWidget(parent),
       m_renderingService(renderingService),
       m_documentHandle(documentHandle),

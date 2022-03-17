@@ -42,9 +42,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   {
     Q_OBJECT
   public:
-    LengthQuantityEdit(AbstractModel::IMetricsService *metricsService,
-                       QWidget *parent = nullptr
-                      );
+    LengthQuantityEdit(AbstractModel::IMetricsService *metricsService, QWidget *parent = nullptr);
     LengthQuantityEdit(QWidget *parent = nullptr);
 
     void

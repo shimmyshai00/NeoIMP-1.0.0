@@ -27,20 +27,7 @@
 #include "QtApplication.hpp"
 
 namespace SDF::Editor::UILayer::Gui {
-  fruit::Component<
-    fruit::Required<
-      AbstractModel::IMetricsService,
-      AbstractModel::IDocumentPrefabsService,
-      AbstractModel::IDocumentRequirementsService,
-      AbstractModel::ICreateImageService,
-      AbstractModel::IGetDocumentNameService,
-      AbstractModel::IGetDocumentMetricsService,
-      AbstractModel::IGetViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService
-    >,
-    IApplication
-  >
+  Component
   getQtComponent() {
     return fruit::createComponent()
       .bind<IApplication, QtApplication>()

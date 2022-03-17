@@ -44,16 +44,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   // Parameters: None.
   class ViewManager : public IViewManager<EViewType> {
   public:
-    INJECT(ViewManager(AbstractModel::IGetDocumentNameService *documentNameService,
-                       ViewFactory *viewFactory
-                      )
-          );
+    INJECT(ViewManager(
+      AbstractModel::IGetDocumentNameService *documentNameService,
+      ViewFactory *viewFactory
+    ));
     ~ViewManager();
 
     Common::Handle
-    produceView(EViewType viewType,
-                std::shared_ptr<Support::Bundle> argBundle
-               );
+    produceView(EViewType viewType, std::shared_ptr<Support::Bundle> argBundle);
 
     void
     destroyView(Common::Handle viewHandle);
@@ -70,9 +68,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     ViewFactory *m_viewFactory;
     Common::Handle m_nextDocumentViewHandle;
 
-    void addViewIfNotPresent(Common::Handle handle,
-                             QWidget *view
-                            );
+    void addViewIfNotPresent(Common::Handle handle, QWidget *view);
   };
 }
 

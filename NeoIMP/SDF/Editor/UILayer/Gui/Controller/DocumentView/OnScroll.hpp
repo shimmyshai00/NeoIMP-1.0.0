@@ -37,9 +37,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
     OnHScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService);
 
     void
-    onTrigger(Common::Handle documentHandle,
-              float scrollPos
-             );
+    onTrigger(Common::Handle documentHandle, float scrollPos);
   private:
     AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
   };
@@ -54,9 +52,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
     OnVScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService);
 
     void
-    onTrigger(Common::Handle documentHandle,
-              float scrollPos
-             );
+    onTrigger(Common::Handle documentHandle, float scrollPos);
   private:
     AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
   };

@@ -44,10 +44,8 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             fileFormat - The file format to save as.
     // Returns:    None.
     virtual void
-    saveDocument(Common::Handle imageHandle,
-                 std::string fileSpec,
-                 Defs::EFileFormat fileFormat
-                ) = 0;
+    saveDocument(Common::Handle imageHandle, std::string fileSpec, Defs::EFileFormat fileFormat) =
+      0;
   };
 }
 

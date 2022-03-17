@@ -27,11 +27,12 @@
 #include "ResolutionConversions.hpp"
 
 namespace SDF::Editor::ModelLayer::Metrics {
-  LengthConvertible::LengthConvertible(float quantity,
-                                       UILayer::AbstractModel::Defs::ELengthUnit unit,
-                                       float resolution,
-                                       UILayer::AbstractModel::Defs::EResolutionUnit resUnit
-                                      )
+  LengthConvertible::LengthConvertible(
+    float quantity,
+    UILayer::AbstractModel::Defs::ELengthUnit unit,
+    float resolution,
+    UILayer::AbstractModel::Defs::EResolutionUnit resUnit
+  )
     : m_quantityPixels(quantity),
       m_resolutionPpi(resolution * g_resolutionUnitSizes[resUnit])
   {

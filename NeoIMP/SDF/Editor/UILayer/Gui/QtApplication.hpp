@@ -39,9 +39,7 @@ namespace SDF::Editor::UILayer::Gui {
     INJECT(QtApplication(IViewManager<View::EViewType> *viewManager));
 
     int
-    exec(int argc,
-         char **argv
-        );
+    exec(int argc, char **argv);
   private:
     IViewManager<View::EViewType> *m_viewManager;
   };

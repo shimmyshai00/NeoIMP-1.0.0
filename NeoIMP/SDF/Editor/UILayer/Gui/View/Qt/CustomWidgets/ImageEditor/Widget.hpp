@@ -50,11 +50,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   class Widget : public QWidget {
     Q_OBJECT
   public:
-    Widget(AbstractModel::IRenderingService *renderingService,
-           AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-           AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-           QWidget *parent = nullptr
-          );
+    Widget(
+      AbstractModel::IRenderingService *renderingService,
+      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+      QWidget *parent = nullptr
+    );
 
     ~Widget();
 

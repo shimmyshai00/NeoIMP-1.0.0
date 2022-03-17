@@ -81,10 +81,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   void
-  ViewCoordinatesService::setViewingPointX(Common::Handle imageHandle,
-                                           float x
-                                          )
-  {
+  ViewCoordinatesService::setViewingPointX(Common::Handle imageHandle, float x) {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position.x() = x;
@@ -98,10 +95,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   void
-  ViewCoordinatesService::setViewingPointY(Common::Handle imageHandle,
-                                           float y
-                                          )
-  {
+  ViewCoordinatesService::setViewingPointY(Common::Handle imageHandle, float y) {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position.y() = y;
@@ -116,10 +110,7 @@ namespace SDF::Editor::ModelLayer::Services {
 
 
   void
-  ViewCoordinatesService::setViewingPointMagnification(Common::Handle imageHandle,
-                                                       float mag
-                                                      )
-  {
+  ViewCoordinatesService::setViewingPointMagnification(Common::Handle imageHandle, float mag) {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_magnification = mag;
@@ -133,11 +124,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   void
-  ViewCoordinatesService::setViewingPointPos(Common::Handle imageHandle,
-                                             float x,
-                                             float y
-                                            )
-  {
+  ViewCoordinatesService::setViewingPointPos(Common::Handle imageHandle, float x, float y) {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
       vp->m_position = DomainObjects::Engine::ImagePoint(x, y);
@@ -151,12 +138,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   void
-  ViewCoordinatesService::setViewingPoint(Common::Handle imageHandle,
-                                          float x,
-                                          float y,
-                                          float mag
-                                         )
-  {
+  ViewCoordinatesService::setViewingPoint(Common::Handle imageHandle, float x, float y, float mag) {
     try {
       auto vp = m_viewpointRepository->retrieve(imageHandle);
 

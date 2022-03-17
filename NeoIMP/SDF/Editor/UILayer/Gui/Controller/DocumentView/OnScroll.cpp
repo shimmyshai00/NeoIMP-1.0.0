@@ -32,10 +32,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   }
 
   void
-  OnHScroll::onTrigger(Common::Handle documentHandle,
-                       float scrollPos
-                      )
-  {
+  OnHScroll::onTrigger(Common::Handle documentHandle, float scrollPos) {
     if(m_setViewCoordinatesService != nullptr) {
       m_setViewCoordinatesService->setViewingPointX(documentHandle, scrollPos);
     }
@@ -49,10 +46,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   }
 
   void
-  OnVScroll::onTrigger(Common::Handle documentHandle,
-                       float scrollPos
-                      )
-  {
+  OnVScroll::onTrigger(Common::Handle documentHandle, float scrollPos) {
     if(m_setViewCoordinatesService != nullptr) {
       m_setViewCoordinatesService->setViewingPointY(documentHandle, scrollPos);
     }

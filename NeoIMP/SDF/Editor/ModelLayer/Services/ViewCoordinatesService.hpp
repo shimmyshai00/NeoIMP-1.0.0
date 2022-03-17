@@ -71,43 +71,32 @@ namespace SDF::Editor::ModelLayer::Services {
     getViewingPointMagnification(Common::Handle imageHandle) const;
 
     void
-    setViewingPointX(Common::Handle imageHandle,
-                     float x
-                    );
+    setViewingPointX(Common::Handle imageHandle, float x);
 
     void
-    setViewingPointY(Common::Handle imageHandle,
-                     float y
-                    );
+    setViewingPointY(Common::Handle imageHandle, float y);
 
     void
-    setViewingPointMagnification(Common::Handle imageHandle,
-                                 float mag
-                                );
+    setViewingPointMagnification(Common::Handle imageHandle, float mag);
 
     void
-    setViewingPointPos(Common::Handle imageHandle,
-                       float x,
-                       float y
-                      );
+    setViewingPointPos(Common::Handle imageHandle, float x, float y);
 
     void
-    setViewingPoint(Common::Handle imageHandle,
-                    float x,
-                    float y,
-                    float mag
-                   );
+    setViewingPoint(Common::Handle imageHandle, float x, float y, float mag);
 
     void
-    receiveMessage(const Common::MessageSystem::IChannel<Messages::Object> *channel,
-                   const boost::uuids::uuid senderUuid,
-                   const Messages::Object &message
-                  );
+    receiveMessage(
+      const Common::MessageSystem::IChannel<Messages::Object> *channel,
+      const boost::uuids::uuid senderUuid,
+      const Messages::Object &message
+    );
 
     Common::PIConnection
-    addViewingPointListener(Common::Handle imageHandle,
-                            std::shared_ptr<Common::IListener<float, float, float>> listener
-                           );
+    addViewingPointListener(
+      Common::Handle imageHandle,
+      std::shared_ptr<Common::IListener<float, float, float>> listener
+    );
   private:
     boost::uuids::uuid m_uuid;
 

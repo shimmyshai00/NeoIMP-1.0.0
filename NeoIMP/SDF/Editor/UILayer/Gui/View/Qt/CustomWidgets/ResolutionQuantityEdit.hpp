@@ -41,9 +41,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   {
     Q_OBJECT
   public:
-    ResolutionQuantityEdit(AbstractModel::IMetricsService *metricsService = nullptr,
-                           QWidget *parent = nullptr
-                          );
+    ResolutionQuantityEdit(
+      AbstractModel::IMetricsService *metricsService = nullptr,
+      QWidget *parent = nullptr
+    );
     ResolutionQuantityEdit(QWidget *parent = nullptr);
 
     void

@@ -31,9 +31,10 @@
 #include <cmath>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
-  RenderDisplayWidget::RenderDisplayWidget(AbstractModel::IRenderingService *renderingService,
-                                           QWidget *parent
-                                          )
+  RenderDisplayWidget::RenderDisplayWidget(
+    AbstractModel::IRenderingService *renderingService,
+    QWidget *parent
+  )
     : QWidget(parent),
       m_renderingService(renderingService),
       m_imageHandle(Common::HANDLE_INVALID),
@@ -117,10 +118,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   }
 
   void
-  RenderDisplayWidget::setViewportUpperLeft(float x1,
-                                            float y1
-                                           )
-  {
+  RenderDisplayWidget::setViewportUpperLeft(float x1, float y1) {
     m_viewUpperLeftX = x1;
     m_viewUpperLeftY = y1;
     update();
@@ -133,11 +131,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   }
 
   void
-  RenderDisplayWidget::setAll(float x1,
-                              float y1,
-                              float mag
-                             )
-  {
+  RenderDisplayWidget::setAll(float x1, float y1, float mag) {
     m_viewUpperLeftX = x1;
     m_viewUpperLeftY = y1;
     m_viewMagnification = mag;

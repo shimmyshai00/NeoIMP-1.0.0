@@ -44,9 +44,7 @@ namespace SDF::Editor::UILayer::Gui {
     //             argBundle - The argument bundle to use to create the view.
     // Returns:    A handle to the produced view.
     virtual Common::Handle
-    produceView(ViewEnumT viewType,
-                std::shared_ptr<Support::Bundle> argBundle
-               ) = 0;
+    produceView(ViewEnumT viewType, std::shared_ptr<Support::Bundle> argBundle) = 0;
 
     // Function:   destroyView
     // Purpose:    Destroy a produced view.

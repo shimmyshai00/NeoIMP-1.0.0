@@ -40,9 +40,7 @@ namespace SDF::Editor::UILayer {
     //             argv - Same as the parameter passed to main().
     // Returns:    The program exit code.
     virtual int
-    exec(int argc,
-         char **argv
-        ) = 0;
+    exec(int argc, char **argv) = 0;
   };
 }
 

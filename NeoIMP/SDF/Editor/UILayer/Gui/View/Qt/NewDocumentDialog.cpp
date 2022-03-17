@@ -45,13 +45,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  NewDocumentDialog::NewDocumentDialog(AbstractModel::IMetricsService *metricsService,
-                                       AbstractModel::IDocumentPrefabsService *
-                                        documentPrefabsService,
-                                       AbstractModel::IDocumentRequirementsService *
-                                        documentRequirementsService,
-                                       QWidget *parent
-                                      )
+  NewDocumentDialog::NewDocumentDialog(
+    AbstractModel::IMetricsService *metricsService,
+    AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+    AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+    QWidget *parent
+  )
     : QDialog(parent),
       m_ui(new Ui::NewDocumentDialog),
       m_documentPrefabsService(documentPrefabsService),

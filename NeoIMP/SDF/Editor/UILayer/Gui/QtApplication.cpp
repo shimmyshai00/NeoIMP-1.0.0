@@ -32,10 +32,7 @@ namespace SDF::Editor::UILayer::Gui {
   }
 
   int
-  QtApplication::exec(int argc,
-                      char **argv
-                     )
-  {
+  QtApplication::exec(int argc, char **argv) {
     QApplication qa(argc, argv);
     m_viewManager->produceView(View::VIEW_MAIN_WINDOW, std::shared_ptr<Support::Bundle>());
     return qa.exec();

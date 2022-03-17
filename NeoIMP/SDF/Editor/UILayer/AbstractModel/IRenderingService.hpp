@@ -56,12 +56,13 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             x1, y1, x2, y2 - The rectangular region in question.
     // Returns:    The region accessor.
     virtual std::shared_ptr<Defs::IRenderRegion>
-    getRegion(Common::Handle renderHandle,
-              std::size_t x1,
-              std::size_t y1,
-              std::size_t x2,
-              std::size_t y2
-             ) = 0;
+    getRegion(
+      Common::Handle renderHandle,
+      std::size_t x1,
+      std::size_t y1,
+      std::size_t x2,
+      std::size_t y2
+    ) = 0;
 
     // Function:   deleteRendering
     // Purpose:    Deletes a rendering from the rendering service.

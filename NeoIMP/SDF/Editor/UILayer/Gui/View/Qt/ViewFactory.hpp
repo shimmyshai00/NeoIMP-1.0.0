@@ -49,15 +49,16 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   // Parameters: None.
   class ViewFactory {
   public:
-    INJECT(ViewFactory(AbstractModel::IMetricsService *metricsService,
-                       AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-                       AbstractModel::IDocumentRequirementsService *documentRequirementsService,
-                       AbstractModel::ICreateImageService *createImageService,
-                       AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-                       AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-                       AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-                       AbstractModel::IRenderingService *renderingService
-                      ));
+    INJECT(ViewFactory(
+      AbstractModel::IMetricsService *metricsService,
+      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+      AbstractModel::ICreateImageService *createImageService,
+      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
+      AbstractModel::IRenderingService *renderingService
+    ));
 
     void
     setViewManager(IViewManager<EViewType> *viewManager);
@@ -69,9 +70,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     createNewDocumentDialog(QWidget *parent = nullptr);
 
     DocumentView *
-    createDocumentView(Common::Handle documentHandle,
-                       QWidget *parent = nullptr
-                      );
+    createDocumentView(Common::Handle documentHandle, QWidget *parent = nullptr);
   private:
     AbstractModel::IMetricsService *m_metricsService;
     AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;

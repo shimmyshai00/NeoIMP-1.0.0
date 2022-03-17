@@ -28,9 +28,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   template<class ... ControllerArgs>
   class QtEventConn : public Common::IConnection {
   public:
-    QtEventConn(std::list<std::unique_ptr<IController<ControllerArgs...>>> *controllerList,
-                std::unique_ptr<IController<ControllerArgs...>> controller
-               )
+    QtEventConn(
+      std::list<std::unique_ptr<IController<ControllerArgs...>>> *controllerList,
+      std::unique_ptr<IController<ControllerArgs...>> controller
+    )
       : m_controllerList(controllerList),
         m_controller(std::move(controller)),
         m_controllerPtr(nullptr)
@@ -74,9 +75,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   template<class ... ControllerArgs>
   Common::PIConnection
-  QtEvent<ControllerArgs...>::hook(std::unique_ptr<IController<ControllerArgs...>> controller
-                                  )
-  {
+  QtEvent<ControllerArgs...>::hook(std::unique_ptr<IController<ControllerArgs...>> controller) {
     return Common::PIConnection(new Impl::QtEventConn<ControllerArgs...>(
       &m_controllers, std::move(controller)));
   }

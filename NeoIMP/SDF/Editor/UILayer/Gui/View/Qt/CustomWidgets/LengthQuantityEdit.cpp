@@ -28,9 +28,10 @@
 #include <iostream>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
-  LengthQuantityEdit::LengthQuantityEdit(AbstractModel::IMetricsService *metricsService,
-                                         QWidget *parent
-                                        )
+  LengthQuantityEdit::LengthQuantityEdit(
+    AbstractModel::IMetricsService *metricsService,
+    QWidget *parent
+  )
     : DimensionalQuantityEdit(AbstractModel::Defs::g_lengthUnitSymbols,
                               AbstractModel::Defs::LENGTH_UNIT_MAX,
                               metricsService,

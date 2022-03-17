@@ -70,9 +70,10 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             listener - The listener function to attach to this image document.
     // Returns:    A connection object to the given listener.
     virtual Common::PIConnection
-    addViewingPointListener(Common::Handle imageHandle,
-                            std::shared_ptr<Common::IListener<float, float, float>> listener
-                           ) = 0;
+    addViewingPointListener(
+      Common::Handle imageHandle,
+      std::shared_ptr<Common::IListener<float, float, float>> listener
+    ) = 0;
   };
 }
 

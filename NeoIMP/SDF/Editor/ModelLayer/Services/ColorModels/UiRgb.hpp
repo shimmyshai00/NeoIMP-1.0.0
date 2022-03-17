@@ -38,8 +38,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   //             BitsG - The number of bits in the Green channel.
   //             BitsB - The number of bits in the Blue channel.
   template<class UiPixelT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class UiRgb : public DomainObjects::Engine::ColorModels::RgbBase<UiPixelT, BitsR, BitsG, BitsB>
-  {
+  class UiRgb : public DomainObjects::Engine::ColorModels::RgbBase<UiPixelT, BitsR, BitsG, BitsB> {
   public:
     inline UiPixelT
     convertToPixel(float *values) const;

@@ -28,11 +28,12 @@
 #include <cmath>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
-  Widget::Widget(AbstractModel::IRenderingService *renderingService,
-                 AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-                 AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-                 QWidget *parent
-                )
+  Widget::Widget(
+    AbstractModel::IRenderingService *renderingService,
+    AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+    AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+    QWidget *parent
+  )
     : QWidget(parent),
       m_getDocumentMetricsService(getDocumentMetricsService),
       m_getViewCoordinatesService(getViewCoordinatesService),

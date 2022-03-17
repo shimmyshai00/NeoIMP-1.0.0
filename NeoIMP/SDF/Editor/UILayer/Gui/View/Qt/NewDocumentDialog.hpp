@@ -47,11 +47,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class NewDocumentDialog : public QDialog {
     Q_OBJECT
   public:
-    NewDocumentDialog(AbstractModel::IMetricsService *metricsService,
-                      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-                      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
-                      QWidget *parent = nullptr
-                     );
+    NewDocumentDialog(
+      AbstractModel::IMetricsService *metricsService,
+      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+      QWidget *parent = nullptr
+    );
     ~NewDocumentDialog();
 
     Common::PIConnection

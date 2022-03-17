@@ -43,10 +43,7 @@ namespace SDF::Editor::ModelLayer::Services::Messages {
     EObjectType m_objectType;
     Common::Handle m_objectHandle;
 
-    Object(EObjectMessage messageType,
-           EObjectType objectType,
-           Common::Handle objectHandle
-          )
+    Object(EObjectMessage messageType, EObjectType objectType, Common::Handle objectHandle)
       : m_messageType(messageType),
         m_objectType(objectType),
         m_objectHandle(objectHandle)

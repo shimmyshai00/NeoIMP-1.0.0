@@ -29,7 +29,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer {
-  fruit::Component<IApplication>
+  typedef fruit::Component<IApplication> Component;
+
+  Component
   getComponent();
 }
 

@@ -40,7 +40,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  fruit::Component<
+  typedef fruit::Component<
     fruit::Required<
       AbstractModel::IMetricsService,
       AbstractModel::IDocumentPrefabsService,
@@ -53,7 +53,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       AbstractModel::IRenderingService
     >,
     IViewManager<EViewType>
-  >
+  > Component;
+
+  Component
   getComponent();
 }
 

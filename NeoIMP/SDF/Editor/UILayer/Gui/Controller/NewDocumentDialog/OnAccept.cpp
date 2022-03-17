@@ -27,9 +27,10 @@
 #include "../../View/EViewType.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
-  OnAccept::OnAccept(AbstractModel::ICreateImageService *createImageService,
-                     IViewManager<View::EViewType> *viewManager
-                    )
+  OnAccept::OnAccept(
+    AbstractModel::ICreateImageService *createImageService,
+    IViewManager<View::EViewType> *viewManager
+  )
     : m_createImageService(createImageService),
       m_viewManager(viewManager)
   {

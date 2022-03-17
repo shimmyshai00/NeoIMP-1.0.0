@@ -63,17 +63,18 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     {
     }
 
-    ImageSpec(float width_,
-              ELengthUnit widthUnit_,
-              float height_,
-              ELengthUnit heightUnit_,
-              float resolution_,
-              EResolutionUnit resolutionUnit_,
-              EColorModel colorModel_,
-              EBitDepth bitDepth_,
-              EBackgroundPreset backgroundPreset_,
-              AnyColor backgroundColor_
-             )
+    ImageSpec(
+      float width_,
+      ELengthUnit widthUnit_,
+      float height_,
+      ELengthUnit heightUnit_,
+      float resolution_,
+      EResolutionUnit resolutionUnit_,
+      EColorModel colorModel_,
+      EBitDepth bitDepth_,
+      EBackgroundPreset backgroundPreset_,
+      AnyColor backgroundColor_
+    )
       : width(width_),
         widthUnit(widthUnit_),
         height(height_),

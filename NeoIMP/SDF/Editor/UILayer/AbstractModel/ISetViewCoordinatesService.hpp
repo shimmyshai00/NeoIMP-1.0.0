@@ -41,9 +41,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             x - The new X-coordinate.
     // Returns:    None.
     virtual void
-    setViewingPointX(Common::Handle imageHandle,
-                     float x
-                    ) = 0;
+    setViewingPointX(Common::Handle imageHandle, float x) = 0;
 
     // Function:   setViewingPointY
     // Purpose:    Set the Y-coordinate of the viewing point.
@@ -51,9 +49,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             y - The new Y-coordinate.
     // Returns:    None.
     virtual void
-    setViewingPointY(Common::Handle imageHandle,
-                     float y
-                    ) = 0;
+    setViewingPointY(Common::Handle imageHandle, float y) = 0;
 
     // Function:   setViewingPointMagnification
     // Purpose:    Sets the magnification factor around the viewing point.
@@ -61,9 +57,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             mag - The magnification to set.
     // Returns:    None.
     virtual void
-    setViewingPointMagnification(Common::Handle imageHandle,
-                                 float mag
-                                ) = 0;
+    setViewingPointMagnification(Common::Handle imageHandle, float mag) = 0;
 
     // Function:   setViewingPointPos
     // Purpose:    Sets both coordinates simultaneously so as to trigger listeners only once.
@@ -71,10 +65,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             x, y - The new coordinates.
     // Returns:    None.
     virtual void
-    setViewingPointPos(Common::Handle imageHandle,
-                       float x,
-                       float y
-                      ) = 0;
+    setViewingPointPos(Common::Handle imageHandle, float x, float y) = 0;
 
     // Function:   setViewingPoint
     // Purpose:    Set the whole thing simultaneously.
@@ -83,11 +74,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             mag - The new magnification.
     // Returns:    None.
     virtual void
-    setViewingPoint(Common::Handle imageHandle,
-                    float x,
-                    float y,
-                    float mag
-                   ) = 0;
+    setViewingPoint(Common::Handle imageHandle, float x, float y, float mag) = 0;
   };
 }
 

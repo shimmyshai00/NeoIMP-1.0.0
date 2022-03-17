@@ -39,8 +39,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   class RulerWidget : public QWidget {
     Q_OBJECT
   public:
-    RulerWidget(::Qt::Orientation orientation,
-                QWidget *parent = nullptr);
+    RulerWidget(::Qt::Orientation orientation, QWidget *parent = nullptr);
 
     QSize
     sizeHint() const;
@@ -135,9 +134,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     //             mag - The new magnification.
     // Returns:    None.
     void
-    setAll(float p1,
-           float mag
-          );
+    setAll(float p1, float mag);
   protected:
     void
     paintEvent(QPaintEvent *event) override;

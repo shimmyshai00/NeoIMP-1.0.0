@@ -37,10 +37,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   float
-  GetDocumentMetricsService::getDocumentWidth(Common::Handle documentHandle,
-                                              UILayer::AbstractModel::Defs::ELengthUnit inUnit
-                                             )
-  {
+  GetDocumentMetricsService::getDocumentWidth(
+    Common::Handle documentHandle,
+    UILayer::AbstractModel::Defs::ELengthUnit inUnit
+  ) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
@@ -55,10 +55,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   float
-  GetDocumentMetricsService::getDocumentHeight(Common::Handle documentHandle,
-                                               UILayer::AbstractModel::Defs::ELengthUnit inUnit
-                                              )
-  {
+  GetDocumentMetricsService::getDocumentHeight(
+    Common::Handle documentHandle,
+    UILayer::AbstractModel::Defs::ELengthUnit inUnit
+  ) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 

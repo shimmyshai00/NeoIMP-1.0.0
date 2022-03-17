@@ -37,10 +37,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   class ImageDisplayWidget : public QWidget {
     Q_OBJECT
   public:
-    ImageDisplayWidget(AbstractModel::IRenderingService *renderingService,
-                       Common::Handle documentHandle,
-                       QWidget *parent = nullptr
-                      );
+    ImageDisplayWidget(
+      AbstractModel::IRenderingService *renderingService,
+      Common::Handle documentHandle,
+      QWidget *parent = nullptr
+    );
 
     double
     viewportX1() const;

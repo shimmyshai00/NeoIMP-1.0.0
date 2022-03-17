@@ -55,9 +55,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   }
 }
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
-  RulerWidget::RulerWidget(::Qt::Orientation orientation,
-                           QWidget *parent
-                          )
+  RulerWidget::RulerWidget(::Qt::Orientation orientation, QWidget *parent)
     : QWidget(parent),
       m_orientation(orientation),
       m_rulerThickness(18),
@@ -137,10 +135,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   }
 
   void
-  RulerWidget::setAll(float p1,
-                      float mag
-                     )
-  {
+  RulerWidget::setAll(float p1, float mag) {
     m_viewP1 = p1;
     m_viewMagnification = mag;
     update();

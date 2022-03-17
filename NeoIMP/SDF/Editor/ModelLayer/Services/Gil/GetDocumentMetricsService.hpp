@@ -45,14 +45,16 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     ));
 
     float
-    getDocumentWidth(Common::Handle documentHandle,
-                     UILayer::AbstractModel::Defs::ELengthUnit inUnit
-                    );
+    getDocumentWidth(
+      Common::Handle documentHandle,
+      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+    );
 
     float
-    getDocumentHeight(Common::Handle documentHandle,
-                      UILayer::AbstractModel::Defs::ELengthUnit inUnit
-                     );
+    getDocumentHeight(
+      Common::Handle documentHandle,
+      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+    );
   private:
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };

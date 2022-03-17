@@ -47,10 +47,11 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             resolution - The resolution to use to convert to/from pixels.
     // Returns:    A convertible representing the length in general units.
     virtual std::shared_ptr<Defs::IUnitConvertible<Defs::ELengthUnit>>
-    createConvertibleLength(float length,
-                            Defs::ELengthUnit lengthUnit,
-                            Defs::IUnitConvertible<Defs::EResolutionUnit> *resolution
-                           ) = 0;
+    createConvertibleLength(
+      float length,
+      Defs::ELengthUnit lengthUnit,
+      Defs::IUnitConvertible<Defs::EResolutionUnit> *resolution
+    ) = 0;
 
     // Function:   createConvertibleResolution
     // Purpose:    Creates a resolution quantity which is interchangeable amongst different units.
@@ -58,9 +59,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             resUnit - The unit of resolution it is given in
     // Returns:    A convertible representing the resolution in general units.
     virtual std::shared_ptr<Defs::IUnitConvertible<Defs::EResolutionUnit>>
-    createConvertibleResolution(float resolution,
-                                Defs::EResolutionUnit resolutionUnit
-                               ) = 0;
+    createConvertibleResolution(float resolution, Defs::EResolutionUnit resolutionUnit) = 0;
   };
 }
 

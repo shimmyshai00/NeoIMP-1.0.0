@@ -35,13 +35,12 @@ namespace SDF::Editor::ModelLayer::Services {
   std::shared_ptr<
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
   >
-  MetricsService::createConvertibleLength(float length,
-                                          UILayer::AbstractModel::Defs::ELengthUnit lengthUnit,
-                                          UILayer::AbstractModel::Defs::IUnitConvertible<
-                                            UILayer::AbstractModel::Defs::EResolutionUnit
-                                          > *resolution
-                                         )
-  {
+  MetricsService::createConvertibleLength(
+    float length,
+    UILayer::AbstractModel::Defs::ELengthUnit lengthUnit,
+    UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit> *
+      resolution
+  ) {
     using namespace UILayer::AbstractModel;
     using namespace Metrics;
 
@@ -56,10 +55,10 @@ namespace SDF::Editor::ModelLayer::Services {
   std::shared_ptr<
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
   >
-  MetricsService::createConvertibleResolution(float resolution,
-                                              UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
-                                             )
-  {
+  MetricsService::createConvertibleResolution(
+    float resolution,
+    UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
+  ) {
     using namespace UILayer::AbstractModel;
     using namespace Metrics;
 

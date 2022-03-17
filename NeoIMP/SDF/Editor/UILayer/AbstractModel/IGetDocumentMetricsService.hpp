@@ -41,9 +41,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             inUnit - The unit to get the width in.
     // Returns:    The width in this unit.
     virtual float
-    getDocumentWidth(Common::Handle documentHandle,
-                     Defs::ELengthUnit inUnit
-                    ) = 0;
+    getDocumentWidth(Common::Handle documentHandle, Defs::ELengthUnit inUnit) = 0;
 
     // Function:   getDocumentHeight
     // Purpose:    Get the height of an image document.
@@ -51,9 +49,7 @@ namespace SDF::Editor::UILayer::AbstractModel {
     //             inUnit - The unit to get the width in.
     // Returns:    The width in this unit.
     virtual float
-    getDocumentHeight(Common::Handle documentHandle,
-                      Defs::ELengthUnit inUnit
-                     ) = 0;
+    getDocumentHeight(Common::Handle documentHandle, Defs::ELengthUnit inUnit) = 0;
   };
 }
 

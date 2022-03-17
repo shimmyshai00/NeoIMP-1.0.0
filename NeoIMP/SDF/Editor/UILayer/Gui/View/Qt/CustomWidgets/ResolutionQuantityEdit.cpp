@@ -26,9 +26,10 @@
 #include "../../../../AbstractModel/Defs/ResolutionUnitLabels.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
-  ResolutionQuantityEdit::ResolutionQuantityEdit(AbstractModel::IMetricsService *metricsService,
-                                                 QWidget *parent
-                                                )
+  ResolutionQuantityEdit::ResolutionQuantityEdit(
+    AbstractModel::IMetricsService *metricsService,
+    QWidget *parent
+  )
     : DimensionalQuantityEdit(AbstractModel::Defs::g_resolutionUnitSymbols,
                               AbstractModel::Defs::RESOLUTION_UNIT_MAX,
                               metricsService,

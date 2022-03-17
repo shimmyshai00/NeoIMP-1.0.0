@@ -29,15 +29,16 @@
 #include "../../Controller/DocumentView/OnScroll.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  ViewFactory::ViewFactory(AbstractModel::IMetricsService *metricsService,
-                           AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-                           AbstractModel::IDocumentRequirementsService *documentRequirementsService,
-                           AbstractModel::ICreateImageService *createImageService,
-                           AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-                           AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-                           AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-                           AbstractModel::IRenderingService *renderingService
-                          )
+  ViewFactory::ViewFactory(
+    AbstractModel::IMetricsService *metricsService,
+    AbstractModel::IDocumentPrefabsService *documentPrefabsService,
+    AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+    AbstractModel::ICreateImageService *createImageService,
+    AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
+    AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+    AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
+    AbstractModel::IRenderingService *renderingService
+  )
     : m_metricsService(metricsService),
       m_documentPrefabsService(documentPrefabsService),
       m_documentRequirementsService(documentRequirementsService),
@@ -86,10 +87,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   DocumentView *
-  ViewFactory::createDocumentView(Common::Handle documentHandle,
-                                  QWidget *parent
-                                 )
-  {
+  ViewFactory::createDocumentView(Common::Handle documentHandle, QWidget *parent) {
     DocumentView *rv = new DocumentView(m_renderingService, m_getDocumentMetricsService,
       m_getViewCoordinatesService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);

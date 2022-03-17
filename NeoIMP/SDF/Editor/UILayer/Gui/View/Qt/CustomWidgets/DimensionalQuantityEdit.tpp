@@ -57,12 +57,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   template<class UnitEnumT>
-  DimensionalQuantityEdit<UnitEnumT>::DimensionalQuantityEdit(const char *unitNameStrings[],
-                                                              std::size_t numUnitsToAdd,
-                                                              AbstractModel::IMetricsService *
-                                                                metricsService,
-                                                              QWidget *parent
-                                                             )
+  DimensionalQuantityEdit<UnitEnumT>::DimensionalQuantityEdit(
+    const char *unitNameStrings[],
+    std::size_t numUnitsToAdd,
+    AbstractModel::IMetricsService *metricsService,
+    QWidget *parent
+  )
     : DQESignalsSlots(parent),
       m_layout(new QBoxLayout(QBoxLayout::LeftToRight, this)),
       m_quantityEdit(new QLineEdit("0.0")),
@@ -120,10 +120,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   template<class UnitEnumT>
   void
-  DimensionalQuantityEdit<UnitEnumT>::setMetricsService(AbstractModel::IMetricsService *
-                                                          metricsService
-                                                       )
-  {
+  DimensionalQuantityEdit<UnitEnumT>::setMetricsService(
+    AbstractModel::IMetricsService *metricsService
+  ) {
     m_metricsService = metricsService;
 
     m_quantityEdit->setEnabled(m_metricsService != nullptr);

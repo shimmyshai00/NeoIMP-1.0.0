@@ -43,9 +43,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   class RenderDisplayWidget : public QWidget {
     Q_OBJECT
   public:
-    RenderDisplayWidget(AbstractModel::IRenderingService *renderingService,
-                        QWidget *parent = nullptr
-                       );
+    RenderDisplayWidget(
+      AbstractModel::IRenderingService *renderingService,
+      QWidget *parent = nullptr
+    );
 
     ~RenderDisplayWidget();
 
@@ -104,9 +105,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     setViewportY1(float y1);
 
     void
-    setViewportUpperLeft(float x1,
-                         float y1
-                        );
+    setViewportUpperLeft(float x1, float y1);
 
     // Function:   setViewportMag
     // Purpose:    Sets the magnification of the viewport around the upper-left corner.
@@ -120,10 +119,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     // Parameters: x1, y1 - The new upper-left corner position.
     //             mag - The new magnification.
     void
-    setAll(float x1,
-           float y1,
-           float mag
-          );
+    setAll(float x1, float y1, float mag);
   protected:
     void
     paintEvent(QPaintEvent *event) override;

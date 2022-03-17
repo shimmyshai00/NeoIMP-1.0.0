@@ -31,13 +31,12 @@ namespace SDF::Editor::ModelLayer::Metrics {
   // Class:      ResolutionConvertible
   // Purpose:    Defines a convertible resolution quantity.
   // Parameters: None.
-  class ResolutionConvertible : public UILayer::AbstractModel::Defs::IUnitConvertible
-                                  <UILayer::AbstractModel::Defs::EResolutionUnit>
+  class ResolutionConvertible : public UILayer::AbstractModel::Defs::IUnitConvertible<
+                                  UILayer::AbstractModel::Defs::EResolutionUnit
+                                >
   {
   public:
-    ResolutionConvertible(float quantity,
-                          UILayer::AbstractModel::Defs::EResolutionUnit unit
-                         );
+    ResolutionConvertible(float quantity, UILayer::AbstractModel::Defs::EResolutionUnit unit);
 
     float
     in(UILayer::AbstractModel::Defs::EResolutionUnit unit);
