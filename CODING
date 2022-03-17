@@ -9,115 +9,127 @@ helps; the indentation settings below come from such.
 Coding Style and Organization Guidelines
 ----------------------------------------
 
-NOTE: this is the ideal; the real thing might not 100% conform to these rules ofc :) Look at the
-      actual code if anything here is unclear. Try to follow the existing code as best as possible.
-      Also, when it comes to wrapping, the "precedence" of the rules is the order in which they are
-      listed below, e.g. in wrapping a complicated function declaration one should apply the rules
-      in the section on function declarations first, before applying other rules.
+NOTE:
+  this is the ideal; the real thing might not 100% conform to these rules ofc :) Look at the actual
+  code if anything here is unclear. Try to follow the existing code as best as possible. Also, when
+  it comes to wrapping, the "precedence" of the rules is the order in which they are listed below,
+  e.g. in wrapping a complicated function declaration one should apply the rules in the section on
+  function declarations first, before applying other rules.
 
-* Line wrapping: In every source and text-only document file, one should aim to wrap lines to a
-                 maximum length of *100* characters (not 80).
+* Line wrapping:
+    In every source and text-only document file, one should aim to wrap lines to a maximum length of
+    *100* characters (not 80).
 
 * Indentation: Each indent should be by 2 characters.
 
-* Function declarations: In any function declaration, the return type specifier should go
-                         on a separate line, with the rest started on the immediately
-                         following line. The first argument should be spelled out on the same line
-                         as the function name, while the remaining arguments should be listed one
-                         line at a time below - ideally indented all the way so their leftmost
-                         characters (i.e. the start of the type specifier) are flush with the
-                         leftmost character of the first argument's type specifier. The comma for
-                         bringing in the next argument should be on the same line as the argument it
-                         follows. If the first argument is too long to fit on the same line as the
-                         function name, then it should be sent to a separate line, and should be
-                         indented once from the beginning of the name. Further arguments should, in
-                         such cases, likewise follow suit. Finally, the closing paren of the
-                         argument list should either be flush with the open paren in the case where
-                         the first argument was short enough to fit on the same line as the name,
-                         otherwise, it should be flush with the beginning of the name.
+* Function declarations:
+    In any function declaration, the return type specifier should go on a separate line, with the
+    rest started on the immediately following line, initially all as a single line. If wrapping the
+    argument list is necessary, as it often is, then it should be done by treating the () like
+    blocks as described below. That is, after the first "(", one should start a new line, indent the
+    first argument by one, then after the comma, go to another line, start the next arugment, and
+    so on, e.g. like
 
-* Curly-bracket blocks: If the code which declares the block (e.g. the function declaration, the for
-                        loop statement, or the like) is one line long only, then the opening curly
-                        bracket should be placed on that same line, separated from the opener code
-                        by one space. Otherwise, it should go on a separate line and be indented
-                        suitably. This last rule has the exception of when the only character on the
-                        preceding line would be a closing paren. The closing bracket should be at,
-                        and not indented from, the block margin.
+      void
+      aReallyNeedyMethod(
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument1,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument2,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument3,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument4,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument5,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument6,
+        This::Type::Is::Very::Very::Long::And::Hard::To::Type someBigLongArgument7
+      )
 
-* Expressions: Infix operators (e.g. "=", "+", etc.) should be single-spaced apart from their
-               operands, with the possible exception of the multiplication operator (*) if
-               appropriate (e.g. when multiplying on the left by a number).
+    And if any of those arguments still don't fit, they should be wrapped first by putting the label
+    on a new line and indenting once, and if that doesn't work, then we should wrap the type name
+    following the rules below.
 
-* Wrapping templates: If a template invocation must be wrapped, it should be wrapped similarly to
-                      a block, i.e. the "<" should be treated like an opening "{" and the ">" like
-                      a closing "}", e.g.
+* Curly-bracket blocks:
+    If the code which declares the block (e.g. the function declaration, the for loop statement, or
+    the like) is one line long only, then the opening curly bracket should be placed on that same
+    line, separated from the opener code by one space. Otherwise, it should go on a separate line
+    and be indented suitably. This last rule has the exception of when the only character on the
+    preceding line would be a closing paren. The closing bracket should be at, and not indented
+    from, the block margin.
 
-                        std::vector<
-                          std::list<ONE>
-                        >
+* Expressions:
+    Infix operators (e.g. "=", "+", etc.) should be single-spaced apart from their operands, with
+    the possible exception of the multiplication operator (*) if appropriate (e.g. when multiplying
+    on the left by a number).
 
-                      .
+* Wrapping templates:
+    If a template invocation must be wrapped, it also should be wrapped similarly to a block, i.e.
+    the "<" should be treated like an opening "{" and the ">" like a closing "}", e.g.
 
-* Wrapping class inheritances: Lists of inherited classes should be wrapped similarly to function
-                               declarations: the first inheritance statement should follow the
-                               colon on the same line if possible, followed by the others on
-                               separate lines indented to be flush with its access specifier. If
-                               this is not possible, then the first inheritance statement should be
-                               wrapped after the colon and the rest continued with one indent from
-                               the beginning of the keyword "class".
+      std::vector<
+        some::really::big::template::magic<ONE>,
+        some::really::big::template::magic<TWO>
+      >
 
-* Constructors and initializer lists: A constructor's function declaration should, of course, be
-                                      written like any other. However, when it comes to the
-                                      initializer list, it should be started, including the colon,
-                                      on the next line, indented once from the function margin,
-                                      and one space between the colon and first initializer element.
-                                      Succeeding initializer elements should generally be on
-                                      separate lines unless names are very compact, and indented
-                                      to be flush with the leftmost character of that first element.
-                                      Finally, if an initializer list is used, the opening bracket
-                                      of the constructor body should follow the above rules as for
-                                      a wrapped/multi-line function declaration, i.e. on a separate
-                                      line flush to the function margin.
+    And if any of the sub-blocks fail to fit, relevant rules should be applied recursively. If after
+    all that it *still* fails to fit, then just do whatever to the stubborn bits to make it look
+    neat.
 
-* Wrapping variable declarations: When declaring and initializing variables on the same line, it
-                                  will often be necessary to wrap. To do so, one should prefer to
-                                  first wrap the initialization stuff after the equals or first
-                                  opening paren to the next line. Then, if that fails, one should
-                                  unwrap then wrap again at the type specifier. Then, follow the
-                                  other wrapping rules as for general expressions below.
+* Wrapping class inheritances:
+    The first inheritance statement should follow the colon on the same line if possible, followed
+     by the others on separate lines indented to be flush with the first's access specifier. If this
+     is not possible, then the first inheritance statement should be wrapped after the colon and
+     both it and the rest continued with one indent from the beginning of the keyword "class".
 
-* Wrapping expressions: Generally speaking, long expressions, including function *invocations* (not
-                        declarations) should be wrapped at logical breakpoints (e.g. whole chunks
-                        after operators, whole arguments, and the like) and each wrapped line should
-                        be indented from the topmost line of the expression by *one* character.
+* Constructors and initializer lists:
+    A constructor's function declaration should, of course, be written like any other. However, when
+    it comes to the initializer list, it should be started, including the colon, on the next line,
+    indented once from the function margin, and one space between the colon and first initializer
+    element. Succeeding initializer elements should generally be on separate lines unless names are
+    very compact, and indented to be flush with the leftmost character of that first element.
+    Finally, if an initializer list is used, the opening bracket of the constructor body should
+    follow the above rules as for a wrapped/multi-line function declaration, i.e. on a separate line
+    flush to the function margin.
 
-* Namespaces and modularity: Namespaces are used extensively and should mirror the directory
-                             structure for the most part.
+* Wrapping variable declarations:
+    When declaring and initializing variables on the same line, it will often be necessary to wrap.
+    To do so, one should prefer to first wrap the initialization stuff after the equals or first
+    opening paren to the next line. Then, if that fails, one should unwrap then wrap again at the
+    type specifier. Then, follow the other wrapping rules as for general expressions below.
 
-* Includes: When including local files, use quoted includes and specify a relative path specifier.
-            One should group blocks of include statements to include interfaces first, then concrete
-            class declarations second, then other types of includes, then finally system includes.
-            Within any group of include directives, they should be ordered so that ones with the
-            most levels of path specifiers (i.e. "farthest away") come first. Each .cpp file should
-            have a corresponding .hpp, and this .hpp should include all classes and other files
-            required for it to compile, but ONLY such classes and files. The .cpp file should only
-            and entirely include files required by the implementation. It should also include its
-            corresponding .hpp file first. Finally, include guards should be based off the pathname,
-            e.g. SDF_MODELLAYER_MY_HPP.
+* Wrapping expressions:
+    Generally speaking, long expressions, including function *invocations* (not declarations) should
+    be wrapped at logical breakpoints (e.g. whole chunks after operators, whole arguments, and the
+    like) and each wrapped line should be indented from the topmost line of the expression by *one*
+    character.
 
-* Pointers: The pointer standards used are as follows. When a class member variable is to be a
-            pointer, it should be a raw (*) pointer when it is a non-owning reference, or in some
-            core, performance-critical code. Otherwise, std::unique_ptr should be preferably used,
-            and sometimes, especially for messages and other such small throwaway objects (which
-            should also be declared "const"), std::shared_ptr - each object should have a definite
-            owner at any given time. For passing by reference to functions, only use a *-raw pointer
-            if it must be nullable _or_ the function is going to store that pointer, otherwise use
-            an &-reference. Only pass a smart pointer if there is intent to transfer ownership.
-            Pointer arithmetic should be avoided except in core areas of the program.
+* Namespaces and modularity:
+    Namespaces are used extensively and should mirror the directory structure for the most part.
 
-* USING: "Using" statements should not be used at any place in headers, but are welcome (and
-         encouraged) to be used inside function definitions and module files. This means one should
-         expect to wrap a lot in header files, but not so much in source files.
+* Includes:
+    When including local files, use quoted includes and specify a relative path specifier. One
+    should group blocks of include statements to include interfaces first, then concrete class
+    declarations second, then other types of includes, then finally system includes. Within any
+    group of include directives, they should be ordered so that ones with the most levels of path
+    specifiers (i.e. "farthest away") come first. Each .cpp file should have a corresponding .hpp,
+    and this .hpp should include all classes and other files required for it to compile, but ONLY
+    such classes and files. The .cpp file should only and entirely include files required by the
+    implementation. It should also include its corresponding .hpp file first. Finally, include
+    guards should be based off the pathname, e.g. SDF_MODELLAYER_MY_HPP.
+
+* Pointers:
+    The pointer standards used are as follows. When a class member variable is to be a pointer, it
+    should be a raw (*) pointer when it is a non-owning reference, or in some core, performance-
+    critical code. Otherwise, std::unique_ptr should be preferably used, and sometimes, especially
+    for messages and other such small throwaway objects (which should also be declared "const"),
+    std::shared_ptr - each object should have a definite owner at any given time. For passing by
+    reference to functions, only use a *-raw pointer if it must be nullable _or_ the function is
+    going to store that pointer, otherwise use an &-reference. Only pass a smart pointer if there is
+    intent to transfer ownership. Pointer arithmetic should be avoided except in core areas of the
+    program.
+
+* USING:
+    "Using" statements should not be used at any place in headers, but are welcome (and encouraged)
+    to be used inside function definitions and module files. This means one should expect to wrap a
+    lot in header files, but not so much in source files. A partial exception here is template
+    implementation (.tpp) files. Because they are technically headers, one should not use "using"
+    directives in them outside the function bodies.
 
 Program Design
 --------------
@@ -185,3 +197,4 @@ ADD (2021 Apr 26): Finally finished and settled on yet another architecture revi
                   to use.
 ADD (2022 Jan 5): Revised document again to keep in line with latest standards as we wanted to clean
                   the code still further.
+ADD (2022 Mar 16): Still more revision!
