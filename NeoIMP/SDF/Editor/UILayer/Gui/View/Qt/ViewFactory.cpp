@@ -25,6 +25,8 @@
 
 #include "../../Controller/MainWindow/OnDocumentSelected.hpp"
 #include "../../Controller/MainWindow/OnNew.hpp"
+#include "../../Controller/MainWindow/OnSaveAs.hpp"
+#include "../../Controller/MainWindow/OnSave.hpp"
 #include "../../Controller/MainWindow/OnExit.hpp"
 #include "../../Controller/NewDocumentDialog/OnAccept.hpp"
 #include "../../Controller/FileChooserDialog/OnAccept_Save.hpp"
@@ -75,6 +77,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
     auto onNew = std::make_unique<Controller::MainWindow::OnNew>(m_viewManager);
     rv->hookOnNew(std::move(onNew))->connect();
+
+    auto onSaveAs = std::make_unique<Controller::MainWindow::OnSaveAs>(m_viewManager);
+    rv->hookOnSaveAs(std::move(onSaveAs))->connect();
+
+    auto onSave = std::make_unique<Controller::MainWindow::OnSave>(m_viewManager);
+    rv->hookOnSave(std::move(onSave))->connect();
 
     auto onExit = std::make_unique<Controller::MainWindow::OnExit>(m_viewManager);
     rv->hookOnExit(std::move(onExit))->connect();

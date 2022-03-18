@@ -39,6 +39,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     m_ui->setupUi(this);
 
     connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNew.trigger(); });
+    connect(m_ui->actionSave_As, &QAction::triggered, [&](){ m_onSaveAs.trigger(); });
+    connect(m_ui->action_Save, &QAction::triggered, [&](){ m_onSave.trigger(); });
     connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExit.trigger(); });
   }
 
@@ -48,25 +50,31 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   void
   MainWindow::addTabPane(std::string tabName, QWidget *pane) {
+    bool firstTab(false);
+
     if(!m_tabWidget) {
       m_tabWidget = new QTabWidget(nullptr);
       m_ui->gridLayout_2->addWidget(m_tabWidget, 0, 0);
       m_tabWidget->show();
 
-      auto getDocumentWidget = [=](int index) {
-        return dynamic_cast<DocumentView *>(m_tabWidget->widget(index));
-      };
-
-      m_onDocumentSelected.trigger(getDocumentWidget(0)->getDocumentHandle());
-
       m_tabSwitchHandlerConn = connect(m_tabWidget, &QTabWidget::tabBarClicked,
         [=](int index) {
-          this->m_onDocumentSelected.trigger(getDocumentWidget(index)->getDocumentHandle());
+          if(auto p = dynamic_cast<DocumentView *>(m_tabWidget->widget(index))) {
+            this->m_onDocumentSelected.trigger(p->getDocumentHandle());
+          }
         }
       );
+
+      firstTab = true;
+      enableDocumentRequiringFeatures();
     }
 
     m_tabWidget->addTab(pane, QString(tabName.c_str()));
+    if(firstTab) {
+      if(auto p = dynamic_cast<DocumentView *>(pane)) {
+        m_onDocumentSelected.trigger(p->getDocumentHandle());
+      }
+    }
   }
 
   void
@@ -78,6 +86,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
         m_tabWidget->hide();
         disconnect(m_tabSwitchHandlerConn);
         m_ui->gridLayout_2->removeWidget(m_tabWidget);
+        disableDocumentRequiringFeatures();
       }
     }
   }
@@ -93,7 +102,32 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   Common::PIConnection
+  MainWindow::hookOnSaveAs(std::unique_ptr<IController<>> controller) {
+    return m_onSaveAs.hook(std::move(controller));
+  }
+
+  Common::PIConnection
+  MainWindow::hookOnSave(std::unique_ptr<IController<>> controller) {
+    return m_onSave.hook(std::move(controller));
+  }
+
+  Common::PIConnection
   MainWindow::hookOnExit(std::unique_ptr<IController<>> controller) {
     return m_onExit.hook(std::move(controller));
+  }
+}
+
+namespace SDF::Editor::UILayer::Gui::View::Qt {
+  // Private members.
+  void
+  MainWindow::enableDocumentRequiringFeatures() {
+    m_ui->actionSave_As->setEnabled(true);
+    m_ui->action_Save->setEnabled(true);
+  }
+
+  void
+  MainWindow::disableDocumentRequiringFeatures() {
+    m_ui->actionSave_As->setEnabled(false);
+    m_ui->action_Save->setEnabled(false);
   }
 }
