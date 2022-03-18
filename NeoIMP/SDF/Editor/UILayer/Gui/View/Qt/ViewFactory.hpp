@@ -25,6 +25,7 @@
  */
 
 #include "../../../../../Common/Handle.hpp"
+#include "../../../AbstractModel/IUiStateManagerService.hpp"
 #include "../../../AbstractModel/IMetricsService.hpp"
 #include "../../../AbstractModel/IDocumentPrefabsService.hpp"
 #include "../../../AbstractModel/IDocumentRequirementsService.hpp"
@@ -52,6 +53,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class ViewFactory {
   public:
     INJECT(ViewFactory(
+      AbstractModel::IUiStateManagerService *uiStateManagerService,
       AbstractModel::IMetricsService *metricsService,
       AbstractModel::IDocumentPrefabsService *documentPrefabsService,
       AbstractModel::IDocumentRequirementsService *documentRequirementsService,
@@ -78,6 +80,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     DocumentView *
     createDocumentView(Common::Handle documentHandle, QWidget *parent = nullptr);
   private:
+    AbstractModel::IUiStateManagerService *m_uiStateManagerService;
     AbstractModel::IMetricsService *m_metricsService;
     AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
     AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;

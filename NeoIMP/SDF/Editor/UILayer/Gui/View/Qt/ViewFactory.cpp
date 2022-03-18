@@ -23,13 +23,19 @@
 
 #include "ViewFactory.hpp"
 
+#include "../../Controller/MainWindow/OnDocumentSelected.hpp"
 #include "../../Controller/MainWindow/OnNew.hpp"
 #include "../../Controller/MainWindow/OnExit.hpp"
 #include "../../Controller/NewDocumentDialog/OnAccept.hpp"
+#include "../../Controller/FileChooserDialog/OnAccept_Save.hpp"
 #include "../../Controller/DocumentView/OnScroll.hpp"
+
+#include "FileFormatNames.hpp"
+#include "makeFileFilterList.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewFactory::ViewFactory(
+    AbstractModel::IUiStateManagerService *uiStateManagerService,
     AbstractModel::IMetricsService *metricsService,
     AbstractModel::IDocumentPrefabsService *documentPrefabsService,
     AbstractModel::IDocumentRequirementsService *documentRequirementsService,
@@ -40,7 +46,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::IRenderingService *renderingService,
     AbstractModel::ISaveDocumentService *saveDocumentService
   )
-    : m_metricsService(metricsService),
+    : m_uiStateManagerService(uiStateManagerService),
+      m_metricsService(metricsService),
       m_documentPrefabsService(documentPrefabsService),
       m_documentRequirementsService(documentRequirementsService),
       m_createImageService(createImageService),
@@ -48,7 +55,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_setViewCoordinatesService(setViewCoordinatesService),
       m_renderingService(renderingService),
-      m_saveDocumentService(saveDocumentService)
+      m_saveDocumentService(saveDocumentService),
       m_viewManager(nullptr)
   {
   }
@@ -62,13 +69,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewFactory::createMainWindow(QWidget *parent) {
     MainWindow *rv = new MainWindow(parent);
 
-    std::unique_ptr<IController<>> nullaryController;
+    auto onDocumentSelected = std::make_unique<Controller::MainWindow::OnDocumentSelected>(
+      m_uiStateManagerService);
+    rv->hookOnDocumentSelected(std::move(onDocumentSelected))->connect();
 
-    nullaryController = std::make_unique<Controller::MainWindow::OnNew>(m_viewManager);
-    rv->hookOnNew(std::move(nullaryController))->connect();
+    auto onNew = std::make_unique<Controller::MainWindow::OnNew>(m_viewManager);
+    rv->hookOnNew(std::move(onNew))->connect();
 
-    nullaryController = std::make_unique<Controller::MainWindow::OnExit>(m_viewManager);
-    rv->hookOnExit(std::move(nullaryController))->connect();
+    auto onExit = std::make_unique<Controller::MainWindow::OnExit>(m_viewManager);
+    rv->hookOnExit(std::move(onExit))->connect();
 
     return rv;
   }
@@ -77,20 +86,28 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewFactory::createNewDocumentDialog(QWidget *parent) {
     NewDocumentDialog *rv = new NewDocumentDialog(m_metricsService, m_documentPrefabsService,
       m_documentRequirementsService, parent);
-
-    std::unique_ptr<IController<AbstractModel::Defs::ImageSpec>> acceptController;
-    acceptController = std::make_unique<Controller::NewDocumentDialog::OnAccept>(
-      m_createImageService, m_viewManager);
-    rv->hookOnAccept(std::move(acceptController))->connect();
-
     rv->setAttribute(::Qt::WA_DeleteOnClose);
+
+    auto onAccept = std::make_unique<Controller::NewDocumentDialog::OnAccept>(m_createImageService,
+      m_viewManager);
+    rv->hookOnAccept(std::move(onAccept))->connect();
 
     return rv;
   }
 
   FileChooserDialog *
   ViewFactory::createSaveDocumentDialog(QWidget *parent) {
-    
+    FileChooserDialog *rv = new FileChooserDialog(parent);
+    rv->setAttribute(::Qt::WA_DeleteOnClose);
+    rv->setAcceptMode(QFileDialog::AcceptSave);
+    rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
+      AbstractModel::Defs::FILE_FORMAT_MAX));
+
+    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Save>(m_uiStateManagerService,
+      m_saveDocumentService);
+    rv->hookOnAccept(std::move(c))->connect();
+
+    return rv;
   }
 
   DocumentView *
@@ -99,15 +116,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_getViewCoordinatesService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
-    std::unique_ptr<IController<Common::Handle, float>> hScrollController;
-    hScrollController = std::make_unique<Controller::DocumentView::OnHScroll>(
+    auto onHScroll = std::make_unique<Controller::DocumentView::OnHScroll>(
       m_setViewCoordinatesService);
-    rv->hookOnHScroll(std::move(hScrollController))->connect();
+    rv->hookOnHScroll(std::move(onHScroll))->connect();
 
-    std::unique_ptr<IController<Common::Handle, float>> vScrollController;
-    vScrollController = std::make_unique<Controller::DocumentView::OnVScroll>(
+    auto onVScroll = std::make_unique<Controller::DocumentView::OnVScroll>(
       m_setViewCoordinatesService);
-    rv->hookOnVScroll(std::move(vScrollController))->connect();
+    rv->hookOnVScroll(std::move(onVScroll))->connect();
 
     return rv;
   }

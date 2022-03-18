@@ -40,6 +40,7 @@ namespace SDF::Editor::ModelLayer {
   SDF_DEF_NRM_EXCEPTION_1(RenderingNotFoundException, "Rendering with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(NonexistentLayerException, "Nonexistent layer: %d.", std::size_t)
   SDF_DEF_NRM_EXCEPTION_2(PosOutOfBoundsException, "Position out of range: (%d, %d).", int, int)
+  SDF_DEF_NRM_EXCEPTION_2(UiDataElementNotFoundException, "UI state element with key %d-%d not found.", Common::Handle, const char *)
 
   SDF_DEF_BUG_EXCEPTION(InvalidSizeException, "Invalid size passed.")
   SDF_DEF_BUG_EXCEPTION(OutOfRangeException, "Tried to perform an out-of-bounds access.")

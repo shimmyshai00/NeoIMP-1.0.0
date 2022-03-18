@@ -25,6 +25,7 @@
  */
 
 #include "../../../../../Common/IConnection.hpp"
+#include "../../../../../Common/Handle.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
 #include "../IController.hpp"
@@ -57,6 +58,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     deleteTabPane(QWidget *pane);
 
     Common::PIConnection
+    hookOnDocumentSelected(std::unique_ptr<IController<Common::Handle>> controller);
+
+    Common::PIConnection
     hookOnNew(std::unique_ptr<IController<>> controller);
 
     Common::PIConnection
@@ -65,6 +69,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     Ui::MainWindow *m_ui;
     QPointer<QTabWidget> m_tabWidget;
 
+    QMetaObject::Connection m_tabSwitchHandlerConn;
+
+    QtEvent<Common::Handle> m_onDocumentSelected;
     QtEvent<> m_onNew;
     QtEvent<> m_onExit;
   };

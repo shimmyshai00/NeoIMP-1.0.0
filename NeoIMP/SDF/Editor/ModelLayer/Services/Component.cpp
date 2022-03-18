@@ -26,6 +26,7 @@
 #include "Messages/Object.hpp"
 
 #include "Gil/Component.hpp"
+#include "UiStateManagerService.hpp"
 #include "MetricsService.hpp"
 #include "DocumentPrefabsService.hpp"
 #include "ViewCoordinatesService.hpp"
@@ -38,6 +39,7 @@ namespace SDF::Editor::ModelLayer::Services {
         Common::MessageSystem::IChannel<Messages::Object>,
         Common::MessageSystem::AllToAll<Messages::Object>
        >()
+      .bind<UILayer::AbstractModel::IUiStateManagerService, Services::UiStateManagerService>()
       .bind<UILayer::AbstractModel::IDocumentPrefabsService, Services::DocumentPrefabsService>()
       .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>()
       .bind<UILayer::AbstractModel::IGetViewCoordinatesService, Services::ViewCoordinatesService>()

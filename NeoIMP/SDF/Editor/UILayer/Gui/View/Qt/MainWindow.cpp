@@ -24,6 +24,8 @@
 #include "MainWindow.hpp"
 
 #include "../../Controller/MainWindow/OnExit.hpp"
+#include "../../StateKeys.hpp"
+#include "DocumentView.hpp"
 
 #include "Resources/ui_MainWindow.h"
 
@@ -50,6 +52,18 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_tabWidget = new QTabWidget(nullptr);
       m_ui->gridLayout_2->addWidget(m_tabWidget, 0, 0);
       m_tabWidget->show();
+
+      auto getDocumentWidget = [=](int index) {
+        return dynamic_cast<DocumentView *>(m_tabWidget->widget(index));
+      };
+
+      m_onDocumentSelected.trigger(getDocumentWidget(0)->getDocumentHandle());
+
+      m_tabSwitchHandlerConn = connect(m_tabWidget, &QTabWidget::tabBarClicked,
+        [=](int index) {
+          this->m_onDocumentSelected.trigger(getDocumentWidget(index)->getDocumentHandle());
+        }
+      );
     }
 
     m_tabWidget->addTab(pane, QString(tabName.c_str()));
@@ -62,9 +76,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       if(m_tabWidget->count() == 0) {
         // all tabs gone - destroy the tab widget!
         m_tabWidget->hide();
+        disconnect(m_tabSwitchHandlerConn);
         m_ui->gridLayout_2->removeWidget(m_tabWidget);
       }
     }
+  }
+
+  Common::PIConnection
+  MainWindow::hookOnDocumentSelected(std::unique_ptr<IController<Common::Handle>> controller) {
+    return m_onDocumentSelected.hook(std::move(controller));
   }
 
   Common::PIConnection

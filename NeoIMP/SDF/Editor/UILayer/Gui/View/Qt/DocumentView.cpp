@@ -42,6 +42,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     m_imageEditorWidget->setEditedImage(documentHandle);
   }
 
+  Common::Handle
+  DocumentView::getDocumentHandle() const {
+    return m_documentHandle;
+  }
+
   Common::PIConnection
   DocumentView::hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller) {
     return m_imageEditorWidget->hookOnHScroll(std::move(controller));

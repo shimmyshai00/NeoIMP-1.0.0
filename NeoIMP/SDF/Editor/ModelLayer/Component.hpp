@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../UILayer/AbstractModel/IUiStateManagerService.hpp"
 #include "../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
 #include "../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../UILayer/AbstractModel/ICreateImageService.hpp"
@@ -39,6 +40,7 @@
 
 namespace SDF::Editor::ModelLayer {
   typedef fruit::Component<
+    UILayer::AbstractModel::IUiStateManagerService,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,

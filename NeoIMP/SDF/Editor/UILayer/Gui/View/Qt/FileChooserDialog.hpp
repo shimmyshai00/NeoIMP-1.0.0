@@ -27,8 +27,11 @@
 #include "../../../../../Common/IConnection.hpp"
 #include "../IController.hpp"
 
+#include "QtEvent.hpp"
+
 #include <QFileDialog>
 
+#include <cstddef>
 #include <string>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
@@ -47,14 +50,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       const QString &filter = QString()
     );
 
-    FileChooserDialog(QWidget *parent, Qt::WindowFlags flags);
+    FileChooserDialog(QWidget *parent, ::Qt::WindowFlags flags);
     ~FileChooserDialog();
 
     // with these controller adjoinment methods
     Common::PIConnection
-    hookOnAccept(std::unique_ptr<IController<std::string>> controller);
+    hookOnAccept(std::unique_ptr<IController<std::string, std::size_t>> controller);
   private:
-    QtEvent<std::string> m_onAcceptEvent;
+    QtEvent<std::string, std::size_t> m_onAcceptEvent;
   };
 }
 

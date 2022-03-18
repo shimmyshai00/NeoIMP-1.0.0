@@ -68,7 +68,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     ViewFactory *m_viewFactory;
     Common::Handle m_nextDocumentViewHandle;
 
-    void addViewIfNotPresent(Common::Handle handle, QWidget *view);
+    Common::Handle addViewIfNotPresent(Common::Handle handle, QWidget *view);
   };
 }
 

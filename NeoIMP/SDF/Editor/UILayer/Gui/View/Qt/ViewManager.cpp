@@ -29,16 +29,21 @@
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   const Common::Handle HANDLE_MAIN_WINDOW = 0;
   const Common::Handle HANDLE_NEW_DOCUMENT_DIALOG = 1;
+  const Common::Handle HANDLE_SAVE_DOCUMENT_DIALOG = 2;
   const Common::Handle HANDLE_DOCUMENT_VIEW_ORIGIN = 10000;
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  void ViewManager::addViewIfNotPresent(Common::Handle handle, QWidget *view) {
+  Common::Handle ViewManager::addViewIfNotPresent(Common::Handle handle, QWidget *view) {
     if(m_views.find(handle) == m_views.end()) {
       m_views[handle] = view;
       m_views[handle]->show();
 
       QObject::connect(view, &QObject::destroyed, [=]() { m_views.erase(handle); });
+
+      return handle;
+    } else {
+      return Common::HANDLE_INVALID;
     }
   }
 }
@@ -62,12 +67,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewManager::produceView(EViewType viewType, std::shared_ptr<Support::Bundle> argBundle) {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
-        addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
-        return Impl::HANDLE_MAIN_WINDOW;
+        return addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
       case VIEW_NEW_DOCUMENT_DIALOG:
-        addViewIfNotPresent(Impl::HANDLE_NEW_DOCUMENT_DIALOG,
+        return addViewIfNotPresent(Impl::HANDLE_NEW_DOCUMENT_DIALOG,
           m_viewFactory->createNewDocumentDialog());
-        return Impl::HANDLE_NEW_DOCUMENT_DIALOG;
+      case VIEW_SAVE_DOCUMENT_DIALOG:
+        return addViewIfNotPresent(Impl::HANDLE_SAVE_DOCUMENT_DIALOG,
+          m_viewFactory->createSaveDocumentDialog());
       case VIEW_DOCUMENT_VIEW:
       {
         Common::Handle documentHandle =

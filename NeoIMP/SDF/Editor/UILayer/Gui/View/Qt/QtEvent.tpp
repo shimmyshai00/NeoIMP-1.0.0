@@ -24,6 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Exception.hpp"
+#include <iostream>
+
+#include <QMessageBox>
+
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   template<class ... ControllerArgs>
   class QtEventConn : public Common::IConnection {
@@ -86,7 +91,17 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     for(typename std::list<std::unique_ptr<IController<ControllerArgs...>>>::iterator
       it(m_controllers.begin()); it != m_controllers.end(); ++it)
     {
-      (*it)->onTrigger(args...);
+      try {
+        (*it)->onTrigger(args...);
+      } catch(SDF::Exception &e) { // NB: add specificity, recoverable vs. unrecoverable error?
+        // Standard response to errors: display an error message to the user on both screen and
+        // console
+        QString guiErrorMessage = QString("ERROR: ") + QString::fromStdString(e.what());
+        std::cerr << "ERROR: " << e.what() << std::endl;
+        auto mb = new QMessageBox(QMessageBox::Warning, QString("Error"), guiErrorMessage,
+          QMessageBox::Ok);
+        mb->show();
+      }
     }
   }
 }

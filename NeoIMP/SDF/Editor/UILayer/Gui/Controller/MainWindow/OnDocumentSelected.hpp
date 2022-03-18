@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_CONTROLLER_FILECHOOSERDIALOG_ONACCEPT_SAVE_HPP
-#define SDF_EDITOR_UILAYER_GUI_CONTROLLER_FILECHOOSERDIALOG_ONACCEPT_SAVE_HPP
+#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONDOCUMENTSELECTED_HPP
+#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONDOCUMENTSELECTED_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnAccept_Save.hpp
- * PURPOSE: Defines the OnAccept_Save class.
+ * FILE:    OnDocumentSelected.hpp
+ * PURPOSE: Defines the OnDocumentSelected class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,31 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/IUiStateManagerService.hpp"
-#include "../../../AbstractModel/ISaveDocumentService.hpp"
-
 #include "../../View/IController.hpp"
-#include "../../View/EViewType.hpp"
 
-#include <cstddef>
-#include <string>
-
-namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
-  // Class:      OnAccept_Save
-  // Purpose:    Handles the acceptance of a document specification.
+namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
+  // Class:      OnDocumentSelected
+  // Purpose:    Handles the selection of a document in the main window.
   // Parameters: None.
-  class OnAccept_Save : public View::IController<std::string, std::size_t> {
+  class OnDocumentSelected : public View::IController<Common::Handle> {
   public:
-    OnAccept_Save(
-      AbstractModel::IUiStateManagerService *uiStateManagerService,
-      AbstractModel::ISaveDocumentService *saveDocumentService
-    );
+    OnDocumentSelected(AbstractModel::IUiStateManagerService *uiStateManagerService);
 
     void
-    onTrigger(std::string fileSpec, std::size_t fileFormat);
+    onTrigger(Common::Handle documentHandle);
   private:
     AbstractModel::IUiStateManagerService *m_uiStateManagerService;
-    AbstractModel::ISaveDocumentService *m_saveDocumentService;
   };
 }
 

@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../AbstractModel/IUiStateManagerService.hpp"
 #include "../../../AbstractModel/IMetricsService.hpp"
 #include "../../../AbstractModel/IDocumentPrefabsService.hpp"
 #include "../../../AbstractModel/IDocumentRequirementsService.hpp"
@@ -33,6 +34,7 @@
 #include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/IRenderingService.hpp"
+#include "../../../AbstractModel/ISaveDocumentService.hpp"
 
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
@@ -42,6 +44,7 @@
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   typedef fruit::Component<
     fruit::Required<
+      AbstractModel::IUiStateManagerService,
       AbstractModel::IMetricsService,
       AbstractModel::IDocumentPrefabsService,
       AbstractModel::IDocumentRequirementsService,
@@ -50,7 +53,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       AbstractModel::IGetDocumentMetricsService,
       AbstractModel::IGetViewCoordinatesService,
       AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService
+      AbstractModel::IRenderingService,
+      AbstractModel::ISaveDocumentService
     >,
     IViewManager<EViewType>
   > Component;

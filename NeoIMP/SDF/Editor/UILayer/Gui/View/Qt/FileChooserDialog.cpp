@@ -25,20 +25,30 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   FileChooserDialog::FileChooserDialog(
-    QWidget *parent = nullptr,
-    const QString &caption = QString(),
-    const QString &directory = QString(),
-    const QString &filter = QString()
+    QWidget *parent,
+    const QString &caption,
+    const QString &directory,
+    const QString &filter
   )
     : QFileDialog(parent, caption, directory, filter)
   {
-    connect(*this, &QFileDialog::accept(), [&]() {
+    connect(this, &QFileDialog::accepted, [&]() {
       QStringList files = selectedFiles();
-      m_onAcceptEvent.trigger(files[0].toStdString());
+      QStringList formatFilters = nameFilters();
+      // NB: too close coupling between indices and format enumeration? May need to break that.
+      std::size_t whichFormat(0);
+      for(; whichFormat < formatFilters.size(); ++whichFormat) {
+        if(formatFilters[whichFormat] == selectedNameFilter()) {
+          break;
+        }
+      }
+
+      // because this controller likely wants the format enumeration as in the abstract model.
+      m_onAcceptEvent.trigger(files[0].toStdString(), whichFormat);
     });
   }
 
-  FileChooserDialog::FileChooserDialog(QWidget *parent, Qt::WindowFlags flags)
+  FileChooserDialog::FileChooserDialog(QWidget *parent, ::Qt::WindowFlags flags)
     : QFileDialog(parent, flags)
   {
   }
@@ -47,7 +57,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   Common::PIConnection
-  FileChooserDialog::hookOnAccept(std::unique_ptr<IController<std::string>> controller) {
+  FileChooserDialog::hookOnAccept(
+    std::unique_ptr<IController<std::string, std::size_t>> controller
+  ) {
     return m_onAcceptEvent.hook(std::move(controller));
   }
 }

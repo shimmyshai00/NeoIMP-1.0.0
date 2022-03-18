@@ -48,6 +48,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       QWidget *parent = nullptr
     );
 
+    Common::Handle
+    getDocumentHandle() const;
+
     Common::PIConnection
     hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
 

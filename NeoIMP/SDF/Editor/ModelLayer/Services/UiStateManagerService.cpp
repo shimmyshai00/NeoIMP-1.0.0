@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    State.cpp
- * PURPOSE: Implements the State class.
+ * FILE:    UiStateManagerService.hpp
+ * PURPOSE: Implements the UiStateManagerService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::ModelLayer::DomainObjects {
+#include "UiStateManagerService.hpp"
 
+#include "../Exceptions.hpp"
+
+namespace SDF::Editor::ModelLayer::Services {
+  UiStateManagerService::UiStateManagerService() {
+  }
+
+  void
+  UiStateManagerService::addHandleEntry(
+    Common::Handle uiKey,
+    std::string fieldKey,
+    Common::Handle value
+  ) {
+    m_handleMap[std::make_pair(uiKey, fieldKey)] = value;
+  }
+
+  Common::Handle
+  UiStateManagerService::getHandleEntry(Common::Handle uiKey, std::string fieldKey) {
+    auto key = std::make_pair(uiKey, fieldKey);
+    if(m_handleMap.find(key) != m_handleMap.end()) {
+      return m_handleMap[key];
+    } else {
+      throw UiDataElementNotFoundException(uiKey, fieldKey.c_str());
+    }
+  }
 }

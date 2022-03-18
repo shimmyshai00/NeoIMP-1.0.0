@@ -26,6 +26,7 @@
 
 #include "../../../Common/Model/ICrudRepository.hpp"
 #include "../../../Common/MessageSystem/IChannel.hpp"
+#include "../../UILayer/AbstractModel/IUiStateManagerService.hpp"
 #include "../../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
 #include "../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
 #include "../../UILayer/AbstractModel/ICreateImageService.hpp"
@@ -51,6 +52,7 @@ namespace SDF::Editor::ModelLayer::Services {
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint>
     >,
+    UILayer::AbstractModel::IUiStateManagerService,
     UILayer::AbstractModel::IDocumentPrefabsService,
     UILayer::AbstractModel::IDocumentRequirementsService,
     UILayer::AbstractModel::ICreateImageService,
