@@ -27,16 +27,16 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   OnDocumentSelected::OnDocumentSelected(
-    AbstractModel::IUiStateManagerService *uiStateManagerService
+    AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService
   )
-    : m_uiStateManagerService(uiStateManagerService)
+    : m_setActiveDocumentService(setActiveDocumentService)
   {
   }
 
   void
   OnDocumentSelected::onTrigger(Common::Handle documentHandle) {
-    if(m_uiStateManagerService != nullptr) {
-      m_uiStateManagerService->addHandleEntry(c_uiHandle, c_activeDocumentKey, documentHandle);
+    if(m_setActiveDocumentService != nullptr) {
+      m_setActiveDocumentService->setActiveDocument(documentHandle);
     }
   }
 }

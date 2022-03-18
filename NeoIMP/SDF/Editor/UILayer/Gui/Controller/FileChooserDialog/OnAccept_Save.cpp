@@ -30,18 +30,17 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   OnAccept_Save::OnAccept_Save(
-    AbstractModel::IUiStateManagerService *uiStateManagerService,
-    AbstractModel::ISaveDocumentService *saveDocumentService
+    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
+    AbstractModel::Storage::ISaveDocumentService *saveDocumentService
   )
-    : m_uiStateManagerService(uiStateManagerService),
+    : m_getActiveDocumentService(getActiveDocumentService),
       m_saveDocumentService(saveDocumentService)
   {
   }
 
   void
-  OnAccept_Save::onTrigger(std::string fileSpec, std::size_t fileFormat) {
-    Common::Handle curSelectedDocument(m_uiStateManagerService->getHandleEntry(c_uiHandle,
-      c_activeDocumentKey));
+  OnAccept_Save::onTrigger(std::wstring fileSpec, std::size_t fileFormat) {
+    Common::Handle curSelectedDocument(m_getActiveDocumentService->getActiveDocument());
 
     if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
       m_saveDocumentService->saveDocument(curSelectedDocument, fileSpec,

@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UiStateManagerService.hpp
- * PURPOSE: Implements the UiStateManagerService class.
+ * FILE:    ISetViewYCoordinatesService.hpp
+ * PURPOSE: Defines the ISetViewYCoordinateService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,30 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "UiStateManagerService.hpp"
+#include "../../../../Common/Handle.hpp"
 
-#include "../Exceptions.hpp"
+namespace SDF::Editor::UILayer::AbstractModel::Viewing {
+  // Class:      ISetViewYCoordinateService
+  // Purpose:    Defines a service interface to set the Y view coordinate on an image document.
+  // Parameters: None.
+  class ISetViewYCoordinateService {
+  public:
+    virtual ~ISetViewYCoordinateService() = default;
 
-namespace SDF::Editor::ModelLayer::Services {
-  UiStateManagerService::UiStateManagerService() {
-  }
-
-  void
-  UiStateManagerService::addHandleEntry(
-    Common::Handle uiKey,
-    std::string fieldKey,
-    Common::Handle value
-  ) {
-    m_handleMap[std::make_pair(uiKey, fieldKey)] = value;
-  }
-
-  Common::Handle
-  UiStateManagerService::getHandleEntry(Common::Handle uiKey, std::string fieldKey) {
-    auto key = std::make_pair(uiKey, fieldKey);
-    if(m_handleMap.find(key) != m_handleMap.end()) {
-      return m_handleMap[key];
-    } else {
-      throw UiDataElementNotFoundException(uiKey, fieldKey.c_str());
-    }
-  }
+    virtual void
+    setViewingPointY(Common::Handle imageHandle, float y) = 0;
+  };
 }
+
+#endif

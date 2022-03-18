@@ -25,7 +25,7 @@
  */
 
 #include "../../../AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../AbstractModel/ICreateImageService.hpp"
+#include "../../../AbstractModel/Create/ICreateDocumentService.hpp"
 
 #include "../../View/IController.hpp"
 #include "../../View/EViewType.hpp"
@@ -38,14 +38,14 @@ namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   class OnAccept : public View::IController<AbstractModel::Defs::ImageSpec> {
   public:
     OnAccept(
-      AbstractModel::ICreateImageService *createImageService,
+      AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
       IViewManager<View::EViewType> *viewManager
     );
 
     void
     onTrigger(AbstractModel::Defs::ImageSpec imageSpec);
   private:
-    AbstractModel::ICreateImageService *m_createImageService;
+    AbstractModel::Create::ICreateDocumentService *m_createDocumentSerivce;
 
     IViewManager<View::EViewType> *m_viewManager;
   };

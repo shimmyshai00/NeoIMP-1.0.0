@@ -33,11 +33,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractModel::IDocumentRequirementsService, DocumentRequirementsService>()
-      .bind<UILayer::AbstractModel::ICreateImageService, CreateImageService>()
-      .bind<UILayer::AbstractModel::IGetDocumentNameService, GetDocumentNameService>()
-      .bind<UILayer::AbstractModel::IGetDocumentMetricsService, GetDocumentMetricsService>()
-      .bind<UILayer::AbstractModel::IRenderingService, RenderingService>()
-      .bind<UILayer::AbstractModel::ISaveDocumentService, SaveDocumentService>();
+      .bind<UILayer::AbstractModel::Create::IGetMemoryRequirementsService, DocumentRequirementsService>()
+      .bind<UILayer::AbstractModel::Create::ICreateDocumentService, CreateImageService>()
+      .bind<UILayer::AbstractModel::Storage::ISaveDocumentService, SaveDocumentService>()
+      .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentMetricsService>()
+      .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentNameService>()
+      .bind<UILayer::AbstractModel::Viewing::IRenderingService, RenderingService>();
   }
 }

@@ -31,8 +31,11 @@
 #include "../../../Common/IConnection.hpp"
 #include "../../../Common/IListener.hpp"
 #include "../../../Common/ListenerMapContainer.hpp"
-#include "../../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
-#include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/IAddViewService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
 #include "Messages/Object.hpp"
 
@@ -45,8 +48,11 @@ namespace SDF::Editor::ModelLayer::Services {
   // Class:      ViewCoordinatesService
   // Purpose:    Implements the MVC service to manage image viewing coordinates.
   // Parameters: None.
-  class ViewCoordinatesService : public UILayer::AbstractModel::IGetViewCoordinatesService,
-                                 public UILayer::AbstractModel::ISetViewCoordinatesService,
+  class ViewCoordinatesService : public UILayer::AbstractModel::Viewing::IAddViewService,
+                                 public UILayer::AbstractModel::Viewing::IGetViewCoordinatesService,
+                                 public UILayer::AbstractModel::Viewing::ISetViewXCoordinateService,
+                                 public UILayer::AbstractModel::Viewing::ISetViewYCoordinateService,
+                                 public UILayer::AbstractModel::Viewing::ISetViewCoordinatesService,
                                  public Common::MessageSystem::ISubscriber<Messages::Object>
   {
   public:
@@ -60,6 +66,11 @@ namespace SDF::Editor::ModelLayer::Services {
 
     boost::uuids::uuid
     getUuid() const;
+
+    Common::Handle
+    addView(Common::Handle imageHandle, float anchorX, float anchorY, float anchorMag) {
+      return Common::HANDLE_INVALID;
+    }
 
     float
     getViewingPointX(Common::Handle imageHandle) const;

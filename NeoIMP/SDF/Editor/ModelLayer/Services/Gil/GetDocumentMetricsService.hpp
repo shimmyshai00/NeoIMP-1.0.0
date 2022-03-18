@@ -26,7 +26,7 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
+#include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 
 #include "../../AbstractData/IImageRepository.hpp"
@@ -38,7 +38,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      GetDocumentMetricsService
   // Purpose:    Implements the IGetDocumentMetricsService interface for the Boost.GIL framework.
   // Parameters: None.
-  class GetDocumentMetricsService : public UILayer::AbstractModel::IGetDocumentMetricsService {
+  class GetDocumentMetricsService :
+    public UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService
+  {
   public:
     INJECT(GetDocumentMetricsService(
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
@@ -48,13 +50,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     getDocumentWidth(
       Common::Handle documentHandle,
       UILayer::AbstractModel::Defs::ELengthUnit inUnit
-    );
+    ) const;
 
     float
     getDocumentHeight(
       Common::Handle documentHandle,
       UILayer::AbstractModel::Defs::ELengthUnit inUnit
-    );
+    ) const;
   private:
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };

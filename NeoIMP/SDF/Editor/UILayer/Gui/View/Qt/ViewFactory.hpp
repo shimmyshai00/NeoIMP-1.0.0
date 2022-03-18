@@ -25,16 +25,21 @@
  */
 
 #include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/IUiStateManagerService.hpp"
-#include "../../../AbstractModel/IMetricsService.hpp"
-#include "../../../AbstractModel/IDocumentPrefabsService.hpp"
-#include "../../../AbstractModel/IDocumentRequirementsService.hpp"
-#include "../../../AbstractModel/ICreateImageService.hpp"
-#include "../../../AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
-#include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
-#include "../../../AbstractModel/IRenderingService.hpp"
-#include "../../../AbstractModel/ISaveDocumentService.hpp"
+#include "../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
+#include "../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
+#include "../../../AbstractModel/Create/ICreateDocumentService.hpp"
+#include "../../../AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
+#include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../../AbstractModel/Viewing/IAddViewService.hpp"
+#include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
+#include "../../../AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
+#include "../../../AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
+#include "../../../AbstractModel/Viewing/IRenderingService.hpp"
+#include "../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
+#include "../../../AbstractModel/Editing/ISetActiveDocumentService.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
 
@@ -53,16 +58,21 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class ViewFactory {
   public:
     INJECT(ViewFactory(
-      AbstractModel::IUiStateManagerService *uiStateManagerService,
-      AbstractModel::IMetricsService *metricsService,
-      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
-      AbstractModel::ICreateImageService *createImageService,
-      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-      AbstractModel::IRenderingService *renderingService,
-      AbstractModel::ISaveDocumentService *saveDocumentService
+      AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
+      AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
+      AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
+      AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
+      AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+      AbstractModel::Viewing::IAddViewService *addViewService,
+      AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
+      AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService,
+      AbstractModel::Viewing::ISetViewCoordinatesService *setViewCoordinatesService,
+      AbstractModel::Viewing::IRenderingService *renderingService,
+      AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
+      AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService
     ));
 
     void
@@ -80,16 +90,21 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     DocumentView *
     createDocumentView(Common::Handle documentHandle, QWidget *parent = nullptr);
   private:
-    AbstractModel::IUiStateManagerService *m_uiStateManagerService;
-    AbstractModel::IMetricsService *m_metricsService;
-    AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
-    AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;
-    AbstractModel::ICreateImageService *m_createImageService;
-    AbstractModel::IGetDocumentMetricsService *m_getDocumentMetricsService;
-    AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
-    AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
-    AbstractModel::IRenderingService *m_renderingService;
-    AbstractModel::ISaveDocumentService *m_saveDocumentService;
+    AbstractModel::Create::IGetDocumentPrefabService *m_getDocumentPrefabService;
+    AbstractModel::Create::IGetMemoryRequirementsService *m_getMemoryRequirementsService;
+    AbstractModel::Create::ICreateDocumentService *m_createDocumentService;
+    AbstractModel::Metrics::IConvertLengthService *m_convertLengthService;
+    AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
+    AbstractModel::Metrics::IGetDocumentDimensionsService *m_getDocumentDimensionsService;
+    AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
+    AbstractModel::Viewing::IAddViewService *m_addViewService;
+    AbstractModel::Viewing::IGetViewCoordinatesService *m_getViewCoordinatesService;
+    AbstractModel::Viewing::ISetViewXCoordinateService *m_setViewXCoordinateService;
+    AbstractModel::Viewing::ISetViewYCoordinateService *m_setViewYCoordinateService;
+    AbstractModel::Viewing::ISetViewCoordinatesService *m_setViewCoordinatesService;
+    AbstractModel::Viewing::IRenderingService *m_renderingService;
+    AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
+    AbstractModel::Editing::ISetActiveDocumentService *m_setActiveDocumentService;
 
     IViewManager<EViewType> *m_viewManager;
   };

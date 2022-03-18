@@ -27,7 +27,8 @@
 #include "../../../../AbstractModel/Defs/ELengthUnit.hpp"
 #include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
 #include "../../../../AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../../../AbstractModel/IMetricsService.hpp"
+#include "../../../../AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 
 #include "DimensionalQuantityEdit.hpp"
 
@@ -42,11 +43,19 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   {
     Q_OBJECT
   public:
-    LengthQuantityEdit(AbstractModel::IMetricsService *metricsService, QWidget *parent = nullptr);
+    LengthQuantityEdit(
+      AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
+      QWidget *parent = nullptr
+    );
+
     LengthQuantityEdit(QWidget *parent = nullptr);
 
     void
-    setMetricsService(AbstractModel::IMetricsService *metricsService) override;
+    setConversionServices(
+      AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
+    );
 
     std::pair<float, AbstractModel::Defs::ELengthUnit>
     minLimit() const;
@@ -78,6 +87,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     void
     setReferenceResolutionUnit(AbstractModel::Defs::EResolutionUnit unit);
   private:
+    AbstractModel::Metrics::IConvertLengthService *m_convertLengthService;
+    AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
+
     std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>
       m_convertibleMinLimit;
     std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>

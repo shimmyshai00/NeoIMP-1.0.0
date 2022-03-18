@@ -26,29 +26,33 @@
 #include <cstdio>
 
 namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
-  OnHScroll::OnHScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService)
-    : m_setViewCoordinatesService(setViewCoordinatesService)
+  OnHScroll::OnHScroll(
+    AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService
+  )
+    : m_setViewXCoordinateService(setViewXCoordinateService)
   {
   }
 
   void
   OnHScroll::onTrigger(Common::Handle documentHandle, float scrollPos) {
-    if(m_setViewCoordinatesService != nullptr) {
-      m_setViewCoordinatesService->setViewingPointX(documentHandle, scrollPos);
+    if(m_setViewXCoordinateService != nullptr) {
+      m_setViewXCoordinateService->setViewingPointX(documentHandle, scrollPos);
     }
   }
 }
 
 namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
-  OnVScroll::OnVScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService)
-    : m_setViewCoordinatesService(setViewCoordinatesService)
+  OnVScroll::OnVScroll(
+    AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService
+  )
+    : m_setViewYCoordinateService(setViewYCoordinateService)
   {
   }
 
   void
   OnVScroll::onTrigger(Common::Handle documentHandle, float scrollPos) {
-    if(m_setViewCoordinatesService != nullptr) {
-      m_setViewCoordinatesService->setViewingPointY(documentHandle, scrollPos);
+    if(m_setViewYCoordinateService != nullptr) {
+      m_setViewYCoordinateService->setViewingPointY(documentHandle, scrollPos);
     }
   }
 }

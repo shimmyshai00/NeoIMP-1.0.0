@@ -26,10 +26,9 @@
 
 #include "../../../../../../../Common/Handle.hpp"
 #include "../../../../../../../Common/IConnection.hpp"
-#include "../../../../../AbstractModel/IRenderingService.hpp"
-#include "../../../../../AbstractModel/IRenderingService.hpp"
-#include "../../../../../AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../../../../AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../../../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../../../../AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../../IController.hpp"
 #include "../../QtEvent.hpp"
 #include "Impl/RulerWidget.hpp"
@@ -51,9 +50,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     Q_OBJECT
   public:
     Widget(
-      AbstractModel::IRenderingService *renderingService,
-      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::Viewing::IRenderingService *renderingService,
       QWidget *parent = nullptr
     );
 
@@ -91,8 +90,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     void
     resizeEvent(QResizeEvent *event) override;
   private:
-    AbstractModel::IGetDocumentMetricsService *m_getDocumentMetricsService;
-    AbstractModel::IGetViewCoordinatesService *m_getViewCoordinatesService;
+    AbstractModel::Metrics::IGetDocumentDimensionsService *m_getDocumentDimensionsService;
+    AbstractModel::Viewing::IGetViewCoordinatesService *m_getViewCoordinatesService;
+    AbstractModel::Viewing::IRenderingService *m_renderingService;
 
     QGridLayout *m_gridLayout;
 

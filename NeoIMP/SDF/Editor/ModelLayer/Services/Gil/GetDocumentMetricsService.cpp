@@ -40,7 +40,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentMetricsService::getDocumentWidth(
     Common::Handle documentHandle,
     UILayer::AbstractModel::Defs::ELengthUnit inUnit
-  ) {
+  ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
@@ -58,7 +58,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentMetricsService::getDocumentHeight(
     Common::Handle documentHandle,
     UILayer::AbstractModel::Defs::ELengthUnit inUnit
-  ) {
+  ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 

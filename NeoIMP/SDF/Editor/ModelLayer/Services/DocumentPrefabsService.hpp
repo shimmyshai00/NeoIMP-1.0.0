@@ -26,7 +26,7 @@
 
 #include "../../../Common/Handle.hpp"
 #include "../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
-#include "../../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
+#include "../../UILayer/AbstractModel/Create/IGetDocumentPrefabService.hpp"
 
 #include <fruit/fruit.h>
 
@@ -38,7 +38,7 @@ namespace SDF::Editor::ModelLayer::Services {
   // Class:      DocumentPrefabsService
   // Purpose:    Implements the IDocumentPrefabsService interface.
   // Parameters: None.
-  class DocumentPrefabsService : public UILayer::AbstractModel::IDocumentPrefabsService {
+  class DocumentPrefabsService : public UILayer::AbstractModel::Create::IGetDocumentPrefabService {
   public:
     INJECT(DocumentPrefabsService());
 
@@ -46,10 +46,10 @@ namespace SDF::Editor::ModelLayer::Services {
     getAvailablePrefabs() const;
 
     std::string
-    getPrefabName(Common::Handle prefab);
+    getPrefabName(Common::Handle handle) const;
 
     UILayer::AbstractModel::Defs::ImageSpec
-    getPrefabSpec(Common::Handle prefab);
+    getPrefabSpec(Common::Handle handle) const;
   private:
     std::map<Common::Handle, std::string> m_prefabNames;
     std::map<Common::Handle, UILayer::AbstractModel::Defs::ImageSpec> m_prefabSpecs;

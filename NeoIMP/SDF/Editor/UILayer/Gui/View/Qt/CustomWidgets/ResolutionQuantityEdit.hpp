@@ -26,7 +26,7 @@
 
 #include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
 #include "../../../../AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../../../AbstractModel/IMetricsService.hpp"
+#include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 
 #include "DimensionalQuantityEdit.hpp"
 
@@ -42,13 +42,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     Q_OBJECT
   public:
     ResolutionQuantityEdit(
-      AbstractModel::IMetricsService *metricsService = nullptr,
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService = nullptr,
       QWidget *parent = nullptr
     );
     ResolutionQuantityEdit(QWidget *parent = nullptr);
 
     void
-    setMetricsService(AbstractModel::IMetricsService *metricsService) override;
+    setConversionService(
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
+    );
 
     std::pair<float, AbstractModel::Defs::EResolutionUnit>
     minLimit() const;
@@ -74,6 +76,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     void
     setUnit(AbstractModel::Defs::EResolutionUnit unit);
   private:
+    AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
+
     std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
       m_convertibleMinLimit;
     std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>

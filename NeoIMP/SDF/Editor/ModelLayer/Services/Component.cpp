@@ -26,9 +26,9 @@
 #include "Messages/Object.hpp"
 
 #include "Gil/Component.hpp"
-#include "UiStateManagerService.hpp"
 #include "MetricsService.hpp"
 #include "DocumentPrefabsService.hpp"
+#include "EditorStateService.hpp"
 #include "ViewCoordinatesService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
@@ -39,11 +39,16 @@ namespace SDF::Editor::ModelLayer::Services {
         Common::MessageSystem::IChannel<Messages::Object>,
         Common::MessageSystem::AllToAll<Messages::Object>
        >()
-      .bind<UILayer::AbstractModel::IUiStateManagerService, Services::UiStateManagerService>()
-      .bind<UILayer::AbstractModel::IDocumentPrefabsService, Services::DocumentPrefabsService>()
-      .bind<UILayer::AbstractModel::IMetricsService, Services::MetricsService>()
-      .bind<UILayer::AbstractModel::IGetViewCoordinatesService, Services::ViewCoordinatesService>()
-      .bind<UILayer::AbstractModel::ISetViewCoordinatesService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Create::IGetDocumentPrefabService, Services::DocumentPrefabsService>()
+      .bind<UILayer::AbstractModel::Metrics::IConvertLengthService, Services::MetricsService>()
+      .bind<UILayer::AbstractModel::Metrics::IConvertResolutionService, Services::MetricsService>()
+      .bind<UILayer::AbstractModel::Editing::IGetActiveDocumentService, Services::EditorStateService>()
+      .bind<UILayer::AbstractModel::Editing::ISetActiveDocumentService, Services::EditorStateService>()
+      .bind<UILayer::AbstractModel::Viewing::IAddViewService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Viewing::IGetViewCoordinatesService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewXCoordinateService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewYCoordinateService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewCoordinatesService, Services::ViewCoordinatesService>()
       .install(Gil::getComponent);
   }
 }

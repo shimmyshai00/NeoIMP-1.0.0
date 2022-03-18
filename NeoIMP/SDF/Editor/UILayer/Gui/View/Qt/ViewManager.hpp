@@ -25,7 +25,7 @@
  */
 
 #include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/IGetDocumentNameService.hpp"
+#include "../../../AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../Support/Bundle.hpp"
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
@@ -45,7 +45,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class ViewManager : public IViewManager<EViewType> {
   public:
     INJECT(ViewManager(
-      AbstractModel::IGetDocumentNameService *documentNameService,
+      AbstractModel::Editing::IGetDocumentNameService *documentNameService,
       ViewFactory *viewFactory
     ));
     ~ViewManager();
@@ -62,7 +62,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     void
     destroyAll();
   private:
-    AbstractModel::IGetDocumentNameService *m_documentNameService;
+    AbstractModel::Editing::IGetDocumentNameService *m_documentNameService;
 
     std::map<Common::Handle, QWidget *> m_views;
     ViewFactory *m_viewFactory;

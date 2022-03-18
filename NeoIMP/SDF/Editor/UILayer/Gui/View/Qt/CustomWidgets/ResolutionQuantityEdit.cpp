@@ -27,14 +27,14 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   ResolutionQuantityEdit::ResolutionQuantityEdit(
-    AbstractModel::IMetricsService *metricsService,
+    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
     QWidget *parent
   )
     : DimensionalQuantityEdit(AbstractModel::Defs::g_resolutionUnitSymbols,
                               AbstractModel::Defs::RESOLUTION_UNIT_MAX,
-                              metricsService,
                               parent
                              ),
+      m_convertResolutionService(convertResolutionService),
       m_currentUnit(AbstractModel::Defs::RESOLUTION_UNIT_PPI)
   {
   }
@@ -42,25 +42,31 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   ResolutionQuantityEdit::ResolutionQuantityEdit(QWidget *parent)
     : DimensionalQuantityEdit(AbstractModel::Defs::g_resolutionUnitSymbols,
                               AbstractModel::Defs::RESOLUTION_UNIT_MAX,
-                              nullptr,
                               parent
                              ),
+      m_convertResolutionService(nullptr),
       m_currentUnit(AbstractModel::Defs::RESOLUTION_UNIT_PPI)
   {
   }
 
   void
-  ResolutionQuantityEdit::setMetricsService(AbstractModel::IMetricsService *metricsService) {
-    DimensionalQuantityEdit::setMetricsService(metricsService);
+  ResolutionQuantityEdit::setConversionService(
+    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
+  ) {
+    m_convertResolutionService = convertResolutionService;
 
-    if(metricsService != nullptr) {
+    if(m_convertResolutionService != nullptr) {
       // defaults we could not specify elsewhere
-      m_convertibleMinLimit = m_metricsService->createConvertibleResolution(1.0f,
+      m_convertibleMinLimit = m_convertResolutionService->createConvertibleResolution(1.0f,
         AbstractModel::Defs::RESOLUTION_UNIT_PPI);
-      m_convertibleMaxLimit = m_metricsService->createConvertibleResolution(1000.0f,
+      m_convertibleMaxLimit = m_convertResolutionService->createConvertibleResolution(1000.0f,
         AbstractModel::Defs::RESOLUTION_UNIT_PPI);
-      m_convertibleQuantity = m_metricsService->createConvertibleResolution(300.0f,
+      m_convertibleQuantity = m_convertResolutionService->createConvertibleResolution(300.0f,
         AbstractModel::Defs::RESOLUTION_UNIT_PPI);
+
+      notifyModelConnected();
+    } else {
+      notifyModelDisconnected();
     }
   }
 
@@ -98,25 +104,27 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   void
   ResolutionQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::EResolutionUnit unit) {
-    if(m_metricsService != nullptr) {
-      m_convertibleMinLimit = m_metricsService->createConvertibleResolution(minLimit, unit);
+    if(m_convertResolutionService != nullptr) {
+      m_convertibleMinLimit = m_convertResolutionService->createConvertibleResolution(minLimit,
+        unit);
       setDisplayValidatorMinLimit(m_convertibleMinLimit->in(m_currentUnit));
     }
   }
 
   void
   ResolutionQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::EResolutionUnit unit) {
-    if(m_metricsService != nullptr) {
-      m_convertibleMaxLimit = m_metricsService->createConvertibleResolution(maxLimit, unit);
+    if(m_convertResolutionService != nullptr) {
+      m_convertibleMaxLimit = m_convertResolutionService->createConvertibleResolution(maxLimit,
+        unit);
       setDisplayValidatorMaxLimit(m_convertibleMaxLimit->in(m_currentUnit));
     }
   }
 
   void
   ResolutionQuantityEdit::setQuantity(float quantity) {
-    if(m_metricsService != nullptr) {
+    if(m_convertResolutionService != nullptr) {
       m_convertibleQuantity =
-        m_metricsService->createConvertibleResolution(quantity, m_currentUnit);
+        m_convertResolutionService->createConvertibleResolution(quantity, m_currentUnit);
       setDisplayQuantity(m_convertibleQuantity->in(m_currentUnit));
       quantityChanged(quantity);
     }
@@ -137,9 +145,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   // Protected members.
   void
   ResolutionQuantityEdit::handleQuantityChangedByUser(float quantity) {
-    if(m_metricsService != nullptr) {
+    if(m_convertResolutionService != nullptr) {
       m_convertibleQuantity =
-        m_metricsService->createConvertibleResolution(quantity, m_currentUnit);
+        m_convertResolutionService->createConvertibleResolution(quantity, m_currentUnit);
 
       quantityChanged(quantity);
       quantityChangedByUser(quantity);

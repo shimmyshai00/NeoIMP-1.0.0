@@ -26,17 +26,22 @@
 
 #include "../../../Common/Model/ICrudRepository.hpp"
 #include "../../../Common/MessageSystem/IChannel.hpp"
-#include "../../UILayer/AbstractModel/IUiStateManagerService.hpp"
-#include "../../UILayer/AbstractModel/IDocumentPrefabsService.hpp"
-#include "../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
-#include "../../UILayer/AbstractModel/ICreateImageService.hpp"
-#include "../../UILayer/AbstractModel/IMetricsService.hpp"
-#include "../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
-#include "../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../UILayer/AbstractModel/IGetViewCoordinatesService.hpp"
-#include "../../UILayer/AbstractModel/ISetViewCoordinatesService.hpp"
-#include "../../UILayer/AbstractModel/IRenderingService.hpp"
-#include "../../UILayer/AbstractModel/ISaveDocumentService.hpp"
+#include "../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
+#include "../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
+#include "../../UILayer/AbstractModel/Create/IGetDocumentPrefabService.hpp"
+#include "../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
+#include "../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/IAddViewService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
+#include "../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
+#include "../../UILayer/AbstractModel/Editing/IGetActiveDocumentService.hpp"
+#include "../../UILayer/AbstractModel/Editing/ISetActiveDocumentService.hpp"
+#include "../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../DomainObjects/Engine/Viewpoint.hpp"
@@ -52,17 +57,22 @@ namespace SDF::Editor::ModelLayer::Services {
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint>
     >,
-    UILayer::AbstractModel::IUiStateManagerService,
-    UILayer::AbstractModel::IDocumentPrefabsService,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IMetricsService,
-    UILayer::AbstractModel::IGetViewCoordinatesService,
-    UILayer::AbstractModel::ISetViewCoordinatesService,
-    UILayer::AbstractModel::IRenderingService,
-    UILayer::AbstractModel::ISaveDocumentService
+    UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
+    UILayer::AbstractModel::Create::ICreateDocumentService,
+    UILayer::AbstractModel::Create::IGetDocumentPrefabService,
+    UILayer::AbstractModel::Storage::ISaveDocumentService,
+    UILayer::AbstractModel::Metrics::IConvertLengthService,
+    UILayer::AbstractModel::Metrics::IConvertResolutionService,
+    UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
+    UILayer::AbstractModel::Viewing::IAddViewService,
+    UILayer::AbstractModel::Viewing::IGetViewCoordinatesService,
+    UILayer::AbstractModel::Viewing::ISetViewXCoordinateService,
+    UILayer::AbstractModel::Viewing::ISetViewYCoordinateService,
+    UILayer::AbstractModel::Viewing::ISetViewCoordinatesService,
+    UILayer::AbstractModel::Viewing::IRenderingService,
+    UILayer::AbstractModel::Editing::IGetActiveDocumentService,
+    UILayer::AbstractModel::Editing::ISetActiveDocumentService,
+    UILayer::AbstractModel::Editing::IGetDocumentNameService
   > Component;
 
   Component

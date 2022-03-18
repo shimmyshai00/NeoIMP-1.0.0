@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETACTIVEDOCUMENTSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETACTIVEDOCUMENTSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_IGETACTIVEDOCUMENTSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_IGETACTIVEDOCUMENTSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,23 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
+#include "../../../../Common/Handle.hpp"
 
-namespace SDF::Editor::UILayer::AbstractModel {
+namespace SDF::Editor::UILayer::AbstractModel::Editing {
   // Class:      IGetActiveDocumentService
-  // Purpose:    Defines the interface for an MVC service to get which document is flagged as the
-  //             active context for editing operations.
+  // Purpose:    Defines a service interface to obtain which document is set as active for editing.
   // Parameters: None.
   class IGetActiveDocumentService {
   public:
-    virtual ~IGetActiveDocumentService();
+    virtual ~IGetActiveDocumentService() = default;
 
     // Function:   getActiveDocument
-    // Purpose:    Gets the handle of the active document.
+    // Purpose:    Gets the handle of the document flagged as active for editing.
     // Parameters: None.
-    // Returns:    The requested handle, or Common::HANDLE_INVALID if no active document.
+    // Returns:    The handle requested, or Common::HANDLE_INVALID if no document is flagged active.
     virtual Common::Handle
-    getActiveDocument() const = 0;
+    getActiveDocument() = 0;
   };
 }
 

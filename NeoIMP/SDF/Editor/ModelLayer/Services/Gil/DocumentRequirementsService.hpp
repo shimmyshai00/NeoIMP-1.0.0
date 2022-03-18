@@ -25,7 +25,7 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
+#include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 
 #include <fruit/fruit.h>
 #include <cstddef>
@@ -34,12 +34,14 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      DocumentRequirementsService
   // Purpose:    Implements the IDocumentRequirementsService interface for the Boost.GIL framework.
   // Parameters: None.
-  class DocumentRequirementsService : public UILayer::AbstractModel::IDocumentRequirementsService {
+  class DocumentRequirementsService :
+    public UILayer::AbstractModel::Create::IGetMemoryRequirementsService
+  {
   public:
     INJECT(DocumentRequirementsService());
 
     std::size_t
-    getMemoryRequiredForOneLayer(UILayer::AbstractModel::Defs::ImageSpec spec);
+    getMemoryRequiredForOneLayer(const UILayer::AbstractModel::Defs::ImageSpec &spec) const;
   };
 }
 

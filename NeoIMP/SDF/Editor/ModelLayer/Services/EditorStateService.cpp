@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_QTCOMPONENT_HPP
-#define SDF_EDITOR_UILAYER_GUI_QTCOMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.hpp
- * PURPOSE: Defines the DI component for the Qt-based GUI subsystem.
+ * FILE:    EditorStateService.cpp
+ * PURPOSE: Implements the EditorStateService class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "View/Qt/ServiceDeps.hpp"
+#include "EditorStateService.hpp"
 
-#include "../IApplication.hpp"
+namespace SDF::Editor::ModelLayer::Services {
+  EditorStateService::EditorStateService()
+    : m_activeDocumentHandle(Common::HANDLE_INVALID)
+  {
+  }
 
-#include <fruit/fruit.h>
+  Common::Handle
+  EditorStateService::getActiveDocument() {
+    return m_activeDocumentHandle;
+  }
 
-namespace SDF::Editor::UILayer::Gui {
-  typedef fruit::Component<View::Qt::ServiceDeps, IApplication> Component;
-
-  Component
-  getQtComponent();
+  void
+  EditorStateService::setActiveDocument(Common::Handle documentHandle) {
+    m_activeDocumentHandle = documentHandle;
+  }
 }
-
-#endif

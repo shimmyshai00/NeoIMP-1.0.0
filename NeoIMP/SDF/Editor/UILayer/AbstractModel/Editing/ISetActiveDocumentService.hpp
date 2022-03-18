@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONDOCUMENTSELECTED_HPP
-#define SDF_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONDOCUMENTSELECTED_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_ISETACTIVEDOCUMENTSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_ISETACTIVEDOCUMENTSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnDocumentSelected.hpp
- * PURPOSE: Defines the OnDocumentSelected class.
+ * FILE:    ISetActiveDocumentService.hpp
+ * PURPOSE: Defines the ISetActiveDocumentService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/Editing/ISetActiveDocumentService.hpp"
-#include "../../View/IController.hpp"
+#include "../../../../Common/Handle.hpp"
 
-namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  // Class:      OnDocumentSelected
-  // Purpose:    Handles the selection of a document in the main window.
+namespace SDF::Editor::UILayer::AbstractModel::Editing {
+  // Class:      ISetActiveDocumentService
+  // Purpose:    Defines a service interface to set which document is active for editing.
   // Parameters: None.
-  class OnDocumentSelected : public View::IController<Common::Handle> {
+  class ISetActiveDocumentService {
   public:
-    OnDocumentSelected(AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService);
+    virtual ~ISetActiveDocumentService() = default;
 
-    void
-    onTrigger(Common::Handle documentHandle);
-  private:
-    AbstractModel::Editing::ISetActiveDocumentService *m_setActiveDocumentService;
+    // Function:   setActiveDocument
+    // Purpose:    Flags a document as the active document for editing purposes.
+    // Parameters: documentHandle - The handle of the document to set as active.
+    // Returns:    None.
+    virtual void
+    setActiveDocument(Common::Handle documentHandle) = 0;
   };
 }
 

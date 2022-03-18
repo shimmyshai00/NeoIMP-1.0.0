@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../AbstractModel/IMetricsService.hpp"
+#include "../../../../AbstractModel/Defs/ELengthUnit.hpp"
+#include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
 
 #include <QWidget>
 #include <QBoxLayout>
@@ -91,14 +92,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     DimensionalQuantityEdit(
       const char *unitNameStrings[],
       std::size_t numUnitsToAdd,
-      AbstractModel::IMetricsService *metricsService = nullptr,
       QWidget *parent = nullptr
     );
 
     ~DimensionalQuantityEdit();
-
-    virtual void
-    setMetricsService(AbstractModel::IMetricsService *metricsService);
 
     virtual std::pair<float, UnitEnumT>
     minLimit() const = 0;
@@ -134,7 +131,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     bool
     setDisplayText(QString text);
   protected:
-    AbstractModel::IMetricsService *m_metricsService;
+    void
+    notifyModelConnected();
+
+    void
+    notifyModelDisconnected();
 
     void
     setDisplayValidatorMinLimit(float minLimit);

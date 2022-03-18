@@ -28,18 +28,18 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   OnAccept::OnAccept(
-    AbstractModel::ICreateImageService *createImageService,
+    AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
     IViewManager<View::EViewType> *viewManager
   )
-    : m_createImageService(createImageService),
+    : m_createDocumentSerivce(createDocumentSerivce),
       m_viewManager(viewManager)
   {
   }
 
   void
   OnAccept::onTrigger(AbstractModel::Defs::ImageSpec imageSpec) {
-    if(m_createImageService != nullptr) {
-      Common::Handle documentHandle = m_createImageService->createImage(imageSpec);
+    if(m_createDocumentSerivce != nullptr) {
+      Common::Handle documentHandle = m_createDocumentSerivce->createFromSpec(imageSpec);
 
       std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
       bundle->addHandle("document_handle", documentHandle);

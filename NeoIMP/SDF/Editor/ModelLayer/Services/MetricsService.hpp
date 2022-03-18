@@ -27,7 +27,8 @@
 #include "../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
 #include "../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
 #include "../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../UILayer/AbstractModel/IMetricsService.hpp"
+#include "../../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -36,7 +37,9 @@ namespace SDF::Editor::ModelLayer::Services {
   // Class:      MetricsService
   // Purpose:    Implements the IMetricsService interface.
   // Parameters: None.
-  class MetricsService : public UILayer::AbstractModel::IMetricsService {
+  class MetricsService : public UILayer::AbstractModel::Metrics::IConvertLengthService,
+                         public UILayer::AbstractModel::Metrics::IConvertResolutionService
+  {
   public:
     INJECT(MetricsService());
 

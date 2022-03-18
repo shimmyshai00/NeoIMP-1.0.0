@@ -64,7 +64,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   Common::Handle
-  CreateImageService::createImage(UILayer::AbstractModel::Defs::ImageSpec spec) {
+  CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace Metrics;
     using namespace DomainObjects;

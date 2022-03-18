@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_IDOCUMENTREQUIREMENTSSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_IDOCUMENTREQUIREMENTSSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_CREATE_IGETMEMORYREQUIREMENTSSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_CREATE_IGETMEMORYREQUIREMENTSSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDocumentRequirementsService.hpp
- * PURPOSE: Defines the IDocumentRequirementsService interface.
+ * FILE:    IGetMemoryRequirementsService.hpp
+ * PURPOSE: Defines the IGetMemoryRequirementsService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Defs/ImageSpec.hpp"
+#include "../Defs/ImageSpec.hpp"
 
 #include <cstddef>
 
-namespace SDF::Editor::UILayer::AbstractModel {
-  // Class:      IDocumentRequirementsService
-  // Purpose:    Defines the interface for an MVC service to obtain things like memory and disk
-  //             storage or other requirements for a document before creating it.
+namespace SDF::Editor::UILayer::AbstractModel::Create {
+  // Class:      IGetMemoryRequirementsService
+  // Purpose:    Defines a service interface to get memory requirements for a proposed document.
   // Parameters: None.
-  class IDocumentRequirementsService {
+  class IGetMemoryRequirementsService {
   public:
-    virtual ~IDocumentRequirementsService() = default;
+    virtual ~IGetMemoryRequirementsService() = default;
 
     // Function:   getMemoryRequiredForOneLayer
-    // Purpose:    Get the memory required (in bytes) for a single layer of a document.
+    // Purpose:    Calculates the memory required for a single-layer document of a given spec.
     // Parameters: spec - The document spec to use.
-    // Returns:    The memory required for this spec, in bytes.
+    // Returns:    The memory requirement in bytes.
     virtual std::size_t
-    getMemoryRequiredForOneLayer(Defs::ImageSpec spec) = 0;
+    getMemoryRequiredForOneLayer(const Defs::ImageSpec &spec) const = 0;
   };
 }
 

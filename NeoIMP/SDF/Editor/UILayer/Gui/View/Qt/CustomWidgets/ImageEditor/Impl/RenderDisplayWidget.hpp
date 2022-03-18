@@ -25,7 +25,7 @@
  */
 
 #include "../../../../../../../../Common/Handle.hpp"
-#include "../../../../../../AbstractModel/IRenderingService.hpp"
+#include "../../../../../../AbstractModel/Viewing/IRenderingService.hpp"
 
 #include <QWidget>
 #include <QPointer>
@@ -44,7 +44,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     Q_OBJECT
   public:
     RenderDisplayWidget(
-      AbstractModel::IRenderingService *renderingService,
+      AbstractModel::Viewing::IRenderingService *renderingService,
       QWidget *parent = nullptr
     );
 
@@ -124,7 +124,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     void
     paintEvent(QPaintEvent *event) override;
   private:
-    AbstractModel::IRenderingService *m_renderingService;
+    AbstractModel::Viewing::IRenderingService *m_renderingService;
 
     Common::Handle m_imageHandle;
     Common::Handle m_renderHandle;

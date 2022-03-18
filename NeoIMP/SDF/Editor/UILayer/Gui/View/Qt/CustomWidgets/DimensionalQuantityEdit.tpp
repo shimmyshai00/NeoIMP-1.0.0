@@ -60,15 +60,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   DimensionalQuantityEdit<UnitEnumT>::DimensionalQuantityEdit(
     const char *unitNameStrings[],
     std::size_t numUnitsToAdd,
-    AbstractModel::IMetricsService *metricsService,
     QWidget *parent
   )
     : DQESignalsSlots(parent),
       m_layout(new QBoxLayout(QBoxLayout::LeftToRight, this)),
       m_quantityEdit(new QLineEdit("0.0")),
       m_unitSelect(new QComboBox),
-      m_rangeValidator(new View::Qt::Impl::DQEValidator(0.0, 1.0, 2)),
-      m_metricsService(metricsService)
+      m_rangeValidator(new View::Qt::Impl::DQEValidator(0.0, 1.0, 2))
   {
     using namespace AbstractModel;
 
@@ -81,11 +79,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     m_rangeValidator->setNotation(QDoubleValidator::StandardNotation);
     m_quantityEdit->setValidator(m_rangeValidator);
 
-    if(m_metricsService == nullptr) {
-      // Disable the widget if not primed with a metrics service yet.
-      m_quantityEdit->setEnabled(false);
-      m_unitSelect->setEnabled(false);
-    }
+    // Disable the widget until primed with model services.
+    m_quantityEdit->setEnabled(false);
+    m_unitSelect->setEnabled(false);
 
     // Populate the list box with the unit names given.
     for(std::size_t i(0); i < numUnitsToAdd; ++i) {
@@ -117,17 +113,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     m_quantityEdit->setValidator(nullptr);
     delete m_rangeValidator;
   }
-
-  template<class UnitEnumT>
-  void
-  DimensionalQuantityEdit<UnitEnumT>::setMetricsService(
-    AbstractModel::IMetricsService *metricsService
-  ) {
-    m_metricsService = metricsService;
-
-    m_quantityEdit->setEnabled(m_metricsService != nullptr);
-    m_unitSelect->setEnabled(m_metricsService != nullptr);
-  }
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
@@ -145,6 +130,20 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
+  template<class UnitEnumT>
+  void
+  DimensionalQuantityEdit<UnitEnumT>::notifyModelConnected() {
+    m_quantityEdit->setEnabled(true);
+    m_unitSelect->setEnabled(true);
+  }
+
+  template<class UnitEnumT>
+  void
+  DimensionalQuantityEdit<UnitEnumT>::notifyModelDisconnected() {
+    m_quantityEdit->setEnabled(false);
+    m_unitSelect->setEnabled(false);
+  }
+
   template<class UnitEnumT>
   void
   DimensionalQuantityEdit<UnitEnumT>::setDisplayValidatorMinLimit(float minLimit) {

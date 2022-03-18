@@ -32,8 +32,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   std::size_t
   DocumentRequirementsService::getMemoryRequiredForOneLayer(
-    UILayer::AbstractModel::Defs::ImageSpec spec
-  ) {
+    const UILayer::AbstractModel::Defs::ImageSpec &spec
+  ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace Metrics;
     using namespace DomainObjects;

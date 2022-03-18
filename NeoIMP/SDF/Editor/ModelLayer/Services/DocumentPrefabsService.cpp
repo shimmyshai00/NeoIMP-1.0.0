@@ -69,20 +69,20 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   std::string
-  DocumentPrefabsService::getPrefabName(Common::Handle prefab) {
+  DocumentPrefabsService::getPrefabName(Common::Handle handle) const {
     try {
-      return m_prefabNames.at(prefab);
+      return m_prefabNames.at(handle);
     } catch(std::out_of_range) {
-      throw PrefabNotFoundException(prefab);
+      throw PrefabNotFoundException(handle);
     }
   }
 
   UILayer::AbstractModel::Defs::ImageSpec
-  DocumentPrefabsService::getPrefabSpec(Common::Handle prefab) {
+  DocumentPrefabsService::getPrefabSpec(Common::Handle handle) const {
     try {
-      return m_prefabSpecs.at(prefab);
+      return m_prefabSpecs.at(handle);
     } catch(std::out_of_range) {
-      throw PrefabNotFoundException(prefab);
+      throw PrefabNotFoundException(handle);
     }
   }
 }

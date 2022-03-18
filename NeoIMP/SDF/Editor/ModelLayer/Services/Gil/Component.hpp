@@ -26,12 +26,12 @@
 
 #include "../../../../Common/Model/ICrudRepository.hpp"
 #include "../../../../Common/MessageSystem/IChannel.hpp"
-#include "../../../UILayer/AbstractModel/IDocumentRequirementsService.hpp"
-#include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
-#include "../../../UILayer/AbstractModel/IGetDocumentNameService.hpp"
-#include "../../../UILayer/AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../../UILayer/AbstractModel/IRenderingService.hpp"
-#include "../../../UILayer/AbstractModel/ISaveDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
+#include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
+#include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../AbstractData/IImageRepository.hpp"
@@ -46,12 +46,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
       Common::MessageSystem::IChannel<Messages::Object>
     >,
-    UILayer::AbstractModel::IDocumentRequirementsService,
-    UILayer::AbstractModel::ICreateImageService,
-    UILayer::AbstractModel::IGetDocumentNameService,
-    UILayer::AbstractModel::IGetDocumentMetricsService,
-    UILayer::AbstractModel::IRenderingService,
-    UILayer::AbstractModel::ISaveDocumentService
+    UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
+    UILayer::AbstractModel::Create::ICreateDocumentService,
+    UILayer::AbstractModel::Storage::ISaveDocumentService,
+    UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
+    UILayer::AbstractModel::Editing::IGetDocumentNameService,
+    UILayer::AbstractModel::Viewing::IRenderingService
   > Component;
 
   Component

@@ -29,14 +29,16 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   LengthQuantityEdit::LengthQuantityEdit(
-    AbstractModel::IMetricsService *metricsService,
+    AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
     QWidget *parent
   )
     : DimensionalQuantityEdit(AbstractModel::Defs::g_lengthUnitSymbols,
                               AbstractModel::Defs::LENGTH_UNIT_MAX,
-                              metricsService,
                               parent
                              ),
+      m_convertLengthService(convertLengthService),
+      m_convertResolutionService(convertResolutionService),
       m_currentUnit(AbstractModel::Defs::LENGTH_UNIT_PIXEL),
       m_currentResolutionUnit(AbstractModel::Defs::RESOLUTION_UNIT_PPI)
   {
@@ -45,28 +47,35 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   LengthQuantityEdit::LengthQuantityEdit(QWidget *parent)
     : DimensionalQuantityEdit(AbstractModel::Defs::g_lengthUnitSymbols,
                               AbstractModel::Defs::LENGTH_UNIT_MAX,
-                              nullptr,
                               parent
                              ),
+      m_convertLengthService(nullptr),
+      m_convertResolutionService(nullptr),
       m_currentUnit(AbstractModel::Defs::LENGTH_UNIT_PIXEL),
       m_currentResolutionUnit(AbstractModel::Defs::RESOLUTION_UNIT_PPI)
   {
   }
 
   void
-  LengthQuantityEdit::setMetricsService(AbstractModel::IMetricsService *metricsService) {
-    DimensionalQuantityEdit::setMetricsService(metricsService);
+  LengthQuantityEdit::setConversionServices(
+    AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
+  ) {
+    m_convertLengthService = convertLengthService;
+    m_convertResolutionService = convertResolutionService;
 
-    if(metricsService != nullptr) {
+    if((m_convertLengthService != nullptr) && (m_convertResolutionService != nullptr)) {
       // defaults we could not specify elsewhere
-      m_convertibleResolution = m_metricsService->createConvertibleResolution(300.0f,
+      m_convertibleResolution = m_convertResolutionService->createConvertibleResolution(300.0f,
         AbstractModel::Defs::RESOLUTION_UNIT_PPI);
-      m_convertibleMinLimit = m_metricsService->createConvertibleLength(1.0f,
+      m_convertibleMinLimit = m_convertLengthService->createConvertibleLength(1.0f,
         AbstractModel::Defs::LENGTH_UNIT_PIXEL, m_convertibleResolution.get());
-      m_convertibleMaxLimit = m_metricsService->createConvertibleLength(1000.0f,
+      m_convertibleMaxLimit = m_convertLengthService->createConvertibleLength(1000.0f,
         AbstractModel::Defs::LENGTH_UNIT_PIXEL, m_convertibleResolution.get());
-      m_convertibleQuantity = m_metricsService->createConvertibleLength(120.0f,
+      m_convertibleQuantity = m_convertLengthService->createConvertibleLength(120.0f,
         AbstractModel::Defs::LENGTH_UNIT_PIXEL, m_convertibleResolution.get());
+
+      notifyModelConnected();
     }
   }
 
@@ -104,8 +113,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   void
   LengthQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::ELengthUnit unit) {
-    if(m_metricsService != nullptr) {
-      m_convertibleMinLimit = m_metricsService->createConvertibleLength(minLimit, unit,
+    if(m_convertLengthService != nullptr) {
+      m_convertibleMinLimit = m_convertLengthService->createConvertibleLength(minLimit, unit,
         m_convertibleResolution.get());
       setDisplayValidatorMinLimit(m_convertibleMinLimit->in(m_currentUnit));
     }
@@ -113,8 +122,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   void
   LengthQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::ELengthUnit unit) {
-    if(m_metricsService != nullptr) {
-      m_convertibleMaxLimit = m_metricsService->createConvertibleLength(maxLimit, unit,
+    if(m_convertLengthService != nullptr) {
+      m_convertibleMaxLimit = m_convertLengthService->createConvertibleLength(maxLimit, unit,
         m_convertibleResolution.get());
       setDisplayValidatorMaxLimit(m_convertibleMaxLimit->in(m_currentUnit));
     }
@@ -122,9 +131,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   void
   LengthQuantityEdit::setQuantity(float quantity) {
-    if(m_metricsService != nullptr) {
-      m_convertibleQuantity = m_metricsService->createConvertibleLength(quantity, m_currentUnit,
-        m_convertibleResolution.get());
+    if(m_convertLengthService != nullptr) {
+      m_convertibleQuantity = m_convertLengthService->createConvertibleLength(quantity,
+        m_currentUnit, m_convertibleResolution.get());
       setDisplayQuantity(m_convertibleQuantity->in(m_currentUnit));
       quantityChanged(quantity);
     }
@@ -142,20 +151,20 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
 
   void
   LengthQuantityEdit::setReferenceResolution(float resolution) {
-    if(m_metricsService != nullptr) {
-      m_convertibleResolution = m_metricsService->createConvertibleResolution(resolution,
+    if(m_convertResolutionService != nullptr) {
+      m_convertibleResolution = m_convertResolutionService->createConvertibleResolution(resolution,
         m_currentResolutionUnit);
 
       float minLimit = m_convertibleMinLimit->in(m_currentUnit);
       float maxLimit = m_convertibleMaxLimit->in(m_currentUnit);
       float quantity = m_convertibleQuantity->in(m_currentUnit);
 
-      m_convertibleMinLimit = m_metricsService->createConvertibleLength(minLimit, m_currentUnit,
-        m_convertibleResolution.get());
-      m_convertibleMaxLimit = m_metricsService->createConvertibleLength(maxLimit, m_currentUnit,
-        m_convertibleResolution.get());
-      m_convertibleQuantity = m_metricsService->createConvertibleLength(quantity, m_currentUnit,
-        m_convertibleResolution.get());
+      m_convertibleMinLimit = m_convertLengthService->createConvertibleLength(minLimit,
+        m_currentUnit, m_convertibleResolution.get());
+      m_convertibleMaxLimit = m_convertLengthService->createConvertibleLength(maxLimit,
+        m_currentUnit, m_convertibleResolution.get());
+      m_convertibleQuantity = m_convertLengthService->createConvertibleLength(quantity,
+        m_currentUnit, m_convertibleResolution.get());
 
       setDisplayValidatorMinLimit(m_convertibleMinLimit->in(m_currentUnit));
       setDisplayValidatorMaxLimit(m_convertibleMaxLimit->in(m_currentUnit));
@@ -173,9 +182,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   // Protected members.
   void
   LengthQuantityEdit::handleQuantityChangedByUser(float quantity) {
-    if(m_metricsService != nullptr) {
+    if(m_convertLengthService != nullptr) {
       m_convertibleQuantity =
-        m_metricsService->createConvertibleLength(quantity, m_currentUnit,
+        m_convertLengthService->createConvertibleLength(quantity, m_currentUnit,
           m_convertibleResolution.get());
 
       quantityChanged(quantity);

@@ -26,7 +26,7 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
-#include "../../../UILayer/AbstractModel/ISaveDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImageRepository.hpp"
 
@@ -38,7 +38,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      SaveDocumentService
   // Purpose:    Implements the ISaveDocumentService interface for the Boost.GIL framework.
   // Parameters: None.
-  class SaveDocumentService : public UILayer::AbstractModel::ISaveDocumentService {
+  class SaveDocumentService : public UILayer::AbstractModel::Storage::ISaveDocumentService {
   public:
     INJECT(SaveDocumentService(
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
@@ -47,7 +47,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     saveDocument(
       Common::Handle imageHandle,
-      std::string fileSpec,
+      std::wstring fileSpec,
       UILayer::AbstractModel::Defs::EFileFormat fileFormat
     );
   private:

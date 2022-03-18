@@ -26,7 +26,7 @@
 
 #include "../../../../Common/Model/ICrudRepository.hpp"
 #include "../../../../Common/Handle.hpp"
-#include "../../../UILayer/AbstractModel/IRenderingService.hpp"
+#include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../AbstractData/IImageRepository.hpp"
@@ -38,7 +38,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      RenderingService
   // Purpose:    Implements the IRenderingService interface for the Boost.GIL framework.
   // Parameters: None.
-  class RenderingService : public UILayer::AbstractModel::IRenderingService {
+  class RenderingService : public UILayer::AbstractModel::Viewing::IRenderingService {
   public:
     INJECT(RenderingService(
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,

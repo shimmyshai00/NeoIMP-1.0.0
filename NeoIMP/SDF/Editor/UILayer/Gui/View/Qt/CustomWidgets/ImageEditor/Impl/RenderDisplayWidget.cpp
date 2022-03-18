@@ -32,7 +32,7 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
   RenderDisplayWidget::RenderDisplayWidget(
-    AbstractModel::IRenderingService *renderingService,
+    AbstractModel::Viewing::IRenderingService *renderingService,
     QWidget *parent
   )
     : QWidget(parent),

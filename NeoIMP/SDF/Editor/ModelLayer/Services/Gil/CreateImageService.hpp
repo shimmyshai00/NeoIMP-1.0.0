@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../../Common/IUUIDable.hpp"
-#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../UILayer/AbstractModel/ICreateImageService.hpp"
 
 #include "../../AbstractData/IImageRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      CreateImageService
   // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
   // Parameters: None.
-  class CreateImageService : public UILayer::AbstractModel::ICreateImageService,
+  class CreateImageService : public UILayer::AbstractModel::Create::ICreateDocumentService,
                              public Common::IUUIDable
   {
   public:
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     getUuid() const;
 
     Common::Handle
-    createImage(UILayer::AbstractModel::Defs::ImageSpec spec);
+    createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec);
   private:
     boost::uuids::uuid m_uuid;
 

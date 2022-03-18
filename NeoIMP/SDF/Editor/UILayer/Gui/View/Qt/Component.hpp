@@ -24,17 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractModel/IUiStateManagerService.hpp"
-#include "../../../AbstractModel/IMetricsService.hpp"
-#include "../../../AbstractModel/IDocumentPrefabsService.hpp"
-#include "../../../AbstractModel/IDocumentRequirementsService.hpp"
-#include "../../../AbstractModel/ICreateImageService.hpp"
-#include "../../../AbstractModel/IGetDocumentNameService.hpp"
-#include "../../../AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
-#include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
-#include "../../../AbstractModel/IRenderingService.hpp"
-#include "../../../AbstractModel/ISaveDocumentService.hpp"
+#include "ServiceDeps.hpp"
 
 #include "../../IViewManager.hpp"
 #include "../EViewType.hpp"
@@ -42,22 +32,7 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  typedef fruit::Component<
-    fruit::Required<
-      AbstractModel::IUiStateManagerService,
-      AbstractModel::IMetricsService,
-      AbstractModel::IDocumentPrefabsService,
-      AbstractModel::IDocumentRequirementsService,
-      AbstractModel::ICreateImageService,
-      AbstractModel::IGetDocumentNameService,
-      AbstractModel::IGetDocumentMetricsService,
-      AbstractModel::IGetViewCoordinatesService,
-      AbstractModel::ISetViewCoordinatesService,
-      AbstractModel::IRenderingService,
-      AbstractModel::ISaveDocumentService
-    >,
-    IViewManager<EViewType>
-  > Component;
+  typedef fruit::Component<ServiceDeps, IViewManager<EViewType>> Component;
 
   Component
   getComponent();

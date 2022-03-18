@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_ICREATEIMAGESERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWCOORDINATESSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWCOORDINATESSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreateImageService.hpp
- * PURPOSE: Defines the ICreateImageService interface.
+ * FILE:    ISetViewCoordinatesService.hpp
+ * PURPOSE: Defines the ISetViewCoordinatesService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
-#include "Defs/ImageSpec.hpp"
+#include "../../../../Common/Handle.hpp"
 
-#include <memory>
-
-namespace SDF::Editor::UILayer::AbstractModel {
-  // Class:      ICreateImageService
-  // Purpose:    Defines the interface for an MVC service that creates image documents.
+namespace SDF::Editor::UILayer::AbstractModel::Viewing {
+  // Class:      ISetViewCoordinatesService
+  // Purpose:    Defines a service interface to set the viewing coordinates on image documents.
   // Parameters: None.
-  class ICreateImageService {
+  class ISetViewCoordinatesService {
   public:
-    virtual ~ICreateImageService() = default;
+    virtual ~ISetViewCoordinatesService() = default;
+    
+    virtual void
+    setViewingPointMagnification(Common::Handle imageHandle, float mag) = 0;
 
-    // Function:   createImage
-    // Purpose:    Create a new image document.
-    // Parameters: spec - The spec to use to create the document.
-    // Returns:    A handle to the new image document.
-    virtual Common::Handle
-    createImage(Defs::ImageSpec spec) = 0;
+    virtual void
+    setViewingPointPos(Common::Handle imageHandle, float x, float y) = 0;
+
+    virtual void
+    setViewingPoint(Common::Handle imageHandle, float x, float y, float mag) = 0;
   };
 }
 

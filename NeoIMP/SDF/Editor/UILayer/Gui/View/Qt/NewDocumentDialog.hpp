@@ -28,9 +28,10 @@
 #include "../IController.hpp"
 
 #include "../../../AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../AbstractModel/IMetricsService.hpp"
-#include "../../../AbstractModel/IDocumentPrefabsService.hpp"
-#include "../../../AbstractModel/IDocumentRequirementsService.hpp"
+#include "../../../AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
+#include "../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
+#include "../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 //#include "../../Controller/NewDocumentDialog/Accept.hpp"
 #include "QtEvent.hpp"
 
@@ -48,9 +49,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     Q_OBJECT
   public:
     NewDocumentDialog(
-      AbstractModel::IMetricsService *metricsService,
-      AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-      AbstractModel::IDocumentRequirementsService *documentRequirementsService,
+      AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
+      AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
+      AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
       QWidget *parent = nullptr
     );
     ~NewDocumentDialog();
@@ -66,8 +68,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
     QtEvent<> m_onRejectEvent;
 
-    AbstractModel::IDocumentPrefabsService *m_documentPrefabsService;
-    AbstractModel::IDocumentRequirementsService *m_documentRequirementsService;
+    AbstractModel::Metrics::IConvertLengthService *m_convertLengthService;
+    AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
+    AbstractModel::Create::IGetDocumentPrefabService *m_getDocumentPrefabService;
+    AbstractModel::Create::IGetMemoryRequirementsService *m_getMemoryRequirementsService;
   };
 }
 

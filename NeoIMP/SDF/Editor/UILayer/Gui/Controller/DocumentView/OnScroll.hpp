@@ -25,7 +25,8 @@
  */
 
 #include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/ISetViewCoordinatesService.hpp"
+#include "../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
+#include "../../../AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
 #include "../../View/IController.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
@@ -34,12 +35,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnHScroll : public View::IController<Common::Handle, float> {
   public:
-    OnHScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService);
+    OnHScroll(AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService);
 
     void
     onTrigger(Common::Handle documentHandle, float scrollPos);
   private:
-    AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
+    AbstractModel::Viewing::ISetViewXCoordinateService *m_setViewXCoordinateService;
   };
 }
 
@@ -49,12 +50,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnVScroll : public View::IController<Common::Handle, float> {
   public:
-    OnVScroll(AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService);
+    OnVScroll(AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService);
 
     void
     onTrigger(Common::Handle documentHandle, float scrollPos);
   private:
-    AbstractModel::ISetViewCoordinatesService *m_setViewCoordinatesService;
+    AbstractModel::Viewing::ISetViewYCoordinateService *m_setViewYCoordinateService;
   };
 }
 

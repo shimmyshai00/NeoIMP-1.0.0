@@ -37,27 +37,37 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewFactory::ViewFactory(
-    AbstractModel::IUiStateManagerService *uiStateManagerService,
-    AbstractModel::IMetricsService *metricsService,
-    AbstractModel::IDocumentPrefabsService *documentPrefabsService,
-    AbstractModel::IDocumentRequirementsService *documentRequirementsService,
-    AbstractModel::ICreateImageService *createImageService,
-    AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-    AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
-    AbstractModel::ISetViewCoordinatesService *setViewCoordinatesService,
-    AbstractModel::IRenderingService *renderingService,
-    AbstractModel::ISaveDocumentService *saveDocumentService
+    AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
+    AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
+    AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
+    AbstractModel::Metrics::IConvertLengthService *convertLengthService,
+    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
+    AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+    AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+    AbstractModel::Viewing::IAddViewService *addViewService,
+    AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
+    AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
+    AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService,
+    AbstractModel::Viewing::ISetViewCoordinatesService *setViewCoordinatesService,
+    AbstractModel::Viewing::IRenderingService *renderingService,
+    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
+    AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService
   )
-    : m_uiStateManagerService(uiStateManagerService),
-      m_metricsService(metricsService),
-      m_documentPrefabsService(documentPrefabsService),
-      m_documentRequirementsService(documentRequirementsService),
-      m_createImageService(createImageService),
-      m_getDocumentMetricsService(getDocumentMetricsService),
+    : m_getDocumentPrefabService(getDocumentPrefabService),
+      m_getMemoryRequirementsService(getMemoryRequirementsService),
+      m_createDocumentService(createDocumentSerivce),
+      m_convertLengthService(convertLengthService),
+      m_convertResolutionService(convertResolutionService),
+      m_getDocumentDimensionsService(getDocumentDimensionsService),
+      m_saveDocumentService(saveDocumentService),
+      m_addViewService(addViewService),
       m_getViewCoordinatesService(getViewCoordinatesService),
+      m_setViewXCoordinateService(setViewXCoordinateService),
+      m_setViewYCoordinateService(setViewYCoordinateService),
       m_setViewCoordinatesService(setViewCoordinatesService),
       m_renderingService(renderingService),
-      m_saveDocumentService(saveDocumentService),
+      m_getActiveDocumentService(getActiveDocumentService),
+      m_setActiveDocumentService(setActiveDocumentService),
       m_viewManager(nullptr)
   {
   }
@@ -72,7 +82,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     MainWindow *rv = new MainWindow(parent);
 
     auto onDocumentSelected = std::make_unique<Controller::MainWindow::OnDocumentSelected>(
-      m_uiStateManagerService);
+      m_setActiveDocumentService);
     rv->hookOnDocumentSelected(std::move(onDocumentSelected))->connect();
 
     auto onNew = std::make_unique<Controller::MainWindow::OnNew>(m_viewManager);
@@ -92,12 +102,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   NewDocumentDialog *
   ViewFactory::createNewDocumentDialog(QWidget *parent) {
-    NewDocumentDialog *rv = new NewDocumentDialog(m_metricsService, m_documentPrefabsService,
-      m_documentRequirementsService, parent);
+    NewDocumentDialog *rv = new NewDocumentDialog(m_convertLengthService,
+      m_convertResolutionService, m_getDocumentPrefabService, m_getMemoryRequirementsService,
+      parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
-    auto onAccept = std::make_unique<Controller::NewDocumentDialog::OnAccept>(m_createImageService,
-      m_viewManager);
+    auto onAccept = std::make_unique<Controller::NewDocumentDialog::OnAccept>(
+      m_createDocumentService, m_viewManager);
     rv->hookOnAccept(std::move(onAccept))->connect();
 
     return rv;
@@ -111,8 +122,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
       AbstractModel::Defs::FILE_FORMAT_MAX));
 
-    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Save>(m_uiStateManagerService,
-      m_saveDocumentService);
+    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Save>(
+      m_getActiveDocumentService, m_saveDocumentService);
     rv->hookOnAccept(std::move(c))->connect();
 
     return rv;
@@ -120,16 +131,16 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   DocumentView *
   ViewFactory::createDocumentView(Common::Handle documentHandle, QWidget *parent) {
-    DocumentView *rv = new DocumentView(m_renderingService, m_getDocumentMetricsService,
-      m_getViewCoordinatesService, documentHandle, parent);
+    DocumentView *rv = new DocumentView(m_getDocumentDimensionsService, m_getViewCoordinatesService,
+      m_renderingService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     auto onHScroll = std::make_unique<Controller::DocumentView::OnHScroll>(
-      m_setViewCoordinatesService);
+      m_setViewXCoordinateService);
     rv->hookOnHScroll(std::move(onHScroll))->connect();
 
     auto onVScroll = std::make_unique<Controller::DocumentView::OnVScroll>(
-      m_setViewCoordinatesService);
+      m_setViewYCoordinateService);
     rv->hookOnVScroll(std::move(onVScroll))->connect();
 
     return rv;

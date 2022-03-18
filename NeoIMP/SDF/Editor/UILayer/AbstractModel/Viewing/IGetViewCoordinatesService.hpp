@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETVIEWCOORDINATESSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETVIEWCOORDINATESSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_IGETVIEWCOORDINATESSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_IGETVIEWCOORDINATESSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,13 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
-#include "../../../Common/IConnection.hpp"
-#include "../../../Common/IListener.hpp"
+#include "../../../../Common/Handle.hpp"
+#include "../../../../Common/IConnection.hpp"
+#include "../../../../Common/IListener.hpp"
 
 #include <memory>
 
-namespace SDF::Editor::UILayer::AbstractModel {
+namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   // Class:      IGetViewCoordinatesService
   // Purpose:    Defines the interface for an MVC service to get the viewing coordinates for
   //             image documents.

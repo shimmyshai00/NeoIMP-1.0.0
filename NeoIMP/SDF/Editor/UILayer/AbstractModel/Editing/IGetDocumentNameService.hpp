@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_UISTATEMANAGERSERVICE_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_UISTATEMANAGERSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_IGETDOCUMENTNAMESERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_EDITING_IGETDOCUMENTNAMESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    UiStateManagerService.hpp
- * PURPOSE: Defines the UiStateManagerService class.
+ * FILE:    IGetDocumentNameService.hpp
+ * PURPOSE: Defines the IGetDocumentNameService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
-#include "../../UILayer/AbstractModel/IUiStateManagerService.hpp"
+#include "../../../../Common/Handle.hpp"
 
-#include <fruit/fruit.h>
-
-#include <algorithm>
 #include <string>
-#include <map>
 
-namespace SDF::Editor::ModelLayer::Services {
-  // Class:      UiStateManagerService
-  // Purpose:    Implements the IUiStateManagerService interface.
+namespace SDF::Editor::UILayer::AbstractModel::Editing {
+  // Class:      IGetDocumentNameService
+  // Purpose:    Defines a service interface to obtain the name of a document.
   // Parameters: None.
-  class UiStateManagerService : public UILayer::AbstractModel::IUiStateManagerService {
+  class IGetDocumentNameService {
   public:
-    INJECT(UiStateManagerService());
+    virtual ~IGetDocumentNameService() = default;
 
-    void
-    addHandleEntry(Common::Handle uiKey, std::string fieldKey, Common::Handle value);
-
-    Common::Handle
-    getHandleEntry(Common::Handle uiKey, std::string fieldKey);
-  private:
-    std::map<std::pair<Common::Handle, std::string>, Common::Handle> m_handleMap;
+    // Function:   getDocumentName
+    // Purpose:    Gets the name of a document.
+    // Parameters: handle - The document handle to get the name for.
+    // Returns:    The name of the given document.
+    virtual std::string
+    getDocumentName(Common::Handle handle) = 0;
   };
 }
 

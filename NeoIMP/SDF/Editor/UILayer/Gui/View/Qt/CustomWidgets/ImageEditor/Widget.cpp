@@ -29,14 +29,15 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   Widget::Widget(
-    AbstractModel::IRenderingService *renderingService,
-    AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-    AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+    AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+    AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
+    AbstractModel::Viewing::IRenderingService *renderingService,
     QWidget *parent
   )
     : QWidget(parent),
-      m_getDocumentMetricsService(getDocumentMetricsService),
+      m_getDocumentDimensionsService(getDocumentDimensionsService),
       m_getViewCoordinatesService(getViewCoordinatesService),
+      m_renderingService(renderingService),
       m_gridLayout(new QGridLayout(this)),
       m_horizontalRuler(new Impl::RulerWidget(::Qt::Horizontal, nullptr)),
       m_verticalRuler(new Impl::RulerWidget(::Qt::Vertical, nullptr)),
@@ -78,7 +79,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
 
     m_renderDisplayWidget->setAll(
       m_getViewCoordinatesService->getViewingPointX(imageHandle),
-      m_getViewCoordinatesService->getViewingPointY(imageHandle),
+      m_getViewCoordinatesService->getViewingPointX(imageHandle),
       m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
     );
 
@@ -178,7 +179,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
 
     if(!positionsOnly) {
       auto hScrollRange = calcScrollRange(
-        m_getDocumentMetricsService->getDocumentWidth(m_documentHandle, LENGTH_UNIT_PIXEL),
+        m_getDocumentDimensionsService->getDocumentWidth(m_documentHandle, LENGTH_UNIT_PIXEL),
         m_renderDisplayWidget->viewportMag(),
         m_renderDisplayWidget->viewportWidth()
       );
@@ -186,7 +187,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
       m_horizontalScroll->setRange(hScrollRange.first, hScrollRange.second);
 
       auto vScrollRange = calcScrollRange(
-        m_getDocumentMetricsService->getDocumentHeight(m_documentHandle, LENGTH_UNIT_PIXEL),
+        m_getDocumentDimensionsService->getDocumentHeight(m_documentHandle, LENGTH_UNIT_PIXEL),
         m_renderDisplayWidget->viewportMag(),
         m_renderDisplayWidget->viewportHeight()
       );

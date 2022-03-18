@@ -25,9 +25,9 @@
  */
 
 #include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/IRenderingService.hpp"
-#include "../../../AbstractModel/IGetDocumentMetricsService.hpp"
-#include "../../../AbstractModel/IGetViewCoordinatesService.hpp"
+#include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../../AbstractModel/Viewing/IRenderingService.hpp"
 #include "CustomWidgets/ImageEditor/Widget.hpp"
 
 #include <QWidget>
@@ -41,9 +41,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     Q_OBJECT;
   public:
     DocumentView(
-      AbstractModel::IRenderingService *renderingService,
-      AbstractModel::IGetDocumentMetricsService *getDocumentMetricsService,
-      AbstractModel::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
+      AbstractModel::Viewing::IRenderingService *renderingService,
       Common::Handle documentHandle,
       QWidget *parent = nullptr
     );
@@ -57,7 +57,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     Common::PIConnection
     hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> controller);
   private:
-    AbstractModel::IRenderingService *m_renderingService;
+    AbstractModel::Viewing::IRenderingService *m_renderingService;
     Common::Handle m_documentHandle;
 
     QGridLayout *m_layout;

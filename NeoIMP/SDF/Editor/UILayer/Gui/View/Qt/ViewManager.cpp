@@ -50,7 +50,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewManager::ViewManager(
-    AbstractModel::IGetDocumentNameService *documentNameService,
+    AbstractModel::Editing::IGetDocumentNameService *documentNameService,
     ViewFactory *viewFactory
   )
     : m_documentNameService(documentNameService),

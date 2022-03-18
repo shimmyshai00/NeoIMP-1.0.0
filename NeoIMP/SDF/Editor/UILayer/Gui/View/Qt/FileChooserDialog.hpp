@@ -55,9 +55,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
     // with these controller adjoinment methods
     Common::PIConnection
-    hookOnAccept(std::unique_ptr<IController<std::string, std::size_t>> controller);
+    hookOnAccept(std::unique_ptr<IController<std::wstring, std::size_t>> controller);
   private:
-    QtEvent<std::string, std::size_t> m_onAcceptEvent;
+    QtEvent<std::wstring, std::size_t> m_onAcceptEvent;
   };
 }
 

@@ -37,7 +37,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   void
   SaveDocumentService::saveDocument(
     Common::Handle imageHandle,
-    std::string fileSpec,
+    std::wstring fileSpec,
     UILayer::AbstractModel::Defs::EFileFormat fileFormat
   ) {
     try {
@@ -51,7 +51,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
           break;
       }
 
-      m_imageRepository->registerFileSpec(imageHandle, fileSpec, dataLayerFormat);
+      // NOTE: ERR "Filespec"
+      m_imageRepository->registerFileSpec(imageHandle, "Filespec", dataLayerFormat);
       m_imageRepository->persistImage(imageHandle);
     } catch(DataLayer::ImageNotFoundException) {
       throw ImageNotFoundException(imageHandle);

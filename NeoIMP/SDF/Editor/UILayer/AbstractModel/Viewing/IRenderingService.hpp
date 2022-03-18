@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_IRENDERINGSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_IRENDERINGSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_IRENDERINGSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_IRENDERINGSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
-#include "Defs/IRenderRegion.hpp"
+#include "../../../../Common/Handle.hpp"
+#include "../Defs/IRenderRegion.hpp"
 
 #include <cstddef>
 #include <memory>
 
-namespace SDF::Editor::UILayer::AbstractModel {
+namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   // Class:      IRenderingService
-  // Purpose:    Defines the interface for an MVC service to render images to a screen-displayable
-  //             format. Note: right now, only one format (RGB32) is supported.
+  // Purpose:    Defines a service interface to render images to a screen-displayable format. Note:
+  //             right now, only one format (RGB32) is supported.
   // Parameters: None.
   class IRenderingService {
   public:

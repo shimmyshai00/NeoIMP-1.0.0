@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_ISETACTIVEDOCUMENTSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_ISETACTIVEDOCUMENTSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWXCOORDINATESERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWXCOORDINATESERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISetActiveDocumentService.hpp
- * PURPOSE: Defines the ISetActiveDocumentService interface.
+ * FILE:    ISetViewXCoordinateService.hpp
+ * PURPOSE: Defines the ISetViewXCoordinateService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
+#include "../../../../Common/Handle.hpp"
 
-namespace SDF::Editor::UILayer::AbstractModel {
-  // Class:      ISetActiveDocumentService
-  // Purpose:    Defines the interface for an MVC service to set which document is flagged as the
-  //             active context for editing operations.
+namespace SDF::Editor::UILayer::AbstractModel::Viewing {
+  // Class:      ISetViewXCoordinateService
+  // Purpose:    Defines a service interface to set the X view coordinate on an image document.
   // Parameters: None.
-  class ISetActiveDocumentService {
+  class ISetViewXCoordinateService {
   public:
-    virtual ~ISetActiveDocumentService();
+    virtual ~ISetViewXCoordinateService() = default;
 
-    // Function:   setActiveDocument
-    // Purpose:    Sets the active document.
-    // Parameters: handle - The handle of the document to declare active.
-    // Returns:    None.
     virtual void
-    setActiveDocument(Common::Handle handle) = 0;
+    setViewingPointX(Common::Handle imageHandle, float x) = 0;
   };
 }
 

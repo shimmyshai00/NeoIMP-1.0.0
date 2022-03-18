@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETDOCUMENTNAMESERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_IGETDOCUMENTNAMESERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_CREATE_ICREATEDOCUMENTSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_CREATE_ICREATEDOCUMENTSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IGetDocumentNameService.hpp
- * PURPOSE: Defines the IGetDocumentNameService interface.
+ * FILE:    ICreateDocumentService.hpp
+ * PURPOSE: Defines the ICreateDocumentService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Handle.hpp"
+#include "../../../../Common/Handle.hpp"
+#include "../Defs/ImageSpec.hpp"
 
-#include <string>
+#include <cstddef>
 
-namespace SDF::Editor::UILayer::AbstractModel {
-  // Class:      IDocumentNameService
-  // Purpose:    Defines the interface for an MVC service that gets the names of documents.
+namespace SDF::Editor::UILayer::AbstractModel::Create {
+  // Class:      ICreateDocumentService
+  // Purpose:    Defines a service interface for creating a new image document.
   // Parameters: None.
-  class IGetDocumentNameService {
+  class ICreateDocumentService {
   public:
-    virtual ~IGetDocumentNameService() = default;
+    virtual ~ICreateDocumentService() = default;
 
-    // Function:   getDocumentName
-    // Purpose:    Get the name of an image document.
-    // Parameters: documentHandle - The handle to the image document.
-    // Returns:    The name as a string.
-    virtual std::string
-    getDocumentName(Common::Handle documentHandle) = 0;
+    // Function:   createFromSpec
+    // Purpose:    Creates a new document from a passed specification.
+    // Parameters: spec - The spec to create the document from.
+    // Returns:    The handle to the new document.
+    virtual Common::Handle
+    createFromSpec(const Defs::ImageSpec &spec) = 0;
   };
 }
-
 
 #endif
