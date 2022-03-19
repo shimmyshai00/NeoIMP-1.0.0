@@ -44,7 +44,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       }
 
       // because this controller likely wants the format enumeration as in the abstract model.
-      m_onAcceptEvent.trigger(files[0].toStdWString(), whichFormat);
+      m_onAcceptEvent.trigger(files[0].toStdString(), whichFormat);
     });
   }
 
@@ -58,7 +58,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   Common::PIConnection
   FileChooserDialog::hookOnAccept(
-    std::unique_ptr<IController<std::wstring, std::size_t>> controller
+    std::unique_ptr<IController<std::string, std::size_t>> controller
   ) {
     return m_onAcceptEvent.hook(std::move(controller));
   }

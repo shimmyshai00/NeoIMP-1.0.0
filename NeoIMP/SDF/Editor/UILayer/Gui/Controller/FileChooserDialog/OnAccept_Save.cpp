@@ -39,7 +39,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   }
 
   void
-  OnAccept_Save::onTrigger(std::wstring fileSpec, std::size_t fileFormat) {
+  OnAccept_Save::onTrigger(std::string fileSpec, std::size_t fileFormat) {
     Common::Handle curSelectedDocument(m_getActiveDocumentService->getActiveDocument());
 
     if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {

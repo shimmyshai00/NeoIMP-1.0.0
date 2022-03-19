@@ -37,7 +37,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   // Class:      OnAccept_Save
   // Purpose:    Handles the acceptance of a document specification.
   // Parameters: None.
-  class OnAccept_Save : public View::IController<std::wstring, std::size_t> {
+  class OnAccept_Save : public View::IController<std::string, std::size_t> {
   public:
     OnAccept_Save(
       AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
@@ -45,7 +45,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
     );
 
     void
-    onTrigger(std::wstring fileSpec, std::size_t fileFormat);
+    onTrigger(std::string fileSpec, std::size_t fileFormat);
   private:
     AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;

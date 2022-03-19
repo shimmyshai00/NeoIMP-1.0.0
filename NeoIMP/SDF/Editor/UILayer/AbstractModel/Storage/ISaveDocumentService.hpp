@@ -44,7 +44,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
     // Returns:    None.
     virtual void saveDocument(
       Common::Handle imageHandle,
-      std::wstring fileSpec,
+      std::string fileSpec,
       Defs::EFileFormat fileFormat
     ) = 0;
   };

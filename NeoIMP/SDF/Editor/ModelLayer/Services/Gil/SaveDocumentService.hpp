@@ -47,7 +47,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     saveDocument(
       Common::Handle imageHandle,
-      std::wstring fileSpec,
+      std::string fileSpec,
       UILayer::AbstractModel::Defs::EFileFormat fileFormat
     );
   private:
