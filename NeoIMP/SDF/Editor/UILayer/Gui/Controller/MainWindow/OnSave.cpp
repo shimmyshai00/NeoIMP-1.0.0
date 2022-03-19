@@ -23,14 +23,41 @@
 
 #include "OnSave.hpp"
 
+#include "../../../../../Exception.hpp"
+
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnSave::OnSave(IViewManager<View::EViewType> *viewManager)
-    : m_viewManager(viewManager)
+  OnSave::OnSave(
+    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
+    AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
+    AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+    IViewManager<View::EViewType> *viewManager
+  )
+    : m_getActiveDocumentService(getActiveDocumentService),
+      m_getDocumentFileInfoService(getDocumentFileInfoService),
+      m_saveDocumentService(saveDocumentService),
+      m_viewManager(viewManager)
   {
   }
 
   void
   OnSave::onTrigger() {
-    // TBA
+    Common::Handle activeDocumentHandle = m_getActiveDocumentService->getActiveDocument();
+    if(activeDocumentHandle == Common::HANDLE_INVALID) {
+      throw SDF::Exception(true,
+        "Tried to save a document when no document was selected by the user.");
+    }
+
+    if(m_getDocumentFileInfoService->wasDocumentPreviouslySaved(activeDocumentHandle)) {
+      using namespace AbstractModel::Defs;
+
+      // Just save with this file spec.
+      std::string fileSpec = m_getDocumentFileInfoService->getFileSpec(activeDocumentHandle);
+      EFileFormat fileFormat = m_getDocumentFileInfoService->getFileFormat(activeDocumentHandle);
+      m_saveDocumentService->saveDocument(activeDocumentHandle, fileSpec, fileFormat);
+    } else {
+      // Do like "save as" and open a save dialog.
+      m_viewManager->produceView(View::VIEW_SAVE_DOCUMENT_DIALOG,
+        std::shared_ptr<Support::Bundle>());
+    }
   }
 }

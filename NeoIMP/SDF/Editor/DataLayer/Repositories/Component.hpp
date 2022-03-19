@@ -26,10 +26,11 @@
 
 #include "../../../Common/Data/IDataMapper.hpp"
 #include "../../../Common/Model/ICrudRepository.hpp"
-#include "../../ModelLayer/AbstractData/IImageRepository.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
+#include "../../ModelLayer/AbstractData/IImageRepository.hpp"
+#include "../../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
 #include "Formats.hpp"
 
 #include <fruit/fruit.h>
@@ -40,20 +41,13 @@ namespace SDF::Editor::DataLayer::Repositories {
     fruit::Required<
       fruit::Annotated<
         Formats::PNG,
-        Common::Data::IDataMapper<
-          std::string,
-          ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
-        >
-      >,
-      fruit::Annotated<
-        Formats::PNG,
         Common::Data::IDataMapper<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
       >
     >,
-    ModelLayer::AbstractData::IImageRepository<
-      ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
-    >,
     ModelLayer::AbstractData::IImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    ModelLayer::AbstractData::IImageFileInfoRequester<
+      ModelLayer::DomainObjects::Engine::Gil::Any_Image
+    >,
     Common::Model::ICrudRepository<
       Common::Handle,
       ModelLayer::DomainObjects::Engine::Buffers::GridRendering

@@ -65,7 +65,7 @@ namespace SDF::Editor::DataLayer::Repositories {
       throw ImageNotFoundException(id);
     } else {
       if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
-        throw FileSpecNotFoundException();
+        throw FileSpecNotFoundException(id);
       } else {
         switch(m_fileFormatMap[id]) {
           case ModelLayer::AbstractData::FORMAT_PNG:
@@ -101,6 +101,32 @@ namespace SDF::Editor::DataLayer::Repositories {
   ) {
     m_fileSpecMap[id] = fileSpec;
     m_fileFormatMap[id] = fileFormat;
+  }
+
+  template<class ImageT>
+  bool
+  ImageRepository<ImageT>::hasAssociatedFile(Common::Handle id) const {
+    return (m_fileSpecMap.find(id) != m_fileSpecMap.end());
+  }
+
+  template<class ImageT>
+  std::string
+  ImageRepository<ImageT>::getFileSpecById(Common::Handle id) const {
+    if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
+      throw FileSpecNotFoundException(id);
+    } else {
+      return m_fileSpecMap.at(id);
+    }
+  }
+
+  template<class ImageT>
+  ModelLayer::AbstractData::EFormat
+  ImageRepository<ImageT>::getFileFormatById(Common::Handle id) const {
+    if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
+      throw FileFormatNotFoundException(id);
+    } else {
+      return m_fileFormatMap.at(id);
+    }
   }
 }
 

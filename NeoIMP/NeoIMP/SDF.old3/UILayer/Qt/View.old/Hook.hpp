@@ -1,6 +1,0 @@
-#ifndef SDF_UILAYER_QT_VIEW_HOOK_HPP
-#define SDF_UILAYER_QT_VIEW_HOOK_HPP
-
-
-
-#endif

@@ -32,6 +32,7 @@
 #include "../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
 
 #include "../ModelLayer/AbstractData/IImageRepository.hpp"
+#include "../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
 
 #include "Repositories/Formats.hpp"
 
@@ -39,10 +40,10 @@
 
 namespace SDF::Editor::DataLayer {
   typedef fruit::Component<
-    ModelLayer::AbstractData::IImageRepository<
-      ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
-    >,
     ModelLayer::AbstractData::IImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    ModelLayer::AbstractData::IImageFileInfoRequester<
+      ModelLayer::DomainObjects::Engine::Gil::Any_Image
+    >,
     Common::Model::ICrudRepository<
       Common::Handle,
       ModelLayer::DomainObjects::Engine::Buffers::GridRendering

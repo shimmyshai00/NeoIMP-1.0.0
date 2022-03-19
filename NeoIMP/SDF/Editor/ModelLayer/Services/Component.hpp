@@ -29,6 +29,7 @@
 #include "../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../UILayer/AbstractModel/Create/IGetDocumentPrefabService.hpp"
+#include "../../UILayer/AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
 #include "../../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
@@ -46,6 +47,7 @@
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../DomainObjects/State/DocumentViewState.hpp"
 #include "../AbstractData/IImageRepository.hpp"
+#include "../AbstractData/IImageFileInfoRequester.hpp"
 #include "Messages/Object.hpp"
 
 #include <fruit/fruit.h>
@@ -54,12 +56,14 @@ namespace SDF::Editor::ModelLayer::Services {
   typedef fruit::Component<
     fruit::Required<
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageFileInfoRequester<DomainObjects::Engine::Gil::Any_Image>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,
     UILayer::AbstractModel::Create::IGetDocumentPrefabService,
+    UILayer::AbstractModel::Storage::IGetDocumentFileInfoService,
     UILayer::AbstractModel::Storage::ISaveDocumentService,
     UILayer::AbstractModel::Metrics::IConvertLengthService,
     UILayer::AbstractModel::Metrics::IConvertResolutionService,

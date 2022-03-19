@@ -31,6 +31,7 @@
 #include "../../../AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 #include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
 #include "../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
@@ -64,6 +65,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       AbstractModel::Metrics::IConvertLengthService *convertLengthService,
       AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
       AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
       AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
       AbstractModel::Viewing::IAddViewService *addViewService,
       AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
@@ -96,6 +98,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Metrics::IConvertLengthService *m_convertLengthService;
     AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
     AbstractModel::Metrics::IGetDocumentDimensionsService *m_getDocumentDimensionsService;
+    AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
     AbstractModel::Viewing::IAddViewService *m_addViewService;
     AbstractModel::Viewing::IGetViewCoordinatesService *m_getViewCoordinatesService;

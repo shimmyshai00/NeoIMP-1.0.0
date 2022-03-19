@@ -28,6 +28,7 @@
 #include "../../../Common/Handle.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
 #include "../../ModelLayer/AbstractData/IImageRepository.hpp"
+#include "../../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
 #include "Formats.hpp"
 
 #include <string>
@@ -38,7 +39,9 @@ namespace SDF::Editor::DataLayer::Repositories {
   // Purpose:    Implements the IImageRepository interface.
   // Parameters: ImageT - The supported image type.
   template<class ImageT>
-  class ImageRepository : public ModelLayer::AbstractData::IImageRepository<ImageT> {
+  class ImageRepository : public ModelLayer::AbstractData::IImageRepository<ImageT>,
+                          public ModelLayer::AbstractData::IImageFileInfoRequester<ImageT>
+  {
   public:
     INJECT(ImageRepository(
       ANNOTATED(Formats::PNG, Common::Data::IDataMapper<std::string, ImageT> *) pngImageMapper
@@ -62,6 +65,15 @@ namespace SDF::Editor::DataLayer::Repositories {
       std::string fileSpec,
       ModelLayer::AbstractData::EFormat fileFormat
     );
+
+    bool
+    hasAssociatedFile(Common::Handle id) const;
+
+    std::string
+    getFileSpecById(Common::Handle id) const;
+
+    ModelLayer::AbstractData::EFormat
+    getFileFormatById(Common::Handle id) const;
   private:
     Common::Data::IDataMapper<std::string, ImageT> *m_pngImageMapper;
 

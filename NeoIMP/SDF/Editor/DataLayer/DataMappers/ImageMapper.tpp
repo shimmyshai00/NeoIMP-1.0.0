@@ -66,7 +66,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageMapper<PersisterT, ImageT>::update(std::string fileSpec, ImageT &obj) {
     if(!has(fileSpec)) {
-      throw FileSpecNotFoundException();
+      throw FileSpecNotMappedException();
     }
 
     // Boost.GIL does not require direct interaction with the file system by us

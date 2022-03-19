@@ -33,7 +33,8 @@
 namespace SDF::Editor::ModelLayer::AbstractData {
   // Class:      IImageRepository
   // Purpose:    Defines a repository of image document objects.
-  // Parameters: ImageT - The image type.
+  // Parameters: ImageT - The image type. This generally should be a variant aggregating all image
+  //                      types of a particular implementation.
   template<class ImageT>
   class IImageRepository {
   public:

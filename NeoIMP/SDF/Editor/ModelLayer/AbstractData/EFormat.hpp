@@ -26,7 +26,8 @@
 
 namespace SDF::Editor::ModelLayer::AbstractData {
   enum EFormat {
-    FORMAT_PNG
+    FORMAT_PNG,
+    FORMAT_MAX
   };
 }
 

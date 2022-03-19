@@ -1,3 +1,0 @@
-add_subdirectory(DomainObjects)
-add_subdirectory(Repositories)
-add_subdirectory(Services)

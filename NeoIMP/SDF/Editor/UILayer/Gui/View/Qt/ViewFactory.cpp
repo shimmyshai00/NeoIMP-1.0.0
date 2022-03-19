@@ -43,6 +43,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Metrics::IConvertLengthService *convertLengthService,
     AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
     AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+    AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
     AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
     AbstractModel::Viewing::IAddViewService *addViewService,
     AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
@@ -59,6 +60,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_convertLengthService(convertLengthService),
       m_convertResolutionService(convertResolutionService),
       m_getDocumentDimensionsService(getDocumentDimensionsService),
+      m_getDocumentFileInfoService(getDocumentFileInfoService),
       m_saveDocumentService(saveDocumentService),
       m_addViewService(addViewService),
       m_getViewCoordinatesService(getViewCoordinatesService),
@@ -91,7 +93,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     auto onSaveAs = std::make_unique<Controller::MainWindow::OnSaveAs>(m_viewManager);
     rv->hookOnSaveAs(std::move(onSaveAs))->connect();
 
-    auto onSave = std::make_unique<Controller::MainWindow::OnSave>(m_viewManager);
+    auto onSave = std::make_unique<Controller::MainWindow::OnSave>(m_getActiveDocumentService,
+      m_getDocumentFileInfoService, m_saveDocumentService, m_viewManager);
     rv->hookOnSave(std::move(onSave))->connect();
 
     auto onExit = std::make_unique<Controller::MainWindow::OnExit>(m_viewManager);

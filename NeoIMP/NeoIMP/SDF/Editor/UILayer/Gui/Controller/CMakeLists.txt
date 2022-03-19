@@ -1,4 +1,0 @@
-add_subdirectory(MainWindow)
-add_subdirectory(NewDocumentDialog)
-add_subdirectory(FileChooserDialog)
-add_subdirectory(DocumentView)

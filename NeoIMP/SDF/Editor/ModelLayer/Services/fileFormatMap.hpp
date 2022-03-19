@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_COMPONENT_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_COMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_FILEFORMATMAP_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_FILEFORMATMAP_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the whole data mapper subsystem.
+ * FILE:    fileFormatMap.hpp
+ * PURPOSE: Defines a mapping between UI layer and data layer file format enums.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Data/IDataMapper.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../Repositories/Formats.hpp"
+#include "../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
+#include "../AbstractData/EFormat.hpp"
 
-#include <fruit/fruit.h>
+namespace SDF::Editor::ModelLayer::Services {
+  static const UILayer::AbstractModel::Defs::EFileFormat
+    g_fileFormatMapDLtoUL[AbstractData::FORMAT_MAX] = {
+      UILayer::AbstractModel::Defs::FILE_FORMAT_PNG // AbstractData::FORMAT_PNG
+    };
 
-namespace SDF::Editor::DataLayer::DataMappers {
-  typedef fruit::Component<
-    fruit::Annotated<
-      Repositories::Formats::PNG,
-      Common::Data::IDataMapper<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
-    >
-  > Component;
-
-  Component
-  getComponent();
+  static const AbstractData::EFormat
+    g_fileFormatMapULtoDL[UILayer::AbstractModel::Defs::FILE_FORMAT_MAX] = {
+      AbstractData::FORMAT_PNG // AbstractModel::Defs::FILE_FORMAT_PNG
+    };
 }
 
 #endif

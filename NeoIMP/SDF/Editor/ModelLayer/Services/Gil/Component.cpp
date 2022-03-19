@@ -22,6 +22,9 @@
  */
 #include "Component.hpp"
 
+#include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
+
+#include "../GetFileInfoService.hpp"
 #include "CreateImageService.hpp"
 #include "GetDocumentInfoService.hpp"
 #include "RenderingService.hpp"
@@ -33,6 +36,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     return fruit::createComponent()
       .bind<UILayer::AbstractModel::Create::IGetMemoryRequirementsService, CreateImageService>()
       .bind<UILayer::AbstractModel::Create::ICreateDocumentService, CreateImageService>()
+      .bind<
+        UILayer::AbstractModel::Storage::IGetDocumentFileInfoService,
+        GetFileInfoService<DomainObjects::Engine::Gil::Any_Image>
+       >()
       .bind<UILayer::AbstractModel::Storage::ISaveDocumentService, SaveDocumentService>()
       .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentInfoService>()
       .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentInfoService>()

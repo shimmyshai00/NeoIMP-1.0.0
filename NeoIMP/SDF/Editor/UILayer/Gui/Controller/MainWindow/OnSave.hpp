@@ -24,6 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
+#include "../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
+#include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
+
 #include "../../View/IController.hpp"
 #include "../../View/EViewType.hpp"
 #include "../../IViewManager.hpp"
@@ -34,11 +38,20 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnSave : public View::IController<> {
   public:
-    OnSave(IViewManager<View::EViewType> *viewManager);
+    OnSave(
+      AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
+      AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
+      AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+      IViewManager<View::EViewType> *viewManager
+    );
 
     void
     onTrigger();
   private:
+    AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
+    AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
+    AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
+
     IViewManager<View::EViewType> *m_viewManager;
   };
 }

@@ -30,12 +30,14 @@ namespace SDF::Editor::DataLayer::Repositories {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<ModelLayer::AbstractData::IImageRepository<
-        ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image>,
-        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image>
-       >()
       .bind<
         ModelLayer::AbstractData::IImageRepository<
+          ModelLayer::DomainObjects::Engine::Gil::Any_Image
+        >,
+        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+       >()
+      .bind<
+        ModelLayer::AbstractData::IImageFileInfoRequester<
           ModelLayer::DomainObjects::Engine::Gil::Any_Image
         >,
         ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
