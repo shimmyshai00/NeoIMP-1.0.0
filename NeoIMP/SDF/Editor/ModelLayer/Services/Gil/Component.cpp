@@ -22,10 +22,8 @@
  */
 #include "Component.hpp"
 
-#include "DocumentRequirementsService.hpp"
 #include "CreateImageService.hpp"
-#include "GetDocumentNameService.hpp"
-#include "GetDocumentMetricsService.hpp"
+#include "GetDocumentInfoService.hpp"
 #include "RenderingService.hpp"
 #include "SaveDocumentService.hpp"
 
@@ -33,11 +31,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<UILayer::AbstractModel::Create::IGetMemoryRequirementsService, DocumentRequirementsService>()
+      .bind<UILayer::AbstractModel::Create::IGetMemoryRequirementsService, CreateImageService>()
       .bind<UILayer::AbstractModel::Create::ICreateDocumentService, CreateImageService>()
       .bind<UILayer::AbstractModel::Storage::ISaveDocumentService, SaveDocumentService>()
-      .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentMetricsService>()
-      .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentNameService>()
+      .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentInfoService>()
+      .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentInfoService>()
       .bind<UILayer::AbstractModel::Viewing::IRenderingService, RenderingService>();
   }
 }

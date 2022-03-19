@@ -1,8 +1,6 @@
 target_sources(neoimp PUBLIC
                CreateImageService.cpp
-               DocumentRequirementsService.cpp
-               GetDocumentNameService.cpp
-               GetDocumentMetricsService.cpp
+               GetDocumentInfoService.cpp
                RenderingService.cpp
                SaveDocumentService.cpp
                Component.cpp

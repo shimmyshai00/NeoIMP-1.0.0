@@ -37,6 +37,7 @@ namespace SDF::Editor::ModelLayer {
   SDF_DEF_NRM_EXCEPTION_1(InvalidResolutionUnitException, "Invalid resolution unit: %d.", int)
   SDF_DEF_NRM_EXCEPTION_1(PrefabNotFoundException, "Prefab with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(ImageNotFoundException, "Image with handle %u not found.", Common::Handle)
+  SDF_DEF_NRM_EXCEPTION_1(ViewNotFoundException, "View with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(RenderingNotFoundException, "Rendering with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(NonexistentLayerException, "Nonexistent layer: %d.", std::size_t)
   SDF_DEF_NRM_EXCEPTION_2(PosOutOfBoundsException, "Position out of range: (%d, %d).", int, int)
@@ -47,6 +48,8 @@ namespace SDF::Editor::ModelLayer {
   SDF_DEF_BUG_EXCEPTION(ObjectNotFoundInRepositoryException, "Object not found in repository.")
   SDF_DEF_BUG_EXCEPTION(BadCastException, "Tried to cast to wrong type.")
   SDF_DEF_BUG_EXCEPTION(ComponentAlreadyAddedException, "Tried to add the same kind of component to a layer twice.")
+  SDF_DEF_BUG_EXCEPTION(DocumentAlreadyRegisteredException, "Document already registered with editor data model.")
+  SDF_DEF_BUG_EXCEPTION(DocumentNotFoundInDataModelException, "Document not found in data model.")
 }
 
 #endif

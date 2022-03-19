@@ -25,6 +25,7 @@
  */
 
 #include "IConnection.hpp"
+#include "IListenable.hpp"
 #include "IListener.hpp"
 
 #include <memory>
@@ -37,7 +38,7 @@ namespace SDF::Common {
   // Parameters: KeyT - The type of key used to index the listener bundles.
   //             Args - The listener arguments.
   template<class KeyT, class ... Args>
-  class ListenerMapContainer {
+  class ListenerMapContainer : public IListenable<Args...> {
   public:
     // Function:   addListener
     // Purpose:    Adds a listener to the container.

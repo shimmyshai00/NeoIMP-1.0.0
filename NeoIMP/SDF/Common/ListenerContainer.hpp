@@ -25,6 +25,7 @@
  */
 
 #include "IConnection.hpp"
+#include "IListenable.hpp"
 #include "IListener.hpp"
 
 #include <memory>
@@ -35,7 +36,7 @@ namespace SDF::Common {
   // Purpose:    Defines a container class for holding listeners.
   // Parameters: Args - The listener arguments.
   template<class ... Args>
-  class ListenerContainer {
+  class ListenerContainer : public IListenable<Args...> {
   public:
     // Function:   addListener
     // Purpose:    Adds a listener to the container.

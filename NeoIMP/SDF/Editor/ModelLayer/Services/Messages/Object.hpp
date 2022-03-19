@@ -27,29 +27,19 @@
 #include "../../../../Common/Handle.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Messages {
-  enum EObjectMessage {
-    OBJECT_ADDED,
-    OBJECT_REMOVED
-  };
-
-  enum EObjectType {
-    OBJECT_IMAGE
-  };
-}
-
-namespace SDF::Editor::ModelLayer::Services::Messages {
   struct Object {
-    EObjectMessage m_messageType;
-    EObjectType m_objectType;
     Common::Handle m_objectHandle;
 
-    Object(EObjectMessage messageType, EObjectType objectType, Common::Handle objectHandle)
-      : m_messageType(messageType),
-        m_objectType(objectType),
-        m_objectHandle(objectHandle)
+    virtual ~Object() {}
+
+    Object(Common::Handle objectHandle)
+      : m_objectHandle(objectHandle)
     {
     }
   };
+
+  struct ImageAdded : public Object { ImageAdded(Common::Handle h) : Object(h) {} };
+  struct ImageRemoved : public Object { ImageRemoved(Common::Handle h) : Object(h) {} };
 }
 
 #endif

@@ -26,10 +26,10 @@
 #include "Messages/Object.hpp"
 
 #include "Gil/Component.hpp"
-#include "MetricsService.hpp"
+#include "UnitConversionService.hpp"
 #include "DocumentPrefabsService.hpp"
-#include "EditorStateService.hpp"
-#include "ViewCoordinatesService.hpp"
+#include "EditorStateModelService.hpp"
+#include "DocumentViewStateService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   Component
@@ -40,15 +40,15 @@ namespace SDF::Editor::ModelLayer::Services {
         Common::MessageSystem::AllToAll<Messages::Object>
        >()
       .bind<UILayer::AbstractModel::Create::IGetDocumentPrefabService, Services::DocumentPrefabsService>()
-      .bind<UILayer::AbstractModel::Metrics::IConvertLengthService, Services::MetricsService>()
-      .bind<UILayer::AbstractModel::Metrics::IConvertResolutionService, Services::MetricsService>()
-      .bind<UILayer::AbstractModel::Editing::IGetActiveDocumentService, Services::EditorStateService>()
-      .bind<UILayer::AbstractModel::Editing::ISetActiveDocumentService, Services::EditorStateService>()
-      .bind<UILayer::AbstractModel::Viewing::IAddViewService, Services::ViewCoordinatesService>()
-      .bind<UILayer::AbstractModel::Viewing::IGetViewCoordinatesService, Services::ViewCoordinatesService>()
-      .bind<UILayer::AbstractModel::Viewing::ISetViewXCoordinateService, Services::ViewCoordinatesService>()
-      .bind<UILayer::AbstractModel::Viewing::ISetViewYCoordinateService, Services::ViewCoordinatesService>()
-      .bind<UILayer::AbstractModel::Viewing::ISetViewCoordinatesService, Services::ViewCoordinatesService>()
+      .bind<UILayer::AbstractModel::Metrics::IConvertLengthService, Services::UnitConversionService>()
+      .bind<UILayer::AbstractModel::Metrics::IConvertResolutionService, Services::UnitConversionService>()
+      .bind<UILayer::AbstractModel::Editing::IGetActiveDocumentService, Services::EditorStateModelService>()
+      .bind<UILayer::AbstractModel::Editing::ISetActiveDocumentService, Services::EditorStateModelService>()
+      .bind<UILayer::AbstractModel::Viewing::IAddViewService, Services::DocumentViewStateService>()
+      .bind<UILayer::AbstractModel::Viewing::IGetViewCoordinatesService, Services::DocumentViewStateService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewXCoordinateService, Services::DocumentViewStateService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewYCoordinateService, Services::DocumentViewStateService>()
+      .bind<UILayer::AbstractModel::Viewing::ISetViewCoordinatesService, Services::DocumentViewStateService>()
       .install(Gil::getComponent);
   }
 }

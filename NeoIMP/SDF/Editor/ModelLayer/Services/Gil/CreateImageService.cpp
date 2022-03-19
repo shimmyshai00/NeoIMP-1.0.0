@@ -25,6 +25,7 @@
 
 #include "../../../../Common/Overload.hpp"
 
+#include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
 #include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
 #include "../../DomainObjects/Engine/Gil/ImplTraits.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageFactory.hpp"
@@ -49,11 +50,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   CreateImageService::CreateImageService(
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-    Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+    Common::MessageSystem::IChannel<Messages::ImageAdded> *imageAddedMessageChannel
   )
     : m_uuid(boost::uuids::random_generator()()),
       m_imageRepository(imageRepository),
-      m_objectMessageChannel(objectMessageChannel),
+      m_imageAddedMessageChannel(imageAddedMessageChannel),
       m_nextHandle(0)
   {
   }
@@ -61,6 +62,49 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   boost::uuids::uuid
   CreateImageService::getUuid() const {
     return m_uuid;
+  }
+
+  std::size_t
+  CreateImageService::getMemoryRequiredForOneLayer(
+    const UILayer::AbstractModel::Defs::ImageSpec &spec
+  ) const {
+    using namespace UILayer::AbstractModel::Defs;
+    using namespace Metrics;
+    using namespace DomainObjects;
+
+    // Input validation.
+    if(spec.width == 0)
+      throw InvalidImageWidthException(spec.width);
+
+    if(spec.widthUnit == LENGTH_UNIT_MAX)
+      throw InvalidLengthUnitException(spec.widthUnit);
+
+    if(spec.height == 0)
+      throw InvalidImageHeightException(spec.height);
+
+    if(spec.heightUnit == LENGTH_UNIT_MAX)
+      throw InvalidLengthUnitException(spec.heightUnit);
+
+    if(spec.resolution <= 0.0f)
+      throw InvalidImageResolutionException(spec.resolution);
+
+    if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
+      throw InvalidResolutionUnitException(spec.resolutionUnit);
+
+    // Convert the dimensions to pixels.
+    LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
+    LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
+
+    std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
+    std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
+
+    // What type to use depends on the combination of color model and bit depth parameters.
+    if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
+      return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
+        widthPx, heightPx);
+    } else {
+      return 0;
+    }
   }
 
   Common::Handle
@@ -124,8 +168,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     Common::Handle rv(m_nextHandle++);
     m_imageRepository->insertImage(rv, std::move(image));
 
-    Messages::Object msg(Messages::OBJECT_ADDED, Messages::OBJECT_IMAGE, rv);
-    m_objectMessageChannel->publishMessage(getUuid(), msg);
+    Messages::ImageAdded msg(rv);
+    m_imageAddedMessageChannel->publishMessage(getUuid(), msg);
 
     return rv;
   }

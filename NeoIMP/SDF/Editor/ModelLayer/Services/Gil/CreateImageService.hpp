@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../../Common/MessageSystem/IChannel.hpp"
@@ -42,17 +43,21 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      CreateImageService
   // Purpose:    Implements the ICreateImageService interface for the Boost.GIL framework.
   // Parameters: None.
-  class CreateImageService : public UILayer::AbstractModel::Create::ICreateDocumentService,
+  class CreateImageService : public UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
+                             public UILayer::AbstractModel::Create::ICreateDocumentService,
                              public Common::IUUIDable
   {
   public:
     INJECT(CreateImageService(
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      Common::MessageSystem::IChannel<Messages::Object> *objectMessageChannel
+      Common::MessageSystem::IChannel<Messages::ImageAdded> *imageAddedMessageChannel
     ));
 
     boost::uuids::uuid
     getUuid() const;
+
+    std::size_t
+    getMemoryRequiredForOneLayer(const UILayer::AbstractModel::Defs::ImageSpec &spec) const;
 
     Common::Handle
     createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec);
@@ -60,7 +65,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     boost::uuids::uuid m_uuid;
 
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    Common::MessageSystem::IChannel<Messages::Object> *m_objectMessageChannel;
+    Common::MessageSystem::IChannel<Messages::ImageAdded> *m_imageAddedMessageChannel;
 
     Common::Handle m_nextHandle;
   };

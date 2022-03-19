@@ -29,8 +29,8 @@
 #include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
-#include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
+#include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
@@ -44,7 +44,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     fruit::Required<
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::MessageSystem::IChannel<Messages::Object>
+      Common::MessageSystem::IChannel<Messages::ImageAdded>,
+      Common::MessageSystem::IChannel<Messages::ImageRemoved>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

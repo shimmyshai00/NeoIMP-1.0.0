@@ -1,9 +1,8 @@
 add_subdirectory(Gil)
 
 target_sources(neoimp PUBLIC
-               MetricsService.cpp
                DocumentPrefabsService.cpp
-               EditorStateService.cpp
-               ViewCoordinatesService.cpp
+               EditorStateModelService.cpp
+               DocumentViewStateService.cpp
                Component.cpp
               )
