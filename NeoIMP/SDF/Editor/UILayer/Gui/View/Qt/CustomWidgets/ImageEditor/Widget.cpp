@@ -30,12 +30,14 @@
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   Widget::Widget(
     AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+    AbstractModel::Viewing::IAddViewService *addViewService,
     AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
     AbstractModel::Viewing::IRenderingService *renderingService,
     QWidget *parent
   )
     : QWidget(parent),
       m_getDocumentDimensionsService(getDocumentDimensionsService),
+      m_addViewService(addViewService),
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_renderingService(renderingService),
       m_gridLayout(new QGridLayout(this)),
@@ -44,7 +46,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
       m_renderDisplayWidget(new Impl::RenderDisplayWidget(renderingService, nullptr)),
       m_horizontalScroll(new QScrollBar(::Qt::Horizontal, nullptr)),
       m_verticalScroll(new QScrollBar(::Qt::Vertical, nullptr)),
-      m_documentHandle(Common::HANDLE_INVALID)
+      m_documentHandle(Common::HANDLE_INVALID),
+      m_documentViewDataHandle(Common::HANDLE_INVALID)
   {
     m_gridLayout->addWidget(m_horizontalRuler, 0, 1);
     m_gridLayout->addWidget(m_verticalRuler, 1, 0);
@@ -77,20 +80,23 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     m_renderDisplayWidget->setDisplayedImage(imageHandle);
     m_documentHandle = imageHandle;
 
+    // NB: TBA - delete old view
+    m_documentViewDataHandle = m_addViewService->addView(m_documentHandle, 0.0f, 0.0f, 1.0f);
+
     m_renderDisplayWidget->setAll(
-      m_getViewCoordinatesService->getViewingPointX(imageHandle),
-      m_getViewCoordinatesService->getViewingPointX(imageHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
     m_horizontalRuler->setAll(
-      m_getViewCoordinatesService->getViewingPointX(imageHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
     m_verticalRuler->setAll(
-      m_getViewCoordinatesService->getViewingPointY(imageHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(imageHandle)
+      m_getViewCoordinatesService->getViewingPointY(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
     recalibrateScrollBars(false);
@@ -114,7 +120,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
       )
     );
 
-    m_viewportUpdateConn = m_getViewCoordinatesService->addViewingPointListener(imageHandle, lis);
+    m_viewportUpdateConn = m_getViewCoordinatesService->addViewingPointListener(
+      m_documentViewDataHandle, lis);
     m_viewportUpdateConn->connect();
   }
 
@@ -196,15 +203,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     }
 
     int hScrollPos = calcScrollPos(
-      m_getViewCoordinatesService->getViewingPointX(m_documentHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(m_documentHandle)
+      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
     m_horizontalScroll->setValue(hScrollPos);
 
     int vScrollPos = calcScrollPos(
-      m_getViewCoordinatesService->getViewingPointY(m_documentHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(m_documentHandle)
+      m_getViewCoordinatesService->getViewingPointY(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
     m_verticalScroll->setValue(vScrollPos);

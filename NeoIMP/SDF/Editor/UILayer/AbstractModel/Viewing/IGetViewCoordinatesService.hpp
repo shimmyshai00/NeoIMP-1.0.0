@@ -45,33 +45,33 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     //             interpret. Here, it's just some reference point indicating the view location,
     //             together with an amount by which the image around it will be magnified (and
     //             tba - rotated).
-    // Parameters: imageHandle - The handle to the image document.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get teh coordinates for.
     // Returns:    The X-coordinate of the viewing point of this image document.
     virtual float
-    getViewingPointX(Common::Handle imageHandle) const = 0;
+    getViewingPointX(Common::Handle viewHandle) const = 0;
 
     // Function:   getViewingPointY
     // Purpose:    Gets the Y-coordinate of the viewing point.
-    // Parameters: imageHandle - The handle to the image document.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get teh coordinates for.
     // Returns:    The Y-coordinate of the viewing point of this image document.
     virtual float
-    getViewingPointY(Common::Handle imageHandle) const = 0;
+    getViewingPointY(Common::Handle viewHandle) const = 0;
 
     // Function:   getViewingPointMagnification
     // Purpose:    Gets the magnification factor around the viewing point.
-    // Parameters: imageHandle - The handle of the image document.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get teh coordinates for.
     // Returns:    The magnification around this viewing point.
     virtual float
-    getViewingPointMagnification(Common::Handle imageHandle) const = 0;
+    getViewingPointMagnification(Common::Handle viewHandle) const = 0;
 
     // Function:   addViewingPointListener
     // Purpose:    Adds a listener to listen to changes in the viewing point for a given image.
-    // Parameters: imageHandle - The handle of the image document.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get teh coordinates for.
     //             listener - The listener function to attach to this image document.
     // Returns:    A connection object to the given listener.
     virtual Common::PIConnection
     addViewingPointListener(
-      Common::Handle imageHandle,
+      Common::Handle viewHandle,
       std::shared_ptr<Common::IListener<float, float, float>> listener
     ) = 0;
   };

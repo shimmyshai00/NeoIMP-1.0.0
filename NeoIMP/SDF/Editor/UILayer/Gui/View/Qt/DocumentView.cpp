@@ -26,6 +26,7 @@
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   DocumentView::DocumentView(
     AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+    AbstractModel::Viewing::IAddViewService *addViewService,
     AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
     AbstractModel::Viewing::IRenderingService *renderingService,
     Common::Handle documentHandle,
@@ -36,7 +37,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_documentHandle(documentHandle),
       m_layout(new QGridLayout(this)),
       m_imageEditorWidget(new CustomWidgets::ImageEditor::Widget(getDocumentDimensionsService,
-        getViewCoordinatesService, renderingService, this))
+        addViewService, getViewCoordinatesService, renderingService, this))
   {
     m_layout->addWidget(m_imageEditorWidget, 0, 0);
     m_imageEditorWidget->setEditedImage(documentHandle);

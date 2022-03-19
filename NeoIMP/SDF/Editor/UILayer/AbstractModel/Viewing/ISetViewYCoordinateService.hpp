@@ -35,7 +35,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     virtual ~ISetViewYCoordinateService() = default;
 
     virtual void
-    setViewingPointY(Common::Handle imageHandle, float y) = 0;
+    setViewingPointY(Common::Handle viewHandle, float y) = 0;
   };
 }
 

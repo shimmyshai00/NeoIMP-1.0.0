@@ -131,8 +131,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   DocumentView *
   ViewFactory::createDocumentView(Common::Handle documentHandle, QWidget *parent) {
-    DocumentView *rv = new DocumentView(m_getDocumentDimensionsService, m_getViewCoordinatesService,
-      m_renderingService, documentHandle, parent);
+    DocumentView *rv = new DocumentView(m_getDocumentDimensionsService, m_addViewService,
+      m_getViewCoordinatesService, m_renderingService, documentHandle, parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     auto onHScroll = std::make_unique<Controller::DocumentView::OnHScroll>(

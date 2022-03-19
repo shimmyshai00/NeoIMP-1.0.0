@@ -27,6 +27,7 @@
 #include "../../../../../../../Common/Handle.hpp"
 #include "../../../../../../../Common/IConnection.hpp"
 #include "../../../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../../../../../AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../../IController.hpp"
@@ -51,6 +52,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   public:
     Widget(
       AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Viewing::IAddViewService *addViewService,
       AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
       AbstractModel::Viewing::IRenderingService *renderingService,
       QWidget *parent = nullptr
@@ -91,6 +93,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     resizeEvent(QResizeEvent *event) override;
   private:
     AbstractModel::Metrics::IGetDocumentDimensionsService *m_getDocumentDimensionsService;
+    AbstractModel::Viewing::IAddViewService *m_addViewService;
     AbstractModel::Viewing::IGetViewCoordinatesService *m_getViewCoordinatesService;
     AbstractModel::Viewing::IRenderingService *m_renderingService;
 
@@ -109,6 +112,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     QtEvent<Common::Handle, float> m_vScrollEvent;
 
     Common::Handle m_documentHandle;
+    Common::Handle m_documentViewDataHandle;
 
     std::pair<int, int>
     calcScrollRange(float dimensionLength, float magnif, float viewportLength);

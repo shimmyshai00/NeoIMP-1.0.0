@@ -26,6 +26,7 @@
 
 #include "../../../../../Common/Handle.hpp"
 #include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/Viewing/IRenderingService.hpp"
 #include "CustomWidgets/ImageEditor/Widget.hpp"
@@ -42,6 +43,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   public:
     DocumentView(
       AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
+      AbstractModel::Viewing::IAddViewService *addViewService,
       AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
       AbstractModel::Viewing::IRenderingService *renderingService,
       Common::Handle documentHandle,
