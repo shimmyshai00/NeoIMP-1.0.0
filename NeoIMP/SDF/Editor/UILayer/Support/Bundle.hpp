@@ -31,8 +31,7 @@
 
 namespace SDF::Editor::UILayer::Support {
   // Class:      Bundle
-  // Purpose:    Bundles together a variety of arguments of different types. Useful for making nice
-  //             OCP-compliant interfaces.
+  // Purpose:    Bundles together a variety of arguments of different types.
   // Parameters: None.
   class Bundle {
   public:

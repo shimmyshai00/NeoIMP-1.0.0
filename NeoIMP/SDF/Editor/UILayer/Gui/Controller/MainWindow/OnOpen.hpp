@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_EVIEWTYPE_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_EVIEWTYPE_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONOPEN_HPP
+#define SDF_EDITOR_UILAYER_GUI_CONTROLLER_MAINWINDOW_ONOPEN_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EViewType.hpp
- * PURPOSE: Enumerates the available view types.
+ * FILE:    OnOpen.hpp
+ * PURPOSE: Defines the OnOpen class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::Gui::View {
-  enum EViewType {
-    VIEW_MAIN_WINDOW,
-    VIEW_NEW_DOCUMENT_DIALOG,
-    VIEW_SAVE_DOCUMENT_DIALOG,
-    VIEW_OPEN_DOCUMENT_DIALOG,
-    VIEW_DOCUMENT_VIEW
+#include "../../View/IController.hpp"
+#include "../../View/EViewType.hpp"
+#include "../../IViewManager.hpp"
+
+namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
+  // Class:      OnOpen
+  // Purpose:    Handles the "Open" menu command.
+  // Parameters: None.
+  class OnOpen : public View::IController<> {
+  public:
+    OnOpen(IViewManager<View::EViewType> *viewManager);
+
+    void
+    onTrigger();
+  private:
+    IViewManager<View::EViewType> *m_viewManager;
   };
 }
 

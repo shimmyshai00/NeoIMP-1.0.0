@@ -29,7 +29,8 @@
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   const Common::Handle HANDLE_MAIN_WINDOW = 0;
   const Common::Handle HANDLE_NEW_DOCUMENT_DIALOG = 1;
-  const Common::Handle HANDLE_SAVE_DOCUMENT_DIALOG = 2;
+  const Common::Handle HANDLE_OPEN_DOCUMENT_DIALOG = 2;
+  const Common::Handle HANDLE_SAVE_DOCUMENT_DIALOG = 3;
   const Common::Handle HANDLE_DOCUMENT_VIEW_ORIGIN = 10000;
 }
 
@@ -71,6 +72,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       case VIEW_NEW_DOCUMENT_DIALOG:
         return addViewIfNotPresent(Impl::HANDLE_NEW_DOCUMENT_DIALOG,
           m_viewFactory->createNewDocumentDialog());
+      case VIEW_OPEN_DOCUMENT_DIALOG:
+        return addViewIfNotPresent(Impl::HANDLE_OPEN_DOCUMENT_DIALOG,
+          m_viewFactory->createOpenDocumentDialog());
       case VIEW_SAVE_DOCUMENT_DIALOG:
         return addViewIfNotPresent(Impl::HANDLE_SAVE_DOCUMENT_DIALOG,
           m_viewFactory->createSaveDocumentDialog());

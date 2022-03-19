@@ -25,6 +25,7 @@
 
 #include "../../Controller/MainWindow/OnDocumentSelected.hpp"
 #include "../../Controller/MainWindow/OnNew.hpp"
+#include "../../Controller/MainWindow/OnOpen.hpp"
 #include "../../Controller/MainWindow/OnSaveAs.hpp"
 #include "../../Controller/MainWindow/OnSave.hpp"
 #include "../../Controller/MainWindow/OnExit.hpp"
@@ -90,6 +91,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     auto onNew = std::make_unique<Controller::MainWindow::OnNew>(m_viewManager);
     rv->hookOnNew(std::move(onNew))->connect();
 
+    auto onOpen = std::make_unique<Controller::MainWindow::OnOpen>(m_viewManager);
+    rv->hookOnOpen(std::move(onOpen))->connect();
+
     auto onSaveAs = std::make_unique<Controller::MainWindow::OnSaveAs>(m_viewManager);
     rv->hookOnSaveAs(std::move(onSaveAs))->connect();
 
@@ -113,6 +117,23 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     auto onAccept = std::make_unique<Controller::NewDocumentDialog::OnAccept>(
       m_createDocumentService, m_viewManager);
     rv->hookOnAccept(std::move(onAccept))->connect();
+
+    return rv;
+  }
+
+  FileChooserDialog *
+  ViewFactory::createOpenDocumentDialog(QWidget *parent) {
+    FileChooserDialog *rv = new FileChooserDialog(parent);
+    rv->setAttribute(::Qt::WA_DeleteOnClose);
+    rv->setAcceptMode(QFileDialog::AcceptOpen);
+    rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
+      AbstractModel::Defs::FILE_FORMAT_MAX));
+
+      /*
+    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Save>(
+      m_getActiveDocumentService, m_saveDocumentService);
+    rv->hookOnAccept(std::move(c))->connect();
+      */
 
     return rv;
   }

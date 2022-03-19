@@ -87,6 +87,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     createNewDocumentDialog(QWidget *parent = nullptr);
 
     FileChooserDialog *
+    createOpenDocumentDialog(QWidget *parent = nullptr);
+
+    FileChooserDialog *
     createSaveDocumentDialog(QWidget *parent = nullptr);
 
     DocumentView *
