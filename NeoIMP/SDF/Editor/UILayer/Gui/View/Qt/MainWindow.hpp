@@ -64,6 +64,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     hookOnNew(std::unique_ptr<IController<>> controller);
 
     Common::PIConnection
+    hookOnOpen(std::unique_ptr<IController<>> controller);
+
+    Common::PIConnection
     hookOnSaveAs(std::unique_ptr<IController<>> controller);
 
     Common::PIConnection
@@ -79,6 +82,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
     QtEvent<Common::Handle> m_onDocumentSelected;
     QtEvent<> m_onNew;
+    QtEvent<> m_onOpen;
     QtEvent<> m_onSaveAs;
     QtEvent<> m_onSave;
     QtEvent<> m_onExit;

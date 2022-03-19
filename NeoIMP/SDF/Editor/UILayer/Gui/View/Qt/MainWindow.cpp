@@ -39,6 +39,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     m_ui->setupUi(this);
 
     connect(m_ui->action_New, &QAction::triggered, [&](){ m_onNew.trigger(); });
+    connect(m_ui->action_Open, &QAction::triggered, [&](){ m_onOpen.trigger(); });
     connect(m_ui->actionSave_As, &QAction::triggered, [&](){ m_onSaveAs.trigger(); });
     connect(m_ui->action_Save, &QAction::triggered, [&](){ m_onSave.trigger(); });
     connect(m_ui->actionE_xit, &QAction::triggered, [&](){ m_onExit.trigger(); });
@@ -99,6 +100,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   Common::PIConnection
   MainWindow::hookOnNew(std::unique_ptr<IController<>> controller) {
     return m_onNew.hook(std::move(controller));
+  }
+
+  Common::PIConnection
+  MainWindow::hookOnOpen(std::unique_ptr<IController<>> controller) {
+    return m_onOpen.hook(std::move(controller));
   }
 
   Common::PIConnection
