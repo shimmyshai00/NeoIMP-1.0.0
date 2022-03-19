@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_ACTIVEDOCUMENTSTATE_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_ACTIVEDOCUMENTSTATE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ActiveDocumentState.hpp
- * PURPOSE: Defines the ActiveDocumentState class.
+ * FILE:    MessageComponent.cpp
+ * PURPOSE: Implements the DI component for the services' messaging system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +21,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/ValueField.hpp"
-#include "../../../../Common/Handle.hpp"
+#include "MessageComponent.hpp"
 
-#include <fruit/fruit.h>
+#include "../../../Common/MessageSystem/AllToAll.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::State {
-  // Class:      ActiveDocumentState
-  // Purpose:    Holds a shared application state variable describing which document is active for
-  //             editing.
-  // Parameters: None.
-  class ActiveDocumentState : public Common::ValueField<Common::Handle> {
-  public:
-    INJECT(ActiveDocumentState()) : ValueField<Common::Handle>(Common::HANDLE_INVALID) {}
-  };
+namespace SDF::Editor::ModelLayer::Services {
+  MessageComponent
+  getMessageComponent() {
+    return fruit::createComponent()
+      .bind<
+        Common::MessageSystem::IChannel<Messages::ImageAdded>,
+        Common::MessageSystem::AllToAll<Messages::ImageAdded>
+       >()
+      .bind<
+        Common::MessageSystem::IChannel<Messages::ImageRemoved>,
+        Common::MessageSystem::AllToAll<Messages::ImageRemoved>
+       >();
+  }
 }
-
-#endif

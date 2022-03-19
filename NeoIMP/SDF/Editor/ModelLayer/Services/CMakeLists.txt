@@ -4,5 +4,7 @@ target_sources(neoimp PUBLIC
                DocumentPrefabsService.cpp
                EditorStateModelService.cpp
                DocumentViewStateService.cpp
+               UnitConversionService.cpp
+               MessageComponent.cpp
                Component.cpp
               )

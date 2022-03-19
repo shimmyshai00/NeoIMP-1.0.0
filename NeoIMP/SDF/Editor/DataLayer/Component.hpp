@@ -29,7 +29,7 @@
 
 #include "../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../ModelLayer/DomainObjects/Engine/Viewpoint.hpp"
+#include "../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
 
 #include "../ModelLayer/AbstractData/IImageRepository.hpp"
 
@@ -47,7 +47,10 @@ namespace SDF::Editor::DataLayer {
       Common::Handle,
       ModelLayer::DomainObjects::Engine::Buffers::GridRendering
     >,
-    Common::Model::ICrudRepository<Common::Handle, ModelLayer::DomainObjects::Engine::Viewpoint>
+    Common::Model::ICrudRepository<
+      Common::Handle,
+      ModelLayer::DomainObjects::State::DocumentViewState
+    >
   > Component;
 
   Component

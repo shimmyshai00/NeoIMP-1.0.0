@@ -44,7 +44,7 @@
 #include "../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../DomainObjects/Engine/Viewpoint.hpp"
+#include "../DomainObjects/State/DocumentViewState.hpp"
 #include "../AbstractData/IImageRepository.hpp"
 #include "Messages/Object.hpp"
 
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::Services {
     fruit::Required<
       AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
       Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Viewpoint>
+      Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

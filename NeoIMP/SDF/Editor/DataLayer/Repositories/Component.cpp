@@ -53,11 +53,11 @@ namespace SDF::Editor::DataLayer::Repositories {
       .bind<
         Common::Model::ICrudRepository<
           Common::Handle,
-          ModelLayer::DomainObjects::Engine::Viewpoint
+          ModelLayer::DomainObjects::State::DocumentViewState
         >,
         Common::Data::Repositories::MemoryOnlyRepository<
           Common::Handle,
-          ModelLayer::DomainObjects::Engine::Viewpoint
+          ModelLayer::DomainObjects::State::DocumentViewState
         >
        >();
   }

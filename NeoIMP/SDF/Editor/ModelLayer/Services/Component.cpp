@@ -31,14 +31,12 @@
 #include "EditorStateModelService.hpp"
 #include "DocumentViewStateService.hpp"
 
+#include "MessageComponent.hpp"
+
 namespace SDF::Editor::ModelLayer::Services {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<
-        Common::MessageSystem::IChannel<Messages::Object>,
-        Common::MessageSystem::AllToAll<Messages::Object>
-       >()
       .bind<UILayer::AbstractModel::Create::IGetDocumentPrefabService, Services::DocumentPrefabsService>()
       .bind<UILayer::AbstractModel::Metrics::IConvertLengthService, Services::UnitConversionService>()
       .bind<UILayer::AbstractModel::Metrics::IConvertResolutionService, Services::UnitConversionService>()
@@ -49,6 +47,7 @@ namespace SDF::Editor::ModelLayer::Services {
       .bind<UILayer::AbstractModel::Viewing::ISetViewXCoordinateService, Services::DocumentViewStateService>()
       .bind<UILayer::AbstractModel::Viewing::ISetViewYCoordinateService, Services::DocumentViewStateService>()
       .bind<UILayer::AbstractModel::Viewing::ISetViewCoordinatesService, Services::DocumentViewStateService>()
+      .install(getMessageComponent)
       .install(Gil::getComponent);
   }
 }

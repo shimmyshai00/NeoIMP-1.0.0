@@ -1,12 +1,12 @@
-#ifndef SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
-#define SDF_MODELLAYER_DOMAINOBJECTS_VIEWPOINT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_MESSAGECOMPONENT_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_MESSAGECOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Viewpoint.hpp
- * PURPOSE: Defines the Viewpoint struct.
+ * FILE:    MessageComponent.hpp
+ * PURPOSE: Defines the DI component for the services' messaging system.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Dimensions.hpp"
+#include "../../../Common/MessageSystem/IChannel.hpp"
+#include "Messages/Object.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
-  // NB: should include image handle
-  struct Viewpoint {
-    ImagePoint m_position;
-    float m_magnification;
+#include <fruit/fruit.h>
 
-    Viewpoint()
-      : m_position(0.0f, 0.0f),
-        m_magnification(1.0f)
-    {
-    }
+namespace SDF::Editor::ModelLayer::Services {
+  typedef fruit::Component<
+    Common::MessageSystem::IChannel<Messages::ImageAdded>,
+    Common::MessageSystem::IChannel<Messages::ImageRemoved>
+  > MessageComponent;
 
-    Viewpoint(ImagePoint pos)
-      : m_position(pos),
-        m_magnification(1.0f)
-    {
-    }
-
-    Viewpoint(ImagePoint pos, float mag)
-      : m_position(pos),
-        m_magnification(mag)
-    {
-    }
-  };
+  MessageComponent
+  getMessageComponent();
 }
 
 #endif
