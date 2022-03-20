@@ -42,7 +42,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
     }
 
     View src = contentComponent->getView(m_srcRect);
-    printf("m_srcRect: %d %d\n", m_srcRect.getWidth(), m_srcRect.getHeight());
 
     // Figure out a mapping from the rectangle src into m_destRect (actually, again, the inverse
     // mapping). We can then intersect the cell rectangles with m_destRect and map them to
@@ -57,11 +56,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
     for(std::size_t yCell(0); yCell < m_gridBuffer->getNumCellsY(); ++yCell) {
       for(std::size_t xCell(0); xCell < m_gridBuffer->getNumCellsX(); ++xCell) {
         Math::Rect<std::size_t> cellRect(m_gridBuffer->getCellRect(xCell, yCell));
-        printf(" - cellRect: %lu %lu\n", cellRect.getWidth(), cellRect.getHeight());
-        printf(" - m_dstRect: %lu %lu\n", m_dstRect.getWidth(), m_dstRect.getHeight());
         if(cellRect.intersectsWith(m_dstRect)) {
           Math::Rect<std::size_t> cellDestIntersect(cellRect.intersect(m_dstRect));
-          printf("   - cellDestIntersect: %lu %lu\n", cellDestIntersect.getWidth(), cellDestIntersect.getHeight());
           if(!m_gridBuffer->isCellAllocated(xCell, yCell)) {
             m_gridBuffer->allocateCell(xCell, yCell);
           }
@@ -69,7 +65,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
           typename View::point_t ulPoint = invMapping(cellDestIntersect.getUpperLeft());
           typename View::point_t lrPoint = invMapping(cellDestIntersect.getLowerRight());
           typename View::point_t dims(lrPoint.x - ulPoint.x, lrPoint.y - ulPoint.y);
-          printf("   - dims: %ld %ld\n", dims.x, dims.y);
 
           View subView = boost::gil::subimage_view(src, ulPoint, dims);
 

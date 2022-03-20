@@ -28,8 +28,6 @@
 #include <boost/gil/image_view.hpp>
 #include <boost/gil/rgb.hpp>
 
-#include <cstdio>
-
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
   // The actual renderer implementations.
   template<>
@@ -38,9 +36,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
     Math::Rect<std::size_t> dstRect,
     const boost::gil::rgb8_view_t &view
   ) {
-    printf("view rect: %ld %ld\n", view.width(), view.height());
-    printf("dst rect: %lu %lu\n", dstRect.getWidth(), dstRect.getHeight());
-
     // Render the entirety of rectangle view into the destination rectangle dstRect. This is
     // designed to scale the rectangle appropriately. There is no compositing here; typically a
     // pure RGB layer (no alpha) is a background layer. Hence we first simply establish a linear
@@ -78,33 +73,5 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
 
       outYPtr += outRowStride;
     }
-
-/*
-    for(std::size_t y(0); y < 10; ++y) {
-      for(std::size_t x(0); x < 10; ++x) {
-        printf("pel: %08X\n", *(unsigned int *)(&outOriginPtr[outRowStride*y + outPixelWidth*x]));
-      }
-      printf("\n");
-    }
-    printf("\n");
-
-    printf("---\n");
-
-    for(std::size_t y(dstRect.y2() - 10); y < dstRect.y2(); ++y) {
-      for(std::size_t x(dstRect.x2() - 10); x < dstRect.x2(); ++x) {
-        printf("pel: %08X\n", *(unsigned int *)(&outOriginPtr[outRowStride*y + outPixelWidth*x]));
-      }
-      printf("\n");
-    }
-    printf("\n");
-
-    printf("RAW cell writing %lu x %lu...\n", dstRect.getWidth(), dstRect.getHeight());
-
-    FILE *fd = fopen("render.raw", "wb");
-    fwrite(outOriginPtr, outPixelWidth, dstRect.getWidth()*dstRect.getHeight(), fd);
-    fclose(fd);
-
-    printf("done!\n");
-*/
   }
 }
