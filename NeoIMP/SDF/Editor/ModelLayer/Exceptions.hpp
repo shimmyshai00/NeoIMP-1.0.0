@@ -38,6 +38,8 @@ namespace SDF::Editor::ModelLayer {
   SDF_DEF_NRM_EXCEPTION_1(PrefabNotFoundException, "Prefab with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(ImageNotFoundException, "Image with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(FileSpecNotFoundException, "Image file spec with handle %u not found.", Common::Handle)
+  SDF_DEF_NRM_EXCEPTION_1(ImageFileNotFoundException, "Image file %s not found.", const char *)
+  SDF_DEF_NRM_EXCEPTION(ImageFileWasBadException, "Image file was either an unsupported type or corrupt.")
   SDF_DEF_NRM_EXCEPTION_1(ViewNotFoundException, "View with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(RenderingNotFoundException, "Rendering with handle %u not found.", Common::Handle)
   SDF_DEF_NRM_EXCEPTION_1(NonexistentLayerException, "Nonexistent layer: %d.", std::size_t)

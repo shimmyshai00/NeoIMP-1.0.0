@@ -25,10 +25,40 @@
  */
 
 #include "../Exceptions.hpp"
-#include "ApplyPersister.hpp"
+#include "applyPersister.hpp"
 #include "EDirection.hpp"
 
+#include <boost/mp11/list.hpp>
+
 namespace SDF::Editor::DataLayer::DataMappers {
+  namespace Impl {
+    // The trick described later
+    template<class PersisterT, class ImageVariantT>
+    struct InverseValidateAndCreate {
+      std::string m_fileName;
+      ImageVariantT *m_variant;
+
+      InverseValidateAndCreate(std::string fileName, ImageVariantT *variant)
+        : m_fileName(fileName),
+          m_variant(variant)
+      {}
+
+      template<class ImplSpecT>
+      bool apply() {
+        typename PersisterT::validator_t validator(m_fileName);
+        if(validator.template apply<ImplSpecT>()) {
+          PersisterT pers(m_fileName, DIR_LOAD);
+          auto im = ModelLayer::DomainObjects::Engine::Image<ImplSpecT>();
+          applyPersister(pers, im);
+          (*m_variant) = std::move(im);
+          return true;
+        } else {
+          return false;
+        }
+      }
+    };
+  }
+
   template<class PersisterT, class ImageVariantT>
   ImageVariantMapper<PersisterT, ImageVariantT>::ImageVariantMapper(
     Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter
@@ -60,7 +90,20 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageVariantMapper<PersisterT, ImageVariantT>::retrieve(std::string fileSpec, ImageVariantT &obj)
   {
-    throw "NOT YET IMPLEMENTED";
+    // Note: In this case, it is quite different to when we have a known buffer. Here, we are faced
+    // with a presumably empty variant. We must figure the appropriate image type from the file
+    // by validating against all possible candidates within the variant spec. This means we have
+    // to do some template magic to traverse the variant type's template arguments. We replicate
+    // the trick that Boost uses with boost::gil::any_image, which we unfortunately cannot use here.
+    if(!has(fileSpec)) {
+      throw FileNotFoundException();
+    }
+
+    Impl::InverseValidateAndCreate<PersisterT, ImageVariantT> ivac(fileSpec, &obj);
+    if(!inverseApply<Impl::InverseValidateAndCreate<PersisterT, ImageVariantT>, ImageVariantT>(
+      ivac)) {
+      throw UnsupportedSubFormatException();
+    }
   }
 
   template<class PersisterT, class ImageVariantT>

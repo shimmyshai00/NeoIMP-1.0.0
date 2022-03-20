@@ -29,6 +29,7 @@
 #include "../UILayer/AbstractModel/Create/IGetDocumentPrefabService.hpp"
 #include "../UILayer/AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../UILayer/AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
 #include "../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
@@ -51,6 +52,7 @@ namespace SDF::Editor::ModelLayer {
     UILayer::AbstractModel::Create::IGetDocumentPrefabService,
     UILayer::AbstractModel::Storage::IGetDocumentFileInfoService,
     UILayer::AbstractModel::Storage::ISaveDocumentService,
+    UILayer::AbstractModel::Storage::ILoadDocumentService,
     UILayer::AbstractModel::Metrics::IConvertLengthService,
     UILayer::AbstractModel::Metrics::IConvertResolutionService,
     UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,

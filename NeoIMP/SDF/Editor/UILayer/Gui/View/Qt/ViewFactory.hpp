@@ -33,6 +33,7 @@
 #include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../../AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
@@ -67,6 +68,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
       AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
       AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+      AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
       AbstractModel::Viewing::IAddViewService *addViewService,
       AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
       AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
@@ -103,6 +105,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Metrics::IGetDocumentDimensionsService *m_getDocumentDimensionsService;
     AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
+    AbstractModel::Storage::ILoadDocumentService *m_loadDocumentService;
     AbstractModel::Viewing::IAddViewService *m_addViewService;
     AbstractModel::Viewing::IGetViewCoordinatesService *m_getViewCoordinatesService;
     AbstractModel::Viewing::ISetViewXCoordinateService *m_setViewXCoordinateService;

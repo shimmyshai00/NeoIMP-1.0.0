@@ -47,6 +47,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Purpose:    Constructs a new image to the specified parameters.
     // Parameters: name - The name of the image.
     //             resolutionPpi - The resolution of the image.
+    Image();
     Image(std::string name, float resolutionPpi);
 
     // Function:   getName

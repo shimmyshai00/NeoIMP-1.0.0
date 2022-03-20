@@ -47,6 +47,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Parameters: image - The specific-type image going into the variant. Note: so far only
     //                     consumptive move implementation is provided. We need a component clone
     //                     method for non-consumptive variant creation.
+    ImageVariant();
+    
     template<class ImplSpecT>
     ImageVariant(Image<ImplSpecT> &&image);
 

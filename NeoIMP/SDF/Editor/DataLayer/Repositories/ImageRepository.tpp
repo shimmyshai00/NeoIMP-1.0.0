@@ -88,8 +88,39 @@ namespace SDF::Editor::DataLayer::Repositories {
     std::string fileSpec,
     ModelLayer::AbstractData::EFormat fileFormat
   ) {
-    // TBA
-    throw "NOT YET IMPLEMENTED";
+    // Construct a default image. NB: tailor to file info? How could we read that here? The
+    // DataMapper lacks the requisite functionality and it is unknown how to best square this with
+    // the idea that DMs should not have a lot of interface cruft but should be simple-interfaced.
+    auto p = std::make_unique<ImageT>();
+
+    // Find a free ID in the repository to use for this image. */
+    Common::Handle id(0);
+    while(m_imageMap.find(id) != m_imageMap.end()) {
+      ++id;
+    }
+
+    // Read the image into the holder and inject it into the repository under this ID.
+    try {
+      switch(fileFormat) {
+        case ModelLayer::AbstractData::FORMAT_PNG:
+          if(!m_pngImageMapper->has(fileSpec)) {
+            // Oops! File not found!
+            throw ImageFileNotFoundException(fileSpec.c_str());
+          } else {
+            m_pngImageMapper->retrieve(fileSpec, *p);
+          }
+          break;
+        default:
+          throw UnsupportedFormatException();
+      }
+
+      m_imageMap[id] = std::move(p);
+      registerFileSpec(id, fileSpec, fileFormat);
+
+      return id;
+    } catch(UnsupportedSubFormatException) {
+      throw ImageFileBadFormatException();
+    }
   }
 
   template<class ImageT>

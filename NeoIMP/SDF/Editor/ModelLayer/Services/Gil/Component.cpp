@@ -29,6 +29,7 @@
 #include "GetDocumentInfoService.hpp"
 #include "RenderingService.hpp"
 #include "SaveDocumentService.hpp"
+#include "LoadDocumentService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   Component
@@ -41,6 +42,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         GetFileInfoService<DomainObjects::Engine::Gil::Any_Image>
        >()
       .bind<UILayer::AbstractModel::Storage::ISaveDocumentService, SaveDocumentService>()
+      .bind<UILayer::AbstractModel::Storage::ILoadDocumentService, LoadDocumentService>()
       .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentInfoService>()
       .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentInfoService>()
       .bind<UILayer::AbstractModel::Viewing::IRenderingService, RenderingService>();

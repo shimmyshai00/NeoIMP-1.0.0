@@ -33,7 +33,7 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   struct RGB24_888_Image_Impl {
-    // These types are for internal convenience
+    // These types are for internal convenience with Boost.GIL only
     typedef boost::gil::rgb8_image_t bkg_image_t;
     typedef boost::gil::rgb8_view_t bkg_view_t;
     typedef boost::gil::rgb8_pixel_t bkg_pixel_t;
@@ -44,9 +44,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
 
     // These types must be defined in every image implementation traits class.
     typedef Components::Content::Background<RGB24_888_Image_Impl> background_content_component_t;
-
     typedef Components::Visitor<RGB24_888_Image_Impl> component_visitor_t;
     typedef Components::ConstVisitor<RGB24_888_Image_Impl> const_component_visitor_t;
+
+    // as must these constants
+    static const std::size_t num_bkg_channels = 3;
+    static const std::size_t bits_per_channel = 8;
+    static const bool has_alpha_channel = false;
   };
 }
 

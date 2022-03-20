@@ -32,6 +32,7 @@
 #include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../../AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
@@ -55,6 +56,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Metrics::IGetDocumentDimensionsService,
     AbstractModel::Storage::IGetDocumentFileInfoService,
     AbstractModel::Storage::ISaveDocumentService,
+    AbstractModel::Storage::ILoadDocumentService,
     AbstractModel::Viewing::IAddViewService,
     AbstractModel::Viewing::IGetViewCoordinatesService,
     AbstractModel::Viewing::ISetViewXCoordinateService,

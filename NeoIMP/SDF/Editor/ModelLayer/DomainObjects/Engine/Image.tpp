@@ -28,6 +28,13 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
+  Image<ImplSpecT>::Image()
+    : m_name("Unnamed"),
+      m_resolutionPpi(120.0f)
+  {
+  }
+  
+  template<class ImplSpecT>
   Image<ImplSpecT>::Image(std::string name, float resolutionPpi)
     : m_name(name),
       m_resolutionPpi(resolutionPpi)

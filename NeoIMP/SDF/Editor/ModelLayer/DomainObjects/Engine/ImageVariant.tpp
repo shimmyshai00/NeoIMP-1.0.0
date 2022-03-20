@@ -26,6 +26,12 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ... ImplSpecTs>
+  ImageVariant<ImplSpecTs...>::ImageVariant()
+    : boost::variant2::variant<Image<ImplSpecTs>...>()
+  {
+  }
+  
+  template<class ... ImplSpecTs>
   template<class ImplSpecT>
   ImageVariant<ImplSpecTs...>::ImageVariant(Image<ImplSpecT> &&image)
     : boost::variant2::variant<Image<ImplSpecTs>...>(std::move(image))

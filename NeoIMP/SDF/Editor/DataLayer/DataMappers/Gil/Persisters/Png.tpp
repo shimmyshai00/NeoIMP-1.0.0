@@ -29,8 +29,11 @@
 #include "../../../Exceptions.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
+#include <boost/gil/io/get_reader.hpp>
 #include <boost/gil/image.hpp>
 #include <boost/gil/image_view.hpp>
+
+#include <memory>
 
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   template<class GilSpecT>
@@ -62,8 +65,44 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
       }
 
       write_view(m_fileSpec, bkgComponent->getView(), png_tag());
-    } else {
-      throw "NOT YET IMPLEMENTED";
+    } else if(m_direction == DIR_LOAD) {
+      // That potentially problematic domain-object creation business ...
+
+      // One thing we have to do here is check to see if the image data has the right pixel format
+      // to be read into GilSpecT::bkg_image_t. Ideally, the caller of this should have matched
+      // by instantiating us with the appropriate spec, but we want to double-check here.
+      typedef get_reader_backend<const std::string, png_tag>::type backend_t;
+      backend_t backend = read_image_info(m_fileSpec, png_tag());
+
+      // TBA: embedded color profiles -> should adjust color space of ImageT with suitable Component
+      // right now we effectively just interpret as sRGB
+      // TBA 2: properly handling images with alpha when loading to non-alpha format
+      if((GilSpecT::num_bkg_channels == backend._info._num_channels) &&
+         (GilSpecT::bits_per_channel == backend._info._bit_depth))
+      {
+        // This format is congruent. Finish the loading process.
+        auto c = std::make_unique<Engine::Gil::Components::Content::Background<GilSpecT>>(
+          backend._info._width, backend._info._height, typename GilSpecT::bkg_pixel_t());
+
+        read_view(m_fileSpec, c->getView(), png_tag());
+
+        // Now check if the image already has a background layer.
+        if(image.getNumLayers() > 0) {
+          // TBA
+          throw "NOT YET IMPLEMENTED";
+        } else {
+          // Create a new layer.
+          auto bkgLayer = std::make_unique<Engine::Layer<GilSpecT>>();
+          bkgLayer->attachComponent(Engine::Layer<GilSpecT>::c_contentComponentId, std::move(c));
+
+          image.addLayer(std::move(bkgLayer));
+        }
+
+        // TBA: other ancillary info like resolution
+      } else {
+        // throw that we got an unchecked format as bug
+        throw UnsupportedSubFormatException();
+      }
     }
   }
 }

@@ -30,6 +30,7 @@
 #include "../../Controller/MainWindow/OnSave.hpp"
 #include "../../Controller/MainWindow/OnExit.hpp"
 #include "../../Controller/NewDocumentDialog/OnAccept.hpp"
+#include "../../Controller/FileChooserDialog/OnAccept_Open.hpp"
 #include "../../Controller/FileChooserDialog/OnAccept_Save.hpp"
 #include "../../Controller/DocumentView/OnScroll.hpp"
 
@@ -46,6 +47,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
     AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
     AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
+    AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
     AbstractModel::Viewing::IAddViewService *addViewService,
     AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
     AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
@@ -63,6 +65,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_getDocumentDimensionsService(getDocumentDimensionsService),
       m_getDocumentFileInfoService(getDocumentFileInfoService),
       m_saveDocumentService(saveDocumentService),
+      m_loadDocumentService(loadDocumentService),
       m_addViewService(addViewService),
       m_getViewCoordinatesService(getViewCoordinatesService),
       m_setViewXCoordinateService(setViewXCoordinateService),
@@ -129,11 +132,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
       AbstractModel::Defs::FILE_FORMAT_MAX));
 
-      /*
-    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Save>(
-      m_getActiveDocumentService, m_saveDocumentService);
+    auto c = std::make_unique<Controller::FileChooserDialog::OnAccept_Open>(m_loadDocumentService,
+      m_viewManager);
     rv->hookOnAccept(std::move(c))->connect();
-      */
 
     return rv;
   }

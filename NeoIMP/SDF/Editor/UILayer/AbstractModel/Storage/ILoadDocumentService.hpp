@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_STORAGE_ISAVEDOCUMENTSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_STORAGE_ISAVEDOCUMENTSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_STORAGE_ILOADDOCUMENTSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_STORAGE_ILOADDOCUMENTSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISaveDocumentService.hpp
- * PURPOSE: Defines the ISaveDocumentService interface.
+ * FILE:    ILoadDocumentService.hpp
+ * PURPOSE: Defines the ILoadDocumentService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -30,21 +30,20 @@
 #include <string>
 
 namespace SDF::Editor::UILayer::AbstractModel::Storage {
-  // Class:      ISaveDocumentService
-  // Purpose:    Defines a service interface for saving documents.
+  // Class:      ILoadDocumentService
+  // Purpose:    Defines a service interface for loading documents.
   // Parameters: None.
-  class ISaveDocumentService {
+  class ILoadDocumentService {
   public:
-    virtual ~ISaveDocumentService() = default;
+    virtual ~ILoadDocumentService() = default;
 
-    // Function:   saveDocument
-    // Purpose:    Saves a document to persistent storage.
-    // Parameters: imageHandle - The handle of the document to save.
-    //             fileSpec - The file spec to save it under.
-    //             fileFormat - The file format to use for the save.
-    // Returns:    None.
-    virtual void saveDocument(
-      Common::Handle imageHandle,
+    // Function:   loadDocument
+    // Purpose:    Loads a document from persistent storage.
+    // Parameters: fileSpec - The file spec to load.
+    //             fileFormat - The file format to use for the load.
+    // Returns:    A handle to the loaded document, or Common::HANDLE_INVALID if the load failed.
+    //             (or throws exception)
+    virtual Common::Handle loadDocument(
       std::string fileSpec,
       Defs::EFileFormat fileFormat
     ) = 0;

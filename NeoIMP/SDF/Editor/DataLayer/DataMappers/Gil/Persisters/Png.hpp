@@ -27,6 +27,7 @@
 
 #include "../../../../ModelLayer/DomainObjects/Engine/Image.hpp"
 #include "../../EDirection.hpp"
+#include "../Validators/Png.hpp"
 
 #include <string>
 
@@ -35,6 +36,8 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   //       format. For clean persisting of multilayer images to PNG, preprocessing in the model
   //       is required to merge the layers (effectively a rendering operation).
   struct Png {
+    typedef Validators::Png validator_t;
+
     std::string m_fileSpec;
     EDirection m_direction;
 

@@ -30,6 +30,7 @@
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
+#include "../../../UILayer/AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
@@ -54,6 +55,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     UILayer::AbstractModel::Create::ICreateDocumentService,
     UILayer::AbstractModel::Storage::IGetDocumentFileInfoService,
     UILayer::AbstractModel::Storage::ISaveDocumentService,
+    UILayer::AbstractModel::Storage::ILoadDocumentService,
     UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
     UILayer::AbstractModel::Editing::IGetDocumentNameService,
     UILayer::AbstractModel::Viewing::IRenderingService

@@ -3,5 +3,6 @@ target_sources(neoimp PUBLIC
                GetDocumentInfoService.cpp
                RenderingService.cpp
                SaveDocumentService.cpp
+               LoadDocumentService.cpp
                Component.cpp
               )
