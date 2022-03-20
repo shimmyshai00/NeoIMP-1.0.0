@@ -33,5 +33,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
       m_dstRect(dstRect),
       m_srcRect(srcRect)
   {
+    printf("RENDER dst rect: %lu %lu\n", dstRect.getWidth(), dstRect.getHeight());
+    printf("RENDER src rect: %d %d\n", srcRect.getWidth(), srcRect.getHeight());
   }
 }

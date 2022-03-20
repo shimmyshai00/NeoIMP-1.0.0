@@ -34,6 +34,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //      they did
 
     m_data = new unsigned char[getPixelWidth()*m_width*m_height];
+
+    for(std::size_t i(0); i < getPixelWidth()*m_width*m_height;++i) {
+      m_data[i] = 0x00;
+    }
   }
 
   RenderCell::~RenderCell() {

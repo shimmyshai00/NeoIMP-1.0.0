@@ -184,6 +184,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         new Engine::Buffers::GridRendering(1, 1, imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
 
       Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
+      printf("outRect: %lu %lu\n", imageWidth, imageHeight);
 
       Engine::Gil::Algorithm::Render render(rendering.get(), outRect, image->getRect());
       Engine::Gil::Algorithm::apply(render, *image);
@@ -208,6 +209,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace DomainObjects;
 
     try {
+      printf("obtaining region with rect %lu %lu %lu %lu\n", x1, y1, x2, y2);
       Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
 
       // Right now, we only support static renderings with 1 cell.
