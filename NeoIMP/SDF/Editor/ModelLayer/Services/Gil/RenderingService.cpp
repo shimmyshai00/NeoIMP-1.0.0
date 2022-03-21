@@ -128,7 +128,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
             Math::Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
             tileRect = regionRect.intersect(cellRect);
 
-            if(m_rendering->isCellAllocated(cellX, cellY)) {
+            if(((cellX < m_rendering->getNumCellsX()) && (cellY < m_rendering->getNumCellsY())) &&
+              m_rendering->isCellAllocated(cellX, cellY))
+            {
               el.xOrigin = tileRect.x1();
               el.yOrigin = tileRect.y1();
               el.width = tileRect.getWidth();
