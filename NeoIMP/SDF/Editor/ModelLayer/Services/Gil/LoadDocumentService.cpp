@@ -29,6 +29,8 @@
 
 #include "../fileFormatMap.hpp"
 
+#include <filesystem>
+
 namespace SDF::Editor::ModelLayer::Services::Gil {
   LoadDocumentService::LoadDocumentService(
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
@@ -49,7 +51,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     AbstractData::EFormat dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
 
     try {
-      return m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat);
+      Common::Handle rv(m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat));
+
+      // Name the image after its filename. NB: should this go in this layer?
+      std::string name(std::filesystem::path(fileSpec).filename());
+      m_imageRepository->getImage(rv)->setName(name);
+
+      return rv;
     } catch(AbstractData::FileNotFoundException) {
       throw UILayer::AbstractModel::FileNotFoundException(fileSpec.c_str());
     } catch(AbstractData::BadFileException) {
