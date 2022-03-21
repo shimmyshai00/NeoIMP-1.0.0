@@ -47,6 +47,15 @@ namespace SDF::Editor::DataLayer::Repositories {
   }
 
   template<class ImageT>
+  Common::Handle
+  ImageRepository<ImageT>::insertImageAtNextAvailable(std::unique_ptr<ImageT> image) {
+    Common::Handle id(getFirstFreeId());
+    m_imageMap[id] = std::move(image);
+
+    return id;
+  }
+
+  template<class ImageT>
   void
   ImageRepository<ImageT>::insertImage(Common::Handle id, std::unique_ptr<ImageT> image) {
     if(m_imageMap.find(id) != m_imageMap.end()) {
@@ -104,10 +113,7 @@ namespace SDF::Editor::DataLayer::Repositories {
     auto p = std::make_unique<ImageT>();
 
     // Find a free ID in the repository to use for this image. */
-    Common::Handle id(0);
-    while(m_imageMap.find(id) != m_imageMap.end()) {
-      ++id;
-    }
+    Common::Handle id(getFirstFreeId());
 
     // Read the image into the holder and inject it into the repository under this ID.
     try {
@@ -174,6 +180,23 @@ namespace SDF::Editor::DataLayer::Repositories {
     } else {
       return m_fileFormatMap.at(id);
     }
+  }
+}
+
+namespace SDF::Editor::DataLayer::Repositories {
+  // Private helper member.
+  template<class ImageT>
+  Common::Handle
+  ImageRepository<ImageT>::getFirstFreeId() const {
+    Common::Handle id(0);
+    for(const auto &kvp : m_imageMap) {
+      id = kvp.first+1; // see if there's a free ID after this one, i.e. a gap
+      if(m_imageMap.find(id) == m_imageMap.end()) {
+        break;
+      }
+    }
+
+    return id;
   }
 }
 

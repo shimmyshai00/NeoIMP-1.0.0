@@ -70,7 +70,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
     Common::MessageSystem::IChannel<Messages::ImageAdded> *m_imageAddedMessageChannel;
 
-    Common::Handle m_nextHandle;
+    std::size_t m_nextNewDocumentNumber;
   };
 }
 

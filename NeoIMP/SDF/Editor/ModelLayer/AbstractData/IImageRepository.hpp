@@ -48,6 +48,15 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     virtual ImageT *
     getImage(Common::Handle id) = 0;
 
+    // Function:         insertImageAtNextAvailable
+    // Purpose:          Inserts an image at the next available ID, without requiring the user to
+    //                   specify one and risking an ID collision.
+    // Parameters:       image - The image to insert.
+    // Returns:          The new ID of the image.
+    // Throws:           None.
+    virtual Common::Handle
+    insertImageAtNextAvailable(std::unique_ptr<ImageT> image) = 0;
+    
     // Function:         insertImage
     // Purpose:          Inserts an image into the repository.
     // Parameters:       id - The ID to inject the image under.

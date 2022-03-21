@@ -50,6 +50,9 @@ namespace SDF::Editor::DataLayer::Repositories {
     ImageT *
     getImage(Common::Handle id);
 
+    Common::Handle
+    insertImageAtNextAvailable(std::unique_ptr<ImageT> image);
+
     void
     insertImage(Common::Handle id, std::unique_ptr<ImageT> image);
 
@@ -80,6 +83,9 @@ namespace SDF::Editor::DataLayer::Repositories {
     std::map<Common::Handle, std::unique_ptr<ImageT>> m_imageMap;
     std::map<Common::Handle, std::string> m_fileSpecMap;
     std::map<Common::Handle, ModelLayer::AbstractData::EFormat> m_fileFormatMap;
+
+    Common::Handle
+    getFirstFreeId() const;
   };
 }
 

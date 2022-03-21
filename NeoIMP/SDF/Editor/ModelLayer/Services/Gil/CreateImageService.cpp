@@ -56,7 +56,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     : m_uuid(boost::uuids::random_generator()()),
       m_imageRepository(imageRepository),
       m_imageAddedMessageChannel(imageAddedMessageChannel),
-      m_nextHandle(0)
+      m_nextNewDocumentNumber(1)
   {
   }
 
@@ -147,7 +147,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
     LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
 
-    std::string name("Untitled");
+    std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
     std::string fileSpec("");
 
     float resPpi(res.in(RESOLUTION_UNIT_PPI));
@@ -169,18 +169,19 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       auto bkgColor = conv.convert(specBackgroundColor);
 
       auto proto = Engine::Gil::ImageFactory<Engine::Gil::RGB24_888_Image_Impl>().createU(
-        "Untitled", "", widthPx, heightPx, resPpi, bkgColor);
+        name, fileSpec, widthPx, heightPx, resPpi, bkgColor);
 
       image = std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
     } else {
       throw UILayer::AbstractModel::BadColorFormatException();
     }
 
-    Common::Handle rv(m_nextHandle++);
-    m_imageRepository->insertImage(rv, std::move(image));
+    Common::Handle rv(m_imageRepository->insertImageAtNextAvailable(std::move(image)));
 
     Messages::ImageAdded msg(rv);
     m_imageAddedMessageChannel->publishMessage(getUuid(), msg);
+
+    ++m_nextNewDocumentNumber;
 
     return rv;
   }
