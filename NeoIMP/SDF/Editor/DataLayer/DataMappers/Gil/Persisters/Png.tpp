@@ -25,7 +25,6 @@
  */
 
 #include "../../../../ModelLayer/DomainObjects/Engine/Gil/Components/Content/Background.hpp"
-#include "../../../../ModelLayer/Exceptions.hpp"
 #include "../../../Exceptions.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
@@ -47,7 +46,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
 
       // Sanity check
       if(image.getNumLayers() == 0) {
-        throw EmptyImageException();
+        throw BadImageException();
       } else {
         // Validate the background layer structure.
         try {
@@ -57,10 +56,10 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
             );
 
           if(bkgComponent == nullptr) {
-            throw InvalidBackgroundLayerException();
+            throw BadImageException();
           }
         } catch(ModelLayer::BadCastException) {
-          throw InvalidBackgroundLayerException();
+          throw BadImageException();
         }
       }
 
@@ -71,37 +70,43 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
       // One thing we have to do here is check to see if the image data has the right pixel format
       // to be read into GilSpecT::bkg_image_t. Ideally, the caller of this should have matched
       // by instantiating us with the appropriate spec, but we want to double-check here.
-      typedef get_reader_backend<const std::string, png_tag>::type backend_t;
-      backend_t backend = read_image_info(m_fileSpec, png_tag());
+      try {
+        typedef get_reader_backend<const std::string, png_tag>::type backend_t;
+        backend_t backend = read_image_info(m_fileSpec, png_tag());
 
-      // TBA: embedded color profiles -> should adjust color space of ImageT with suitable Component
-      // right now we effectively just interpret as sRGB
-      // TBA 2: properly handling images with alpha when loading to non-alpha format
-      if((GilSpecT::num_bkg_channels == backend._info._num_channels) &&
-         (GilSpecT::bits_per_channel == backend._info._bit_depth))
-      {
-        // This format is congruent. Finish the loading process.
-        auto c = std::make_unique<Engine::Gil::Components::Content::Background<GilSpecT>>(
-          backend._info._width, backend._info._height, typename GilSpecT::bkg_pixel_t());
+        // TBA: embedded color profiles -> should adjust color space of ImageT with suitable
+        // Component right now we effectively just interpret as sRGB
+        // TBA 2: properly handling images with alpha when loading to non-alpha format
+        if((GilSpecT::num_bkg_channels == backend._info._num_channels) &&
+           (GilSpecT::bits_per_channel == backend._info._bit_depth))
+        {
+          // This format is congruent. Finish the loading process.
+          auto c = std::make_unique<Engine::Gil::Components::Content::Background<GilSpecT>>(
+            backend._info._width, backend._info._height, typename GilSpecT::bkg_pixel_t());
 
-        read_view(m_fileSpec, c->getView(), png_tag());
+          read_view(m_fileSpec, c->getView(), png_tag());
 
-        // Now check if the image already has a background layer.
-        if(image.getNumLayers() > 0) {
-          // TBA
-          throw "NOT YET IMPLEMENTED";
+          // Now check if the image already has a background layer.
+          if(image.getNumLayers() > 0) {
+            // TBA
+            throw "NOT YET IMPLEMENTED";
+          } else {
+            // Create a new layer.
+            auto bkgLayer = std::make_unique<Engine::Layer<GilSpecT>>();
+            bkgLayer->attachComponent(Engine::Layer<GilSpecT>::c_contentComponentId, std::move(c));
+
+            image.addLayer(std::move(bkgLayer));
+          }
+
+          // TBA: other ancillary info like resolution
         } else {
-          // Create a new layer.
-          auto bkgLayer = std::make_unique<Engine::Layer<GilSpecT>>();
-          bkgLayer->attachComponent(Engine::Layer<GilSpecT>::c_contentComponentId, std::move(c));
-
-          image.addLayer(std::move(bkgLayer));
+          throw UnsupportedSubFormatException();
         }
-
-        // TBA: other ancillary info like resolution
-      } else {
-        // throw that we got an unchecked format as bug
-        throw UnsupportedSubFormatException();
+      } catch(std::ios_base::failure) {
+        // that's just plain rich ... backend_t has no default constructor; so we cannot catch the
+        // error when it occurs and it's possible something as general as this might have other
+        // causes.
+        throw BadFileException();
       }
     }
   }

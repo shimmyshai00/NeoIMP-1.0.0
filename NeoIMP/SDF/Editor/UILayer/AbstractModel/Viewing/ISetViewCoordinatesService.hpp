@@ -34,12 +34,15 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   public:
     virtual ~ISetViewCoordinatesService() = default;
 
+    // Throws (non-bug): ViewNotFoundException
     virtual void
     setViewingPointMagnification(Common::Handle viewHandle, float mag) = 0;
 
+    // Throws (non-bug): ViewNotFoundException
     virtual void
     setViewingPointPos(Common::Handle viewHandle, float x, float y) = 0;
 
+    // Throws (non-bug): ViewNotFoundException
     virtual void
     setViewingPoint(Common::Handle viewHandle, float x, float y, float mag) = 0;
   };

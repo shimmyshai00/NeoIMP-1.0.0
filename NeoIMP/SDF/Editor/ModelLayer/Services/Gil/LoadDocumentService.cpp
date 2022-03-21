@@ -23,7 +23,8 @@
 
 #include "LoadDocumentService.hpp"
 
-#include "../../../DataLayer/Exceptions.hpp"
+#include "../../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../../AbstractData/Exceptions.hpp"
 #include "../../Exceptions.hpp"
 
 #include "../fileFormatMap.hpp"
@@ -41,13 +42,20 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     std::string fileSpec,
     UILayer::AbstractModel::Defs::EFileFormat fileFormat
   ) {
+    if(fileFormat >= UILayer::AbstractModel::Defs::FILE_FORMAT_MAX) {
+      throw UILayer::AbstractModel::BadFileFormatException(fileFormat);
+    }
+
     AbstractData::EFormat dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
+
     try {
       return m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat);
-    } catch(DataLayer::ImageFileNotFoundException) {
-      throw ImageFileNotFoundException(fileSpec.c_str());
-    } catch(DataLayer::ImageFileBadFormatException) {
-      throw ImageFileWasBadException();
+    } catch(AbstractData::FileNotFoundException) {
+      throw UILayer::AbstractModel::FileNotFoundException(fileSpec.c_str());
+    } catch(AbstractData::BadFileException) {
+      throw UILayer::AbstractModel::BadFileException();
+    } catch(AbstractData::UnsupportedSubFormatException) {
+      throw UILayer::AbstractModel::FileTypeUnsupportedException();
     }
 
     return Common::HANDLE_INVALID;

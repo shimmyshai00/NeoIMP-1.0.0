@@ -26,8 +26,6 @@
  */
 
 #include "../../../../ModelLayer/DomainObjects/Engine/Image.hpp"
-#include "../../../../ModelLayer/Exceptions.hpp"
-#include "../../../Exceptions.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
 #include <boost/gil/io/get_reader.hpp>

@@ -26,7 +26,8 @@
 
 #include "GetFileInfoService.hpp"
 
-#include "../../DataLayer/Exceptions.hpp"
+#include "../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../AbstractData/Exceptions.hpp"
 #include "../Exceptions.hpp"
 
 #include "fileFormatMap.hpp"
@@ -43,7 +44,11 @@ namespace SDF::Editor::ModelLayer::Services {
   template<class ImageT>
   bool
   GetFileInfoService<ImageT>::wasDocumentPreviouslySaved(Common::Handle imageHandle) {
-    return m_fileInfoRequester->hasAssociatedFile(imageHandle);
+    try {
+      return m_fileInfoRequester->hasAssociatedFile(imageHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
+    }
   }
 
   template<class ImageT>
@@ -51,8 +56,10 @@ namespace SDF::Editor::ModelLayer::Services {
   GetFileInfoService<ImageT>::getFileSpec(Common::Handle imageHandle) {
     try {
       return m_fileInfoRequester->getFileSpecById(imageHandle);
-    } catch(DataLayer::FileSpecNotFoundException) {
-      throw FileSpecNotFoundException(imageHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
+    } catch(AbstractData::SaveParamsNotAssociatedException) {
+      throw UILayer::AbstractModel::FileSpecNotAssociatedException(imageHandle);
     }
   }
 
@@ -61,8 +68,10 @@ namespace SDF::Editor::ModelLayer::Services {
   GetFileInfoService<ImageT>::getFileFormat(Common::Handle imageHandle) {
     try {
       return g_fileFormatMapDLtoUL[m_fileInfoRequester->getFileFormatById(imageHandle)];
-    } catch(DataLayer::FileSpecNotFoundException) {
-      throw FileSpecNotFoundException(imageHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
+    } catch(AbstractData::SaveParamsNotAssociatedException) {
+      throw UILayer::AbstractModel::FileFormatNotAssociatedException(imageHandle);
     }
   }
 }

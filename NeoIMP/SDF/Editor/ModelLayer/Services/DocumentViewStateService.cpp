@@ -24,6 +24,7 @@
 #include "DocumentViewStateService.hpp"
 
 #include "../../../Common/Exceptions.hpp"
+#include "../../UILayer/AbstractModel/Exceptions.hpp"
 #include "../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
@@ -74,7 +75,7 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosX;
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -83,7 +84,7 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosY;
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -92,7 +93,7 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewMagnification;
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -105,7 +106,7 @@ namespace SDF::Editor::ModelLayer::Services {
       p->set(val);
       m_documentViewStateRepository->update(viewHandle, *p);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -118,7 +119,7 @@ namespace SDF::Editor::ModelLayer::Services {
       p->set(val);
       m_documentViewStateRepository->update(viewHandle, *p);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -131,7 +132,7 @@ namespace SDF::Editor::ModelLayer::Services {
       p->set(val);
       m_documentViewStateRepository->update(viewHandle, *p);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -145,7 +146,7 @@ namespace SDF::Editor::ModelLayer::Services {
       p->set(val);
       m_documentViewStateRepository->update(viewHandle, *p);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -161,7 +162,7 @@ namespace SDF::Editor::ModelLayer::Services {
       p->set(val);
       m_documentViewStateRepository->update(viewHandle, *p);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 
@@ -175,7 +176,7 @@ namespace SDF::Editor::ModelLayer::Services {
       auto wrappedListener = std::make_shared<Impl::WrappedListener>(listener);
       return p->addListener(wrappedListener);
     } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw ViewNotFoundException(viewHandle);
+      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
     }
   }
 }

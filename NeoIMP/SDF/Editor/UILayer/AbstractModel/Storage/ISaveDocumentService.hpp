@@ -37,12 +37,14 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
   public:
     virtual ~ISaveDocumentService() = default;
 
-    // Function:   saveDocument
-    // Purpose:    Saves a document to persistent storage.
-    // Parameters: imageHandle - The handle of the document to save.
-    //             fileSpec - The file spec to save it under.
-    //             fileFormat - The file format to use for the save.
-    // Returns:    None.
+    // Function:         saveDocument
+    // Purpose:          Saves a document to persistent storage.
+    // Parameters:       imageHandle - The handle of the document to save.
+    //                   fileSpec - The file spec to save it under.
+    //                   fileFormat - The file format to use for the save.
+    // Returns:          None.
+    // Throws (non-bug): DocumentNotFoundException
+    //                   BadFileFormatException
     virtual void saveDocument(
       Common::Handle imageHandle,
       std::string fileSpec,

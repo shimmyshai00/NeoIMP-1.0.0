@@ -22,6 +22,8 @@
  */
 
 #include "DocumentPrefabsService.hpp"
+
+#include "../../UILayer/AbstractModel/Exceptions.hpp"
 #include "../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
@@ -73,7 +75,7 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       return m_prefabNames.at(handle);
     } catch(std::out_of_range) {
-      throw PrefabNotFoundException(handle);
+      throw UILayer::AbstractModel::PrefabNotFoundException(handle);
     }
   }
 
@@ -82,7 +84,7 @@ namespace SDF::Editor::ModelLayer::Services {
     try {
       return m_prefabSpecs.at(handle);
     } catch(std::out_of_range) {
-      throw PrefabNotFoundException(handle);
+      throw UILayer::AbstractModel::PrefabNotFoundException(handle);
     }
   }
 }

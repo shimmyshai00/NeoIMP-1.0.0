@@ -79,7 +79,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
     getChannelMax(std::size_t channelNum) const {
 #ifndef NDEBUG
       if(channelNum >= NUM_CHANNELS) {
-        throw OutOfRangeException();
+        throw OutOfBoundsException();
       }
 #endif
       return m_channelMaxes[channelNum];
@@ -89,7 +89,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
     getChannelMin(std::size_t channelNum) const {
 #ifndef NDEBUG
       if(channelNum >= NUM_CHANNELS) {
-        throw OutOfRangeException();
+        throw OutOfBoundsException();
       }
 #endif
       return m_channelMins[channelNum];

@@ -40,42 +40,56 @@ namespace SDF::Editor::ModelLayer::AbstractData {
   public:
     virtual ~IImageRepository() = default;
 
-    // Function:   getImage
-    // Purpose:    Fetches an image from the repository.
-    // Parameters: id - The ID of the image to fetch.
-    // Returns:    The image object.
+    // Function:         getImage
+    // Purpose:          Fetches an image from the repository.
+    // Parameters:       id - The ID of the image to fetch.
+    // Returns:          The image object.
+    // Throws (non-bug): ObjectNotFoundInRepoException
     virtual ImageT *
     getImage(Common::Handle id) = 0;
 
-    // Function:   insertImage
-    // Purpose:    Inserts an image into the repository.
-    // Parameters: id - The ID to inject the image under.
-    //             image - The image to inject into the repository.
+    // Function:         insertImage
+    // Purpose:          Inserts an image into the repository.
+    // Parameters:       id - The ID to inject the image under.
+    //                   image - The image to inject into the repository.
+    // Throws (non-bug): RepositoryIdInUseException
     virtual void
     insertImage(Common::Handle id, std::unique_ptr<ImageT> image) = 0;
 
-    // Function:   persistImage
-    // Purpose:    Forces persistence of an image. Note: either this image must have already been
-    //             loaded or else a file spec must have been given to the repository via the
-    //             registerFileSpec method. If neither of these are done, this will throw.
-    // Parameters: id - The ID of the image to persist.
-    // Returns:    None.
+    // Function:         persistImage
+    // Purpose:          Forces persistence of an image. Note: either this image must have already
+    //                   been loaded or else a file spec must have been given to the repository via
+    //                   the registerFileSpec method. If neither of these are done, this will throw.
+    // Parameters:       id - The ID of the image to persist.
+    // Returns:          None.
+    // Throws (non-bug): ObjectNotFoundInRepoException
+    //                   SaveParamsNotAssociatedException
+    //                   UnsupportedFormatException
+    //                   BadImageException
+    //                   IoException
     virtual void
     persistImage(Common::Handle id) = 0;
 
-    // Function:   loadImageFromFile
-    // Purpose:    Loads an image from a disk file.
-    // Parameters: fileSpec - The file spec to load.
-    //             fileFormat - The format to attempt interpretation of the image as.
-    // Returns:    The ID of the loaded image, or Common::HANDLE_INVALID if failed.
+    // Function:         loadImageFromFile
+    // Purpose:          Loads an image from a disk file.
+    // Parameters:       fileSpec - The file spec to load.
+    //                   fileFormat - The format to attempt interpretation of the image as.
+    // Returns:          The ID of the loaded image, or Common::HANDLE_INVALID if failed.
+    // Throws (non-bug): FileNotFoundException
+    //                   BadFileException
+    //                   UnsupportedFormatException
+    //                   UnsupportedSubFormatException
+    //                   IoException
     virtual Common::Handle
     loadImageFromFile(std::string fileSpec, EFormat fileFormat) = 0;
 
-    // Function:   registerFileSpec
-    // Purpose:    Registers a new file spec with the repository. Does not save any data under it.
-    // Parameters: id - The ID of the image to give a file spec to.
-    //             fileSpec - The file spec to register.
-    //             fileFormat - The file format to use for persistence.
+    // Function:         registerFileSpec
+    // Purpose:          Registers a new file spec with the repository. Does not save any data under
+    //                   it.
+    // Parameters:       id - The ID of the image to give a file spec to.
+    //                   fileSpec - The file spec to register.
+    //                   fileFormat - The file format to use for persistence.
+    // Throws (non-bug): ObjectNotFoundInRepoException
     virtual void
     registerFileSpec(Common::Handle id, std::string fileSpec, EFormat fileFormat) = 0;
   };

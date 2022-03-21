@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    Exceptions.hpp
- * PURPOSE: Defines the exceptions thrown from the data layer.
+ * PURPOSE: Defines the exceptions that can occur as the result of internal data layer errors.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,22 +28,13 @@
 #include "../../Exception.hpp"
 
 namespace SDF::Editor::DataLayer {
-  SDF_DEF_BUG_EXCEPTION(FileSpecInUseException, "File spec is already in use")
-  SDF_DEF_BUG_EXCEPTION(FileNotFoundException, "File not found") // NOTE: thrown from INTERNAL elements, so if NOT caught and converted, THAT's what the "bug" may be
-  SDF_DEF_BUG_EXCEPTION(UnsupportedFormatException, "Unsupported format used on low-level layer")
-  SDF_DEF_BUG_EXCEPTION(UnsupportedSubFormatException, "Main file format was supported, but support for the specifics is not available, or the file is bad")
-  SDF_DEF_BUG_EXCEPTION(FileSpecNotMappedException, "Object with this file spec not previously mapped by mapper")
-
-  SDF_DEF_NRM_EXCEPTION_4(InconsistentDimensionsException, "Image with inconsistent background dimensionality tried (%u x %u background layer in %u x %u image)", std::size_t, std::size_t, std::size_t, std::size_t)
-  SDF_DEF_NRM_EXCEPTION_1(ImageAlreadyInsertedException, "Image with id %d already inserted", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(ImageFileNotFoundException, "Image file %s not found.", const char *)
-  SDF_DEF_NRM_EXCEPTION_1(ImageNotFoundException, "Image with id %d not found", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(FileSpecNotFoundException, "File spec for image id %d not found", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(FileFormatNotFoundException, "File format for image id %d not found", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(FormatNotAssignedException, "Format and file spec for image %d not assigned - cannot persist!", Common::Handle) // nb: redundancy with above?
-  SDF_DEF_NRM_EXCEPTION(EmptyImageException, "Cannot save an image with no data!")
-  SDF_DEF_NRM_EXCEPTION(InvalidBackgroundLayerException, "Invalid or malformed background layer encountered")
-  SDF_DEF_NRM_EXCEPTION(ImageFileBadFormatException, "Image file was not compatible with this program or else was corrupt or malformed")
+  SDF_DEF_BUG_EXCEPTION(FileNotFoundException, "File not found.")
+  SDF_DEF_BUG_EXCEPTION(BadImageException, "Tried to persist a malformed image document.")
+  SDF_DEF_BUG_EXCEPTION(BadFileException, "Tried to load a corrupt or invalid image file.")
+  SDF_DEF_BUG_EXCEPTION(UnimplementedFormatException, "Tried to save to an unimplemented file format.")
+  SDF_DEF_BUG_EXCEPTION(UnsupportedSubFormatException, "Tried to load a file with a valid but unsupported form of its format.")
+  SDF_DEF_BUG_EXCEPTION(DoubleMapException, "Tried to double-map an existing file spec using 'insert'.")
+  SDF_DEF_BUG_EXCEPTION(FileSpecNotMappedException, "File to be updated was not previously mapped.")
 }
 
 #endif

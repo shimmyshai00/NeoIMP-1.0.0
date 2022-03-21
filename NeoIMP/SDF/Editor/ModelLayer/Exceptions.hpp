@@ -30,28 +30,12 @@
 #include <cstddef>
 
 namespace SDF::Editor::ModelLayer {
-  SDF_DEF_NRM_EXCEPTION_1(InvalidImageWidthException, "Invalid image width: %u.", long)
-  SDF_DEF_NRM_EXCEPTION_1(InvalidImageHeightException, "Invalid image height: %u.", std::ptrdiff_t)
-  SDF_DEF_NRM_EXCEPTION_1(InvalidImageResolutionException, "Invalid image resolution: %f.", float)
-  SDF_DEF_NRM_EXCEPTION_1(InvalidLengthUnitException, "Invalid length unit: %d.", int)
-  SDF_DEF_NRM_EXCEPTION_1(InvalidResolutionUnitException, "Invalid resolution unit: %d.", int)
-  SDF_DEF_NRM_EXCEPTION_1(PrefabNotFoundException, "Prefab with handle %u not found.", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(ImageNotFoundException, "Image with handle %u not found.", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(FileSpecNotFoundException, "Image file spec with handle %u not found.", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(ImageFileNotFoundException, "Image file %s not found.", const char *)
-  SDF_DEF_NRM_EXCEPTION(ImageFileWasBadException, "Image file was either an unsupported type or corrupt.")
-  SDF_DEF_NRM_EXCEPTION_1(ViewNotFoundException, "View with handle %u not found.", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(RenderingNotFoundException, "Rendering with handle %u not found.", Common::Handle)
-  SDF_DEF_NRM_EXCEPTION_1(NonexistentLayerException, "Nonexistent layer: %d.", std::size_t)
-  SDF_DEF_NRM_EXCEPTION_2(PosOutOfBoundsException, "Position out of range: (%d, %d).", int, int)
-
-  SDF_DEF_BUG_EXCEPTION(InvalidSizeException, "Invalid size passed.")
-  SDF_DEF_BUG_EXCEPTION(OutOfRangeException, "Tried to perform an out-of-bounds access.")
-  SDF_DEF_BUG_EXCEPTION(ObjectNotFoundInRepositoryException, "Object not found in repository.")
+  SDF_DEF_BUG_EXCEPTION(OutOfBoundsException, "Tried to perform an out-of-bounds access.")
+  SDF_DEF_BUG_EXCEPTION(InvalidSizeException, "Invalid physical size passed.")
   SDF_DEF_BUG_EXCEPTION(BadCastException, "Tried to cast to wrong type.")
-  SDF_DEF_BUG_EXCEPTION(ComponentAlreadyAddedException, "Tried to add the same kind of component to a layer twice.")
-  SDF_DEF_BUG_EXCEPTION(DocumentAlreadyRegisteredException, "Document already registered with editor data model.")
-  SDF_DEF_BUG_EXCEPTION(DocumentNotFoundInDataModelException, "Document not found in data model.")
+  SDF_DEF_BUG_EXCEPTION(BadLengthUnitException, "Bad length unit.")
+  SDF_DEF_BUG_EXCEPTION(BadResolutionUnitException, "Bad resolution unit.")
+  SDF_DEF_BUG_EXCEPTION_1(ComponentAlreadyAddedException, "Component with id %s already added to layer.", const char *)
 }
 
 #endif

@@ -24,7 +24,8 @@
 #include "RenderingService.hpp"
 
 #include "../../../../Common/Exceptions.hpp" // NB: abstraction leak!
-#include "../../../DataLayer/Exceptions.hpp"
+#include "../../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../../AbstractData/Exceptions.hpp"
 #include "../../Math/Rect.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Apply.hpp"
@@ -118,6 +119,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         std::size_t curY(m_y1);
 
         while(curY < m_y2) {
+          curX = m_x1;
+
           while(curX < m_x2) {
             std::size_t cellX(curX / m_rendering->getCellWidth());
             std::size_t cellY(curY / m_rendering->getCellHeight());
@@ -191,8 +194,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       m_renderingRepository->insert(renderingHandle, std::move(rendering));
 
       return renderingHandle;
-    } catch(DataLayer::ImageNotFoundException) {
-      throw ImageNotFoundException(imageHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
     }
   }
 
@@ -215,12 +218,16 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         new Impl::RenderRegion(rendering, x1, y1, x2, y2)
       );
     } catch(Common::ObjectNotFoundException) { // NB: abstraction leak!
-      throw ImageNotFoundException(renderHandle);
+      throw UILayer::AbstractModel::RenderingNotFoundException(renderHandle);
     }
   }
 
   void
   RenderingService::deleteRendering(Common::Handle renderHandle) {
-    m_renderingRepository->erase(renderHandle);
+    try {
+      m_renderingRepository->erase(renderHandle);
+    } catch(Common::ObjectNotFoundException) { // NB: abstraction leak!
+      throw UILayer::AbstractModel::RenderingNotFoundException(renderHandle);
+    }
   }
 }

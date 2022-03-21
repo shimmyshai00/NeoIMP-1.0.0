@@ -23,6 +23,8 @@
 
 #include "GridRendering.hpp"
 
+#include "../../../Exceptions.hpp"
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   GridRendering::GridRendering(
     std::size_t numCellsX,
@@ -93,19 +95,19 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
 
   void
   GridRendering::allocateCell(std::size_t cellX, std::size_t cellY) {
-    // TBA: throw on OoB?
     if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
       std::size_t offs = cellY*m_numCellsX + cellX;
       if(m_cells[offs] == nullptr) {
         // NB: probably should use some kind of pool allocator here to make these more efficient
         m_cells[offs] = new RenderCell(m_cellWidth, m_cellHeight, m_pixelFormat);
       }
+    } else {
+      throw OutOfBoundsException();
     }
   }
 
   void
   GridRendering::freeCell(std::size_t cellX, std::size_t cellY) {
-    // TBA: throw on OoB?
     if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
       std::size_t offs = cellY*m_numCellsX + cellX;
       if(m_cells[offs] != nullptr) {
@@ -113,6 +115,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
         delete m_cells[offs];
         m_cells[offs] = nullptr;
       }
+    } else {
+      throw OutOfBoundsException();
     }
   }
 
@@ -122,8 +126,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
       std::size_t offs = cellY*m_numCellsX + cellX;
       return (m_cells[offs] != nullptr);
     } else {
-      // TBA: throw on OoB?
-      return false;
+      throw OutOfBoundsException();
     }
   }
 
@@ -157,8 +160,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
       std::size_t offs = cellY*m_numCellsX + cellX;
       return m_cells[offs];
     } else {
-      // TBA: throw on OoB?
-      return nullptr;
+      throw OutOfBoundsException();
     }
   }
 }

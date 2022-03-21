@@ -38,12 +38,13 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
   public:
     virtual ~IConvertResolutionService() = default;
 
-    // Function:   createConvertibleResolution
-    // Purpose:    Processes a resoluton into an object that can be easily "displayed" in a variety of
-    //             units.
-    // Parameters: resolution - The resolution quantity to convert.
-    //             resolutionUnit - The units it is given in.
-    // Returns:    A convertible object that can give this resolution in any unit.
+    // Function:         createConvertibleResolution
+    // Purpose:          Processes a resoluton into an object that can be easily "displayed" in a
+    //                   variety of units.
+    // Parameters:       resolution - The resolution quantity to convert.
+    //                   resolutionUnit - The units it is given in.
+    // Returns:          A convertible object that can give this resolution in any unit.
+    // Throws (non-bug): InvalidUnitException
     virtual std::shared_ptr<Defs::IUnitConvertible<Defs::EResolutionUnit>>
     createConvertibleResolution(float resolution, Defs::EResolutionUnit resolutionUnit) = 0;
   };

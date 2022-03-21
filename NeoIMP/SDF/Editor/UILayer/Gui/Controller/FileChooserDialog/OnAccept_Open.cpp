@@ -25,6 +25,7 @@
 
 #include "../../../../../Exception.hpp"
 #include "../../../AbstractModel/Defs/EFileFormat.hpp"
+#include "../../../AbstractModel/Exceptions.hpp"
 
 #include "../../StateKeys.hpp"
 
@@ -40,16 +41,22 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
 
   void
   OnAccept_Open::onTrigger(std::string fileSpec, std::size_t fileFormat) {
-    if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
-      Common::Handle loadedDocumentHandle;
-      loadedDocumentHandle = m_loadDocumentService->loadDocument(fileSpec,
-        static_cast<AbstractModel::Defs::EFileFormat>(fileFormat));
+    try {
+      if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
+        Common::Handle loadedDocumentHandle;
+        loadedDocumentHandle = m_loadDocumentService->loadDocument(fileSpec,
+          static_cast<AbstractModel::Defs::EFileFormat>(fileFormat));
 
-      std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
-      bundle->addHandle("document_handle", loadedDocumentHandle);
-      m_viewManager->produceView(View::VIEW_DOCUMENT_VIEW, bundle);
-    } else {
-      throw SDF::Exception(false, "Unknown file format specified! Cannot save to that.");
+        std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
+        bundle->addHandle("document_handle", loadedDocumentHandle);
+        m_viewManager->produceView(View::VIEW_DOCUMENT_VIEW, bundle);
+      } else {
+        throw SDF::Exception(false, "Unknown file format specified! Cannot save to that.");
+      }
+    } catch(AbstractModel::BadFileException) {
+      throw SDF::Exception(false, "This file was malformed or corrupt and could not be loaded.");
+    } catch(AbstractModel::FileTypeUnsupportedException) {
+      throw SDF::Exception(false, "While this file was valid, its specific format (such as color type) is not currently supported by this program.");
     }
   }
 }

@@ -25,6 +25,7 @@
 
 #include "../../../../Common/Overload.hpp"
 
+#include "../../../UILayer/AbstractModel/Exceptions.hpp"
 #include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
 #include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
 #include "../../DomainObjects/Engine/Gil/ImplTraits.hpp"
@@ -73,23 +74,27 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace DomainObjects;
 
     // Input validation.
-    if(spec.width == 0)
-      throw InvalidImageWidthException(spec.width);
+    if(spec.width == 0) {
+      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
+        spec.height, spec.heightUnit);
+    }
 
     if(spec.widthUnit == LENGTH_UNIT_MAX)
-      throw InvalidLengthUnitException(spec.widthUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
 
-    if(spec.height == 0)
-      throw InvalidImageHeightException(spec.height);
+    if(spec.height == 0) {
+      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
+        spec.height, spec.heightUnit);
+    }
 
     if(spec.heightUnit == LENGTH_UNIT_MAX)
-      throw InvalidLengthUnitException(spec.heightUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
 
     if(spec.resolution <= 0.0f)
-      throw InvalidImageResolutionException(spec.resolution);
+      throw UILayer::AbstractModel::BadResolutionException(spec.resolution, spec.resolutionUnit);
 
     if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
-      throw InvalidResolutionUnitException(spec.resolutionUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.resolutionUnit);
 
     // Convert the dimensions to pixels.
     LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
@@ -103,7 +108,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
         widthPx, heightPx);
     } else {
-      return 0;
+      throw UILayer::AbstractModel::BadColorFormatException();
     }
   }
 
@@ -115,23 +120,27 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using Services::ColorSpaces::UiXyzD65Converter;
 
     // Input validation.
-    if(spec.width == 0)
-      throw InvalidImageWidthException(spec.width);
+    if(spec.width == 0) {
+      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
+        spec.height, spec.heightUnit);
+    }
 
     if(spec.widthUnit == LENGTH_UNIT_MAX)
-      throw InvalidLengthUnitException(spec.widthUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
 
-    if(spec.height == 0)
-      throw InvalidImageHeightException(spec.height);
+    if(spec.height == 0) {
+      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
+        spec.height, spec.heightUnit);
+    }
 
     if(spec.heightUnit == LENGTH_UNIT_MAX)
-      throw InvalidLengthUnitException(spec.heightUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
 
     if(spec.resolution <= 0.0f)
-      throw InvalidImageResolutionException(spec.resolution);
+      throw UILayer::AbstractModel::BadResolutionException(spec.resolution, spec.resolutionUnit);
 
     if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
-      throw InvalidResolutionUnitException(spec.resolutionUnit);
+      throw UILayer::AbstractModel::InvalidUnitException(spec.resolutionUnit);
 
     // Convert the dimensions to pixels.
     ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
@@ -163,6 +172,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         "Untitled", "", widthPx, heightPx, resPpi, bkgColor);
 
       image = std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
+    } else {
+      throw UILayer::AbstractModel::BadColorFormatException();
     }
 
     Common::Handle rv(m_nextHandle++);

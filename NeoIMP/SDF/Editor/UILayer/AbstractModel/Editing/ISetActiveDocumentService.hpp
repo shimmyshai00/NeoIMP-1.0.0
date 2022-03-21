@@ -34,10 +34,11 @@ namespace SDF::Editor::UILayer::AbstractModel::Editing {
   public:
     virtual ~ISetActiveDocumentService() = default;
 
-    // Function:   setActiveDocument
-    // Purpose:    Flags a document as the active document for editing purposes.
-    // Parameters: documentHandle - The handle of the document to set as active.
-    // Returns:    None.
+    // Function:         setActiveDocument
+    // Purpose:          Flags a document as the active document for editing purposes.
+    // Parameters:       documentHandle - The handle of the document to set as active.
+    // Returns:          None.
+    // Throws (non-bug): DocumentNotFoundException
     virtual void
     setActiveDocument(Common::Handle documentHandle) = 0;
   };

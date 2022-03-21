@@ -23,7 +23,8 @@
 
 #include "GetDocumentInfoService.hpp"
 
-#include "../../../DataLayer/Exceptions.hpp"
+#include "../../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../../AbstractData/Exceptions.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
@@ -40,8 +41,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentInfoService::getDocumentName(Common::Handle documentHandle) {
     try {
       return m_imageRepository->getImage(documentHandle)->getName();
-    } catch(DataLayer::ImageNotFoundException) {
-      throw ImageNotFoundException(documentHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
     }
   }
 
@@ -58,8 +59,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
       return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
         RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(DataLayer::ImageNotFoundException) {
-      throw ImageNotFoundException(documentHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
+    } catch(BadLengthUnitException) {
+      throw UILayer::AbstractModel::InvalidUnitException(inUnit);
     }
   }
 
@@ -76,8 +79,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
       return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
         RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(DataLayer::ImageNotFoundException) {
-      throw ImageNotFoundException(documentHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
+    } catch(BadResolutionUnitException) {
+      throw UILayer::AbstractModel::InvalidUnitException(inUnit);
     }
   }
 }

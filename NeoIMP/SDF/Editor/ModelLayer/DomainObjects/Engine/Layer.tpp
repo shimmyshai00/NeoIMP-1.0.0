@@ -64,7 +64,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     std::unique_ptr<Components::IComponent<ImplSpecT>> component
   ) {
     if(m_components.find(id) != m_components.end()) {
-      throw ComponentAlreadyAddedException();
+      throw ComponentAlreadyAddedException(id.c_str());
     } else {
       m_components[id] = std::move(component);
     }

@@ -38,22 +38,26 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
   public:
     virtual ~IGetDocumentDimensionsService() = default;
 
-    // Function:   getDocumentWidth
-    // Purpose:    Gets the width of a document.
-    // Parameters: documentHandle - The handle of the document to get the width of.
-    //             inUnit - The unit to get the width in.
-    // Returns:    The width of the document in the given unit.
+    // Function:         getDocumentWidth
+    // Purpose:          Gets the width of a document.
+    // Parameters:       documentHandle - The handle of the document to get the width of.
+    //                   inUnit - The unit to get the width in.
+    // Returns:          The width of the document in the given unit.
+    // Throws (non-bug): DocumentNotFoundException
+    //                   InvalidUnitException
     virtual float
     getDocumentWidth(
       Common::Handle documentHandle,
       UILayer::AbstractModel::Defs::ELengthUnit inUnit
     ) const = 0;
 
-    // Function:   getDocumentHeight
-    // Purpose:    Gets the height of a document.
-    // Parameters: documentHandle - The handle of the document to get the height of.
-    //             inUnit - The unit to get the height in.
-    // Returns:    The height of the document in the given unit.
+    // Function:         getDocumentHeight
+    // Purpose:          Gets the height of a document.
+    // Parameters:       documentHandle - The handle of the document to get the height of.
+    //                   inUnit - The unit to get the height in.
+    // Returns:          The height of the document in the given unit.
+    // Throws (non-bug): DocumentNotFoundException
+    //                   InvalidUnitException
     virtual float
     getDocumentHeight(
       Common::Handle documentHandle,

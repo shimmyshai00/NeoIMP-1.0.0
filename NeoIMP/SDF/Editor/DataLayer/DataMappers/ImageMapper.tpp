@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../ModelLayer/AbstractData/Exceptions.hpp"
 #include "../Exceptions.hpp"
 #include "applyPersister.hpp"
 #include "inverseApply.hpp"
@@ -49,7 +50,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageMapper<PersisterT, ImageT>::insert(std::string fileSpec, ImageT &obj) {
     if(has(fileSpec)) {
-      throw FileSpecInUseException();
+      throw DoubleMapException();
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
@@ -79,14 +80,9 @@ namespace SDF::Editor::DataLayer::DataMappers {
       throw FileNotFoundException();
     }
 
-    // Validate the format of the image before loading.
-    typename PersisterT::validator_t validator(fileSpec);
-    if(inverseApply<typename PersisterT::validator_t, ImageT>(validator)) {
-      PersisterT persister(fileSpec, DIR_LOAD);
-      applyPersister(persister, obj);
-    } else {
-      throw UnsupportedSubFormatException();
-    }
+
+    PersisterT persister(fileSpec, DIR_LOAD);
+    applyPersister(persister, obj);
   }
 
   template<class PersisterT, class ImageT>

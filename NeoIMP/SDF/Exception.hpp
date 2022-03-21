@@ -26,6 +26,7 @@
 
 #include "SafeString.hpp"
 
+#include <exception>
 #include <cstdarg>
 
 namespace SDF {
@@ -99,17 +100,29 @@ namespace SDF {
 
 #define SDF_DEF_BUG_EXCEPTION(excName, whatString) \
   struct excName : public SDF::Exception { \
-    excName() noexcept : Exception(false, whatString) {} \
+    excName() noexcept : Exception(true, whatString) {} \
   };
 
 #define SDF_DEF_BUG_EXCEPTION_1(excName, whatString, typ1) \
   struct excName : public SDF::Exception { \
-    excName(typ1 arg1) noexcept : Exception(false, whatString, arg1) {} \
+    excName(typ1 arg1) noexcept : Exception(true, whatString, arg1) {} \
   };
 
 #define SDF_DEF_BUG_EXCEPTION_2(excName, whatString, typ1, typ2) \
   struct excName : public SDF::Exception { \
-    excName(typ1 arg1, typ2 arg2) noexcept : Exception(false, whatString, arg1, arg2) {} \
+    excName(typ1 arg1, typ2 arg2) noexcept : Exception(true, whatString, arg1, arg2) {} \
+  };
+
+#define SDF_DEF_BUG_EXCEPTION_3(excName, whatString, typ1, typ2, typ3) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2, typ3 arg3) noexcept \
+      : Exception(true, whatString, arg1, arg2, arg3) {} \
+  };
+
+#define SDF_DEF_BUG_EXCEPTION_4(excName, whatString, typ1, typ2, typ3, typ4) \
+  struct excName : public SDF::Exception { \
+    excName(typ1 arg1, typ2 arg2, typ3 arg3, typ4 arg4) noexcept \
+      : Exception(true, whatString, arg1, arg2, arg3, arg4) {} \
   };
 
 #endif

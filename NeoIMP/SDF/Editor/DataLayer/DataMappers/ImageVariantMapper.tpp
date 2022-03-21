@@ -78,7 +78,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageVariantMapper<PersisterT, ImageVariantT>::insert(std::string fileSpec, ImageVariantT &obj) {
     if(has(fileSpec)) {
-      throw FileSpecInUseException();
+      throw DoubleMapException();
     }
 
     // Boost.GIL does not require direct interaction with the file system by us

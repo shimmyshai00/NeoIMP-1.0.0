@@ -33,7 +33,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
       m_resolutionPpi(120.0f)
   {
   }
-  
+
   template<class ImplSpecT>
   Image<ImplSpecT>::Image(std::string name, float resolutionPpi)
     : m_name(name),
@@ -93,7 +93,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
-      throw OutOfRangeException();
+      throw OutOfBoundsException();
     } else {
       return *m_layers[layerNum];
     }
@@ -103,7 +103,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   const Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
     if(layerNum >= m_layers.size()) {
-      throw OutOfRangeException();
+      throw OutOfBoundsException();
     } else {
       return *m_layers[layerNum];
     }

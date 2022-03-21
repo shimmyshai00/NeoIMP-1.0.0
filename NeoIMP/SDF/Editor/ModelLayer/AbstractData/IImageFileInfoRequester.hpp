@@ -39,24 +39,27 @@ namespace SDF::Editor::ModelLayer::AbstractData {
   public:
     virtual ~IImageFileInfoRequester() = default;
 
-    // Function:   hasAssociatedFile
-    // Purpose:    Check if the given id has an associated file.
-    // Parameters: id - The image document ID to check.
-    // Returns:    Whether a file is associated to this ID.
+    // Function:         hasAssociatedFile
+    // Purpose:          Check if the given id has an associated file.
+    // Parameters:       id - The image document ID to check.
+    // Returns:          Whether a file is associated to this ID.
+    // Throws (non-bug): ObjectNotFoundInRepoException
     virtual bool
     hasAssociatedFile(Common::Handle id) const = 0;
 
-    // Function:   getFileSpecById
-    // Purpose:    Obtains the file spec associated to the given id.
-    // Parameters: id - The image document ID to check.
-    // Returns:    The desired file spec.
+    // Function:         getFileSpecById
+    // Purpose:          Obtains the file spec associated to the given id.
+    // Parameters:       id - The image document ID to check.
+    // Returns:          The desired file spec.
+    // Throws (non-bug): SaveParamsNotAssociatedException
     virtual std::string
     getFileSpecById(Common::Handle id) const = 0;
 
-    // Function:   getFileFormatById
-    // Purpose:    Obtains the file format associated to the given id.
-    // Parameters: id - The image document ID to check.
-    // Returns:    The desired file format.
+    // Function:         getFileFormatById
+    // Purpose:          Obtains the file format associated to the given id.
+    // Parameters:       id - The image document ID to check.
+    // Returns:          The desired file format.
+    // Throws (non-bug): SaveParamsNotAssociatedException
     virtual EFormat
     getFileFormatById(Common::Handle id) const = 0;
   };

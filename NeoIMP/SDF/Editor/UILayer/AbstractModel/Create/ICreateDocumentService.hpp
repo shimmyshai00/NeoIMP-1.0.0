@@ -37,10 +37,13 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
   public:
     virtual ~ICreateDocumentService() = default;
 
-    // Function:   createFromSpec
-    // Purpose:    Creates a new document from a passed specification.
-    // Parameters: spec - The spec to create the document from.
-    // Returns:    The handle to the new document.
+    // Function:         createFromSpec
+    // Purpose:          Creates a new document from a passed specification.
+    // Parameters:       spec - The spec to create the document from.
+    // Returns:          The handle to the new document.
+    // Throws (non-bug): BadDimensionsException
+    //                   InvalidUnitException
+    //                   BadColorFormatException
     virtual Common::Handle
     createFromSpec(const Defs::ImageSpec &spec) = 0;
   };

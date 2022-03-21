@@ -34,6 +34,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   public:
     virtual ~ISetViewXCoordinateService() = default;
 
+    // Throws (non-bug): ViewNotFoundException
     virtual void
     setViewingPointX(Common::Handle viewHandle, float x) = 0;
   };

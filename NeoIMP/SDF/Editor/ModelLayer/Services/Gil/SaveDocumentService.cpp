@@ -23,7 +23,8 @@
 
 #include "SaveDocumentService.hpp"
 
-#include "../../../DataLayer/Exceptions.hpp"
+#include "../../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../../AbstractData/Exceptions.hpp"
 #include "../../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
@@ -53,8 +54,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
       m_imageRepository->registerFileSpec(imageHandle, fileSpec, dataLayerFormat);
       m_imageRepository->persistImage(imageHandle);
-    } catch(DataLayer::ImageNotFoundException) {
-      throw ImageNotFoundException(imageHandle);
+    } catch(AbstractData::ObjectNotFoundInRepoException) {
+      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
+    } catch(AbstractData::UnsupportedFormatException) {
+      throw UILayer::AbstractModel::BadFileFormatException(fileFormat);
     }
   }
 }

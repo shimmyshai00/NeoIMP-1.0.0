@@ -23,6 +23,8 @@
 
 #include "LengthConvertible.hpp"
 
+#include "../Exceptions.hpp"
+
 #include "LengthConversions.hpp"
 #include "ResolutionConversions.hpp"
 
@@ -37,6 +39,14 @@ namespace SDF::Editor::ModelLayer::Metrics {
       m_resolutionPpi(resolution * g_resolutionUnitSizes[resUnit])
   {
     using namespace UILayer::AbstractModel;
+    if(unit >= Defs::LENGTH_UNIT_MAX) {
+      throw BadLengthUnitException();
+    }
+
+    if(resUnit >= Defs::RESOLUTION_UNIT_MAX) {
+      throw BadResolutionUnitException();
+    }
+
     if(unit != Defs::LENGTH_UNIT_PIXEL) {
       m_quantityPixels = quantity * g_lengthUnitSizes[unit] * m_resolutionPpi;
     }
@@ -45,6 +55,10 @@ namespace SDF::Editor::ModelLayer::Metrics {
   float
   LengthConvertible::in(UILayer::AbstractModel::Defs::ELengthUnit unit) {
     using namespace UILayer::AbstractModel;
+    if(unit >= Defs::LENGTH_UNIT_MAX) {
+      throw BadLengthUnitException();
+    }
+
     if(unit == Defs::LENGTH_UNIT_PIXEL) {
       return m_quantityPixels;
     } else {

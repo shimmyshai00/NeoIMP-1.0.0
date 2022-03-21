@@ -37,12 +37,15 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
   public:
     virtual ~ILoadDocumentService() = default;
 
-    // Function:   loadDocument
-    // Purpose:    Loads a document from persistent storage.
-    // Parameters: fileSpec - The file spec to load.
-    //             fileFormat - The file format to use for the load.
-    // Returns:    A handle to the loaded document, or Common::HANDLE_INVALID if the load failed.
-    //             (or throws exception)
+    // Function:         loadDocument
+    // Purpose:          Loads a document from persistent storage.
+    // Parameters:       fileSpec - The file spec to load.
+    //                   fileFormat - The file format to use for the load.
+    // Returns:          A handle to the loaded document.
+    // Throws (non-bug): FileNotFoundException
+    //                   BadFileFormatException
+    //                   BadFileException
+    //                   FileTypeUnsupportedException
     virtual Common::Handle loadDocument(
       std::string fileSpec,
       Defs::EFileFormat fileFormat

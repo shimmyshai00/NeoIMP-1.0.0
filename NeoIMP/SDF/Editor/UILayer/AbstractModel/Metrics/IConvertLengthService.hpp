@@ -38,13 +38,14 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
   public:
     virtual ~IConvertLengthService() = default;
 
-    // Function:   createConvertibleLength
-    // Purpose:    Processes a length into an object that can be easily "displayed" in a variety of
-    //             units.
-    // Parameters: length - The length quantity to convert.
-    //             lengthUnit - The units it is given in.
-    //             resolution - The resolution reference to convert from and to pixels.
-    // Returns:    A convertible object that can give this length in any unit.
+    // Function:         createConvertibleLength
+    // Purpose:          Processes a length into an object that can be easily "displayed" in a
+    //                   variety of units.
+    // Parameters:       length - The length quantity to convert.
+    //                   lengthUnit - The units it is given in.
+    //                   resolution - The resolution reference to convert from and to pixels.
+    // Returns:          A convertible object that can give this length in any unit.
+    // Throws (non-bug): InvalidUnitException
     virtual std::shared_ptr<Defs::IUnitConvertible<Defs::ELengthUnit>>
     createConvertibleLength(
       float length,

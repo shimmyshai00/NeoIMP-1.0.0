@@ -38,24 +38,27 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
   public:
     virtual ~IGetDocumentPrefabService() = default;
 
-    // Function:   getAvailablePrefabs
-    // Purpose:    Gets the available document prefabs.
-    // Parameters: None.
-    // Returns:    A list of the available prefabs as handles.
+    // Function:         getAvailablePrefabs
+    // Purpose:          Gets the available document prefabs.
+    // Parameters:       None.
+    // Returns:          A list of the available prefabs as handles.
+    // Throws (non-bug): None.
     virtual std::vector<Common::Handle>
     getAvailablePrefabs() const = 0;
 
-    // Function:   getPrefabName
-    // Purpose:    Gets the name of a prefab by handle.
-    // Parameters: handle - The handle of the prefab to get the name of.
-    // Returns:    The name of the prefab.
+    // Function:         getPrefabName
+    // Purpose:          Gets the name of a prefab by handle.
+    // Parameters:       handle - The handle of the prefab to get the name of.
+    // Returns:          The name of the prefab.
+    // Throws (non-bug): PrefabNotFoundException
     virtual std::string
     getPrefabName(Common::Handle handle) const = 0;
 
-    // Function:   getPrefabSpec
-    // Purpose:    Gets the complete document spec given by a prefab.
-    // Parameters: handle - The handle of the prefab to get the spec for.
-    // Returns:    The spec for a document to be made to this prefab.
+    // Function:         getPrefabSpec
+    // Purpose:          Gets the complete document spec given by a prefab.
+    // Parameters:       handle - The handle of the prefab to get the spec for.
+    // Returns:          The spec for a document to be made to this prefab.
+    // Throws (non-bug): PrefabNotFoundException
     virtual Defs::ImageSpec
     getPrefabSpec(Common::Handle handle) const = 0;
   };
