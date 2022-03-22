@@ -24,22 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../DomainObjects/Engine/ColorSpaces/IEC61966_sRGB.hpp"
+#include "../../DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
+#include "../../DomainObjects/Engine/ColorSpaces/Maps/IEC61966_sRGB.hpp"
 #include "../ColorModels/Defs.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
-  // Types.
-  typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB<
-    UILayer::AbstractModel::Defs::RGB24_888,
-    8,
-    8,
-    8
-  > IEC61966_sRGB_RGB24_888;
-}
-
-namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
-  // Global constants.
-  static const auto g_iec61966_sRGB_rgb24_888 = IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
+  // Types. Note - no constants, since auto spaces are dynamic.
+  typedef UiAutoSpace<
+    DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65,
+    DomainObjects::Engine::ColorSpaces::Maps::IEC61966_sRGB
+  > UIAssumed_sRGB;
 }
 
 #endif

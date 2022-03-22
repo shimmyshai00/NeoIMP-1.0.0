@@ -40,7 +40,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   //                    RGB input to a CMYK image. The ideal auto map should be able to take either
   //                    type of input and convert appropriately to the fundamental space of the
   //                    image being processed since the UI should be able to input any pixel format
-  //                    it wants.
+  //                    it wants. Hence, the last component is an ideal UiAutoMap that handles this.
   template<class FundamentalTraitsT, class MapT>
   class UiAutoSpace : public DomainObjects::Engine::IColorSpace<
                         std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>,

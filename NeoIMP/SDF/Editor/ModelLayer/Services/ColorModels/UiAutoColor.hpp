@@ -30,6 +30,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <array>
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   // The pixel format used by the below model. Narrower numbers of channels mean we just ignore
@@ -121,7 +122,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
                   ) const;
   private:
     UILayer::AbstractModel::Defs::Color::EColorModel m_enumColorModel;
-    std::vector<std::pair<float, float>> m_channelRanges;
+    std::array<std::pair<float, float>, 5> m_channelRanges; // again, save allocator overhead
   };
 }
 
