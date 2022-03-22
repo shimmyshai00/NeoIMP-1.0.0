@@ -26,11 +26,16 @@
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoPixel::UiAutoPixel(
     UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
-    std::size_t numChannels
+    const std::vector<std::pair<float, float>> &channelRanges
   )
     : m_enumColorModel(enumColorModel),
-      m_values(numChannels)
+      m_numChannels(channelRanges.size())
   {
+    for(std::size_t i(0); i < m_numChannels; ++i) {
+      m_values[i] = 0.0f;
+      m_minLimits[i] = channelRanges[i].first;
+      m_maxLimits[i] = channelRanges[i].second;
+    }
   }
 
   EColorModel
@@ -40,17 +45,17 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
   std::size_t
   UiAutoPixel::getNumChannels() const {
-    return m_values.size();
+    return m_numChannels;
   }
 
   float
   UiAutoPixel::getChannelMin(std::size_t idx) const {
-    return 0.0f;
+    return m_minLimits.at(idx);
   }
 
   float
   UiAutoPixel::getChannelMax(std::size_t idx) const {
-    return 1.0f;
+    return m_maxLimits.at(idx);
   }
 
   float
@@ -66,50 +71,58 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoColor::UiAutoColor(const IColor &protoPixel)
-    : m_channelMinLimits(protoPixel.getNumChannels()),
-      m_channelMaxLimits(protoPixel.getNumChannels())
+    : m_enumColorModel(protoPixel.getColorModel()),
+      m_channelRanges(protoPixel.getNumChannels())
   {
     for(std::size_t i(0); i < protoPixel.getNumChannels(); ++i) {
-      m_channelMinLimits[i] = protoPixel.getChannelMin(i);
-      m_channelMaxLimits[i] = protoPixel.getChannelMax(i);
+      m_channelRanges[i].first = protoPixel.getChannelMin(i);
+      m_channelRanges[i].second = protoPixel.getChannelMax(i);
     }
   }
 
   std::size_t
   UiAutoColor::getNumChannels() const {
-    return m_channelMaxLimits.size();
+    return m_channelRanges.size();
   }
 
   float
   UiAutoColor::getChannelMax(std::size_t channelNum) const {
-    return m_channelMaxLimits.at(channelNum);
+    return m_channelRanges.at(channelNum).second;
   }
 
   float
   UiAutoColor::getChannelMin(std::size_t channelNum) const {
-    return m_channelMinLimits.at(channelNum);
+    return m_channelRanges.at(channelNum).first;
   }
 
-  UiAutoPixel
+  std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
   UiAutoColor::convertToPixel(float *values) const {
-    // Simply "pass through" the values to the UiAutoPixel - that's the beauty of the [0, 1]
-    // range!
-    UiAutoPixel apx;
+    // meh ... couldn't get rid of allocator overhead anyways
+    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> rv(
+      new UIAutoPixel(m_enumColorModel, m_channelRanges));
+
+    // the floats come in in the range [0, 1]
     for(std::size_t i(0); i < getNumChannels(); ++i) {
-      apx.set(i, values[i]);
+      float channelWidth = m_channelRanges[i].second - m_channelRanges[i].first;
+
+      rv->set(i, (values[i] * channelWidth) + m_channelRanges[i].first);
     }
 
-    return apx;
+    return rv;
   }
 
   void
-  UiAutoColor::convertPixelTo(UiAutoPixel px,
+  UiAutoColor::convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> px,
                               float *values
                              ) const
   {
-    // same thing, "pass back"
     for(std::size_t i(0); i < getNumChannels(); ++i) {
-      values[i] = px.get(i);
+      float pxChannelWidth = px->getChannelMax(i) - px->getChannelMin(i);
+
+      // again, in [0, 1], so we don't need to use our channel ranges here - they're only for
+      // *synthesizing* an IColor the UI won't notice is a model object via the beauty of
+      // abstraction
+      values[i] = (px.get(i) - px->getChannelMin(i)) / pxChannelWidth;
     }
   }
 }

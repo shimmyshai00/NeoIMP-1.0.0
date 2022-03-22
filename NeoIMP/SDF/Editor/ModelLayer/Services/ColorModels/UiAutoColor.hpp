@@ -33,17 +33,16 @@
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   // The pixel format used by the below model. Narrower numbers of channels mean we just ignore
-  // channels. The pixels here use [0, 1]-range values, so there is no need to worry about bit
-  // depths. HDR is represented by values greater than 1, if applicable.
+  // channels.
   class UiAutoPixel : public UILayer::AbstractModel::Defs::Color::IColor {
   public:
     // Function:   UiAutoPixel
-    // Purpose:    Construct this auto pixel to a specified size.
+    // Purpose:    Construct this auto pixel to a specified format.
     // Parameters: colorModel - The UI color model specifier this corresponds to.
-    //             numChannels - The number of channels to make.
+    //             channelRanges - The channel ranges to apply. Also implies the number of channels.
     UiAutoPixel(
       UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
-      std::size_t numChannels
+      const std::vector<std::pair<float, float>> &channelRanges
     );
 
     EColorModel
@@ -65,8 +64,13 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     set(std::size_t idx, float val);
   private:
     UILayer::AbstractModel::Defs::Color::EColorModel m_enumColorModel;
+    std::size_t m_numChannels;
 
-    std::vector<float> m_values;
+    // use std::array here to get rid of allocator overhead - 5 should be enough for everybody until
+    // it ain't
+    std::array<float, 5> m_values;
+    std::array<float, 5> m_minLimits;
+    std::array<float, 5> m_maxLimits;
   };
 }
 
@@ -82,9 +86,13 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   //             side, to provide inter-conversion we must "straddle" the two worlds by implementing
   //             *both* the domain layer *and* UI layer interfaces. Fortunately, the two apply to
   //             different concepts; so we just need to implement IColor in UiAutoPixel and
-  //             IColorModel here.
+  //             IColorModel here. Yes, an UGLY HACK using a *shared_ptr* as the PIXEL FORMAT but
+  //             hey ...
   // Parameters: None.
-  class UiAutoColor : public DomainObjects::Engine::IColorModel<UiAutoPixel> {
+  class UiAutoColor : public DomainObjects::Engine::IColorModel<
+                        std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+                      >
+  {
   public:
     // Function:   UIAutoColor
     // Purpose:    Initializes the auto color to the specs of a test pixel. This is another
@@ -104,16 +112,16 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     float
     getChannelMin(std::size_t channelNum) const;
 
-    UiAutoPixel
+    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
     convertToPixel(float *values) const;
 
     void
-    convertPixelTo(UiAutoPixel px,
+    convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> px,
                    float *values
                   ) const;
   private:
-    std::vector<float> m_channelMinLimits;
-    std::vector<float> m_channelMaxLimits;
+    UILayer::AbstractModel::Defs::Color::EColorModel m_enumColorModel;
+    std::vector<std::pair<float, float>> m_channelRanges;
   };
 }
 
