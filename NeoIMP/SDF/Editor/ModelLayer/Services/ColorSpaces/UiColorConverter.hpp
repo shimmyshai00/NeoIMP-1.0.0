@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../UILayer/AbstractModel/Defs/Color.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
 #include "../../DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
 #include "../../DomainObjects/Engine/IColorSpace.hpp"
 
@@ -50,7 +50,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
     // Parameters: color - The color variant to convert.
     // Returns:    The color in the output pixel type.
     DstPixelT
-    convert(UILayer::AbstractModel::Defs::AnyColor anyColor);
+    convert(UILayer::AbstractModel::Defs::IColor &color);
   private:
     const DomainObjects::Engine::IColorSpace<DstPixelT, FundamentalSpaceT> *m_dstColorSpace;
   };

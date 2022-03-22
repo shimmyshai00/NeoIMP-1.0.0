@@ -49,10 +49,10 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   >
   inline void
   UiRgba<UiPixelT,BitsR, BitsG, BitsB, BitsA>::convertPixelTo(UiPixelT px, float *values) const {
-    values[0] = px.m_r;
-    values[1] = px.m_g;
-    values[2] = px.m_b;
-    values[3] = px.m_a;
+    values[0] = px.getR();
+    values[1] = px.getG();
+    values[2] = px.getB();
+    values[3] = px.getA();
   }
 }
 

@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_EBITDEPTH_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_EBITDEPTH_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_EBITDEPTH_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_EBITDEPTH_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::AbstractModel::Defs {
+namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   enum EBitDepth {
     BIT_DEPTH_8,
     BIT_DEPTH_MAX

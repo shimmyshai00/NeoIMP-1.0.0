@@ -24,13 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/Meta.hpp"
+
+#include "Color/EColorModel.hpp"
+#include "Color/EBitDepth.hpp"
+#include "Color/IColor.hpp"
+#include "Color/Types.hpp"
+
 #include "ELengthUnit.hpp"
 #include "EResolutionUnit.hpp"
-#include "EColorModel.hpp"
-#include "EBitDepth.hpp"
 #include "EBackgroundPreset.hpp"
 
-#include "Color.hpp"
+#include <memory>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs {
   struct ImageSpec {
@@ -43,11 +48,11 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     float resolution;
     EResolutionUnit resolutionUnit;
 
-    EColorModel colorModel;
-    EBitDepth bitDepth;
+    Color::EColorModel colorModel;
+    Color::EBitDepth bitDepth;
 
     EBackgroundPreset backgroundPreset;
-    AnyColor backgroundColor;
+    std::shared_ptr<Color::IColor> backgroundColor;
 
     ImageSpec()
       : width(320.0f),
@@ -56,10 +61,10 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         heightUnit(LENGTH_UNIT_PIXEL),
         resolution(300.0f),
         resolutionUnit(RESOLUTION_UNIT_PPI),
-        colorModel(COLOR_MODEL_RGB),
-        bitDepth(BIT_DEPTH_8),
+        colorModel(Color::COLOR_MODEL_RGB),
+        bitDepth(Color::BIT_DEPTH_8),
         backgroundPreset(PRE_BACKGROUND_BLACK),
-        backgroundColor(ARGB32_8888_Color(255, 0, 0, 0))
+        backgroundColor(new Color::RGB24_888(0, 0, 0))
     {
     }
 
@@ -70,10 +75,10 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
       ELengthUnit heightUnit_,
       float resolution_,
       EResolutionUnit resolutionUnit_,
-      EColorModel colorModel_,
-      EBitDepth bitDepth_,
+      Color::EColorModel colorModel_,
+      Color::EBitDepth bitDepth_,
       EBackgroundPreset backgroundPreset_,
-      AnyColor backgroundColor_
+      std::shared_ptr<Color::IColor> backgroundColor_
     )
       : width(width_),
         widthUnit(widthUnit_),

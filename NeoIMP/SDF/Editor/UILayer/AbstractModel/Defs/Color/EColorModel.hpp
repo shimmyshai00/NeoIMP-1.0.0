@@ -1,13 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLORCHANNEL_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLORCHANNEL_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorChannel.hpp
- * PURPOSE: Provides a convenience type for moving small amounts of color data to and from the
- *          model layer for single color channels.
+ * FILE:    EColorModel.hpp
+ * PURPOSE: Enumeration of the available color model types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,30 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <cstddef>
-#include <algorithm>
-
-namespace SDF::Editor::UILayer::AbstractModel::Defs {
-  // Basically just "clamps" its input to simulate pseudo types of arbitrary bitlength.
-  template<std::size_t numBits>
-  class Channel {
-  public:
-    Channel(unsigned int value)
-      : m_value(std::min(value, s_valueMax))
-    {
-    }
-
-    operator unsigned int() const {
-      return m_value;
-    }
-  private:
-    static unsigned int s_valueMax;
-
-    unsigned int m_value;
+namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
+  enum EColorModel {
+    COLOR_MODEL_RGB,
+    COLOR_MODEL_MAX
   };
-
-  template<std::size_t numBits>
-  unsigned int Channel<numBits>::s_valueMax = (1 << numBits) - 1;
 }
 
 #endif

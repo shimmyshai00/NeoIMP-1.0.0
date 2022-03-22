@@ -30,26 +30,16 @@
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   // Types.
   typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB<
-    UILayer::AbstractModel::Defs::RGB24_888_Color,
+    UILayer::AbstractModel::Defs::RGB24_888,
     8,
     8,
     8
   > IEC61966_sRGB_RGB24_888;
-
-  typedef DomainObjects::Engine::ColorSpaces::IEC61966_sRGB_Alpha<
-    UILayer::AbstractModel::Defs::ARGB32_8888_Color,
-    8,
-    8,
-    8,
-    8
-  > IEC61966_sRGB_RGBA32_8888;
 }
 
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   // Global constants.
   static const auto g_iec61966_sRGB_rgb24_888 = IEC61966_sRGB_RGB24_888(&ColorModels::g_rgb24_888);
-  static const auto g_iec61966_sRGB_rgba32_8888 = IEC61966_sRGB_RGBA32_8888(
-    &ColorModels::g_rgba32_8888);
 }
 
 #endif
