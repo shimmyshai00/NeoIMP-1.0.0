@@ -24,6 +24,47 @@
 #include "UiAutoColor.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
+  UiAutoPixel::UiAutoPixel(
+    UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
+    std::size_t numChannels
+  )
+    : m_enumColorModel(enumColorModel),
+      m_values(numChannels)
+  {
+  }
+
+  EColorModel
+  UiAutoPixel::getColorModel() const {
+    return m_enumColorModel;
+  }
+
+  std::size_t
+  UiAutoPixel::getNumChannels() const {
+    return m_values.size();
+  }
+
+  float
+  UiAutoPixel::getChannelMin(std::size_t idx) const {
+    return 0.0f;
+  }
+
+  float
+  UiAutoPixel::getChannelMax(std::size_t idx) const {
+    return 1.0f;
+  }
+
+  float
+  UiAutoPixel::get(std::size_t idx) const {
+    return m_values.at(idx);
+  }
+
+  void
+  UiAutoPixel::set(std::size_t idx, float val) {
+    m_values.at(idx) = val;
+  }
+}
+
+namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoColor::UiAutoColor(const IColor &protoPixel)
     : m_channelMinLimits(protoPixel.getNumChannels()),
       m_channelMaxLimits(protoPixel.getNumChannels())
@@ -51,10 +92,11 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
   UiAutoPixel
   UiAutoColor::convertToPixel(float *values) const {
-    // Simply "pass through" the values to the UiAutoPixel
+    // Simply "pass through" the values to the UiAutoPixel - that's the beauty of the [0, 1]
+    // range!
     UiAutoPixel apx;
     for(std::size_t i(0); i < getNumChannels(); ++i) {
-      apx[i] = values[i];
+      apx.set(i, values[i]);
     }
 
     return apx;
@@ -67,17 +109,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   {
     // same thing, "pass back"
     for(std::size_t i(0); i < getNumChannels(); ++i) {
-      values[i] = px[i];
+      values[i] = px.get(i);
     }
-  }
-
-  float
-  UiAutoColor::get(std::size_t idx) const {
-    return 
-  }
-
-  void
-  UiAutoColor::set(std::size_t idx, float val) {
-
   }
 }

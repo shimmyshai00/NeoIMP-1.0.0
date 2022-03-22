@@ -24,15 +24,50 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <array>
+#include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
+#include "../../DomainObjects/Engine/IColorModel.hpp"
+
+#include <cstddef>
+#include <vector>
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   // The pixel format used by the below model. Narrower numbers of channels mean we just ignore
-  // channels.
-  typedef std::array<float, 4> UiAutoPixel; // wide enough to admit CMYK and RGBA data. These all
-                                            // should be normalized to [0, 1) unless this is HDR
-                                            // data (in the non-alpha components). (HDR is
-                                            // considered to exceed 1 on a [0, 1) scale.)
+  // channels. The pixels here use [0, 1]-range values, so there is no need to worry about bit
+  // depths. HDR is represented by values greater than 1, if applicable.
+  class UiAutoPixel : public UILayer::AbstractModel::Defs::Color::IColor {
+  public:
+    // Function:   UiAutoPixel
+    // Purpose:    Construct this auto pixel to a specified size.
+    // Parameters: colorModel - The UI color model specifier this corresponds to.
+    //             numChannels - The number of channels to make.
+    UiAutoPixel(
+      UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
+      std::size_t numChannels
+    );
+
+    EColorModel
+    getColorModel() const;
+
+    std::size_t
+    getNumChannels() const;
+
+    float
+    getChannelMin(std::size_t idx) const;
+
+    float
+    getChannelMax(std::size_t idx) const;
+
+    float
+    get(std::size_t idx) const;
+
+    void
+    set(std::size_t idx, float val);
+  private:
+    UILayer::AbstractModel::Defs::Color::EColorModel m_enumColorModel;
+
+    std::vector<float> m_values;
+  };
 }
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
@@ -45,14 +80,11 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   //             lots of data, do not require this constraint). Because the latter are passed via an
   //             interface IColor, allowing the UI to use any color format it likes on the other
   //             side, to provide inter-conversion we must "straddle" the two worlds by implementing
-  //             *both* the domain layer *and* UI layer interfaces at once. However, due to that
-  //             they may share method names, this can be a bit tricky were the return types
-  //             different due to ambiguating the return type. Right now we're in luck - but that
-  //             may change - NB!
+  //             *both* the domain layer *and* UI layer interfaces. Fortunately, the two apply to
+  //             different concepts; so we just need to implement IColor in UiAutoPixel and
+  //             IColorModel here.
   // Parameters: None.
-  class UiAutoColor : public DomainObjects::Engine::IColorModel<UiAutoPixel>,
-                      public UILayer::AbstractModel::Defs::Color::IColor
-  {
+  class UiAutoColor : public DomainObjects::Engine::IColorModel<UiAutoPixel> {
   public:
     // Function:   UIAutoColor
     // Purpose:    Initializes the auto color to the specs of a test pixel. This is another
@@ -79,15 +111,9 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     convertPixelTo(UiAutoPixel px,
                    float *values
                   ) const;
-
-    float
-    get(std::size_t idx) const;
-
-    void
-    set(std::size_t idx, float val);
   private:
-    std::array<float, 4> m_channelMinLimits;
-    std::array<float, 4> m_channelMaxLimits;
+    std::vector<float> m_channelMinLimits;
+    std::vector<float> m_channelMaxLimits;
   };
 }
 
