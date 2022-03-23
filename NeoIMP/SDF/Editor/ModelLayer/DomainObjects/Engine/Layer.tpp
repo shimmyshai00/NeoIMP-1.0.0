@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Exceptions.hpp"
+#include "../Exceptions.hpp"
 #include "Components/IContentComponent.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
@@ -64,7 +64,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     std::unique_ptr<Components::IComponent<ImplSpecT>> component
   ) {
     if(m_components.find(id) != m_components.end()) {
-      throw ComponentAlreadyAddedException(id.c_str());
+      throw ComponentExistsException(id.c_str());
     } else {
       m_components[id] = std::move(component);
     }
@@ -80,7 +80,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
       if(U *p = dynamic_cast<U *>(m_components[id].get())) {
         return p;
       } else {
-        throw BadCastException();
+        throw BadComponentCastException();
       }
     }
   }
@@ -95,7 +95,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
       if(const U *p = dynamic_cast<const U *>(m_components.at(id).get())) {
         return p;
       } else {
-        throw BadCastException();
+        throw BadComponentCastException();
       }
     }
   }

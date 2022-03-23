@@ -23,7 +23,7 @@
 
 #include "GridRendering.hpp"
 
-#include "../../../Exceptions.hpp"
+#include "../../../../../Error/GeneralException.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   GridRendering::GridRendering(
@@ -102,7 +102,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
         m_cells[offs] = new RenderCell(m_cellWidth, m_cellHeight, m_pixelFormat);
       }
     } else {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     }
   }
 
@@ -116,7 +116,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
         m_cells[offs] = nullptr;
       }
     } else {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     }
   }
 
@@ -126,7 +126,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
       std::size_t offs = cellY*m_numCellsX + cellX;
       return (m_cells[offs] != nullptr);
     } else {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     }
   }
 
@@ -160,7 +160,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
       std::size_t offs = cellY*m_numCellsX + cellX;
       return m_cells[offs];
     } else {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     }
   }
 }

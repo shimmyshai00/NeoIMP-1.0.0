@@ -43,7 +43,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   //                    it wants. Hence, the last component is an ideal UiAutoMap that handles this.
   template<class FundamentalTraitsT, class MapT>
   class UiAutoSpace : public DomainObjects::Engine::IColorSpace<
-                        std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>,
+                        std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>,
                         FundamentalTraitsT
                       >
   {
@@ -51,22 +51,22 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
     // Function:   UiAutoSpace
     // Purpose:    Dynamically constructs a new auto space from an auto color model.
     // Parameters: autoColorModel - The auto color model to construct from.
-    UiAutoSpace(const UiAutoColor &autoColorModel);
+    UiAutoSpace(const ColorModels::UiAutoColor &autoColorModel);
 
     const DomainObjects::Engine::IColorModel<
-      std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+      std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
     > &
     getColorModel() const;
 
     void
-    pixelToFundamental(std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> pixel,
+    pixelToFundamental(std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> pixel,
                        float *fs
                       ) const;
 
-    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+    std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
     fundamentalToPixel(float *fs) const;
   private:
-    UiAutoColor m_autoColorModel;
+    ColorModels::UiAutoColor m_autoColorModel;
   };
 }
 

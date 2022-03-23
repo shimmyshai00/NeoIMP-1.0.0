@@ -36,13 +36,10 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
   public:
     virtual ~IGetMemoryRequirementsService() = default;
 
-    // Function:         getMemoryRequiredForOneLayer
-    // Purpose:          Calculates the memory required for a single-layer document of a given spec.
-    // Parameters:       spec - The document spec to use.
-    // Returns:          The memory requirement in bytes.
-    // Throws (non-bug): BadDimensionsException
-    //                   InvalidUnitException
-    //                   BadColorFormatException
+    // Function:   getMemoryRequiredForOneLayer
+    // Purpose:    Calculates the memory required for a single-layer document of a given spec.
+    // Parameters: spec - The document spec to use.
+    // Returns:    The memory requirement in bytes.
     virtual std::size_t
     getMemoryRequiredForOneLayer(const Defs::ImageSpec &spec) const = 0;
   };

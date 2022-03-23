@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_EXCEPTIONS_HPP
-#define SDF_COMMON_EXCEPTIONS_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_VALIDATORS_IMAGESPECVALIDATOR_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_VALIDATORS_IMAGESPECVALIDATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Exceptions.hpp
- * PURPOSE: Defines the exceptions thrown from the common supermodule.
+ * FILE:    ImageSpecValidator.hpp
+ * PURPOSE: Defines the ImageSpecValidator class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Exception.hpp"
+#include "../../../../Common/IValidator.hpp"
+#include "../../../../Common/IValidationResult.hpp"
 
-namespace SDF::Common {
-  SDF_DEF_NRM_EXCEPTION(FilesystemException, "Internal filesystem error")
-  SDF_DEF_NRM_EXCEPTION(ObjectNotFoundException, "Object not found in repository")
-  SDF_DEF_NRM_EXCEPTION(ObjectAlreadyAddedException, "Object already in repository")
+#include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
+
+namespace SDF::Editor::ModelLayer::Services::Validators {
+  // Class:      ImageSpecValidator
+  // Purpose:    Validates an image spec.
+  // Parameters: None.
+  class ImageSpecValidator : public Common::IValidator<UILayer::AbstractModel::Defs::ImageSpec> {
+  public:
+    std::shared_ptr<Common::IValidationResult>
+    validate(const UILayer::AbstractModel::Defs::ImageSpec &obj) const;
+  };
 }
 
 #endif

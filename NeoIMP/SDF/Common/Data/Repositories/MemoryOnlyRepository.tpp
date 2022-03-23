@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Exceptions.hpp"
+#include "../../../Error/DataException.hpp"
 
 namespace SDF::Common::Data::Repositories {
   template<class KeyT, class ObjT>
@@ -41,7 +41,7 @@ namespace SDF::Common::Data::Repositories {
   void
   MemoryOnlyRepository<KeyT, ObjT>::insert(KeyT key, std::unique_ptr<ObjT> obj) {
     if(m_objMap.find(key) != m_objMap.end()) {
-      throw ObjectAlreadyAddedException();
+      throw Error::ObjectAlreadyExistsException(key);
     } else {
       m_objMap[key] = std::move(obj);
     }
@@ -51,7 +51,7 @@ namespace SDF::Common::Data::Repositories {
   ObjT *
   MemoryOnlyRepository<KeyT, ObjT>::retrieve(KeyT key) {
     if(m_objMap.find(key) == m_objMap.end()) {
-      throw ObjectNotFoundException();
+      throw Error::ObjectNotFoundException(key);
     } else {
       return m_objMap[key].get();
     }

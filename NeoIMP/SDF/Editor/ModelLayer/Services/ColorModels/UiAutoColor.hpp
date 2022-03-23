@@ -46,7 +46,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
       const std::vector<std::pair<float, float>> &channelRanges
     );
 
-    EColorModel
+    UILayer::AbstractModel::Defs::Color::EColorModel
     getColorModel() const;
 
     std::size_t
@@ -91,7 +91,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   //             hey ...
   // Parameters: None.
   class UiAutoColor : public DomainObjects::Engine::IColorModel<
-                        std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+                        std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
                       >
   {
   public:
@@ -100,7 +100,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     //             interesting aspect - normally, color models are global constants. Here, though,
     //             we instantiate one dynamically.
     // Parameters: protoPixel - The test prototype pixel used to set the parameters.
-    UiAutoColor(const IColor &protoPixel);
+    UiAutoColor(const UILayer::AbstractModel::Defs::Color::IColor &protoPixel);
 
     // fortuitous - or not? - that these three coincide on the two interfaces including in return
     // type, FOR NOW
@@ -113,11 +113,11 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     float
     getChannelMin(std::size_t channelNum) const;
 
-    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+    std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
     convertToPixel(float *values) const;
 
     void
-    convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> px,
+    convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> px,
                    float *values
                   ) const;
   private:

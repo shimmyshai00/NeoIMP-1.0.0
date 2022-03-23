@@ -38,30 +38,25 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
   public:
     virtual ~IGetDocumentFileInfoService() = default;
 
-    // Function:         wasDocumentPreviouslySaved
-    // Purpose:          Returns whether the document has previously been saved or loaded and so is
-    //                   associated with a file spec.
-    // Parameters:       imageHandle - The handle of the document to check.
-    // Returns:          Whether it has file spec.
-    // Throws (non-bug): DocumentNotFoundException
+    // Function:   wasDocumentPreviouslySaved
+    // Purpose:    Returns whether the document has previously been saved or loaded and so is
+    //             associated with a file spec.
+    // Parameters: imageHandle - The handle of the document to check.
+    // Returns:    Whether it has file spec.
     virtual bool
     wasDocumentPreviouslySaved(Common::Handle imageHandle) = 0;
 
-    // Function:         getFileSpec
-    // Purpose:          Gets the standing file spec of a document.
-    // Parameters:       imageHandle - The handle of the document to get the file spec for.
-    // Returns:          The file spec for this document.
-    // Throws (non-bug): DocumentNotFoundException
-    //                   FileSpecNotAssociatedException
+    // Function:   getFileSpec
+    // Purpose:    Gets the standing file spec of a document.
+    // Parameters: imageHandle - The handle of the document to get the file spec for.
+    // Returns:    The file spec for this document.
     virtual std::string
     getFileSpec(Common::Handle imageHandle) = 0;
 
-    // Function:         getFileFormat
-    // Purpose:          Gets the standing file format of a document.
-    // Parameters:       imageHandle - The handle of the document to get the file spec for.
-    // Returns:          The file format for this document.
-    // Throws (non-bug): DocumentNotFoundException
-    //                   FileFormatNotAssociatedException
+    // Function:   getFileFormat
+    // Purpose:    Gets the standing file format of a document.
+    // Parameters: imageHandle - The handle of the document to get the file spec for.
+    // Returns:    The file format for this document.
     virtual Defs::EFileFormat
     getFileFormat(Common::Handle imageHandle) = 0;
   };

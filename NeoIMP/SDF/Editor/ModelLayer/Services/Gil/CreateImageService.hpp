@@ -31,6 +31,7 @@
 #include "../../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../../Common/IUUIDable.hpp"
+#include "../../../../Common/IValidator.hpp"
 
 #include "../../AbstractData/IImageRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"

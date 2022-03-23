@@ -28,14 +28,14 @@
 
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   template<class FundamentalTraitsT, class MapT>
-  UiAutoSpace<FundamentalTraitsT, MapT>::UiAutoSpace(const UiAutoColor &autoColorModel)
+  UiAutoSpace<FundamentalTraitsT, MapT>::UiAutoSpace(const ColorModels::UiAutoColor &autoColorModel)
     : m_autoColorModel(autoColorModel)
   {
   }
 
   template<class FundamentalTraitsT, class MapT>
   const DomainObjects::Engine::IColorModel<
-    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+    std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
   > &
   UiAutoSpace<FundamentalTraitsT, MapT>::getColorModel() const {
     return m_autoColorModel;
@@ -44,12 +44,12 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   template<class FundamentalTraitsT, class MapT>
   void
   UiAutoSpace<FundamentalTraitsT, MapT>::pixelToFundamental(
-    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> pixel,
+    std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> pixel,
     float *fs
   ) const {
     // Normalize the channels.
     std::array<float, 5> m_nrml;
-    m_autoColorModel.convertPixelTo(pixel, m_nrml);
+    m_autoColorModel.convertPixelTo(pixel, &m_nrml[0]);
 
     for(std::size_t i(0); i < pixel->getNumChannels(); ++i) {
       float channelWidth = pixel->getChannelMax(i) - pixel->getChannelMin(i);
@@ -61,11 +61,11 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   }
 
   template<class FundamentalTraitsT, class MapT>
-  std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+  std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
   UiAutoSpace<FundamentalTraitsT, MapT>::fundamentalToPixel(float *fs) const {
     // Convert to the normal space.
     std::array<float, 5> m_nrml;
-    MapT().fundamentalToNrml(fs, m_nrml);
+    MapT().fundamentalToNrml(fs, &m_nrml[0]);
 
     // Unnormalize the channels.
     for(std::size_t i(0); i < m_autoColorModel.getNumChannels(); ++i) {
@@ -73,7 +73,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
       m_nrml.at(i) = (m_nrml.at(i) * channelWidth) + m_autoColorModel.getChannelMin(i);
     }
 
-    return m_autoColorModel.convertToPixel(m_nrml);
+    return m_autoColorModel.convertToPixel(&m_nrml[0]);
   }
 }
 

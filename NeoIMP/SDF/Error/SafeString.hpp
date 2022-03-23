@@ -1,5 +1,5 @@
-#ifndef SDF_SAFESTRING_HPP
-#define SDF_SAFESTRING_HPP
+#ifndef SDF_ERROR_SAFESTRING_HPP
+#define SDF_ERROR_SAFESTRING_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -29,7 +29,7 @@
 #include <cstddef>
 #include <cstdarg>
 
-namespace SDF {
+namespace SDF::Error {
   class SafeString {
 		public:
 			SafeString() noexcept {
@@ -62,6 +62,18 @@ namespace SDF {
 			static const std::size_t c_maxStrLen = 1023;
 			char stringBuf[c_maxStrLen + 1];
 	};
+
+  // Convenience methods.
+  SafeString safePrintf(const char *fString, ...) noexcept {
+    SafeString rv;
+    va_list vl;
+
+    va_start(vl, fString);
+    rv.vsPrintf(fString, vl);
+    va_end(vl);
+
+    return rv;
+  }
 }
 
 #endif

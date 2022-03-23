@@ -25,7 +25,8 @@
  */
 
 #include "../../../../ModelLayer/DomainObjects/Engine/Gil/Components/Content/Background.hpp"
-#include "../../../Exceptions.hpp"
+#include "../../../../ModelLayer/DomainObjects/Exceptions.hpp"
+#include "../../Exceptions.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
 #include <boost/gil/io/get_reader.hpp>
@@ -46,7 +47,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
 
       // Sanity check
       if(image.getNumLayers() == 0) {
-        throw BadImageException();
+        throw ImageMissingLayersException();
       } else {
         // Validate the background layer structure.
         try {
@@ -56,10 +57,10 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
             );
 
           if(bkgComponent == nullptr) {
-            throw BadImageException();
+            throw ImageLayerMissingContentException();
           }
-        } catch(ModelLayer::BadCastException) {
-          throw BadImageException();
+        } catch(ModelLayer::DomainObjects::BadComponentCastException) {
+          throw ImageMissingBackgroundLayerException();
         }
       }
 
@@ -100,13 +101,13 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
 
           // TBA: other ancillary info like resolution
         } else {
-          throw UnsupportedSubFormatException();
+          throw UnsupportedSubFormatException(m_fileSpec.c_str());
         }
       } catch(std::ios_base::failure) {
         // that's just plain rich ... backend_t has no default constructor; so we cannot catch the
         // error when it occurs and it's possible something as general as this might have other
         // causes.
-        throw BadFileException();
+        throw MalformedFileException(m_fileSpec.c_str());
       }
     }
   }

@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
+#ifndef SDF_COMMON_IVALIDATOR_HPP
+#define SDF_COMMON_IVALIDATOR_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISetViewYCoordinatesService.hpp
- * PURPOSE: Defines the ISetViewYCoordinateService interface.
+ * FILE:    IValidator.hpp
+ * PURPOSE: Defines the IValidator interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Handle.hpp"
+#include "IValidationResult.hpp"
 
-namespace SDF::Editor::UILayer::AbstractModel::Viewing {
-  // Class:      ISetViewYCoordinateService
-  // Purpose:    Defines a service interface to set the Y view coordinate on an image document.
-  // Parameters: None.
-  class ISetViewYCoordinateService {
+#include <memory>
+
+namespace SDF::Common {
+  // Class:      IValidator
+  // Purpose:    Defines an interface for objects which validate others.
+  // Parameters: ObjT - The type of object to validate.
+  template<class ObjT>
+  class IValidator {
   public:
-    virtual ~ISetViewYCoordinateService() = default;
+    virtual ~IValidator() = default;
 
-    virtual void
-    setViewingPointY(Common::Handle viewHandle, float y) = 0;
+    // Function:   validate
+    // Purpose:    Validates an object.
+    // Parameters: obj - The object to validate.
+    // Returns:    An object containing the validation information.
+    virtual std::shared_ptr<IValidationResult>
+    validate(const ObjT &obj) const = 0;
   };
 }
 

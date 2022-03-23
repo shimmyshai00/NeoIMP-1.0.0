@@ -23,7 +23,7 @@
 
 #include "ResolutionConvertible.hpp"
 
-#include "../Exceptions.hpp"
+#include "Exceptions.hpp"
 
 #include "ResolutionConversions.hpp"
 
@@ -40,7 +40,7 @@ namespace SDF::Editor::ModelLayer::Metrics {
   float
   ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit unit) {
     if(unit >= UILayer::AbstractModel::Defs::RESOLUTION_UNIT_MAX) {
-      throw BadLengthUnitException();
+      throw InvalidLengthUnitException(unit);
     }
 
     return (m_quantity * g_resolutionUnitSizes[m_unit]) / g_resolutionUnitSizes[unit];

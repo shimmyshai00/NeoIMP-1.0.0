@@ -23,7 +23,7 @@
 
 #include "PosixFSAdapter.hpp"
 
-#include "../../Exceptions.hpp"
+#include "../../../Error/DataException.hpp"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -39,7 +39,7 @@ namespace SDF::Common::Data::Adapters {
       if(errno == ENOENT) {
         return false;
       } else {
-        throw FilesystemException();
+        throw Error::FilesystemException();
       }
     } else {
       // The *file* exists - check now if it has enough data to accommodate this offset and buffer

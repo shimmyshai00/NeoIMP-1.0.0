@@ -39,45 +39,41 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   public:
     virtual ~IGetViewCoordinatesService() = default;
 
-    // Function:         getViewingPointX
-    // Purpose:          Get the X-coordinate of the viewing point of an image document. Note that
-    //                   the meaning here of a "viewing point" is up to the specific kind of UI
-    //                   layer to interpret. Here, it's just some reference point indicating the
-    //                   view location, together with an amount by which the image around it will be
-    //                   magnified (and tba - rotated).
-    // Parameters:       viewHandle - The handle to the view (not the image!) to get the coordinates
-    //                   for.
-    // Returns:          The X-coordinate of the viewing point of this image document.
-    // Throws (non-bug): ViewNotFoundException
+    // Function:   getViewingPointX
+    // Purpose:    Get the X-coordinate of the viewing point of an image document. Note that
+    //             the meaning here of a "viewing point" is up to the specific kind of UI
+    //             layer to interpret. Here, it's just some reference point indicating the
+    //             view location, together with an amount by which the image around it will be
+    //             magnified (and tba - rotated).
+    // Parameters: viewHandle - The handle to the view (not the image!) to get the coordinates
+    //             for.
+    // Returns:    The X-coordinate of the viewing point of this image document.
     virtual float
     getViewingPointX(Common::Handle viewHandle) const = 0;
 
-    // Function:         getViewingPointY
-    // Purpose:          Gets the Y-coordinate of the viewing point.
-    // Parameters:       viewHandle - The handle to the view (not the image!) to get the coordinates
-    //                   for.
-    // Returns:          The Y-coordinate of the viewing point of this image document.
-    // Throws (non-bug): ViewNotFoundException
+    // Function:   getViewingPointY
+    // Purpose:    Gets the Y-coordinate of the viewing point.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get the coordinates
+    //             for.
+    // Returns:    The Y-coordinate of the viewing point of this image document.
     virtual float
     getViewingPointY(Common::Handle viewHandle) const = 0;
 
-    // Function:         getViewingPointMagnification
-    // Purpose:          Gets the magnification factor around the viewing point.
-    // Parameters:       viewHandle - The handle to the view (not the image!) to get the coordinates
-    //                   for.
-    // Returns:          The magnification around this viewing point.
-    // Throws (non-bug): ViewNotFoundException
+    // Function:   getViewingPointMagnification
+    // Purpose:    Gets the magnification factor around the viewing point.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get the coordinates
+    //             for.
+    // Returns:    The magnification around this viewing point.
     virtual float
     getViewingPointMagnification(Common::Handle viewHandle) const = 0;
 
-    // Function:         addViewingPointListener
-    // Purpose:          Adds a listener to listen to changes in the viewing point for a given
-    //                   image.
-    // Parameters:       viewHandle - The handle to the view (not the image!) to get the coordinates
-    //                   for.
-    //                   listener - The listener function to attach to this image document.
-    // Returns:          A connection object to the given listener.
-    // Throws (non-bug): ViewNotFoundException
+    // Function:   addViewingPointListener
+    // Purpose:    Adds a listener to listen to changes in the viewing point for a given
+    //             image.
+    // Parameters: viewHandle - The handle to the view (not the image!) to get the coordinates
+    //             for.
+    //             listener - The listener function to attach to this image document.
+    // Returns:    A connection object to the given listener.
     virtual Common::PIConnection
     addViewingPointListener(
       Common::Handle viewHandle,

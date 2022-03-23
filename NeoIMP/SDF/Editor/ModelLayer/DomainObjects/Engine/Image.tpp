@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Exceptions.hpp"
+#include "../../../../Error/GeneralException.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   template<class ImplSpecT>
@@ -93,7 +93,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) {
     if(layerNum >= m_layers.size()) {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     } else {
       return *m_layers[layerNum];
     }
@@ -103,7 +103,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   const Layer<ImplSpecT> &
   Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
     if(layerNum >= m_layers.size()) {
-      throw OutOfBoundsException();
+      throw Error::OutOfBoundsException();
     } else {
       return *m_layers[layerNum];
     }

@@ -38,7 +38,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     }
   }
 
-  EColorModel
+  UILayer::AbstractModel::Defs::Color::EColorModel
   UiAutoPixel::getColorModel() const {
     return m_enumColorModel;
   }
@@ -70,7 +70,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 }
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
-  UiAutoColor::UiAutoColor(const IColor &protoPixel)
+  UiAutoColor::UiAutoColor(const UILayer::AbstractModel::Defs::Color::IColor &protoPixel)
     : m_enumColorModel(protoPixel.getColorModel()),
       m_channelRanges(protoPixel.getNumChannels())
   {
@@ -95,10 +95,10 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     return m_channelRanges.at(channelNum).first;
   }
 
-  std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor>
+  std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
   UiAutoColor::convertToPixel(float *values) const {
     // meh ... couldn't get rid of allocator overhead anyways
-    std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> rv(
+    std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> rv(
       new UIAutoPixel(m_enumColorModel, m_channelRanges));
 
     // the floats come in in the range [0, 1]
@@ -112,7 +112,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   }
 
   void
-  UiAutoColor::convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Data::Color::IColor> px,
+  UiAutoColor::convertPixelTo(std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> px,
                               float *values
                              ) const
   {

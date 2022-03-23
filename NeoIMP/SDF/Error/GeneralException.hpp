@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
+#ifndef SDF_ERROR_GENERALEXCEPTION_HPP
+#define SDF_ERROR_GENERALEXCEPTION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISetViewYCoordinatesService.hpp
- * PURPOSE: Defines the ISetViewYCoordinateService interface.
+ * FILE:    GeneralException.hpp
+ * PURPOSE: Defines exceptions that can be thrown from either data or model layers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Handle.hpp"
+#include "Exception.hpp"
 
-namespace SDF::Editor::UILayer::AbstractModel::Viewing {
-  // Class:      ISetViewYCoordinateService
-  // Purpose:    Defines a service interface to set the Y view coordinate on an image document.
-  // Parameters: None.
-  class ISetViewYCoordinateService {
+namespace SDF::Error {
+  class GeneralException : public Exception {
   public:
-    virtual ~ISetViewYCoordinateService() = default;
+    virtual ~GeneralException() = 0;
+  };
 
-    virtual void
-    setViewingPointY(Common::Handle viewHandle, float y) = 0;
+  class OutOfBoundsException : public LikelyBug<GeneralException> {
+  public:
+    const char *what() const noexcept {
+      return "Tried to access a container in an out-of-bounds location.";
+    }
   };
 }
 

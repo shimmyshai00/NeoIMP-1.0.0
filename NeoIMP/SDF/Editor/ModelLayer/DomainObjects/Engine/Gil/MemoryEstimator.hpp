@@ -25,6 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../Exceptions.hpp"
 #include "../Dimensions.hpp"
 #include "ImageTypes.hpp"
 #include "ImplTraits.hpp"
@@ -37,7 +38,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
     static std::size_t
     singleLayerEstimate(ImageMeasure widthPx, ImageMeasure heightPx) {
       if((widthPx <= 0) || (heightPx <= 0)) {
-        throw InvalidSizeException();
+        throw InvalidDimensionsException(widthPx, heightPx);
       } else {
         // NB: presumes boost::gil::image is contiguous in memory - needs to be checked, and may
         //     need further tweaking

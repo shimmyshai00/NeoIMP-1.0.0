@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/AbstractData/Exceptions.hpp"
-#include "../Exceptions.hpp"
+#include "../../../Error/DataException.hpp"
+#include "Exceptions.hpp"
 
 namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT>
@@ -42,7 +42,7 @@ namespace SDF::Editor::DataLayer::Repositories {
     if(m_imageMap.find(id) != m_imageMap.end()) {
       return m_imageMap[id].get();
     } else {
-      throw ModelLayer::AbstractData::ObjectNotFoundInRepoException(id);
+      throw Error::ObjectNotFoundException<Common::Handle>(id);
     }
   }
 
@@ -59,7 +59,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   void
   ImageRepository<ImageT>::insertImage(Common::Handle id, std::unique_ptr<ImageT> image) {
     if(m_imageMap.find(id) != m_imageMap.end()) {
-      throw ModelLayer::AbstractData::RepositoryIdInUseException(id);
+      throw Error::ObjectNotFoundException<Common::Handle>(id);
     } else {
       m_imageMap[id] = std::move(image);
     }
@@ -71,31 +71,27 @@ namespace SDF::Editor::DataLayer::Repositories {
   void
   ImageRepository<ImageT>::persistImage(Common::Handle id) {
     if(m_imageMap.find(id) == m_imageMap.end()) {
-      throw ModelLayer::AbstractData::ObjectNotFoundInRepoException(id);
+      throw Error::ObjectNotFoundException<Common::Handle>(id);
     } else {
       if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
-        throw ModelLayer::AbstractData::SaveParamsNotAssociatedException(id);
+        throw SaveParamsNotAssociatedException(id);
       } else {
-        try {
-          if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
-            // shouldn't happen but still ...
-            throw ModelLayer::AbstractData::SaveParamsNotAssociatedException(id);
-          }
+        if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
+          // shouldn't happen but still ...
+          throw SaveParamsNotAssociatedException(id);
+        }
 
-          switch(m_fileFormatMap[id]) {
-            case ModelLayer::AbstractData::FORMAT_PNG:
-              if(!m_pngImageMapper->has(m_fileSpecMap[id])) {
-                m_pngImageMapper->insert(m_fileSpecMap[id], *m_imageMap[id]);
-              } else {
-                m_pngImageMapper->update(m_fileSpecMap[id], *m_imageMap[id]);
-              }
-              break;
-            default:
-              // shouldn't happen
-              throw ModelLayer::AbstractData::UnsupportedFormatException(m_fileFormatMap[id]);
-          }
-        } catch(BadImageException) {
-          throw ModelLayer::AbstractData::BadImageException();
+        switch(m_fileFormatMap[id]) {
+          case ModelLayer::AbstractData::FORMAT_PNG:
+            if(!m_pngImageMapper->has(m_fileSpecMap[id])) {
+              m_pngImageMapper->insert(m_fileSpecMap[id], *m_imageMap[id]);
+            } else {
+              m_pngImageMapper->update(m_fileSpecMap[id], *m_imageMap[id]);
+            }
+            break;
+          default:
+            // shouldn't happen
+            throw UnsupportedFormatException(m_fileFormatMap[id]);
         }
       }
     }
@@ -116,29 +112,23 @@ namespace SDF::Editor::DataLayer::Repositories {
     Common::Handle id(getFirstFreeId());
 
     // Read the image into the holder and inject it into the repository under this ID.
-    try {
-      switch(fileFormat) {
-        case ModelLayer::AbstractData::FORMAT_PNG:
-          if(!m_pngImageMapper->has(fileSpec)) {
-            // Oops! File not found!
-            throw ModelLayer::AbstractData::FileNotFoundException(fileSpec.c_str());
-          } else {
-            m_pngImageMapper->retrieve(fileSpec, *p);
-          }
-          break;
-        default:
-          throw ModelLayer::AbstractData::UnsupportedFormatException(fileFormat);
-      }
-
-      m_imageMap[id] = std::move(p);
-      registerFileSpec(id, fileSpec, fileFormat);
-
-      return id;
-    } catch(UnsupportedSubFormatException) {
-      throw ModelLayer::AbstractData::UnsupportedSubFormatException();
-    } catch(BadFileException) {
-      throw ModelLayer::AbstractData::BadFileException();
+    switch(fileFormat) {
+      case ModelLayer::AbstractData::FORMAT_PNG:
+        if(!m_pngImageMapper->has(fileSpec)) {
+          // Oops! File not found!
+          throw Error::FileNotFoundException(fileSpec.c_str());
+        } else {
+          m_pngImageMapper->retrieve(fileSpec, *p);
+        }
+        break;
+      default:
+        throw UnsupportedFormatException(fileFormat);
     }
+
+    m_imageMap[id] = std::move(p);
+    registerFileSpec(id, fileSpec, fileFormat);
+
+    return id;
   }
 
   template<class ImageT>
@@ -156,7 +146,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   bool
   ImageRepository<ImageT>::hasAssociatedFile(Common::Handle id) const {
     if(m_imageMap.find(id) == m_imageMap.end()) {
-      throw ModelLayer::AbstractData::ObjectNotFoundInRepoException(id);
+      throw Error::ObjectNotFoundException(id);
     } else {
       return (m_fileSpecMap.find(id) != m_fileSpecMap.end());
     }
@@ -166,7 +156,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   std::string
   ImageRepository<ImageT>::getFileSpecById(Common::Handle id) const {
     if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
-      throw ModelLayer::AbstractData::SaveParamsNotAssociatedException(id);
+      throw SaveParamsNotAssociatedException(id);
     } else {
       return m_fileSpecMap.at(id);
     }
@@ -176,7 +166,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   ModelLayer::AbstractData::EFormat
   ImageRepository<ImageT>::getFileFormatById(Common::Handle id) const {
     if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
-      throw ModelLayer::AbstractData::SaveParamsNotAssociatedException(id);
+      throw SaveParamsNotAssociatedException(id);
     } else {
       return m_fileFormatMap.at(id);
     }

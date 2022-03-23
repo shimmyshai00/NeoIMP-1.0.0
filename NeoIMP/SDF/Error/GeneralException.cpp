@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_MODELLAYER_EXCEPTIONS_HPP
-#define SDF_EDITOR_MODELLAYER_EXCEPTIONS_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Exceptions.hpp
- * PURPOSE: Defines the exceptions thrown from the model layer.
+ * FILE:    GeneralException.cpp
+ * PURPOSE: Defines exceptions that can be thrown from either data or model layers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +21,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Common/Handle.hpp"
-#include "../../Exception.hpp"
+#include "GeneralException.hpp"
 
-#include <cstddef>
-
-namespace SDF::Editor::ModelLayer {
-  SDF_DEF_BUG_EXCEPTION(OutOfBoundsException, "Tried to perform an out-of-bounds access.")
-  SDF_DEF_BUG_EXCEPTION(InvalidSizeException, "Invalid physical size passed.")
-  SDF_DEF_BUG_EXCEPTION(BadCastException, "Tried to cast to wrong type.")
-  SDF_DEF_BUG_EXCEPTION(BadLengthUnitException, "Bad length unit.")
-  SDF_DEF_BUG_EXCEPTION(BadResolutionUnitException, "Bad resolution unit.")
-  SDF_DEF_BUG_EXCEPTION_1(ComponentAlreadyAddedException, "Component with id %s already added to layer.", const char *)
+namespace SDF::Error {
+  GeneralException::~GeneralException() {}
 }
-
-#endif

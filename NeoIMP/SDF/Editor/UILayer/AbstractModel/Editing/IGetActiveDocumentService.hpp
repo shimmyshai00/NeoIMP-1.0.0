@@ -34,12 +34,11 @@ namespace SDF::Editor::UILayer::AbstractModel::Editing {
   public:
     virtual ~IGetActiveDocumentService() = default;
 
-    // Function:         getActiveDocument
-    // Purpose:          Gets the handle of the document flagged as active for editing.
-    // Parameters:       None.
-    // Returns:          The handle requested, or Common::HANDLE_INVALID if no document is flagged
-    //                   active.
-    // Throws (non-bug): None.
+    // Function:   getActiveDocument
+    // Purpose:    Gets the handle of the document flagged as active for editing.
+    // Parameters: None.
+    // Returns:    The handle requested, or Common::HANDLE_INVALID if no document is flagged
+    //             active.
     virtual Common::Handle
     getActiveDocument() = 0;
   };

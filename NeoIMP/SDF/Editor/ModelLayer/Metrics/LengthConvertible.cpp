@@ -23,7 +23,7 @@
 
 #include "LengthConvertible.hpp"
 
-#include "../Exceptions.hpp"
+#include "Exceptions.hpp"
 
 #include "LengthConversions.hpp"
 #include "ResolutionConversions.hpp"
@@ -40,11 +40,11 @@ namespace SDF::Editor::ModelLayer::Metrics {
   {
     using namespace UILayer::AbstractModel;
     if(unit >= Defs::LENGTH_UNIT_MAX) {
-      throw BadLengthUnitException();
+      throw InvalidLengthUnitException(unit);
     }
 
     if(resUnit >= Defs::RESOLUTION_UNIT_MAX) {
-      throw BadResolutionUnitException();
+      throw InvalidResolutionUnitException(resUnit);
     }
 
     if(unit != Defs::LENGTH_UNIT_PIXEL) {
@@ -56,7 +56,7 @@ namespace SDF::Editor::ModelLayer::Metrics {
   LengthConvertible::in(UILayer::AbstractModel::Defs::ELengthUnit unit) {
     using namespace UILayer::AbstractModel;
     if(unit >= Defs::LENGTH_UNIT_MAX) {
-      throw BadLengthUnitException();
+      throw InvalidLengthUnitException(unit);
     }
 
     if(unit == Defs::LENGTH_UNIT_PIXEL) {

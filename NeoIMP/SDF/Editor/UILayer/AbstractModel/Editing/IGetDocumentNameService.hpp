@@ -36,11 +36,10 @@ namespace SDF::Editor::UILayer::AbstractModel::Editing {
   public:
     virtual ~IGetDocumentNameService() = default;
 
-    // Function:         getDocumentName
-    // Purpose:          Gets the name of a document.
-    // Parameters:       handle - The document handle to get the name for.
-    // Returns:          The name of the given document.
-    // Throws (non-bug): DocumentNotFoundException
+    // Function:   getDocumentName
+    // Purpose:    Gets the name of a document.
+    // Parameters: handle - The document handle to get the name for.
+    // Returns:    The name of the given document.
     virtual std::string
     getDocumentName(Common::Handle handle) = 0;
   };

@@ -33,6 +33,7 @@
 #include <cstddef>
 #include <list>
 #include <exception>
+#include <stdexcept>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Class:      GenericSDR

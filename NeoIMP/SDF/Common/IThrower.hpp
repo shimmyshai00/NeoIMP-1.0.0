@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_VIEWING_ISETVIEWYCOORDINATESERVICE_HPP
+#ifndef SDF_COMMON_ITHROWER_HPP
+#define SDF_COMMON_ITHROWER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ISetViewYCoordinatesService.hpp
- * PURPOSE: Defines the ISetViewYCoordinateService interface.
+ * FILE:    IThrower.hpp
+ * PURPOSE: Defines the IThrower interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Handle.hpp"
-
-namespace SDF::Editor::UILayer::AbstractModel::Viewing {
-  // Class:      ISetViewYCoordinateService
-  // Purpose:    Defines a service interface to set the Y view coordinate on an image document.
+namespace SDF::Common {
+  // Class:      IThrower
+  // Purpose:    Defines an interface for objects that can generate an exception on user request.
   // Parameters: None.
-  class ISetViewYCoordinateService {
-  public:
-    virtual ~ISetViewYCoordinateService() = default;
+  class IThrower {
+    virtual ~IThrower() = default;
 
+    // Function:   throwFrom
+    // Purpose:    Throws an exception based on the error data in this object.
+    // Parameters: None.
     virtual void
-    setViewingPointY(Common::Handle viewHandle, float y) = 0;
+    throwFrom() = 0;
   };
 }
 

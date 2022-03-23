@@ -33,7 +33,8 @@
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../../Exceptions.hpp"
-#include "../ColorSpaces/UiColorConverter.hpp"
+#include "../ColorSpaces/UiAutoSpace.hpp"
+#include "../Validators/ImageSpecValidator.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
 
@@ -74,41 +75,38 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace DomainObjects;
 
     // Input validation.
-    if(spec.width == 0) {
-      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
-        spec.height, spec.heightUnit);
-    }
+    ImageSpecValidator val;
+    unsigned int failReason = 0;
+    if(val.validate(spec, &failReason)) {
+      // Convert the dimensions to pixels.
+      LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
+      LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
 
-    if(spec.widthUnit == LENGTH_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
+      std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
+      std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
-    if(spec.height == 0) {
-      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
-        spec.height, spec.heightUnit);
-    }
-
-    if(spec.heightUnit == LENGTH_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
-
-    if(spec.resolution <= 0.0f)
-      throw UILayer::AbstractModel::BadResolutionException(spec.resolution, spec.resolutionUnit);
-
-    if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.resolutionUnit);
-
-    // Convert the dimensions to pixels.
-    LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
-    LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
-
-    std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
-    std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
-
-    // What type to use depends on the combination of color model and bit depth parameters.
-    if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
-        widthPx, heightPx);
+      // What type to use depends on the combination of color model and bit depth parameters.
+      if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
+        return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
+          widthPx, heightPx);
+      } else {
+        throw UILayer::AbstractModel::BadColorFormatException();
+      }
     } else {
-      throw UILayer::AbstractModel::BadColorFormatException();
+      // Bad spec given!
+      if((failReason & E_WIDTH_INVALID) || (failReason & E_HEIGHT_INVALID)) {
+        throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
+          spec.height, spec.heightUnit);
+      }
+
+      if(failReason & E_WIDTH_UNIT_INVALID) {
+        throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
+      }
+
+      if(failReason & E_HEIGHT_UNIT_INVALID) {
+        throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
+      }
+      
     }
   }
 

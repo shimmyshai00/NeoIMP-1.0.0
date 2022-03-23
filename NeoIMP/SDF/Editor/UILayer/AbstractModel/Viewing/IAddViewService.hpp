@@ -34,16 +34,15 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
   public:
     virtual ~IAddViewService() = default;
 
-    // Function:         addView
-    // Purpose:          Creates a new set of view parameters for an image document. These
-    //                   parameters are defined in terms of an "anchor point" which has a position
-    //                   and magnification. The precise interpretation of this anchor point depends
-    //                   on how the UI chooses to use it.
-    // Parameters:       imageHandle - The handle of the image document.
-    //                   anchorX, anchorY - The location of the point on which to anchor the view.
-    //                   anchorMag - The magnification or zoom into the anchor point.
-    // Returns:          A handle to the newly created view parameters.
-    // Throws (non-bug): DocumentNotFoundException
+    // Function:   addView
+    // Purpose:    Creates a new set of view parameters for an image document. These
+    //             parameters are defined in terms of an "anchor point" which has a position
+    //             and magnification. The precise interpretation of this anchor point depends
+    //             on how the UI chooses to use it.
+    // Parameters: imageHandle - The handle of the image document.
+    //             anchorX, anchorY - The location of the point on which to anchor the view.
+    //             anchorMag - The magnification or zoom into the anchor point.
+    // Returns:    A handle to the newly created view parameters.
     virtual Common::Handle
     addView(Common::Handle imageHandle, float anchorX, float anchorY, float anchorMag) = 0;
   };

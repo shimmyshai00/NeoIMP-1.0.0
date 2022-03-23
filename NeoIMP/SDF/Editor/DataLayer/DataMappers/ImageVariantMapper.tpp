@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Exceptions.hpp"
+#include "../../../Error/DataException.hpp"
+#include "../../../Error/SafeString.hpp"
+#include "Exceptions.hpp"
 #include "applyPersister.hpp"
 #include "EDirection.hpp"
 
@@ -78,7 +80,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageVariantMapper<PersisterT, ImageVariantT>::insert(std::string fileSpec, ImageVariantT &obj) {
     if(has(fileSpec)) {
-      throw DoubleMapException();
+      throw Error::ObjectAlreadyExistsException<Error::SafeString>(fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
@@ -96,13 +98,13 @@ namespace SDF::Editor::DataLayer::DataMappers {
     // to do some template magic to traverse the variant type's template arguments. We replicate
     // the trick that Boost uses with boost::gil::any_image, which we unfortunately cannot use here.
     if(!has(fileSpec)) {
-      throw FileNotFoundException();
+      throw Error::FileNotFoundException(fileSpec.c_str());
     }
 
     Impl::InverseValidateAndCreate<PersisterT, ImageVariantT> ivac(fileSpec, &obj);
     if(!inverseApply<Impl::InverseValidateAndCreate<PersisterT, ImageVariantT>, ImageVariantT>(
       ivac)) {
-      throw UnsupportedSubFormatException();
+      throw UnsupportedSubFormatException(fileSpec.c_str());
     }
   }
 
@@ -110,7 +112,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   void
   ImageVariantMapper<PersisterT, ImageVariantT>::update(std::string fileSpec, ImageVariantT &obj) {
     if(!has(fileSpec)) {
-      throw FileSpecNotMappedException();
+      throw Error::ObjectNotFoundException<Error::SafeString>(fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us

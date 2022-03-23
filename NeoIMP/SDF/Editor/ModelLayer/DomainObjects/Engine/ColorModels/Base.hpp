@@ -25,7 +25,7 @@
  */
 
 #include "../../../../../Common/Meta.hpp"
-#include "../../../Exceptions.hpp"
+#include "../../../../../Error/GeneralException.hpp"
 #include "../IColorModel.hpp"
 
 #include <boost/mp11/integral.hpp>
@@ -79,7 +79,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
     getChannelMax(std::size_t channelNum) const {
 #ifndef NDEBUG
       if(channelNum >= NUM_CHANNELS) {
-        throw OutOfBoundsException();
+        throw Error::OutOfBoundsException();
       }
 #endif
       return m_channelMaxes[channelNum];
@@ -89,7 +89,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
     getChannelMin(std::size_t channelNum) const {
 #ifndef NDEBUG
       if(channelNum >= NUM_CHANNELS) {
-        throw OutOfBoundsException();
+        throw Error::OutOfBoundsException();
       }
 #endif
       return m_channelMins[channelNum];
