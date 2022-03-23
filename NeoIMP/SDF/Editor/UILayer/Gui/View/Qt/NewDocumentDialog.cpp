@@ -28,11 +28,11 @@
 #include "../../../AbstractModel/Defs/Bounds.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
-  static const std::string g_colorModelNames[AbstractModel::Defs::COLOR_MODEL_MAX] = {
+  static const std::string g_colorModelNames[AbstractModel::Defs::Color::COLOR_MODEL_MAX] = {
     "RGB"
   };
 
-  static const std::string g_bitDepthNames[AbstractModel::Defs::BIT_DEPTH_MAX] = {
+  static const std::string g_bitDepthNames[AbstractModel::Defs::Color::BIT_DEPTH_MAX] = {
     "8"
   };
 
@@ -93,12 +93,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       m_ui->heightSelector, &LengthQuantityEdit::setReferenceResolutionUnit);
 
     // Populate dropdown boxes.
-    for(std::size_t i(0); i < AbstractModel::Defs::COLOR_MODEL_MAX; ++i) {
+    for(std::size_t i(0); i < AbstractModel::Defs::Color::COLOR_MODEL_MAX; ++i) {
       m_ui->colorModelSelector->addItem(QString::fromStdString(
         View::Qt::Impl::g_colorModelNames[i]));
     }
 
-    for(std::size_t i(0); i < AbstractModel::Defs::BIT_DEPTH_MAX; ++i) {
+    for(std::size_t i(0); i < AbstractModel::Defs::Color::BIT_DEPTH_MAX; ++i) {
       m_ui->bitDepthSelector->addItem(QString::fromStdString(View::Qt::Impl::g_bitDepthNames[i]));
     }
 
@@ -127,11 +127,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       spec.heightUnit = m_ui->heightSelector->unit();
       spec.resolution = m_ui->resolutionSelector->quantity();
       spec.resolutionUnit = m_ui->resolutionSelector->unit();
-      spec.colorModel = static_cast<Defs::EColorModel>(m_ui->colorModelSelector->currentIndex());
-      spec.bitDepth = static_cast<Defs::EBitDepth>(m_ui->bitDepthSelector->currentIndex());
+      spec.colorModel = static_cast<Defs::Color::EColorModel>(
+        m_ui->colorModelSelector->currentIndex());
+      spec.bitDepth = static_cast<Defs::Color::EBitDepth>(m_ui->bitDepthSelector->currentIndex());
       spec.backgroundPreset =
         static_cast<Defs::EBackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
-      spec.backgroundColor = Defs::ARGB32_8888_Color(255, 255, 255, 255);
+      spec.backgroundColor = std::make_shared<Defs::Color::RGB24_888>(255, 255, 255);
 
       return spec;
     };

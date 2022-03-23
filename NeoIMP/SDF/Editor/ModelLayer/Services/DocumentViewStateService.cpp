@@ -23,9 +23,6 @@
 
 #include "DocumentViewStateService.hpp"
 
-#include "../../../Common/Exceptions.hpp"
-#include "../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   namespace Impl {
@@ -72,98 +69,66 @@ namespace SDF::Editor::ModelLayer::Services {
 
   float
   DocumentViewStateService::getViewingPointX(Common::Handle viewHandle) const {
-    try {
-      return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosX;
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosX;
   }
 
   float
   DocumentViewStateService::getViewingPointY(Common::Handle viewHandle) const {
-    try {
-      return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosY;
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosY;
   }
 
   float
   DocumentViewStateService::getViewingPointMagnification(Common::Handle viewHandle) const {
-    try {
-      return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewMagnification;
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewMagnification;
   }
 
   void
   DocumentViewStateService::setViewingPointX(Common::Handle viewHandle, float x) {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto val = p->get();
-      val.m_viewPosX = x;
-      p->set(val);
-      m_documentViewStateRepository->update(viewHandle, *p);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto val = p->get();
+    val.m_viewPosX = x;
+    p->set(val);
+    m_documentViewStateRepository->update(viewHandle, *p);
   }
 
   void
   DocumentViewStateService::setViewingPointY(Common::Handle viewHandle, float y) {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto val = p->get();
-      val.m_viewPosY = y;
-      p->set(val);
-      m_documentViewStateRepository->update(viewHandle, *p);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto val = p->get();
+    val.m_viewPosY = y;
+    p->set(val);
+    m_documentViewStateRepository->update(viewHandle, *p);
   }
 
   void
   DocumentViewStateService::setViewingPointMagnification(Common::Handle viewHandle, float mag) {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto val = p->get();
-      val.m_viewMagnification = mag;
-      p->set(val);
-      m_documentViewStateRepository->update(viewHandle, *p);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto val = p->get();
+    val.m_viewMagnification = mag;
+    p->set(val);
+    m_documentViewStateRepository->update(viewHandle, *p);
   }
 
   void
   DocumentViewStateService::setViewingPointPos(Common::Handle viewHandle, float x, float y) {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto val = p->get();
-      val.m_viewPosX = x;
-      val.m_viewPosY = y;
-      p->set(val);
-      m_documentViewStateRepository->update(viewHandle, *p);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto val = p->get();
+    val.m_viewPosX = x;
+    val.m_viewPosY = y;
+    p->set(val);
+    m_documentViewStateRepository->update(viewHandle, *p);
   }
 
   void
   DocumentViewStateService::setViewingPoint(Common::Handle viewHandle, float x, float y, float mag)
   {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto val = p->get();
-      val.m_viewPosX = x;
-      val.m_viewPosY = y;
-      val.m_viewMagnification = mag;
-      p->set(val);
-      m_documentViewStateRepository->update(viewHandle, *p);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto val = p->get();
+    val.m_viewPosX = x;
+    val.m_viewPosY = y;
+    val.m_viewMagnification = mag;
+    p->set(val);
+    m_documentViewStateRepository->update(viewHandle, *p);
   }
 
   Common::PIConnection
@@ -171,12 +136,8 @@ namespace SDF::Editor::ModelLayer::Services {
     Common::Handle viewHandle,
     std::shared_ptr<Common::IListener<float, float, float>> listener
   ) {
-    try {
-      auto p = m_documentViewStateRepository->retrieve(viewHandle);
-      auto wrappedListener = std::make_shared<Impl::WrappedListener>(listener);
-      return p->addListener(wrappedListener);
-    } catch(Common::ObjectNotFoundException) { // NB: leaks abstraction by revealing location?
-      throw UILayer::AbstractModel::ViewNotFoundException(viewHandle);
-    }
+    auto p = m_documentViewStateRepository->retrieve(viewHandle);
+    auto wrappedListener = std::make_shared<Impl::WrappedListener>(listener);
+    return p->addListener(wrappedListener);
   }
 }

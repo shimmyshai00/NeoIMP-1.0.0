@@ -31,22 +31,16 @@
 namespace SDF::Editor::DataLayer::Repositories {
   struct SaveParamsNotAssociatedException : public Error::LikelyBug<Error::DataException> {
     Common::Handle m_id;
-    SaveParamsNotAssociatedException(Common::Handle id) : m_id(id) {}
-
-    virtual const char *what() const noexcept {
-      return "Save parameters (file format/spec) were not associated with this image.";
+    SaveParamsNotAssociatedException(Common::Handle id) : m_id(id) {
+      whatPrintf("Save parameters (file format/spec) were not associated with this image.");
     }
   };
 
   struct UnsupportedFormatException : public Error::LikelyBug<Error::DataException> {
     int m_formatIdx;
-    UnsupportedFormatException(int formatIdx) : m_formatIdx(formatIdx) {}
-
-    const char *what() const noexcept {
-      Error::SafeString ret;
-      ret.sPrintf("Tried to load a file using an unrecognized or unsupported file format '%d'.");
-
-      return ret.get();
+    UnsupportedFormatException(int formatIdx) : m_formatIdx(formatIdx) {
+      whatPrintf("Tried to load a file using an unrecognized or unsupported file format '%d'.",
+        m_formatIdx);
     }
   };
 }

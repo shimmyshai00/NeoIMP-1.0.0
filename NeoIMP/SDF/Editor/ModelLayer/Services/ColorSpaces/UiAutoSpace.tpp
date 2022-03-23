@@ -34,6 +34,14 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   }
 
   template<class FundamentalTraitsT, class MapT>
+  UiAutoSpace<FundamentalTraitsT, MapT>::UiAutoSpace(
+    const UILayer::AbstractModel::Defs::Color::IColor &protoPixel
+  )
+    : m_autoColorModel(protoPixel)
+  {
+  }
+
+  template<class FundamentalTraitsT, class MapT>
   const DomainObjects::Engine::IColorModel<
     std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
   > &
@@ -57,7 +65,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
     }
 
     // Convert to the fundamental space.
-    MapT().nrmlToFundamental(m_nrml, fs);
+    MapT().nrmlToFundamental(&m_nrml[0], fs);
   }
 
   template<class FundamentalTraitsT, class MapT>

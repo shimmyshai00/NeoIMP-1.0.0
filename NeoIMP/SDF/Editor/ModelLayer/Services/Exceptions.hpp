@@ -1,12 +1,12 @@
-#ifndef SDF_ERROR_GENERALEXCEPTION_HPP
-#define SDF_ERROR_GENERALEXCEPTION_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_EXCEPTIONS_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_EXCEPTIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    GeneralException.hpp
- * PURPOSE: Defines exceptions that can be thrown from either data or model layers.
+ * FILE:    Exceptions.hpp
+ * PURPOSE: Defines the remaining exceptions for the model layer services.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Exception.hpp"
+#include "../../../Error/Exception.hpp"
+#include "../../../Error/ModelException.hpp"
 
-namespace SDF::Error {
-  class GeneralException : public Exception {
-  public:
-    virtual ~GeneralException() = 0;
-  };
+namespace SDF::Editor::ModelLayer::Services {
+  class ServiceException : public Error::LikelyBug<Error::ModelException> {};
 
-  class OutOfBoundsException : public LikelyBug<GeneralException> {
-  public:
-    OutOfBoundsException() {
-      whatPrintf("Tried to access a container in an out-of-bounds location.");
+  struct BadFileFormatException : public ServiceException {
+    int m_formatIdx;
+    BadFileFormatException(int formatIdx) : m_formatIdx(formatIdx) {
+      whatPrintf("Bad file format specifier '%d' passed.", m_formatIdx);
     }
   };
 }

@@ -23,7 +23,7 @@
 
 #include "OnAccept_Save.hpp"
 
-#include "../../../../../Exception.hpp"
+#include "../../../../../Error/UiException.hpp"
 #include "../../../AbstractModel/Defs/EFileFormat.hpp"
 
 #include "../../StateKeys.hpp"
@@ -46,7 +46,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
       m_saveDocumentService->saveDocument(curSelectedDocument, fileSpec,
         static_cast<AbstractModel::Defs::EFileFormat>(fileFormat));
     } else {
-      throw SDF::Exception(false, "Unknown file format specified! Cannot save to that.");
+      throw Error::ErrMsgException("Unknown file format specified! Cannot save to that.");
     }
   }
 }

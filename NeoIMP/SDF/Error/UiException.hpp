@@ -28,24 +28,15 @@
 #include "SafeString.hpp"
 
 namespace SDF::Error {
-  class UiException : public Exception {
-  public:
-    virtual ~UiException() = 0;
-  };
+  class UiException : public Exception {};
 
   // There is only one UI exception which is meant basically to be caught to show an error message
   // to the user.
   class ErrMsgException : public General<UiException> {
   public:
-    ErrMsgException(const char *msg)
-      : m_msg(msg)
-    {}
-
-    const char *what() const noexcept {
-      return m_msg;
+    ErrMsgException(const char *msg) {
+      whatPrintf(msg);
     }
-  private:
-    SafeString m_msg;
   };
 }
 

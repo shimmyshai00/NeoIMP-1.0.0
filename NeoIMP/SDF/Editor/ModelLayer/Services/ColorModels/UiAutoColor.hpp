@@ -31,6 +31,7 @@
 #include <cstddef>
 #include <vector>
 #include <array>
+#include <memory>
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   // The pixel format used by the below model. Narrower numbers of channels mean we just ignore
@@ -43,7 +44,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
     //             channelRanges - The channel ranges to apply. Also implies the number of channels.
     UiAutoPixel(
       UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
-      const std::vector<std::pair<float, float>> &channelRanges
+      const std::array<std::pair<float, float>, 5> &channelRanges // nb: leaky of private 5?
     );
 
     UILayer::AbstractModel::Defs::Color::EColorModel

@@ -51,7 +51,9 @@ namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
     // Function:   UiAutoSpace
     // Purpose:    Dynamically constructs a new auto space from an auto color model.
     // Parameters: autoColorModel - The auto color model to construct from.
+    //             protoPixel - The test prototype pixel used to set the parameters.
     UiAutoSpace(const ColorModels::UiAutoColor &autoColorModel);
+    UiAutoSpace(const UILayer::AbstractModel::Defs::Color::IColor &protoPixel);
 
     const DomainObjects::Engine::IColorModel<
       std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>

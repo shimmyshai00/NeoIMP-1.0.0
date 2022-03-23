@@ -30,7 +30,19 @@
 #include <cstdarg>
 
 namespace SDF::Error {
-  class Exception : public std::exception {};
+  class Exception : public std::exception {
+  public:
+    const char *what() const noexcept final {
+      return m_whatStr.get();
+    }
+  protected:
+    template<class ... Args>
+    void whatPrintf(const char *f, Args... args) {
+      m_whatStr.sPrintf(f, args...);
+    }
+  private:
+    SafeString m_whatStr;
+  };
 
   // Used to report a condition that is likely a bug if it occurs.
   template<class LayerExcT>

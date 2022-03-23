@@ -130,8 +130,8 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
     if(obj.heightUnit < LENGTH_UNIT_MAX) p->onHeightUnitValidated();
     if(obj.resolution > 0.0f) p->onResolutionValidated();
     if(obj.resolutionUnit < RESOLUTION_UNIT_MAX) p->onResolutionUnitValidated();
-    if(obj.colorModel < COLOR_MODEL_MAX) p->onColorModelValidated();
-    if(obj.bitDepth < BIT_DEPTH_MAX) p->onBitDepthValidated();
+    if(obj.colorModel < Color::COLOR_MODEL_MAX) p->onColorModelValidated();
+    if(obj.bitDepth < Color::BIT_DEPTH_MAX) p->onBitDepthValidated();
 
     return p;
   }

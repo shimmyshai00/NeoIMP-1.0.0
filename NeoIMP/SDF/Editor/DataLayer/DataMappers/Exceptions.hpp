@@ -29,56 +29,46 @@
 #include "../../../Error/SafeString.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers {
-  struct InvalidImageObjectException : public Error::LikelyBug<Error::DataException> {
-    virtual const char *what() const noexcept = 0;
-  };
+  class InvalidImageObjectException : public Error::LikelyBug<Error::DataException> {};
 
   struct ImageLayerMissingContentException : public InvalidImageObjectException {
-    const char *what() const noexcept {
-      return "Tried to persist an image object with a layer with no content.";
+    ImageLayerMissingContentException() {
+      whatPrintf("Tried to persist an image object with a layer with no content.");
     }
   };
 
   struct ImageMissingBackgroundLayerException : public InvalidImageObjectException {
-    const char *what() const noexcept {
-      return "Tried to persist an image object that is missing a background layer.";
+    ImageMissingBackgroundLayerException() {
+      whatPrintf("Tried to persist an image object that is missing a background layer.");
     }
   };
 
   struct ImageMissingLayersException : public InvalidImageObjectException {
-    const char *what() const noexcept {
-      return "Tried to persist an image object that is missing layers.";
+    ImageMissingLayersException() {
+      whatPrintf("Tried to persist an image object that is missing layers.");
     }
   };
 
   struct UnsupportedFormatException : public Error::LikelyBug<Error::DataException> {
     int m_formatIdx;
-    UnsupportedFormatException(int formatIdx) : m_formatIdx(formatIdx) {}
-
-    const char *what() const noexcept {
-      Error::SafeString ret;
-      ret.sPrintf("Tried to load a file using an unrecognized or unsupported file format '%d'.");
-
-      return ret.get();
+    UnsupportedFormatException(int formatIdx) : m_formatIdx(formatIdx) {
+      whatPrintf("Tried to load a file using an unrecognized or unsupported file format '%d'.",
+        m_formatIdx);
     }
   };
 }
 
 namespace SDF::Editor::DataLayer::DataMappers {
   struct UnsupportedSubFormatException : public Error::BadFileException {
-    UnsupportedSubFormatException(const char *fileSpec) : BadFileException(fileSpec) {}
-
-    const char *what() const noexcept {
-      return "The format of this file was valid; but the specific type is not supported by this "
-       "program.";
+    UnsupportedSubFormatException(const char *fileSpec) : BadFileException(fileSpec) {
+      whatPrintf("The format of this file was valid, but the specific type is not supported by "
+      "this program.");
     }
   };
 
   struct MalformedFileException : public Error::BadFileException {
-    MalformedFileException(const char *fileSpec) : BadFileException(fileSpec) {}
-
-    const char *what() const noexcept {
-      return "This file is not valid - it is either malformed or corrupt.";
+    MalformedFileException(const char *fileSpec) : BadFileException(fileSpec) {
+      whatPrintf("This file is not valid - it is either malformed or corrupt.");
     }
   };
 }

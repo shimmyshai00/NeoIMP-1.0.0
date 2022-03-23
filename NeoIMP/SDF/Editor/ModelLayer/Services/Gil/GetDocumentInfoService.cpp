@@ -23,11 +23,8 @@
 
 #include "GetDocumentInfoService.hpp"
 
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../../AbstractData/Exceptions.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
-#include "../../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentInfoService::GetDocumentInfoService(
@@ -39,11 +36,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   std::string
   GetDocumentInfoService::getDocumentName(Common::Handle documentHandle) {
-    try {
-      return m_imageRepository->getImage(documentHandle)->getName();
-    } catch(AbstractData::ObjectNotFoundInRepoException) {
-      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
-    }
+    return m_imageRepository->getImage(documentHandle)->getName();
   }
 
   float
@@ -54,16 +47,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
-    try {
-      ImageMeasure widthPx = m_imageRepository->getImage(documentHandle)->getWidthPx();
-      float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
-      return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
-        RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(AbstractData::ObjectNotFoundInRepoException) {
-      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
-    } catch(BadLengthUnitException) {
-      throw UILayer::AbstractModel::InvalidUnitException(inUnit);
-    }
+    ImageMeasure widthPx = m_imageRepository->getImage(documentHandle)->getWidthPx();
+    float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
+    return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
+      RESOLUTION_UNIT_PPI).in(inUnit);
   }
 
   float
@@ -74,15 +61,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
-    try {
-      ImageMeasure heightPx = m_imageRepository->getImage(documentHandle)->getHeightPx();
-      float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
-      return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
-        RESOLUTION_UNIT_PPI).in(inUnit);
-    } catch(AbstractData::ObjectNotFoundInRepoException) {
-      throw UILayer::AbstractModel::DocumentNotFoundException(documentHandle);
-    } catch(BadResolutionUnitException) {
-      throw UILayer::AbstractModel::InvalidUnitException(inUnit);
-    }
+    ImageMeasure heightPx = m_imageRepository->getImage(documentHandle)->getHeightPx();
+    float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
+    return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
+      RESOLUTION_UNIT_PPI).in(inUnit);
   }
 }

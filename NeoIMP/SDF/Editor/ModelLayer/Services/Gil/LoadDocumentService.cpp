@@ -23,11 +23,8 @@
 
 #include "LoadDocumentService.hpp"
 
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../../AbstractData/Exceptions.hpp"
-#include "../../Exceptions.hpp"
-
 #include "../fileFormatMap.hpp"
+#include "../Exceptions.hpp"
 
 #include <filesystem>
 
@@ -45,27 +42,17 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     UILayer::AbstractModel::Defs::EFileFormat fileFormat
   ) {
     if(fileFormat >= UILayer::AbstractModel::Defs::FILE_FORMAT_MAX) {
-      throw UILayer::AbstractModel::BadFileFormatException(fileFormat);
+      throw BadFileFormatException(fileFormat);
     }
 
     AbstractData::EFormat dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
 
-    try {
-      Common::Handle rv(m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat));
+    Common::Handle rv(m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat));
 
-      // Name the image after its filename. NB: should this go in this layer?
-      std::string name(std::filesystem::path(fileSpec).filename());
-      m_imageRepository->getImage(rv)->setName(name);
+    // Name the image after its filename. NB: should this go in this layer?
+    std::string name(std::filesystem::path(fileSpec).filename());
+    m_imageRepository->getImage(rv)->setName(name);
 
-      return rv;
-    } catch(AbstractData::FileNotFoundException) {
-      throw UILayer::AbstractModel::FileNotFoundException(fileSpec.c_str());
-    } catch(AbstractData::BadFileException) {
-      throw UILayer::AbstractModel::BadFileException();
-    } catch(AbstractData::UnsupportedSubFormatException) {
-      throw UILayer::AbstractModel::FileTypeUnsupportedException();
-    }
-
-    return Common::HANDLE_INVALID;
+    return rv;
   }
 }

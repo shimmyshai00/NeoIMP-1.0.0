@@ -30,21 +30,17 @@
 namespace SDF::Editor::ModelLayer::Metrics {
   struct InvalidLengthUnitException : public Error::LikelyBug<Error::ModelException> {
     int m_unitIdx;
-    InvalidLengthUnitException(int unitIdx) : m_unitIdx(unitIdx) {}
-
-    const char *what() const noexcept {
-      return SafeString().sPrintf("Tried to use a length unit with index '%d'. This does not "
-      "correspond to a valid choice of measuring unit.", m_unitIdx);
+    InvalidLengthUnitException(int unitIdx) : m_unitIdx(unitIdx) {
+      whatPrintf("Tried to use a length unit with index '%d'. This does not correspond to a valid "
+      "choice of measuring unit.", m_unitIdx);
     }
   };
 
   struct InvalidResolutionUnitException : public Error::LikelyBug<Error::ModelException> {
     int m_unitIdx;
-    InvalidResolutionUnitException(int unitIdx) : m_unitIdx(unitIdx) {}
-
-    const char *what() const noexcept {
-      return SafeString().sPrintf("Tried to use a resolution unit with index '%d'. This does not "
-      "correspond to a valid choice of measuring unit.", m_unitIdx);
+    InvalidResolutionUnitException(int unitIdx) : m_unitIdx(unitIdx) {
+      whatPrintf("Tried to use a resolution unit with index '%d'. This does not correspond to a "
+      "valid choice of measuring unit.", m_unitIdx);
     }
   };
 }

@@ -37,53 +37,55 @@ namespace SDF::Error {
   class ObjectAlreadyExistsException : public General<DataException> {
   public:
     KeyT m_key;
-    ObjectAlreadyExistsException(const KeyT &key) : m_key(key) {}
-
-    virtual const char *what() const noexcept { return "Object already exists in container"; }
+    ObjectAlreadyExistsException(const KeyT &key) : m_key(key) {
+      whatPrintf("Object already exists in container");
+    }
   };
 
   template<class KeyT>
   class ObjectNotFoundException : public General<DataException> {
   public:
     KeyT m_key;
-    ObjectNotFoundException(const KeyT &key) : m_key(key) {}
-
-    virtual const char *what() const noexcept { return "Object not found"; }
+    ObjectNotFoundException(const KeyT &key) : m_key(key) {
+      whatPrintf("Object not found");
+    }
   };
 
   class FileNotFoundException : public General<DataException> {
   public:
     SafeString m_fileSpec;
-    FileNotFoundException(const char *fileSpec) : m_fileSpec(fileSpec) {}
-
-    const char *what() const noexcept { return "File not found"; }
+    FileNotFoundException(const char *fileSpec) : m_fileSpec(fileSpec) {
+      whatPrintf("File not found");
+    }
   };
 
   class DatabaseConnectionFailedException : public General<DataException> {
   public:
-    const char *what() const noexcept { return "Database connection failed"; }
+    DatabaseConnectionFailedException() {
+      whatPrintf("Database connection failed");
+    }
   };
 
   class IoException : public General<DataException> {
   public:
-    const char *what() const noexcept { return "I/O error"; }
+    IoException() {
+      whatPrintf("I/O error");
+    }
   };
 
   class FilesystemException : public General<DataException> {
   public:
-    const char *what() const noexcept {
-      return "Something when wrong when trying to access the file system.";
+    FilesystemException() {
+      whatPrintf("Something when wrong when trying to access the file system.");
     }
   };
 
   class BadFileException : public General<DataException> {
   public:
     SafeString m_fileSpec;
-    BadFileException(const char *fileSpec) : m_fileSpec(fileSpec) {}
-
-    virtual const char *what() const noexcept {
-      return "This file does not appear to be valid. It may be damaged, not in the format the "
-             "program is expecting, or malformed.";
+    BadFileException(const char *fileSpec) : m_fileSpec(fileSpec) {
+      whatPrintf("This file does not appear to be valid. It may be damaged, not in the format the "
+      "program is expecting, or malformed.");
     }
   };
 }

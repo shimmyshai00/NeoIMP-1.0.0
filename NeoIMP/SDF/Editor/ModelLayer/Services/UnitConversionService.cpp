@@ -23,12 +23,8 @@
 
 #include "UnitConversionService.hpp"
 
-#include "../../UILayer/AbstractModel/Exceptions.hpp"
-
 #include "../Metrics/LengthConvertible.hpp"
 #include "../Metrics/ResolutionConvertible.hpp"
-
-#include "../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   UnitConversionService::UnitConversionService() {
@@ -46,10 +42,6 @@ namespace SDF::Editor::ModelLayer::Services {
     using namespace UILayer::AbstractModel;
     using namespace Metrics;
 
-    if(lengthUnit == Defs::LENGTH_UNIT_MAX) {
-      throw InvalidUnitException(lengthUnit);
-    }
-
     return std::make_shared<LengthConvertible>(length, lengthUnit,
       resolution->in(Defs::RESOLUTION_UNIT_PPI), Defs::RESOLUTION_UNIT_PPI);
   }
@@ -63,10 +55,6 @@ namespace SDF::Editor::ModelLayer::Services {
   ) {
     using namespace UILayer::AbstractModel;
     using namespace Metrics;
-
-    if(resolutionUnit == Defs::RESOLUTION_UNIT_MAX) {
-      throw InvalidUnitException(resolutionUnit);
-    }
 
     return std::make_shared<ResolutionConvertible>(resolution, resolutionUnit);
   }

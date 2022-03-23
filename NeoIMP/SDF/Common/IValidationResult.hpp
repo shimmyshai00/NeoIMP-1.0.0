@@ -30,7 +30,7 @@ namespace SDF::Common {
   // Class:      IValidationResult
   // Purpose:    Represents the result of a validation operation.
   // Parameters: None.
-  class IValidationResult : class IThrower {
+  class IValidationResult : public IThrower {
   public:
     virtual ~IValidationResult() = default;
 

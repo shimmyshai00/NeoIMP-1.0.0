@@ -27,7 +27,6 @@
 #include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
 #include "../../../../Common/MessageSystem/IChannel.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../../Common/IUUIDable.hpp"
@@ -35,8 +34,6 @@
 
 #include "../../AbstractData/IImageRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-
-#include "../../Exceptions.hpp"
 
 #include "../Messages/Object.hpp"
 

@@ -23,7 +23,7 @@
 
 #include "OnSave.hpp"
 
-#include "../../../../../Exception.hpp"
+#include "../../../../../Error/UiException.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   OnSave::OnSave(
@@ -43,8 +43,8 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   OnSave::onTrigger() {
     Common::Handle activeDocumentHandle = m_getActiveDocumentService->getActiveDocument();
     if(activeDocumentHandle == Common::HANDLE_INVALID) {
-      throw SDF::Exception(true,
-        "Tried to save a document when no document was selected by the user.");
+      throw Error::ErrMsgException("Tried to save a document when no document was selected by the "
+      "user.");
     }
 
     if(m_getDocumentFileInfoService->wasDocumentPreviouslySaved(activeDocumentHandle)) {

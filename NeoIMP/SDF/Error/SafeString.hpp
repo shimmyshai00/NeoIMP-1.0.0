@@ -64,7 +64,7 @@ namespace SDF::Error {
 	};
 
   // Convenience methods.
-  SafeString safePrintf(const char *fString, ...) noexcept {
+  static SafeString safePrintf(const char *fString, ...) noexcept {
     SafeString rv;
     va_list vl;
 

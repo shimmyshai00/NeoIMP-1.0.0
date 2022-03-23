@@ -23,8 +23,7 @@
 
 #include "DocumentPrefabsService.hpp"
 
-#include "../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../Exceptions.hpp"
+#include "../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   DocumentPrefabsService::DocumentPrefabsService() {
@@ -39,10 +38,10 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         300.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::COLOR_MODEL_RGB,
-        Defs::BIT_DEPTH_8,
+        Defs::Color::COLOR_MODEL_RGB,
+        Defs::Color::BIT_DEPTH_8,
         Defs::PRE_BACKGROUND_WHITE,
-        Defs::RGB24_888_Color(255, 255, 255)
+        std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };
 
     m_prefabNames[1] = "U.S. Letter, 8.5\" x 11\", 150 DPI";
@@ -53,10 +52,10 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         150.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::COLOR_MODEL_RGB,
-        Defs::BIT_DEPTH_8,
+        Defs::Color::COLOR_MODEL_RGB,
+        Defs::Color::BIT_DEPTH_8,
         Defs::PRE_BACKGROUND_WHITE,
-        Defs::RGB24_888_Color(255, 255, 255)
+        std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };
   }
 
@@ -72,19 +71,11 @@ namespace SDF::Editor::ModelLayer::Services {
 
   std::string
   DocumentPrefabsService::getPrefabName(Common::Handle handle) const {
-    try {
-      return m_prefabNames.at(handle);
-    } catch(std::out_of_range) {
-      throw UILayer::AbstractModel::PrefabNotFoundException(handle);
-    }
+    return m_prefabNames.at(handle);
   }
 
   UILayer::AbstractModel::Defs::ImageSpec
   DocumentPrefabsService::getPrefabSpec(Common::Handle handle) const {
-    try {
-      return m_prefabSpecs.at(handle);
-    } catch(std::out_of_range) {
-      throw UILayer::AbstractModel::PrefabNotFoundException(handle);
-    }
+    return m_prefabSpecs.at(handle);
   }
 }

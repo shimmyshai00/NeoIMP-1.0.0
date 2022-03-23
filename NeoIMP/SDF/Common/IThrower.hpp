@@ -29,6 +29,7 @@ namespace SDF::Common {
   // Purpose:    Defines an interface for objects that can generate an exception on user request.
   // Parameters: None.
   class IThrower {
+  public:
     virtual ~IThrower() = default;
 
     // Function:   throwFrom

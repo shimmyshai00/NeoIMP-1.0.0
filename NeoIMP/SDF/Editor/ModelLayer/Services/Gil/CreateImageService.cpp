@@ -25,15 +25,15 @@
 
 #include "../../../../Common/Overload.hpp"
 
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/Types.hpp"
 #include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
 #include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
 #include "../../DomainObjects/Engine/Gil/ImplTraits.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageFactory.hpp"
+#include "../../DomainObjects/Engine/ColorSpaces/Adapter.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
-#include "../../Exceptions.hpp"
-#include "../ColorSpaces/UiAutoSpace.hpp"
+#include "../ColorSpaces/Defs.hpp"
 #include "../Validators/ImageSpecValidator.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
@@ -41,12 +41,12 @@
 namespace SDF::Editor::ModelLayer::Services::Gil {
   namespace Impl {
     // Preset background colors.
-    static const UILayer::AbstractModel::Defs::ARGB32_8888_Color g_bkgRgbPresets
+    static const std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> g_bkgRgbPresets
       [UILayer::AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
-        UILayer::AbstractModel::Defs::ARGB32_8888_Color(255, 255, 255, 255),
-        UILayer::AbstractModel::Defs::ARGB32_8888_Color(255, 0, 0, 0),
-        UILayer::AbstractModel::Defs::ARGB32_8888_Color(0, 255, 255, 255),
-        UILayer::AbstractModel::Defs::ARGB32_8888_Color(0, 0, 0, 0),
+        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(255, 255, 255),
+        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(0, 0, 0),
+        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(255, 255, 255),
+        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(0, 0, 0)
       };
   }
 
@@ -71,13 +71,14 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     const UILayer::AbstractModel::Defs::ImageSpec &spec
   ) const {
     using namespace UILayer::AbstractModel::Defs;
+    using namespace UILayer::AbstractModel::Defs::Color;
     using namespace Metrics;
     using namespace DomainObjects;
 
     // Input validation.
-    ImageSpecValidator val;
-    unsigned int failReason = 0;
-    if(val.validate(spec, &failReason)) {
+    Validators::ImageSpecValidator val;
+    auto result = val.validate(spec);
+    if(result->isValid()) {
       // Convert the dimensions to pixels.
       LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
       LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
@@ -90,97 +91,74 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
           widthPx, heightPx);
       } else {
-        throw UILayer::AbstractModel::BadColorFormatException();
+        throw "NOT YET IMPLEMENTED";
       }
     } else {
       // Bad spec given!
-      if((failReason & E_WIDTH_INVALID) || (failReason & E_HEIGHT_INVALID)) {
-        throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
-          spec.height, spec.heightUnit);
-      }
-
-      if(failReason & E_WIDTH_UNIT_INVALID) {
-        throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
-      }
-
-      if(failReason & E_HEIGHT_UNIT_INVALID) {
-        throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
-      }
-      
+      result->throwFrom();
     }
   }
 
   Common::Handle
   CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
     using namespace UILayer::AbstractModel::Defs;
+    using namespace UILayer::AbstractModel::Defs::Color;
     using namespace Metrics;
     using namespace DomainObjects;
-    using Services::ColorSpaces::UiXyzD65Converter;
+    using Services::ColorSpaces::UiAutoSpace;
 
     // Input validation.
-    if(spec.width == 0) {
-      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
-        spec.height, spec.heightUnit);
-    }
+    Validators::ImageSpecValidator val;
+    auto result = val.validate(spec);
+    if(result->isValid()) {
+      // Convert the dimensions to pixels.
+      ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
+      LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
+      LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
 
-    if(spec.widthUnit == LENGTH_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.widthUnit);
+      std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
+      std::string fileSpec("");
 
-    if(spec.height == 0) {
-      throw UILayer::AbstractModel::BadDimensionsException(spec.width, spec.widthUnit,
-        spec.height, spec.heightUnit);
-    }
+      float resPpi(res.in(RESOLUTION_UNIT_PPI));
+      std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
+      std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
-    if(spec.heightUnit == LENGTH_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.heightUnit);
+      // Get the background color from presets.
+      auto specBackgroundColor = Impl::g_bkgRgbPresets[spec.backgroundPreset];
+      if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
+        specBackgroundColor = spec.backgroundColor;
+      }
 
-    if(spec.resolution <= 0.0f)
-      throw UILayer::AbstractModel::BadResolutionException(spec.resolution, spec.resolutionUnit);
+      // What type to use depends on the combination of color model and bit depth parameters.
+      std::unique_ptr<Engine::Gil::Any_Image> image;
+      if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
+        // NB: very STUBby and full of assumptions
+        auto receiptSpace = ColorSpaces::UIAssumed_sRGB(*specBackgroundColor);
+        auto bkgColor = Engine::ColorSpaces::adapt(
+          Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888,
+          receiptSpace,
+          specBackgroundColor
+        );
 
-    if(spec.resolutionUnit == RESOLUTION_UNIT_MAX)
-      throw UILayer::AbstractModel::InvalidUnitException(spec.resolutionUnit);
+        auto proto = Engine::Gil::ImageFactory<Engine::Gil::RGB24_888_Image_Impl>().createU(
+          name, fileSpec, widthPx, heightPx, resPpi, bkgColor);
 
-    // Convert the dimensions to pixels.
-    ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
-    LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
-    LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
+        image = std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
+      } else {
+        throw "NOT YET IMPLEMENTED";
+      }
 
-    std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
-    std::string fileSpec("");
+      Common::Handle rv(m_imageRepository->insertImageAtNextAvailable(std::move(image)));
 
-    float resPpi(res.in(RESOLUTION_UNIT_PPI));
-    std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
-    std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
+      Messages::ImageAdded msg(rv);
+      m_imageAddedMessageChannel->publishMessage(getUuid(), msg);
 
-    // Get the background color from presets.
-    AnyColor specBackgroundColor = Impl::g_bkgRgbPresets[spec.backgroundPreset];
-    if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
-      specBackgroundColor = spec.backgroundColor;
-    }
+      ++m_nextNewDocumentNumber;
 
-    // What type to use depends on the combination of color model and bit depth parameters.
-    std::unique_ptr<Engine::Gil::Any_Image> image;
-    if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-      // NB: very STUBby and full of assumptions
-      auto conv = UiXyzD65Converter<typename Engine::Gil::RGB24_888_Image_Impl::bkg_pixel_t>
-        (&Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888);
-      auto bkgColor = conv.convert(specBackgroundColor);
-
-      auto proto = Engine::Gil::ImageFactory<Engine::Gil::RGB24_888_Image_Impl>().createU(
-        name, fileSpec, widthPx, heightPx, resPpi, bkgColor);
-
-      image = std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
+      return rv;
     } else {
-      throw UILayer::AbstractModel::BadColorFormatException();
+      // Worthless spec. Throw an exception
+      result->throwFrom();
     }
-
-    Common::Handle rv(m_imageRepository->insertImageAtNextAvailable(std::move(image)));
-
-    Messages::ImageAdded msg(rv);
-    m_imageAddedMessageChannel->publishMessage(getUuid(), msg);
-
-    ++m_nextNewDocumentNumber;
-
-    return rv;
   }
 }

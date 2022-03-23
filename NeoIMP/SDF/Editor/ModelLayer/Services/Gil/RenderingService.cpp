@@ -23,13 +23,9 @@
 
 #include "RenderingService.hpp"
 
-#include "../../../../Common/Exceptions.hpp" // NB: abstraction leak!
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../../AbstractData/Exceptions.hpp"
 #include "../../Math/Rect.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Apply.hpp"
-#include "../../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   namespace Impl {
@@ -178,27 +174,23 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   RenderingService::createStaticRendering(Common::Handle imageHandle) {
     using namespace DomainObjects;
 
-    try {
-      Engine::Gil::Any_Image *image(m_imageRepository->getImage(imageHandle));
+    Engine::Gil::Any_Image *image(m_imageRepository->getImage(imageHandle));
 
-      std::size_t imageWidth(image->getWidthPx());
-      std::size_t imageHeight(image->getHeightPx());
+    std::size_t imageWidth(image->getWidthPx());
+    std::size_t imageHeight(image->getHeightPx());
 
-      Common::Handle renderingHandle(m_nextRenderingHandle++);
-      std::unique_ptr<Engine::Buffers::GridRendering> rendering(
-        new Engine::Buffers::GridRendering(1, 1, imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
+    Common::Handle renderingHandle(m_nextRenderingHandle++);
+    std::unique_ptr<Engine::Buffers::GridRendering> rendering(
+      new Engine::Buffers::GridRendering(1, 1, imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
 
-      Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
+    Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
 
-      Engine::Gil::Algorithm::Render render(rendering.get(), outRect, image->getRect());
-      Engine::Gil::Algorithm::apply(render, *image);
+    Engine::Gil::Algorithm::Render render(rendering.get(), outRect, image->getRect());
+    Engine::Gil::Algorithm::apply(render, *image);
 
-      m_renderingRepository->insert(renderingHandle, std::move(rendering));
+    m_renderingRepository->insert(renderingHandle, std::move(rendering));
 
-      return renderingHandle;
-    } catch(AbstractData::ObjectNotFoundInRepoException) {
-      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
-    }
+    return renderingHandle;
   }
 
   std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
@@ -212,24 +204,16 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer;
     using namespace DomainObjects;
 
-    try {
-      Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
+    Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
 
-      // Right now, we only support static renderings with 1 cell.
-      return std::shared_ptr<AbstractModel::Defs::IRenderRegion>(
-        new Impl::RenderRegion(rendering, x1, y1, x2, y2)
-      );
-    } catch(Common::ObjectNotFoundException) { // NB: abstraction leak!
-      throw UILayer::AbstractModel::RenderingNotFoundException(renderHandle);
-    }
+    // Right now, we only support static renderings with 1 cell.
+    return std::shared_ptr<AbstractModel::Defs::IRenderRegion>(
+      new Impl::RenderRegion(rendering, x1, y1, x2, y2)
+    );
   }
 
   void
   RenderingService::deleteRendering(Common::Handle renderHandle) {
-    try {
-      m_renderingRepository->erase(renderHandle);
-    } catch(Common::ObjectNotFoundException) { // NB: abstraction leak!
-      throw UILayer::AbstractModel::RenderingNotFoundException(renderHandle);
-    }
+    m_renderingRepository->erase(renderHandle);
   }
 }

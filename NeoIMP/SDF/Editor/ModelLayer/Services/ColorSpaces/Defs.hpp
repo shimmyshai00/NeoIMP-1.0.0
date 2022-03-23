@@ -26,7 +26,7 @@
 
 #include "../../DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
 #include "../../DomainObjects/Engine/ColorSpaces/Maps/IEC61966_sRGB.hpp"
-#include "../ColorModels/Defs.hpp"
+#include "UiAutoSpace.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
   // Types. Note - no constants, since auto spaces are dynamic.

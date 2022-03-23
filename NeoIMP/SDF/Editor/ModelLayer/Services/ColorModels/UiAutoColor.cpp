@@ -26,7 +26,7 @@
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoPixel::UiAutoPixel(
     UILayer::AbstractModel::Defs::Color::EColorModel enumColorModel,
-    const std::vector<std::pair<float, float>> &channelRanges
+    const std::array<std::pair<float, float>, 5> &channelRanges
   )
     : m_enumColorModel(enumColorModel),
       m_numChannels(channelRanges.size())
@@ -71,8 +71,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoColor::UiAutoColor(const UILayer::AbstractModel::Defs::Color::IColor &protoPixel)
-    : m_enumColorModel(protoPixel.getColorModel()),
-      m_channelRanges(protoPixel.getNumChannels())
+    : m_enumColorModel(protoPixel.getColorModel())
   {
     for(std::size_t i(0); i < protoPixel.getNumChannels(); ++i) {
       m_channelRanges[i].first = protoPixel.getChannelMin(i);
@@ -99,7 +98,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoColor::convertToPixel(float *values) const {
     // meh ... couldn't get rid of allocator overhead anyways
     std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> rv(
-      new UIAutoPixel(m_enumColorModel, m_channelRanges));
+      new UiAutoPixel(m_enumColorModel, m_channelRanges));
 
     // the floats come in in the range [0, 1]
     for(std::size_t i(0); i < getNumChannels(); ++i) {
@@ -122,7 +121,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
       // again, in [0, 1], so we don't need to use our channel ranges here - they're only for
       // *synthesizing* an IColor the UI won't notice is a model object via the beauty of
       // abstraction
-      values[i] = (px.get(i) - px->getChannelMin(i)) / pxChannelWidth;
+      values[i] = (px->get(i) - px->getChannelMin(i)) / pxChannelWidth;
     }
   }
 }

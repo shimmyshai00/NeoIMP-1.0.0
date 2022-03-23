@@ -35,44 +35,29 @@ namespace SDF::Editor::ModelLayer::DomainObjects {
     Engine::ImageMeasure m_width, m_height;
     InvalidDimensionsException(Engine::ImageMeasure width, Engine::ImageMeasure height)
       : m_width(width), m_height(height)
-    {}
-
-    const char *what() const noexcept {
-      Error::SafeString ret;
-      ret.sPrintf("The image dimensions %d x %d are not valid.", m_width, m_height);
-
-      return ret.get();
+    {
+      whatPrintf("The image dimensions %d x %d are not valid.", m_width, m_height);
     }
   };
 
   struct ComponentExistsException : public Error::LikelyBug<Error::ModelException> {
     Error::SafeString m_id;
-    ComponentExistsException(const char *id) : m_id(id) {}
-
-    const char *what() const noexcept {
-      Error::SafeString ret;
-      ret.sPrintf("Tried to add a component to an entity under an id '%s' already taken by "
+    ComponentExistsException(const char *id) : m_id(id) {
+      whatPrintf("Tried to add a component to an entity under an id '%s' already taken by "
       "another.", m_id);
-
-      return ret.get();
     }
   };
 
   struct ComponentNotFoundException : public Error::LikelyBug<Error::ModelException> {
     Error::SafeString m_id;
-    ComponentNotFoundException(const char *id) : m_id(id) {}
-
-    const char *what() const noexcept {
-      Error::SafeString ret;
-      ret.sPrintf("Component '%s' not found in image layer entity.", m_id);
-
-      return ret.get();
+    ComponentNotFoundException(const char *id) : m_id(id) {
+      whatPrintf("Component '%s' not found in image layer entity.", m_id);
     }
   };
 
   struct BadComponentCastException : public Error::LikelyBug<Error::ModelException> {
-    const char *what() const noexcept {
-      return "Tried to cast a component to the wrong type.";
+    BadComponentCastException() {
+      whatPrintf("Tried to cast a component to the wrong type.");
     }
   };
 }

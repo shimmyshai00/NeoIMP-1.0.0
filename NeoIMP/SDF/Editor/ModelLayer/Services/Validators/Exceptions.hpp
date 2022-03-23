@@ -28,41 +28,38 @@
 #include "../../../../Error/ModelException.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Validators {
-  class ValidatorException : public Error::LikelyBug<Error::ModelException> {
-  public:
-    virtual const char *what() const noexcept = 0;
-  };
+  class ValidatorException : public Error::LikelyBug<Error::ModelException> {};
 
   struct WidthInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec width is invalid."; }
+    WidthInvalidException() { whatPrintf("Document spec width is invalid."); }
   };
 
   struct WidthUnitInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec width unit is invalid."; }
+    WidthUnitInvalidException() { whatPrintf("Document spec width unit is invalid."); }
   };
 
   struct HeightInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec height is invalid."; }
+    HeightInvalidException() { whatPrintf("Document spec height is invalid."); }
   };
 
   struct HeightUnitInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec height unit is invalid."; }
+    HeightUnitInvalidException() { whatPrintf("Document spec height unit is invalid."); }
   };
 
   struct ResolutionInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec resolution is invalid."; }
+    ResolutionInvalidException() { whatPrintf("Document spec resolution is invalid."); }
   };
 
   struct ResolutionUnitInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec resolution unit is invalid."; }
+    ResolutionUnitInvalidException() { whatPrintf("Document spec resolution unit is invalid."); }
   };
 
   struct ColorModelInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec color model is invalid."; }
+    ColorModelInvalidException() { whatPrintf("Document spec color model is invalid."); }
   };
 
   struct BitDepthInvalidException : public ValidatorException {
-    const char *what() const noexcept { return "Document spec bit depth is invalid."; }
+    BitDepthInvalidException() { whatPrintf("Document spec bit depth is invalid."); }
   };
 }
 

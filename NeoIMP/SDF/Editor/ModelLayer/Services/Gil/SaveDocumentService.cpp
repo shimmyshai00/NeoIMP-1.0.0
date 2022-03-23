@@ -23,10 +23,6 @@
 
 #include "SaveDocumentService.hpp"
 
-#include "../../../UILayer/AbstractModel/Exceptions.hpp"
-#include "../../AbstractData/Exceptions.hpp"
-#include "../../Exceptions.hpp"
-
 namespace SDF::Editor::ModelLayer::Services::Gil {
   SaveDocumentService::SaveDocumentService(
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
@@ -41,23 +37,17 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     std::string fileSpec,
     UILayer::AbstractModel::Defs::EFileFormat fileFormat
   ) {
-    try {
-      AbstractData::EFormat dataLayerFormat;
-      switch(fileFormat) {
-        case UILayer::AbstractModel::Defs::FILE_FORMAT_PNG:
-          dataLayerFormat = AbstractData::FORMAT_PNG;
-          break;
-        default:
-          dataLayerFormat = AbstractData::FORMAT_PNG;
-          break;
-      }
-
-      m_imageRepository->registerFileSpec(imageHandle, fileSpec, dataLayerFormat);
-      m_imageRepository->persistImage(imageHandle);
-    } catch(AbstractData::ObjectNotFoundInRepoException) {
-      throw UILayer::AbstractModel::DocumentNotFoundException(imageHandle);
-    } catch(AbstractData::UnsupportedFormatException) {
-      throw UILayer::AbstractModel::BadFileFormatException(fileFormat);
+    AbstractData::EFormat dataLayerFormat;
+    switch(fileFormat) {
+      case UILayer::AbstractModel::Defs::FILE_FORMAT_PNG:
+        dataLayerFormat = AbstractData::FORMAT_PNG;
+        break;
+      default:
+        dataLayerFormat = AbstractData::FORMAT_PNG;
+        break;
     }
+
+    m_imageRepository->registerFileSpec(imageHandle, fileSpec, dataLayerFormat);
+    m_imageRepository->persistImage(imageHandle);
   }
 }
