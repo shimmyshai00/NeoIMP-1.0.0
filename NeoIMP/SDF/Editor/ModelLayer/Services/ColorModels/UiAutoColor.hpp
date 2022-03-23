@@ -123,6 +123,8 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
                   ) const;
   private:
     UILayer::AbstractModel::Defs::Color::EColorModel m_enumColorModel;
+
+    std::size_t m_numChannels;
     std::array<std::pair<float, float>, 5> m_channelRanges; // again, save allocator overhead
   };
 }

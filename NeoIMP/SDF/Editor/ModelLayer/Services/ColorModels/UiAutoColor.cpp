@@ -71,7 +71,8 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
 namespace SDF::Editor::ModelLayer::Services::ColorModels {
   UiAutoColor::UiAutoColor(const UILayer::AbstractModel::Defs::Color::IColor &protoPixel)
-    : m_enumColorModel(protoPixel.getColorModel())
+    : m_enumColorModel(protoPixel.getColorModel()),
+      m_numChannels(protoPixel.getNumChannels())
   {
     for(std::size_t i(0); i < protoPixel.getNumChannels(); ++i) {
       m_channelRanges[i].first = protoPixel.getChannelMin(i);
@@ -81,7 +82,7 @@ namespace SDF::Editor::ModelLayer::Services::ColorModels {
 
   std::size_t
   UiAutoColor::getNumChannels() const {
-    return m_channelRanges.size();
+    return m_numChannels;
   }
 
   float
