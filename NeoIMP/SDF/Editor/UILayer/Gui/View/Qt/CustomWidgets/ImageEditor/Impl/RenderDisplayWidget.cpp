@@ -188,11 +188,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     // matters!
     QPainter painter(this);
     painter.translate(-viewportX1(), -viewportY1());
-    painter.scale(1.0f / m_viewMagnification, 1.0f / m_viewMagnification);
+    painter.scale(m_viewMagnification, m_viewMagnification);
     // NB: we could add rotate in the future! <- this would be NIFTY
 
     QTransform inverseTransform;
-    inverseTransform.scale(m_viewMagnification, m_viewMagnification);
+    inverseTransform.scale(1.0f / m_viewMagnification, 1.0f / m_viewMagnification);
     inverseTransform.translate(viewportX1(), viewportY1());
 
     // Define a mapping from the widget space into this region. The tricky bit here is that when

@@ -81,7 +81,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     m_documentHandle = imageHandle;
 
     // NB: TBA - delete old view
-    m_documentViewDataHandle = m_addViewService->addView(m_documentHandle, 0.0f, 0.0f, 1.0f);
+    m_documentViewDataHandle = m_addViewService->addView(m_documentHandle, 0.0f, 0.0f, 0.5f);
 
     m_renderDisplayWidget->setAll(
       m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
@@ -105,6 +105,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     auto lis = std::shared_ptr<Common::IListener<float, float, float>>(
       new Common::FunctionListener<float, float, float>(
         [&](float x1, float y1, float mag) {
+          printf("listrip %f %f %f %f\n\n", x1, y1, mag, m_renderDisplayWidget->viewportMag());
           if(m_renderDisplayWidget->viewportMag() != mag) {
             m_horizontalRuler->setAll(x1, mag);
             m_verticalRuler->setAll(y1, mag);
@@ -168,11 +169,17 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   // Private helper functions.
   std::pair<int, int>
   Widget::calcScrollRange(float dimensionLength, float magnif, float viewportLength) {
+    // the magnification correction is to help preserve precision
     int minVal(0);
     int maxVal(std::max(0,
-      static_cast<int>(floor(((dimensionLength * magnif) - viewportLength) + 0.5f))));
+      static_cast<int>(floor((dimensionLength - viewportLength)*magnif + 0.5f))));
 
     return std::make_pair(minVal, maxVal);
+  }
+
+  int
+  Widget::calcScrollPage(float magnif, float viewportLength) {
+    return floor(viewportLength*magnif + 0.5f);
   }
 
   int
@@ -199,7 +206,19 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
         m_renderDisplayWidget->viewportHeight()
       );
 
+      printf("vscroll: %d %d\n", vScrollRange.first, vScrollRange.second);
+
       m_verticalScroll->setRange(vScrollRange.first, vScrollRange.second);
+
+      auto hScrollPage = calcScrollPage(m_renderDisplayWidget->viewportMag(),
+        m_renderDisplayWidget->viewportWidth());
+
+      m_horizontalScroll->setPageStep(hScrollPage);
+
+      auto vScrollPage = calcScrollPage(m_renderDisplayWidget->viewportMag(),
+        m_renderDisplayWidget->viewportHeight());
+
+      m_verticalScroll->setPageStep(vScrollPage);
     }
 
     int hScrollPos = calcScrollPos(

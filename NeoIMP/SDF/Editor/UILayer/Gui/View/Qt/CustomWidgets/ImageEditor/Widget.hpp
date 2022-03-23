@@ -118,6 +118,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     calcScrollRange(float dimensionLength, float magnif, float viewportLength);
 
     int
+    calcScrollPage(float magnif, float viewportLength);
+    
+    int
     calcScrollPos(float imageSpacePos, float magnif);
 
     void
