@@ -182,6 +182,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     // store data themselves, this is fairly cheap.
     std::vector<std::pair<QPoint, QImage>> qImagesAndPositions;
     renderRegion->traverse([=, &qImagesAndPositions](IRenderRegion::TileElement el) {
+      printf("iview origin: %lu %lu\n", m_intViewX1, m_intViewY1);
+      printf("el origin: %lu %lu\n", el.xOrigin, el.yOrigin);
+      printf("el size: %lu %lu\n", el.width, el.height);
       qImagesAndPositions.push_back(std::make_pair(
         QPoint(el.xOrigin, el.yOrigin),
         QImage(el.originPtr, el.width, el.height, el.rowStride, QImage::Format_RGB32)
@@ -192,30 +195,21 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
 
     // Next, harness QPainter's transformation functionality to build a mapping of this region into
     // the widget. In particular, we want to transform the rectangle (viewportX1(), viewportY1())-
-    // (viewportX2(), viewportY2()) into (0, 0)-(size().width()-1,size().height()-1). That is, we
+    // (viewportX2(), viewportY2()) into (0, 0)-(size().width(),size().height()). That is, we
     // are treating the initial QPainter space as image space, so we then can blit rectangles to it
     // corresponding to pieces of the image to be drawn. Note that order of the transformations
     // matters!
     QPainter painter(this);
-    painter.translate(-viewportX1(), -viewportY1());
+    painter.setBrush(QBrush(QColor(45, 45, 45)));
+    // FOUND BUG: dammit, Qt's matrix transforms compose BACKWARDS, i.e. thy don't compose in the
+    // order in which the commands are sent, but the opposite!
     painter.scale(m_viewMagnification, m_viewMagnification);
+    painter.translate(-viewportX1(), -viewportY1());
     // NB: we could add rotate in the future! <- this would be NIFTY
 
     QTransform inverseTransform;
-    inverseTransform.scale(1.0f / m_viewMagnification, 1.0f / m_viewMagnification);
     inverseTransform.translate(viewportX1(), viewportY1());
-
-    // Define a mapping from the widget space into this region. The tricky bit here is that when
-    // zooming into the individual pixels, we will have to deal with sub-pixel alignment of the
-    // image, but the coordinates above are in whole pixels only. In particular, we will only be
-    // able to create a QImage that covers a whole number of pixels, and does not include "shaved
-    // off" parts of pixels. Fortunately, however, Qt provides us with drawing methods (the ones
-    // taking QRectF instead of QRect) allowing to do such sub-pixel cutting-off. Thus, all we need
-    // to do here is just a straightforward fractional mapping into the space above.
-    auto widgetToViewportMap = [=](QPoint widgetPoint) {
-      return std::make_pair(viewportX1() + ((0.0f + widgetPoint.x()) / m_viewMagnification),
-        viewportY1() + ((0.0f + widgetPoint.y()) / m_viewMagnification));
-    };
+    inverseTransform.scale(1.0f / m_viewMagnification, 1.0f / m_viewMagnification);
 
     // Get the region of the *widget* that needs updating.
     QRegion widgetPaintRegion = event->region();
