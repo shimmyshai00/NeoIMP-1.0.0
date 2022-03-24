@@ -81,7 +81,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     m_documentHandle = imageHandle;
 
     // NB: TBA - delete old view
-    m_documentViewDataHandle = m_addViewService->addView(m_documentHandle, 0.0f, 0.0f, 0.5f);
+    m_documentViewDataHandle = m_addViewService->addView(m_documentHandle, 0.0f, 0.0f, 1.0f);
 
     m_renderDisplayWidget->setAll(
       m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),

@@ -152,8 +152,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl {
   void
   RenderDisplayWidget::paintEvent(QPaintEvent *event) {
-    printf("paint\n");
-
     using AbstractModel::Defs::IRenderRegion;
 
     // This is the fun bit. First, render the image if it isn't already rendered.
@@ -162,8 +160,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
       m_renderHandle = m_renderingService->createStaticRendering(m_imageHandle);
     }
 
-    printf("rendered\n");
-
     // Now, figure out the viewport coordinates.
     // NB: no negatives handled yet!
     std::size_t m_intViewX1 = floor(viewportX1()); // make sure of full coverage
@@ -171,27 +167,19 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     std::size_t m_intViewX2 = ceil(viewportX2());
     std::size_t m_intViewY2 = ceil(viewportY2());
 
-    printf("rect: %lu %lu %lu %lu\n", m_intViewX1, m_intViewY1, m_intViewX2, m_intViewY2);
-
     // Obtain this region from the renderer.
     std::shared_ptr<IRenderRegion> renderRegion(m_renderingService->getRegion(m_renderHandle,
       m_intViewX1, m_intViewY1, m_intViewX2, m_intViewY2));
-    printf("gotregion\n");
 
     // Create a list of QImages covering the region. Note that because these QImages don't have to
     // store data themselves, this is fairly cheap.
     std::vector<std::pair<QPoint, QImage>> qImagesAndPositions;
     renderRegion->traverse([=, &qImagesAndPositions](IRenderRegion::TileElement el) {
-      printf("iview origin: %lu %lu\n", m_intViewX1, m_intViewY1);
-      printf("el origin: %lu %lu\n", el.xOrigin, el.yOrigin);
-      printf("el size: %lu %lu\n", el.width, el.height);
       qImagesAndPositions.push_back(std::make_pair(
         QPoint(el.xOrigin, el.yOrigin),
         QImage(el.originPtr, el.width, el.height, el.rowStride, QImage::Format_RGB32)
       ));
     });
-
-    printf("traved\n");
 
     // Next, harness QPainter's transformation functionality to build a mapping of this region into
     // the widget. In particular, we want to transform the rectangle (viewportX1(), viewportY1())-
