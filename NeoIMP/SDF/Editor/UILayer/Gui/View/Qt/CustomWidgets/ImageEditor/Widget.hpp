@@ -34,6 +34,7 @@
 #include "../../QtEvent.hpp"
 #include "Impl/RulerWidget.hpp"
 #include "Impl/RenderDisplayWidget.hpp"
+#include "Impl/ViewSlideCalc.hpp"
 
 #include <QWidget>
 #include <QGridLayout>
@@ -114,17 +115,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     Common::Handle m_documentHandle;
     Common::Handle m_documentViewDataHandle;
 
-    std::pair<int, int>
-    calcScrollRange(float dimensionLength, float magnif, float viewportLength);
-
-    int
-    calcScrollPage(float magnif, float viewportLength);
-    
-    int
-    calcScrollPos(float imageSpacePos, float magnif);
-
-    void
-    recalibrateScrollBars(bool positionsOnly);
+    Impl::ViewSlideCalc m_hViewSlideCalc;
+    Impl::ViewSlideCalc m_vViewSlideCalc;
   };
 }
 

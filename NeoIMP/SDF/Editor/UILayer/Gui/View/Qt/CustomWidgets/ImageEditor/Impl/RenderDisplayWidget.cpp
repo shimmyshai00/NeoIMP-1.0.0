@@ -91,6 +91,16 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
   }
 
   float
+  RenderDisplayWidget::intrViewportWidth() const {
+    return size().width();
+  }
+
+  float
+  RenderDisplayWidget::intrViewportHeight() const {
+    return size().height();
+  }
+
+  float
   RenderDisplayWidget::viewportWidth() const {
     return size().width() / m_viewMagnification;
   }

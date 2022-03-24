@@ -56,10 +56,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
     m_gridLayout->addWidget(m_horizontalScroll, 2, 1);
 
     connect(m_horizontalScroll, &QScrollBar::sliderMoved, [&](int value) {
-      m_hScrollEvent.trigger(m_documentHandle, value);
+      m_hScrollEvent.trigger(m_documentHandle, m_hViewSlideCalc.getOnObjPosFromSlide(value));
     });
     connect(m_verticalScroll, &QScrollBar::sliderMoved, [&](int value) {
-      m_vScrollEvent.trigger(m_documentHandle, value);
+      m_vScrollEvent.trigger(m_documentHandle, m_vViewSlideCalc.getOnObjPosFromSlide(value));
     });
   }
 
@@ -85,7 +85,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
 
     m_renderDisplayWidget->setAll(
       m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
-      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
+      m_getViewCoordinatesService->getViewingPointY(m_documentViewDataHandle),
       m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
@@ -99,23 +99,76 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
       m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
     );
 
-    recalibrateScrollBars(false);
+    float docWidth(m_getDocumentDimensionsService->getDocumentWidth(m_documentHandle,
+      LENGTH_UNIT_PIXEL));
+    float docHeight(m_getDocumentDimensionsService->getDocumentHeight(m_documentHandle,
+      LENGTH_UNIT_PIXEL));
+
+    float viewWidth(m_renderDisplayWidget->intrViewportWidth());
+    float viewHeight(m_renderDisplayWidget->intrViewportHeight());
+    float viewMag(m_renderDisplayWidget->viewportMag());
+
+    float viewX1(m_renderDisplayWidget->viewportX1());
+    float viewY1(m_renderDisplayWidget->viewportY1());
+
+    m_hViewSlideCalc.setObjectLength(docWidth);
+    m_hViewSlideCalc.setViewportByLengthAndMag(viewWidth, viewMag);
+
+    m_vViewSlideCalc.setObjectLength(docHeight);
+    m_vViewSlideCalc.setViewportByLengthAndMag(viewHeight, viewMag);
+
+    m_horizontalScroll->setRange(m_hViewSlideCalc.getSlideMin(), m_hViewSlideCalc.getSlideMax());
+    m_verticalScroll->setRange(m_vViewSlideCalc.getSlideMin(), m_vViewSlideCalc.getSlideMax());
+
+    printf("hrange: %d %d\n", m_hViewSlideCalc.getSlideMin(), m_hViewSlideCalc.getSlideMax());
+    printf("vrange: %d %d\n", m_vViewSlideCalc.getSlideMin(), m_vViewSlideCalc.getSlideMax());
+
+    m_horizontalScroll->setPageStep(m_hViewSlideCalc.getPageStep());
+    m_verticalScroll->setPageStep(m_vViewSlideCalc.getPageStep());
+
+    m_horizontalScroll->setSliderPosition(m_hViewSlideCalc.getSlidePosFromOnObj(viewX1));
+    m_verticalScroll->setSliderPosition(m_vViewSlideCalc.getSlidePosFromOnObj(viewY1));
+
     update();
 
     auto lis = std::shared_ptr<Common::IListener<float, float, float>>(
       new Common::FunctionListener<float, float, float>(
         [&](float x1, float y1, float mag) {
-          printf("listrip %f %f %f %f\n\n", x1, y1, mag, m_renderDisplayWidget->viewportMag());
           if(m_renderDisplayWidget->viewportMag() != mag) {
             m_horizontalRuler->setAll(x1, mag);
             m_verticalRuler->setAll(y1, mag);
             m_renderDisplayWidget->setAll(x1, y1, mag);
-            recalibrateScrollBars(false);
+
+            float viewWidth(m_renderDisplayWidget->intrViewportWidth());
+            float viewHeight(m_renderDisplayWidget->intrViewportHeight());
+            float viewMag(m_renderDisplayWidget->viewportMag());
+
+            float viewX1(m_renderDisplayWidget->viewportX1());
+            float viewY1(m_renderDisplayWidget->viewportY1());
+
+            m_hViewSlideCalc.setViewportByLengthAndMag(viewWidth, viewMag);
+            m_vViewSlideCalc.setViewportByLengthAndMag(viewHeight, viewMag);
+
+            m_horizontalScroll->setRange(m_hViewSlideCalc.getSlideMin(),
+              m_hViewSlideCalc.getSlideMax());
+            m_verticalScroll->setRange(m_vViewSlideCalc.getSlideMin(),
+              m_vViewSlideCalc.getSlideMax());
+
+            m_horizontalScroll->setPageStep(m_hViewSlideCalc.getPageStep());
+            m_verticalScroll->setPageStep(m_vViewSlideCalc.getPageStep());
+
+            m_horizontalScroll->setSliderPosition(m_hViewSlideCalc.getSlidePosFromOnObj(viewX1));
+            m_verticalScroll->setSliderPosition(m_vViewSlideCalc.getSlidePosFromOnObj(viewY1));
           } else {
             m_horizontalRuler->setViewportP1(x1);
             m_verticalRuler->setViewportP1(y1);
             m_renderDisplayWidget->setViewportUpperLeft(x1, y1);
-            recalibrateScrollBars(true);
+
+            float viewX1(m_renderDisplayWidget->viewportX1());
+            float viewY1(m_renderDisplayWidget->viewportY1());
+
+            m_horizontalScroll->setSliderPosition(m_hViewSlideCalc.getSlidePosFromOnObj(viewX1));
+            m_verticalScroll->setSliderPosition(m_vViewSlideCalc.getSlidePosFromOnObj(viewY1));
           }
         }
       )
@@ -161,78 +214,17 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
   // Protected event handlers.
   void
   Widget::resizeEvent(QResizeEvent *event) {
-    recalibrateScrollBars(false);
-  }
-}
+    float viewWidth(m_renderDisplayWidget->intrViewportWidth());
+    float viewHeight(m_renderDisplayWidget->intrViewportHeight());
+    float viewMag(m_renderDisplayWidget->viewportMag());
 
-namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor {
-  // Private helper functions.
-  std::pair<int, int>
-  Widget::calcScrollRange(float dimensionLength, float magnif, float viewportLength) {
-    // the magnification correction is to help preserve precision
-    int minVal(0);
-    int maxVal(std::max(0,
-      static_cast<int>(floor((dimensionLength - viewportLength)*magnif + 0.5f))));
+    m_hViewSlideCalc.setViewportByLengthAndMag(viewWidth, viewMag);
+    m_vViewSlideCalc.setViewportByLengthAndMag(viewHeight, viewMag);
 
-    return std::make_pair(minVal, maxVal);
-  }
+    m_horizontalScroll->setRange(m_hViewSlideCalc.getSlideMin(), m_hViewSlideCalc.getSlideMax());
+    m_verticalScroll->setRange(m_vViewSlideCalc.getSlideMin(), m_vViewSlideCalc.getSlideMax());
 
-  int
-  Widget::calcScrollPage(float magnif, float viewportLength) {
-    return floor(viewportLength*magnif + 0.5f);
-  }
-
-  int
-  Widget::calcScrollPos(float imageSpacePos, float magnif) {
-    return floor(imageSpacePos*magnif + 0.5f);
-  }
-
-  void
-  Widget::recalibrateScrollBars(bool positionsOnly) {
-    using namespace UILayer::AbstractModel::Defs;
-
-    if(!positionsOnly) {
-      auto hScrollRange = calcScrollRange(
-        m_getDocumentDimensionsService->getDocumentWidth(m_documentHandle, LENGTH_UNIT_PIXEL),
-        m_renderDisplayWidget->viewportMag(),
-        m_renderDisplayWidget->viewportWidth()
-      );
-
-      m_horizontalScroll->setRange(hScrollRange.first, hScrollRange.second);
-
-      auto vScrollRange = calcScrollRange(
-        m_getDocumentDimensionsService->getDocumentHeight(m_documentHandle, LENGTH_UNIT_PIXEL),
-        m_renderDisplayWidget->viewportMag(),
-        m_renderDisplayWidget->viewportHeight()
-      );
-
-      printf("vscroll: %d %d\n", vScrollRange.first, vScrollRange.second);
-
-      m_verticalScroll->setRange(vScrollRange.first, vScrollRange.second);
-
-      auto hScrollPage = calcScrollPage(m_renderDisplayWidget->viewportMag(),
-        m_renderDisplayWidget->viewportWidth());
-
-      m_horizontalScroll->setPageStep(hScrollPage);
-
-      auto vScrollPage = calcScrollPage(m_renderDisplayWidget->viewportMag(),
-        m_renderDisplayWidget->viewportHeight());
-
-      m_verticalScroll->setPageStep(vScrollPage);
-    }
-
-    int hScrollPos = calcScrollPos(
-      m_getViewCoordinatesService->getViewingPointX(m_documentViewDataHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
-    );
-
-    m_horizontalScroll->setValue(hScrollPos);
-
-    int vScrollPos = calcScrollPos(
-      m_getViewCoordinatesService->getViewingPointY(m_documentViewDataHandle),
-      m_getViewCoordinatesService->getViewingPointMagnification(m_documentViewDataHandle)
-    );
-
-    m_verticalScroll->setValue(vScrollPos);
+    m_horizontalScroll->setPageStep(m_hViewSlideCalc.getPageStep());
+    m_verticalScroll->setPageStep(m_vViewSlideCalc.getPageStep());
   }
 }

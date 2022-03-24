@@ -73,6 +73,22 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ImageEditor::Impl 
     float
     viewportY2() const;
 
+    // Function:   intrViewportWidth
+    // Purpose:    Gets the "intrinsic" viewport width independent of magnification (i.e. at
+    //             magnification 1). Typically this is just the widget width.
+    // Parameters: None.
+    // Returns:    The intrinsic viewport width.
+    float
+    intrViewportWidth() const;
+
+    // Function:   intrViewportHeight
+    // Purpose:    Gets the "intrinsic" viewport height independent of magnification (i.e. at
+    //             magnification 1). Typically this is just the widget height.
+    // Parameters: None.
+    // Returns:    The intrinsic viewport height.
+    float
+    intrViewportHeight() const;
+
     // Function:   viewportWidth
     // Purpose:    Gets the viewport width in image space.
     // Parameters: None.
