@@ -23,6 +23,8 @@
 
 #include "GetDocumentInfoService.hpp"
 
+#include "../../../UILayer/AbstractModel/Defs/Color/colorSpaces.hpp"
+
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 
@@ -65,5 +67,21 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
     return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
       RESOLUTION_UNIT_PPI).in(inUnit);
+  }
+
+  UILayer::AbstractModel::Defs::Color::EColorModel
+  GetDocumentInfoService::getColorModelOf(Common::Handle documentHandle) const {
+    return m_imageRepository->getImage(documentHandle)->getColorModel();
+  }
+
+  UILayer::AbstractModel::Defs::Color::EBitDepth
+  GetDocumentInfoService::getBitDepthOf(Common::Handle documentHandle) const {
+    return m_imageRepository->getImage(documentHandle)->getBitDepth();
+  }
+
+  std::string
+  GetDocumentInfoService::getColorSpaceOf(Common::Handle documentHandle) const {
+    // stub
+    return UILayer::AbstractModel::Defs::Color::g_cs_iec61966_2_1_sRGB;
   }
 }

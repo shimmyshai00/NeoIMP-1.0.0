@@ -25,6 +25,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../IColorSpace.hpp"
+
+#include <array>
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
   // Note: in order to be adapted successfully, two color spaces must map to the same fundamental
   //       space. We can typecheck the number of fundamental channels, but not (yet) the semantics.
@@ -35,8 +39,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
     const IColorSpace<PixelDataSrcT, FundamentalTraitsT> &srcSpace,
     PixelDataSrcT srcVal
   ) {
-    // Allow +1 for alpha channel-including spaces
-    float fundamentals[FundamentalTraitsT::num_channels+1];
+    std::array<float, FundamentalTraitsT::num_channels> fundamentals;
 
     srcSpace.pixelToFundamental(srcVal, fundamentals);
     return dstSpace.fundamentalToPixel(fundamentals);

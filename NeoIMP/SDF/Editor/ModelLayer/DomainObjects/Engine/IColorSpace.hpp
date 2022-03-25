@@ -26,6 +26,8 @@
 
 #include "IColorModel.hpp"
 
+#include <array>
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   // Class:      IColorSpace
   // Purpose:    Defines an interface for color spaces. A color space is, theoretically, a mapping
@@ -57,9 +59,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     //                  FundamentalTraitsT::num_channels elements.
     // Returns:    None.
     virtual void
-    pixelToFundamental(PixelDataT pixel,
-                       float *fs
-                      ) const = 0;
+    pixelToFundamental(PixelDataT pixel, std::array<float, FundamentalTraitsT::num_channels> &fs)
+      const = 0;
 
     // Function:   fundamentalToPixel
     // Purpose:    Performs the reverse mapping of the above.
@@ -67,7 +68,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     //                  elements.
     // Returns:    The resulting pixel.
     virtual PixelDataT
-    fundamentalToPixel(float *fs) const = 0;
+    fundamentalToPixel(const std::array<float, FundamentalTraitsT::num_channels> &fs) const = 0;
   };
 }
 

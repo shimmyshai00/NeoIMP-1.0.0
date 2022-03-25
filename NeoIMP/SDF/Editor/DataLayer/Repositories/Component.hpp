@@ -26,11 +26,14 @@
 
 #include "../../../Common/Data/IDataMapper.hpp"
 #include "../../../Common/Model/ICrudRepository.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
 #include "../../ModelLayer/AbstractData/IImageRepository.hpp"
 #include "../../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
+#include "../../ModelLayer/AbstractData/IBuiltinColorSpaceRepository.hpp"
+#include "../../ModelLayer/AbstractData/EBuiltinRgbColorSpace.hpp"
 #include "Formats.hpp"
 
 #include <fruit/fruit.h>

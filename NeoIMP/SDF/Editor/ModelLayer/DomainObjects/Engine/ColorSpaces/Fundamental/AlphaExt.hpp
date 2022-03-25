@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_ALPHAEXT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORSPACES_FUNDAMENTAL_ALPHAEXT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
- * (C) 2020-2022 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
+ * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the whole data layer.
+ * FILE:    AlphaExt.hpp
+ * PURPOSE: Extends a fundamental traits struct's channel count by 1 to accommodate an alpha
+ *          channel pass-through.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +25,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
-
-#include "DataMappers/Component.hpp"
-#include "Repositories/Gil/Component.hpp"
-#include "Repositories/Component.hpp"
-
-#include <boost/gil/typedefs.hpp>
-
-namespace SDF::Editor::DataLayer {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .install(DataMappers::getComponent)
-      .install(Repositories::getComponent)
-      .install(Repositories::Gil::getRgbComponent<boost::gil::rgb8_pixel_t>);
-  }
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental {
+  template<class FundamentalTraitsT>
+  struct AlphaExt : public FundamentalTraitsT {
+    static constexpr const std::size_t num_channels = FundamentalTraitsT::num_channels + 1;
+  };
 }
+
+#endif

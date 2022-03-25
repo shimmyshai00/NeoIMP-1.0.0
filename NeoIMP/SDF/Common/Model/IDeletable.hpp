@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_GILCOMBINER_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLORMODELS_GILCOMBINER_HPP
+#ifndef SDF_COMMON_MODEL_IDELETABLE_HPP
+#define SDF_COMMON_MODEL_IDELETABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    GilCombiner.hpp
- * PURPOSE: Defines the combiner for alpha channels into Boost.GIL pixels.
+ * FILE:    IDeletable.hpp
+ * PURPOSE: Defines the IDeletable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ColorModels/Alphaize.hpp"
+namespace SDF::Common::Model {
+  // Class:      IDeletable
+  // Purpose:    Defines an interface for objects supporting the "delete" operation of persistent
+  //             storage.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IDeletable {
+  public:
+    virtual ~IDeletable() = default;
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::ColorModels {
-  // Class:      GilCombiner
-  // Purpose:    Augments a pixel with an alpha channel.
-  // Parameters: GilPixelT - The source type.
-  //             GilAlphaPixelT - The alpha-augmented type.
-  template<class GilPixelT, class GilAlphaPixelT>
-  struct GilCombiner {
-    GilAlphaPixelT
-    combine(GilPixelT pixel, float alpha) {
-      return GilAlphaPixelT()
-    }
+    // Function:   deleteO
+    // Purpose:    Removes an entry from the database.
+    // Parameters: key - The key to delete.
+    // Returns:    None.
+    virtual void
+    deleteO(KeyT key) = 0;
   };
 }
 

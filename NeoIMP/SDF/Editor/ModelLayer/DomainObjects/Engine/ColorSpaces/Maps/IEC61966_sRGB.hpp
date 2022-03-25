@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    IEC61966_sRGB.hpp
- * PURPOSE: Defines the IEC61966_sRGB template.
+ * PURPOSE: Defines the IEC61966_sRGB class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../Fundamental/XyzD65.hpp"
+#include "../IMap.hpp"
+
 #include <cmath>
+#include <array>
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces::Maps {
   // The color space is simply a mapping defined by a matrix operation. NOTE / CONTRIB REQ: these
@@ -35,9 +39,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces::Maps {
   //      https://www.color.org/srgb04.xalter
   //
   //  which is presumably a reliable enough source to achieve this aim.
-  struct IEC61966_sRGB {
+  class IEC61966_sRGB : public IMap<Fundamental::XyzD65> {
+  public:
+    inline std::size_t
+    getNumInpVals() const {
+      return 3;
+    }
+
     void
-    nrmlToFundamental(float *nrml, float *fs) const {
+    valsToFundamental(const float *vals, float *fs) const {
       // This is the matrix inverse of the matrix below. The 4-digits is not an accident; it
       // appears the matrix given in the pdf was obtained by inverting an original defined to 4
       // digit precision. Note that this may be important for high depth color, so should be
@@ -70,7 +80,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces::Maps {
     }
 
     void
-    fundamentalToNrml(float *fs, float *nrml) const {
+    fundamentalToVals(const float *fs, float *vals) const {
       // This function was actually coded first.
       float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[1] - 0.4986286f*fs[2], 0.0f, 1.0f);
       float GL = std::clamp<float>(-0.9689307f*fs[0] + 1.8757561f*fs[1] + 0.0415175f*fs[2], 0.0f, 1.0f);

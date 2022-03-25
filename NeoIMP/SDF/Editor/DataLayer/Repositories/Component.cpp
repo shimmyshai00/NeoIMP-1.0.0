@@ -26,6 +26,8 @@
 #include "../../../Common/Data/Repositories/MemoryOnlyRepository.hpp"
 #include "ImageRepository.hpp"
 
+#include <boost/gil/typedefs.hpp>
+
 namespace SDF::Editor::DataLayer::Repositories {
   Component
   getComponent() {

@@ -1,13 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COLORMODELS_CATEGORIES_HPP
+#ifndef SDF_COMMON_MODEL_IHASABLE_HPP
+#define SDF_COMMON_MODEL_IHASABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Categories.hpp
- * PURPOSE: Defines bases for different categories of color models. This allows for building type
- *          safety into color model matching with other features.
+ * FILE:    IHasable.hpp
+ * PURPOSE: Defines the IHasable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,19 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Base.hpp"
+namespace SDF::Common::Model {
+  // Class:      IHasable
+  // Purpose:    Defines an interface for objects supporting the "has" operation of persistent
+  //             storage.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IHasable {
+  public:
+    virtual ~IHasable() = default;
 
-#include <cstddef>
-
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorModels {
-  template<class PixelDataT, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class RgbBase : public Base<PixelDataT, BitsR, BitsG, BitsB> {};
-
-  template<
-    class PixelDataT,
-    std::size_t BitsR, std::size_t BitsG, std::size_t BitsB, std::size_t BitsA
-  >
-  class RgbaBase : public Base<PixelDataT, BitsR, BitsG, BitsB, BitsA> {};
+    // Function:   has
+    // Purpose:    Queries the database to see if it contains an entry of the given key.
+    // Parameters: key - The key to check.
+    // Returns:    Whether this key was found.
+    virtual bool
+    has(KeyT key) = 0;
+  };
 }
 
 #endif

@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_DATALAYER_REPOSITORIES_GIL_COMPONENT_TPP
+#define SDF_EDITOR_DATALAYER_REPOSITORIES_GIL_COMPONENT_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020-2022 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the whole data layer.
+ * FILE:    Component.tpp
+ * PURPOSE: Defines the DI component for the Boost.GIL repository subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "BuiltinRgbColorSpaceRepository.hpp"
 
-#include "DataMappers/Component.hpp"
-#include "Repositories/Gil/Component.hpp"
-#include "Repositories/Component.hpp"
-
-#include <boost/gil/typedefs.hpp>
-
-namespace SDF::Editor::DataLayer {
-  Component
-  getComponent() {
+namespace SDF::Editor::DataLayer::Repositories::Gil {
+  template<class GilPixelT>
+  Component<GilPixelT>
+  getRgbComponent() {
     return fruit::createComponent()
-      .install(DataMappers::getComponent)
-      .install(Repositories::getComponent)
-      .install(Repositories::Gil::getRgbComponent<boost::gil::rgb8_pixel_t>);
+      .bind<
+        ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
+          ModelLayer::AbsractData::EBuiltinRgbColorSpace,
+          GilPixelT,
+          ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
+        >,
+        BuiltinRgbColorSpaceRepository<GilPixelT>
+       >();
   }
 }
+
+#endif

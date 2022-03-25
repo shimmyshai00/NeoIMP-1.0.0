@@ -25,6 +25,7 @@
  */
 
 #include "EColorModel.hpp"
+#include "EBitDepth.hpp"
 
 #include <cstddef>
 

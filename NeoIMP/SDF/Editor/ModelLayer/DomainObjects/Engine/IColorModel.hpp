@@ -24,7 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "pixel_traits.hpp"
+
 #include <cstddef>
+#include <array>
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   // Class:   IColorModel
@@ -38,34 +41,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   public:
     virtual ~IColorModel() = default;
 
-    // Function:   getNumChannels
-    // Purpose:    Gets the number of channels in this color model.
-    // Parameters: None.
-    // Returns:    The number of channels.
-    virtual std::size_t
-    getNumChannels() const = 0;
-
-    // Function:   getChannelMax
-    // Purpose:    Gets the maximum representable value for a color channel in the model.
-    // Parameters: channelNum - The channel to get the maximum value for.
-    // Returns:    The maximum value as a floating point number.
-    virtual float
-    getChannelMax(std::size_t channelNum) const = 0;
-
-    // Function:   getChannelMin
-    // Purpose:    Gets the minimum representable value for a color channel in the model.
-    // Parameters: channelNum - The channel to get the maximum value for.
-    // Returns:    The minimum value as a floating point number.
-    virtual float
-    getChannelMin(std::size_t channelNum) const = 0;
-
     // Function:   convertToPixel
     // Purpose:    Converts a set of numeric inputs to a pixel of the given data type.
-    // Parameters: values - The channel values as floats in the range from getChannelMin() to
-    //                      getChannelMax(). Must have getNumChannels() elements.
+    // Parameters: values - The channel values as floats in the range [0..1]. In high-dynamic range
+    //                      (HDR) color spaces, the values are allowed to exceed 1.
     // Returns:    The newly-minted pixel.
     virtual PixelDataT
-    convertToPixel(float *values) const = 0;
+    convertToPixel(const std::array<float, pixel_traits<PixelDataT>::num_channels> &values) const =
+      0;
 
     // Function:   convertPixelTo
     // Purpose:    Converts a pixel to a set of floating-point outputs.
@@ -74,9 +57,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     //                      at least getNumChannels() elements.
     // Returns:    None.
     virtual void
-    convertPixelTo(PixelDataT px,
-                   float *values
-                  ) const = 0;
+    convertPixelTo(
+      PixelDataT px,
+      std::array<float, pixel_traits<PixelDataT>::num_channels> &values
+    ) const = 0;
   };
 }
 
