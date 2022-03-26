@@ -28,8 +28,6 @@
 #include "../Defs/Color/EColorModel.hpp"
 #include "../Defs/Color/EBitDepth.hpp"
 
-#include <string>
-
 namespace SDF::Editor::UILayer::AbstractModel::Color {
   // Class:      IGetDocumentColorFormatService
   // Purpose:    Defines a service interface to get the color format used by a document.
@@ -39,18 +37,18 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
     virtual ~IGetDocumentColorFormatService() = default;
 
     // Function:   getColorModelOf
-    // Purpose:    Returns the color model used by a document.
-    // Parameters: documentHandle - A handle to the document in question.
-    // Returns:    The color model enum value for that document.
+    // Purpose:    Gets the color model of an image document.
+    // Parameters: documentHandle - The handle of the document to get the color model for.
+    // Returns:    The document's color model.
     virtual Defs::Color::EColorModel
-    getColorModelOf(Common::Handle documentHandle) const = 0;
+    getColorModelOf(Common::Handle documentHandle) = 0;
 
     // Function:   getBitDepthOf
-    // Purpose:    Returns the bit depth used by a document.
-    // Parameters: documentHandle - A handle to the document in question.
-    // Returns:    The bit depth enum value for that document.
+    // Purpose:    Gets the bit depth of an image document.
+    // Parameters: documentHandle - The handle of the document to get the bit depth for.
+    // Returns:    The document's bit depth.
     virtual Defs::Color::EBitDepth
-    getBitDepthOf(Common::Handle documentHandle) const = 0;
+    getBitDepthOf(Common::Handle documentHandle) = 0;
   };
 }
 

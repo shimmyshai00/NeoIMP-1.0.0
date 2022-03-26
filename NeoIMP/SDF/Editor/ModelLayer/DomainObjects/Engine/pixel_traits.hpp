@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    pixel_traits.hpp
- * PURPOSE: Defines the traits struct for pixel types.
+ * PURPOSE: Defines a traits structure for pixel data types.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,9 @@
  */
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+  // Each pixel_traits specialization must contain the following:
+  //      num_channels - An std::size_t giving the number of channels in the pixel data format
+  //      semantic_t - The semantic type of the pixel (e.g. RGB, RGBA).
   template<class PixelDataT>
   struct pixel_traits {};
 }

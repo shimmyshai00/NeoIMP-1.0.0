@@ -36,11 +36,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilPixelT>
   class ColorModel : public IColorModel<GilPixelT> {
   public:
+    inline float
+    getValueMin(std::size_t channel) const;
+
+    inline float
+    getValueMax(std::size_t channel) const;
+
+    inline float
+    getQuantizationStep(std::size_t channel) const;
+
     inline GilPixelT
     convertToPixel(const std::array<float, pixel_traits<GilPixelT>::num_channels> &values) const;
 
     inline void
-    convertPixelTo(PixelDataT px, std::array<float, pixel_traits<GilPixelT>::num_channels> &values)
+    convertPixelTo(GilPixelT px, std::array<float, pixel_traits<GilPixelT>::num_channels> &values)
       const;
   };
 }

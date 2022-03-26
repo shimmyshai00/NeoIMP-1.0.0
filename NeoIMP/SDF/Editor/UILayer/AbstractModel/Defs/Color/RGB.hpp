@@ -1,12 +1,12 @@
-#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_RGB_HPP
-#define SDF_UILAYER_ABSTRACTMODEL_DEFS_RGB_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_RGB_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_RGB_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    RGB.hpp
- * PURPOSE: Defines the RGB template.
+ * PURPOSE: Defines the RGB class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,57 +24,76 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "EColorModel.hpp"
-#include "GenericSDR.hpp"
+#include "../../../../../Error/GeneralException.hpp"
 
-#include <cstddef>
-#include <algorithm>
+#include "IColor.hpp"
+#include "EBitDepth.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Class:      RGB
-  // Purpose:    Defines a set of color values based on RGB (red/green/blue) color models.
-  // Parameters: BitsR, BitsG, BitsB - The bits per channel in each RGB channel.
-  template<std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class RGB : public GenericSDR<COLOR_MODEL_RGB, BitsR, BitsG, BitsB> {
+  // Purpose:    Defines an RGB color value.
+  // Parameters: None.
+  class RGB : public IColor {
   public:
-    RGB() {}
-
-    RGB(int r, int g, int b) {
-      this->set(0, r);
-      this->set(1, g);
-      this->set(2, b);
+    // Function:   RGB
+    // Purpose:    Construct a new RGB color.
+    // Parameters: bitDepth - The bit depth to use.
+    //             r, g, b - The color components.
+    RGB(EBitDepth bitDepth, int r, int g, int b)
+      : m_bitDepth(bitDepth),
+        m_r(r),
+        m_g(g),
+        m_b(b)
+    {
     }
 
-    int
-    getR() const {
-      return this->getInt(0);
+    EColorModel
+    getColorModel() const {
+      return COLOR_MODEL_RGB;
     }
 
-    int
-    getG() const {
-      return this->getInt(1);
+    EBitDepth
+    getBitDepth() const {
+      return m_bitDepth;
     }
 
-    int
-    getB() const {
-      return this->getInt(2);
+    std::size_t
+    getNumChannels() const {
+      return 3;
+    }
+
+    float
+    getChannelMin(std::size_t channel) const {
+      return 0.0f;
+    }
+
+    float
+    getChannelMax(std::size_t channel) const {
+      return 0.0f + ((1U << g_bitDepthMapping[m_bitDepth]) - 1);
+    }
+
+    float
+    get(std::size_t channel) const {
+      if(channel == 0) return m_r;
+      if(channel == 1) return m_g;
+      if(channel == 2) return m_b;
+
+      throw SDF::Error::OutOfBoundsException();
     }
 
     void
-    setR(int r) {
-      this->set(0, r);
-    }
+    set(std::size_t channel, float val) {
+      if(channel == 0) m_r = std::clamp(floor(val + 0.5f), getChannelMin(0), getChannelMax(0));
+      if(channel == 1) m_g = std::clamp(floor(val + 0.5f), getChannelMin(1), getChannelMax(1));
+      if(channel == 2) m_b = std::clamp(floor(val + 0.5f), getChannelMin(2), getChannelMax(2));
 
-    void
-    setG(int g) {
-      this->set(1, g);
+      throw SDF::Error::OutOfBoundsException();
     }
+  private:
+    EBitDepth m_bitDepth;
 
-    void
-    setB(int b) {
-      this->set(2, b);
-    }
-  };
+    int m_r, m_g, m_b;
+  }
 }
 
 #endif

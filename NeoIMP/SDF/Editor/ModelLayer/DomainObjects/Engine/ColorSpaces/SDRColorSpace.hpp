@@ -26,6 +26,7 @@
 
 #include "../IColorSpace.hpp"
 #include "../IColorModel.hpp"
+#include "../pixel_traits.hpp"
 #include "IMap.hpp"
 
 #include <array>
@@ -39,29 +40,30 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
   class SDRColorSpace : public IColorSpace<PixelDataT, FundamentalTraitsT> {
   private:
     const IColorModel<PixelDataT> *m_colorModel;
-    const IMap<FundamentalTraitsT> *m_map;
+    const IMap<pixel_traits<PixelDataT>::semantic_t, FundamentalTraitsT> *m_map;
   public:
-    SDRColorSpace(const IColorModel<PixelDataT> *colorModel, const IMap<FundamentalTraitsT> *map)
+    SDRColorSpace(
+      const IColorModel<PixelDataT> *colorModel,
+      const IMap<pixel_traits<PixelDataT>::semantic_t, FundamentalTraitsT> *map
+    )
       : m_colorModel(colorModel),
         m_map(map)
     {
     }
 
-    inline void
-    pixelToFundamental(PixelDataT pixel, std::array<float, FundamentalTraitsT::num_channels> &fs)
-      const
-    {
-      // stores normalized values in [0..1]
-      std::array<float, pixel_traits<PixelDataT>::num_channels> vals;
-      m_colorModel->convertPixelTo(pixel, vals);
+    inline std::array<float, FundamentalTraitsT::num_channels>
+    pixelToFundamental(const PixelDataT &pixel) const {
+      std::array<float, FundamentalTraitsT::num_channels> rv;
+      auto vals = m_colorModel->pixelToValues(pixel);
       m_map->valsToFundamental(&vals[0], &fs[0]);
+      return rv;
     }
 
     inline PixelDataT
     fundamentalToPixel(const std::array<float, FundamentalTraitsT::num_channels> &fs) const {
-      std::array<float, pixel_traits<PixelDataT>::num_channels> vals;
+      std::array<float, FundamentalTraitsT::num_channels> vals;
       m_map->fundamentalToVals(&fs[0], &vals[0]);
-      return m_colorModel->convertToPixel(vals);
+      return m_colorModel->valuesToPixel(vals);
     }
   };
 }

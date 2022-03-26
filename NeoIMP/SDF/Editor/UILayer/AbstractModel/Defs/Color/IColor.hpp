@@ -31,56 +31,64 @@
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Class:      IColor
-  // Purpose:    Defines a uniform interface for color value objects at the UI level. This does not
-  //             provide high efficiency and should not be used to move large volumes of data
-  //             between layers.
+  // Purpose:    Provides an interface for moving color data between the UI and model layers
+  //             seamlessly. Note that this interface is not high-performance; it should not be used
+  //             to move large amounts of data like renderings.
   // Parameters: None.
   class IColor {
   public:
     virtual ~IColor() = default;
 
     // Function:   getColorModel
-    // Purpose:    Gets the represented color model in this color.
+    // Purpose:    Gets the color model used by this color.
     // Parameters: None.
-    // Returns:    The color model.
+    // Returns:    The used color model.
     virtual EColorModel
     getColorModel() const = 0;
 
-    // Function:   getNumChannels
-    // Purpose:    Gets the number of available color channels.
+    // Function:   getBitDepth
+    // Purpose:    Gets the bit depth used by this color.
     // Parameters: None.
-    // Returns:    The number of channels in this color value.
+    // Returns:    The used bit depth.
+    virtual EBitDepth
+    getBitDepth() const = 0;
+
+    // Function:   getNumChannels
+    // Purpose:    Gets the number of color channels in this color.
+    // Parameters: None.
+    // Returns:    The number of color channels.
     virtual std::size_t
     getNumChannels() const = 0;
 
     // Function:   getChannelMin
     // Purpose:    Gets the minimum value of a color channel.
-    // Parameters: idx - The index (0...getNumChannels()-1) of the channel to get.
-    // Returns:    The minimum value (usually 0).
+    // Parameters: channel - The channel to get the minimum value for.
+    // Returns:    The minimum value for this channel.
     virtual float
-    getChannelMin(std::size_t idx) const = 0;
+    getChannelMin(std::size_t channel) const = 0;
 
     // Function:   getChannelMax
     // Purpose:    Gets the maximum value of a color channel.
-    // Parameters: idx - The index of the channel to get.
-    // Returns:    The maximum value.
+    // Parameters: channel - The channel to get the minimum value for.
+    // Returns:    The maximum value for this channel.
     virtual float
-    getChannelMax(std::size_t idx) const = 0;
+    getChannelMax(std::size_t channel) const = 0;
 
     // Function:   get
-    // Purpose:    Gets the stored value of a color channel.
-    // Parameters: idx - The index to get.
-    // Returns:    The value of this channel.
+    // Purpose:    Gets the value of a color channel.
+    // Parameters: channel - The channel to get the value of.
+    // Returns:    The stored value of this channel.
     virtual float
-    get(std::size_t idx) const = 0;
+    get(std::size_t channel) const = 0;
 
     // Function:   set
-    // Purpose:    Sets the stored value of a color channel.
-    // Parameters: idx - The index to get.
-    //             val - The value to set.
+    // Purpose:    Sets the value of a color channel.
+    // Parameters: channel - The channel to set the value of.
+    //             val - The value to set. If outside the range
+    //                   [getChannelMin(...), getChannelMax(...)], it will be clamped.
     // Returns:    None.
     virtual void
-    set(std::size_t idx, float val) = 0;
+    set(std::size_t channel, float val) = 0;
   };
 }
 

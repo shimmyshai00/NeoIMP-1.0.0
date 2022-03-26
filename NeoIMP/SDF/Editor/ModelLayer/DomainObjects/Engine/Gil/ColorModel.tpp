@@ -35,6 +35,24 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   }
 
   template<class GilPixelT>
+  float
+  ColorModel<GilPixelT>::getValueMin(std::size_t channel) const {
+    return 0.0f;
+  }
+
+  template<class GilPixelT>
+  float
+  ColorModel<GilPixelT>::getValueMax(std::size_t channel) const {
+    return 1.0f;
+  }
+
+  template<class GilPixelT>
+  float
+  ColorModel<GilPixelT>::getQuantizationStep(std::size_t channel) const {
+    throw "NOT YET IMPLEMENTED";
+  }
+
+  template<class GilPixelT>
   GilPixelT
   ColorModel<GilPixelT>::convertToPixel(
     const std::array<float, pixel_traits<GilPixelT>::num_channels> &values

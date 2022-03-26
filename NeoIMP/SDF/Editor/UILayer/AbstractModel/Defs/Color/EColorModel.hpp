@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    EColorModel.hpp
- * PURPOSE: Enumeration of the available color model types.
+ * PURPOSE: Enumerates the available color models.
  */
 
 /* This program is free software: you can redistribute it and/or modify

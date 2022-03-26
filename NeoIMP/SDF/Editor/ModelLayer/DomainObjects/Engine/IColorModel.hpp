@@ -41,26 +41,47 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   public:
     virtual ~IColorModel() = default;
 
-    // Function:   convertToPixel
-    // Purpose:    Converts a set of numeric inputs to a pixel of the given data type.
-    // Parameters: values - The channel values as floats in the range [0..1]. In high-dynamic range
-    //                      (HDR) color spaces, the values are allowed to exceed 1.
+    // Function:   getValueMin
+    // Purpose:    Gets the minimum value that can be put into a channel of this color model.
+    //             Normally, this is 0.
+    // Parameters: channel - The channel to get the minimum for.
+    // Returns:    The minimum value.
+    virtual float
+    getValueMin(std::size_t channel) const = 0;
+
+    // Function:   getValueMax
+    // Purpose:    Gets the maximum value that can be put into a channel of this color model. In SDR
+    //             models, this is typically 1. In HDR models, it may surpass 1.
+    // Parameters: channel - The channel to get the maximum for.
+    // Returns:    The maximum value.
+    virtual float
+    getValueMax(std::size_t channel) const = 0;
+
+    // Function:   getQuantizationStep
+    // Purpose:    Gets the quantization step in a pixel channel. This is the minimum floating point
+    //             step required to change the pixel data value, e.g. in 8-bpc color it is 1.0f/255.
+    //             In HDR formats it is 0 (continuous) - NOTE THIS before taking a reciprocal of
+    //             this value to avoid an FPE!
+    // Parameters: channel - The channel to get the step for.
+    // Returns:    The quantization step for this format.
+    virtual float
+    getQuantizationStep(std::size_t channel) const = 0;
+
+    // Function:   valuesToPixel
+    // Purpose:    Converts a set of values to a pixel of the given data type.
+    // Parameters: values - The values to convert, which must be in the range
+    //                      [getValueMin()..getValueMax()].
     // Returns:    The newly-minted pixel.
     virtual PixelDataT
-    convertToPixel(const std::array<float, pixel_traits<PixelDataT>::num_channels> &values) const =
+    valuesToPixel(const std::array<float, pixel_traits<PixelDataT>::num_channels> &values) const =
       0;
 
-    // Function:   convertPixelTo
-    // Purpose:    Converts a pixel to a set of floating-point outputs.
+    // Function:   pixelToValues
+    // Purpose:    Converts a pixel to a set of values.
     // Parameters: px - The pixel to convert.
-    //             values - The array of channel values to receive the result. Must have
-    //                      at least getNumChannels() elements.
-    // Returns:    None.
-    virtual void
-    convertPixelTo(
-      PixelDataT px,
-      std::array<float, pixel_traits<PixelDataT>::num_channels> &values
-    ) const = 0;
+    // Returns:    An array of values corresponding to the pixel.
+    virtual std::array<float, pixel_traits<PixelDataT>::num_channels>
+    pixelToValues(const PixelDataT &px) const = 0;
   };
 }
 

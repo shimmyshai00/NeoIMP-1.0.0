@@ -24,6 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../pixel_semantics.hpp"
 #include "../Fundamental/XyzD65.hpp"
 #include "../IMap.hpp"
 
@@ -39,7 +40,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces::Maps {
   //      https://www.color.org/srgb04.xalter
   //
   //  which is presumably a reliable enough source to achieve this aim.
-  class IEC61966_sRGB : public IMap<Fundamental::XyzD65> {
+  class IEC61966_sRGB : public IMap<RGBSemantic, Fundamental::XyzD65> {
   public:
     inline std::size_t
     getNumInpVals() const {

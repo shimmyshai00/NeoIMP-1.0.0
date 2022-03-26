@@ -1,13 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_COLORMODELS_DEFS_HPP
+#ifndef SDF_UILAYER_ABSTRACTMODEL_DEFS_COLOR_BITDEPTHMAPPINGS_HPP
+#define SDF_UILAYER_ABSTRACTMODEL_DEFS_COLOR_BITDEPTHMAPPINGS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Defs.hpp
- * PURPOSE: Provides type definitions for all the color models actually used by the program on the
- *          UI-facing side.
+ * FILE:    bitDepthMappings.hpp
+ * PURPOSE: Maps bit depths to numbers.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../UILayer/AbstractModel/Defs/Color/Types.hpp"
-#include "UiRgb.hpp"
+#include "EBitDepth.hpp"
 
-namespace SDF::Editor::ModelLayer::Services::ColorModels {
-  typedef UiRgb<UILayer::AbstractModel::Defs::Color::RGB24_888, 8, 8, 8> RGB24_888;
-}
+#include <cstddef>
+#include <array>
 
-namespace SDF::Editor::ModelLayer::Services::ColorModels {
-  static const auto g_rgb24_888 = RGB24_888();
+namespace SDF::UILayer::AbstractModel::Defs::Color {
+  static const std::array<std::size_t, BIT_DEPTH_MAX> g_bitDepthMapping = {
+    8 // BIT_DEPTH_8
+  };
 }
 
 #endif

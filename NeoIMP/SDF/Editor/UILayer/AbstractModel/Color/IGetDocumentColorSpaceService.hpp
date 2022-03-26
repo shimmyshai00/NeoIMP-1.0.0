@@ -37,9 +37,9 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
     virtual ~IGetDocumentColorSpaceService() = default;
 
     // Function:   getColorSpaceOf
-    // Purpose:    Gets the color space identifier for the given document.
-    // Parameters: documentHandle - A handle to the document in question.
-    // Returns:    The color space key for that document.
+    // Purpose:    Gets the color space identifier of an image document.
+    // Parameters: documentHandle - The handle of the document to get the color model for.
+    // Returns:    The document's color space identifier.
     virtual std::string
     getColorSpaceOf(Common::Handle documentHandle) const = 0;
   };

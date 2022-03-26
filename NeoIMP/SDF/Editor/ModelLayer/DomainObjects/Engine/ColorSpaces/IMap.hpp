@@ -29,14 +29,12 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::ColorSpaces {
   // Class:      IMap
   // Purpose:    Defines a color space mapping.
-  // Parameters: FundamentalSpaceT - The fundamental space being mapped to.
-  template<class FundamentalSpaceT>
+  // Parameters: SemanticT - The semantic family of the input.
+  //             FundamentalTraitsT - The fundamental space being mapped to.
+  template<class SemanticT, class FundamentalTraitsT>
   class IMap {
   public:
     virtual ~IMap() = default;
-
-    virtual std::size_t
-    getNumInpVals() const = 0;
 
     virtual void
     valsToFundamental(const float *vals, float *fs) const = 0;

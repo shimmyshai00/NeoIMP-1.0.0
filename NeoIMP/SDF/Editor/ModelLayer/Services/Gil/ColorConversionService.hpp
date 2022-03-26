@@ -25,7 +25,8 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/IColorConversionService.hpp"
+#include "../../../UILayer/AbstractModel/Color/IGetDocumentColorFormatService.hpp"
+#include "../../../UILayer/AbstractModel/Color/IColorConversionService.hpp"
 
 #include <memory>
 #include <string>
@@ -34,7 +35,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      ColorConversionService
   // Purpose:    Provides an MVC service to convert colors from image to UI space.
   // Parameters: None.
-  class ColorConversionService : public UILayer::AbstractModel::Defs::IColorConversionService {
+  class ColorConversionService :
+    public UILayer::AbstractModel::Color::IGetDocumentColorFormatService,
+    public UILayer::AbstractModel::Color::IColorConversionService
+  {
   public:
     INJECT(ColorConversionService(
       ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
@@ -43,6 +47,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
       > *builtinColorSpaces_RGB24_888
     ));
+
+    std::shared_ptr<Defs::Color::IColor>
+    getFormatColor(Common::Handle documentHandle) const;
 
     std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
     convertColor(

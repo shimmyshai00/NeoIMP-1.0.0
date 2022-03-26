@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_COLORSPACES_DEFS_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_COLORSPACES_DEFS_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_PIXEL_SEMANTICS_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_PIXEL_SEMANTICS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Defs.hpp
- * PURPOSE: Provides type definitions for the UI-facing color spaces.
+ * FILE:    pixel_semantics.hpp
+ * PURPOSE: Defines semantic traits for pixels.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
-#include "../../DomainObjects/Engine/ColorSpaces/Maps/IEC61966_sRGB.hpp"
-#include "UiAutoSpace.hpp"
-
-namespace SDF::Editor::ModelLayer::Services::ColorSpaces {
-  // Types. Note - no constants, since auto spaces are dynamic.
-  typedef UiAutoSpace<
-    DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65,
-    DomainObjects::Engine::ColorSpaces::Maps::IEC61966_sRGB
-  > UIAssumed_sRGB;
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+  struct RGBSemantic {};
+  struct RGBASemantic {};
 }
 
 #endif

@@ -39,12 +39,12 @@ namespace SDF::Editor::UILayer:AbstractModel::Color {
     virtual ~IColorConversionService() = default;
 
     // Function:   convertColor
-    // Purpose:    Converts a UI color via the color space indicated.
+    // Purpose:    Converts one IColor object into another.
     // Parameters: srcColor - The source color object.
-    //             srcColorSpace - The source color space profile.
-    // Returns:    The color in UI space best corresponding to the given color.
-    virtual std::shared_ptr<Defs::Color::IColor>
-    convertColor(const Defs::Color::IColor &srcColor, std::string srcColorSpace) = 0;
+    //             dstColor - The destination color object.
+    // Returns:    None.
+    virtual void
+    convertColor(const Defs::Color::IColor &srcColor, Defs::Color::IColor &dstColor) = 0;
   };
 }
 

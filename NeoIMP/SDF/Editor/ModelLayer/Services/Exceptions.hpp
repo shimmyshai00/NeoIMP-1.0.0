@@ -36,6 +36,13 @@ namespace SDF::Editor::ModelLayer::Services {
       whatPrintf("Bad file format specifier '%d' passed.", m_formatIdx);
     }
   };
+
+  struct BadColorModelException : public ServiceException {
+    int m_colorModelIdx;
+    BadColorModelException(int colorModelIdx) : m_colorModelIdx(colorModelIdx) {
+      whatPrintf("Bad color model specifier '%d' passed.", m_colorModelIdx);
+    }
+  };
 }
 
 #endif

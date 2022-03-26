@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             to prescribe how an image should be displayed so as to convey something which is as
   //             close as possible to what its creator intends.
   // Parameters: PixelDataT - The type of pixel data the color space maps.
-  //             FundamentalTraitsT - A traits structure describing the fundamental space.
+  //             FundamentalTraitsT - The traits type describing the fundamental color space.
   template<class PixelDataT, class FundamentalTraitsT>
   class IColorSpace {
   public:
@@ -49,24 +49,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Purpose:    Gets the underlying color model.
     // Parameters: None.
     // Returns:    The color model object.
-    virtual const IColorModel<PixelDataT> &
+    virtual const IColorModel<PixelDataT, FamilyT> &
     getColorModel() const = 0;
 
     // Function:   pixelToFundamental
     // Purpose:    Converts a pixel to the fundamental space.
     // Parameters: pixel - The pixel to convert.
-    //             fs - Pointer to an array to receive the fundamental-space color values. Must have
-    //                  FundamentalTraitsT::num_channels elements.
-    // Returns:    None.
-    virtual void
-    pixelToFundamental(PixelDataT pixel, std::array<float, FundamentalTraitsT::num_channels> &fs)
-      const = 0;
+    // Returns:    An array of values in the fundamental space representing the pixel.
+    virtual std::array<float, FundamentalTraitsT::num_channels>
+    pixelToFundamental(const PixelDataT &pixel) const = 0;
 
     // Function:   fundamentalToPixel
     // Purpose:    Performs the reverse mapping of the above.
-    // Parameters: fs - The fundamental space values. Must have FundamentalTraitsT::num_channels
-    //                  elements.
-    // Returns:    The resulting pixel.
+    // Parameters: fs - The fundamental space pixel values.
+    // Returns:    The resulting ordinary pixel.
     virtual PixelDataT
     fundamentalToPixel(const std::array<float, FundamentalTraitsT::num_channels> &fs) const = 0;
   };

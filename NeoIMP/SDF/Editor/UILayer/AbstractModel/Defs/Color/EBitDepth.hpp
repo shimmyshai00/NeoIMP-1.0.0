@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    EBitDepth.hpp
- * PURPOSE: Enumeration of the available per-channel bit depths.
+ * PURPOSE: Enumerates the available bit depths.
  */
 
 /* This program is free software: you can redistribute it and/or modify

@@ -38,6 +38,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   {
   }
 
+  std::shared_ptr<Defs::Color::IColor>
+  ColorConversionService::getFormatColor(Common::Handle documentHandle) const {
+    
+  }
+
   std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor>
   ColorConversionService::convertColor(
     const UILayer::AbstractModel::Defs::Color::IColor &srcColor,
