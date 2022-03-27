@@ -37,9 +37,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      UiColorConversionService
   // Purpose:    Provides an MVC service to convert colors from image to UI space.
   // Parameters: None.
-  class UiColorConversionService :
-    public UILayer::AbstractModel::Color::IUiColorConversionService
-  {
+  class UiColorConversionService : public UILayer::AbstractModel::Color::IUiColorConversionService {
   public:
     INJECT(UiColorConversionService());
 

@@ -29,12 +29,12 @@
 #include "../Defs/Color/EUiColorModel.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Color {
-  // Class:      IColorConversionService
+  // Class:      IUiColorConversionService
   // Purpose:    Defines a service interface to convert one type of color into another.
   // Parameters: None.
-  class IColorConversionService {
+  class IUiColorConversionService {
   public:
-    virtual ~IColorConversionService() = default;
+    virtual ~IUiColorConversionService() = default;
 
     // Function:   convertColorToUi
     // Purpose:    Converts the color named in src to a UI color in dst.

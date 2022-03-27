@@ -40,12 +40,12 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::ColorSpaces {
   //      https://www.color.org/srgb04.xalter
   //
   //  which is presumably a reliable enough source to achieve this aim.
-  class IEC61966_2_1_sRGB : public IColorSpace<Models::Rgb, Fundamental::XyzD65> {
+  class IEC61966_2_1_sRGB : public IColorSpace<Models::Rgb, FundamentalSpaces::XyzD65> {
   public:
     void
     nrmlToFundamental(
-      const std::array<float, ColorModelT::num_channels> &uniformRep,
-      std::array<float, FundamentalTraitsT::num_channels> &fs
+      const std::array<float, 3> &uniformRep,
+      std::array<float, 3> &fs
     ) const {
       // This is the matrix inverse of the matrix below. The 4-digits is not an accident; it
       // appears the matrix given in the pdf was obtained by inverting an original defined to 4
@@ -80,8 +80,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::ColorSpaces {
 
     void
     fundamentalToNrml(
-      const std::array<float, FundamentalTraitsT::num_channels> &fs,
-      std::array<float, ColorModelT::num_channels> &uniformRep
+      const std::array<float, 3> &fs,
+      std::array<float, 3> &uniformRep
     ) const {
       // This function was actually coded first.
       float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[1] - 0.4986286f*fs[2], 0.0f, 1.0f);

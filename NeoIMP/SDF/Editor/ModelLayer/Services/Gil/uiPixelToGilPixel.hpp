@@ -28,6 +28,7 @@
 #include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
 #include "../Exceptions.hpp"
 
+#include <boost/gil/color_base.hpp>
 #include <boost/gil/pixel.hpp>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
@@ -35,25 +36,35 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   //       GIL pixel type. That's the point: it's for importing document-bound data from the UI -
   //       it is **NOT** a color model/color space conversion!
   template<class GilPixelT>
-  GilPixelT
-  uiPixelToGilPixel(
+  inline GilPixelT
+  uiPixelToGilPixel3Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorModel
     > &color
   ) {
 #ifndef NDEBUG
-    if(boost::gil::num_channels<GilPixelT>::value != color.getNumChannels()) {
+    if(3 != color.getNumChannels()) {
       throw IncompatiblePixelFormatsException();
     }
-#endif NDEBUG
+#endif // !NDEBUG
 
-    GilPixelT rv;
+    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2)));
+  }
 
-    for(std::size_t i(0); i < color.getNumChannels(); ++i) {
-      boost::gil::dynamic_at_c(rv, i) = color.getValue(i);
+  template<class GilPixelT>
+  inline GilPixelT
+  uiPixelToGilPixel4Component(
+    const UILayer::AbstractModel::Defs::Color::IColor<
+      UILayer::AbstractModel::Defs::Color::EColorModel
+    > &color
+  ) {
+#ifndef NDEBUG
+    if(4 != color.getNumChannels()) {
+      throw IncompatiblePixelFormatsException();
     }
+#endif // !NDEBUG
 
-    return(rv);
+    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2), color.getValue(4)));
   }
 }
 

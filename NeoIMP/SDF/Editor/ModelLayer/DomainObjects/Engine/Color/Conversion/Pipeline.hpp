@@ -24,6 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../IFwdNormalizer.hpp"
+#include "../IFwdColorSpace.hpp"
+#include "../IRevColorSpace.hpp"
+#include "../IRevNormalizer.hpp"
+
+#include <memory>
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
   // Class:      Pipeline
   // Purpose:    Defines an end-to-end color space conversion pipeline for converting one kind of
