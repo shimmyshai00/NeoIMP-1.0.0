@@ -28,20 +28,23 @@
 #include "../../../AbstractModel/Defs/Bounds.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
-  static const std::string g_colorModelNames[AbstractModel::Defs::Color::COLOR_MODEL_MAX] = {
-    "RGB"
-  };
-
-  static const std::string g_bitDepthNames[AbstractModel::Defs::Color::BIT_DEPTH_MAX] = {
-    "8"
-  };
-
   static const std::string g_bkgPresetNames[AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
     "White",
     "Black",
     "Transparent",
     "Custom"
   };
+}
+
+namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
+  static const std::string g_colorModelNames[AbstractModel::Defs::Color::CM_FAMILY_MAX] = {
+    "RGB"
+  };
+
+  static const std::string
+    g_rgbFamilyNames[AbstractModel::Defs::Color::NUM_RGB_FORMATS] = {
+      "8 bpc"
+    };
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
@@ -98,14 +101,28 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
         View::Qt::Impl::g_colorModelNames[i]));
     }
 
-    for(std::size_t i(0); i < AbstractModel::Defs::Color::BIT_DEPTH_MAX; ++i) {
-      m_ui->bitDepthSelector->addItem(QString::fromStdString(View::Qt::Impl::g_bitDepthNames[i]));
+    // NB: STUB for this newfangled flexibility
+    for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
+      m_ui->bitDepthSelector->addItem(QString::fromStdString(View::Qt::Impl::g_rgbFamilyNames[i]));
     }
 
     for(std::size_t i(0); i < AbstractModel::Defs::PRE_BACKGROUND_MAX; ++i) {
       m_ui->initialBackgroundSelector->addItem(QString::fromStdString(
         View::Qt::Impl::g_bkgPresetNames[i]));
     }
+
+    // Color model selection.
+    auto showSubFormats = [&](int familyIndex) {
+      if(familyIndex == Defs::Color::CM_FAMILY_RGB) {
+        m_ui->bitDepthSelector->clear();
+        for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
+          m_ui->bitDepthSelector->addItem(QString::fromStdString(
+            View::Qt::Impl::g_rgbFamilyNames[i]));
+        }
+      }
+    };
+
+    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), showSubFormats);
 
     // Preset selection.
     std::vector<Common::Handle> prefabHandles(m_getDocumentPrefabService->getAvailablePrefabs());
@@ -128,8 +145,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       spec.resolution = m_ui->resolutionSelector->quantity();
       spec.resolutionUnit = m_ui->resolutionSelector->unit();
       spec.colorModel = static_cast<Defs::Color::EColorModel>(
-        m_ui->colorModelSelector->currentIndex());
-      spec.bitDepth = static_cast<Defs::Color::EBitDepth>(m_ui->bitDepthSelector->currentIndex());
+        m_ui->colorModelSelector->currentIndex()); // NB: BAD STUB
       spec.backgroundPreset =
         static_cast<Defs::EBackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
       spec.backgroundColor = std::make_shared<Defs::Color::RGB24_888>(255, 255, 255);
@@ -169,8 +185,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
         m_ui->heightSelector->setQuantity(presetSpec.height);
         m_ui->resolutionSelector->setUnit(presetSpec.resolutionUnit);
         m_ui->resolutionSelector->setQuantity(presetSpec.resolution);
-        m_ui->colorModelSelector->setCurrentIndex(presetSpec.colorModel);
-        m_ui->bitDepthSelector->setCurrentIndex(presetSpec.bitDepth);
+        m_ui->colorModelSelector->setCurrentIndex(presetSpec.colorModel); // NB: BAD STUB
         m_ui->initialBackgroundSelector->setCurrentIndex(presetSpec.backgroundPreset);
 
         recalculateSize();

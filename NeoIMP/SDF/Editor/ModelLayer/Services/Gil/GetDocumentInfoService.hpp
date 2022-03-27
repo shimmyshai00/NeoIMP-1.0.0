@@ -28,10 +28,8 @@
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Color/IGetDocumentColorFormatService.hpp"
-#include "../../../UILayer/AbstractModel/Color/IGetDocumentColorSpaceService.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EColorModel.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EBitDepth.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImageRepository.hpp"
 
@@ -44,8 +42,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class GetDocumentInfoService :
     public UILayer::AbstractModel::Editing::IGetDocumentNameService,
     public UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
-    public UILayer::AbstractModel::Color::IGetDocumentColorFormatService,
-    public UILayer::AbstractModel::Color::IGetDocumentColorSpaceService
+    public UILayer::AbstractModel::Color::IGetDocumentColorFormatService
   {
   public:
     INJECT(GetDocumentInfoService(
@@ -69,12 +66,6 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     UILayer::AbstractModel::Defs::Color::EColorModel
     getColorModelOf(Common::Handle documentHandle) const;
-
-    UILayer::AbstractModel::Defs::Color::EBitDepth
-    getBitDepthOf(Common::Handle documentHandle) const;
-
-    std::string
-    getColorSpaceOf(Common::Handle documentHandle) const;
   private:
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };

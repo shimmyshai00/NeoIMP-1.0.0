@@ -25,28 +25,30 @@
 
 #include "../../../../Common/Overload.hpp"
 
-#include "../../../UILayer/AbstractModel/Defs/Color/Types.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/types.hpp"
 #include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
-#include "../../DomainObjects/Engine/Gil/ColorSpaces.hpp"
 #include "../../DomainObjects/Engine/Gil/ImplTraits.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageFactory.hpp"
-#include "../../DomainObjects/Engine/ColorSpaces/Adapter.hpp"
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
-#include "../ColorSpaces/Defs.hpp"
 #include "../Validators/ImageSpecValidator.hpp"
+#include "uiPixelToGilPixel.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
+
+#include <boost/gil/typedefs.hpp>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   namespace Impl {
     // Preset background colors.
-    static const std::shared_ptr<UILayer::AbstractModel::Defs::Color::IColor> g_bkgRgbPresets
-      [UILayer::AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
-        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(255, 255, 255),
-        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(0, 0, 0),
-        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(255, 255, 255),
-        std::make_shared<UILayer::AbstractModel::Defs::Color::RGB24_888>(0, 0, 0)
+    // NB: too overloaded for RGB because some of these refer to "transparent", etc.? - TBA
+    static const boost::gil::rgb8_pixel_t
+      g_bkgRgbPresets[UILayer::AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
+        boost::gil::rgb8_pixel_t(255, 255, 255),
+        boost::gil::rgb8_pixel_t(0, 0, 0),
+        boost::gil::rgb8_pixel_t(255, 255, 255),
+        boost::gil::rgb8_pixel_t(0, 0, 0)
       };
   }
 
@@ -86,8 +88,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
       std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
-      // What type to use depends on the combination of color model and bit depth parameters.
-      if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
+      // What type to use depends on the color model.
+      if(spec.colorModel == COLOR_MODEL_RGB24_888) {
         return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
           widthPx, heightPx);
       } else {
@@ -105,45 +107,15 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs::Color;
     using namespace Metrics;
     using namespace DomainObjects;
-    using Services::ColorSpaces::UiAutoSpace;
 
     // Input validation.
     Validators::ImageSpecValidator val;
     auto result = val.validate(spec);
     if(result->isValid()) {
-      // Convert the dimensions to pixels.
-      ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
-      LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
-      LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
-
-      std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
-      std::string fileSpec("");
-
-      float resPpi(res.in(RESOLUTION_UNIT_PPI));
-      std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
-      std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
-
-      // Get the background color from presets.
-      auto specBackgroundColor = Impl::g_bkgRgbPresets[spec.backgroundPreset];
-      if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
-        specBackgroundColor = spec.backgroundColor;
-      }
-
-      // What type to use depends on the combination of color model and bit depth parameters.
+      // What type to use depends on the color model.
       std::unique_ptr<Engine::Gil::Any_Image> image;
-      if((spec.colorModel == COLOR_MODEL_RGB) && (spec.bitDepth == BIT_DEPTH_8)) {
-        // NB: very STUBby and full of assumptions
-        auto receiptSpace = ColorSpaces::UIAssumed_sRGB(*specBackgroundColor);
-        auto bkgColor = Engine::ColorSpaces::adapt(
-          Engine::Gil::ColorSpaces::g_iec61966_sRGB_rgb24_888,
-          receiptSpace,
-          specBackgroundColor
-        );
-
-        auto proto = Engine::Gil::ImageFactory<Engine::Gil::RGB24_888_Image_Impl>().createU(
-          name, fileSpec, widthPx, heightPx, resPpi, bkgColor);
-
-        image = std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
+      if(spec.colorModel == COLOR_MODEL_RGB24_888) {
+        image = doConstructFromSpec<Engine::Gil::RGB24_888_Image_Impl>(spec);
       } else {
         throw "NOT YET IMPLEMENTED";
       }
@@ -160,5 +132,44 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       // Worthless spec. Throw an exception
       result->throwFrom();
     }
+  }
+}
+
+namespace SDF::Editor::ModelLayer::Services::Gil {
+  // Private helper not safe to use elsewhere because it requires the GilSpecT to match the
+  // color model in the spec.
+  template<class GilSpecT>
+  std::unique_ptr<DomainObjects::Engine::Gil::Any_Image>
+  CreateImageService::doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
+    using namespace UILayer::AbstractModel::Defs;
+    using namespace UILayer::AbstractModel::Defs::Color;
+    using namespace Metrics;
+    using namespace DomainObjects;
+
+    using namespace boost::gil;
+
+    // Convert the dimensions to pixels.
+    ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
+    LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
+    LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
+
+    std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
+    std::string fileSpec("");
+
+    float resPpi(res.in(RESOLUTION_UNIT_PPI));
+    std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
+    std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
+
+    typename GilSpecT::bkg_pixel_t bkgColor;
+    if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
+      bkgColor = uiPixelToGilPixel3Component<typename GilSpecT::bkg_pixel_t>(*spec.backgroundColor);
+    } else {
+      color_convert(Impl::g_bkgRgbPresets[spec.backgroundPreset], bkgColor);
+    }
+
+    auto proto = Engine::Gil::ImageFactory<GilSpecT>().createU(
+      name, fileSpec, widthPx, heightPx, resPpi, bkgColor);
+
+    return std::make_unique<Engine::Gil::Any_Image>(std::move(*proto));
   }
 }

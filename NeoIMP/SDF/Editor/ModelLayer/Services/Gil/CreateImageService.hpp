@@ -69,6 +69,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     Common::MessageSystem::IChannel<Messages::ImageAdded> *m_imageAddedMessageChannel;
 
     std::size_t m_nextNewDocumentNumber;
+
+    template<class GilSpecT>
+    std::unique_ptr<DomainObjects::Engine::Gil::Any_Image>
+    doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec);
   };
 }
 

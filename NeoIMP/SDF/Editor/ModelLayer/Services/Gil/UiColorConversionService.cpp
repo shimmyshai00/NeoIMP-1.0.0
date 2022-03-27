@@ -83,12 +83,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     GilPixelT gilPx = uiPixelToGilPixel3Component<GilPixelT>(srcColor);
 
-    Engine::Color::Conversion::Pipeline pipeline(
-      std::make_shared<Engine::Gil::Color::RgbNormalizer<GilPixelT>>(),
-      std::make_shared<Engine::Color::ColorSpaces::IEC61966_2_1_sRGB>(),
-      std::make_shared<Engine::Color::ColorSpaces::IEC61966_2_1_sRGB>(),
-      std::make_shared<Services::Color::UiRgbUnnormalizer>()
-    );
+    Engine::Gil::Color::RgbNormalizer<GilPixelT> sn;
+    Engine::Color::ColorSpaces::IEC61966_2_1_sRGB scs;
+    Engine::Color::ColorSpaces::IEC61966_2_1_sRGB dcs;
+    Services::Color::UiRgbUnnormalizer dn;
+
+    Engine::Color::Conversion::Pipeline pipeline(&sn, &scs, &dcs, &dn);
 
     pipeline.convertPixel(gilPx, dstColor);
   }

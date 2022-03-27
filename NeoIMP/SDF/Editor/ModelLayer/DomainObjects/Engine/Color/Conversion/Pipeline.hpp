@@ -29,8 +29,6 @@
 #include "../IRevColorSpace.hpp"
 #include "../IRevNormalizer.hpp"
 
-#include <memory>
-
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
   // Class:      Pipeline
   // Purpose:    Defines an end-to-end color space conversion pipeline for converting one kind of
@@ -56,10 +54,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     //             dstColorSpace - The color space for the destination pixels.
     //             dstNormalizer - The normalizer for the destination pixels.
     Pipeline(
-      std::shared_ptr<IFwdNormalizer<SrcColorModelT, SrcPixelT>> srcNormalizer,
-      std::shared_ptr<IFwdColorSpace<SrcColorModelT, FundamentalSpaceT>> srcColorSpace,
-      std::shared_ptr<IRevColorSpace<DstColorModelT, FundamentalSpaceT>> dstColorSpace,
-      std::shared_ptr<IRevNormalizer<DstColorModelT, DstPixelT>> dstNormalizer
+      IFwdNormalizer<SrcColorModelT, SrcPixelT> *srcNormalizer,
+      IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *srcColorSpace,
+      IRevColorSpace<DstColorModelT, FundamentalSpaceT> *dstColorSpace,
+      IRevNormalizer<DstColorModelT, DstPixelT> *dstNormalizer
     );
 
     // Function:   convertPixel
@@ -68,12 +66,12 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     //             dstPx - The pixel to receive the result.
     // Returns:    The converted pixel.
     void
-    convertPixel(SrcPixelT srcPx, DstPixelT dstPx);
+    convertPixel(const SrcPixelT &srcPx, DstPixelT &dstPx);
   private:
-    std::shared_ptr<IFwdNormalizer<SrcColorModelT, SrcPixelT>> m_srcNormalizer;
-    std::shared_ptr<IFwdColorSpace<SrcColorModelT, FundamentalSpaceT>> m_srcColorSpace;
-    std::shared_ptr<IRevColorSpace<DstColorModelT, FundamentalSpaceT>> m_dstColorSpace;
-    std::shared_ptr<IRevNormalizer<DstColorModelT, DstPixelT>> m_dstNormalizer;
+    IFwdNormalizer<SrcColorModelT, SrcPixelT> *m_srcNormalizer;
+    IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *m_srcColorSpace;
+    IRevColorSpace<DstColorModelT, FundamentalSpaceT> *m_dstColorSpace;
+    IRevNormalizer<DstColorModelT, DstPixelT> *m_dstNormalizer;
   };
 }
 

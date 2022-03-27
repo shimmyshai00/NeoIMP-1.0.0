@@ -28,7 +28,6 @@
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   enum EColorModel {
-    COLOR_MODEL_RGB_UI,
     COLOR_MODEL_RGB24_888,
     COLOR_MODEL_MAX
   };
@@ -41,11 +40,9 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     CM_FAMILY_MAX
   };
 
-  static const std::vector<EColorModel> g_colorModelsByFamily[CM_FAMILY_MAX] = {
-    // CM_FAMILY_RGB
-    { COLOR_MODEL_RGB_UI,
-      COLOR_MODEL_RGB24_888
-    }
+  static const std::size_t NUM_RGB_FORMATS = 1;
+  static const EColorModel g_colorModelsByFamily_Rgb[NUM_RGB_FORMATS] = {
+    COLOR_MODEL_RGB24_888
   };
 }
 

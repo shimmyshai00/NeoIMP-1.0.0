@@ -23,6 +23,7 @@
 
 #include "DocumentPrefabsService.hpp"
 
+#include "../../UILayer/AbstractModel/Defs/Color/types.hpp"
 #include "../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
@@ -38,8 +39,7 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         300.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::Color::COLOR_MODEL_RGB,
-        Defs::Color::BIT_DEPTH_8,
+        Defs::Color::COLOR_MODEL_RGB24_888,
         Defs::PRE_BACKGROUND_WHITE,
         std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };
@@ -52,8 +52,7 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         150.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::Color::COLOR_MODEL_RGB,
-        Defs::Color::BIT_DEPTH_8,
+        Defs::Color::COLOR_MODEL_RGB24_888,
         Defs::PRE_BACKGROUND_WHITE,
         std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };

@@ -35,10 +35,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     class DstPixelT
   >
   Pipeline<SrcPixelT, SrcColorModelT, FundamentalSpaceT, DstColorModelT, DstPixelT>::Pipeline(
-    std::shared_ptr<IFwdNormalizer<SrcColorModelT, SrcPixelT>> srcNormalizer,
-    std::shared_ptr<IFwdColorSpace<SrcColorModelT, FundamentalSpaceT>> srcColorSpace,
-    std::shared_ptr<IRevColorSpace<DstColorModelT, FundamentalSpaceT>> dstColorSpace,
-    std::shared_ptr<IRevNormalizer<DstColorModelT, DstPixelT>> dstNormalizer
+    IFwdNormalizer<SrcColorModelT, SrcPixelT> *srcNormalizer,
+    IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *srcColorSpace,
+    IRevColorSpace<DstColorModelT, FundamentalSpaceT> *dstColorSpace,
+    IRevNormalizer<DstColorModelT, DstPixelT> *dstNormalizer
   )
     : m_srcNormalizer(srcNormalizer),
       m_srcColorSpace(srcColorSpace),
@@ -56,8 +56,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
   >
   void
   Pipeline<SrcPixelT, SrcColorModelT, FundamentalSpaceT, DstColorModelT, DstPixelT>::convertPixel(
-    SrcPixelT srcPx,
-    DstPixelT dstPx
+    const SrcPixelT &srcPx,
+    DstPixelT &dstPx
   ) {
     std::array<float, SrcColorModelT::num_channels> srcNrmlRep;
     std::array<float, FundamentalSpaceT::num_channels> fundamentalRep;

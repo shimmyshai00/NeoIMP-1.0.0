@@ -33,15 +33,21 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
     const GilPixelT &px,
     std::array<float, 4> &uniformRep
   ) const {
-    float chMin0 = boost::gil::kth_element_type<GilPixelT, 0>::min_value();
-    float chMin1 = boost::gil::kth_element_type<GilPixelT, 1>::min_value();
-    float chMin2 = boost::gil::kth_element_type<GilPixelT, 2>::min_value();
-    float chMin3 = boost::gil::kth_element_type<GilPixelT, 3>::min_value();
+    using namespace boost::gil;
 
-    float chWidth0 = boost::gil::kth_element_type<GilPixelT, 0>::max_value() - chMin0;
-    float chWidth1 = boost::gil::kth_element_type<GilPixelT, 1>::max_value() - chMin1;
-    float chWidth2 = boost::gil::kth_element_type<GilPixelT, 2>::max_value() - chMin2;
-    float chWidth3 = boost::gil::kth_element_type<GilPixelT, 3>::max_value() - chMin3;
+    float chMin0 = channel_traits<typename kth_element_type<GilPixelT, 0>::type>::min_value();
+    float chMin1 = channel_traits<typename kth_element_type<GilPixelT, 1>::type>::min_value();
+    float chMin2 = channel_traits<typename kth_element_type<GilPixelT, 2>::type>::min_value();
+    float chMin3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::min_value();
+
+    float chWidth0 = channel_traits<typename kth_element_type<GilPixelT, 0>::type>::max_value() -
+      chMin0;
+    float chWidth1 = channel_traits<typename kth_element_type<GilPixelT, 1>::type>::max_value() -
+      chMin1;
+    float chWidth2 = channel_traits<typename kth_element_type<GilPixelT, 2>::type>::max_value() -
+      chMin2;
+    float chWidth3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::max_value() -
+      chMin3;
 
     uniformRep[0] = (boost::gil::semantic_at_c<0>(px) - chMin0) / chWidth0;
     uniformRep[1] = (boost::gil::semantic_at_c<1>(px) - chMin1) / chWidth1;
@@ -55,15 +61,21 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
     const std::array<float, 4> &uniformRep,
     GilPixelT &px
   ) const {
-    float chMin0 = boost::gil::kth_element_type<GilPixelT, 0>::min_value();
-    float chMin1 = boost::gil::kth_element_type<GilPixelT, 1>::min_value();
-    float chMin2 = boost::gil::kth_element_type<GilPixelT, 2>::min_value();
-    float chMin3 = boost::gil::kth_element_type<GilPixelT, 3>::min_value();
+    using namespace boost::gil;
 
-    float chWidth0 = boost::gil::kth_element_type<GilPixelT, 0>::max_value() - chMin0;
-    float chWidth1 = boost::gil::kth_element_type<GilPixelT, 1>::max_value() - chMin1;
-    float chWidth2 = boost::gil::kth_element_type<GilPixelT, 2>::max_value() - chMin2;
-    float chWidth3 = boost::gil::kth_element_type<GilPixelT, 3>::max_value() - chMin3;
+    float chMin0 = channel_traits<typename kth_element_type<GilPixelT, 0>::type>::min_value();
+    float chMin1 = channel_traits<typename kth_element_type<GilPixelT, 1>::type>::min_value();
+    float chMin2 = channel_traits<typename kth_element_type<GilPixelT, 2>::type>::min_value();
+    float chMin3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::min_value();
+
+    float chWidth0 = channel_traits<typename kth_element_type<GilPixelT, 0>::type>::max_value() -
+      chMin0;
+    float chWidth1 = channel_traits<typename kth_element_type<GilPixelT, 1>::type>::max_value() -
+      chMin1;
+    float chWidth2 = channel_traits<typename kth_element_type<GilPixelT, 2>::type>::max_value() -
+      chMin2;
+    float chWidth3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::max_value() -
+      chMin3;
 
     px = GilPixelT(
       floor(uniformRep[0] * chWidth0 + chMin0 + 0.5f),
