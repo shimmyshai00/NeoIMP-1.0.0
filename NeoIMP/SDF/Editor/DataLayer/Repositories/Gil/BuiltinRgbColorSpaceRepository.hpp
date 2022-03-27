@@ -25,17 +25,12 @@
  */
 
 #include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
-#include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/Maps/IEC61966_sRGB.hpp"
-#include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/SDRColorSpace.hpp"
 #include "../../../ModelLayer/DomainObjects/Engine/Gil/ColorModel.hpp"
-#include "../../../ModelLayer/DomainObjects/Engine/IColorSpace.hpp"
+#include "../../../ModelLayer/AbstractData/Gil/ColorSpace.hpp"
 #include "../../../ModelLayer/AbstractData/IBuiltinColorSpaceRepository.hpp"
-#include "../../../ModelLayer/AbstractData/EBuiltinRgbColorSpace.hpp"
-
-#include "../../../ModelLayer/AbstractData/EFormat.hpp"
 
 #include <fruit/fruit.h>
-#include <vector>
+#include <map>
 
 namespace SDF::Editor::DataLayer::Repositories::Gil {
   // Class:      BuiltinRgbColorSpaceRepository
@@ -46,30 +41,16 @@ namespace SDF::Editor::DataLayer::Repositories::Gil {
   template<class GilPixelT>
   class BuiltinRgbColorSpaceRepository :
     public ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
-      ModelLayer::AbstractData::EBuiltinRgbColorSpace,
-      GilPixelT,
-      ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental:XyzD65
+      ModelLayer::AbstractData::Gil::RgbColorSpace<GilPixelT>
     >
   {
   public:
     INJECT(BuiltinRgbColorSpaceRepository());
 
-    ModelLayer::DomainObjects::Engine::IColorSpace<
-      GilPixelT,
-      ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
-    > *
-    retrieve(ModelLayer::AbstractData::EBuiltinRgbColorSpace id);
+    const RgbColorSpace<PixelDataT> &
+    retrieve(std::string key) const;
   private:
-    ModelLayer::DomainObjects::Engine::Gil::ColorModel<GilPixelT> m_colorModel;
-
-    ModelLayer::DomainObjects::Engine::Gil::ColorSpaces::Maps::IEC61966_sRGB m_iec61966_2_1_sRGB;
-
-    std::vector<
-      ModelLayer::DomainObjects::Engine::ColorSpaces::SDRColorSpace<
-        GilPixelT,
-        ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
-      >
-    > m_colorSpaces;
+    std::map<std::string, ModelLayer::AbstractData::Gil::RgbColorSpace<GilPixelT>> m_colorSpaces;
   };
 }
 

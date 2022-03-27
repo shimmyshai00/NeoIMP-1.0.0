@@ -24,25 +24,40 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/Maps/IEC61966_sRGB.hpp"
+#include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/SDRIllumColorSpace.hpp"
+#include "../../../ModelLayer/DomainObjects/Engine/ColorSpaces/IBidirectionalMapping.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/colorSpaceIds.hpp" // nb: reaching too far back?
+
 namespace SDF::Editor::DataLayer::Repositories::Gil {
   template<class GilPixelT>
   BuiltinRgbColorSpaceRepository<GilPixelT>::BuiltinRgbColorSpaceRepository() {
+    using namespace ModelLayer::AbstractData::Gil;
     using namespace ModelLayer::DomainObjects::Engine;
+    using namespace UILayer::AbstractModel::Defs::Color;
 
-    m_colorSpaces.push_back(
-      ColorSpaces::SDRColorSpace<GilPixelT, ColorSpaces::Fundamental::XyzD65>(&m_iec61966_2_1_sRGB)
-    );
+    // Construct the color model.
+    std::shared_ptr<IColorModel<GilPixelT>> cm(new Gil::ColorModel<GilPixelT>());
+
+    // Construct the Mappings.
+    typedef ColorSpaces::IBidirectionalMapping<ColorSpaces::Fundamental::XyzD65> map_t;
+    typedef RgbColorSpace<GilPixelT> cs_t;
+
+    // Define your mappings here.
+    std::shared_ptr<map_t> map_iec61966_2_1_sRGB(new ColorSpaces::Maps::IEC61966_sRGB);
+
+    // Define your color spaces here.
+    m_colorSpaces[g_iec61966_2_1_sRGB] = cs_t(cm, map_iec61966_2_1_sRGB);
   }
 
   template<class GilPixelT>
-  ModelLayer::DomainObjects::Engine::IColorSpace<
-    GilPixelT,
-    ModelLayer::DomainObjects::Engine::ColorSpaces::Fundamental::XyzD65
-  > *
-  BuiltinRgbColorSpaceRepository<GilPixelT>::retrieve(
-    ModelLayer::AbstractData::EBuiltinRgbColorSpace id
-  ) {
-    return &m_colorSpaces[id];
+  const RgbColorSpace<PixelDataT> &
+  BuiltinRgbColorSpaceRepository<GilPixelT>::retrieve(std::string key) const {
+    if(m_colorSpaces.find(key) == m_colorSpaces.end()) {
+      throw Error::ObjectNotFoundException<Error::SafeString>(key.c_str());
+    } else {
+      return m_colorSpaces[key];
+    }
   }
 }
 

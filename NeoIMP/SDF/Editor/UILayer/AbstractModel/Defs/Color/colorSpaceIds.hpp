@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLORSPACEIDS_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLORSPACEIDS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EColorModel.hpp
- * PURPOSE: Enumerates the available color models.
+ * FILE:    colorSpaceIds.hpp
+ * PURPOSE: Defines ID strings for the different kinds of color spaces in play.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <vector>
-
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  enum EColorModel {
-    COLOR_MODEL_RGB_UI,
-    COLOR_MODEL_RGB24_888,
-    COLOR_MODEL_MAX
-  };
-}
-
-namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  // A structured form of the above.
-  enum EColorModelFamily {
-    CM_FAMILY_RGB,
-    CM_FAMILY_MAX
-  };
-
-  static const std::vector<EColorModel> g_colorModelsByFamily[CM_FAMILY_MAX] = {
-    // CM_FAMILY_RGB
-    { COLOR_MODEL_RGB_UI,
-      COLOR_MODEL_RGB24_888
-    }
-  };
+  // RGB
+  static constexpr const char *g_iec61966_2_1_sRGB = "sdf.neoimp.cs.IEC61996_2_1_sRGB";
 }
 
 #endif

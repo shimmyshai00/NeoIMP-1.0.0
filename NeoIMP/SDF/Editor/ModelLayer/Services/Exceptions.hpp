@@ -43,6 +43,12 @@ namespace SDF::Editor::ModelLayer::Services {
       whatPrintf("Bad color model specifier '%d' passed.", m_colorModelIdx);
     }
   };
+
+  struct IncompatiblePixelFormatsException : public ServiceException {
+    IncompatiblePixelFormatsException() {
+      whatPrintf("Tried to convert between two incompatible pixel formats.");
+    }
+  };
 }
 
 #endif

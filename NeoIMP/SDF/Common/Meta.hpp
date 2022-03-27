@@ -27,20 +27,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <list>
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/list.hpp>
+
+#include <cstddef>
+#include <vector>
 
 namespace SDF::Common::Meta {
-  // For converting a meta constant pack into a run-time accessible list.
-  template<typename T>
-  void push_into(std::list<T> &vec) {
-    // null case
-  }
+  // Provides a dynamically-accessible version of the constant parameter pack passed.
+  template<typename T, T ... Consts>
+  struct dynamic_pack {
+    static const std::size_t num_vals =
+      boost::mp11::mp_size<boost::mp11::mp_list_c<T, Consts...>>::value;
 
-  template<typename T, T Const, T ... Consts>
-  void push_into(std::list<T> &vec) {
-    vec.push_front(Const);
-    push_into<T, Consts...>(vec);
-  }
+    static const std::vector<T> vals;
+  };
+
+  template<typename T, T ... Consts>
+  const std::vector<T> dynamic_pack<T, Consts...>::vals = { Consts ... };
 }
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_COLOR_IGETDOCUMENTCOLORFORMATSERVICE_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_COLOR_IGETDOCUMENTCOLORFORMATSERVICE_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_COLOR_IUICOLORCONVERSIONSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_COLOR_IUICOLORCONVERSIONSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IGetDocumentColorFormatService.hpp
- * PURPOSE: Defines the IGetDocumentColorFormatService interface.
+ * FILE:    IUiColorConversionService.hpp
+ * PURPOSE: Defines the IUiColorConversionService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Handle.hpp"
+#include "../Defs/Color/IColor.hpp"
 #include "../Defs/Color/EColorModel.hpp"
+#include "../Defs/Color/EUiColorModel.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Color {
-  // Class:      IGetDocumentColorFormatService
-  // Purpose:    Defines a service interface to get the color format used by a document.
+  // Class:      IColorConversionService
+  // Purpose:    Defines a service interface to convert one type of color into another.
   // Parameters: None.
-  class IGetDocumentColorFormatService {
+  class IColorConversionService {
   public:
-    virtual ~IGetDocumentColorFormatService() = default;
+    virtual ~IColorConversionService() = default;
 
-    // Function:   getColorModelOf
-    // Purpose:    Gets the color model of an image document.
-    // Parameters: documentHandle - The handle of the document to get the color model for.
-    // Returns:    The document's color model.
-    virtual Defs::Color::EColorModel
-    getColorModelOf(Common::Handle documentHandle) = 0;
+    // Function:   convertColorToUi
+    // Purpose:    Converts the color named in src to a UI color in dst.
+    // Parameters: srcColor - The color to convert.
+    //             dstColor - The color object to receive the conversion result.
+    // Returns:    None.
+    virtual void
+    convertColor(
+      const Defs::Color::IColor<Defs::Color::EColorModel> &srcColor,
+      const Defs::Color::IColor<Defs::Color::EUiColorModel> &dstColor
+    ) = 0;
   };
 }
 

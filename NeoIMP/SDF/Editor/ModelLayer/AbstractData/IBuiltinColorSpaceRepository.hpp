@@ -24,28 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../DomainObjects/Engine/IColorSpace.hpp"
-
 #include <string>
 
 namespace SDF::Editor::ModelLayer::AbstractData {
   // Class:      IBuiltinColorSpaceRepository
-  // Purpose:    Defines a fixed repository of color space objects (the ones hardcoded into the
-  //             program.)
-  // Parameters: EnumT - The enumeration type for the color spaces.
-  //             PixelDataT - The pixel data type these color spaces operate on.
-  //             FundamentalTraitsT - The fundamental spaces they map to.
-  template<class EnumT, class PixelDataT, class FundamentalTraitsT>
+  // Purpose:    Defines a repository of built-in and baked-in (immutable) color spaces.
+  // Parameters: ColorSpaceT - The type of color spaces held.
+  //             PixelDataT - The type of pixel data used.
+  template<template<class PixelDataT> class ColorSpaceT>
   class IBuiltinColorSpaceRepository {
   public:
     virtual ~IBuiltinColorSpaceRepository() = default;
 
     // Function:   retrieve
-    // Purpose:    Retrieves a color space from the repository.
-    // Parameters: id - The key string identifying the color space.
-    // Returns:    None.
-    virtual DomainObjects::Engine::IColorSpace<PixelDataT, FundamentalTraitsT> *
-    retrieve(EnumT id) = 0;
+    // Purpose:    Retrieves a color space by a string key.
+    // Parameters: key - The key to get.
+    // Returns:    A reference to the color space.
+    virtual const ColorSpaceT<PixelDataT> &
+    retrieve(std::string key) const = 0;
   };
 }
 

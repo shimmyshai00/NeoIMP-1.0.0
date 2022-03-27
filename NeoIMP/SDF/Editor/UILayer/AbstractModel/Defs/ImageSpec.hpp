@@ -27,9 +27,8 @@
 #include "../../../../Common/Meta.hpp"
 
 #include "Color/EColorModel.hpp"
-#include "Color/EBitDepth.hpp"
 #include "Color/IColor.hpp"
-#include "Color/Types.hpp"
+#include "Color/types.hpp"
 
 #include "ELengthUnit.hpp"
 #include "EResolutionUnit.hpp"
@@ -49,7 +48,6 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     EResolutionUnit resolutionUnit;
 
     Color::EColorModel colorModel;
-    Color::EBitDepth bitDepth;
 
     EBackgroundPreset backgroundPreset;
     std::shared_ptr<Color::IColor> backgroundColor;
@@ -61,7 +59,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         heightUnit(LENGTH_UNIT_PIXEL),
         resolution(300.0f),
         resolutionUnit(RESOLUTION_UNIT_PPI),
-        colorModel(Color::COLOR_MODEL_RGB),
+        colorModel(Color::COLOR_MODEL_RGB24_888),
         bitDepth(Color::BIT_DEPTH_8),
         backgroundPreset(PRE_BACKGROUND_BLACK),
         backgroundColor(new Color::RGB24_888(0, 0, 0))
@@ -76,7 +74,6 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
       float resolution_,
       EResolutionUnit resolutionUnit_,
       Color::EColorModel colorModel_,
-      Color::EBitDepth bitDepth_,
       EBackgroundPreset backgroundPreset_,
       std::shared_ptr<Color::IColor> backgroundColor_
     )
@@ -87,7 +84,6 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         resolution(resolution_),
         resolutionUnit(resolutionUnit_),
         colorModel(colorModel_),
-        bitDepth(bitDepth_),
         backgroundPreset(backgroundPreset_),
         backgroundColor(backgroundColor_)
     {
