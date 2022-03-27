@@ -24,19 +24,14 @@
 #include "UiColorConversionService.hpp"
 #include "uiPixelToGilPixel.hpp"
 
-#include <array>
+#include "../../DomainObjects/Engine/Color/Conversion/Pipeline.hpp"
+#include "../../DomainObjects/Engine/Color/ColorSpaces/IEC61966_2_1_sRGB.hpp"
+#include "../../DomainObjects/Engine/Color/FundamentalSpaces/XyzD65.hpp"
+
+#include "../Exceptions.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
-  UiColorConversionService::UiColorConversionService(
-    ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
-      ModelLayer::AbstractData::Gil::RgbColorSpace<boost::gil::rgb8_pixel_t>
-    > *builtinColorSpaces_RGB24_888,
-  )
-    : m_builtinColorSpaces_RGB24_888(builtinColorSpaces_RGB24_888),
-      m_uiAssumed(
-        std::make_shared<ModelLayer::DomainObjects::Engine::ColorSpaces::Maps::IEC61966_sRGB>()
-      ) // STUBby: just *assume* the UI uses sRGB
-  {
+  UiColorConversionService::UiColorConversionService() {
   }
 
   void
@@ -44,20 +39,51 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorModel
     > &srcColor,
-    const UILayer::AbstractModel::Defs::Color::IColor<
+    UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EUiColorModel
     > &dstColor
   ) {
-    using namespace UILayer::AbstractModel::Defs;
-    using namespace DomainObjects::ModelLayer::Engine;
+    using namespace UILayer::AbstractModel;
+    using namespace DomainObjects;
 
-    std::array<float, 3> fundamentalValues;
-    float colorModelValues[5]; // nb: not enough?
-    m_fwdCM.pixelToValues(srcColor, colorModelValues);
+    // Create a color conversion pipeline. Note: this *assumes* the UI is expecting sRGB - that's a
+    // TBA if it isn't (also we should adjust to the document too - right now though we have only
+    // sRGB docs, but we expect to expand the latter first).
 
-    switch(srcColor.getColorModel()) {
-      case Color::COLOR_MODEL_RGB24_888:
+    // P.S. ugly - but we have to map EColorModels to GIL formats SOMEWHERE ...
+    switch(srcColor->getColorModel()) {
+      case Defs::Color::COLOR_MODEL_RGB24_888:
+        doPipeline<boost::gil::rgb8_pixel_t>(srcColor, dstColor); break;
+      default:
+        throw BadColorModelException(srcColor->getColorModel());
+    };
+  }
+}
 
-    }
+namespace SDF::Editor::ModelLayer::Services::Gil {
+  // The private pipeline helper method.
+  template<class GilPixelT>
+  void
+  UiColorConversionService::doRgbPipeline(
+    const UILayer::AbstractModel::Defs::Color::IColor<
+      UILayer::AbstractModel::Defs::Color::EColorModel
+    > &srcColor,
+    UILayer::AbstractModel::Defs::Color::IColor<
+      UILayer::AbstractModel::Defs::Color::EUiColorModel
+    > &dstColor
+  ) {
+    using namespace UILayer::AbstractModel;
+    using namespace DomainObjects;
+
+    GilPixelT gilPx = uiPixelToGilPixel<GilPixelT>(srcColor);
+
+    Engine::Color::Conversion::Pipeline pipeline(
+      std::make_shared<Engine::Gil::Color::RgbNormalizer<GilPixelT>>(),
+      std::make_shared<Engine::Color::ColorSpaces::IEC61966_2_1_sRGB>(),
+      std::make_shared<Engine::Color::ColorSpaces::IEC61966_2_1_sRGB>(),
+      std::make_shared<Color::UiRgbUnnormalizer<Defs::Color::EUiColorModel>>()
+    );
+
+    pipeline.convertPixel(gilPx, dstColor);
   }
 }

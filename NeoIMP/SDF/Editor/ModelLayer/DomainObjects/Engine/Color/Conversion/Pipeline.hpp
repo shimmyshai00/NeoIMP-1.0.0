@@ -57,10 +57,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
 
     // Function:   convertPixel
     // Purpose:    Converts a pixel from the source to the destination type.
-    // Parameters: px - The pixel to convert.
+    // Parameters: srcPx - The pixel to convert.
+    //             dstPx - The pixel to receive the result.
     // Returns:    The converted pixel.
-    DstPixelT
-    convertPixel(SrcPixelT px);
+    void
+    convertPixel(SrcPixelT srcPx, DstPixelT dstPx);
   private:
     std::shared_ptr<IFwdNormalizer<SrcColorModelT, SrcPixelT>> m_srcNormalizer;
     std::shared_ptr<IFwdColorSpace<SrcColorModelT, FundamentalSpaceT>> m_srcColorSpace;

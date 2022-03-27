@@ -54,21 +54,19 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     class DstColorModelT,
     class DstPixelT
   >
-  DstPixelT
+  void
   Pipeline<SrcPixelT, SrcColorModelT, FundamentalSpaceT, DstColorModelT, DstPixelT>::convertPixel(
-    SrcPixelT px
+    SrcPixelT srcPx,
+    DstPixelT dstPx
   ) {
     std::array<float, SrcColorModelT::num_channels> srcNrmlRep;
     std::array<float, FundamentalSpaceT::num_channels> fundamentalRep;
     std::array<float, DstColorModelT::num_channels> dstNrmlRep;
-    DstPixelT rv;
 
-    m_srcNormalizer->normalize(px, srcNrmlRep);
+    m_srcNormalizer->normalize(srcPx, srcNrmlRep);
     m_srcColorSpace->nrmlToFundamental(srcNrmlRep, fundamentalRep);
     m_dstColorSpace->fundamentalToNrml(fundamentalRep, dstNrmlRep);
-    m_dstNormalizer->unnormalize(dstNrmlRep, rv);
-
-    return rv;
+    m_dstNormalizer->unnormalize(dstNrmlRep, dstPx);
   }
 }
 

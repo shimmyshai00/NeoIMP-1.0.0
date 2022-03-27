@@ -25,9 +25,9 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EUiColorModel.hpp"
 #include "../../../UILayer/AbstractModel/Color/IUiColorConversionService.hpp"
-#include "../../AbstractData/IBuiltinColorSpaceRepository.hpp"
-#include "../ColorSpaces/UiRevColorSpace.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>
@@ -41,28 +41,28 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     public UILayer::AbstractModel::Color::IUiColorConversionService
   {
   public:
-    INJECT(UiColorConversionService(
-      ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
-        ModelLayer::AbstractData::Gil::RgbColorSpace<boost::gil::rgb8_pixel_t>
-      > *builtinColorSpaces_RGB24_888
-    ));
+    INJECT(UiColorConversionService());
 
     void
     convertColor(
       const UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EColorModel
       > &srcColor,
-      const UILayer::AbstractModel::Defs::Color::IColor<
+      UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel
       > &dstColor
     );
   private:
-    ModelLayer::AbstractData::IBuiltinColorSpaceRepository<
-      ModelLayer::AbstractData::Gil::RgbColorSpace<boost::gil::rgb8_pixel_t>
-    > *m_builtinColorSpaces_RGB24_888;
-
-    // STUB: extend to repository?
-    ColorSpaces::UiRevColorSpace m_uiAssumed;
+    template<class GilPixelT>
+    void
+    doRgbPipeline(
+      const UILayer::AbstractModel::Defs::Color::IColor<
+        UILayer::AbstractModel::Defs::Color::EColorModel
+      > &srcColor,
+      UILayer::AbstractModel::Defs::Color::IColor<
+        UILayer::AbstractModel::Defs::Color::EUiColorModel
+      > &dstColor
+    );
   };
 }
 

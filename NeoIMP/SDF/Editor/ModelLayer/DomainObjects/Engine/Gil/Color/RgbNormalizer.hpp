@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLOR_COLORMODEL_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLOR_COLORMODEL_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLOR_RGBNORMALIZER_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COLOR_RGBNORMALIZER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ColorModel.hpp
- * PURPOSE: Defines the ColorModel template.
+ * FILE:    RgbNormalizer.hpp
+ * PURPOSE: Defines the RgbNormalizer template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,37 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../IBidirectionalColorModel.hpp"
+#include "../../Color/Models/Rgb.hpp"
+#include "GenericNrmlzr3.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
-  // Class:      ColorModel
-  // Purpose:    Defines a generic color model for the Boost.GIL-based engine subsystem. This
-  //             basically adapts a Boost.GIL pixel type into the broader NeoIMP color models and
-  //             spaces framework.
+  // Class:      RgbNormalizer
+  // Purpose:    Defines the normalizer for Boost.GIL RGB-type pixels.
   // Parameters: GilPixelT - The Boost.GIL pixel type.
   template<class GilPixelT>
-  class ColorModel : public IBidirectionalColorModel<GilPixelT> {
-  public:
-    inline std::size_t
-    getNumChannels() const;
-
-    inline float
-    getValueMin(std::size_t channel) const;
-
-    inline float
-    getValueMax(std::size_t channel) const;
-
-    inline float
-    getQuantizationStep(std::size_t channel) const;
-
-    inline void
-    pixelToValues(const GilPixelT &px, float *values) const;
-
-    inline void
-    valuesToPixel(const float *values, GilPixelT &px) const;
+  class RgbNormalizer : public GenericNrmlzr3<Engine::Color::Models::Rgb, GilPixelT> {
   };
 }
-
-#include "ColorModel.tpp"
 
 #endif
