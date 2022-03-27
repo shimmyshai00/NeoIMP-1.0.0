@@ -101,7 +101,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
         View::Qt::Impl::g_colorModelNames[i]));
     }
 
-    // NB: STUB for this newfangled flexibility
     for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
       m_ui->bitDepthSelector->addItem(QString::fromStdString(View::Qt::Impl::g_rgbFamilyNames[i]));
     }
