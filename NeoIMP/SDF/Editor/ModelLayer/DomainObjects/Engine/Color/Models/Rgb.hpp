@@ -24,9 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cstddef>
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Models {
   struct Rgb {
-    static const num_channels = 3;
+    static const std::size_t num_channels = 3;
   };
 }
 

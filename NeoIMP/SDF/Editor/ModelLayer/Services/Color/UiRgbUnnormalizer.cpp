@@ -30,8 +30,8 @@ namespace SDF::Editor::ModelLayer::Services::Color {
     UILayer::AbstractModel::Defs::Color::IColor<UILayer::AbstractModel::Defs::Color::EUiColorModel>
       &px
   ) const {
-    px->setValueF(0, uniformRep[0]);
-    px->setValueF(1, uniformRep[1]);
-    px->setValueF(2, uniformRep[2]);
+    px.setValueF(0, uniformRep[0]);
+    px.setValueF(1, uniformRep[1]);
+    px.setValueF(2, uniformRep[2]);
   }
 }

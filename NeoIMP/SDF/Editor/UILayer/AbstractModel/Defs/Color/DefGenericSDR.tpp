@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_GENERICSDR_TPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_GENERICSDR_TPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_DEFGENERICSDR_TPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_DEFGENERICSDR_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    GenericSDR.tpp
- * PURPOSE: Implements the GenericSDR template.
+ * FILE:    DefGenericSDR.tpp
+ * PURPOSE: Implements the DefGenericSDR template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,57 +25,58 @@
  */
 
 #include <cmath>
+#include <algorithm>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   template<EColorModel CM, std::size_t ... ChannelBits>
-  GenericSDR<CM, ChannelBits...>::GenericSDR() {
+  DefGenericSDR<CM, ChannelBits...>::DefGenericSDR() {
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   EColorModel
-  GenericSDR<CM, ChannelBits...>::getColorModel() const {
+  DefGenericSDR<CM, ChannelBits...>::getColorModel() const {
     return CM;
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   std::size_t
-  GenericSDR<CM, ChannelBits...>::getNumChannels() const {
+  DefGenericSDR<CM, ChannelBits...>::getNumChannels() const {
     return pak_t::num_vals;
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   int
-  GenericSDR<CM, ChannelBits...>::getChannelMin(std::size_t channelIdx) const {
+  DefGenericSDR<CM, ChannelBits...>::getChannelMin(std::size_t channelIdx) const {
     return 0;
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   int
-  GenericSDR<CM, ChannelBits...>::getChannelMax(std::size_t channelIdx) const {
+  DefGenericSDR<CM, ChannelBits...>::getChannelMax(std::size_t channelIdx) const {
     return (1 << pak_t::vals.at(channelIdx)) - 1;
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   int
-  GenericSDR<CM, ChannelBits...>::getValue(std::size_t channelIdx) const {
+  DefGenericSDR<CM, ChannelBits...>::getValue(std::size_t channelIdx) const {
     return m_values.at(channelIdx);
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   float
-  GenericSDR<CM, ChannelBits...>::getValueF(std::size_t channelIdx) const {
+  DefGenericSDR<CM, ChannelBits...>::getValueF(std::size_t channelIdx) const {
     return (0.0f + m_values.at(channelIdx)) / getChannelMax(channelIdx);
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   void
-  GenericSDR<CM, ChannelBits...>::setValue(std::size_t channelIdx, int value) {
+  DefGenericSDR<CM, ChannelBits...>::setValue(std::size_t channelIdx, int value) {
     m_values.at(channelIdx) = std::clamp(value, 0, getChannelMax(channelIdx));
   }
 
   template<EColorModel CM, std::size_t ... ChannelBits>
   void
-  GenericSDR<CM, ChannelBits...>::setValueF(std::size_t channelIdx, float value) {
+  DefGenericSDR<CM, ChannelBits...>::setValueF(std::size_t channelIdx, float value) {
     setValue(channelIdx, floor(value * getChannelMax(channelIdx) + 0.5f));
   }
 }

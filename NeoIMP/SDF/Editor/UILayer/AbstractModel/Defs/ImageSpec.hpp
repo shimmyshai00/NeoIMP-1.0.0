@@ -50,7 +50,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     Color::EColorModel colorModel;
 
     EBackgroundPreset backgroundPreset;
-    std::shared_ptr<Color::IColor> backgroundColor;
+    std::shared_ptr<Color::IColor<Color::EColorModel>> backgroundColor;
 
     ImageSpec()
       : width(320.0f),
@@ -60,7 +60,6 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         resolution(300.0f),
         resolutionUnit(RESOLUTION_UNIT_PPI),
         colorModel(Color::COLOR_MODEL_RGB24_888),
-        bitDepth(Color::BIT_DEPTH_8),
         backgroundPreset(PRE_BACKGROUND_BLACK),
         backgroundColor(new Color::RGB24_888(0, 0, 0))
     {
@@ -75,7 +74,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
       EResolutionUnit resolutionUnit_,
       Color::EColorModel colorModel_,
       EBackgroundPreset backgroundPreset_,
-      std::shared_ptr<Color::IColor> backgroundColor_
+      std::shared_ptr<Color::IColor<Color::EColorModel>> backgroundColor_
     )
       : width(width_),
         widthUnit(widthUnit_),

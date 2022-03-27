@@ -24,6 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EUiColorModel.hpp"
+
+#include "../../DomainObjects/Engine/Color/Models/Rgb.hpp"
+#include "../../DomainObjects/Engine/Color/IRevNormalizer.hpp"
+
+#include <array>
+
 namespace SDF::Editor::ModelLayer::Services::Color {
   // Class:      UiRgbUnnormalizer
   // Purpose:    Builds a dynamically adaptable color model type capable of operating on UI-layer

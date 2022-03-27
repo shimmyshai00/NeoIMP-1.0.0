@@ -36,8 +36,7 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
           m_isHeightUnitValid(false),
           m_isResolutionValid(false),
           m_isResolutionUnitValid(false),
-          m_isColorModelValid(false),
-          m_isBitDepthValid(false)
+          m_isColorModelValid(false)
       {
       }
 
@@ -49,8 +48,7 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
           m_isHeightUnitValid &&
           m_isResolutionValid &&
           m_isResolutionUnitValid &&
-          m_isColorModelValid &&
-          m_isBitDepthValid;
+          m_isColorModelValid;
       }
 
       void
@@ -62,7 +60,6 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
         if(!m_isResolutionValid) throw ResolutionInvalidException();
         if(!m_isResolutionUnitValid) throw ResolutionUnitInvalidException();
         if(!m_isColorModelValid) throw ColorModelInvalidException();
-        if(!m_isBitDepthValid) throw BitDepthInvalidException();
       }
 
       void
@@ -99,11 +96,6 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
       onColorModelValidated() {
         m_isColorModelValid = true;
       }
-
-      void
-      onBitDepthValidated() {
-        m_isBitDepthValid = true;
-      }
     private:
       bool m_isWidthValid;
       bool m_isWidthUnitValid;
@@ -112,7 +104,6 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
       bool m_isResolutionValid;
       bool m_isResolutionUnitValid;
       bool m_isColorModelValid;
-      bool m_isBitDepthValid;
     };
   }
 
@@ -131,7 +122,6 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
     if(obj.resolution > 0.0f) p->onResolutionValidated();
     if(obj.resolutionUnit < RESOLUTION_UNIT_MAX) p->onResolutionUnitValidated();
     if(obj.colorModel < Color::COLOR_MODEL_MAX) p->onColorModelValidated();
-    if(obj.bitDepth < Color::BIT_DEPTH_MAX) p->onBitDepthValidated();
 
     return p;
   }

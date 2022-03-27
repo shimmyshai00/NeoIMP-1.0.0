@@ -24,7 +24,6 @@
 #include "Component.hpp"
 
 #include "DataMappers/Component.hpp"
-#include "Repositories/Gil/Component.hpp"
 #include "Repositories/Component.hpp"
 
 #include <boost/gil/typedefs.hpp>
@@ -34,7 +33,6 @@ namespace SDF::Editor::DataLayer {
   getComponent() {
     return fruit::createComponent()
       .install(DataMappers::getComponent)
-      .install(Repositories::getComponent)
-      .install(Repositories::Gil::getRgbComponent<boost::gil::rgb8_pixel_t>);
+      .install(Repositories::getComponent);
   }
 }

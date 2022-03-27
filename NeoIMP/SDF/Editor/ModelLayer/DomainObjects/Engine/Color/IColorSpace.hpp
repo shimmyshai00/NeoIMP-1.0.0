@@ -25,7 +25,7 @@
  */
 
 #include "IFwdColorSpace.hpp"
-#include "IRevColorSpace.hpp
+#include "IRevColorSpace.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color {
   // Class:      IColorSpace

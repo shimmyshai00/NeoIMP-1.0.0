@@ -1,5 +1,5 @@
 add_subdirectory(Validators)
-add_subdirectory(ColorSpaces)
+add_subdirectory(Color)
 add_subdirectory(Gil)
 
 target_sources(neoimp PUBLIC

@@ -26,7 +26,6 @@
 
 #include "../../../Common/Data/IDataMapper.hpp"
 #include "../../../Common/Model/ICrudRepository.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/ColorSpaces/Fundamental/XyzD65.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../ModelLayer/DomainObjects/State/DocumentViewState.hpp"

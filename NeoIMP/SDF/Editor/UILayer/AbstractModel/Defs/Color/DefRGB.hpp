@@ -34,43 +34,43 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Purpose:    Defines a convenience class for defining RGB color models.
   // Parameters: CM - The color model being defined.
   //             BitsR, BitsG, BitsB - The number of bits in each channel.
-  template<EColorModle CM, class BitsR, class BitsG, class BitsB>
+  template<EColorModel CM, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
   class DefRGB : public DefGenericSDR<CM, BitsR, BitsG, BitsB> {
   public:
     DefRGB(int r, int g, int b) {
-      setValue(0, r);
-      setValue(1, g);
-      setValue(2, b);
+      this->setValue(0, r);
+      this->setValue(1, g);
+      this->setValue(2, b);
     }
 
     int
     r() const {
-      return getValue(0);
+      return this->getValue(0);
     }
 
     int
     g() const {
-      return getValue(1);
+      return this->getValue(1);
     }
 
     int
     b() const {
-      return getValue(2);
+      return this->getValue(2);
     }
 
     void
     setR(int r) {
-      setValue(0, r);
+      this->setValue(0, r);
     }
 
     void
     setG(int g) {
-      setValue(1, g);
+      this->setValue(1, g);
     }
 
     void
     setB(int b) {
-      setValue(2, b);
+      this->setValue(2, b);
     }
   };
 }

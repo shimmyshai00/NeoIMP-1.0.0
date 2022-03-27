@@ -38,7 +38,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   template<EColorModel CM, std::size_t ... ChannelBits>
   class DefGenericSDR : public IColor<EColorModel> {
   public:
-    GenericSDR();
+    DefGenericSDR();
 
     EColorModel
     getColorModel() const;
@@ -67,7 +67,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     typedef Common::Meta::dynamic_pack<std::size_t, ChannelBits...> pak_t;
 
     std::array<int, pak_t::num_vals> m_values;
-  }
+  };
 }
 
 #include "DefGenericSDR.tpp"
