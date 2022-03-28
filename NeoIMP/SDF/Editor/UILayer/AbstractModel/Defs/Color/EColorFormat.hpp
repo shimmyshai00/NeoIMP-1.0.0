@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORMODEL_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORFORMAT_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORFORMAT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EColorModel.hpp
- * PURPOSE: Enumerates the available color models.
+ * FILE:    EColorFormat.hpp
+ * PURPOSE: Enumerates the available color formats.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,22 +27,22 @@
 #include <vector>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  enum EColorModel {
-    COLOR_MODEL_RGB24_888,
-    COLOR_MODEL_MAX
+  enum EColorFormat {
+    COLOR_FMT_RGB24_888,
+    COLOR_FMT_MAX
   };
 }
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // A structured form of the above.
-  enum EColorModelFamily {
-    CM_FAMILY_RGB,
-    CM_FAMILY_MAX
+  enum EColorModel {
+    COLOR_MODEL_RGB,
+    COLOR_MODEL_MAX
   };
 
   static const std::size_t NUM_RGB_FORMATS = 1;
-  static const EColorModel g_colorModelsByFamily_Rgb[NUM_RGB_FORMATS] = {
-    COLOR_MODEL_RGB24_888
+  static const EColorFormat g_colorFormatsByModel_Rgb[NUM_RGB_FORMATS] = {
+    COLOR_FMT_RGB24_888
   };
 }
 

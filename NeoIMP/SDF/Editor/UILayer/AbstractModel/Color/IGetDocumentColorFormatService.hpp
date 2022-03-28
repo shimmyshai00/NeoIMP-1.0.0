@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../Defs/Color/EColorModel.hpp"
+#include "../Defs/Color/EColorFormat.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Color {
   // Class:      IGetDocumentColorFormatService
@@ -35,12 +35,12 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
   public:
     virtual ~IGetDocumentColorFormatService() = default;
 
-    // Function:   getColorModelOf
-    // Purpose:    Gets the color model of an image document.
+    // Function:   getColorFormatOf
+    // Purpose:    Gets the color format of an image document.
     // Parameters: documentHandle - The handle of the document to get the color model for.
-    // Returns:    The document's color model.
-    virtual Defs::Color::EColorModel
-    getColorModelOf(Common::Handle documentHandle) const = 0;
+    // Returns:    The document's color format.
+    virtual Defs::Color::EColorFormat
+    getColorFormatOf(Common::Handle documentHandle) const = 0;
   };
 }
 

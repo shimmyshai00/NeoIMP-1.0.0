@@ -67,9 +67,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       RESOLUTION_UNIT_PPI).in(inUnit);
   }
 
-  UILayer::AbstractModel::Defs::Color::EColorModel
-  GetDocumentInfoService::getColorModelOf(Common::Handle documentHandle) const {
+  UILayer::AbstractModel::Defs::Color::EColorFormat
+  GetDocumentInfoService::getColorFormatOf(Common::Handle documentHandle) const {
     // TBA
-    return UILayer::AbstractModel::Defs::Color::COLOR_MODEL_RGB24_888;
+    return UILayer::AbstractModel::Defs::Color::COLOR_FMT_RGB24_888;
   }
 }

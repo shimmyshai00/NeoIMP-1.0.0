@@ -25,7 +25,7 @@
  */
 
 #include "../Defs/Color/IColor.hpp"
-#include "../Defs/Color/EColorModel.hpp"
+#include "../Defs/Color/EColorFormat.hpp"
 #include "../Defs/Color/EUiColorModel.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Color {
@@ -43,7 +43,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
     // Returns:    None.
     virtual void
     convertColor(
-      const Defs::Color::IColor<Defs::Color::EColorModel> &srcColor,
+      const Defs::Color::IColor<Defs::Color::EColorFormat> &srcColor,
       Defs::Color::IColor<Defs::Color::EUiColorModel> &dstColor
     ) = 0;
   };

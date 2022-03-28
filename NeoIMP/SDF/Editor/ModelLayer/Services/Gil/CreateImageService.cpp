@@ -88,8 +88,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
       std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
-      // What type to use depends on the color model.
-      if(spec.colorModel == COLOR_MODEL_RGB24_888) {
+      // What type to use depends on the color format.
+      if(spec.colorFormat == COLOR_FMT_RGB24_888) {
         return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
           widthPx, heightPx);
       } else {
@@ -112,9 +112,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     Validators::ImageSpecValidator val;
     auto result = val.validate(spec);
     if(result->isValid()) {
-      // What type to use depends on the color model.
+      // What type to use depends on the color format.
       std::unique_ptr<Engine::Gil::Any_Image> image;
-      if(spec.colorModel == COLOR_MODEL_RGB24_888) {
+      if(spec.colorFormat == COLOR_FMT_RGB24_888) {
         image = doConstructFromSpec<Engine::Gil::RGB24_888_Image_Impl>(spec);
       } else {
         throw "NOT YET IMPLEMENTED";

@@ -6,7 +6,7 @@
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
  * FILE:    types.hpp
- * PURPOSE: Defines the color types for the different supported color models.
+ * PURPOSE: Defines the color types for the different supported color formats.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,10 +25,10 @@
  */
 
 #include "DefRGB.hpp"
-#include "EColorModel.hpp"
+#include "EColorFormat.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  typedef DefRGB<COLOR_MODEL_RGB24_888, 8, 8, 8> RGB24_888;
+  typedef DefRGB<COLOR_FMT_RGB24_888, 8, 8, 8> RGB24_888;
 }
 
 #endif

@@ -54,12 +54,8 @@ namespace SDF::Editor::ModelLayer::Services::Validators {
     ResolutionUnitInvalidException() { whatPrintf("Document spec resolution unit is invalid."); }
   };
 
-  struct ColorModelInvalidException : public ValidatorException {
-    ColorModelInvalidException() { whatPrintf("Document spec color model is invalid."); }
-  };
-
-  struct BitDepthInvalidException : public ValidatorException {
-    BitDepthInvalidException() { whatPrintf("Document spec bit depth is invalid."); }
+  struct ColorFormatInvalidException : public ValidatorException {
+    ColorFormatInvalidException() { whatPrintf("Document spec color format is invalid."); }
   };
 }
 

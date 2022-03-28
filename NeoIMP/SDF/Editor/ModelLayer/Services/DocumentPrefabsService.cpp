@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         300.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::Color::COLOR_MODEL_RGB24_888,
+        Defs::Color::COLOR_FMT_RGB24_888,
         Defs::PRE_BACKGROUND_WHITE,
         std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };
@@ -52,7 +52,7 @@ namespace SDF::Editor::ModelLayer::Services {
         Defs::LENGTH_UNIT_INCH,
         150.0f,
         Defs::RESOLUTION_UNIT_PPI,
-        Defs::Color::COLOR_MODEL_RGB24_888,
+        Defs::Color::COLOR_FMT_RGB24_888,
         Defs::PRE_BACKGROUND_WHITE,
         std::make_shared<Defs::Color::RGB24_888>(255, 255, 255)
     };

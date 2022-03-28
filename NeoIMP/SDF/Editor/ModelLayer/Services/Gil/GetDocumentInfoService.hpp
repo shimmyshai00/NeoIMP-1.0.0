@@ -28,7 +28,7 @@
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Color/IGetDocumentColorFormatService.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImageRepository.hpp"
@@ -64,8 +64,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       UILayer::AbstractModel::Defs::ELengthUnit inUnit
     ) const;
 
-    UILayer::AbstractModel::Defs::Color::EColorModel
-    getColorModelOf(Common::Handle documentHandle) const;
+    UILayer::AbstractModel::Defs::Color::EColorFormat
+    getColorFormatOf(Common::Handle documentHandle) const;
   private:
     AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };

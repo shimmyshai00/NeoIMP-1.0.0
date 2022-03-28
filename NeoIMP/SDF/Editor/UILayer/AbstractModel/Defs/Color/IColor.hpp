@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "EColorModel.hpp"
+#include "EColorFormat.hpp"
 
 #include <cstddef>
 
@@ -33,18 +33,18 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Purpose:    Defines a generic interface for representing color values. This interface is not
   //             high-performance, so should not be used for moving large amounts of data into and
   //             out of the model.
-  // Parameters: ModelEnumT - The enumeration of the type of color models allowed.
-  template<class ModelEnumT>
+  // Parameters: FormatEnumT - The enumeration of the type of color formats allowed.
+  template<class FormatEnumT>
   class IColor {
   public:
     virtual ~IColor() = default;
 
-    // Function:   getColorModel
-    // Purpose:    Gets the color model of this color.
+    // Function:   getColorFormat
+    // Purpose:    Gets the color format of this color.
     // Parameters: None.
-    // Returns:    The enumeration value of the color model.
-    virtual ModelEnumT
-    getColorModel() const = 0;
+    // Returns:    The enumeration value of the color format.
+    virtual FormatEnumT
+    getColorFormat() const = 0;
 
     // Function:   getNumChannels
     // Purpose:    Gets the number of channels in the color.

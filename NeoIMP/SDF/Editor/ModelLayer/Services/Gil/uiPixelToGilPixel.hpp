@@ -25,7 +25,7 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
 #include "../Exceptions.hpp"
 
 #include <boost/gil/color_base.hpp>
@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   inline GilPixelT
   uiPixelToGilPixel3Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorModel
+      UILayer::AbstractModel::Defs::Color::EColorFormat
     > &color
   ) {
 #ifndef NDEBUG
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   inline GilPixelT
   uiPixelToGilPixel4Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorModel
+      UILayer::AbstractModel::Defs::Color::EColorFormat
     > &color
   ) {
 #ifndef NDEBUG
@@ -64,7 +64,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     }
 #endif // !NDEBUG
 
-    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2), color.getValue(4)));
+    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2), color.getValue(3)));
   }
 }
 

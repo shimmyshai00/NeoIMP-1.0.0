@@ -37,7 +37,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
-  static const std::string g_colorModelNames[AbstractModel::Defs::Color::CM_FAMILY_MAX] = {
+  static const std::string g_colorModelNames[AbstractModel::Defs::Color::COLOR_MODEL_MAX] = {
     "RGB"
   };
 
@@ -112,7 +112,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
     // Color model selection.
     auto showSubFormats = [&](int familyIndex) {
-      if(familyIndex == Defs::Color::CM_FAMILY_RGB) {
+      if(familyIndex == Defs::Color::COLOR_MODEL_RGB) {
         m_ui->bitDepthSelector->clear();
         for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
           m_ui->bitDepthSelector->addItem(QString::fromStdString(
@@ -143,7 +143,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       spec.heightUnit = m_ui->heightSelector->unit();
       spec.resolution = m_ui->resolutionSelector->quantity();
       spec.resolutionUnit = m_ui->resolutionSelector->unit();
-      spec.colorModel = static_cast<Defs::Color::EColorModel>(
+      spec.colorFormat = static_cast<Defs::Color::EColorFormat>(
         m_ui->colorModelSelector->currentIndex()); // NB: BAD STUB
       spec.backgroundPreset =
         static_cast<Defs::EBackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
@@ -184,7 +184,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
         m_ui->heightSelector->setQuantity(presetSpec.height);
         m_ui->resolutionSelector->setUnit(presetSpec.resolutionUnit);
         m_ui->resolutionSelector->setQuantity(presetSpec.resolution);
-        m_ui->colorModelSelector->setCurrentIndex(presetSpec.colorModel); // NB: BAD STUB
+        m_ui->colorModelSelector->setCurrentIndex(presetSpec.colorFormat); // NB: BAD STUB
         m_ui->initialBackgroundSelector->setCurrentIndex(presetSpec.backgroundPreset);
 
         recalculateSize();

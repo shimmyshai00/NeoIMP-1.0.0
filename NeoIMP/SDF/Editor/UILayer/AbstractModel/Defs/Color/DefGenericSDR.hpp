@@ -26,22 +26,22 @@
 
 #include "../../../../../Common/Meta.hpp"
 #include "IColor.hpp"
-#include "EColorModel.hpp"
+#include "EColorFormat.hpp"
 
 #include <array>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Class:      DefGenericSDR
   // Purpose:    Provides a generic template for defining short-dynamic range (SDR) color types.
-  // Parameters: CM - The color model type being defined.
+  // Parameters: CF - The color format type being defined.
   //             ChannelBits - The bits in each channel.
-  template<EColorModel CM, std::size_t ... ChannelBits>
-  class DefGenericSDR : public IColor<EColorModel> {
+  template<EColorFormat CF, std::size_t ... ChannelBits>
+  class DefGenericSDR : public IColor<EColorFormat> {
   public:
     DefGenericSDR();
 
-    EColorModel
-    getColorModel() const;
+    EColorFormat
+    getColorFormat() const;
 
     std::size_t
     getNumChannels() const;

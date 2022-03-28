@@ -25,7 +25,7 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
 #include "../../../UILayer/AbstractModel/Defs/Color/EUiColorModel.hpp"
 #include "../../../UILayer/AbstractModel/Color/IUiColorConversionService.hpp"
 
@@ -44,7 +44,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     convertColor(
       const UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EColorModel
+        UILayer::AbstractModel::Defs::Color::EColorFormat
       > &srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     doRgbPipeline(
       const UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EColorModel
+        UILayer::AbstractModel::Defs::Color::EColorFormat
       > &srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel

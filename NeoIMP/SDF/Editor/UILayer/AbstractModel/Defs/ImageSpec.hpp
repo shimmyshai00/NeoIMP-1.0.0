@@ -26,7 +26,7 @@
 
 #include "../../../../Common/Meta.hpp"
 
-#include "Color/EColorModel.hpp"
+#include "Color/EColorFormat.hpp"
 #include "Color/IColor.hpp"
 #include "Color/types.hpp"
 
@@ -47,10 +47,10 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     float resolution;
     EResolutionUnit resolutionUnit;
 
-    Color::EColorModel colorModel;
+    Color::EColorFormat colorFormat;
 
     EBackgroundPreset backgroundPreset;
-    std::shared_ptr<Color::IColor<Color::EColorModel>> backgroundColor;
+    std::shared_ptr<Color::IColor<Color::EColorFormat>> backgroundColor;
 
     ImageSpec()
       : width(320.0f),
@@ -59,7 +59,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         heightUnit(LENGTH_UNIT_PIXEL),
         resolution(300.0f),
         resolutionUnit(RESOLUTION_UNIT_PPI),
-        colorModel(Color::COLOR_MODEL_RGB24_888),
+        colorFormat(Color::COLOR_FMT_RGB24_888),
         backgroundPreset(PRE_BACKGROUND_BLACK),
         backgroundColor(new Color::RGB24_888(0, 0, 0))
     {
@@ -72,9 +72,9 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
       ELengthUnit heightUnit_,
       float resolution_,
       EResolutionUnit resolutionUnit_,
-      Color::EColorModel colorModel_,
+      Color::EColorFormat colorFormat_,
       EBackgroundPreset backgroundPreset_,
-      std::shared_ptr<Color::IColor<Color::EColorModel>> backgroundColor_
+      std::shared_ptr<Color::IColor<Color::EColorFormat>> backgroundColor_
     )
       : width(width_),
         widthUnit(widthUnit_),
@@ -82,7 +82,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
         heightUnit(heightUnit_),
         resolution(resolution_),
         resolutionUnit(resolutionUnit_),
-        colorModel(colorModel_),
+        colorFormat(colorFormat_),
         backgroundPreset(backgroundPreset_),
         backgroundColor(backgroundColor_)
     {

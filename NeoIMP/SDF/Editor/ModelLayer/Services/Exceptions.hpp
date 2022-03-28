@@ -37,10 +37,10 @@ namespace SDF::Editor::ModelLayer::Services {
     }
   };
 
-  struct BadColorModelException : public ServiceException {
-    int m_colorModelIdx;
-    BadColorModelException(int colorModelIdx) : m_colorModelIdx(colorModelIdx) {
-      whatPrintf("Bad color model specifier '%d' passed.", m_colorModelIdx);
+  struct BadColorFormatException : public ServiceException {
+    int m_colorFmtIdx;
+    BadColorFormatException(int colorFmtIdx) : m_colorFmtIdx(colorFmtIdx) {
+      whatPrintf("Bad color format specifier '%d' passed.", m_colorFmtIdx);
     }
   };
 

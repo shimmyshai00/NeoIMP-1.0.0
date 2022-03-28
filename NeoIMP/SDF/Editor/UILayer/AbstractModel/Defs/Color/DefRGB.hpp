@@ -25,17 +25,17 @@
  */
 
 #include "DefGenericSDR.hpp"
-#include "EColorModel.hpp"
+#include "EColorFormat.hpp"
 
 #include <cmath>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Class:      DefRGB
-  // Purpose:    Defines a convenience class for defining RGB color models.
-  // Parameters: CM - The color model being defined.
+  // Purpose:    Defines a convenience class for defining RGB color formats.
+  // Parameters: CF - The color format being defined.
   //             BitsR, BitsG, BitsB - The number of bits in each channel.
-  template<EColorModel CM, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
-  class DefRGB : public DefGenericSDR<CM, BitsR, BitsG, BitsB> {
+  template<EColorFormat CF, std::size_t BitsR, std::size_t BitsG, std::size_t BitsB>
+  class DefRGB : public DefGenericSDR<CF, BitsR, BitsG, BitsB> {
   public:
     DefRGB(int r, int g, int b) {
       this->setValue(0, r);
