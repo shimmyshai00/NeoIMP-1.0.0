@@ -28,13 +28,13 @@
 #include <boost/gil/image_view.hpp>
 #include <boost/gil/rgb.hpp>
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Impl {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
   // The actual renderer implementations.
   template<>
-  void renderOntoCell<boost::gil::rgb8_view_t>(
+  void renderOntoCell<typename boost::gil::rgb8_view_t::const_t>(
     Engine::Buffers::RenderCell *dstCell,
     Math::Rect<std::size_t> dstRect,
-    const boost::gil::rgb8_view_t &view
+    typename boost::gil::rgb8_view_t::const_t &view
   ) {
     // Render the entirety of rectangle view into the destination rectangle dstRect. This is
     // designed to scale the rectangle appropriately. There is no compositing here; typically a

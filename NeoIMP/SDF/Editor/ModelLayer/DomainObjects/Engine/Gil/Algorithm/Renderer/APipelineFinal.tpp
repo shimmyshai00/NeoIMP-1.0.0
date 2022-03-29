@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_APIPELINEFINAL_TPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_APIPELINEFINAL_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Render.cpp
- * PURPOSE: Implements the non-template parts of the Render algorithm.
+ * FILE:    APipelineFinal.tpp
+ * PURPOSE: Implements the APipelineFinal base template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,11 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Render.hpp"
+#include "../../../../Exceptions.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  Render::Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr)
-    : m_resultRecvPtr(resultRecvPtr)
-  {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
+  template<class InBufferT, class OutBufferT>
+  std::unique_ptr<OutBufferT>
+  APipelineFinal<InBufferT, OutBufferT>::dispenseOutput() {
+    return std::move(m_waitingBuffer);
+  }
+
+  template<class InBufferT, class OutBufferT>
+  void
+  APipelineFinal<InBufferT, OutBufferT>::readyOutput(std::unique_ptr<OutBufferT> outBuffer) {
+    m_waitingBuffer = std::move(outBuffer);
   }
 }
+
+#endif

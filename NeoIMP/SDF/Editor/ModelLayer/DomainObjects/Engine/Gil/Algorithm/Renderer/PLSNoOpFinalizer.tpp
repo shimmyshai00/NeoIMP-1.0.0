@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_PLSNOOPFINALIZER_TPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_PLSNOOPFINALIZER_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Render.cpp
- * PURPOSE: Implements the non-template parts of the Render algorithm.
+ * FILE:    PLSNoOpFinalizer.tpp
+ * PURPOSE: Implements the PLSNoOpFinalizer template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,11 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Render.hpp"
-
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  Render::Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr)
-    : m_resultRecvPtr(resultRecvPtr)
-  {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
+  template<class InBufferT>
+  void
+  PLSNoOpFinalizer<InBufferT>::process(std::unique_ptr<InBufferT> buffer, RenderCtx &ctx) {
+    this->readyOutput(std::move(buffer));
   }
 }
+
+#endif

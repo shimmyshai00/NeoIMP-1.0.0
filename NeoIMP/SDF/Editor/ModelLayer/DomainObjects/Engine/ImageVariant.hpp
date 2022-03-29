@@ -48,7 +48,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     //                     consumptive move implementation is provided. We need a component clone
     //                     method for non-consumptive variant creation.
     ImageVariant();
-    
+
     template<class ImplSpecT>
     ImageVariant(Image<ImplSpecT> &&image);
 
@@ -124,6 +124,12 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   auto visitImage(V&& visitor, Variant &&variant) {
     // nb: this weird construct seems sus; may need to rethink this.
     return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+  }
+
+  template<typename V, class Variant>
+  auto constVisitImage(V&& visitor, const Variant &&variant) {
+    // nb: this weird construct seems sus; may need to rethink this.
+    return boost::variant2::visit(std::forward<V>(visitor), std::forward<const Variant>(variant));
   }
 }
 

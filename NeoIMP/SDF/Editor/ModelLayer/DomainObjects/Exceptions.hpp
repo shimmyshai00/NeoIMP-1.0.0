@@ -60,6 +60,12 @@ namespace SDF::Editor::ModelLayer::DomainObjects {
       whatPrintf("Tried to cast a component to the wrong type.");
     }
   };
+
+  struct BrokenPipelineException : public Error::LikelyBug<Error::ModelException> {
+    BrokenPipelineException() {
+      whatPrintf("Encountered a break in the render pipeline.");
+    }
+  };
 }
 
 #endif

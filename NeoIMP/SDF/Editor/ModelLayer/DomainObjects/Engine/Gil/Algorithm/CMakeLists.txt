@@ -1,4 +1,5 @@
+add_subdirectory(Renderer)
+
 target_sources(neoimp PUBLIC
-  Impl/CellRender.cpp
   Render.cpp
 )

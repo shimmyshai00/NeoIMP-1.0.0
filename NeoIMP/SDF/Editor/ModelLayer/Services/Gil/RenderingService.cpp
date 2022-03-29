@@ -176,19 +176,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     Engine::Gil::Any_Image *image(m_imageRepository->getImage(imageHandle));
 
-    std::size_t imageWidth(image->getWidthPx());
-    std::size_t imageHeight(image->getHeightPx());
-
     Common::Handle renderingHandle(m_nextRenderingHandle++);
-    std::unique_ptr<Engine::Buffers::GridRendering> rendering(
-      new Engine::Buffers::GridRendering(1, 1, imageWidth, imageHeight, Engine::RENDERFMT_RGB32));
 
-    Math::Rect<std::size_t> outRect(0, 0, imageWidth, imageHeight);
-
-    Engine::Gil::Algorithm::Render render(rendering.get(), outRect, image->getRect());
+    std::unique_ptr<Engine::Buffers::GridRendering> resultRecv;
+    Engine::Gil::Algorithm::Render render(&resultRecv);
     Engine::Gil::Algorithm::apply(render, *image);
 
-    m_renderingRepository->insert(renderingHandle, std::move(rendering));
+    m_renderingRepository->insert(renderingHandle, std::move(resultRecv));
 
     return renderingHandle;
   }

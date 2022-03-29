@@ -28,6 +28,8 @@
 #include "../../Image.hpp"
 #include "../../Dimensions.hpp"
 
+#include <memory>
+
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // The algorithm for rendering an image. This is a good prototype for all the ingredients for a
   // Boost.GIL-based algorithm implementation (since it is the first algorithm this author
@@ -37,18 +39,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // good faith and the programmer is expected to supply a template operator() that applies the
   // algorithm to an image.
   struct Render {
-    Render(
-      Engine::Buffers::GridRendering *gridBuffer,
-      Math::Rect<std::size_t> dstRect,
-      ImageRect srcRect
-    );
+    Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr);
 
     template<class GilSpecT>
-    void operator()(Image<GilSpecT> &image);
+    void
+    operator()(const Image<GilSpecT> &image);
   private:
-    Engine::Buffers::GridRendering *m_gridBuffer;
-    Math::Rect<std::size_t> m_dstRect;
-    ImageRect m_srcRect;
+    std::unique_ptr<Buffers::GridRendering> *m_resultRecvPtr;
   };
 }
 

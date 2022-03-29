@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_CELLRENDER_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_ALGORITHM_RENDERER_CELLRENDER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Render.cpp
- * PURPOSE: Implements the non-template parts of the Render algorithm.
+ * FILE:    CellRender.hpp
+ * PURPOSE: Defines the CellRender algorithm.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,11 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Render.hpp"
+#include "../../../../../Math/Rect.hpp"
+#include "../../../Buffers/RenderCell.hpp"
+#include "../../../Dimensions.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  Render::Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr)
-    : m_resultRecvPtr(resultRecvPtr)
-  {
-  }
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
+  // Provides implementation detail for rendering onto a single buffer cell.
+  template<class View>
+  void renderOntoCell(
+    Engine::Buffers::RenderCell *dstCell,
+    Math::Rect<std::size_t> dstRect,
+    View &view
+  );
 }
+
+#endif
