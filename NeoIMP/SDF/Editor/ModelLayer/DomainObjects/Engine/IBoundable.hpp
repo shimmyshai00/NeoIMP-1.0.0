@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_DIMENSIONS_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_DIMENSIONS_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IBOUNDABLE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IBOUNDABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Dimensions.hpp
- * PURPOSE: Defines some dimension types for images.
+ * FILE:    IBoundable.hpp
+ * PURPOSE: Defines the IBoundable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Math/Point2D.hpp"
-#include "../../Math/Vec2D.hpp"
-#include "../../Math/Rect.hpp"
+#include "Dimensions.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
-  // Note: the type used for ImageMeasure should have a range that fits within an std::ptrdiff_t
-  typedef int ImageMeasure;
-  typedef Math::Point2D<ImageMeasure> ImagePoint;
-  typedef Math::Vec2D<ImageMeasure> ImageVec;
-  typedef Math::Rect<ImageMeasure> ImageRect;
+  // Class:      IBoundable
+  // Purpose:    Provides an interface for objects that have a bounding rectangle.
+  // Parameters: None.
+  class IBoundable {
+  public:
+    virtual ~IBoundable() = default;
+
+    // Function:   getBoundingRect
+    // Purpose:    Gets the bounding rectangle of the object in image space.
+    // Parameters: None.
+    // Returns:    The bounding rectangle.
+    virtual ImageRect
+    getBoundingRect() const = 0;
+  };
 }
 
 #endif

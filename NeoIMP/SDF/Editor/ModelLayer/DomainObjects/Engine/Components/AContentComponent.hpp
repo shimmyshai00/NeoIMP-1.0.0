@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICONTENTCOMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICONTENTCOMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ACONTENTCOMPONENT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ACONTENTCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IContentComponent.hpp
- * PURPOSE: Defines the IContentComponent interface.
+ * FILE:    AContentComponent.hpp
+ * PURPOSE: Defines the AContentComponent base class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,27 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Dimensions.hpp"
-#include "IComponent.hpp"
+#include "IMeasurable.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Components {
-  // Class:      IContentComponent
+  // Class:      AContentComponent
   // Purpose:    Defines the base class for image content components. This defines all
   //             implementation-independent details for those components.
   // Parameters: ImplSpecT - The implementation traits type.
   template<class ImplSpecT>
-  class IContentComponent : public IComponent<ImplSpecT> {
-  public:
-    virtual ~IContentComponent() = default;
-
-    // Function:   getIntrinsicRect
-    // Purpose:    Obtains the intrinsic, i.e. non-transformed, bounding rectangle of this
-    //             component's content. Note that transforms are supplied by other components, so
-    //             we can not evaluate them here.
-    // Parameters: None.
-    // Returns:    The component's intrinsic rectangle.
-    virtual ImageRect
-    getIntrinsicRect() const = 0;
+  class AContentComponent : public IMeasurable {
   };
 }
 

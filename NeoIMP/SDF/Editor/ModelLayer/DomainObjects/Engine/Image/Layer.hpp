@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/IComponent.hpp"
+#include "Components/AContentComponent.hpp"
+#include "IMeasurable.hpp"
+#include "IBoundable.hpp"
 #include "Dimensions.hpp"
 
 #include <cstddef>
@@ -42,7 +44,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             inheritance hierarchy. It also eases layer conversions somewhat.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Layer {
+  class Layer : public IMeasurable,
+                public IBoundable
+  {
   public:
     // The content component must be added with this id to be properly recognized.
     static constexpr const char *c_contentComponentId = "content";
@@ -52,59 +56,31 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Parameters: None.
     Layer();
 
-    // Function:   getContentWidth
-    // Purpose:    Gets the width of this layer's content.
-    // Parameters: None.
-    // Returns:    The width of the content in pixels.
     ImageMeasure
-    getContentWidth() const;
+    getWidthPx() const;
 
-    // Function:   getContentHeight
-    // Purpose:    Gets the height of this layer's content.
-    // Parameters: None.
-    // Returns:    The height of the content in pixels.
     ImageMeasure
-    getContentHeight() const;
+    getHeightPx() const;
 
-    // Function:   getContentRect
-    // Purpose:    Gets the bounding rectangle of the layer content on the image.
-    // Parameters: None.
-    // Returns:    The bounding rectangle, suitably positioned and transformed.
     ImageRect
-    getContentRect() const;
+    getDimensionsRect() const;
 
-    // Function:   attachComponent
-    // Purpose:    Attaches a component to this layer.
-    // Parameters: id - The string resource ID of the component to add.
-    //             component - The component itself.
+    ImageRect
+    getBoundingRect() const;
+
+    // Function:   setContentComponent
+    // Purpose:    Sets the content component for this layer.
+    // Parameters: component - The content component to set.
     // Returns:    None.
     void
-    attachComponent(std::string id, std::unique_ptr<Components::IComponent<ImplSpecT>> component);
+    setContentComponent(std::unique_ptr<Components::AContentComponent<ImplSpecT>> component);
 
-    // Function:   findComponentById
-    // Purpose:    Obtains a component by its ID string.
-    // Parameters: id - The ID of the component to obtain.
-    //             Template parameter: The type to get it as.
-    // Returns:    A non-owning reference to the component, or nullptr if none (or throw a bad cast
-    //             if found but the wrong type).
-    template<class U>
-    U *
-    findComponentById(std::string id);
-
-    template<class U>
-    const U *
-    findComponentById(std::string id) const;
-
-    // Function:   visitComponents
-    // Purpose:    Visits each of the contained components with a visitor. The components are
-    //             visited in the order in which they were added.
-    // Parameters: visitor - The visitor to visit with.
-    // Returns:    None.
-    void
-    visitComponents(typename ImplSpecT::component_visitor_t &visitor);
-
-    void
-    visitComponents(typename ImplSpecT::const_component_visitor_t &visitor) const;
+    // Function:   getContentComponent
+    // Purpose:    Gets the content component for this layer.
+    // Parameters: None.
+    // Returns:    A pointer to the content component, which may be nullptr if none.
+    Components::AContentComponent<ImplSpecT> *
+    getContentComponent();
   private:
     std::map<std::string, std::unique_ptr<Components::IComponent<ImplSpecT>>> m_components;
     std::list<Components::IComponent<ImplSpecT> *> m_visitationList;

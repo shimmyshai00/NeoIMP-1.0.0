@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICOMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ICOMPONENT_HPP
+#ifndef SDF_EDITOR_DOMAINOBJECTS_ENGINE_COMPONENTS_AMODIFIERCOMPONENT_HPP
+#define SDF_EDITOR_DOMAINOBJECTS_ENGINE_COMPONENTS_AMODIFIERCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IComponent.hpp
- * PURPOSE: Defines the IComponent interface.
+ * FILE:    AModifierComponent.hpp
+ * PURPOSE: Defines the AModifierComponent base class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +25,12 @@
  */
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Components {
-  // Class:      IComponent
-  // Purpose:    Defines the base interface for all image components.
+  // Class:      AModifierComponent
+  // Purpose:    Defines the base class for image modifier components. This defines all
+  //             implementation-independent details for those components.
   // Parameters: ImplSpecT - The implementation traits type.
   template<class ImplSpecT>
-  class IComponent {
-  public:
-    virtual ~IComponent() = default;
-
-    // Function:   accept
-    // Purpose:    Accepts a visitor into this component.
-    // Parameters: visitor - The visitor to accept.
-    // Returns:    None.
-    virtual void
-    accept(typename ImplSpecT::component_visitor_t &visitor) = 0;
-
-    virtual void
-    accept(typename ImplSpecT::const_component_visitor_t &visitor) = 0;
-  };
+  class AModifierComponent {};
 }
 
 #endif
