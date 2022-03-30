@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
-#define SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_MESSAGES_OBJECTCHANGES_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_MESSAGES_OBJECTCHANGES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPublisher.hpp
- * PURPOSE: Defines the IPublisher interface.
+ * FILE:    ObjectChanges.hpp
+ * PURPOSE: Defines messages related to object creation and destruction.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IUUIDable.hpp"
-#include "IMessageDispatcher.hpp"
+#include "../../../../Common/Handle.hpp"
 
-#include <boost/uuid/uuid.hpp>
+namespace SDF::Editor::ModelLayer::Services::Messages {
+  struct SImageAdded {
+    Common::Handle handle;
 
-namespace SDF::Common::MessageSystem {
-  // Class:      IPublisher
-  // Purpose:    Defines an interface for an object which publishes messages to a channel.
-  // Parameters: MessageT - The type of message published.
-  template<class MessageT>
-  class IPublisher : public IUUIDable {
-  public:
-    virtual ~IPublisher() = default;
+    SImageAdded(Common::Handle t_handle) : handle(t_handle) {}
+  };
 
-    // Function:   setDispatcher
-    // Purpose:    Sets the message dispatcher this publisher uses.
-    // Parameters: messageDispatcher - The message dispatcher to set.
-    // Returns:    None.
-    virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+  struct SImageRemoved {
+    Common::Handle handle;
+
+    SImageRemoved(Common::Handle t_handle) : handle(t_handle) {}
   };
 }
 

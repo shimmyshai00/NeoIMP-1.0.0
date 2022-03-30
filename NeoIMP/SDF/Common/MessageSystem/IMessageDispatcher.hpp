@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_ICHANNEL_HPP
-#define SDF_COMMON_MESSAGESYSTEM_ICHANNEL_HPP
+#ifndef SDF_COMMON_MESSAGESYSTEM_IMESSAGEDISPATCHER_HPP
+#define SDF_COMMON_MESSAGESYSTEM_IMESSAGEDISPATCHER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IChannel.hpp
- * PURPOSE: Defines the IChannel interface.
+ * FILE:    IMessageDispatcher.hpp
+ * PURPOSE: Defines the IMessageDispatcher base template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,43 +24,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IConnection.hpp"
-#include "ISubscriber.hpp"
-
 #include <boost/uuid/uuid.hpp>
 
-#include <functional>
-
 namespace SDF::Common::MessageSystem {
-  // Class:      IChannel
-  // Purpose:    Defines a message channel in the publish/subscribe messaging system.
-  // Parameters: MessageT - The type of message used in this message *system*.
+  // Class:      IMessageDispatcher
+  // Purpose:    Provides an interface for objects which dispatch messages.
+  // Parameters: MessageT - The type of message handled.
   template<class MessageT>
-  class IChannel {
+  class IMessageDispatcher {
   public:
-    virtual ~IChannel() = default;
+    virtual ~IMessageDispatcher() = default;
 
-    // Function:   publishMessage
-    // Purpose:    Publishes a message onto the channel.
+    // Function:   dispatchMessage
+    // Purpose:    Dispatches an issued message.
     // Parameters: senderUuid - The UUID of the sender of the message. Note that subscribers must
     //                          also supply a UUID, for in case they also want to act as publishers,
     //                          we need to prevent infinite recursive loops.
     //             message - The message to publish.
     // Returns:    None.
     virtual void
-    publishMessage(boost::uuids::uuid senderUuid,
-                   const MessageT &message
-                  ) = 0;
-
-    // Function:   subscribe
-    // Purpose:    Subscribes to messages published onto this channel.
-    // Parameters: subscriber - The object subscribing.
-    //             filter - A function object for further filtering messages of interest.
-    // Returns:    A connection handle for the subscription.
-    virtual PIConnection
-    subscribe(ISubscriber<MessageT> *subscriber,
-              std::function<bool (const MessageT &)> filter = [](const MessageT &) {return true;}
-             ) = 0;
+    dispatchMessage(boost::uuids::uuid senderUuid,
+                    const MessageT &message
+                   ) = 0;
   };
 }
 

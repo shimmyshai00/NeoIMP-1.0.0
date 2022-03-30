@@ -24,6 +24,7 @@
 #include "Component.hpp"
 
 #include "../../../Common/Data/Repositories/MemoryOnlyRepository.hpp"
+#include "../../../Common/Data/Repositories/MemoryOnlyValueRepository.hpp"
 #include "ImageRepository.hpp"
 
 #include <boost/gil/typedefs.hpp>
@@ -33,9 +34,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   getComponent() {
     return fruit::createComponent()
       .bind<
-        ModelLayer::AbstractData::IImageRepository<
-          ModelLayer::DomainObjects::Engine::Gil::Any_Image
-        >,
+        ModelLayer::AbstractData::IImageRetainer<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
         ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
        >()
       .bind<
@@ -45,7 +44,30 @@ namespace SDF::Editor::DataLayer::Repositories {
         ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
        >()
       .bind<
-        Common::Model::ICrudRepository<
+        ModelLayer::AbstractData::IImageLoader<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+       >()
+      .bind<
+        ModelLayer::AbstractData::IImagePersister<
+          ModelLayer::DomainObjects::Engine::Gil::Any_Image
+        >,
+        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+       >()
+      .bind<
+        ModelLayer::AbstractData::IImageRetriever<
+          ModelLayer::DomainObjects::Engine::Gil::Any_Image
+        >,
+        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+       >()
+      .bind<
+        Common::Data::IOwningRetrievable<
+          Common::Handle,
+          ModelLayer::DomainObjects::Engine::Gil::Any_Image
+        >,
+        ImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+       >()
+      .bind<
+        Common::Data::IOwningCrudable<
           Common::Handle,
           ModelLayer::DomainObjects::Engine::Buffers::GridRendering
         >,
@@ -55,13 +77,13 @@ namespace SDF::Editor::DataLayer::Repositories {
         >
        >()
       .bind<
-        Common::Model::ICrudRepository<
+        Common::Data::ICrudable<
           Common::Handle,
-          ModelLayer::DomainObjects::State::DocumentViewState
+          ModelLayer::DomainObjects::State::SDocumentViewState
         >,
-        Common::Data::Repositories::MemoryOnlyRepository<
+        Common::Data::Repositories::MemoryOnlyValueRepository<
           Common::Handle,
-          ModelLayer::DomainObjects::State::DocumentViewState
+          ModelLayer::DomainObjects::State::SDocumentViewState
         >
        >();
   }

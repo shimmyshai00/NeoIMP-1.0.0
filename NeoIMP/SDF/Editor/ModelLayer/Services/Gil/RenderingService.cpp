@@ -160,8 +160,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   RenderingService::RenderingService(
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
       renderingRepository
   )
     : m_imageRepository(imageRepository),
@@ -174,15 +174,20 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   RenderingService::createStaticRendering(Common::Handle imageHandle) {
     using namespace DomainObjects;
 
-    Engine::Gil::Any_Image *image(m_imageRepository->getImage(imageHandle));
+    Engine::Gil::Any_Image *image(m_imageRepository->retrieve(imageHandle));
 
     Common::Handle renderingHandle(m_nextRenderingHandle++);
 
+    // NB: should modify to not need creating a new buffer every time
     std::unique_ptr<Engine::Buffers::GridRendering> resultRecv;
     Engine::Gil::Algorithm::Render render(&resultRecv);
     Engine::Gil::Algorithm::apply(render, *image);
 
-    m_renderingRepository->insert(renderingHandle, std::move(resultRecv));
+    if(m_renderingRepository->has(renderingHandle)) {
+      m_renderingRepository->deleteO(renderingHandle);
+    }
+
+    m_renderingRepository->create(renderingHandle, std::move(resultRecv));
 
     return renderingHandle;
   }
@@ -208,6 +213,6 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   void
   RenderingService::deleteRendering(Common::Handle renderHandle) {
-    m_renderingRepository->erase(renderHandle);
+    m_renderingRepository->deleteO(renderHandle);
   }
 }

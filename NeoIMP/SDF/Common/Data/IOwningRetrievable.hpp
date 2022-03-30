@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_IVALIDATIONRESULT_HPP
-#define SDF_COMMON_IVALIDATIONRESULT_HPP
+#ifndef SDF_COMMON_DATA_IOWNINGRETRIEVABLE_HPP
+#define SDF_COMMON_DATA_IOWNINGRETRIEVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IValidationResult.hpp
- * PURPOSE: Defines the IValidationResult interface.
+ * FILE:    IOwningRetrievable.hpp
+ * PURPOSE: Defines the IOwningRetrievable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IThrower.hpp"
-
-namespace SDF::Common {
-  // Class:      IValidationResult
-  // Purpose:    Represents the result of a validation operation.
-  // Parameters: None.
-  class IValidationResult : public IThrower {
+namespace SDF::Common::Data {
+  // Class:      IOwningRetrievable
+  // Purpose:    Defines the owning analogue of IRetrievable. Since such an object keeps a memory
+  //             copy, this provides access to the owned copy for consistency with IOwningCreatable.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IOwningRetrievable {
   public:
-    virtual ~IValidationResult() = default;
+    virtual ~IOwningRetrievable() = default;
 
-    // Function:   isValid
-    // Purpose:    Returns if the result of the validation was that the object was valid.
-    // Parameters: None.
-    // Returns:    Whether the object is valid or not, according to the validator.
-    virtual bool
-    isValid() const = 0;
+    // Function:   retrieve
+    // Purpose:    Retrieves data from the database.
+    // Parameters: key - The key to retrieve data from.
+    // Returns:    The object with the given key.
+    virtual ObjT *
+    retrieve(KeyT key) = 0;
   };
 }
 

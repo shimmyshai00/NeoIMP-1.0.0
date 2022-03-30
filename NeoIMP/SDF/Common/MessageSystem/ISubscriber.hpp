@@ -29,9 +29,6 @@
 #include <boost/uuid/uuid.hpp>
 
 namespace SDF::Common::MessageSystem {
-  template<class MessageT>
-  class IChannel;
-
   // Class:      ISubscriber
   // Purpose:    Defines an interface for a subscriber to channel messages.
   // Parameters: MessageT - The type of message communicated.
@@ -42,12 +39,10 @@ namespace SDF::Common::MessageSystem {
 
     // Function:   receiveMessage
     // Purpose:    Receive a message from the channel.
-    // Parameters: channel - The channel the message was received on.
-    //             senderUuid - The UUID of the sending object.
+    // Parameters: senderUuid - The UUID of the sending object.
     //             message - The message itself.
     virtual void
-    receiveMessage(const IChannel<MessageT> *channel,
-                   const boost::uuids::uuid senderUuid,
+    receiveMessage(const boost::uuids::uuid senderUuid,
                    const MessageT &message
                   ) = 0;
   };

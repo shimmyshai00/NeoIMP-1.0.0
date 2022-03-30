@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MODEL_IHASABLE_HPP
-#define SDF_COMMON_MODEL_IHASABLE_HPP
+#ifndef SDF_COMMON_DATA_IWRITABLE_HPP
+#define SDF_COMMON_DATA_IWRITABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IHasable.hpp
- * PURPOSE: Defines the IHasable interface.
+ * FILE:    IWritable.hpp
+ * PURPOSE: Defines the IWritable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::Model {
-  // Class:      IHasable
-  // Purpose:    Defines an interface for objects supporting the "has" operation of persistent
-  //             storage.
+#include "ICreatable.hpp"
+#include "IUpdatable.hpp"
+#include "IDeletable.hpp"
+
+namespace SDF::Common::Data {
+  // Class:      IWritable
+  // Purpose:    Defines an interface for objects that are writable.
   // Parameters: KeyT - The type of key into the database.
   //             ObjT - The type of object stored.
   template<class KeyT, class ObjT>
-  class IHasable {
-  public:
-    virtual ~IHasable() = default;
-
-    // Function:   has
-    // Purpose:    Queries the database to see if it contains an entry of the given key.
-    // Parameters: key - The key to check.
-    // Returns:    Whether this key was found.
-    virtual bool
-    has(KeyT key) = 0;
+  class IWritable : public ICreatable<KeyT, ObjT>,
+                    public IUpdatable<KeyT, ObjT>,
+                    public IDeletable<KeyT, ObjT>
+  {
   };
 }
 

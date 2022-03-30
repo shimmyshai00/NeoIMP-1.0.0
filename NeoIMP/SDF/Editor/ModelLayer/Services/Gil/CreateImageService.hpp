@@ -27,15 +27,15 @@
 #include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../../Common/MessageSystem/IChannel.hpp"
+#include "../../../../Common/MessageSystem/IMessageDispatcher.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../../Common/IUUIDable.hpp"
 #include "../../../../Common/IValidator.hpp"
 
-#include "../../AbstractData/IImageRepository.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../../AbstractData/IImageRetainer.hpp"
 
-#include "../Messages/Object.hpp"
+#include "../Messages/ObjectChanges.hpp"
 
 #include <boost/uuid/uuid.hpp>
 #include <fruit/fruit.h>
@@ -50,8 +50,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   {
   public:
     INJECT(CreateImageService(
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      Common::MessageSystem::IChannel<Messages::ImageAdded> *imageAddedMessageChannel
+      AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *imageStore,
+      Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *imageAddedMessageDispatcher
     ));
 
     boost::uuids::uuid
@@ -65,8 +65,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   private:
     boost::uuids::uuid m_uuid;
 
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    Common::MessageSystem::IChannel<Messages::ImageAdded> *m_imageAddedMessageChannel;
+    AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *m_imageStore;
+    Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *m_imageAddedMessageDispatcher;
 
     std::size_t m_nextNewDocumentNumber;
 

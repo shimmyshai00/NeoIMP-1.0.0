@@ -30,12 +30,12 @@ namespace SDF::Editor::ModelLayer::Services {
   getMessageComponent() {
     return fruit::createComponent()
       .bind<
-        Common::MessageSystem::IChannel<Messages::ImageAdded>,
-        Common::MessageSystem::AllToAll<Messages::ImageAdded>
+        Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded>,
+        Common::MessageSystem::AllToAll<Messages::SImageAdded>
        >()
       .bind<
-        Common::MessageSystem::IChannel<Messages::ImageRemoved>,
-        Common::MessageSystem::AllToAll<Messages::ImageRemoved>
+        Common::MessageSystem::IMessageDispatcher<Messages::SImageRemoved>,
+        Common::MessageSystem::AllToAll<Messages::SImageRemoved>
        >();
   }
 }

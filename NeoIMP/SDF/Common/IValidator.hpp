@@ -24,15 +24,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IValidationResult.hpp"
-
 #include <memory>
 
 namespace SDF::Common {
   // Class:      IValidator
   // Purpose:    Defines an interface for objects which validate others.
   // Parameters: ObjT - The type of object to validate.
-  template<class ObjT>
+  //             ReportT - The type of validation reports to return.
+  template<class ObjT, class ReportT>
   class IValidator {
   public:
     virtual ~IValidator() = default;
@@ -40,8 +39,20 @@ namespace SDF::Common {
     // Function:   validate
     // Purpose:    Validates an object.
     // Parameters: obj - The object to validate.
-    // Returns:    An object containing the validation information.
-    virtual std::shared_ptr<IValidationResult>
+    //             report - An optional pointer to a report object to receive extra information
+    //                      about the validation.
+    // Returns:    Whether the object is valid.
+    virtual bool
+    validate(const ObjT &obj, ReportT *report = nullptr) const = 0;
+  };
+
+  // Like the above, but returns no reports.
+  template<class ObjT>
+  class IValidator<ObjT, void> {
+  public:
+    virtual ~IValidator() = default;
+
+    virtual bool
     validate(const ObjT &obj) const = 0;
   };
 }

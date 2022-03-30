@@ -24,14 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Model/ICrudRepository.hpp"
+#include "../../../Common/Data/ICrudable.hpp"
+#include "../../../Common/ListenerMapContainer.hpp"
 #include "../../../Common/Handle.hpp"
 #include "../../UILayer/AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
-#include "../DomainObjects/State/DocumentViewState.hpp"
+#include "../DomainObjects/State/SDocumentViewState.hpp"
 
 #include <fruit/fruit.h>
 
@@ -49,8 +50,8 @@ namespace SDF::Editor::ModelLayer::Services {
   {
   public:
     INJECT(DocumentViewStateService(
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState> *
-        documentViewStateRepository
+      Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
+        documentViewStateCrudable
     ));
 
     Common::Handle
@@ -86,10 +87,10 @@ namespace SDF::Editor::ModelLayer::Services {
       std::shared_ptr<Common::IListener<float, float, float>> listener
     );
   private:
-    Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState> *
-      m_documentViewStateRepository;
+    Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
+      m_documentViewStateCrudable;
 
-    Common::Handle m_nextViewHandle;
+    Common::ListenerMapContainer<Common::Handle, float, float, float> m_listeners;
   };
 }
 

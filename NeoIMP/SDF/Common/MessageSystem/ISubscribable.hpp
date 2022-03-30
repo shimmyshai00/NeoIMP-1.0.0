@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
-#define SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
+#ifndef SDF_COMMON_MESSAGESYSTEM_ISUBSCRIBABLE_HPP
+#define SDF_COMMON_MESSAGESYSTEM_ISUBSCRIBABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPublisher.hpp
- * PURPOSE: Defines the IPublisher interface.
+ * FILE:    ISubscribable.hpp
+ * PURPOSE: Defines the ISubscribable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IUUIDable.hpp"
-#include "IMessageDispatcher.hpp"
-
-#include <boost/uuid/uuid.hpp>
+#include "../IConnection.hpp"
+#include "ISubscriber.hpp"
 
 namespace SDF::Common::MessageSystem {
-  // Class:      IPublisher
-  // Purpose:    Defines an interface for an object which publishes messages to a channel.
-  // Parameters: MessageT - The type of message published.
+  // Class:      ISubscribable
+  // Purpose:    Provides an interface for objects that can be subscribed to.
+  // Parameters: MessageT - The type of message handled.
   template<class MessageT>
-  class IPublisher : public IUUIDable {
+  class ISubscribable {
   public:
-    virtual ~IPublisher() = default;
+    virtual ~ISubscribable() = default;
 
-    // Function:   setDispatcher
-    // Purpose:    Sets the message dispatcher this publisher uses.
-    // Parameters: messageDispatcher - The message dispatcher to set.
-    // Returns:    None.
-    virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+    // Function:   subscribe
+    // Purpose:    Subscribes to messages published onto this channel.
+    // Parameters: subscriber - The object subscribing.
+    // Returns:    A connection handle for the subscription.
+    virtual PIConnection
+    subscribe(ISubscriber<MessageT> *subscriber) = 0;
   };
 }
 

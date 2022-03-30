@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IValueField.hpp"
+#include "IGettable.hpp"
+#include "ISettable.hpp"
+#include "IListenable.hpp"
 #include "IListener.hpp"
 #include "IConnection.hpp"
 
@@ -37,12 +39,24 @@ namespace SDF::Common {
   // Purpose:    Provides a default implementation of a segregated value-holding object.
   // Parameters: ValueT - The value type held.
   template<class ValueT>
-  class ValueField : public IValueField<ValueT> {
+  class ValueField : public IGettable<ValueT>,
+                     public ISettable<ValueT>,
+                     public IListenable<ValueT>
+  {
   public:
     // Function:   ValueField
     // Purpose:    Constructs a new value field with a given default value.
     // Parameters: def - The default value.
     ValueField(ValueT def);
+
+    // Function:   ValueField
+    // Purpose:    Copy constructor to avoid copying the listeners.
+    // Parameters: rhs - The object to copy.
+    ValueField(const ValueField<ValueT> &rhs);
+    ValueField(ValueField<ValueT> &&rhs);
+    ValueField<ValueT> &operator=(const ValueField<ValueT> &) = default;
+    ValueField<ValueT> &operator=(ValueField<ValueT> &&) = default;
+    virtual ~ValueField() {}
 
     const ValueT &
     get() const;

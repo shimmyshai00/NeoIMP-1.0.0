@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
-#define SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
+#ifndef SDF_COMMON_DATA_IREADABLE_HPP
+#define SDF_COMMON_DATA_IREADABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPublisher.hpp
- * PURPOSE: Defines the IPublisher interface.
+ * FILE:    IReadable.hpp
+ * PURPOSE: Defines the IReadable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IUUIDable.hpp"
-#include "IMessageDispatcher.hpp"
+#include "IHasable.hpp"
+#include "IRetrievable.hpp"
 
-#include <boost/uuid/uuid.hpp>
-
-namespace SDF::Common::MessageSystem {
-  // Class:      IPublisher
-  // Purpose:    Defines an interface for an object which publishes messages to a channel.
-  // Parameters: MessageT - The type of message published.
-  template<class MessageT>
-  class IPublisher : public IUUIDable {
-  public:
-    virtual ~IPublisher() = default;
-
-    // Function:   setDispatcher
-    // Purpose:    Sets the message dispatcher this publisher uses.
-    // Parameters: messageDispatcher - The message dispatcher to set.
-    // Returns:    None.
-    virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+namespace SDF::Common::Data {
+  // Class:      IReadable
+  // Purpose:    Defines an interface for objects that are readable and thus include only two of the
+  //             five hCRUD (+has) operations.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IReadable : public IHasable<KeyT, ObjT>,
+                    public IRetrievable<KeyT, ObjT>
+  {
   };
 }
 

@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MODEL_ICRUDREPOSITORY_HPP
-#define SDF_COMMON_MODEL_ICRUDREPOSITORY_HPP
+#ifndef SDF_COMMON_DATA_IRETRIEVABLE_HPP
+#define SDF_COMMON_DATA_IRETRIEVABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICrudRepository.hpp
- * PURPOSE: Defines the ICrudRepository interface.
+ * FILE:    IRetrievable.hpp
+ * PURPOSE: Defines the IRetrievable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,34 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <memory>
-
-namespace SDF::Common::Model {
-  // Class:      ICrudRepository
-  // Purpose:    Defines an interface for a simple "CRUD"-type repository that provides no special
-  //             queries and no special persistence controls. Note that this has an ownership
-  //             semantics.
-  // Parameters: KeyT - The type of database key accepted by this repository.
-  //             ObjT - The type of domain object held.
+namespace SDF::Common::Data {
+  // Class:      IRetrievable
+  // Purpose:    Defines an interface for objects supporting the "retrieve" operation of persistent
+  //             storage.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
   template<class KeyT, class ObjT>
-  class ICrudRepository {
+  class IRetrievable {
   public:
-    virtual ~ICrudRepository() = default;
+    virtual ~IRetrievable() = default;
 
-    virtual bool
-    has(KeyT key) = 0;
-
+    // Function:   retrieve
+    // Purpose:    Retrieves data from the database.
+    // Parameters: key - The key to retrieve data from.
+    //             obj - The object to hold the retrieved data.
+    // Returns:    None.
     virtual void
-    insert(KeyT key, std::unique_ptr<ObjT> obj) = 0;
-
-    virtual ObjT *
-    retrieve(KeyT key) = 0;
-
-    virtual void
-    update(KeyT key, ObjT& obj) = 0;
-
-    virtual void
-    erase(KeyT key) = 0;
+    retrieve(KeyT key, ObjT &obj) = 0;
   };
 }
 

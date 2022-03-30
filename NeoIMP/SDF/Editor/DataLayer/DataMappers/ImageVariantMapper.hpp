@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Data/Adapters/IFilesystemAdapter.hpp"
-#include "../../../Common/Data/IDataMapper.hpp"
+#include "../../../Common/Data/ICrudable.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
 
 #include <fruit/fruit.h>
@@ -33,10 +33,10 @@
 namespace SDF::Editor::DataLayer::DataMappers {
   // Class:      ImageVariantMapper
   // Purpose:    Defines a data mapper for mapping NeoIMP image variants.
-  // Parameters: PersisterT - The type of persister to use (allows changing file format).
+  // Parameters: FormatT - The traits/tag object for the format to deal in.
   //             ImageVariantT - The image variant type itself.
-  template<class PersisterT, class ImageVariantT>
-  class ImageVariantMapper : public Common::Data::IDataMapper<std::string, ImageVariantT> {
+  template<class FormatT, class ImageVariantT>
+  class ImageVariantMapper : public Common::Data::ICrudable<std::string, ImageVariantT> {
   public:
     // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
@@ -47,16 +47,16 @@ namespace SDF::Editor::DataLayer::DataMappers {
     has(std::string fileSpec);
 
     void
-    insert(std::string fileSpec, ImageVariantT &obj);
+    create(std::string fileSpec, const ImageVariantT &obj);
 
     void
     retrieve(std::string fileSpec, ImageVariantT &obj);
 
     void
-    update(std::string fileSpec, ImageVariantT &obj);
+    update(std::string fileSpec, const ImageVariantT &obj);
 
     void
-    erase(std::string fileSpec);
+    deleteO(std::string fileSpec);
   private:
     Common::Data::Adapters::IFilesystemAdapter *m_filesystemAdapter;
   };

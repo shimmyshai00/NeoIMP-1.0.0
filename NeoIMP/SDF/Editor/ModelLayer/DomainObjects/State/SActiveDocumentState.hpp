@@ -1,12 +1,13 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_MESSAGES_OBJECT_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_MESSAGES_OBJECT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SACTIVEDOCUMENTSTATE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SACTIVEDOCUMENTSTATE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Object.hpp
- * PURPOSE: Defines messages related to object creation and destruction.
+ * FILE:    SActiveDocumentState.hpp
+ * PURPOSE: Defines a struct giving the shared application state describing which document is active
+ *          for editing.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,20 +27,16 @@
 
 #include "../../../../Common/Handle.hpp"
 
-namespace SDF::Editor::ModelLayer::Services::Messages {
-  struct Object {
-    Common::Handle m_objectHandle;
+#include <fruit/fruit.h>
 
-    virtual ~Object() {}
+namespace SDF::Editor::ModelLayer::DomainObjects::State {
+  struct SActiveDocumentState {
+    Common::Handle activeDocumentHandle;
 
-    Object(Common::Handle objectHandle)
-      : m_objectHandle(objectHandle)
-    {
-    }
+    SActiveDocumentState()
+      : activeDocumentHandle(Common::HANDLE_INVALID)
+    {}
   };
-
-  struct ImageAdded : public Object { ImageAdded(Common::Handle h) : Object(h) {} };
-  struct ImageRemoved : public Object { ImageRemoved(Common::Handle h) : Object(h) {} };
 }
 
 #endif

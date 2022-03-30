@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Model/ICrudRepository.hpp"
-#include "../../../../Common/MessageSystem/IChannel.hpp"
+#include "../../../../Common/Data/IOwningCrudable.hpp"
+#include "../../../../Common/MessageSystem/IMessageDispatcher.hpp"
 #include "../../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../../UILayer/AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
@@ -36,20 +36,26 @@
 #include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../../AbstractData/IImageRepository.hpp"
+#include "../../AbstractData/IImageRetainer.hpp"
+#include "../../AbstractData/IImageLoader.hpp"
+#include "../../AbstractData/IImagePersister.hpp"
+#include "../../AbstractData/IImageRetriever.hpp"
 #include "../../AbstractData/IImageFileInfoRequester.hpp"
-#include "../Messages/Object.hpp"
+#include "../Messages/ObjectChanges.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   typedef fruit::Component<
     fruit::Required<
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image>,
       AbstractData::IImageFileInfoRequester<DomainObjects::Engine::Gil::Any_Image>,
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::MessageSystem::IChannel<Messages::ImageAdded>,
-      Common::MessageSystem::IChannel<Messages::ImageRemoved>
+      Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
+      Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded>,
+      Common::MessageSystem::IMessageDispatcher<Messages::SImageRemoved>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

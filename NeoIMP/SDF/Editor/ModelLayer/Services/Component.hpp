@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Model/ICrudRepository.hpp"
-#include "../../../Common/MessageSystem/IChannel.hpp"
+#include "../../../Common/Data/IOwningCrudable.hpp"
+#include "../../../Common/Data/ICrudable.hpp"
 #include "../../UILayer/AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../UILayer/AbstractModel/Create/ICreateDocumentService.hpp"
 #include "../../UILayer/AbstractModel/Create/IGetDocumentPrefabService.hpp"
@@ -46,20 +46,26 @@
 #include "../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../DomainObjects/State/DocumentViewState.hpp"
-#include "../AbstractData/IImageRepository.hpp"
+#include "../DomainObjects/State/SDocumentViewState.hpp"
+#include "../AbstractData/IImageRetainer.hpp"
+#include "../AbstractData/IImageLoader.hpp"
+#include "../AbstractData/IImagePersister.hpp"
+#include "../AbstractData/IImageRetriever.hpp"
 #include "../AbstractData/IImageFileInfoRequester.hpp"
-#include "Messages/Object.hpp"
+#include "Messages/ObjectChanges.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer::Services {
   typedef fruit::Component<
     fruit::Required<
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image>,
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image>,
       AbstractData::IImageFileInfoRequester<DomainObjects::Engine::Gil::Any_Image>,
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState>
+      Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
+      Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

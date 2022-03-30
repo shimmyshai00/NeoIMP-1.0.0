@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Data/IDataMapper.hpp"
+#include "../../../../Common/Data/ICrudable.hpp"
 #include "../../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../Repositories/Formats.hpp"
 
@@ -34,14 +34,14 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil {
   typedef fruit::Component<
     fruit::Annotated<
       Repositories::Formats::PNG,
-      Common::Data::IDataMapper<
+      Common::Data::ICrudable<
         std::string,
         ModelLayer::DomainObjects::Engine::Gil::RGB24_888_Image
       >
     >,
     fruit::Annotated<
       Repositories::Formats::PNG,
-      Common::Data::IDataMapper<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+      Common::Data::ICrudable<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
     >
   > Component;
 

@@ -28,14 +28,14 @@
 #include "../../../Error/SafeString.hpp"
 #include "Exceptions.hpp"
 #include "applyPersister.hpp"
-#include "EDirection.hpp"
+#include "applyLoader.hpp"
 
 #include <boost/mp11/list.hpp>
 
 namespace SDF::Editor::DataLayer::DataMappers {
   namespace Impl {
     // The trick described later
-    template<class PersisterT, class ImageVariantT>
+    template<class FormatT, class ImageVariantT>
     struct InverseValidateAndCreate {
       std::string m_fileName;
       ImageVariantT *m_variant;
@@ -47,11 +47,11 @@ namespace SDF::Editor::DataLayer::DataMappers {
 
       template<class ImplSpecT>
       bool apply() {
-        typename PersisterT::validator_t validator(m_fileName);
+        typename FormatT::validator_t validator(m_fileName);
         if(validator.template apply<ImplSpecT>()) {
-          PersisterT pers(m_fileName, DIR_LOAD);
+          typename FormatT::loader_t loader(m_fileName);
           auto im = ModelLayer::DomainObjects::Engine::Image<ImplSpecT>();
-          applyPersister(pers, im);
+          applyLoader(loader, im);
           (*m_variant) = std::move(im);
           return true;
         } else {
@@ -61,36 +61,39 @@ namespace SDF::Editor::DataLayer::DataMappers {
     };
   }
 
-  template<class PersisterT, class ImageVariantT>
-  ImageVariantMapper<PersisterT, ImageVariantT>::ImageVariantMapper(
+  template<class FormatT, class ImageVariantT>
+  ImageVariantMapper<FormatT, ImageVariantT>::ImageVariantMapper(
     Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter
   )
     : m_filesystemAdapter(filesystemAdapter)
   {
   }
 
-  template<class PersisterT, class ImageVariantT>
+  template<class FormatT, class ImageVariantT>
   bool
-  ImageVariantMapper<PersisterT, ImageVariantT>::has(std::string fileSpec) {
+  ImageVariantMapper<FormatT, ImageVariantT>::has(std::string fileSpec) {
     Common::Data::Adapters::FilesystemKey fsk(fileSpec, 0, 0);
     return m_filesystemAdapter->exist(fsk);
   }
 
-  template<class PersisterT, class ImageVariantT>
+  template<class FormatT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::insert(std::string fileSpec, ImageVariantT &obj) {
+  ImageVariantMapper<FormatT, ImageVariantT>::create(
+    std::string fileSpec,
+    const ImageVariantT &obj)
+  {
     if(has(fileSpec)) {
       throw Error::ObjectAlreadyExistsException<Error::SafeString>(fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
-    PersisterT persister(fileSpec, DIR_SAVE);
+    typename FormatT::persister_t persister(fileSpec);
     applyPersister(persister, obj);
   }
 
-  template<class PersisterT, class ImageVariantT>
+  template<class FormatT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::retrieve(std::string fileSpec, ImageVariantT &obj)
+  ImageVariantMapper<FormatT, ImageVariantT>::retrieve(std::string fileSpec, ImageVariantT &obj)
   {
     // Note: In this case, it is quite different to when we have a known buffer. Here, we are faced
     // with a presumably empty variant. We must figure the appropriate image type from the file
@@ -101,28 +104,31 @@ namespace SDF::Editor::DataLayer::DataMappers {
       throw Error::FileNotFoundException(fileSpec.c_str());
     }
 
-    Impl::InverseValidateAndCreate<PersisterT, ImageVariantT> ivac(fileSpec, &obj);
-    if(!inverseApply<Impl::InverseValidateAndCreate<PersisterT, ImageVariantT>, ImageVariantT>(
+    Impl::InverseValidateAndCreate<FormatT, ImageVariantT> ivac(fileSpec, &obj);
+    if(!inverseApply<Impl::InverseValidateAndCreate<FormatT, ImageVariantT>, ImageVariantT>(
       ivac)) {
       throw UnsupportedSubFormatException(fileSpec.c_str());
     }
   }
 
-  template<class PersisterT, class ImageVariantT>
+  template<class FormatT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::update(std::string fileSpec, ImageVariantT &obj) {
+  ImageVariantMapper<FormatT, ImageVariantT>::update(
+    std::string fileSpec,
+    const ImageVariantT &obj
+  ) {
     if(!has(fileSpec)) {
       throw Error::ObjectNotFoundException<Error::SafeString>(fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
-    PersisterT persister(fileSpec, DIR_SAVE);
+    typename FormatT::persister_t persister(fileSpec);
     applyPersister(persister, obj);
   }
 
-  template<class PersisterT, class ImageVariantT>
+  template<class FormatT, class ImageVariantT>
   void
-  ImageVariantMapper<PersisterT, ImageVariantT>::erase(std::string fileSpec) {
+  ImageVariantMapper<FormatT, ImageVariantT>::deleteO(std::string fileSpec) {
     throw "NOT YET IMPLEMENTED";
   }
 }

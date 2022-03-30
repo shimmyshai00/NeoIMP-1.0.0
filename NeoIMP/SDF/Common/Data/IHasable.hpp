@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
-#define SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
+#ifndef SDF_COMMON_DATA_IHASABLE_HPP
+#define SDF_COMMON_DATA_IHASABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPublisher.hpp
- * PURPOSE: Defines the IPublisher interface.
+ * FILE:    IHasable.hpp
+ * PURPOSE: Defines the IHasable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IUUIDable.hpp"
-#include "IMessageDispatcher.hpp"
-
-#include <boost/uuid/uuid.hpp>
-
-namespace SDF::Common::MessageSystem {
-  // Class:      IPublisher
-  // Purpose:    Defines an interface for an object which publishes messages to a channel.
-  // Parameters: MessageT - The type of message published.
-  template<class MessageT>
-  class IPublisher : public IUUIDable {
+namespace SDF::Common::Data {
+  // Class:      IHasable
+  // Purpose:    Defines an interface for objects supporting the "has" operation of persistent
+  //             storage.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IHasable {
   public:
-    virtual ~IPublisher() = default;
+    virtual ~IHasable() = default;
 
-    // Function:   setDispatcher
-    // Purpose:    Sets the message dispatcher this publisher uses.
-    // Parameters: messageDispatcher - The message dispatcher to set.
-    // Returns:    None.
-    virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+    // Function:   has
+    // Purpose:    Queries the database to see if it contains an entry of the given key.
+    // Parameters: key - The key to check.
+    // Returns:    Whether this key was found.
+    virtual bool
+    has(KeyT key) = 0;
   };
 }
 

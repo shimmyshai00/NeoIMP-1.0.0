@@ -25,29 +25,11 @@
 
 
 namespace SDF::Editor::ModelLayer::Services {
-  namespace Impl {
-    class WrappedListener : public Common::IListener<DomainObjects::State::ViewCoordinates> {
-    public:
-      WrappedListener(std::shared_ptr<Common::IListener<float, float, float>> callLis)
-        : m_callLis(callLis)
-      {
-      }
-
-      void
-      notify(DomainObjects::State::ViewCoordinates args) {
-        m_callLis->notify(args.m_viewPosX, args.m_viewPosY, args.m_viewMagnification);
-      }
-    private:
-      std::shared_ptr<Common::IListener<float, float, float>> m_callLis;
-    };
-  }
-
   DocumentViewStateService::DocumentViewStateService(
-    Common::Model::ICrudRepository<Common::Handle, DomainObjects::State::DocumentViewState> *
-      documentViewStateRepository
+    Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
+      documentViewStateCrudable
   )
-    : m_documentViewStateRepository(documentViewStateRepository),
-      m_nextViewHandle(0)
+    : m_documentViewStateCrudable(documentViewStateCrudable)
   {
   }
 
@@ -58,77 +40,88 @@ namespace SDF::Editor::ModelLayer::Services {
     float anchorY,
     float anchorMag
   ) {
-    Common::Handle rv(m_nextViewHandle++);
+    Common::Handle viewHandle(0);
+    while(m_documentViewStateCrudable->has(viewHandle)) {
+      ++viewHandle;
+    }
 
-    auto state = std::make_unique<DomainObjects::State::DocumentViewState>(anchorX, anchorY,
-      anchorMag);
-    m_documentViewStateRepository->insert(rv, std::move(state));
+    auto state = DomainObjects::State::SDocumentViewState(anchorX, anchorY, anchorMag);
+    m_documentViewStateCrudable->create(viewHandle, state);
 
-    return rv;
+    return viewHandle;
   }
 
   float
   DocumentViewStateService::getViewingPointX(Common::Handle viewHandle) const {
-    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosX;
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+
+    return dvs.viewPosX;
   }
 
   float
   DocumentViewStateService::getViewingPointY(Common::Handle viewHandle) const {
-    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewPosY;
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+
+    return dvs.viewPosY;
   }
 
   float
   DocumentViewStateService::getViewingPointMagnification(Common::Handle viewHandle) const {
-    return m_documentViewStateRepository->retrieve(viewHandle)->get().m_viewMagnification;
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+
+    return dvs.viewMagnification;
   }
 
   void
   DocumentViewStateService::setViewingPointX(Common::Handle viewHandle, float x) {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto val = p->get();
-    val.m_viewPosX = x;
-    p->set(val);
-    m_documentViewStateRepository->update(viewHandle, *p);
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+    dvs.viewPosX = x;
+    m_documentViewStateCrudable->update(viewHandle, dvs);
+    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
   DocumentViewStateService::setViewingPointY(Common::Handle viewHandle, float y) {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto val = p->get();
-    val.m_viewPosY = y;
-    p->set(val);
-    m_documentViewStateRepository->update(viewHandle, *p);
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+    dvs.viewPosY = y;
+    m_documentViewStateCrudable->update(viewHandle, dvs);
+    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
   DocumentViewStateService::setViewingPointMagnification(Common::Handle viewHandle, float mag) {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto val = p->get();
-    val.m_viewMagnification = mag;
-    p->set(val);
-    m_documentViewStateRepository->update(viewHandle, *p);
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+    dvs.viewMagnification = mag;
+    m_documentViewStateCrudable->update(viewHandle, dvs);
+    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
   DocumentViewStateService::setViewingPointPos(Common::Handle viewHandle, float x, float y) {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto val = p->get();
-    val.m_viewPosX = x;
-    val.m_viewPosY = y;
-    p->set(val);
-    m_documentViewStateRepository->update(viewHandle, *p);
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+    dvs.viewPosX = x;
+    dvs.viewPosY = y;
+    m_documentViewStateCrudable->update(viewHandle, dvs);
+    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
   DocumentViewStateService::setViewingPoint(Common::Handle viewHandle, float x, float y, float mag)
   {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto val = p->get();
-    val.m_viewPosX = x;
-    val.m_viewPosY = y;
-    val.m_viewMagnification = mag;
-    p->set(val);
-    m_documentViewStateRepository->update(viewHandle, *p);
+    DomainObjects::State::SDocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+    dvs.viewPosX = x;
+    dvs.viewPosY = y;
+    dvs.viewMagnification = mag;
+    m_documentViewStateCrudable->update(viewHandle, dvs);
+    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   Common::PIConnection
@@ -136,8 +129,6 @@ namespace SDF::Editor::ModelLayer::Services {
     Common::Handle viewHandle,
     std::shared_ptr<Common::IListener<float, float, float>> listener
   ) {
-    auto p = m_documentViewStateRepository->retrieve(viewHandle);
-    auto wrappedListener = std::make_shared<Impl::WrappedListener>(listener);
-    return p->addListener(wrappedListener);
+    return m_listeners.addListener(viewHandle, listener);
   }
 }

@@ -24,12 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Common/Model/ICrudRepository.hpp"
+#include "../../../../Common/Data/IOwningCrudable.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../../AbstractData/IImageRepository.hpp"
+#include "../../AbstractData/IImageRetriever.hpp"
 #include <fruit/fruit.h>
 
 #include <map>
@@ -41,8 +41,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class RenderingService : public UILayer::AbstractModel::Viewing::IRenderingService {
   public:
     INJECT(RenderingService(
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-      Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+      Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>
         *renderingRepository
     ));
 
@@ -61,8 +61,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     deleteRendering(Common::Handle renderHandle);
   private:
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
-    Common::Model::ICrudRepository<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
       m_renderingRepository;
 
     Common::Handle m_nextRenderingHandle;

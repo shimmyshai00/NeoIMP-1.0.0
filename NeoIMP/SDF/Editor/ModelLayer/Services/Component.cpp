@@ -23,7 +23,7 @@
 #include "Component.hpp"
 
 #include "../../../Common/MessageSystem/AllToAll.hpp"
-#include "Messages/Object.hpp"
+#include "Messages/ObjectChanges.hpp"
 
 #include "Gil/Component.hpp"
 #include "UnitConversionService.hpp"

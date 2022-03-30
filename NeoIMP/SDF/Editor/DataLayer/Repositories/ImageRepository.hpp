@@ -24,10 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Data/IDataMapper.hpp"
+#include "../../../Common/Data/ICrudable.hpp"
 #include "../../../Common/Handle.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
-#include "../../ModelLayer/AbstractData/IImageRepository.hpp"
+#include "../../ModelLayer/AbstractData/IImageRetainer.hpp"
+#include "../../ModelLayer/AbstractData/IImageLoader.hpp"
+#include "../../ModelLayer/AbstractData/IImageRetriever.hpp"
+#include "../../ModelLayer/AbstractData/IImagePersister.hpp"
 #include "../../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
 #include "Formats.hpp"
 
@@ -39,25 +42,22 @@ namespace SDF::Editor::DataLayer::Repositories {
   // Purpose:    Implements the IImageRepository interface.
   // Parameters: ImageT - The supported image type.
   template<class ImageT>
-  class ImageRepository : public ModelLayer::AbstractData::IImageRepository<ImageT>,
+  class ImageRepository : public ModelLayer::AbstractData::IImageRetainer<ImageT>,
+                          public ModelLayer::AbstractData::IImageLoader<ImageT>,
+                          public ModelLayer::AbstractData::IImageRetriever<ImageT>,
+                          public ModelLayer::AbstractData::IImagePersister<ImageT>,
                           public ModelLayer::AbstractData::IImageFileInfoRequester<ImageT>
   {
   public:
     INJECT(ImageRepository(
-      ANNOTATED(Formats::PNG, Common::Data::IDataMapper<std::string, ImageT> *) pngImageMapper
+      ANNOTATED(Formats::PNG, Common::Data::ICrudable<std::string, ImageT> *) pngImageMapper
     ));
 
-    ImageT *
-    getImage(Common::Handle id);
-
     Common::Handle
-    insertImageAtNextAvailable(std::unique_ptr<ImageT> image);
+    retainImageAtAutoID(std::unique_ptr<ImageT> image);
 
-    void
-    insertImage(Common::Handle id, std::unique_ptr<ImageT> image);
-
-    void
-    persistImage(Common::Handle id);
+    ImageT *
+    retrieve(Common::Handle id);
 
     Common::Handle
     loadImageFromFile(std::string fileSpec, ModelLayer::AbstractData::EFormat fileFormat);
@@ -69,6 +69,9 @@ namespace SDF::Editor::DataLayer::Repositories {
       ModelLayer::AbstractData::EFormat fileFormat
     );
 
+    void
+    persistImage(Common::Handle id);
+
     bool
     hasAssociatedFile(Common::Handle id) const;
 
@@ -78,7 +81,7 @@ namespace SDF::Editor::DataLayer::Repositories {
     ModelLayer::AbstractData::EFormat
     getFileFormatById(Common::Handle id) const;
   private:
-    Common::Data::IDataMapper<std::string, ImageT> *m_pngImageMapper;
+    Common::Data::ICrudable<std::string, ImageT> *m_pngImageMapper;
 
     std::map<Common::Handle, std::unique_ptr<ImageT>> m_imageMap;
     std::map<Common::Handle, std::string> m_fileSpecMap;

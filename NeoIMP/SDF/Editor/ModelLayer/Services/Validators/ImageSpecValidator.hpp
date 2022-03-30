@@ -25,18 +25,58 @@
  */
 
 #include "../../../../Common/IValidator.hpp"
-#include "../../../../Common/IValidationResult.hpp"
 
 #include "../../../UILayer/AbstractModel/Defs/ImageSpec.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Validators {
+  struct SImageSpecValidationReport {
+    bool isWidthValid;
+    bool isWidthUnitValid;
+    bool isHeightValid;
+    bool isHeightUnitValid;
+    bool isResolutionValid;
+    bool isResolutionUnitValid;
+    bool isColorFormatValid;
+
+    SImageSpecValidationReport()
+      : isWidthValid(false),
+        isWidthUnitValid(false),
+        isHeightValid(false),
+        isHeightUnitValid(false),
+        isResolutionValid(false),
+        isResolutionUnitValid(false),
+        isColorFormatValid(false)
+    {
+    }
+
+    std::string describeProblem() {
+      std::string problemStr;
+      if(!isWidthValid) problemStr += "width ";
+      if(!isWidthUnitValid) problemStr += "width unit ";
+      if(!isHeightValid) problemStr += "height ";
+      if(!isHeightUnitValid) problemStr += "height unit ";
+      if(!isResolutionValid) problemStr += "resolution ";
+      if(!isResolutionUnitValid) problemStr += "resolution unit ";
+      if(!isColorFormatValid) problemStr += "color format ";
+
+      return problemStr;
+    }
+  };
+
   // Class:      ImageSpecValidator
   // Purpose:    Validates an image spec.
   // Parameters: None.
-  class ImageSpecValidator : public Common::IValidator<UILayer::AbstractModel::Defs::ImageSpec> {
+  class ImageSpecValidator : public Common::IValidator<
+                              UILayer::AbstractModel::Defs::ImageSpec,
+                              SImageSpecValidationReport
+                             >
+  {
   public:
-    std::shared_ptr<Common::IValidationResult>
-    validate(const UILayer::AbstractModel::Defs::ImageSpec &obj) const;
+    bool
+    validate(
+      const UILayer::AbstractModel::Defs::ImageSpec &obj,
+      SImageSpecValidationReport *report = nullptr
+    ) const;
   };
 }
 

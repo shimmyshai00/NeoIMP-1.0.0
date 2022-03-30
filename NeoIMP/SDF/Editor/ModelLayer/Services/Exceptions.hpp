@@ -26,6 +26,7 @@
 
 #include "../../../Error/Exception.hpp"
 #include "../../../Error/ModelException.hpp"
+#include "Validators/ImageSpecValidator.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   class ServiceException : public Error::LikelyBug<Error::ModelException> {};
@@ -47,6 +48,12 @@ namespace SDF::Editor::ModelLayer::Services {
   struct IncompatiblePixelFormatsException : public ServiceException {
     IncompatiblePixelFormatsException() {
       whatPrintf("Tried to convert between two incompatible pixel formats.");
+    }
+  };
+
+  struct BadDocumentSpecException : public ServiceException {
+    BadDocumentSpecException(Validators::SImageSpecValidationReport &validationReport) {
+      whatPrintf("Passed document spec was bad. Problems: %s", validationReport.describeProblem());
     }
   };
 }

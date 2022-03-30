@@ -24,43 +24,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::MessageSystem::Impl {
-  template<class MessageT>
-  class Connection : public IConnection {
-  public:
-    Connection(std::map<boost::uuids::uuid, ISubscriber<MessageT> *> *subscriberMap,
-               std::map<boost::uuids::uuid, std::function<bool (const MessageT &)>> *filterMap,
-               ISubscriber<MessageT> *subscriber,
-               std::function<bool (const MessageT &)> filter
-              )
-      : m_subscriberMap(subscriberMap),
-        m_filterMap(filterMap),
-        m_subscriber(subscriber),
-        m_filter(filter)
-    {
-    }
-
-    void
-    connect() {
-      if(m_subscriberMap->find(m_subscriber->getUuid()) == m_subscriberMap->end()) {
-        (*m_subscriberMap)[m_subscriber->getUuid()] = m_subscriber;
-        (*m_filterMap)[m_subscriber->getUuid()] = m_filter;
-      }
-    }
-
-    void
-    disconnect() {
-      m_subscriberMap->erase(m_subscriber->getUuid());
-      m_filterMap->erase(m_subscriber->getUuid());
-    }
-  private:
-    std::map<boost::uuids::uuid, ISubscriber<MessageT> *> *m_subscriberMap;
-    std::map<boost::uuids::uuid, std::function<bool (const MessageT &)>> *m_filterMap;
-    ISubscriber<MessageT> *m_subscriber;
-    std::function<bool (const MessageT &)> m_filter;
-  };
-}
-
 namespace SDF::Common::MessageSystem {
   template<class MessageT>
   AllToAll<MessageT>::AllToAll() {
@@ -68,27 +31,15 @@ namespace SDF::Common::MessageSystem {
 
   template<class MessageT>
   void
-  AllToAll<MessageT>::publishMessage(boost::uuids::uuid senderUuid,
-                                     const MessageT &message
-                                    )
+  AllToAll<MessageT>::dispatchMessage(boost::uuids::uuid senderUuid,
+                                      const MessageT &message
+                                     )
   {
-    for(const auto &kvp : m_subscribers) {
+    this->forEachSubscriber([&](auto kvp) {
       if(kvp.first != senderUuid) {
-        if(m_filters[kvp.first](message)) {
-          kvp.second->receiveMessage(this, senderUuid, message);
-        }
+        kvp.second->receiveMessage(senderUuid, message);
       }
-    }
-  }
-
-  template<class MessageT>
-  PIConnection
-  AllToAll<MessageT>::subscribe(ISubscriber<MessageT> *subscriber,
-                                std::function<bool (const MessageT &)> filter
-                               )
-  {
-    return PIConnection(new Impl::Connection<MessageT>(&m_subscribers, &m_filters, subscriber,
-      filter));
+    });
   }
 }
 

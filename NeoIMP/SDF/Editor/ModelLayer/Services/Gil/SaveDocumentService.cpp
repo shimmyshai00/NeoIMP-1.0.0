@@ -25,7 +25,7 @@
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   SaveDocumentService::SaveDocumentService(
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository)
   {

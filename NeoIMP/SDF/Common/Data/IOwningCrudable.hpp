@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MODEL_IUPDATABLE_HPP
-#define SDF_COMMON_MODEL_IUPDATABLE_HPP
+#ifndef SDF_COMMON_DATA_IOWNINGCRUDABLE_HPP
+#define SDF_COMMON_DATA_IOWNINGCRUDABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUpdatable.hpp
- * PURPOSE: Defines the IUpdatable interface.
+ * FILE:    IOwningCrudable.hpp
+ * PURPOSE: Defines the IOwningCrudable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::Model {
-  // Class:      IUpdatable
-  // Purpose:    Defines an interface for objects supporting the "update" operation of persistent
-  //             storage.
+#include "IOwningReadable.hpp"
+#include "IOwningWritable.hpp"
+
+namespace SDF::Common::Data {
+  // Class:      IOwningCrudable
+  // Purpose:    Defines an interface for CRUD objects that take ownership.
   // Parameters: KeyT - The type of key into the database.
   //             ObjT - The type of object stored.
   template<class KeyT, class ObjT>
-  class IUpdatable {
-  public:
-    virtual ~IUpdatable() = default;
-
-    // Function:   update
-    // Purpose:    Updates an entry in the database.
-    // Parameters: key - The key to emplace data into.
-    //             obj - The object to emplace into the entry under that key.
-    // Returns:    None.
-    virtual void
-    update(KeyT key, const ObjT &obj) = 0;
+  class IOwningCrudable : public IOwningReadable<KeyT, ObjT>,
+                          public IOwningWritable<KeyT, ObjT>
+  {
   };
 }
 

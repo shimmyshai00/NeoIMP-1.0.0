@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_EDIRECTION_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_EDIRECTION_HPP
+#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_IIMAGRETRIEVER_HPP
+#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_IIMAGRETRIEVER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EDirection.hpp
- * PURPOSE: Enumerates the directions of data movement.
+ * FILE:    IImageRetriever.hpp
+ * PURPOSE: Defines the IImageRetriever interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::DataLayer::DataMappers {
-  enum EDirection {
-    DIR_SAVE,
-    DIR_LOAD
+#include "../../../Common/Data/IOwningRetrievable.hpp"
+#include "../../../Common/Handle.hpp"
+
+#include <memory>
+
+namespace SDF::Editor::ModelLayer::AbstractData {
+  // Class:      IImageRetriever
+  // Purpose:    A convenience interface to specialize Common::Data::IOwningRetrievable for the
+  //             image repository.
+  // Parameters: ImageT - The image type.
+  template<class ImageT>
+  class IImageRetriever : public Common::Data::IOwningRetrievable<Common::Handle, ImageT>
+  {
   };
 }
 

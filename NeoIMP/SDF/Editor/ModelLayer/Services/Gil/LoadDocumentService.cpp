@@ -30,9 +30,11 @@
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   LoadDocumentService::LoadDocumentService(
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *imageLoader,
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRetriever
   )
-    : m_imageRepository(imageRepository)
+    : m_imageLoader(imageLoader),
+      m_imageRetriever(imageRetriever)
   {
   }
 
@@ -47,11 +49,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     AbstractData::EFormat dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
 
-    Common::Handle rv(m_imageRepository->loadImageFromFile(fileSpec, dataLayerFormat));
+    Common::Handle rv(m_imageLoader->loadImageFromFile(fileSpec, dataLayerFormat));
 
     // Name the image after its filename. NB: should this go in this layer?
     std::string name(std::filesystem::path(fileSpec).filename());
-    m_imageRepository->getImage(rv)->setName(name);
+    m_imageRetriever->retrieve(rv)->setName(name);
 
     return rv;
   }

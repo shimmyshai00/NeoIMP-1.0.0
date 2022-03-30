@@ -33,6 +33,7 @@
 #include "../../Metrics/LengthConvertible.hpp"
 #include "../../Metrics/ResolutionConvertible.hpp"
 #include "../Validators/ImageSpecValidator.hpp"
+#include "../Exceptions.hpp"
 #include "uiPixelToGilPixel.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
@@ -53,12 +54,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   CreateImageService::CreateImageService(
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
-    Common::MessageSystem::IChannel<Messages::ImageAdded> *imageAddedMessageChannel
+    AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *imageStore,
+    Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *imageAddedMessageDispatcher
   )
     : m_uuid(boost::uuids::random_generator()()),
-      m_imageRepository(imageRepository),
-      m_imageAddedMessageChannel(imageAddedMessageChannel),
+      m_imageStore(imageStore),
+      m_imageAddedMessageDispatcher(imageAddedMessageDispatcher),
       m_nextNewDocumentNumber(1)
   {
   }
@@ -79,8 +80,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     // Input validation.
     Validators::ImageSpecValidator val;
-    auto result = val.validate(spec);
-    if(result->isValid()) {
+    Validators::SImageSpecValidationReport report;
+    if(val.validate(spec, &report)) {
       // Convert the dimensions to pixels.
       LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
       LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
@@ -97,7 +98,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       }
     } else {
       // Bad spec given!
-      result->throwFrom();
+      throw BadDocumentSpecException(report);
     }
   }
 
@@ -110,8 +111,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     // Input validation.
     Validators::ImageSpecValidator val;
-    auto result = val.validate(spec);
-    if(result->isValid()) {
+    Validators::SImageSpecValidationReport report;
+    if(val.validate(spec, &report)) {
       // What type to use depends on the color format.
       std::unique_ptr<Engine::Gil::Any_Image> image;
       if(spec.colorFormat == COLOR_FMT_RGB24_888) {
@@ -120,17 +121,17 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         throw "NOT YET IMPLEMENTED";
       }
 
-      Common::Handle rv(m_imageRepository->insertImageAtNextAvailable(std::move(image)));
+      Common::Handle rv(m_imageStore->retainImageAtAutoID(std::move(image)));
 
-      Messages::ImageAdded msg(rv);
-      m_imageAddedMessageChannel->publishMessage(getUuid(), msg);
+      Messages::SImageAdded msg(rv);
+      m_imageAddedMessageDispatcher->dispatchMessage(getUuid(), msg);
 
       ++m_nextNewDocumentNumber;
 
       return rv;
     } else {
       // Worthless spec. Throw an exception
-      result->throwFrom();
+      throw BadDocumentSpecException(report);
     }
   }
 }

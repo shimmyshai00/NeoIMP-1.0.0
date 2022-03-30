@@ -31,7 +31,7 @@
 #include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
 #include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../AbstractData/IImageRepository.hpp"
+#include "../../AbstractData/IImageRetriever.hpp"
 
 #include <fruit/fruit.h>
 
@@ -46,7 +46,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   {
   public:
     INJECT(GetDocumentInfoService(
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     std::string
@@ -67,7 +67,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     UILayer::AbstractModel::Defs::Color::EColorFormat
     getColorFormatOf(Common::Handle documentHandle) const;
   private:
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
+
 #endif

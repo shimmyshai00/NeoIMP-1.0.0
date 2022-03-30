@@ -28,7 +28,7 @@
 #include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../AbstractData/IImageRepository.hpp"
+#include "../../AbstractData/IImagePersister.hpp"
 
 #include <fruit/fruit.h>
 
@@ -41,7 +41,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class SaveDocumentService : public UILayer::AbstractModel::Storage::ISaveDocumentService {
   public:
     INJECT(SaveDocumentService(
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *imageRepository
     ));
 
     void
@@ -51,7 +51,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       UILayer::AbstractModel::Defs::EFileFormat fileFormat
     );
   private:
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };
 }
 

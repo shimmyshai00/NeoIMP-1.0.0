@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
-#define SDF_COMMON_MESSAGESYSTEM_IPUBLISHER_HPP
+#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_IIMAGERETAINER_HPP
+#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_IIMAGERETAINER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IPublisher.hpp
- * PURPOSE: Defines the IPublisher interface.
+ * FILE:    IImageRetainer.hpp
+ * PURPOSE: Defines the IImageRetainer interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IUUIDable.hpp"
-#include "IMessageDispatcher.hpp"
+#include "../../../Common/Handle.hpp"
 
-#include <boost/uuid/uuid.hpp>
+#include <memory>
 
-namespace SDF::Common::MessageSystem {
-  // Class:      IPublisher
-  // Purpose:    Defines an interface for an object which publishes messages to a channel.
-  // Parameters: MessageT - The type of message published.
-  template<class MessageT>
-  class IPublisher : public IUUIDable {
+namespace SDF::Editor::ModelLayer::AbstractData {
+  // Class:      IImageRetainer
+  // Purpose:    Defines an interface to store images created in the model layer.
+  // Parameters: ImageT - The image type.
+  template<class ImageT>
+  class IImageRetainer {
   public:
-    virtual ~IPublisher() = default;
+    virtual ~IImageRetainer() = default;
 
-    // Function:   setDispatcher
-    // Purpose:    Sets the message dispatcher this publisher uses.
-    // Parameters: messageDispatcher - The message dispatcher to set.
-    // Returns:    None.
-    virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+    // Function:   retainImageAtAutoID
+    // Purpose:    Eat an image and store it in the repository at the next available ID.
+    // Parameters: image - The image to store.
+    // Returns:    The ID where the image is stored at.
+    virtual Common::Handle
+    retainImageAtAutoID(std::unique_ptr<ImageT> image) = 0;
   };
 }
 

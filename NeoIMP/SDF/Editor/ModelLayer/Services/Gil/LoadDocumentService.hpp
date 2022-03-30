@@ -28,7 +28,8 @@
 #include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../../AbstractData/IImageRepository.hpp"
+#include "../../AbstractData/IImageLoader.hpp"
+#include "../../AbstractData/IImageRetriever.hpp"
 
 #include <fruit/fruit.h>
 
@@ -41,7 +42,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class LoadDocumentService : public UILayer::AbstractModel::Storage::ILoadDocumentService {
   public:
     INJECT(LoadDocumentService(
-      AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *imageLoader,
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRetriever
     ));
 
     Common::Handle
@@ -50,7 +52,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       UILayer::AbstractModel::Defs::EFileFormat fileFormat
     );
   private:
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
+    AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *m_imageLoader;
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRetriever;
   };
 }
 

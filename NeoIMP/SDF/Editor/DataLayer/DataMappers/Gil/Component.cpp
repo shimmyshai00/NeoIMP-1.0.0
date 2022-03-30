@@ -24,10 +24,11 @@
 #include "Component.hpp"
 
 #include "../../../../Common/Data/Adapters/Component.hpp"
+#include "../../../../Common/Data/ICrudable.hpp"
 
 #include "../ImageMapper.hpp"
 #include "../ImageVariantMapper.hpp"
-#include "Persisters/Png.hpp"
+#include "SPng.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers::Gil {
   Component
@@ -38,16 +39,16 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil {
       .bind<
         fruit::Annotated<
           Repositories::Formats::PNG,
-          Common::Data::IDataMapper<std::string, Engine::Gil::RGB24_888_Image>
+          Common::Data::ICrudable<std::string, Engine::Gil::RGB24_888_Image>
         >,
-        ImageMapper<Persisters::Png, Engine::Gil::RGB24_888_Image>
+        ImageMapper<SPng, Engine::Gil::RGB24_888_Image>
        >()
       .bind<
         fruit::Annotated<
           Repositories::Formats::PNG,
-          Common::Data::IDataMapper<std::string, Engine::Gil::Any_Image>
+          Common::Data::ICrudable<std::string, Engine::Gil::Any_Image>
         >,
-        ImageVariantMapper<Persisters::Png, Engine::Gil::Any_Image>
+        ImageVariantMapper<SPng, Engine::Gil::Any_Image>
        >()
       .install(Common::Data::Adapters::getComponent);
   };

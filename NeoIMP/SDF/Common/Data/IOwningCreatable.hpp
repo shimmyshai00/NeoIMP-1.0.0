@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MODEL_IDELETABLE_HPP
-#define SDF_COMMON_MODEL_IDELETABLE_HPP
+#ifndef SDF_COMMON_DATA_IOWNINGCREATABLE_HPP
+#define SDF_COMMON_DATA_IOWNINGCREATABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDeletable.hpp
- * PURPOSE: Defines the IDeletable interface.
+ * FILE:    IOwningCreatable.hpp
+ * PURPOSE: Defines the IOwningCreatable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::Model {
-  // Class:      IDeletable
-  // Purpose:    Defines an interface for objects supporting the "delete" operation of persistent
-  //             storage.
+#include <memory>
+
+namespace SDF::Common::Data {
+  // Class:      IOwningCreatable
+  // Purpose:    Defines an interface for the create method of storage objects which also take
+  //             in-memory ownership of the objects stored in them.
   // Parameters: KeyT - The type of key into the database.
   //             ObjT - The type of object stored.
   template<class KeyT, class ObjT>
-  class IDeletable {
+  class IOwningCreatable {
   public:
-    virtual ~IDeletable() = default;
+    virtual ~IOwningCreatable() = default;
 
-    // Function:   deleteO
-    // Purpose:    Removes an entry from the database.
-    // Parameters: key - The key to delete.
-    // Returns:    None.
-    virtual void
-    deleteO(KeyT key) = 0;
+    // Function:   create
+    // Purpose:    Creates a new entry in the database.
+    // Parameters: key - The key to add the entry under.
+    //             obj - The initial data to add to this entry.
+    // Returns:    A non-owning reference to the added object.
+    virtual ObjT *
+    create(KeyT key, std::unique_ptr<ObjT> obj) = 0;
   };
 }
 

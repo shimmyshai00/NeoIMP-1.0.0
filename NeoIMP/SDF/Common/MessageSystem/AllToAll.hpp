@@ -24,8 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IConnection.hpp"
-#include "ISubscriber.hpp"
+#include "AChannel.hpp"
 
 #include <boost/uuid/uuid.hpp>
 
@@ -39,22 +38,14 @@ namespace SDF::Common::MessageSystem {
   //             messaging  of attached subscribers.
   // Parameters: MessageT - The type of message handled.
   template<class MessageT>
-  class AllToAll : public IChannel<MessageT> {
+  class AllToAll : public AChannel<MessageT> {
   public:
     INJECT(AllToAll());
 
     void
-    publishMessage(boost::uuids::uuid senderUuid,
-                   const MessageT &message
-                  );
-
-    PIConnection
-    subscribe(ISubscriber<MessageT> *subscriber,
-              std::function<bool (const MessageT &)> filter
-             );
-  private:
-    std::map<boost::uuids::uuid, ISubscriber<MessageT> *> m_subscribers;
-    std::map<boost::uuids::uuid, std::function<bool (const MessageT &)>> m_filters;
+    dispatchMessage(boost::uuids::uuid senderUuid,
+                    const MessageT &message
+                   );
   };
 }
 

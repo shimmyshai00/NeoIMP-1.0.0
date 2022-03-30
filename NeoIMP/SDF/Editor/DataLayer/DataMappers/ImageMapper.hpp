@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Data/Adapters/IFilesystemAdapter.hpp"
-#include "../../../Common/Data/IDataMapper.hpp"
+#include "../../../Common/Data/ICrudable.hpp"
 #include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
 
 #include <fruit/fruit.h>
@@ -33,10 +33,9 @@
 namespace SDF::Editor::DataLayer::DataMappers {
   // Class:      ImageMapper
   // Purpose:    Defines a data mapper for mapping NeoIMP images.
-  // Parameters: PersisterT - The type of persister to use (allows changing file format).
-  //             ImageT - The image type.
-  template<class PersisterT, class ImageT>
-  class ImageMapper : public Common::Data::IDataMapper<std::string, ImageT> {
+  // Parameters: FormatT - The traits/tag object for the format to deal in.
+  template<class FormatT, class ImageT>
+  class ImageMapper : public Common::Data::ICrudable<std::string, ImageT> {
   public:
     // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
@@ -47,16 +46,16 @@ namespace SDF::Editor::DataLayer::DataMappers {
     has(std::string fileSpec);
 
     void
-    insert(std::string fileSpec, ImageT &obj);
+    create(std::string fileSpec, const ImageT &obj);
 
     void
     retrieve(std::string fileSpec, ImageT &obj);
 
     void
-    update(std::string fileSpec, ImageT &obj);
+    update(std::string fileSpec, const ImageT &obj);
 
     void
-    erase(std::string fileSpec);
+    deleteO(std::string fileSpec);
   private:
     Common::Data::Adapters::IFilesystemAdapter *m_filesystemAdapter;
   };

@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_IVALUEFIELD_HPP
-#define SDF_COMMON_IVALUEFIELD_HPP
+#ifndef SDF_COMMON_DATA_IOWNINGREADABLE_HPP
+#define SDF_COMMON_DATA_IOWNINGREADABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IValueField.hpp
- * PURPOSE: Defines the IValueField interface.
+ * FILE:    IOwningReadable.hpp
+ * PURPOSE: Defines the IOwningReadable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IGettable.hpp"
-#include "ISettable.hpp"
-#include "IListenable.hpp"
+#include "IHasable.hpp"
+#include "IOwningRetrievable.hpp"
 
-namespace SDF::Common {
-  // Class:      IValueField
-  // Purpose:    Provides a value-holding object with segregated interfaces for accessing, mutating,
-  //             and listening.
-  // Parameters: ValueT - The value that the user can get.
-  template<class ValueT>
-  class IValueField : public IGettable<ValueT>,
-                      public ISettable<ValueT>,
-                      public IListenable<ValueT>
+namespace SDF::Common::Data {
+  // Class:      IOwningReadable
+  // Purpose:    Defines the owning analogue of IReadable.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
+  template<class KeyT, class ObjT>
+  class IOwningReadable : public IHasable<KeyT, ObjT>,
+                          public IOwningRetrievable<KeyT, ObjT>
   {
-  public:
-    virtual ~IValueField() = default;
   };
 }
 

@@ -23,106 +23,28 @@
 
 #include "ImageSpecValidator.hpp"
 
-#include "Exceptions.hpp"
-
 namespace SDF::Editor::ModelLayer::Services::Validators {
-  namespace Impl {
-    class ImageSpecValidatorResult : public Common::IValidationResult {
-    public:
-      ImageSpecValidatorResult()
-        : m_isWidthValid(false),
-          m_isWidthUnitValid(false),
-          m_isHeightValid(false),
-          m_isHeightUnitValid(false),
-          m_isResolutionValid(false),
-          m_isResolutionUnitValid(false),
-          m_isColorFormatValid(false)
-      {
-      }
-
-      bool
-      isValid() const {
-        return m_isWidthValid &&
-          m_isWidthUnitValid &&
-          m_isHeightValid &&
-          m_isHeightUnitValid &&
-          m_isResolutionValid &&
-          m_isResolutionUnitValid &&
-          m_isColorFormatValid;
-      }
-
-      void
-      throwFrom() {
-        if(!m_isWidthValid) throw WidthInvalidException();
-        if(!m_isWidthUnitValid) throw WidthUnitInvalidException();
-        if(!m_isHeightValid) throw HeightInvalidException();
-        if(!m_isHeightUnitValid) throw HeightUnitInvalidException();
-        if(!m_isResolutionValid) throw ResolutionInvalidException();
-        if(!m_isResolutionUnitValid) throw ResolutionUnitInvalidException();
-        if(!m_isColorFormatValid) throw ColorFormatInvalidException();
-      }
-
-      void
-      onWidthValidated() {
-        m_isWidthValid = true;
-      }
-
-      void
-      onWidthUnitValidated() {
-        m_isWidthUnitValid = true;
-      }
-
-      void
-      onHeightValidated() {
-        m_isHeightValid = true;
-      }
-
-      void
-      onHeightUnitValidated() {
-        m_isHeightUnitValid = true;
-      }
-
-      void
-      onResolutionValidated() {
-        m_isResolutionValid = true;
-      }
-
-      void
-      onResolutionUnitValidated() {
-        m_isResolutionUnitValid = true;
-      }
-
-      void
-      onColorFormatValidated() {
-        m_isColorFormatValid = true;
-      }
-    private:
-      bool m_isWidthValid;
-      bool m_isWidthUnitValid;
-      bool m_isHeightValid;
-      bool m_isHeightUnitValid;
-      bool m_isResolutionValid;
-      bool m_isResolutionUnitValid;
-      bool m_isColorFormatValid;
-    };
-  }
-
-  std::shared_ptr<Common::IValidationResult>
-  ImageSpecValidator::validate(const UILayer::AbstractModel::Defs::ImageSpec &obj) const {
+  bool
+  ImageSpecValidator::validate(
+    const UILayer::AbstractModel::Defs::ImageSpec &obj,
+    SImageSpecValidationReport *report
+  ) const {
     using namespace UILayer::AbstractModel::Defs;
+    bool isValid = true;
 
-    auto p = std::make_shared<Impl::ImageSpecValidatorResult>();
+    SImageSpecValidationReport localReport;
+    isValid = (localReport.isWidthValid = (obj.width > 0.0f))
+      & (localReport.isWidthUnitValid = (obj.widthUnit < LENGTH_UNIT_MAX))
+      & (localReport.isHeightValid = (obj.height > 0.0f))
+      & (localReport.isHeightUnitValid = (obj.heightUnit < LENGTH_UNIT_MAX))
+      & (localReport.isResolutionValid = (obj.resolution > 0.0f))
+      & (localReport.isResolutionUnitValid = (obj.resolutionUnit < RESOLUTION_UNIT_MAX))
+      & (localReport.isColorFormatValid = (obj.colorFormat < Color::COLOR_FMT_MAX));
 
-    unsigned int failCodeAccumulator = 0;
+    if(report != nullptr) {
+      *report = localReport;
+    }
 
-    if(obj.width > 0.0f) p->onWidthValidated();
-    if(obj.widthUnit < LENGTH_UNIT_MAX) p->onWidthUnitValidated();
-    if(obj.height > 0.0f) p->onHeightValidated();
-    if(obj.heightUnit < LENGTH_UNIT_MAX) p->onHeightUnitValidated();
-    if(obj.resolution > 0.0f) p->onResolutionValidated();
-    if(obj.resolutionUnit < RESOLUTION_UNIT_MAX) p->onResolutionUnitValidated();
-    if(obj.colorFormat < Color::COLOR_FMT_MAX) p->onColorFormatValidated();
-
-    return p;
+    return isValid;
   }
 }

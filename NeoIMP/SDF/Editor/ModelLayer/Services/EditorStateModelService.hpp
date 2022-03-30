@@ -27,7 +27,7 @@
 #include "../../../Common/Handle.hpp"
 #include "../../UILayer/AbstractModel/Editing/IGetActiveDocumentService.hpp"
 #include "../../UILayer/AbstractModel/Editing/ISetActiveDocumentService.hpp"
-#include "../DomainObjects/State/ActiveDocumentState.hpp"
+#include "../DomainObjects/State/SActiveDocumentState.hpp"
 
 #include <fruit/fruit.h>
 
@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::Services {
                                   public UILayer::AbstractModel::Editing::ISetActiveDocumentService
   {
   public:
-    INJECT(EditorStateModelService(DomainObjects::State::ActiveDocumentState *activeDocument));
+    INJECT(EditorStateModelService());
 
     Common::Handle
     getActiveDocument();
@@ -47,7 +47,7 @@ namespace SDF::Editor::ModelLayer::Services {
     void
     setActiveDocument(Common::Handle documentHandle);
   private:
-    DomainObjects::State::ActiveDocumentState *m_activeDocument;
+    DomainObjects::State::SActiveDocumentState m_activeDocument;
   };
 }
 

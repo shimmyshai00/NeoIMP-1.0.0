@@ -28,7 +28,7 @@
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentInfoService::GetDocumentInfoService(
-    AbstractData::IImageRepository<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository
   )
     : m_imageRepository(imageRepository)
   {
@@ -36,7 +36,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   std::string
   GetDocumentInfoService::getDocumentName(Common::Handle documentHandle) {
-    return m_imageRepository->getImage(documentHandle)->getName();
+    return m_imageRepository->retrieve(documentHandle)->getName();
   }
 
   float
@@ -47,8 +47,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
-    ImageMeasure widthPx = m_imageRepository->getImage(documentHandle)->getWidthPx();
-    float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
+    ImageMeasure widthPx = m_imageRepository->retrieve(documentHandle)->getWidthPx();
+    float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
     return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
       RESOLUTION_UNIT_PPI).in(inUnit);
   }
@@ -61,8 +61,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
 
-    ImageMeasure heightPx = m_imageRepository->getImage(documentHandle)->getHeightPx();
-    float resolutionPpi = m_imageRepository->getImage(documentHandle)->getResolutionPpi();
+    ImageMeasure heightPx = m_imageRepository->retrieve(documentHandle)->getHeightPx();
+    float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
     return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
       RESOLUTION_UNIT_PPI).in(inUnit);
   }

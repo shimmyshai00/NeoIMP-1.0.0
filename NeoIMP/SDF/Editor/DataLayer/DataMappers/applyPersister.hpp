@@ -31,14 +31,17 @@
 
 namespace SDF::Editor::DataLayer::DataMappers {
   template<class Persister, class ImplSpecT>
-  void applyPersister(Persister pers, ModelLayer::DomainObjects::Engine::Image<ImplSpecT> &image) {
+  void applyPersister(
+    Persister pers,
+    const ModelLayer::DomainObjects::Engine::Image<ImplSpecT> &image
+  ) {
     pers(image);
   }
 
   template<class Persister, class ... ImplSpecTs>
   void applyPersister(
     Persister pers,
-    ModelLayer::DomainObjects::Engine::ImageVariant<ImplSpecTs...> &image
+    const ModelLayer::DomainObjects::Engine::ImageVariant<ImplSpecTs...> &image
   ) {
     using namespace ModelLayer::DomainObjects;
     Engine::visitImage([&](auto &&rhs) { pers(rhs); }, image);

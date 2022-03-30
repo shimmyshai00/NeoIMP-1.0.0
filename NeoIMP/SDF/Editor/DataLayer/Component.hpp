@@ -24,32 +24,43 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Common/Data/IDataMapper.hpp"
-#include "../../Common/Model/ICrudRepository.hpp"
+#include "../../Common/Data/ICrudable.hpp"
+#include "../../Common/Data/IOwningCrudable.hpp"
+#include "../../Common/Data/IOwningRetrievable.hpp"
 
 #include "../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
+#include "../ModelLayer/DomainObjects/State/SDocumentViewState.hpp"
 
-#include "../ModelLayer/AbstractData/IImageRepository.hpp"
+#include "../ModelLayer/AbstractData/IImageRetainer.hpp"
 #include "../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
+#include "../ModelLayer/AbstractData/IImageLoader.hpp"
+#include "../ModelLayer/AbstractData/IImagePersister.hpp"
+#include "../ModelLayer/AbstractData/IImageRetriever.hpp"
 #include "Repositories/Formats.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::DataLayer {
   typedef fruit::Component<
-    ModelLayer::AbstractData::IImageRepository<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    ModelLayer::AbstractData::IImageRetainer<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
     ModelLayer::AbstractData::IImageFileInfoRequester<
       ModelLayer::DomainObjects::Engine::Gil::Any_Image
     >,
-    Common::Model::ICrudRepository<
+    ModelLayer::AbstractData::IImageLoader<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    ModelLayer::AbstractData::IImagePersister<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    ModelLayer::AbstractData::IImageRetriever<ModelLayer::DomainObjects::Engine::Gil::Any_Image>,
+    Common::Data::IOwningRetrievable<
+      Common::Handle,
+      ModelLayer::DomainObjects::Engine::Gil::Any_Image
+    >,
+    Common::Data::IOwningCrudable<
       Common::Handle,
       ModelLayer::DomainObjects::Engine::Buffers::GridRendering
     >,
-    Common::Model::ICrudRepository<
+    Common::Data::ICrudable<
       Common::Handle,
-      ModelLayer::DomainObjects::State::DocumentViewState
+      ModelLayer::DomainObjects::State::SDocumentViewState
     >
   > Component;
 

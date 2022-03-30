@@ -24,20 +24,16 @@
 #include "EditorStateModelService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
-  EditorStateModelService::EditorStateModelService(
-    DomainObjects::State::ActiveDocumentState *activeDocument
-  )
-    : m_activeDocument(activeDocument)
-  {
+  EditorStateModelService::EditorStateModelService() {
   }
 
   Common::Handle
   EditorStateModelService::getActiveDocument() {
-    return m_activeDocument->get();
+    return m_activeDocument.activeDocumentHandle;
   }
 
   void
   EditorStateModelService::setActiveDocument(Common::Handle documentHandle) {
-    m_activeDocument->set(documentHandle);
+    m_activeDocument.activeDocumentHandle = documentHandle;
   }
 }

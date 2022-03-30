@@ -32,6 +32,21 @@ namespace SDF::Common {
   }
 
   template<class ValueT>
+  ValueField<ValueT>::ValueField(const ValueField<ValueT> &rhs)
+    : m_value(rhs.m_value)
+  {
+  }
+
+  template<class ValueT>
+  ValueField<ValueT>::ValueField(ValueField<ValueT> &&rhs)
+    : m_value(rhs.m_value),
+      m_listeners(rhs.m_listeners)
+  {
+    rhs.m_value = ValueT();
+    rhs.m_listeners = ListenerContainer<ValueT>();
+  }
+
+  template<class ValueT>
   const ValueT &
   ValueField<ValueT>::get() const {
     return m_value;

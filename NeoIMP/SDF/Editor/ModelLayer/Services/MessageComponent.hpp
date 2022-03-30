@@ -24,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/MessageSystem/IChannel.hpp"
-#include "Messages/Object.hpp"
+#include "../../../Common/MessageSystem/IMessageDispatcher.hpp"
+#include "Messages/ObjectChanges.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::ModelLayer::Services {
   typedef fruit::Component<
-    Common::MessageSystem::IChannel<Messages::ImageAdded>,
-    Common::MessageSystem::IChannel<Messages::ImageRemoved>
+    Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded>,
+    Common::MessageSystem::IMessageDispatcher<Messages::SImageRemoved>
   > MessageComponent;
 
   MessageComponent

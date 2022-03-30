@@ -1,12 +1,13 @@
-#ifndef SDF_COMMON_MODEL_ICREATABLE_HPP
-#define SDF_COMMON_MODEL_ICREATABLE_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SDOCUMENTVIEWSTATE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SDOCUMENTVIEWSTATE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ICreatable.hpp
- * PURPOSE: Defines the ICreatable interface.
+ * FILE:    SDocumentViewState.hpp
+ * PURPOSE: Defines a struct holding the shared application state describing how a document is being
+ *          viewed.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,24 +25,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::Model {
-  // Class:      ICreatable
-  // Purpose:    Defines an interface for objects supporting the "create" operation of persistent
-  //             storage.
-  // Parameters: KeyT - The type of key into the database.
-  //             ObjT - The type of object stored.
-  template<class KeyT, class ObjT>
-  class ICreatable {
-  public:
-    virtual ~ICreatable() = default;
+namespace SDF::Editor::ModelLayer::DomainObjects::State {
+  struct SDocumentViewState {
+    float viewPosX;
+    float viewPosY;
+    float viewMagnification;
 
-    // Function:   create
-    // Purpose:    Creates a new entry in the database.
-    // Parameters: key - The key to add the entry under.
-    //             obj - The initial data to add to this entry.
-    // Returns:    None.
-    virtual void
-    create(KeyT key, const ObjT &obj) = 0;
+    SDocumentViewState()
+      : viewPosX(0.0f),
+        viewPosY(0.0f),
+        viewMagnification(1.0f)
+    {}
+
+    SDocumentViewState(float t_viewPosX, float t_viewPosY, float t_viewMagnification)
+      : viewPosX(t_viewPosX),
+        viewPosY(t_viewPosY),
+        viewMagnification(t_viewMagnification)
+    {}
   };
 }
 

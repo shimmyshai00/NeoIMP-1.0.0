@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_DATA_IDATAMAPPER_HPP
-#define SDF_COMMON_DATA_IDATAMAPPER_HPP
+#ifndef SDF_COMMON_DATA_IDELETABLE_HPP
+#define SDF_COMMON_DATA_IDELETABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IDataMapper.hpp
- * PURPOSE: Defines the IDataMapper interface.
+ * FILE:    IDeletable.hpp
+ * PURPOSE: Defines the IDeletable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,31 +25,22 @@
  */
 
 namespace SDF::Common::Data {
-  // Class:      IDataMapper
-  // Purpose:    Defines an interface for a data mapper (object to move data between persistent
-  //             storage and memory without regard to which database system is used).
-  // Parameters: KeyT - The type of database key accepted by this mapper.
-  //             ObjT - The type of domain object mapped into the persistent storage.
+  // Class:      IDeletable
+  // Purpose:    Defines an interface for objects supporting the "delete" operation of persistent
+  //             storage.
+  // Parameters: KeyT - The type of key into the database.
+  //             ObjT - The type of object stored.
   template<class KeyT, class ObjT>
-  class IDataMapper {
+  class IDeletable {
   public:
-    virtual ~IDataMapper() = default;
+    virtual ~IDeletable() = default;
 
-    // The usual database access methods (CRUD).
-    virtual bool
-    has(KeyT key) = 0;
-
+    // Function:   deleteO
+    // Purpose:    Removes an entry from the database.
+    // Parameters: key - The key to delete.
+    // Returns:    None.
     virtual void
-    insert(KeyT key, ObjT &obj) = 0;
-
-    virtual void
-    retrieve(KeyT key, ObjT &obj) = 0;
-
-    virtual void
-    update(KeyT key, ObjT& obj) = 0;
-
-    virtual void
-    erase(KeyT key) = 0;
+    deleteO(KeyT key) = 0;
   };
 }
 
