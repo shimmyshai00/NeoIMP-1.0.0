@@ -30,6 +30,7 @@
 #include "../../ModelLayer/AbstractData/IImageRetainer.hpp"
 #include "../../ModelLayer/AbstractData/IImageLoader.hpp"
 #include "../../ModelLayer/AbstractData/IImageRetriever.hpp"
+#include "../../ModelLayer/AbstractData/IImageAccessor.hpp"
 #include "../../ModelLayer/AbstractData/IImagePersister.hpp"
 #include "../../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
 #include "Formats.hpp"

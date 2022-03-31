@@ -26,6 +26,8 @@
 
 #include "../Dimensions.hpp"
 #include "../IMeasurable.hpp"
+#include "../INameable.hpp"
+#include "../INamed.hpp"
 #include "Layer.hpp"
 
 #include <cstddef>
@@ -42,7 +44,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   //             provides the layer stack, which is common to all engine implementations.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Image : public IMeasurable {
+  class Image : public IMeasurable,
+                public INameable,
+                public INamed
+  {
   public:
     // Function:   Image
     // Purpose:    Constructs a new image to the specified parameters.
@@ -53,10 +58,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     Image();
     Image(std::string name, float resolutionPpi);
 
-    // Function:   getName
-    // Purpose:    Gets the name of the image.
-    // Parameters: None.
-    // Returns:    The image name.
     std::string
     getName() const;
 
@@ -93,10 +94,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     const Layer<ImplSpecT> &
     getLayer(std::size_t layerNum) const;
 
-    // Function:   setName
-    // Purpose:    Sets the name of the image.
-    // Parameters: name - The new name to set.
-    // Returns:    None.
     void
     setName(std::string name);
 
