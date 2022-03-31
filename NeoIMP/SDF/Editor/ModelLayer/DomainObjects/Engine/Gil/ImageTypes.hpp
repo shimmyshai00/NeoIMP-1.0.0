@@ -24,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Image.hpp"
-#include "../ImageVariant.hpp"
+#include "../Image/Image.hpp"
+#include "../Image/Variant.hpp"
 
 #include "ImplTraits.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
-  typedef Image<RGB24_888_Image_Impl> RGB24_888_Image;
+  typedef Image::Image<RGB24_888_Image_Impl> RGB24_888_Image;
 
-  typedef ImageVariant<RGB24_888_Image_Impl> Any_Image;
+  typedef Image::Variant<RGB24_888_Image_Impl> Any_Image;
 }
 
 #endif

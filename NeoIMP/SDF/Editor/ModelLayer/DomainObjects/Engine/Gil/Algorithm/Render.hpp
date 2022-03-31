@@ -25,7 +25,7 @@
  */
 
 #include "../../Buffers/GridRendering.hpp"
-#include "../../Image.hpp"
+#include "../../Image/Image.hpp"
 #include "../../Dimensions.hpp"
 
 #include <memory>
@@ -43,7 +43,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
 
     template<class GilSpecT>
     void
-    operator()(const Image<GilSpecT> &image);
+    operator()(const Image::Image<GilSpecT> &image);
   private:
     std::unique_ptr<Buffers::GridRendering> *m_resultRecvPtr;
   };

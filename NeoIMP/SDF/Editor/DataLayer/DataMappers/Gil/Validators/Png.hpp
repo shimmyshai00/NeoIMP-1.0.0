@@ -25,7 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../ModelLayer/DomainObjects/Engine/Image.hpp"
+#include "../../../../ModelLayer/DomainObjects/Engine/Image/Image.hpp"
 
 #include <boost/gil/extension/io/png.hpp>
 #include <boost/gil/io/get_reader.hpp>

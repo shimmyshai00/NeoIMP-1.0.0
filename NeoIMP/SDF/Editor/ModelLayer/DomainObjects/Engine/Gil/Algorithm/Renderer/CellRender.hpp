@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Math/Rect.hpp"
+#include "../../../../Math/Rect.hpp"
 #include "../../../Buffers/RenderCell.hpp"
 #include "../../../Dimensions.hpp"
 

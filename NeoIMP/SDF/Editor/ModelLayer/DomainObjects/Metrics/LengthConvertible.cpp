@@ -28,7 +28,7 @@
 #include "LengthConversions.hpp"
 #include "ResolutionConversions.hpp"
 
-namespace SDF::Editor::ModelLayer::Metrics {
+namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   LengthConvertible::LengthConvertible(
     float quantity,
     UILayer::AbstractModel::Defs::ELengthUnit unit,

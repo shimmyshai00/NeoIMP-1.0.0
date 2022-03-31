@@ -26,6 +26,7 @@
 
 #include "../../../Error/DataException.hpp"
 #include "../../../Error/SafeString.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image/Image.hpp"
 #include "Exceptions.hpp"
 #include "applyPersister.hpp"
 #include "applyLoader.hpp"
@@ -50,7 +51,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
         typename FormatT::validator_t validator(m_fileName);
         if(validator.template apply<ImplSpecT>()) {
           typename FormatT::loader_t loader(m_fileName);
-          auto im = ModelLayer::DomainObjects::Engine::Image<ImplSpecT>();
+          auto im = ModelLayer::DomainObjects::Engine::Image::Image<ImplSpecT>();
           applyLoader(loader, im);
           (*m_variant) = std::move(im);
           return true;

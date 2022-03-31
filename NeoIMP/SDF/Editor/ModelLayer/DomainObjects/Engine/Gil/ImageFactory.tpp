@@ -25,11 +25,11 @@
  */
 
 #include "Components/Content/Background.hpp"
-#include "../Layer.hpp"
+#include "../Image/Layer.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilSpecT>
-  Image<GilSpecT> *
+  Image::Image<GilSpecT> *
   ImageFactory<GilSpecT>::create(
     std::string name,
     std::string fileSpec,
@@ -38,13 +38,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
     float resolutionPpi,
     typename GilSpecT::bkg_pixel_t backgroundColor
   ) {
-    auto bkgLayer = std::make_unique<Layer<GilSpecT>>();
+    auto bkgLayer = std::make_unique<Image::Layer<GilSpecT>>();
     auto bkgContent = std::make_unique<Components::Content::Background<GilSpecT>>(widthPx, heightPx,
       backgroundColor);
 
-    bkgLayer->attachComponent(Layer<GilSpecT>::c_contentComponentId, std::move(bkgContent));
+    bkgLayer->setContentComponent(std::move(bkgContent));
 
-    auto img = new Image<GilSpecT>(name, resolutionPpi);
+    auto img = new Image::Image<GilSpecT>(name, resolutionPpi);
     img->addLayer(std::move(bkgLayer));
 
     return img;

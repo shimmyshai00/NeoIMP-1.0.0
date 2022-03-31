@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../Image/Image.hpp"
 #include "../../../Buffers/GridRendering.hpp"
-#include "../../../Image.hpp"
 #include "APipelineHead.hpp"
 
 #include "RenderCtx.hpp"
@@ -37,7 +37,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
   //             off.
   // Parameters: GilSpecT - The Boost.GIL image spec being rendered.
   template<class GilSpecT>
-  class PLSTestRender : public APipelineHead<Image<GilSpecT>, Buffers::GridRendering> {
+  class PLSTestRender : public APipelineHead<Image::Image<GilSpecT>, Buffers::GridRendering> {
   public:
     // Function:   PLSTestRender
     // Purpose:    Constructs a new test render head.
@@ -45,7 +45,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     PLSTestRender();
 
     void
-    beginProcessing(const Image<GilSpecT> &inputData);
+    beginProcessing(const Image::Image<GilSpecT> &inputData);
   private:
     RenderCtx m_ctx;
   };

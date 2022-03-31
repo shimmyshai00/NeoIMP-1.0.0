@@ -24,10 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Components/AContentComponent.hpp"
-#include "IMeasurable.hpp"
-#include "IBoundable.hpp"
-#include "Dimensions.hpp"
+#include "../IMeasurable.hpp"
+#include "../IBoundable.hpp"
+#include "../Dimensions.hpp"
+#include "Components/AContent.hpp"
 
 #include <cstddef>
 #include <string>
@@ -35,7 +35,7 @@
 #include <map>
 #include <list>
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   // Class:      Layer
   // Purpose:    Defines a layer object. This is actually a fully-instantiatable class template.
   //             Layers are built up from components, similar to a common pattern used in computer
@@ -47,9 +47,6 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   class Layer : public IMeasurable,
                 public IBoundable
   {
-  public:
-    // The content component must be added with this id to be properly recognized.
-    static constexpr const char *c_contentComponentId = "content";
   public:
     // Function:   Layer
     // Purpose:    Constructs a new layer.
@@ -73,17 +70,27 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Parameters: component - The content component to set.
     // Returns:    None.
     void
-    setContentComponent(std::unique_ptr<Components::AContentComponent<ImplSpecT>> component);
+    setContentComponent(std::unique_ptr<Components::AContent<ImplSpecT>> component);
 
     // Function:   getContentComponent
     // Purpose:    Gets the content component for this layer.
     // Parameters: None.
     // Returns:    A pointer to the content component, which may be nullptr if none.
-    Components::AContentComponent<ImplSpecT> *
+    Components::AContent<ImplSpecT> *
     getContentComponent();
+
+    const Components::AContent<ImplSpecT> *
+    getContentComponent() const;
+
+    template<class AsT>
+    AsT *
+    getContentComponentAs();
+
+    template<class AsT>
+    const AsT *
+    getContentComponentAs() const;
   private:
-    std::map<std::string, std::unique_ptr<Components::IComponent<ImplSpecT>>> m_components;
-    std::list<Components::IComponent<ImplSpecT> *> m_visitationList;
+    std::unique_ptr<Components::AContent<ImplSpecT>> m_contentComponent;
   };
 }
 

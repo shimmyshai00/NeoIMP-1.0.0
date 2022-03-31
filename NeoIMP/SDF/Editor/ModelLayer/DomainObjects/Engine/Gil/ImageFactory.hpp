@@ -25,7 +25,7 @@
  */
 
 #include "../../../../../Common/IFactory.hpp"
-#include "../Image.hpp"
+#include "../Image/Image.hpp"
 #include "ImageTypes.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
@@ -34,7 +34,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   // Parameters: GilSpecT - The image implementation spec traits.
   template<class GilSpecT>
   class ImageFactory : public Common::IFactory<
-    Image<GilSpecT>,
+    Image::Image<GilSpecT>,
     std::string,
     std::string,
     ImageMeasure,
@@ -43,7 +43,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
     typename GilSpecT::bkg_pixel_t
   > {
   public:
-    Image<GilSpecT> *
+    Image::Image<GilSpecT> *
     create(
       std::string name,
       std::string fileSpec,

@@ -38,7 +38,7 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
   template<class GilSpecT>
   void
-  Png::operator()(ModelLayer::DomainObjects::Engine::Image<GilSpecT> &image) {
+  Png::operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image) {
     using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 
@@ -69,8 +69,8 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
           throw "NOT YET IMPLEMENTED";
         } else {
           // Create a new layer.
-          auto bkgLayer = std::make_unique<Engine::Layer<GilSpecT>>();
-          bkgLayer->attachComponent(Engine::Layer<GilSpecT>::c_contentComponentId, std::move(c));
+          auto bkgLayer = std::make_unique<Engine::Image::Layer<GilSpecT>>();
+          bkgLayer->setContentComponent(std::move(c));
 
           image.addLayer(std::move(bkgLayer));
         }

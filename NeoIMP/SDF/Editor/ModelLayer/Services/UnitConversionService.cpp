@@ -23,8 +23,8 @@
 
 #include "UnitConversionService.hpp"
 
-#include "../Metrics/LengthConvertible.hpp"
-#include "../Metrics/ResolutionConvertible.hpp"
+#include "../DomainObjects/Metrics/LengthConvertible.hpp"
+#include "../DomainObjects/Metrics/ResolutionConvertible.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   UnitConversionService::UnitConversionService() {
@@ -39,11 +39,11 @@ namespace SDF::Editor::ModelLayer::Services {
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit> *
       resolution
   ) {
-    using namespace UILayer::AbstractModel;
-    using namespace Metrics;
+    using namespace UILayer::AbstractModel::Defs;
+    using namespace DomainObjects::Metrics;
 
     return std::make_shared<LengthConvertible>(length, lengthUnit,
-      resolution->in(Defs::RESOLUTION_UNIT_PPI), Defs::RESOLUTION_UNIT_PPI);
+      resolution->in(RESOLUTION_UNIT_PPI), RESOLUTION_UNIT_PPI);
   }
 
   std::shared_ptr<
@@ -54,7 +54,7 @@ namespace SDF::Editor::ModelLayer::Services {
     UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
   ) {
     using namespace UILayer::AbstractModel;
-    using namespace Metrics;
+    using namespace DomainObjects::Metrics;
 
     return std::make_shared<ResolutionConvertible>(resolution, resolutionUnit);
   }

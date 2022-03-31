@@ -23,8 +23,8 @@
 
 #include "GetDocumentInfoService.hpp"
 
-#include "../../Metrics/LengthConvertible.hpp"
-#include "../../Metrics/ResolutionConvertible.hpp"
+#include "../../DomainObjects/Metrics/LengthConvertible.hpp"
+#include "../../DomainObjects/Metrics/ResolutionConvertible.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentInfoService::GetDocumentInfoService(
@@ -46,11 +46,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
+    using namespace DomainObjects::Metrics;
 
     ImageMeasure widthPx = m_imageRepository->retrieve(documentHandle)->getWidthPx();
     float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
-    return Metrics::LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi,
-      RESOLUTION_UNIT_PPI).in(inUnit);
+    return LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi, RESOLUTION_UNIT_PPI)
+      .in(inUnit);
   }
 
   float
@@ -60,16 +61,19 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
+    using namespace DomainObjects::Metrics;
 
     ImageMeasure heightPx = m_imageRepository->retrieve(documentHandle)->getHeightPx();
     float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
-    return Metrics::LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi,
-      RESOLUTION_UNIT_PPI).in(inUnit);
+    return LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi, RESOLUTION_UNIT_PPI)
+      .in(inUnit);
   }
 
   UILayer::AbstractModel::Defs::Color::EColorFormat
   GetDocumentInfoService::getColorFormatOf(Common::Handle documentHandle) const {
+    using namespace UILayer::AbstractModel::Defs::Color;
+
     // TBA
-    return UILayer::AbstractModel::Defs::Color::COLOR_FMT_RGB24_888;
+    return COLOR_FMT_RGB24_888;
   }
 }

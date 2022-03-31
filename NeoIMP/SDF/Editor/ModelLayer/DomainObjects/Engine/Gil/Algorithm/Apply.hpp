@@ -24,19 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Image.hpp"
-#include "../../ImageVariant.hpp"
+#include "../../Image/Image.hpp"
+#include "../../Image/Variant.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // Applies the algorithm passed to the given image.
   template<class Alg, class GilImplT>
-  void apply(Alg alg, Image<GilImplT> &image) {
+  void apply(Alg alg, Image::Image<GilImplT> &image) {
     alg(image);
   }
 
   template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, ImageVariant<GilImplTs...> &imageVariant) {
-    visitImage([&](auto &&image) { alg(image); }, imageVariant);
+  void apply(Alg alg, Image::Variant<GilImplTs...> &imageVariant) {
+    Image::visit([&](auto &&image) { alg(image); }, imageVariant);
   }
 }
 

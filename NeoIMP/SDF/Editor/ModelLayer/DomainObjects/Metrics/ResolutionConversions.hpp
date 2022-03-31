@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_METRICS_RESOLUTIONCONVERSIONS_HPP
-#define SDF_EDITOR_MODELLAYER_METRICS_RESOLUTIONCONVERSIONS_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_RESOLUTIONCONVERSIONS_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_RESOLUTIONCONVERSIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,9 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
 
-namespace SDF::Editor::ModelLayer::Metrics {
+namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   // Gives the sizes of the various units in PPI.
   static const double g_resolutionUnitSizes[UILayer::AbstractModel::Defs::RESOLUTION_UNIT_MAX] = {
     1.0,          // pixels per inch (PPI)

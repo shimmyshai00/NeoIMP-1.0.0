@@ -36,7 +36,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
 
   template<class GilSpecT>
   void
-  PLSTestRender<GilSpecT>::beginProcessing(const Image<GilSpecT> &inputData) {
+  PLSTestRender<GilSpecT>::beginProcessing(const Image::Image<GilSpecT> &inputData) {
     // Just render the entirety of the background layer to one cell.
     std::unique_ptr<Buffers::GridRendering> gridBuffer(new Buffers::GridRendering(1, 1,
       inputData.getWidthPx(), inputData.getHeightPx(), RENDERFMT_RGB32));
@@ -54,9 +54,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     // For now, only render the background layer.
     typedef typename GilSpecT::bkg_view_t View;
     auto contentComponent = inputData.getLayer(0)
-      .template findComponentById<Components::Content::Background<GilSpecT>>(
-        Layer<GilSpecT>::c_contentComponentId
-      );
+      .template getContentComponentAs<Components::Content::Background<GilSpecT>>();
 
     if(contentComponent == nullptr) {
       return; // nothing to render!

@@ -25,7 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../ModelLayer/DomainObjects/Engine/Image.hpp"
+#include "../../../../ModelLayer/DomainObjects/Engine/Image/Image.hpp"
 
 #include <string>
 
@@ -40,7 +40,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
 
     template<class GilSpecT>
     void
-    operator()(ModelLayer::DomainObjects::Engine::Image<GilSpecT> &image);
+    operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image);
   };
 }
 

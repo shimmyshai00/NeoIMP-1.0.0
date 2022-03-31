@@ -30,8 +30,8 @@
 #include "../../DomainObjects/Engine/Gil/MemoryEstimator.hpp"
 #include "../../DomainObjects/Engine/Gil/ImplTraits.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageFactory.hpp"
-#include "../../Metrics/LengthConvertible.hpp"
-#include "../../Metrics/ResolutionConvertible.hpp"
+#include "../../DomainObjects/Metrics/LengthConvertible.hpp"
+#include "../../DomainObjects/Metrics/ResolutionConvertible.hpp"
 #include "../Validators/ImageSpecValidator.hpp"
 #include "../Exceptions.hpp"
 #include "uiPixelToGilPixel.hpp"
@@ -75,7 +75,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
-    using namespace Metrics;
+    using namespace DomainObjects::Metrics;
     using namespace DomainObjects;
 
     // Input validation.
@@ -106,7 +106,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
-    using namespace Metrics;
+    using namespace DomainObjects::Metrics;
     using namespace DomainObjects;
 
     // Input validation.
@@ -144,7 +144,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   CreateImageService::doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
-    using namespace Metrics;
+    using namespace DomainObjects::Metrics;
     using namespace DomainObjects;
 
     using namespace boost::gil;

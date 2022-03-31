@@ -27,7 +27,7 @@
 
 #include "ResolutionConversions.hpp"
 
-namespace SDF::Editor::ModelLayer::Metrics {
+namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   ResolutionConvertible::ResolutionConvertible(
     float quantity,
     UILayer::AbstractModel::Defs::EResolutionUnit unit

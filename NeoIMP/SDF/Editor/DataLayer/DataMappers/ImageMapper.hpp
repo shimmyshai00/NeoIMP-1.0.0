@@ -26,7 +26,6 @@
 
 #include "../../../Common/Data/Adapters/IFilesystemAdapter.hpp"
 #include "../../../Common/Data/ICrudable.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
 
 #include <fruit/fruit.h>
 

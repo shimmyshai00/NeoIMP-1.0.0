@@ -103,23 +103,23 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
       try {
         (*it)->onTrigger(args...);
-      } catch(General<DataException> &e) { // nb: seems a lot of duplication
-        guiErrorMessage += QString::fromStdString(e.what());
+      } catch(General<DataException> e) { // nb: seems a lot of duplication
+        guiErrorMessage += QString(e.what());
         caughtError = true;
-      } catch(LikelyBug<DataException> &e) {
-        guiErrorMessage += QString::fromStdString(e.what()) + likelyBugMessage;
+      } catch(LikelyBug<DataException> e) {
+        guiErrorMessage += QString(e.what()) + likelyBugMessage;
         caughtError = true;
-      } catch(General<ModelException> &e) {
-        guiErrorMessage += QString::fromStdString(e.what());
+      } catch(General<ModelException> e) {
+        guiErrorMessage += QString(e.what());
         caughtError = true;
-      } catch(LikelyBug<ModelException> &e) {
-        guiErrorMessage += QString::fromStdString(e.what()) + likelyBugMessage;
+      } catch(LikelyBug<ModelException> e) {
+        guiErrorMessage += QString(e.what()) + likelyBugMessage;
         caughtError = true;
-      } catch(General<GeneralException> &e) {
-        guiErrorMessage += QString::fromStdString(e.what());
+      } catch(General<GeneralException> e) {
+        guiErrorMessage += QString(e.what());
         caughtError = true;
-      } catch(LikelyBug<GeneralException> &e) {
-        guiErrorMessage += QString::fromStdString(e.what()) + likelyBugMessage;
+      } catch(LikelyBug<GeneralException> e) {
+        guiErrorMessage += QString(e.what()) + likelyBugMessage;
         caughtError = true;
       }
 

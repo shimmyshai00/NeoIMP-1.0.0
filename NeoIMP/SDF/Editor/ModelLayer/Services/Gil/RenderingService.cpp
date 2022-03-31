@@ -23,7 +23,7 @@
 
 #include "RenderingService.hpp"
 
-#include "../../Math/Rect.hpp"
+#include "../../DomainObjects/Math/Rect.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Render.hpp"
 #include "../../DomainObjects/Engine/Gil/Algorithm/Apply.hpp"
 
@@ -68,7 +68,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
       UILayer::AbstractModel::Defs::IRenderRegion::TileElement
       getElementContaining(std::size_t x, std::size_t y) {
-        UILayer::AbstractModel::Defs::IRenderRegion::TileElement rv;
+        using namespace UILayer::AbstractModel::Defs;
+        using namespace DomainObjects::Math;
+
+        IRenderRegion::TileElement rv;
 
         rv.xOrigin = 0;
         rv.yOrigin = 0;
@@ -83,11 +86,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         // The region bounded is the intersection between this cell's rectangle and the region
         // rectangle.
         if(m_rendering->isCellAllocated(cellX, cellY)) {
-          Math::Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
-          Math::Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
+          Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
+          Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
 
           if(cellRect.intersectsWith(regionRect)) {
-            Math::Rect<std::size_t> overlap(cellRect.intersect(regionRect));
+            Rect<std::size_t> overlap(cellRect.intersect(regionRect));
 
             rv.xOrigin = overlap.x1();
             rv.yOrigin = overlap.y1();
@@ -106,10 +109,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
       void
       traverse(std::function<void (TileElement el)> op) {
-        UILayer::AbstractModel::Defs::IRenderRegion::TileElement el;
+        using namespace UILayer::AbstractModel::Defs;
+        using namespace DomainObjects::Math;
 
-        Math::Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
-        Math::Rect<std::size_t> tileRect(0, 0, 0, 0);
+        IRenderRegion::TileElement el;
+
+        Rect<std::size_t> regionRect(m_x1, m_y1, m_x2, m_y2);
+        Rect<std::size_t> tileRect(0, 0, 0, 0);
 
         std::size_t curX(m_x1);
         std::size_t curY(m_y1);
@@ -121,7 +127,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
             std::size_t cellX(curX / m_rendering->getCellWidth());
             std::size_t cellY(curY / m_rendering->getCellHeight());
 
-            Math::Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
+            Rect<std::size_t> cellRect(m_rendering->getCellRect(cellX, cellY));
             tileRect = regionRect.intersect(cellRect);
 
             if(((cellX < m_rendering->getNumCellsX()) && (cellY < m_rendering->getNumCellsY())) &&
@@ -172,16 +178,19 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   Common::Handle
   RenderingService::createStaticRendering(Common::Handle imageHandle) {
-    using namespace DomainObjects;
+    using namespace DomainObjects::Engine::Gil::Algorithm;
+    using namespace DomainObjects::Engine::Gil;
+    using namespace DomainObjects::Engine::Image;
+    using namespace DomainObjects::Engine::Buffers;
 
-    Engine::Gil::Any_Image *image(m_imageRepository->retrieve(imageHandle));
+    Any_Image *image(m_imageRepository->retrieve(imageHandle));
 
     Common::Handle renderingHandle(m_nextRenderingHandle++);
 
     // NB: should modify to not need creating a new buffer every time
-    std::unique_ptr<Engine::Buffers::GridRendering> resultRecv;
-    Engine::Gil::Algorithm::Render render(&resultRecv);
-    Engine::Gil::Algorithm::apply(render, *image);
+    std::unique_ptr<GridRendering> resultRecv;
+    Render render(&resultRecv);
+    apply(render, *image);
 
     if(m_renderingRepository->has(renderingHandle)) {
       m_renderingRepository->deleteO(renderingHandle);
@@ -200,13 +209,13 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
                               std::size_t y2
                              )
   {
-    using namespace UILayer;
+    using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects;
 
     Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
 
     // Right now, we only support static renderings with 1 cell.
-    return std::shared_ptr<AbstractModel::Defs::IRenderRegion>(
+    return std::shared_ptr<IRenderRegion>(
       new Impl::RenderRegion(rendering, x1, y1, x2, y2)
     );
   }

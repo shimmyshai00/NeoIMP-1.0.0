@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_LAYER_TPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_LAYER_TPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_LAYER_TPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_LAYER_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,10 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../Exceptions.hpp"
-#include "Components/IContentComponent.hpp"
+#include "../../Exceptions.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   template<class ImplSpecT>
   Layer<ImplSpecT>::Layer()
   {
@@ -35,84 +34,79 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
 
   template<class ImplSpecT>
   ImageMeasure
-  Layer<ImplSpecT>::getContentWidth() const {
-    return getContentRect().getWidth();
+  Layer<ImplSpecT>::getWidthPx() const {
+    if(!m_contentComponent) {
+      return 0;
+    } else {
+      return m_contentComponent->getWidthPx();
+    }
   }
 
   template<class ImplSpecT>
   ImageMeasure
-  Layer<ImplSpecT>::getContentHeight() const {
-    return getContentRect().getHeight();
+  Layer<ImplSpecT>::getHeightPx() const {
+    if(!m_contentComponent) {
+      return 0;
+    } else {
+      return m_contentComponent->getHeightPx();
+    }
   }
 
   template<class ImplSpecT>
   ImageRect
-  Layer<ImplSpecT>::getContentRect() const {
-    using namespace Components;
-
-    if(auto *p = findComponentById<IContentComponent<ImplSpecT>>(c_contentComponentId)) {
-      return p->getIntrinsicRect();
+  Layer<ImplSpecT>::getDimensionsRect() const {
+    if(!m_contentComponent) {
+      return ImageRect(0, 0, 0, 0);
     } else {
-      return ImageRect(0, 0, 0, 0); // no recognizable content!
+      return m_contentComponent->getDimensionsRect();
     }
+  }
+
+  template<class ImplSpecT>
+  ImageRect
+  Layer<ImplSpecT>::getBoundingRect() const {
+    // no transforms for now
+    return getDimensionsRect();
   }
 
   template<class ImplSpecT>
   void
-  Layer<ImplSpecT>::attachComponent(
-    std::string id,
-    std::unique_ptr<Components::IComponent<ImplSpecT>> component
-  ) {
-    if(m_components.find(id) != m_components.end()) {
-      throw ComponentExistsException(id.c_str());
+  Layer<ImplSpecT>::setContentComponent(std::unique_ptr<Components::AContent<ImplSpecT>> component)
+  {
+    m_contentComponent = std::move(component);
+  }
+
+  template<class ImplSpecT>
+  Components::AContent<ImplSpecT> *
+  Layer<ImplSpecT>::getContentComponent() {
+    return m_contentComponent.get();
+  }
+
+  template<class ImplSpecT>
+  const Components::AContent<ImplSpecT> *
+  Layer<ImplSpecT>::getContentComponent() const {
+    return m_contentComponent.get();
+  }
+
+  template<class ImplSpecT>
+  template<class AsT>
+  AsT *
+  Layer<ImplSpecT>::getContentComponentAs() {
+    if(auto p = dynamic_cast<AsT *>(m_contentComponent.get())) {
+      return p;
     } else {
-      m_components[id] = std::move(component);
+      throw BadComponentCastException();
     }
   }
 
   template<class ImplSpecT>
-  template<class U>
-  U *
-  Layer<ImplSpecT>::findComponentById(std::string id) {
-    if(m_components.find(id) == m_components.end()) {
-      return nullptr;
+  template<class AsT>
+  const AsT *
+  Layer<ImplSpecT>::getContentComponentAs() const {
+    if(auto p = dynamic_cast<AsT *>(m_contentComponent.get())) {
+      return p;
     } else {
-      if(U *p = dynamic_cast<U *>(m_components[id].get())) {
-        return p;
-      } else {
-        throw BadComponentCastException();
-      }
-    }
-  }
-
-  template<class ImplSpecT>
-  template<class U>
-  const U *
-  Layer<ImplSpecT>::findComponentById(std::string id) const {
-    if(m_components.find(id) == m_components.end()) {
-      return nullptr;
-    } else {
-      if(const U *p = dynamic_cast<const U *>(m_components.at(id).get())) {
-        return p;
-      } else {
-        throw BadComponentCastException();
-      }
-    }
-  }
-
-  template<class ImplSpecT>
-  void
-  Layer<ImplSpecT>::visitComponents(typename ImplSpecT::component_visitor_t &visitor) {
-    for(auto &component : m_visitationList) {
-      component->accept(visitor);
-    }
-  }
-
-  template<class ImplSpecT>
-  void
-  Layer<ImplSpecT>::visitComponents(typename ImplSpecT::const_component_visitor_t &visitor) const {
-    for(auto &component : m_visitationList) {
-      component->accept(visitor);
+      throw BadComponentCastException();
     }
   }
 }

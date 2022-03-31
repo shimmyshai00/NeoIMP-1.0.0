@@ -25,9 +25,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
-
 #include <boost/variant2/variant.hpp>
 #include <boost/mp11/list.hpp>
 

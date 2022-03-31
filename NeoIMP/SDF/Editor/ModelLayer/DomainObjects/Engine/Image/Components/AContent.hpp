@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ACONTENTCOMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_COMPONENTS_ACONTENTCOMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_COMPONENTS_ACONTENT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_COMPONENTS_ACONTENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AContentComponent.hpp
- * PURPOSE: Defines the AContentComponent base class.
+ * FILE:    AContent.hpp
+ * PURPOSE: Defines the AContent base class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IMeasurable.hpp"
+#include "../../../../../../Common/IVisitable.hpp"
+#include "../../IMeasurable.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Components {
-  // Class:      AContentComponent
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image::Components {
+  // Class:      AContent
   // Purpose:    Defines the base class for image content components. This defines all
   //             implementation-independent details for those components.
   // Parameters: ImplSpecT - The implementation traits type.
   template<class ImplSpecT>
-  class AContentComponent : public IMeasurable {
+  class AContent : public IMeasurable,
+                   public Common::IVisitable<typename ImplSpecT::content_visitor_t>
+  {
   };
 }
 

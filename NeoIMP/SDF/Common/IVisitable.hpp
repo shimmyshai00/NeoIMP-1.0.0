@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_APPLYLOADER_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_APPLYLOADER_HPP
+#ifndef SDF_COMMON_IVISITABLE_HPP
+#define SDF_COMMON_IVISITABLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    applyLoader.hpp
- * PURPOSE: Defines methods to apply a loader to an image.
+ * FILE:    IVisitable.hpp
+ * PURPOSE: Defines the IVisitable interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/DomainObjects/Engine/Image/Image.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/Image/Variant.hpp"
+namespace SDF::Common {
+  // Class:      IVisitable
+  // Purpose:    Defines an interface for visitable objects.
+  // Parameters: VisitorT - The type of visitor to accept.
+  template<class VisitorT>
+  class IVisitable {
+  public:
+    virtual ~IVisitable() = default;
 
-#include <boost/variant2/variant.hpp>
+    // Function:   accept
+    // Purpose:    Accepts a visitor into the object.
+    // Parameters: visitor - The visitor to accept.
+    // Returns:    None.
+    virtual void
+    accept(VisitorT &visitor) = 0;
 
-namespace SDF::Editor::DataLayer::DataMappers {
-  template<class Loader, class ImplSpecT>
-  void applyLoader(Loader pers, ModelLayer::DomainObjects::Engine::Image::Image<ImplSpecT> &image) {
-    pers(image);
-  }
-
-  template<class Loader, class ... ImplSpecTs>
-  void applyLoader(
-    Loader pers,
-    ModelLayer::DomainObjects::Engine::Image::Variant<ImplSpecTs...> &image
-  ) {
-    using namespace ModelLayer::DomainObjects;
-    Engine::Image::visit([&](auto &&rhs) { pers(rhs); }, image);
-  }
+    virtual void
+    accept(VisitorT &visitor) const = 0;
+  };
 }
 
 #endif

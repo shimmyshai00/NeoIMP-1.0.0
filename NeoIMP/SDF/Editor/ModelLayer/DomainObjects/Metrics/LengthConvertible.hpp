@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_METRICS_LENGTHCONVERTIBLE_HPP
-#define SDF_EDITOR_MODELLAYER_METRICS_LENGTHCONVERTIBLE_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_LENGTHCONVERTIBLE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_LENGTHCONVERTIBLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
 
-namespace SDF::Editor::ModelLayer::Metrics {
+namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   // Class:      LengthConvertible
   // Purpose:    Defines a convertible length quantity.
   // Parameters: None.

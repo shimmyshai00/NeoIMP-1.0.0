@@ -38,7 +38,7 @@ namespace SDF::Error {
 
 			SafeString(const char *initString) noexcept {
 				strncpy(stringBuf, initString, c_maxStrLen);
-				stringBuf[c_maxStrLen + 1] = '\0';
+				stringBuf[c_maxStrLen] = '\0';
 			}
 
 			const char* get() const noexcept {

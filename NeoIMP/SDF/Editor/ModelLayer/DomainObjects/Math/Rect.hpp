@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_MATH_RECT_HPP
-#define SDF_EDITOR_MODELLAYER_MATH_RECT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_RECT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_RECT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -29,7 +29,7 @@
 
 #include <algorithm>
 
-namespace SDF::Editor::ModelLayer::Math {
+namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   template<class T>
   class Rect {
   public:

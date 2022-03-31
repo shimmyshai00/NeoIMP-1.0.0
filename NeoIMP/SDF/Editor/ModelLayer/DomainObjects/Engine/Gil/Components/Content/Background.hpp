@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Components/IContentComponent.hpp"
+#include "../../../Image/Components/AContent.hpp"
 #include "../../../Dimensions.hpp"
 
 #include <cstddef>
@@ -34,7 +34,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
   // Purpose:    Implements the background component for the Boost.GIL-based engine.
   // Parameters: GilSpecT - The implementation traits type.
   template<class GilSpecT>
-  class Background : public Engine::Components::IContentComponent<GilSpecT> {
+  class Background : public Engine::Image::Components::AContent<GilSpecT> {
   public:
     // Function:   Background
     // Purpose:    Construct a new background content component.
@@ -43,14 +43,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
     //             bkgColor - The initial background color.
     Background(std::size_t widthPx, std::size_t heightPx, typename GilSpecT::bkg_pixel_t bkgColor);
 
+    ImageMeasure
+    getWidthPx() const;
+
+    ImageMeasure
+    getHeightPx() const;
+
     ImageRect
-    getIntrinsicRect() const;
+    getDimensionsRect() const;
 
     void
-    accept(typename GilSpecT::component_visitor_t &visitor);
+    accept(typename GilSpecT::content_visitor_t &visitor);
 
-    virtual void
-    accept(typename GilSpecT::const_component_visitor_t &visitor);
+    void
+    accept(typename GilSpecT::content_visitor_t &visitor) const;
 
     // Function:   getView
     // Purpose:    Gets a view onto the image data.

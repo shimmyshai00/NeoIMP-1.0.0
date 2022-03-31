@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_MATH_VEC2D_HPP
-#define SDF_EDITOR_MODELLAYER_MATH_VEC2D_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_VEC2D_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_VEC2D_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -26,7 +26,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::ModelLayer::Math {
+namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   template<class T>
   class Vec2D {
   public:

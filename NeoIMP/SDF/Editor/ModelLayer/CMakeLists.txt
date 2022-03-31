@@ -1,4 +1,3 @@
-add_subdirectory(Metrics)
 add_subdirectory(DomainObjects)
 add_subdirectory(Services)
 

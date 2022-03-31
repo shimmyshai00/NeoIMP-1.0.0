@@ -40,20 +40,32 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
   }
 
   template<class GilSpecT>
+  ImageMeasure
+  Background<GilSpecT>::getWidthPx() const {
+    return m_data.width();
+  }
+
+  template<class GilSpecT>
+  ImageMeasure
+  Background<GilSpecT>::getHeightPx() const {
+    return m_data.height();
+  }
+
+  template<class GilSpecT>
   ImageRect
-  Background<GilSpecT>::getIntrinsicRect() const {
+  Background<GilSpecT>::getDimensionsRect() const {
     return ImageRect(0, 0, m_data.width(), m_data.height());
   }
 
   template<class GilSpecT>
   void
-  Background<GilSpecT>::accept(typename GilSpecT::component_visitor_t &visitor) {
+  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &visitor) {
     visitor(*this);
   }
 
   template<class GilSpecT>
   void
-  Background<GilSpecT>::accept(typename GilSpecT::const_component_visitor_t &visitor) {
+  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &visitor) const {
     visitor(*this);
   }
 
@@ -74,7 +86,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
   Background<GilSpecT>::getView(ImageRect rect) {
     // Clip the rectangle if it exceeds the bounds (neatly allows for large selections, for
     // example).
-    ImageRect clipRect = getIntrinsicRect().intersect(rect);
+    ImageRect clipRect = this->getDimensionsRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::view(m_data),
       typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
       typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())
@@ -84,7 +96,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
   template<class GilSpecT>
   typename GilSpecT::bkg_view_t::const_t
   Background<GilSpecT>::getView(ImageRect rect) const {
-    ImageRect clipRect = getIntrinsicRect().intersect(rect);
+    ImageRect clipRect = this->getDimensionsRect().intersect(rect);
     return boost::gil::subimage_view(boost::gil::const_view(m_data),
       typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
       typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())

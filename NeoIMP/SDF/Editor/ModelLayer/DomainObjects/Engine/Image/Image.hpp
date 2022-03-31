@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_IMAGE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_IMAGE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,7 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Dimensions.hpp"
+#include "../Dimensions.hpp"
+#include "../IMeasurable.hpp"
 #include "Layer.hpp"
 
 #include <cstddef>
@@ -32,7 +33,7 @@
 #include <memory>
 #include <vector>
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   // Class:      Image
   // Purpose:    Defines an image object. This is actually a fully-instantiatable class template.
   //             The engine uses a composition-favoring system that builds images up from components
@@ -41,7 +42,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             provides the layer stack, which is common to all engine implementations.
   // Parameters: ImplSpecT - A traits struct defining the implementation parameters for this image.
   template<class ImplSpecT>
-  class Image {
+  class Image : public IMeasurable {
   public:
     // Function:   Image
     // Purpose:    Constructs a new image to the specified parameters.
@@ -59,28 +60,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     std::string
     getName() const;
 
-    // Function:   getWidthPx
-    // Purpose:    Gets the width of the image in pixels. This width is set by that of the image's
-    //             background layer.
-    // Parameters: None.
-    // Returns:    The width of the image in pixels.
     ImageMeasure
     getWidthPx() const;
 
-    // Function:   getHeightPx
-    // Purpose:    Gets the height of the image in pixels. This height is set by that of the image's
-    //             background layer.
-    // Parameters: None.
-    // Returns:    The height of the image in pixels.
     ImageMeasure
     getHeightPx() const;
 
-    // Function:   getRect
-    // Purpose:    Get the image's total bounding rectangle.
-    // Parameters: None.
-    // Returns:    The total bounding rectangle.
     ImageRect
-    getRect() const;
+    getDimensionsRect() const;
 
     // Function:   getResolutionPpi
     // Purpose:    Gets the resolution of the image in PPI.

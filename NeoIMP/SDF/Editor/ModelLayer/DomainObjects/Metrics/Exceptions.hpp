@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_METRICS_EXCEPTIONS_HPP
-#define SDF_EDITOR_MODELLAYER_METRICS_EXCEPTIONS_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_EXCEPTIONS_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_METRICS_EXCEPTIONS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,10 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Error/Exception.hpp"
-#include "../../../Error/ModelException.hpp"
+#include "../../../../Error/Exception.hpp"
+#include "../../../../Error/ModelException.hpp"
 
-namespace SDF::Editor::ModelLayer::Metrics {
+namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   struct InvalidLengthUnitException : public Error::LikelyBug<Error::ModelException> {
     int m_unitIdx;
     InvalidLengthUnitException(int unitIdx) : m_unitIdx(unitIdx) {

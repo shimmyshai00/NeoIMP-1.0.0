@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_TPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_TPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_IMAGE_TPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_IMAGE_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,9 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../Error/GeneralException.hpp"
+#include "../../../../../Error/GeneralException.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   template<class ImplSpecT>
   Image<ImplSpecT>::Image()
     : m_name("Unnamed"),
@@ -53,7 +53,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     if(m_layers.size() == 0) {
       return 0;
     } else {
-      return m_layers[0]->getContentWidth();
+      return m_layers[0]->getWidthPx();
     }
   }
 
@@ -63,17 +63,17 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     if(m_layers.size() == 0) {
       return 0;
     } else {
-      return m_layers[0]->getContentHeight();
+      return m_layers[0]->getHeightPx();
     }
   }
 
   template<class ImplSpecT>
   ImageRect
-  Image<ImplSpecT>::getRect() const {
+  Image<ImplSpecT>::getDimensionsRect() const {
     if(m_layers.size() == 0) {
       return ImageRect(0, 0, 0, 0);
     } else {
-      return m_layers[0]->getContentRect();
+      return m_layers[0]->getDimensionsRect();
     }
   }
 

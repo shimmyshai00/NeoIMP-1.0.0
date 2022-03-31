@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGEVARIANT_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGEVARIANT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_VARIANT_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_IMAGE_VARIANT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ImageVariant.hpp
- * PURPOSE: Defines the ImageVariant template.
+ * FILE:    Variant.hpp
+ * PURPOSE: Defines the Variant template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../Dimensions.hpp"
 #include "Image.hpp"
-#include "Dimensions.hpp"
 
 #include <boost/variant2/variant.hpp>
 #include <cstddef>
 #include <string>
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
-  // Class:      ImageVariant
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
+  // Class:      Variant
   // Purpose:    Defines a variant type which can hold a variety of different kinds of images.
   //             This is useful for storing images in repositories as a homogenized collection. In
   //             order to use the variant, it must be visited with std::visit. This is like
@@ -40,17 +40,17 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   //             on top and so must roll our own.
   // Parameters: ImplSpecTs - The implementation spec types going into the variant.
   template<class ... ImplSpecTs>
-  class ImageVariant : public boost::variant2::variant<Image<ImplSpecTs>...> {
+  class Variant : public boost::variant2::variant<Image<ImplSpecTs>...> {
   public:
-    // Function:   ImageVariant
+    // Function:   Variant
     // Purpose:    Constructs a new variant.
     // Parameters: image - The specific-type image going into the variant. Note: so far only
     //                     consumptive move implementation is provided. We need a component clone
     //                     method for non-consumptive variant creation.
-    ImageVariant();
+    Variant();
 
     template<class ImplSpecT>
-    ImageVariant(Image<ImplSpecT> &&image);
+    Variant(Image<ImplSpecT> &&image);
 
     // Function:   getName
     // Purpose:    Gets the name of the image.
@@ -118,21 +118,21 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   };
 }
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   // Helper method.
-  template<typename V, class Variant>
-  auto visitImage(V&& visitor, Variant &&variant) {
+  template<typename VT, class VariantT>
+  auto visit(VT&& visitor, VariantT &&variant) {
     // nb: this weird construct seems sus; may need to rethink this.
-    return boost::variant2::visit(std::forward<V>(visitor), std::forward<Variant>(variant));
+    return boost::variant2::visit(std::forward<VT>(visitor), std::forward<VariantT>(variant));
   }
 
-  template<typename V, class Variant>
-  auto constVisitImage(V&& visitor, const Variant &&variant) {
+  template<typename VT, class VariantT>
+  auto constVisit(VT&& visitor, const VariantT &&variant) {
     // nb: this weird construct seems sus; may need to rethink this.
-    return boost::variant2::visit(std::forward<V>(visitor), std::forward<const Variant>(variant));
+    return boost::variant2::visit(std::forward<VT>(visitor), std::forward<const VariantT>(variant));
   }
 }
 
-#include "ImageVariant.tpp"
+#include "Variant.tpp"
 
 #endif

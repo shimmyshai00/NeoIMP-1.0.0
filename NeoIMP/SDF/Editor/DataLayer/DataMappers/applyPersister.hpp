@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../ModelLayer/DomainObjects/Engine/Image.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image/Image.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image/Variant.hpp"
 
 #include <boost/variant2/variant.hpp>
 
@@ -33,7 +33,7 @@ namespace SDF::Editor::DataLayer::DataMappers {
   template<class Persister, class ImplSpecT>
   void applyPersister(
     Persister pers,
-    const ModelLayer::DomainObjects::Engine::Image<ImplSpecT> &image
+    const ModelLayer::DomainObjects::Engine::Image::Image<ImplSpecT> &image
   ) {
     pers(image);
   }
@@ -41,10 +41,10 @@ namespace SDF::Editor::DataLayer::DataMappers {
   template<class Persister, class ... ImplSpecTs>
   void applyPersister(
     Persister pers,
-    const ModelLayer::DomainObjects::Engine::ImageVariant<ImplSpecTs...> &image
+    const ModelLayer::DomainObjects::Engine::Image::Variant<ImplSpecTs...> &image
   ) {
     using namespace ModelLayer::DomainObjects;
-    Engine::visitImage([&](auto &&rhs) { pers(rhs); }, image);
+    Engine::Image::visit([&](auto &&rhs) { pers(rhs); }, image);
   }
 }
 

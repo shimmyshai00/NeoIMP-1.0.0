@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_MODELLAYER_MATH_POINT2D_HPP
-#define SDF_EDITOR_MODELLAYER_MATH_POINT2D_HPP
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_POINT2D_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_MATH_POINT2D_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -27,7 +27,7 @@
 
 #include "Vec2D.hpp"
 
-namespace SDF::Editor::ModelLayer::Math {
+namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   template<class T>
   class Point2D {
   public:

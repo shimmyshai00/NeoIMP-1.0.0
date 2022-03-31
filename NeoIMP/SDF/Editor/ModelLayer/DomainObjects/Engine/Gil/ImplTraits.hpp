@@ -25,7 +25,7 @@
  */
 
 #include "Components/Content/Background.hpp"
-#include "Components/Visitor.hpp"
+#include "Components/Content/Visitor.hpp"
 
 #include <boost/gil/pixel.hpp>
 #include <boost/gil/image.hpp>
@@ -43,9 +43,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
     typedef boost::gil::rgba8_pixel_t pixel_t;
 
     // These types must be defined in every image implementation traits class.
-    typedef Components::Content::Background<RGB24_888_Image_Impl> background_content_component_t;
-    typedef Components::Visitor<RGB24_888_Image_Impl> component_visitor_t;
-    typedef Components::ConstVisitor<RGB24_888_Image_Impl> const_component_visitor_t;
+    typedef Components::Content::Background<RGB24_888_Image_Impl> background_content_t;
+    typedef Components::Content::Visitor<RGB24_888_Image_Impl> content_visitor_t;
 
     // as must these constants
     static const std::size_t num_bkg_channels = 3;

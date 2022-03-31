@@ -26,7 +26,7 @@
 
 #include "../../../Common/Data/ICrudable.hpp"
 #include "../../../Common/Handle.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/ImageVariant.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Image/Variant.hpp"
 #include "../../ModelLayer/AbstractData/IImageRetainer.hpp"
 #include "../../ModelLayer/AbstractData/IImageLoader.hpp"
 #include "../../ModelLayer/AbstractData/IImageRetriever.hpp"

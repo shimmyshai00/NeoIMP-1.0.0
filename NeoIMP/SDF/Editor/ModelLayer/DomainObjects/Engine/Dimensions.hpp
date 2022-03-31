@@ -24,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../Math/Point2D.hpp"
-#include "../../Math/Vec2D.hpp"
-#include "../../Math/Rect.hpp"
+#include "../Math/Point2D.hpp"
+#include "../Math/Vec2D.hpp"
+#include "../Math/Rect.hpp"
 
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
   // Note: the type used for ImageMeasure should have a range that fits within an std::ptrdiff_t
-  typedef int Measure;
-  typedef Math::Point2D<ImageMeasure> Point;
-  typedef Math::Vec2D<ImageMeasure> Vec;
-  typedef Math::Rect<ImageMeasure> Rect;
+  typedef int ImageMeasure;
+  typedef Math::Point2D<ImageMeasure> ImagePoint;
+  typedef Math::Vec2D<ImageMeasure> ImageVec;
+  typedef Math::Rect<ImageMeasure> ImageRect;
 }
 
 #endif

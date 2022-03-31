@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COMPONENTS_VISITOR_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_ENGINE_GIL_COMPONENTS_VISITOR_HPP
+#ifndef SDF_EDITOR_DOMAINOBJECTS_ENGINE_IMAGE_COMPONENTS_AMODIFIER_HPP
+#define SDF_EDITOR_DOMAINOBJECTS_ENGINE_IMAGE_COMPONENTS_AMODIFIER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Visitor.hpp
- * PURPOSE: Defines the base component visitor for Boost.GIL images.
+ * FILE:    AModifier.hpp
+ * PURPOSE: Defines the AModifier base class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Content/Background.hpp"
-
-namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components {
+namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Components {
+  // Class:      AModifierComponent
+  // Purpose:    Defines the base class for image modifier components. This defines all
+  //             implementation-independent details for those components.
+  // Parameters: ImplSpecT - The implementation traits type.
   template<class ImplSpecT>
-  struct Visitor {
-    virtual void operator()(Content::Background<ImplSpecT> &component) {}
-  };
-
-  template<class ImplSpecT>
-  struct ConstVisitor {
-    virtual void operator()(const Content::Background<ImplSpecT> &component) {}
-  };
+  class AModifier {};
 }
 
 #endif
