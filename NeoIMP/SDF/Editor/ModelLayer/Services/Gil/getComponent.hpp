@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_GIL_COMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_GIL_GETCOMPONENT_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_GIL_GETCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
+ * FILE:    getComponent.hpp
  * PURPOSE: Defines the DI component for the Gil implementation's services.
  */
 
@@ -54,8 +54,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image>,
       AbstractData::IImageFileInfoRequester<DomainObjects::Engine::Gil::Any_Image>,
       Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded>,
-      Common::MessageSystem::IMessageDispatcher<Messages::SImageRemoved>
+      Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded>,
+      Common::MessageSystem::IMessageDispatcher<Messages::ImageRemoved>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

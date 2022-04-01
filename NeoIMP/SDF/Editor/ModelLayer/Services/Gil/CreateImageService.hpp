@@ -50,29 +50,30 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   {
   public:
     INJECT(CreateImageService(
-      AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *imageStore,
-      Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *imageAddedMessageDispatcher
+      AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *a_imageStore,
+      Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *
+        a_imageAddedMessageDispatcher
     ));
 
     boost::uuids::uuid
     getUuid() const;
 
     std::size_t
-    getMemoryRequiredForOneLayer(const UILayer::AbstractModel::Defs::ImageSpec &spec) const;
+    getMemoryRequiredForOneLayer(const UILayer::AbstractModel::Defs::ImageSpec &a_spec) const;
 
     Common::Handle
-    createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec);
+    createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &a_spec);
   private:
     boost::uuids::uuid m_uuid;
 
     AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *m_imageStore;
-    Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *m_imageAddedMessageDispatcher;
+    Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *m_imageAddedMessageDispatcher;
 
     std::size_t m_nextNewDocumentNumber;
 
     template<class GilSpecT>
     std::unique_ptr<DomainObjects::Engine::Gil::Any_Image>
-    doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec);
+    doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &a_spec);
   };
 }
 

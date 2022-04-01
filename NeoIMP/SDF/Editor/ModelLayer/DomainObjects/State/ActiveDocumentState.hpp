@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_ACTIVEDOCUMENTSTATE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_ACTIVEDOCUMENTSTATE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the model layer.
+ * FILE:    ActiveDocumentState.hpp
+ * PURPOSE: Defines a struct giving the shared application state describing which document is active
+ *          for editing.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,16 +25,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "../../../../Common/Handle.hpp"
 
-#include "../DataLayer/getComponent.hpp"
-#include "Services/Component.hpp"
+#include <fruit/fruit.h>
 
-namespace SDF::Editor::ModelLayer {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .install(Services::getComponent)
-      .install(DataLayer::getComponent);
-  }
+namespace SDF::Editor::ModelLayer::DomainObjects::State {
+  struct ActiveDocumentState {
+    Common::Handle activeDocumentHandle;
+
+    ActiveDocumentState()
+      : activeDocumentHandle(Common::HANDLE_INVALID)
+    {}
+  };
 }
+
+#endif

@@ -79,11 +79,11 @@ namespace SDF::Editor::DataLayer::Repositories {
       .bind<
         Common::Data::ICrudable<
           Common::Handle,
-          ModelLayer::DomainObjects::State::SDocumentViewState
+          ModelLayer::DomainObjects::State::DocumentViewState
         >,
         Common::Data::Repositories::MemoryOnlyValueRepository<
           Common::Handle,
-          ModelLayer::DomainObjects::State::SDocumentViewState
+          ModelLayer::DomainObjects::State::DocumentViewState
         >
        >();
   }

@@ -33,7 +33,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   void
-  EditorStateModelService::setActiveDocument(Common::Handle documentHandle) {
-    m_activeDocument.activeDocumentHandle = documentHandle;
+  EditorStateModelService::setActiveDocument(Common::Handle a_documentHandle) {
+    m_activeDocument.activeDocumentHandle = a_documentHandle;
   }
 }

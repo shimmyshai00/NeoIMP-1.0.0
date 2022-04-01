@@ -26,33 +26,33 @@
 
 #include "GetFileInfoService.hpp"
 
-#include "fileFormatMap.hpp"
+#include "file_format_map.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   template<class ImageT>
   GetFileInfoService<ImageT>::GetFileInfoService(
-    AbstractData::IImageFileInfoRequester<ImageT> *fileInfoRequester
+    AbstractData::IImageFileInfoRequester<ImageT> *a_fileInfoRequester
   )
-    : m_fileInfoRequester(fileInfoRequester)
+    : m_fileInfoRequester(a_fileInfoRequester)
   {
   }
 
   template<class ImageT>
   bool
-  GetFileInfoService<ImageT>::wasDocumentPreviouslySaved(Common::Handle imageHandle) {
-    return m_fileInfoRequester->hasAssociatedFile(imageHandle);
+  GetFileInfoService<ImageT>::wasDocumentPreviouslySaved(Common::Handle a_imageHandle) {
+    return m_fileInfoRequester->hasAssociatedFile(a_imageHandle);
   }
 
   template<class ImageT>
   std::string
-  GetFileInfoService<ImageT>::getFileSpec(Common::Handle imageHandle) {
-    return m_fileInfoRequester->getFileSpecById(imageHandle);
+  GetFileInfoService<ImageT>::getFileSpec(Common::Handle a_imageHandle) {
+    return m_fileInfoRequester->getFileSpecById(a_imageHandle);
   }
 
   template<class ImageT>
   UILayer::AbstractModel::Defs::EFileFormat
-  GetFileInfoService<ImageT>::getFileFormat(Common::Handle imageHandle) {
-    return g_fileFormatMapDLtoUL[m_fileInfoRequester->getFileFormatById(imageHandle)];
+  GetFileInfoService<ImageT>::getFileFormat(Common::Handle a_imageHandle) {
+    return g_fileFormatMapDLtoUL[m_fileInfoRequester->getFileFormatById(a_imageHandle)];
   }
 }
 

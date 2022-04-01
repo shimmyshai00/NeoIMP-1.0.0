@@ -33,8 +33,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
 
   template<class ... ImplSpecTs>
   template<class ImplSpecT>
-  Variant<ImplSpecTs...>::Variant(Image<ImplSpecT> &&image)
-    : boost::variant2::variant<Image<ImplSpecTs>...>(std::move(image))
+  Variant<ImplSpecTs...>::Variant(Image<ImplSpecT> &&a_image)
+    : boost::variant2::variant<Image<ImplSpecTs>...>(std::move(a_image))
   {
   }
 
@@ -78,20 +78,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
 
   template<class ... ImplSpecTs>
   void
-  Variant<ImplSpecTs...>::setName(std::string name) {
-    Engine::Image::visit([=](auto &&arg) { arg.setName(name); }, *this);
+  Variant<ImplSpecTs...>::setName(std::string a_name) {
+    Engine::Image::visit([=](auto &&b_arg) { b_arg.setName(a_name); }, *this);
   }
 
   template<class ... ImplSpecTs>
   void
-  Variant<ImplSpecTs...>::setResolutionPpi(float resolutionPpi) {
-    Engine::Image::visit([=](auto &&arg) { arg.setResolutionPpi(resolutionPpi); }, *this);
+  Variant<ImplSpecTs...>::setResolutionPpi(float a_resolutionPpi) {
+    Engine::Image::visit([=](auto &&b_arg) { b_arg.setResolutionPpi(a_resolutionPpi); }, *this);
   }
 
   template<class ... ImplSpecTs>
   std::size_t
   Variant<ImplSpecTs...>::getNumLayers() const {
-    return Engine::Image::visit([](auto &&arg) { return arg.getNumLayers(); }, *this);
+    return Engine::Image::visit([](auto &&b_arg) { return b_arg.getNumLayers(); }, *this);
   }
 }
 

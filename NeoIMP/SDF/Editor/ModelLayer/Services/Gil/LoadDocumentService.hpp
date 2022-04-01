@@ -42,14 +42,14 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class LoadDocumentService : public UILayer::AbstractModel::Storage::ILoadDocumentService {
   public:
     INJECT(LoadDocumentService(
-      AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *imageLoader,
-      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRetriever
+      AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *a_imageLoader,
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever
     ));
 
     Common::Handle
     loadDocument(
-      std::string fileSpec,
-      UILayer::AbstractModel::Defs::EFileFormat fileFormat
+      std::string a_fileSpec,
+      UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
     );
   private:
     AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *m_imageLoader;

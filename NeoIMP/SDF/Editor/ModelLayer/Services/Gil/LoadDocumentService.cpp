@@ -23,36 +23,36 @@
 
 #include "LoadDocumentService.hpp"
 
-#include "../fileFormatMap.hpp"
+#include "../file_format_map.hpp"
 #include "../Exceptions.hpp"
 
 #include <filesystem>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   LoadDocumentService::LoadDocumentService(
-    AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *imageLoader,
-    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRetriever
+    AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *a_imageLoader,
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever
   )
-    : m_imageLoader(imageLoader),
-      m_imageRetriever(imageRetriever)
+    : m_imageLoader(a_imageLoader),
+      m_imageRetriever(a_imageRetriever)
   {
   }
 
   Common::Handle
   LoadDocumentService::loadDocument(
-    std::string fileSpec,
-    UILayer::AbstractModel::Defs::EFileFormat fileFormat
+    std::string a_fileSpec,
+    UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
   ) {
-    if(fileFormat >= UILayer::AbstractModel::Defs::FILE_FORMAT_MAX) {
-      throw BadFileFormatException(fileFormat);
+    if(a_fileFormat >= UILayer::AbstractModel::Defs::FILE_FORMAT_MAX) {
+      throw BadFileFormatException(a_fileFormat);
     }
 
-    AbstractData::Format dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
+    AbstractData::Format dataLayerFormat = g_fileFormatMapULtoDL[a_fileFormat];
 
-    Common::Handle rv(m_imageLoader->loadImageFromFile(fileSpec, dataLayerFormat));
+    Common::Handle rv(m_imageLoader->loadImageFromFile(a_fileSpec, dataLayerFormat));
 
     // Name the image after its filename. NB: should this go in this layer?
-    std::string name(std::filesystem::path(fileSpec).filename());
+    std::string name(std::filesystem::path(a_fileSpec).filename());
     m_imageRetriever->retrieve(rv)->setName(name);
 
     return rv;

@@ -5,5 +5,5 @@ target_sources(neoimp PUBLIC
                RenderingService.cpp
                SaveDocumentService.cpp
                LoadDocumentService.cpp
-               Component.cpp
+               getComponent.cpp
               )

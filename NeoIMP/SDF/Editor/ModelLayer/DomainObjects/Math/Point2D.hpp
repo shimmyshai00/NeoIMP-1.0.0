@@ -36,15 +36,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
         m_y(0)
     {}
 
-    Point2D(T x, T y)
-      : m_x(x),
-        m_y(y)
+    Point2D(T a_x, T a_y)
+      : m_x(a_x),
+        m_y(a_y)
     {}
 
     template<class U>
-    Point2D(Point2D<U> otherPoint)
-      : m_x(otherPoint.x()),
-        m_y(otherPoint.y())
+    Point2D(Point2D<U> a_otherPoint)
+      : m_x(a_otherPoint.x()),
+        m_y(a_otherPoint.y())
     {}
 
     ~Point2D() {}
@@ -72,16 +72,16 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
 
     // Affine operators.
     Point2D<T> &
-    operator+=(const Vec2D<T> &rhs) {
-      m_x += rhs.x();
-      m_y += rhs.y();
+    operator+=(const Vec2D<T> &a_rhs) {
+      m_x += a_rhs.x();
+      m_y += a_rhs.y();
       return *this;
     }
 
     Point2D<T> &
-    operator-=(const Vec2D<T> &rhs) {
-      m_x -= rhs.x();
-      m_y -= rhs.y();
+    operator-=(const Vec2D<T> &a_rhs) {
+      m_x -= a_rhs.x();
+      m_y -= a_rhs.y();
       return *this;
     }
   private:
@@ -92,32 +92,32 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Point2D<T> &lhs, const Point2D<T> &rhs) {
-    return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
+  operator==(const Point2D<T> &a_lhs, const Point2D<T> &a_rhs) {
+    return (a_lhs.x() == a_rhs.x()) && (a_lhs.y() == a_rhs.y());
   }
 
   template<class T>
   static inline bool
-  operator!=(const Point2D<T> &lhs, const Point2D<T> &rhs) {
-    return !(lhs == rhs);
+  operator!=(const Point2D<T> &a_lhs, const Point2D<T> &a_rhs) {
+    return !(a_lhs == a_rhs);
   }
 
   template<class T>
   static inline Point2D<T>
-  operator+(const Point2D<T> &lhs, const Vec2D<T> &rhs) {
-    return Point2D<T>(lhs) += rhs;
+  operator+(const Point2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Point2D<T>(a_lhs) += a_rhs;
   }
 
   template<class T>
   static inline Point2D<T>
-  operator-(const Point2D<T> &lhs, const Vec2D<T> &rhs) {
-    return Point2D<T>(lhs) -= rhs;
+  operator-(const Point2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Point2D<T>(a_lhs) -= a_rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Point2D<T> &lhs, const Point2D<T> &rhs) {
-    return Vec2D<T>(lhs.x() - rhs.x(), lhs.y() - rhs.y());
+  operator-(const Point2D<T> &a_lhs, const Point2D<T> &a_rhs) {
+    return Vec2D<T>(a_lhs.x() - a_rhs.x(), a_lhs.y() - a_rhs.y());
   }
 }
 

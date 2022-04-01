@@ -41,25 +41,25 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class RenderingService : public UILayer::AbstractModel::Viewing::IRenderingService {
   public:
     INJECT(RenderingService(
-      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository,
       Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>
-        *renderingRepository
+        *a_renderingRepository
     ));
 
     Common::Handle
-    createStaticRendering(Common::Handle imageHandle);
+    createStaticRendering(Common::Handle a_imageHandle);
 
     std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
     getRegion(
-      Common::Handle renderHandle,
-      std::size_t x1,
-      std::size_t y1,
-      std::size_t x2,
-      std::size_t y2
+      Common::Handle a_renderHandle,
+      std::size_t a_x1,
+      std::size_t a_y1,
+      std::size_t a_x2,
+      std::size_t a_y2
     );
 
     void
-    deleteRendering(Common::Handle renderHandle);
+    deleteRendering(Common::Handle a_renderHandle);
   private:
     AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
     Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *

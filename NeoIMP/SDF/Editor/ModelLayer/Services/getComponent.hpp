@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_COMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_COMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_GETCOMPONENT_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_GETCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
+ * FILE:    getComponent.hpp
  * PURPOSE: Defines the DI component for the services subsystem.
  */
 
@@ -46,7 +46,7 @@
 #include "../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../DomainObjects/Engine/Buffers/GridRendering.hpp"
-#include "../DomainObjects/State/SDocumentViewState.hpp"
+#include "../DomainObjects/State/DocumentViewState.hpp"
 #include "../AbstractData/IImageRetainer.hpp"
 #include "../AbstractData/IImageLoader.hpp"
 #include "../AbstractData/IImagePersister.hpp"
@@ -65,7 +65,7 @@ namespace SDF::Editor::ModelLayer::Services {
       AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image>,
       AbstractData::IImageFileInfoRequester<DomainObjects::Engine::Gil::Any_Image>,
       Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering>,
-      Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState>
+      Common::Data::ICrudable<Common::Handle, DomainObjects::State::DocumentViewState>
     >,
     UILayer::AbstractModel::Create::IGetMemoryRequirementsService,
     UILayer::AbstractModel::Create::ICreateDocumentService,

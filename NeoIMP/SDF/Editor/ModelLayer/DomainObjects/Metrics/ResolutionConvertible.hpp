@@ -36,10 +36,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
                                 >
   {
   public:
-    ResolutionConvertible(float quantity, UILayer::AbstractModel::Defs::EResolutionUnit unit);
+    ResolutionConvertible(float quantity, UILayer::AbstractModel::Defs::EResolutionUnit a_unit);
 
     float
-    in(UILayer::AbstractModel::Defs::EResolutionUnit unit);
+    in(UILayer::AbstractModel::Defs::EResolutionUnit a_unit);
   private:
     float m_quantity;
     UILayer::AbstractModel::Defs::EResolutionUnit m_unit;

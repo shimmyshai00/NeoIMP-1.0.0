@@ -54,12 +54,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   CreateImageService::CreateImageService(
-    AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *imageStore,
-    Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded> *imageAddedMessageDispatcher
+    AbstractData::IImageRetainer<DomainObjects::Engine::Gil::Any_Image> *a_imageStore,
+    Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *a_imageAddedMessageDispatcher
   )
     : m_uuid(boost::uuids::random_generator()()),
-      m_imageStore(imageStore),
-      m_imageAddedMessageDispatcher(imageAddedMessageDispatcher),
+      m_imageStore(a_imageStore),
+      m_imageAddedMessageDispatcher(a_imageAddedMessageDispatcher),
       m_nextNewDocumentNumber(1)
   {
   }
@@ -71,7 +71,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
   std::size_t
   CreateImageService::getMemoryRequiredForOneLayer(
-    const UILayer::AbstractModel::Defs::ImageSpec &spec
+    const UILayer::AbstractModel::Defs::ImageSpec &a_spec
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
@@ -81,16 +81,18 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     // Input validation.
     Validators::ImageSpecValidator val;
     Validators::SImageSpecValidationReport report;
-    if(val.validate(spec, &report)) {
+    if(val.validate(a_spec, &report)) {
       // Convert the dimensions to pixels.
-      LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
-      LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
+      LengthConvertible width(a_spec.width, a_spec.widthUnit, a_spec.resolution,
+        a_spec.resolutionUnit);
+      LengthConvertible height(a_spec.height, a_spec.heightUnit, a_spec.resolution,
+        a_spec.resolutionUnit);
 
       std::size_t widthPx(width.in(LENGTH_UNIT_PIXEL));
       std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
       // What type to use depends on the color format.
-      if(spec.colorFormat == COLOR_FMT_RGB24_888) {
+      if(a_spec.colorFormat == COLOR_FMT_RGB24_888) {
         return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
           widthPx, heightPx);
       } else {
@@ -103,7 +105,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   Common::Handle
-  CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
+  CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &a_spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
     using namespace DomainObjects::Metrics;
@@ -112,18 +114,18 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     // Input validation.
     Validators::ImageSpecValidator val;
     Validators::SImageSpecValidationReport report;
-    if(val.validate(spec, &report)) {
+    if(val.validate(a_spec, &report)) {
       // What type to use depends on the color format.
       std::unique_ptr<Engine::Gil::Any_Image> image;
-      if(spec.colorFormat == COLOR_FMT_RGB24_888) {
-        image = doConstructFromSpec<Engine::Gil::RGB24_888_Image_Impl>(spec);
+      if(a_spec.colorFormat == COLOR_FMT_RGB24_888) {
+        image = doConstructFromSpec<Engine::Gil::RGB24_888_Image_Impl>(a_spec);
       } else {
         throw "NOT YET IMPLEMENTED";
       }
 
       Common::Handle rv(m_imageStore->retainImageAtAutoID(std::move(image)));
 
-      Messages::SImageAdded msg(rv);
+      Messages::ImageAdded msg(rv);
       m_imageAddedMessageDispatcher->dispatchMessage(getUuid(), msg);
 
       ++m_nextNewDocumentNumber;
@@ -141,7 +143,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // color model in the spec.
   template<class GilSpecT>
   std::unique_ptr<DomainObjects::Engine::Gil::Any_Image>
-  CreateImageService::doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &spec) {
+  CreateImageService::doConstructFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &a_spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
     using namespace DomainObjects::Metrics;
@@ -150,9 +152,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     using namespace boost::gil;
 
     // Convert the dimensions to pixels.
-    ResolutionConvertible res(spec.resolution, spec.resolutionUnit);
-    LengthConvertible width(spec.width, spec.widthUnit, spec.resolution, spec.resolutionUnit);
-    LengthConvertible height(spec.height, spec.heightUnit, spec.resolution, spec.resolutionUnit);
+    ResolutionConvertible res(a_spec.resolution, a_spec.resolutionUnit);
+    LengthConvertible width(a_spec.width, a_spec.widthUnit, a_spec.resolution,
+      a_spec.resolutionUnit);
+    LengthConvertible height(a_spec.height, a_spec.heightUnit, a_spec.resolution,
+      a_spec.resolutionUnit);
 
     std::string name("Untitled " + std::to_string(m_nextNewDocumentNumber));
     std::string fileSpec("");
@@ -162,10 +166,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     std::size_t heightPx(height.in(LENGTH_UNIT_PIXEL));
 
     typename GilSpecT::bkg_pixel_t bkgColor;
-    if(spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
-      bkgColor = uiPixelToGilPixel3Component<typename GilSpecT::bkg_pixel_t>(*spec.backgroundColor);
+    if(a_spec.backgroundPreset == PRE_BACKGROUND_CUSTOM) {
+      bkgColor = uiPixelToGilPixel3Component<typename GilSpecT::bkg_pixel_t>(*a_spec.
+        backgroundColor);
     } else {
-      color_convert(Impl::g_bkgRgbPresets[spec.backgroundPreset], bkgColor);
+      color_convert(Impl::g_bkgRgbPresets[a_spec.backgroundPreset], bkgColor);
     }
 
     auto proto = Engine::Gil::ImageFactory<GilSpecT>().createU(

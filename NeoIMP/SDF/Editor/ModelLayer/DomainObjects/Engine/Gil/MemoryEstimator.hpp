@@ -36,13 +36,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilImplT>
   struct MemoryEstimator {
     static std::size_t
-    singleLayerEstimate(ImageMeasure widthPx, ImageMeasure heightPx) {
-      if((widthPx <= 0) || (heightPx <= 0)) {
-        throw InvalidDimensionsException(widthPx, heightPx);
+    singleLayerEstimate(ImageMeasure a_widthPx, ImageMeasure a_heightPx) {
+      if((a_widthPx <= 0) || (a_heightPx <= 0)) {
+        throw InvalidDimensionsException(a_widthPx, a_heightPx);
       } else {
         // NB: presumes boost::gil::image is contiguous in memory - needs to be checked, and may
         //     need further tweaking
-        return static_cast<std::size_t>(widthPx) * heightPx *
+        return static_cast<std::size_t>(a_widthPx) * a_heightPx *
           sizeof(typename GilImplT::bkg_pixel_t);
       }
     }

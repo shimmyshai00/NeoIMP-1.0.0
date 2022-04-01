@@ -29,8 +29,8 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
   template<class ImplSpecT>
   struct Visitor {
-    virtual void operator()(Background<ImplSpecT> &component) {}
-    virtual void operator()(const Background<ImplSpecT> &component) {}
+    virtual void operator()(Background<ImplSpecT> &a_component) {}
+    virtual void operator()(const Background<ImplSpecT> &a_component) {}
   };
 }
 

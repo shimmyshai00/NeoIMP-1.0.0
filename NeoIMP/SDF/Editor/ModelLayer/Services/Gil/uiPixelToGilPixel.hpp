@@ -40,15 +40,15 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   uiPixelToGilPixel3Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorFormat
-    > &color
+    > &a_color
   ) {
 #ifndef NDEBUG
-    if(3 != color.getNumChannels()) {
+    if(3 != a_color.getNumChannels()) {
       throw IncompatiblePixelFormatsException();
     }
 #endif // !NDEBUG
 
-    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2)));
+    return(GilPixelT(a_color.getValue(0), a_color.getValue(1), a_color.getValue(2)));
   }
 
   template<class GilPixelT>
@@ -56,15 +56,16 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   uiPixelToGilPixel4Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorFormat
-    > &color
+    > &a_color
   ) {
 #ifndef NDEBUG
-    if(4 != color.getNumChannels()) {
+    if(4 != a_color.getNumChannels()) {
       throw IncompatiblePixelFormatsException();
     }
 #endif // !NDEBUG
 
-    return(GilPixelT(color.getValue(0), color.getValue(1), color.getValue(2), color.getValue(3)));
+    return(GilPixelT(a_color.getValue(0), a_color.getValue(1), a_color.getValue(2),
+      a_color.getValue(3)));
   }
 }
 

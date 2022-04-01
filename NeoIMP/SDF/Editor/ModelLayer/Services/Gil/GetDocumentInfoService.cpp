@@ -28,49 +28,49 @@
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   GetDocumentInfoService::GetDocumentInfoService(
-    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository
   )
-    : m_imageRepository(imageRepository)
+    : m_imageRepository(a_imageRepository)
   {
   }
 
   std::string
-  GetDocumentInfoService::getDocumentName(Common::Handle documentHandle) {
-    return m_imageRepository->retrieve(documentHandle)->getName();
+  GetDocumentInfoService::getDocumentName(Common::Handle a_documentHandle) {
+    return m_imageRepository->retrieve(a_documentHandle)->getName();
   }
 
   float
   GetDocumentInfoService::getDocumentWidth(
-    Common::Handle documentHandle,
-    UILayer::AbstractModel::Defs::ELengthUnit inUnit
+    Common::Handle a_documentHandle,
+    UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
     using namespace DomainObjects::Metrics;
 
-    ImageMeasure widthPx = m_imageRepository->retrieve(documentHandle)->getWidthPx();
-    float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
+    ImageMeasure widthPx = m_imageRepository->retrieve(a_documentHandle)->getWidthPx();
+    float resolutionPpi = m_imageRepository->retrieve(a_documentHandle)->getResolutionPpi();
     return LengthConvertible(widthPx, LENGTH_UNIT_PIXEL, resolutionPpi, RESOLUTION_UNIT_PPI)
-      .in(inUnit);
+      .in(a_inUnit);
   }
 
   float
   GetDocumentInfoService::getDocumentHeight(
-    Common::Handle documentHandle,
-    UILayer::AbstractModel::Defs::ELengthUnit inUnit
+    Common::Handle a_documentHandle,
+    UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
     using namespace DomainObjects::Metrics;
 
-    ImageMeasure heightPx = m_imageRepository->retrieve(documentHandle)->getHeightPx();
-    float resolutionPpi = m_imageRepository->retrieve(documentHandle)->getResolutionPpi();
+    ImageMeasure heightPx = m_imageRepository->retrieve(a_documentHandle)->getHeightPx();
+    float resolutionPpi = m_imageRepository->retrieve(a_documentHandle)->getResolutionPpi();
     return LengthConvertible(heightPx, LENGTH_UNIT_PIXEL, resolutionPpi, RESOLUTION_UNIT_PPI)
-      .in(inUnit);
+      .in(a_inUnit);
   }
 
   UILayer::AbstractModel::Defs::Color::EColorFormat
-  GetDocumentInfoService::getColorFormatOf(Common::Handle documentHandle) const {
+  GetDocumentInfoService::getColorFormatOf(Common::Handle a_documentHandle) const {
     using namespace UILayer::AbstractModel::Defs::Color;
 
     // TBA

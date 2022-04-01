@@ -30,11 +30,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   template<class T>
   class Vec2D {
   public:
-    Vec2D(T x,
-          T y
-         )
-      : m_x(x),
-        m_y(y)
+    Vec2D(T a_x, T a_y)
+      : m_x(a_x),
+        m_y(a_y)
     {}
 
     ~Vec2D() {}
@@ -62,25 +60,25 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
 
     // Vector operations.
     Vec2D<T> &
-    operator+=(const Vec2D<T> &rhs) {
-      m_x += rhs.m_x;
-      m_y += rhs.m_y;
+    operator+=(const Vec2D<T> &a_rhs) {
+      m_x += a_rhs.m_x;
+      m_y += a_rhs.m_y;
 
       return *this;
     }
 
     Vec2D<T> &
-    operator-=(const Vec2D<T> &rhs) {
-      m_x -= rhs.m_x;
-      m_y -= rhs.m_y;
+    operator-=(const Vec2D<T> &a_rhs) {
+      m_x -= a_rhs.m_x;
+      m_y -= a_rhs.m_y;
 
       return *this;
     }
 
     Vec2D<T> &
-    operator*=(T s) {
-      m_x *= s;
-      m_y *= s;
+    operator*=(T a_s) {
+      m_x *= a_s;
+      m_y *= a_s;
 
       return *this;
     }
@@ -92,38 +90,38 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
-    return (lhs.x() == rhs.x()) && (lhs.y() == rhs.y());
+  operator==(const Vec2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return (a_lhs.x() == a_rhs.x()) && (a_lhs.y() == a_rhs.y());
   }
 
   template<class T>
   static inline bool
-  operator!=(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
-    return !(lhs == rhs);
+  operator!=(const Vec2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return !(a_lhs == a_rhs);
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator+(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
-    return Vec2D<T>(lhs) += rhs;
+  operator+(const Vec2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Vec2D<T>(a_lhs) += a_rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Vec2D<T> &lhs, const Vec2D<T> &rhs) {
-    return Vec2D<T>(lhs) -= rhs;
+  operator-(const Vec2D<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Vec2D<T>(a_lhs) -= a_rhs;
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator-(const Vec2D<T> &rhs) {
-    return Vec2D<T>(-rhs.x(), -rhs.y());
+  operator-(const Vec2D<T> &a_rhs) {
+    return Vec2D<T>(-a_rhs.x(), -a_rhs.y());
   }
 
   template<class T>
   static inline Vec2D<T>
-  operator*(double s, const Vec2D<T> &rhs) {
-    return Vec2D<T>(rhs) *= s;
+  operator*(double a_s, const Vec2D<T> &a_rhs) {
+    return Vec2D<T>(a_rhs) *= a_s;
   }
 }
 

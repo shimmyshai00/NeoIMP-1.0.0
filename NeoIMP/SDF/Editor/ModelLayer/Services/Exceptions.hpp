@@ -33,14 +33,14 @@ namespace SDF::Editor::ModelLayer::Services {
 
   struct BadFileFormatException : public ServiceException {
     int m_formatIdx;
-    BadFileFormatException(int formatIdx) : m_formatIdx(formatIdx) {
+    BadFileFormatException(int a_formatIdx) : m_formatIdx(a_formatIdx) {
       whatPrintf("Bad file format specifier '%d' passed.", m_formatIdx);
     }
   };
 
   struct BadColorFormatException : public ServiceException {
     int m_colorFmtIdx;
-    BadColorFormatException(int colorFmtIdx) : m_colorFmtIdx(colorFmtIdx) {
+    BadColorFormatException(int a_colorFmtIdx) : m_colorFmtIdx(a_colorFmtIdx) {
       whatPrintf("Bad color format specifier '%d' passed.", m_colorFmtIdx);
     }
   };
@@ -52,8 +52,9 @@ namespace SDF::Editor::ModelLayer::Services {
   };
 
   struct BadDocumentSpecException : public ServiceException {
-    BadDocumentSpecException(Validators::SImageSpecValidationReport &validationReport) {
-      whatPrintf("Passed document spec was bad. Problems: %s", validationReport.describeProblem());
+    BadDocumentSpecException(Validators::SImageSpecValidationReport &a_validationReport) {
+      whatPrintf("Passed document spec was bad. Problems: %s",
+        a_validationReport.describeProblem());
     }
   };
 }

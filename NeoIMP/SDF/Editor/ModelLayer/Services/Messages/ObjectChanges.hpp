@@ -27,16 +27,16 @@
 #include "../../../../Common/Handle.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Messages {
-  struct SImageAdded {
+  struct ImageAdded {
     Common::Handle handle;
 
-    SImageAdded(Common::Handle t_handle) : handle(t_handle) {}
+    ImageAdded(Common::Handle a_handle) : handle(a_handle) {}
   };
 
-  struct SImageRemoved {
+  struct ImageRemoved {
     Common::Handle handle;
 
-    SImageRemoved(Common::Handle t_handle) : handle(t_handle) {}
+    ImageRemoved(Common::Handle a_handle) : handle(a_handle) {}
   };
 }
 

@@ -36,16 +36,16 @@ namespace SDF::Editor::ModelLayer::Services {
   template<class ImageT>
   class GetFileInfoService : public UILayer::AbstractModel::Storage::IGetDocumentFileInfoService {
   public:
-    INJECT(GetFileInfoService(AbstractData::IImageFileInfoRequester<ImageT> *fileInfoRequester));
+    INJECT(GetFileInfoService(AbstractData::IImageFileInfoRequester<ImageT> *a_fileInfoRequester));
 
     bool
-    wasDocumentPreviouslySaved(Common::Handle imageHandle);
+    wasDocumentPreviouslySaved(Common::Handle a_imageHandle);
 
     std::string
-    getFileSpec(Common::Handle imageHandle);
+    getFileSpec(Common::Handle a_imageHandle);
 
     UILayer::AbstractModel::Defs::EFileFormat
-    getFileFormat(Common::Handle imageHandle);
+    getFileFormat(Common::Handle a_imageHandle);
   private:
     AbstractData::IImageFileInfoRequester<ImageT> *m_fileInfoRequester;
   };

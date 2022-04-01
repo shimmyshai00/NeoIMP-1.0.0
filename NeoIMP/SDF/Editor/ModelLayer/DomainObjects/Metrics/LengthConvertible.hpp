@@ -38,14 +38,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   {
   public:
     LengthConvertible(
-      float quantity,
-      UILayer::AbstractModel::Defs::ELengthUnit unit,
-      float resolution,
-      UILayer::AbstractModel::Defs::EResolutionUnit resUnit
+      float a_quantity,
+      UILayer::AbstractModel::Defs::ELengthUnit a_unit,
+      float a_resolution,
+      UILayer::AbstractModel::Defs::EResolutionUnit a_resUnit
     );
 
     float
-    in(UILayer::AbstractModel::Defs::ELengthUnit unit);
+    in(UILayer::AbstractModel::Defs::ELengthUnit a_unit);
   private:
     float m_quantityPixels;
     float m_resolutionPpi;

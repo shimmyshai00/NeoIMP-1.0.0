@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_MODELLAYER_SERVICES_FILEFORMATMAP_HPP
-#define SDF_EDITOR_MODELLAYER_SERVICES_FILEFORMATMAP_HPP
+#ifndef SDF_EDITOR_MODELLAYER_SERVICES_FILE_FORMAT_MAP_HPP
+#define SDF_EDITOR_MODELLAYER_SERVICES_FILE_FORMAT_MAP_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    fileFormatMap.hpp
+ * FILE:    file_format_map.hpp
  * PURPOSE: Defines a mapping between UI layer and data layer file format enums.
  */
 

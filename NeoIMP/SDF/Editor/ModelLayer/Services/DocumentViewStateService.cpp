@@ -26,109 +26,113 @@
 
 namespace SDF::Editor::ModelLayer::Services {
   DocumentViewStateService::DocumentViewStateService(
-    Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
-      documentViewStateCrudable
+    Common::Data::ICrudable<Common::Handle, DomainObjects::State::DocumentViewState> *
+      a_documentViewStateCrudable
   )
-    : m_documentViewStateCrudable(documentViewStateCrudable)
+    : m_documentViewStateCrudable(a_documentViewStateCrudable)
   {
   }
 
   Common::Handle
   DocumentViewStateService::addView(
-    Common::Handle imageHandle,
-    float anchorX,
-    float anchorY,
-    float anchorMag
+    Common::Handle a_imageHandle,
+    float a_anchorX,
+    float a_anchorY,
+    float a_anchorMag
   ) {
     Common::Handle viewHandle(0);
     while(m_documentViewStateCrudable->has(viewHandle)) {
       ++viewHandle;
     }
 
-    auto state = DomainObjects::State::SDocumentViewState(anchorX, anchorY, anchorMag);
+    auto state = DomainObjects::State::DocumentViewState(a_anchorX, a_anchorY, a_anchorMag);
     m_documentViewStateCrudable->create(viewHandle, state);
 
     return viewHandle;
   }
 
   float
-  DocumentViewStateService::getViewingPointX(Common::Handle viewHandle) const {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+  DocumentViewStateService::getViewingPointX(Common::Handle a_viewHandle) const {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
 
     return dvs.viewPosX;
   }
 
   float
-  DocumentViewStateService::getViewingPointY(Common::Handle viewHandle) const {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+  DocumentViewStateService::getViewingPointY(Common::Handle a_viewHandle) const {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
 
     return dvs.viewPosY;
   }
 
   float
-  DocumentViewStateService::getViewingPointMagnification(Common::Handle viewHandle) const {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
+  DocumentViewStateService::getViewingPointMagnification(Common::Handle a_viewHandle) const {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
 
     return dvs.viewMagnification;
   }
 
   void
-  DocumentViewStateService::setViewingPointX(Common::Handle viewHandle, float x) {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
-    dvs.viewPosX = x;
-    m_documentViewStateCrudable->update(viewHandle, dvs);
-    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
+  DocumentViewStateService::setViewingPointX(Common::Handle a_viewHandle, float a_x) {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
+    dvs.viewPosX = a_x;
+    m_documentViewStateCrudable->update(a_viewHandle, dvs);
+    m_listeners.notify(a_viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
-  DocumentViewStateService::setViewingPointY(Common::Handle viewHandle, float y) {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
-    dvs.viewPosY = y;
-    m_documentViewStateCrudable->update(viewHandle, dvs);
-    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
+  DocumentViewStateService::setViewingPointY(Common::Handle a_viewHandle, float a_y) {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
+    dvs.viewPosY = a_y;
+    m_documentViewStateCrudable->update(a_viewHandle, dvs);
+    m_listeners.notify(a_viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
-  DocumentViewStateService::setViewingPointMagnification(Common::Handle viewHandle, float mag) {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
-    dvs.viewMagnification = mag;
-    m_documentViewStateCrudable->update(viewHandle, dvs);
-    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
+  DocumentViewStateService::setViewingPointMagnification(Common::Handle a_viewHandle, float a_mag) {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
+    dvs.viewMagnification = a_mag;
+    m_documentViewStateCrudable->update(a_viewHandle, dvs);
+    m_listeners.notify(a_viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
-  DocumentViewStateService::setViewingPointPos(Common::Handle viewHandle, float x, float y) {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
-    dvs.viewPosX = x;
-    dvs.viewPosY = y;
-    m_documentViewStateCrudable->update(viewHandle, dvs);
-    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
+  DocumentViewStateService::setViewingPointPos(Common::Handle a_viewHandle, float a_x, float a_y) {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
+    dvs.viewPosX = a_x;
+    dvs.viewPosY = a_y;
+    m_documentViewStateCrudable->update(a_viewHandle, dvs);
+    m_listeners.notify(a_viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   void
-  DocumentViewStateService::setViewingPoint(Common::Handle viewHandle, float x, float y, float mag)
-  {
-    DomainObjects::State::SDocumentViewState dvs;
-    m_documentViewStateCrudable->retrieve(viewHandle, dvs);
-    dvs.viewPosX = x;
-    dvs.viewPosY = y;
-    dvs.viewMagnification = mag;
-    m_documentViewStateCrudable->update(viewHandle, dvs);
-    m_listeners.notify(viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
+  DocumentViewStateService::setViewingPoint(
+    Common::Handle a_viewHandle,
+    float a_x,
+    float a_y,
+    float a_mag
+  ) {
+    DomainObjects::State::DocumentViewState dvs;
+    m_documentViewStateCrudable->retrieve(a_viewHandle, dvs);
+    dvs.viewPosX = a_x;
+    dvs.viewPosY = a_y;
+    dvs.viewMagnification = a_mag;
+    m_documentViewStateCrudable->update(a_viewHandle, dvs);
+    m_listeners.notify(a_viewHandle, dvs.viewPosX, dvs.viewPosY, dvs.viewMagnification);
   }
 
   Common::PIConnection
   DocumentViewStateService::addViewingPointListener(
-    Common::Handle viewHandle,
-    std::shared_ptr<Common::IListener<float, float, float>> listener
+    Common::Handle a_viewHandle,
+    std::shared_ptr<Common::IListener<float, float, float>> a_listener
   ) {
-    return m_listeners.addListener(viewHandle, listener);
+    return m_listeners.addListener(a_viewHandle, a_listener);
   }
 }

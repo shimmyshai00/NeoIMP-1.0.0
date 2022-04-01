@@ -25,20 +25,20 @@
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   SaveDocumentService::SaveDocumentService(
-    AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+    AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository
   )
-    : m_imageRepository(imageRepository)
+    : m_imageRepository(a_imageRepository)
   {
   }
 
   void
   SaveDocumentService::saveDocument(
-    Common::Handle imageHandle,
-    std::string fileSpec,
-    UILayer::AbstractModel::Defs::EFileFormat fileFormat
+    Common::Handle a_imageHandle,
+    std::string a_fileSpec,
+    UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
   ) {
     AbstractData::Format dataLayerFormat;
-    switch(fileFormat) {
+    switch(a_fileFormat) {
       case UILayer::AbstractModel::Defs::FILE_FORMAT_PNG:
         dataLayerFormat = AbstractData::FORMAT_PNG;
         break;
@@ -47,7 +47,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         break;
     }
 
-    m_imageRepository->registerFileSpec(imageHandle, fileSpec, dataLayerFormat);
-    m_imageRepository->persistImage(imageHandle);
+    m_imageRepository->registerFileSpec(a_imageHandle, a_fileSpec, dataLayerFormat);
+    m_imageRepository->persistImage(a_imageHandle);
   }
 }

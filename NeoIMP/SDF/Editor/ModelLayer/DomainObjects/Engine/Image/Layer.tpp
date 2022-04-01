@@ -71,9 +71,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
 
   template<class ImplSpecT>
   void
-  Layer<ImplSpecT>::setContentComponent(std::unique_ptr<Components::AContent<ImplSpecT>> component)
-  {
-    m_contentComponent = std::move(component);
+  Layer<ImplSpecT>::setContentComponent(
+    std::unique_ptr<Components::AContent<ImplSpecT>> a_component
+  ) {
+    m_contentComponent = std::move(a_component);
   }
 
   template<class ImplSpecT>

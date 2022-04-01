@@ -46,26 +46,26 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   {
   public:
     INJECT(GetDocumentInfoService(
-      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository
     ));
 
     std::string
-    getDocumentName(Common::Handle documentHandle);
+    getDocumentName(Common::Handle a_documentHandle);
 
     float
     getDocumentWidth(
-      Common::Handle documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+      Common::Handle a_documentHandle,
+      UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
     ) const;
 
     float
     getDocumentHeight(
-      Common::Handle documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+      Common::Handle a_documentHandle,
+      UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
     ) const;
 
     UILayer::AbstractModel::Defs::Color::EColorFormat
-    getColorFormatOf(Common::Handle documentHandle) const;
+    getColorFormatOf(Common::Handle a_documentHandle) const;
   private:
     AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
   };

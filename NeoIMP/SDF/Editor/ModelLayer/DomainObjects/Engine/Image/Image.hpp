@@ -56,7 +56,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     //             heightPx - The height of the image in pixels.
     //             resolutionPpi - The resolution of the image.
     Image();
-    Image(std::string name, float resolutionPpi);
+    Image(std::string a_name, float a_resolutionPpi);
 
     std::string
     getName() const;
@@ -89,13 +89,13 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     // Parameters: layerNum - The layer number to get.
     // Returns:    The requested layer.
     Layer<ImplSpecT> &
-    getLayer(std::size_t layerNum);
+    getLayer(std::size_t a_layerNum);
 
     const Layer<ImplSpecT> &
-    getLayer(std::size_t layerNum) const;
+    getLayer(std::size_t a_layerNum) const;
 
     void
-    setName(std::string name);
+    setName(std::string a_name);
 
     // Function:   setResolutionPpi
     // Purpose:    Sets the image resolution (the conversion factor between pixels and physical
@@ -103,14 +103,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     // Parameters: resolutionPpi - The new resolution in PPI.
     // Returns:    None.
     void
-    setResolutionPpi(float resolutionPpi);
+    setResolutionPpi(float a_resolutionPpi);
 
     // Function:   addLayer
     // Purpose:    Injects a new layer into the image.
     // Parameters: layer - The layer to insert.
     // Returns:    None.
     void
-    addLayer(std::unique_ptr<Layer<ImplSpecT>> layer);
+    addLayer(std::unique_ptr<Layer<ImplSpecT>> a_layer);
   private:
     std::string m_name;
     float m_resolutionPpi;

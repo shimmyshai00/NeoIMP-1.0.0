@@ -30,7 +30,7 @@
 
 #include "../ModelLayer/DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../ModelLayer/DomainObjects/State/SDocumentViewState.hpp"
+#include "../ModelLayer/DomainObjects/State/DocumentViewState.hpp"
 
 #include "../ModelLayer/AbstractData/IImageRetainer.hpp"
 #include "../ModelLayer/AbstractData/IImageFileInfoRequester.hpp"
@@ -60,7 +60,7 @@ namespace SDF::Editor::DataLayer {
     >,
     Common::Data::ICrudable<
       Common::Handle,
-      ModelLayer::DomainObjects::State::SDocumentViewState
+      ModelLayer::DomainObjects::State::DocumentViewState
     >
   > Component;
 

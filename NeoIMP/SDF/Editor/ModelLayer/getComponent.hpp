@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_MODELLAYER_COMPONENT_HPP
-#define SDF_EDITOR_MODELLAYER_COMPONENT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_GETCOMPONENT_HPP
+#define SDF_EDITOR_MODELLAYER_GETCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
+ * FILE:    getComponent.hpp
  * PURPOSE: Defines the DI component for the model layer.
  */
 

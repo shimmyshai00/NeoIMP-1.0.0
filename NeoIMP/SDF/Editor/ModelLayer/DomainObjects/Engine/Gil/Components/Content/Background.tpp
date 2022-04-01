@@ -31,11 +31,11 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Content {
   template<class GilSpecT>
   Background<GilSpecT>::Background(
-    std::size_t widthPx,
-    std::size_t heightPx,
-    typename GilSpecT::bkg_pixel_t bkgColor
+    std::size_t a_widthPx,
+    std::size_t a_heightPx,
+    typename GilSpecT::bkg_pixel_t a_bkgColor
   )
-    : m_data(widthPx, heightPx, bkgColor, 0)
+    : m_data(a_widthPx, a_heightPx, a_bkgColor, 0)
   {
   }
 
@@ -59,14 +59,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
 
   template<class GilSpecT>
   void
-  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &visitor) {
-    visitor(*this);
+  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &a_visitor) {
+    a_visitor(*this);
   }
 
   template<class GilSpecT>
   void
-  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &visitor) const {
-    visitor(*this);
+  Background<GilSpecT>::accept(typename GilSpecT::content_visitor_t &a_visitor) const {
+    a_visitor(*this);
   }
 
   template<class GilSpecT>
@@ -83,23 +83,23 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
 
   template<class GilSpecT>
   typename GilSpecT::bkg_view_t
-  Background<GilSpecT>::getView(ImageRect rect) {
+  Background<GilSpecT>::getView(ImageRect a_rect) {
     // Clip the rectangle if it exceeds the bounds (neatly allows for large selections, for
     // example).
-    ImageRect clipRect = this->getDimensionsRect().intersect(rect);
+    ImageRect clipRect = this->getDimensionsRect().intersect(a_rect);
     return boost::gil::subimage_view(boost::gil::view(m_data),
-      typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
-      typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())
+      typename GilSpecT::bkg_view_t::point_t(a_rect.x1(), a_rect.y1()),
+      typename GilSpecT::bkg_view_t::point_t(a_rect.getWidth(), a_rect.getHeight())
     );
   }
 
   template<class GilSpecT>
   typename GilSpecT::bkg_view_t::const_t
-  Background<GilSpecT>::getView(ImageRect rect) const {
-    ImageRect clipRect = this->getDimensionsRect().intersect(rect);
+  Background<GilSpecT>::getView(ImageRect a_rect) const {
+    ImageRect clipRect = this->getDimensionsRect().intersect(a_rect);
     return boost::gil::subimage_view(boost::gil::const_view(m_data),
-      typename GilSpecT::bkg_view_t::point_t(rect.x1(), rect.y1()),
-      typename GilSpecT::bkg_view_t::point_t(rect.getWidth(), rect.getHeight())
+      typename GilSpecT::bkg_view_t::point_t(a_rect.x1(), a_rect.y1()),
+      typename GilSpecT::bkg_view_t::point_t(a_rect.getWidth(), a_rect.getHeight())
     );
   }
 }

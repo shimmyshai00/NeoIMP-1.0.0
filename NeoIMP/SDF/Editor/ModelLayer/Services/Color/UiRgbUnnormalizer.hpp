@@ -47,10 +47,10 @@ namespace SDF::Editor::ModelLayer::Services::Color {
   public:
     void
     unnormalize(
-      const std::array<float, 3> &uniformRep,
+      const std::array<float, 3> &a_uniformRep,
       UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel
-      > &px) const;
+      > &a_px) const;
   };
 }
 

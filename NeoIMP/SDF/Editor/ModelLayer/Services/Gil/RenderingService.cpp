@@ -32,17 +32,17 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     class RenderRegion : public UILayer::AbstractModel::Defs::IRenderRegion {
     public:
       RenderRegion(
-        DomainObjects::Engine::Buffers::GridRendering *rendering,
-        std::size_t x1,
-        std::size_t y1,
-        std::size_t x2,
-        std::size_t y2
+        DomainObjects::Engine::Buffers::GridRendering *a_rendering,
+        std::size_t a_x1,
+        std::size_t a_y1,
+        std::size_t a_x2,
+        std::size_t a_y2
       )
-        : m_rendering(rendering),
-          m_x1(x1),
-          m_y1(y1),
-          m_x2(x2),
-          m_y2(y2)
+        : m_rendering(a_rendering),
+          m_x1(a_x1),
+          m_y1(a_y1),
+          m_x2(a_x2),
+          m_y2(a_y2)
       {
       }
 
@@ -67,7 +67,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       }
 
       UILayer::AbstractModel::Defs::IRenderRegion::TileElement
-      getElementContaining(std::size_t x, std::size_t y) {
+      getElementContaining(std::size_t a_x, std::size_t a_y) {
         using namespace UILayer::AbstractModel::Defs;
         using namespace DomainObjects::Math;
 
@@ -80,8 +80,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
         rv.originPtr = nullptr;
         rv.rowStride = 0;
 
-        std::size_t cellX(x / m_rendering->getCellWidth());
-        std::size_t cellY(y / m_rendering->getCellHeight());
+        std::size_t cellX(a_x / m_rendering->getCellWidth());
+        std::size_t cellY(a_y / m_rendering->getCellHeight());
 
         // The region bounded is the intersection between this cell's rectangle and the region
         // rectangle.
@@ -108,7 +108,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       }
 
       void
-      traverse(std::function<void (TileElement el)> op) {
+      traverse(std::function<void (TileElement el)> a_op) {
         using namespace UILayer::AbstractModel::Defs;
         using namespace DomainObjects::Math;
 
@@ -151,7 +151,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
               el.rowStride = 0;
             }
 
-            op(el);
+            a_op(el);
 
             curX += tileRect.getWidth();
           }
@@ -166,24 +166,24 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   RenderingService::RenderingService(
-    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *imageRepository,
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository,
     Common::Data::IOwningCrudable<Common::Handle, DomainObjects::Engine::Buffers::GridRendering> *
-      renderingRepository
+      a_renderingRepository
   )
-    : m_imageRepository(imageRepository),
-      m_renderingRepository(renderingRepository),
+    : m_imageRepository(a_imageRepository),
+      m_renderingRepository(a_renderingRepository),
       m_nextRenderingHandle(0)
   {
   }
 
   Common::Handle
-  RenderingService::createStaticRendering(Common::Handle imageHandle) {
+  RenderingService::createStaticRendering(Common::Handle a_imageHandle) {
     using namespace DomainObjects::Engine::Gil::Algorithm;
     using namespace DomainObjects::Engine::Gil;
     using namespace DomainObjects::Engine::Image;
     using namespace DomainObjects::Engine::Buffers;
 
-    Any_Image *image(m_imageRepository->retrieve(imageHandle));
+    Any_Image *image(m_imageRepository->retrieve(a_imageHandle));
 
     Common::Handle renderingHandle(m_nextRenderingHandle++);
 
@@ -202,26 +202,26 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   }
 
   std::shared_ptr<UILayer::AbstractModel::Defs::IRenderRegion>
-  RenderingService::getRegion(Common::Handle renderHandle,
-                              std::size_t x1,
-                              std::size_t y1,
-                              std::size_t x2,
-                              std::size_t y2
+  RenderingService::getRegion(Common::Handle a_renderHandle,
+                              std::size_t a_x1,
+                              std::size_t a_y1,
+                              std::size_t a_x2,
+                              std::size_t a_y2
                              )
   {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects;
 
-    Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(renderHandle));
+    Engine::Buffers::GridRendering *rendering(m_renderingRepository->retrieve(a_renderHandle));
 
     // Right now, we only support static renderings with 1 cell.
     return std::shared_ptr<IRenderRegion>(
-      new Impl::RenderRegion(rendering, x1, y1, x2, y2)
+      new Impl::RenderRegion(rendering, a_x1, a_y1, a_x2, a_y2)
     );
   }
 
   void
-  RenderingService::deleteRendering(Common::Handle renderHandle) {
-    m_renderingRepository->deleteO(renderHandle);
+  RenderingService::deleteRendering(Common::Handle a_renderHandle) {
+    m_renderingRepository->deleteO(a_renderHandle);
   }
 }

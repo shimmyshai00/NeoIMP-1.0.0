@@ -31,20 +31,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   template<class GilSpecT>
   Image::Image<GilSpecT> *
   ImageFactory<GilSpecT>::create(
-    std::string name,
-    std::string fileSpec,
-    ImageMeasure widthPx,
-    ImageMeasure heightPx,
-    float resolutionPpi,
-    typename GilSpecT::bkg_pixel_t backgroundColor
+    std::string a_name,
+    std::string a_fileSpec,
+    ImageMeasure a_widthPx,
+    ImageMeasure a_heightPx,
+    float a_resolutionPpi,
+    typename GilSpecT::bkg_pixel_t a_backgroundColor
   ) {
     auto bkgLayer = std::make_unique<Image::Layer<GilSpecT>>();
-    auto bkgContent = std::make_unique<Components::Content::Background<GilSpecT>>(widthPx, heightPx,
-      backgroundColor);
+    auto bkgContent = std::make_unique<Components::Content::Background<GilSpecT>>(a_widthPx,
+      a_heightPx, a_backgroundColor);
 
     bkgLayer->setContentComponent(std::move(bkgContent));
 
-    auto img = new Image::Image<GilSpecT>(name, resolutionPpi);
+    auto img = new Image::Image<GilSpecT>(a_name, a_resolutionPpi);
     img->addLayer(std::move(bkgLayer));
 
     return img;

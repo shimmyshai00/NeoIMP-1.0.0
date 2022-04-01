@@ -69,12 +69,12 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   std::string
-  DocumentPrefabsService::getPrefabName(Common::Handle handle) const {
-    return m_prefabNames.at(handle);
+  DocumentPrefabsService::getPrefabName(Common::Handle a_handle) const {
+    return m_prefabNames.at(a_handle);
   }
 
   UILayer::AbstractModel::Defs::ImageSpec
-  DocumentPrefabsService::getPrefabSpec(Common::Handle handle) const {
-    return m_prefabSpecs.at(handle);
+  DocumentPrefabsService::getPrefabSpec(Common::Handle a_handle) const {
+    return m_prefabSpecs.at(a_handle);
   }
 }

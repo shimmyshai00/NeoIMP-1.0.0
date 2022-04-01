@@ -1,9 +1,13 @@
+#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_DOCUMENTVIEWSTATE_HPP
+#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_DOCUMENTVIEWSTATE_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    MessageComponent.cpp
- * PURPOSE: Implements the DI component for the services' messaging system.
+ * FILE:    DocumentViewState.hpp
+ * PURPOSE: Defines a struct holding the shared application state describing how a document is being
+ *          viewed.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,21 +25,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "MessageComponent.hpp"
+namespace SDF::Editor::ModelLayer::DomainObjects::State {
+  struct DocumentViewState {
+    float viewPosX;
+    float viewPosY;
+    float viewMagnification;
 
-#include "../../../Common/MessageSystem/AllToAll.hpp"
+    DocumentViewState()
+      : viewPosX(0.0f),
+        viewPosY(0.0f),
+        viewMagnification(1.0f)
+    {}
 
-namespace SDF::Editor::ModelLayer::Services {
-  MessageComponent
-  getMessageComponent() {
-    return fruit::createComponent()
-      .bind<
-        Common::MessageSystem::IMessageDispatcher<Messages::SImageAdded>,
-        Common::MessageSystem::AllToAll<Messages::SImageAdded>
-       >()
-      .bind<
-        Common::MessageSystem::IMessageDispatcher<Messages::SImageRemoved>,
-        Common::MessageSystem::AllToAll<Messages::SImageRemoved>
-       >();
-  }
+    DocumentViewState(float a_viewPosX, float a_viewPosY, float a_viewMagnification)
+      : viewPosX(a_viewPosX),
+        viewPosY(a_viewPosY),
+        viewMagnification(a_viewMagnification)
+    {}
+  };
 }
+
+#endif

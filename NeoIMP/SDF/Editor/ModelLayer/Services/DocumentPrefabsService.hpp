@@ -46,10 +46,10 @@ namespace SDF::Editor::ModelLayer::Services {
     getAvailablePrefabs() const;
 
     std::string
-    getPrefabName(Common::Handle handle) const;
+    getPrefabName(Common::Handle a_handle) const;
 
     UILayer::AbstractModel::Defs::ImageSpec
-    getPrefabSpec(Common::Handle handle) const;
+    getPrefabSpec(Common::Handle a_handle) const;
   private:
     std::map<Common::Handle, std::string> m_prefabNames;
     std::map<Common::Handle, UILayer::AbstractModel::Defs::ImageSpec> m_prefabSpecs;

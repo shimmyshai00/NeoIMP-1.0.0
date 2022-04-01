@@ -23,7 +23,7 @@
 
 #include "Component.hpp"
 
-#include "../ModelLayer/Component.hpp"
+#include "../ModelLayer/getComponent.hpp"
 #include "Gui/QtComponent.hpp"
 
 namespace SDF::Editor::UILayer {

@@ -32,7 +32,7 @@
 #include "../../UILayer/AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
 #include "../../UILayer/AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
-#include "../DomainObjects/State/SDocumentViewState.hpp"
+#include "../DomainObjects/State/DocumentViewState.hpp"
 
 #include <fruit/fruit.h>
 
@@ -50,44 +50,44 @@ namespace SDF::Editor::ModelLayer::Services {
   {
   public:
     INJECT(DocumentViewStateService(
-      Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
-        documentViewStateCrudable
+      Common::Data::ICrudable<Common::Handle, DomainObjects::State::DocumentViewState> *
+        a_documentViewStateCrudable
     ));
 
     Common::Handle
-    addView(Common::Handle imageHandle, float anchorX, float anchorY, float anchorMag);
+    addView(Common::Handle a_imageHandle, float a_anchorX, float a_anchorY, float a_anchorMag);
 
     float
-    getViewingPointX(Common::Handle viewHandle) const;
+    getViewingPointX(Common::Handle a_viewHandle) const;
 
     float
-    getViewingPointY(Common::Handle viewHandle) const;
+    getViewingPointY(Common::Handle a_viewHandle) const;
 
     float
-    getViewingPointMagnification(Common::Handle viewHandle) const;
+    getViewingPointMagnification(Common::Handle a_viewHandle) const;
 
     void
-    setViewingPointX(Common::Handle viewHandle, float x);
+    setViewingPointX(Common::Handle a_viewHandle, float a_x);
 
     void
-    setViewingPointY(Common::Handle viewHandle, float y);
+    setViewingPointY(Common::Handle a_viewHandle, float a_y);
 
     void
-    setViewingPointMagnification(Common::Handle viewHandle, float mag);
+    setViewingPointMagnification(Common::Handle a_viewHandle, float a_mag);
 
     void
-    setViewingPointPos(Common::Handle viewHandle, float x, float y);
+    setViewingPointPos(Common::Handle a_viewHandle, float a_x, float a_y);
 
     void
-    setViewingPoint(Common::Handle viewHandle, float x, float y, float mag);
+    setViewingPoint(Common::Handle a_viewHandle, float a_x, float a_y, float a_mag);
 
     Common::PIConnection
     addViewingPointListener(
-      Common::Handle viewHandle,
-      std::shared_ptr<Common::IListener<float, float, float>> listener
+      Common::Handle a_viewHandle,
+      std::shared_ptr<Common::IListener<float, float, float>> a_listener
     );
   private:
-    Common::Data::ICrudable<Common::Handle, DomainObjects::State::SDocumentViewState> *
+    Common::Data::ICrudable<Common::Handle, DomainObjects::State::DocumentViewState> *
       m_documentViewStateCrudable;
 
     Common::ListenerMapContainer<Common::Handle, float, float, float> m_listeners;

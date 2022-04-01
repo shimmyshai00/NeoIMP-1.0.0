@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
+ * FILE:    getComponent.cpp
  * PURPOSE: Implements the DI component for the services subsystem.
  */
 
@@ -20,18 +20,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#include "Component.hpp"
+#include "getComponent.hpp"
 
 #include "../../../Common/MessageSystem/AllToAll.hpp"
 #include "Messages/ObjectChanges.hpp"
 
-#include "Gil/Component.hpp"
+#include "Gil/getComponent.hpp"
 #include "UnitConversionService.hpp"
 #include "DocumentPrefabsService.hpp"
 #include "EditorStateModelService.hpp"
 #include "DocumentViewStateService.hpp"
 
-#include "MessageComponent.hpp"
+#include "getMessageComponent.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   Component

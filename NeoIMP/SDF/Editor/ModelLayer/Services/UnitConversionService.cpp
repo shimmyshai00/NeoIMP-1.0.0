@@ -34,28 +34,28 @@ namespace SDF::Editor::ModelLayer::Services {
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
   >
   UnitConversionService::createConvertibleLength(
-    float length,
-    UILayer::AbstractModel::Defs::ELengthUnit lengthUnit,
+    float a_length,
+    UILayer::AbstractModel::Defs::ELengthUnit a_lengthUnit,
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit> *
-      resolution
+      a_resolution
   ) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Metrics;
 
-    return std::make_shared<LengthConvertible>(length, lengthUnit,
-      resolution->in(RESOLUTION_UNIT_PPI), RESOLUTION_UNIT_PPI);
+    return std::make_shared<LengthConvertible>(a_length, a_lengthUnit,
+      a_resolution->in(RESOLUTION_UNIT_PPI), RESOLUTION_UNIT_PPI);
   }
 
   std::shared_ptr<
     UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
   >
   UnitConversionService::createConvertibleResolution(
-    float resolution,
-    UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
+    float a_resolution,
+    UILayer::AbstractModel::Defs::EResolutionUnit a_resolutionUnit
   ) {
     using namespace UILayer::AbstractModel;
     using namespace DomainObjects::Metrics;
 
-    return std::make_shared<ResolutionConvertible>(resolution, resolutionUnit);
+    return std::make_shared<ResolutionConvertible>(a_resolution, a_resolutionUnit);
   }
 }

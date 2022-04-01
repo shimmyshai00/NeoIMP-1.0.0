@@ -45,10 +45,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     convertColor(
       const UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EColorFormat
-      > &srcColor,
+      > &a_srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel
-      > &dstColor
+      > &a_dstColor
     );
   private:
     template<class GilPixelT>
@@ -56,10 +56,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     doRgbPipeline(
       const UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EColorFormat
-      > &srcColor,
+      > &a_srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
         UILayer::AbstractModel::Defs::Color::EUiColorModel
-      > &dstColor
+      > &a_dstColor
     );
   };
 }

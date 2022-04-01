@@ -22,7 +22,6 @@
  */
 
 #include "SDF/Editor/UILayer/Component.hpp"
-#include "SDF/Editor/ModelLayer/Component.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>

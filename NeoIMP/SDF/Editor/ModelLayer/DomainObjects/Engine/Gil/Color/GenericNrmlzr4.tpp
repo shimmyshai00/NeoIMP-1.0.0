@@ -30,8 +30,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
   template<class ColorModelT, class GilPixelT>
   void
   GenericNrmlzr4<ColorModelT, GilPixelT>::normalize(
-    const GilPixelT &px,
-    std::array<float, 4> &uniformRep
+    const GilPixelT &a_px,
+    std::array<float, 4> &a_uniformRep
   ) const {
     using namespace boost::gil;
 
@@ -49,17 +49,17 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
     float chWidth3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::max_value() -
       chMin3;
 
-    uniformRep[0] = (boost::gil::semantic_at_c<0>(px) - chMin0) / chWidth0;
-    uniformRep[1] = (boost::gil::semantic_at_c<1>(px) - chMin1) / chWidth1;
-    uniformRep[2] = (boost::gil::semantic_at_c<2>(px) - chMin2) / chWidth2;
-    uniformRep[3] = (boost::gil::semantic_at_c<3>(px) - chMin3) / chWidth3;
+    a_uniformRep[0] = (boost::gil::semantic_at_c<0>(a_px) - chMin0) / chWidth0;
+    a_uniformRep[1] = (boost::gil::semantic_at_c<1>(a_px) - chMin1) / chWidth1;
+    a_uniformRep[2] = (boost::gil::semantic_at_c<2>(a_px) - chMin2) / chWidth2;
+    a_uniformRep[3] = (boost::gil::semantic_at_c<3>(a_px) - chMin3) / chWidth3;
   }
 
   template<class ColorModelT, class GilPixelT>
   void
   GenericNrmlzr4<ColorModelT, GilPixelT>::unnormalize(
-    const std::array<float, 4> &uniformRep,
-    GilPixelT &px
+    const std::array<float, 4> &a_uniformRep,
+    GilPixelT &a_px
   ) const {
     using namespace boost::gil;
 
@@ -77,11 +77,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
     float chWidth3 = channel_traits<typename kth_element_type<GilPixelT, 3>::type>::max_value() -
       chMin3;
 
-    px = GilPixelT(
-      floor(uniformRep[0] * chWidth0 + chMin0 + 0.5f),
-      floor(uniformRep[1] * chWidth1 + chMin1 + 0.5f),
-      floor(uniformRep[2] * chWidth2 + chMin2 + 0.5f),
-      floor(uniformRep[3] * chWidth3 + chMin3 + 0.5f)
+    a_px = GilPixelT(
+      floor(a_uniformRep[0] * chWidth0 + chMin0 + 0.5f),
+      floor(a_uniformRep[1] * chWidth1 + chMin1 + 0.5f),
+      floor(a_uniformRep[2] * chWidth2 + chMin2 + 0.5f),
+      floor(a_uniformRep[3] * chWidth3 + chMin3 + 0.5f)
     );
   }
 }

@@ -47,18 +47,18 @@ namespace SDF::Editor::ModelLayer::Services {
       UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
     >
     createConvertibleLength(
-      float length,
-      UILayer::AbstractModel::Defs::ELengthUnit lengthUnit,
+      float a_length,
+      UILayer::AbstractModel::Defs::ELengthUnit a_lengthUnit,
       UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
-        *resolution
+        *a_resolution
     );
 
     std::shared_ptr<
       UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
     >
     createConvertibleResolution(
-      float resolution,
-      UILayer::AbstractModel::Defs::EResolutionUnit resolutionUnit
+      float a_resolution,
+      UILayer::AbstractModel::Defs::EResolutionUnit a_resolutionUnit
     );
   };
 }

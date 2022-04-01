@@ -30,39 +30,39 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   LengthConvertible::LengthConvertible(
-    float quantity,
-    UILayer::AbstractModel::Defs::ELengthUnit unit,
-    float resolution,
-    UILayer::AbstractModel::Defs::EResolutionUnit resUnit
+    float a_quantity,
+    UILayer::AbstractModel::Defs::ELengthUnit a_unit,
+    float a_resolution,
+    UILayer::AbstractModel::Defs::EResolutionUnit a_resUnit
   )
-    : m_quantityPixels(quantity),
-      m_resolutionPpi(resolution * g_resolutionUnitSizes[resUnit])
+    : m_quantityPixels(a_quantity),
+      m_resolutionPpi(a_resolution * g_resolutionUnitSizes[a_resUnit])
   {
     using namespace UILayer::AbstractModel;
-    if(unit >= Defs::LENGTH_UNIT_MAX) {
-      throw InvalidLengthUnitException(unit);
+    if(a_unit >= Defs::LENGTH_UNIT_MAX) {
+      throw InvalidLengthUnitException(a_unit);
     }
 
-    if(resUnit >= Defs::RESOLUTION_UNIT_MAX) {
-      throw InvalidResolutionUnitException(resUnit);
+    if(a_resUnit >= Defs::RESOLUTION_UNIT_MAX) {
+      throw InvalidResolutionUnitException(a_resUnit);
     }
 
-    if(unit != Defs::LENGTH_UNIT_PIXEL) {
-      m_quantityPixels = quantity * g_lengthUnitSizes[unit] * m_resolutionPpi;
+    if(a_unit != Defs::LENGTH_UNIT_PIXEL) {
+      m_quantityPixels = a_quantity * g_lengthUnitSizes[a_unit] * m_resolutionPpi;
     }
   }
 
   float
-  LengthConvertible::in(UILayer::AbstractModel::Defs::ELengthUnit unit) {
+  LengthConvertible::in(UILayer::AbstractModel::Defs::ELengthUnit a_unit) {
     using namespace UILayer::AbstractModel;
-    if(unit >= Defs::LENGTH_UNIT_MAX) {
-      throw InvalidLengthUnitException(unit);
+    if(a_unit >= Defs::LENGTH_UNIT_MAX) {
+      throw InvalidLengthUnitException(a_unit);
     }
 
-    if(unit == Defs::LENGTH_UNIT_PIXEL) {
+    if(a_unit == Defs::LENGTH_UNIT_PIXEL) {
       return m_quantityPixels;
     } else {
-      return (m_quantityPixels / m_resolutionPpi) / g_lengthUnitSizes[unit];
+      return (m_quantityPixels / m_resolutionPpi) / g_lengthUnitSizes[a_unit];
     }
   }
 }

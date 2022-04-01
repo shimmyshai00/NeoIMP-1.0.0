@@ -44,9 +44,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
     {
     }
 
-    Rect(T x1, T y1, T x2, T y2)
-      : m_upperLeft(x1, y1),
-        m_lowerRight(x2, y2)
+    Rect(T a_x1, T a_y1, T a_x2, T a_y2)
+      : m_upperLeft(a_x1, a_y1),
+        m_lowerRight(a_x2, a_y2)
     {
       if(m_upperLeft.x() > m_lowerRight.x()) {
         std::swap(m_upperLeft.x(), m_lowerRight.x());
@@ -57,20 +57,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
       }
     }
 
-    Rect(Point2D<T> upperLeft, Point2D<T> lowerRight)
-      : m_upperLeft(upperLeft),
-        m_lowerRight(lowerRight)
+    Rect(Point2D<T> a_upperLeft, Point2D<T> a_lowerRight)
+      : m_upperLeft(a_upperLeft),
+        m_lowerRight(a_lowerRight)
     {}
 
     template<class U>
-    Rect(Point2D<U> upperLeft, Point2D<U> lowerRight)
-      : m_upperLeft(upperLeft),
-        m_lowerRight(lowerRight)
+    Rect(Point2D<U> a_upperLeft, Point2D<U> a_lowerRight)
+      : m_upperLeft(a_upperLeft),
+        m_lowerRight(a_lowerRight)
     {}
 
     template<class U>
-    Rect(Rect<U> rect)
-      : Rect(rect.upperLeft, rect.lowerRight)
+    Rect(Rect<U> a_rect)
+      : Rect(a_rect.upperLeft, a_rect.lowerRight)
     {}
 
     ~Rect() {}
@@ -148,22 +148,22 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
     }
 
     bool
-    isInside(Point2D<T> point) {
-      return ((x1() <= point.x()) && (point.x() < x2())) &&
-             ((y1() <= point.x()) && (point.x() < y2()));
+    isInside(Point2D<T> a_point) {
+      return ((x1() <= a_point.x()) && (a_point.x() < x2())) &&
+             ((y1() <= a_point.x()) && (a_point.x() < y2()));
     }
 
     bool
-    intersectsWith(Rect<T> rhs) const {
-      return (std::max(x1(), rhs.x1()) < std::min(x2(), rhs.x2())) &&
-             (std::max(y1(), rhs.y1()) < std::min(y2(), rhs.y2()));
+    intersectsWith(Rect<T> a_rhs) const {
+      return (std::max(x1(), a_rhs.x1()) < std::min(x2(), a_rhs.x2())) &&
+             (std::max(y1(), a_rhs.y1()) < std::min(y2(), a_rhs.y2()));
     }
 
     Rect<T>
-    intersect(Rect<T> rhs) const {
-      if(intersectsWith(rhs)) {
-        return Rect<T>(Point2D<T>(std::max(x1(), rhs.x1()), std::max(y1(), rhs.y1())),
-                       Point2D<T>(std::min(x2(), rhs.x2()), std::min(y2(), rhs.y2()))
+    intersect(Rect<T> a_rhs) const {
+      if(intersectsWith(a_rhs)) {
+        return Rect<T>(Point2D<T>(std::max(x1(), a_rhs.x1()), std::max(y1(), a_rhs.y1())),
+                       Point2D<T>(std::min(x2(), a_rhs.x2()), std::min(y2(), a_rhs.y2()))
                       );
       } else {
         return Rect<T>(); // empty intersection
@@ -172,15 +172,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
 
     // Affine operators.
     Point2D<T> &
-    operator+=(const Vec2D<T> &rhs) {
-      m_upperLeft += rhs;
-      m_lowerRight += rhs;
+    operator+=(const Vec2D<T> &a_rhs) {
+      m_upperLeft += a_rhs;
+      m_lowerRight += a_rhs;
     }
 
     Point2D<T> &
-    operator-=(const Vec2D<T> &rhs) {
-      m_upperLeft -= rhs;
-      m_lowerRight -= rhs;
+    operator-=(const Vec2D<T> &a_rhs) {
+      m_upperLeft -= a_rhs;
+      m_lowerRight -= a_rhs;
     }
   private:
     Point2D<T> m_upperLeft;
@@ -190,27 +190,27 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Math {
   // Non-member operators.
   template<class T>
   static inline bool
-  operator==(const Rect<T> &lhs, const Rect<T> &rhs) {
-    return ((lhs.getUpperLeft() == rhs.getUpperLeft()) &&
-      (lhs.getLowerRight() == rhs.getLowerRight()));
+  operator==(const Rect<T> &a_lhs, const Rect<T> &a_rhs) {
+    return ((a_lhs.getUpperLeft() == a_rhs.getUpperLeft()) &&
+      (a_lhs.getLowerRight() == a_rhs.getLowerRight()));
   }
 
   template<class T>
   static inline bool
-  operator!=(const Rect<T> &lhs, const Rect<T> &rhs) {
-    return !(lhs == rhs);
+  operator!=(const Rect<T> &a_lhs, const Rect<T> &a_rhs) {
+    return !(a_lhs == a_rhs);
   }
 
   template<class T>
   static inline Rect<T>
-  operator+(const Rect<T> &lhs, const Vec2D<T> &rhs) {
-    return Rect<T>(lhs) += rhs;
+  operator+(const Rect<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Rect<T>(a_lhs) += a_rhs;
   }
 
   template<class T>
   static inline Rect<T>
-  operator-(const Rect<T> &lhs, const Vec2D<T> &rhs) {
-    return Rect<T>(lhs) -= rhs;
+  operator-(const Rect<T> &a_lhs, const Vec2D<T> &a_rhs) {
+    return Rect<T>(a_lhs) -= a_rhs;
   }
 }
 

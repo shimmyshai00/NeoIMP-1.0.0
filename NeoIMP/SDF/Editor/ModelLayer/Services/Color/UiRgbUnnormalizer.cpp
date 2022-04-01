@@ -26,12 +26,12 @@
 namespace SDF::Editor::ModelLayer::Services::Color {
   void
   UiRgbUnnormalizer::unnormalize(
-    const std::array<float, 3> &uniformRep,
+    const std::array<float, 3> &a_uniformRep,
     UILayer::AbstractModel::Defs::Color::IColor<UILayer::AbstractModel::Defs::Color::EUiColorModel>
-      &px
+      &a_px
   ) const {
-    px.setValueF(0, uniformRep[0]);
-    px.setValueF(1, uniformRep[1]);
-    px.setValueF(2, uniformRep[2]);
+    a_px.setValueF(0, a_uniformRep[0]);
+    a_px.setValueF(1, a_uniformRep[1]);
+    a_px.setValueF(2, a_uniformRep[2]);
   }
 }

@@ -37,10 +37,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Color {
   class GenericNrmlzr3 : public Engine::Color::INormalizer<ColorModelT, GilPixelT> {
   public:
     void
-    normalize(const GilPixelT &px, std::array<float, 3> &uniformRep) const;
+    normalize(const GilPixelT &a_px, std::array<float, 3> &a_uniformRep) const;
 
     void
-    unnormalize(const std::array<float, 3> &uniformRep, GilPixelT &px)
+    unnormalize(const std::array<float, 3> &a_uniformRep, GilPixelT &a_px)
       const;
   };
 }

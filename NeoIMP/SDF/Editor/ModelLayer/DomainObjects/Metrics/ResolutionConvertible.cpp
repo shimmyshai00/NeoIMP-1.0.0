@@ -29,20 +29,20 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   ResolutionConvertible::ResolutionConvertible(
-    float quantity,
-    UILayer::AbstractModel::Defs::EResolutionUnit unit
+    float a_quantity,
+    UILayer::AbstractModel::Defs::EResolutionUnit a_unit
   )
-    : m_quantity(quantity),
-      m_unit(unit)
+    : m_quantity(a_quantity),
+      m_unit(a_unit)
   {
   }
 
   float
-  ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit unit) {
-    if(unit >= UILayer::AbstractModel::Defs::RESOLUTION_UNIT_MAX) {
-      throw InvalidLengthUnitException(unit);
+  ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit a_unit) {
+    if(a_unit >= UILayer::AbstractModel::Defs::RESOLUTION_UNIT_MAX) {
+      throw InvalidLengthUnitException(a_unit);
     }
 
-    return (m_quantity * g_resolutionUnitSizes[m_unit]) / g_resolutionUnitSizes[unit];
+    return (m_quantity * g_resolutionUnitSizes[m_unit]) / g_resolutionUnitSizes[a_unit];
   }
 }

@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine {
     // Parameters: name - The name to give.
     // Returns:    None.
     virtual void
-    setName(std::string name) = 0;
+    setName(std::string a_name) = 0;
   };
 }
 

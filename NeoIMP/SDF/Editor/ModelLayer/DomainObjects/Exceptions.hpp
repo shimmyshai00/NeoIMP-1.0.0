@@ -33,8 +33,8 @@
 namespace SDF::Editor::ModelLayer::DomainObjects {
   struct InvalidDimensionsException : public Error::LikelyBug<Error::ModelException> {
     Engine::ImageMeasure m_width, m_height;
-    InvalidDimensionsException(Engine::ImageMeasure width, Engine::ImageMeasure height)
-      : m_width(width), m_height(height)
+    InvalidDimensionsException(Engine::ImageMeasure a_width, Engine::ImageMeasure a_height)
+      : m_width(a_width), m_height(a_height)
     {
       whatPrintf("The image dimensions %d x %d are not valid.", m_width, m_height);
     }
@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects {
 
   struct ComponentExistsException : public Error::LikelyBug<Error::ModelException> {
     Error::SafeString m_id;
-    ComponentExistsException(const char *id) : m_id(id) {
+    ComponentExistsException(const char *a_id) : m_id(a_id) {
       whatPrintf("Tried to add a component to an entity under an id '%s' already taken by "
       "another.", m_id);
     }
@@ -50,7 +50,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects {
 
   struct ComponentNotFoundException : public Error::LikelyBug<Error::ModelException> {
     Error::SafeString m_id;
-    ComponentNotFoundException(const char *id) : m_id(id) {
+    ComponentNotFoundException(const char *a_id) : m_id(a_id) {
       whatPrintf("Component '%s' not found in image layer entity.", m_id);
     }
   };

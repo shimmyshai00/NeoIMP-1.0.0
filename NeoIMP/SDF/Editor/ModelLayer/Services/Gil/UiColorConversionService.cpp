@@ -44,10 +44,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   UiColorConversionService::convertColor(
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorFormat
-    > &srcColor,
+    > &a_srcColor,
     UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EUiColorModel
-    > &dstColor
+    > &a_dstColor
   ) {
     using namespace UILayer::AbstractModel;
     using namespace DomainObjects;
@@ -57,11 +57,11 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     // sRGB docs, but we expect to expand the latter first).
 
     // P.S. ugly - but we have to map EColorFormat to GIL formats SOMEWHERE ...
-    switch(srcColor.getColorFormat()) {
+    switch(a_srcColor.getColorFormat()) {
       case Defs::Color::COLOR_FMT_RGB24_888:
-        doRgbPipeline<boost::gil::rgb8_pixel_t>(srcColor, dstColor); break;
+        doRgbPipeline<boost::gil::rgb8_pixel_t>(a_srcColor, a_dstColor); break;
       default:
-        throw BadColorFormatException(srcColor.getColorFormat());
+        throw BadColorFormatException(a_srcColor.getColorFormat());
     };
   }
 }
@@ -73,15 +73,15 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   UiColorConversionService::doRgbPipeline(
     const UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EColorFormat
-    > &srcColor,
+    > &a_srcColor,
     UILayer::AbstractModel::Defs::Color::IColor<
       UILayer::AbstractModel::Defs::Color::EUiColorModel
-    > &dstColor
+    > &a_dstColor
   ) {
     using namespace UILayer::AbstractModel;
     using namespace DomainObjects;
 
-    GilPixelT gilPx = uiPixelToGilPixel3Component<GilPixelT>(srcColor);
+    GilPixelT gilPx = uiPixelToGilPixel3Component<GilPixelT>(a_srcColor);
 
     Engine::Gil::Color::RgbNormalizer<GilPixelT> sn;
     Engine::Color::ColorSpaces::IEC61966_2_1_sRGB scs;
@@ -90,6 +90,6 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     Engine::Color::Conversion::Pipeline pipeline(&sn, &scs, &dcs, &dn);
 
-    pipeline.convertPixel(gilPx, dstColor);
+    pipeline.convertPixel(gilPx, a_dstColor);
   }
 }

@@ -41,7 +41,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
     // Parameters: widthPx - The width of the raster in pixels.
     //             heightPx - The height of the raster in pixels.
     //             bkgColor - The initial background color.
-    Background(std::size_t widthPx, std::size_t heightPx, typename GilSpecT::bkg_pixel_t bkgColor);
+    Background(
+      std::size_t a_widthPx,
+      std::size_t a_heightPx,
+      typename GilSpecT::bkg_pixel_t a_bkgColor
+    );
 
     ImageMeasure
     getWidthPx() const;
@@ -53,10 +57,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
     getDimensionsRect() const;
 
     void
-    accept(typename GilSpecT::content_visitor_t &visitor);
+    accept(typename GilSpecT::content_visitor_t &a_visitor);
 
     void
-    accept(typename GilSpecT::content_visitor_t &visitor) const;
+    accept(typename GilSpecT::content_visitor_t &a_visitor) const;
 
     // Function:   getView
     // Purpose:    Gets a view onto the image data.
@@ -69,10 +73,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Components::Conte
     getView() const;
 
     typename GilSpecT::bkg_view_t
-    getView(ImageRect rect);
+    getView(ImageRect a_rect);
 
     typename GilSpecT::bkg_view_t::const_t
-    getView(ImageRect rect) const;
+    getView(ImageRect a_rect) const;
   private:
     typename GilSpecT::bkg_image_t m_data;
   };

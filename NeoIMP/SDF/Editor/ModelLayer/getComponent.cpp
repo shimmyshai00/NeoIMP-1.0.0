@@ -1,13 +1,9 @@
-#ifndef SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SDOCUMENTVIEWSTATE_HPP
-#define SDF_EDITOR_MODELLAYER_DOMAINOBJECTS_STATE_SDOCUMENTVIEWSTATE_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    SDocumentViewState.hpp
- * PURPOSE: Defines a struct holding the shared application state describing how a document is being
- *          viewed.
+ * FILE:    getComponent.cpp
+ * PURPOSE: Implements the DI component for the model layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,24 +21,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::ModelLayer::DomainObjects::State {
-  struct SDocumentViewState {
-    float viewPosX;
-    float viewPosY;
-    float viewMagnification;
+#include "getComponent.hpp"
 
-    SDocumentViewState()
-      : viewPosX(0.0f),
-        viewPosY(0.0f),
-        viewMagnification(1.0f)
-    {}
+#include "../DataLayer/getComponent.hpp"
+#include "Services/getComponent.hpp"
 
-    SDocumentViewState(float t_viewPosX, float t_viewPosY, float t_viewMagnification)
-      : viewPosX(t_viewPosX),
-        viewPosY(t_viewPosY),
-        viewMagnification(t_viewMagnification)
-    {}
-  };
+namespace SDF::Editor::ModelLayer {
+  Component
+  getComponent() {
+    return fruit::createComponent()
+      .install(Services::getComponent)
+      .install(DataLayer::getComponent);
+  }
 }
-
-#endif

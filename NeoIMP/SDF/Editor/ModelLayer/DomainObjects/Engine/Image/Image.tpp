@@ -35,9 +35,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   }
 
   template<class ImplSpecT>
-  Image<ImplSpecT>::Image(std::string name, float resolutionPpi)
-    : m_name(name),
-      m_resolutionPpi(resolutionPpi)
+  Image<ImplSpecT>::Image(std::string a_name, float a_resolutionPpi)
+    : m_name(a_name),
+      m_resolutionPpi(a_resolutionPpi)
   {
   }
 
@@ -91,40 +91,40 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
 
   template<class ImplSpecT>
   Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) {
-    if(layerNum >= m_layers.size()) {
+  Image<ImplSpecT>::getLayer(std::size_t a_layerNum) {
+    if(a_layerNum >= m_layers.size()) {
       throw Error::OutOfBoundsException();
     } else {
-      return *m_layers[layerNum];
+      return *m_layers[a_layerNum];
     }
   }
 
   template<class ImplSpecT>
   const Layer<ImplSpecT> &
-  Image<ImplSpecT>::getLayer(std::size_t layerNum) const {
-    if(layerNum >= m_layers.size()) {
+  Image<ImplSpecT>::getLayer(std::size_t a_layerNum) const {
+    if(a_layerNum >= m_layers.size()) {
       throw Error::OutOfBoundsException();
     } else {
-      return *m_layers[layerNum];
+      return *m_layers[a_layerNum];
     }
   }
 
   template<class ImplSpecT>
   void
-  Image<ImplSpecT>::setName(std::string name) {
-    m_name = name;
+  Image<ImplSpecT>::setName(std::string a_name) {
+    m_name = a_name;
   }
 
   template<class ImplSpecT>
   void
-  Image<ImplSpecT>::setResolutionPpi(float resolutionPpi) {
-    m_resolutionPpi = resolutionPpi;
+  Image<ImplSpecT>::setResolutionPpi(float a_resolutionPpi) {
+    m_resolutionPpi = a_resolutionPpi;
   }
 
   template<class ImplSpecT>
   void
-  Image<ImplSpecT>::addLayer(std::unique_ptr<Layer<ImplSpecT>> layer) {
-    m_layers.push_back(std::move(layer));
+  Image<ImplSpecT>::addLayer(std::unique_ptr<Layer<ImplSpecT>> a_layer) {
+    m_layers.push_back(std::move(a_layer));
   }
 }
 

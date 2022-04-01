@@ -50,7 +50,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     Variant();
 
     template<class ImplSpecT>
-    Variant(Image<ImplSpecT> &&image);
+    Variant(Image<ImplSpecT> &&a_image);
 
     // Function:   getName
     // Purpose:    Gets the name of the image.
@@ -99,7 +99,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     // Parameters: name - The new name to set.
     // Returns:    None.
     void
-    setName(std::string name);
+    setName(std::string a_name);
 
     // Function:   setResolutionPpi
     // Purpose:    Sets the image resolution (the conversion factor between pixels and physical
@@ -107,7 +107,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     // Parameters: resolutionPpi - The new resolution in PPI.
     // Returns:    None.
     void
-    setResolutionPpi(float resolutionPpi);
+    setResolutionPpi(float a_resolutionPpi);
 
     // Function:   getNumLayers
     // Purpose:    Gets the number of image layers.
@@ -121,15 +121,16 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
   // Helper method.
   template<typename VT, class VariantT>
-  auto visit(VT&& visitor, VariantT &&variant) {
+  auto visit(VT&& a_visitor, VariantT &&a_variant) {
     // nb: this weird construct seems sus; may need to rethink this.
-    return boost::variant2::visit(std::forward<VT>(visitor), std::forward<VariantT>(variant));
+    return boost::variant2::visit(std::forward<VT>(a_visitor), std::forward<VariantT>(a_variant));
   }
 
   template<typename VT, class VariantT>
-  auto constVisit(VT&& visitor, const VariantT &&variant) {
+  auto constVisit(VT&& a_visitor, const VariantT &&a_variant) {
     // nb: this weird construct seems sus; may need to rethink this.
-    return boost::variant2::visit(std::forward<VT>(visitor), std::forward<const VariantT>(variant));
+    return boost::variant2::visit(std::forward<VT>(a_visitor), std::forward<const VariantT>(
+      a_variant));
   }
 }
 

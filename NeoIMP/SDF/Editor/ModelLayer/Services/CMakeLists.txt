@@ -7,6 +7,6 @@ target_sources(neoimp PUBLIC
                EditorStateModelService.cpp
                DocumentViewStateService.cpp
                UnitConversionService.cpp
-               MessageComponent.cpp
-               Component.cpp
+               getMessageComponent.cpp
+               getComponent.cpp
               )

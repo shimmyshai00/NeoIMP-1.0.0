@@ -70,7 +70,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Image {
     // Parameters: component - The content component to set.
     // Returns:    None.
     void
-    setContentComponent(std::unique_ptr<Components::AContent<ImplSpecT>> component);
+    setContentComponent(std::unique_ptr<Components::AContent<ImplSpecT>> a_component);
 
     // Function:   getContentComponent
     // Purpose:    Gets the content component for this layer.

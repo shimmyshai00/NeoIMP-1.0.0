@@ -41,14 +41,14 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   class SaveDocumentService : public UILayer::AbstractModel::Storage::ISaveDocumentService {
   public:
     INJECT(SaveDocumentService(
-      AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *imageRepository
+      AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *a_imageRepository
     ));
 
     void
     saveDocument(
-      Common::Handle imageHandle,
-      std::string fileSpec,
-      UILayer::AbstractModel::Defs::EFileFormat fileFormat
+      Common::Handle a_imageHandle,
+      std::string a_fileSpec,
+      UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
     );
   private:
     AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;
