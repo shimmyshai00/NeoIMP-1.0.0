@@ -44,7 +44,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     //             anchorMag - The magnification or zoom into the anchor point.
     // Returns:    A handle to the newly created view parameters.
     virtual Common::Handle
-    addView(Common::Handle imageHandle, float anchorX, float anchorY, float anchorMag) = 0;
+    addView(Common::Handle a_imageHandle, float a_anchorX, float a_anchorY, float a_anchorMag) = 0;
   };
 }
 

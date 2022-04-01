@@ -76,7 +76,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     // Parameters: x, y - The coordinates of the point.
     // Returns:    The containing tile element.
     virtual TileElement
-    getElementContaining(std::size_t x, std::size_t y) = 0;
+    getElementContaining(std::size_t a_x, std::size_t a_y) = 0;
 
     // Function:   traverse
     // Purpose:    Traverses each tile element making up the region in turn, performing an
@@ -84,7 +84,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     // Parameters: op - The function to apply to each tile.
     // Returns:    None.
     virtual void
-    traverse(std::function<void (TileElement el)> op) = 0;
+    traverse(std::function<void (TileElement el)> a_op) = 0;
   };
 }
 

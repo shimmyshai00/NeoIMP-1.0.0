@@ -25,7 +25,7 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EUiColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/UiColorModel.hpp"
 
 #include "../../DomainObjects/Engine/Color/Models/Rgb.hpp"
 #include "../../DomainObjects/Engine/Color/IRevNormalizer.hpp"
@@ -40,7 +40,7 @@ namespace SDF::Editor::ModelLayer::Services::Color {
   class UiRgbUnnormalizer : public DomainObjects::Engine::Color::IRevNormalizer<
                               DomainObjects::Engine::Color::Models::Rgb,
                               UILayer::AbstractModel::Defs::Color::IColor<
-                                UILayer::AbstractModel::Defs::Color::EUiColorModel
+                                UILayer::AbstractModel::Defs::Color::UiColorModel
                               >
                             >
   {
@@ -49,7 +49,7 @@ namespace SDF::Editor::ModelLayer::Services::Color {
     unnormalize(
       const std::array<float, 3> &a_uniformRep,
       UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EUiColorModel
+        UILayer::AbstractModel::Defs::Color::UiColorModel
       > &a_px) const;
   };
 }

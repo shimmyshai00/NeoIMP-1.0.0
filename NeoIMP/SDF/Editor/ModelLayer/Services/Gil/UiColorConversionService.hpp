@@ -25,8 +25,8 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EUiColorModel.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/ColorFormat.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/UiColorModel.hpp"
 #include "../../../UILayer/AbstractModel/Color/IUiColorConversionService.hpp"
 
 #include <fruit/fruit.h>
@@ -44,10 +44,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     convertColor(
       const UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EColorFormat
+        UILayer::AbstractModel::Defs::Color::ColorFormat
       > &a_srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EUiColorModel
+        UILayer::AbstractModel::Defs::Color::UiColorModel
       > &a_dstColor
     );
   private:
@@ -55,10 +55,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     void
     doRgbPipeline(
       const UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EColorFormat
+        UILayer::AbstractModel::Defs::Color::ColorFormat
       > &a_srcColor,
       UILayer::AbstractModel::Defs::Color::IColor<
-        UILayer::AbstractModel::Defs::Color::EUiColorModel
+        UILayer::AbstractModel::Defs::Color::UiColorModel
       > &a_dstColor
     );
   };

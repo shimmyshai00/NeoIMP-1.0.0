@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORFORMAT_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_ECOLORFORMAT_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTIONUNIT_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTIONUNIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EColorFormat.hpp
- * PURPOSE: Enumerates the available color formats.
+ * FILE:    ResolutionUnit.hpp
+ * PURPOSE: Defines the ResolutionUnit enum.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <vector>
-
-namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  enum EColorFormat {
-    COLOR_FMT_RGB24_888,
-    COLOR_FMT_MAX
-  };
-}
-
-namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  // A structured form of the above.
-  enum EColorModel {
-    COLOR_MODEL_RGB,
-    COLOR_MODEL_MAX
-  };
-
-  static const std::size_t NUM_RGB_FORMATS = 1;
-  static const EColorFormat g_colorFormatsByModel_Rgb[NUM_RGB_FORMATS] = {
-    COLOR_FMT_RGB24_888
+namespace SDF::Editor::UILayer::AbstractModel::Defs {
+  enum ResolutionUnit {
+    RESOLUTION_UNIT_PPI,
+    RESOLUTION_UNIT_PPCM,
+    RESOLUTION_UNIT_PPMM,
+    RESOLUTION_UNIT_MAX
   };
 }
 

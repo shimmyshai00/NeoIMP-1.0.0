@@ -28,8 +28,8 @@
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Color/IGetDocumentColorFormatService.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
-#include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/ColorFormat.hpp"
+#include "../../../UILayer/AbstractModel/Defs/LengthUnit.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImageRetriever.hpp"
 
@@ -55,16 +55,16 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     float
     getDocumentWidth(
       Common::Handle a_documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
+      UILayer::AbstractModel::Defs::LengthUnit a_inUnit
     ) const;
 
     float
     getDocumentHeight(
       Common::Handle a_documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
+      UILayer::AbstractModel::Defs::LengthUnit a_inUnit
     ) const;
 
-    UILayer::AbstractModel::Defs::Color::EColorFormat
+    UILayer::AbstractModel::Defs::Color::ColorFormat
     getColorFormatOf(Common::Handle a_documentHandle) const;
   private:
     AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;

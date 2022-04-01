@@ -38,7 +38,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
     // Parameters: unit - The unit to get the value in.
     // Returns:    The value of this quantity in the given units.
     virtual float
-    in(UnitEnum unit) = 0;
+    in(UnitEnum a_unit) = 0;
   };
 }
 

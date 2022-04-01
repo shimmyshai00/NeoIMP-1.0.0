@@ -23,7 +23,7 @@
 
 #include "ResolutionQuantityEdit.hpp"
 
-#include "../../../../AbstractModel/Defs/ResolutionUnitLabels.hpp"
+#include "../../../../AbstractModel/Defs/resolution_unit_labels.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   ResolutionQuantityEdit::ResolutionQuantityEdit(
@@ -70,7 +70,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  std::pair<float, AbstractModel::Defs::EResolutionUnit>
+  std::pair<float, AbstractModel::Defs::ResolutionUnit>
   ResolutionQuantityEdit::minLimit() const {
     if(m_convertibleMinLimit) {
       return std::make_pair(m_convertibleMinLimit->in(m_currentUnit), m_currentUnit);
@@ -79,7 +79,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  std::pair<float, AbstractModel::Defs::EResolutionUnit>
+  std::pair<float, AbstractModel::Defs::ResolutionUnit>
   ResolutionQuantityEdit::maxLimit() const {
     if(m_convertibleMaxLimit) {
       return std::make_pair(m_convertibleMaxLimit->in(m_currentUnit), m_currentUnit);
@@ -97,13 +97,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  AbstractModel::Defs::EResolutionUnit
+  AbstractModel::Defs::ResolutionUnit
   ResolutionQuantityEdit::unit() const {
     return m_currentUnit;
   }
 
   void
-  ResolutionQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::EResolutionUnit unit) {
+  ResolutionQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::ResolutionUnit unit) {
     if(m_convertResolutionService != nullptr) {
       m_convertibleMinLimit = m_convertResolutionService->createConvertibleResolution(minLimit,
         unit);
@@ -112,7 +112,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  ResolutionQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::EResolutionUnit unit) {
+  ResolutionQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::ResolutionUnit unit) {
     if(m_convertResolutionService != nullptr) {
       m_convertibleMaxLimit = m_convertResolutionService->createConvertibleResolution(maxLimit,
         unit);
@@ -131,7 +131,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  ResolutionQuantityEdit::setUnit(AbstractModel::Defs::EResolutionUnit unit) {
+  ResolutionQuantityEdit::setUnit(AbstractModel::Defs::ResolutionUnit unit) {
     m_currentUnit = unit;
     setDisplayValidatorMinLimit(m_convertibleMinLimit->in(m_currentUnit));
     setDisplayValidatorMaxLimit(m_convertibleMaxLimit->in(m_currentUnit));
@@ -155,7 +155,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  ResolutionQuantityEdit::handleUnitChangedByUser(AbstractModel::Defs::EResolutionUnit unit) {
+  ResolutionQuantityEdit::handleUnitChangedByUser(AbstractModel::Defs::ResolutionUnit unit) {
     setUnit(unit);
     unitChanged(unit);
     unitChangedByUser(unit);

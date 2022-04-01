@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTIONUNITLABELS_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTIONUNITLABELS_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTHUNIT_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTHUNIT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ResolutionUnitLabels.hpp
- * PURPOSE: Defines the labels for resolution units.
+ * FILE:    LengthUnit.hpp
+ * PURPOSE: Defines the LengthUnit enum.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,20 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ELengthUnit.hpp"
-
 namespace SDF::Editor::UILayer::AbstractModel::Defs {
-  // NB: The labels and symbols should appear in the same order the units do in the enum
-  static const char *g_resolutionUnitLabels[RESOLUTION_UNIT_MAX] = {
-    "per inch",
-    "per centimeter",
-    "per millimeter"
-  };
-
-  static const char *g_resolutionUnitSymbols[RESOLUTION_UNIT_MAX] = {
-    "ppi",
-    "px/mm",
-    "px/cm"
+  enum LengthUnit {
+    LENGTH_UNIT_PIXEL,
+    LENGTH_UNIT_POINT,
+    LENGTH_UNIT_MILLIMETER,
+    LENGTH_UNIT_PICA,
+    LENGTH_UNIT_CENTIMETER,
+    LENGTH_UNIT_INCH,
+    LENGTH_UNIT_MAX
   };
 }
 

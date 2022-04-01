@@ -30,7 +30,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
     AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
     AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
     AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-    IViewManager<View::EViewType> *viewManager
+    IViewManager<View::ViewType> *viewManager
   )
     : m_getActiveDocumentService(getActiveDocumentService),
       m_getDocumentFileInfoService(getDocumentFileInfoService),
@@ -52,7 +52,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
 
       // Just save with this file spec.
       std::string fileSpec = m_getDocumentFileInfoService->getFileSpec(activeDocumentHandle);
-      EFileFormat fileFormat = m_getDocumentFileInfoService->getFileFormat(activeDocumentHandle);
+      FileFormat fileFormat = m_getDocumentFileInfoService->getFileFormat(activeDocumentHandle);
       m_saveDocumentService->saveDocument(activeDocumentHandle, fileSpec, fileFormat);
     } else {
       // Do like "save as" and open a save dialog.

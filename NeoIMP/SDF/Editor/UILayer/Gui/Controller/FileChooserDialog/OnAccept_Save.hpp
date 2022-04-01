@@ -28,7 +28,7 @@
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 
 #include <cstddef>
 #include <string>

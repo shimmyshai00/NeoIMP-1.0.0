@@ -34,7 +34,7 @@
 #include "../../Controller/FileChooserDialog/OnAccept_Save.hpp"
 #include "../../Controller/DocumentView/OnScroll.hpp"
 
-#include "FileFormatNames.hpp"
+#include "file_format_names.hpp"
 #include "makeFileFilterList.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
@@ -79,7 +79,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   void
-  ViewFactory::setViewManager(IViewManager<EViewType> *viewManager) {
+  ViewFactory::setViewManager(IViewManager<ViewType> *viewManager) {
     m_viewManager = viewManager;
   }
 

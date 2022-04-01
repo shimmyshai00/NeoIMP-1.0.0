@@ -23,7 +23,7 @@
 
 #include "LengthQuantityEdit.hpp"
 
-#include "../../../../AbstractModel/Defs/LengthUnitLabels.hpp"
+#include "../../../../AbstractModel/Defs/length_unit_labels.hpp"
 
 #include <iostream>
 
@@ -79,7 +79,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  std::pair<float, AbstractModel::Defs::ELengthUnit>
+  std::pair<float, AbstractModel::Defs::LengthUnit>
   LengthQuantityEdit::minLimit() const {
     if(m_convertibleMinLimit) {
       return std::make_pair(m_convertibleMinLimit->in(m_currentUnit), m_currentUnit);
@@ -88,7 +88,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  std::pair<float, AbstractModel::Defs::ELengthUnit>
+  std::pair<float, AbstractModel::Defs::LengthUnit>
   LengthQuantityEdit::maxLimit() const {
     if(m_convertibleMaxLimit) {
       return std::make_pair(m_convertibleMaxLimit->in(m_currentUnit), m_currentUnit);
@@ -106,13 +106,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
     }
   }
 
-  AbstractModel::Defs::ELengthUnit
+  AbstractModel::Defs::LengthUnit
   LengthQuantityEdit::unit() const {
     return m_currentUnit;
   }
 
   void
-  LengthQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::ELengthUnit unit) {
+  LengthQuantityEdit::setMinLimit(float minLimit, AbstractModel::Defs::LengthUnit unit) {
     if(m_convertLengthService != nullptr) {
       m_convertibleMinLimit = m_convertLengthService->createConvertibleLength(minLimit, unit,
         m_convertibleResolution.get());
@@ -121,7 +121,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  LengthQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::ELengthUnit unit) {
+  LengthQuantityEdit::setMaxLimit(float maxLimit, AbstractModel::Defs::LengthUnit unit) {
     if(m_convertLengthService != nullptr) {
       m_convertibleMaxLimit = m_convertLengthService->createConvertibleLength(maxLimit, unit,
         m_convertibleResolution.get());
@@ -140,7 +140,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  LengthQuantityEdit::setUnit(AbstractModel::Defs::ELengthUnit unit) {
+  LengthQuantityEdit::setUnit(AbstractModel::Defs::LengthUnit unit) {
     m_currentUnit = unit;
     setDisplayValidatorMinLimit(m_convertibleMinLimit->in(m_currentUnit));
     setDisplayValidatorMaxLimit(m_convertibleMaxLimit->in(m_currentUnit));
@@ -173,7 +173,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  LengthQuantityEdit::setReferenceResolutionUnit(AbstractModel::Defs::EResolutionUnit unit) {
+  LengthQuantityEdit::setReferenceResolutionUnit(AbstractModel::Defs::ResolutionUnit unit) {
     m_currentResolutionUnit = unit;
   }
 }
@@ -193,7 +193,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   }
 
   void
-  LengthQuantityEdit::handleUnitChangedByUser(AbstractModel::Defs::ELengthUnit unit) {
+  LengthQuantityEdit::handleUnitChangedByUser(AbstractModel::Defs::LengthUnit unit) {
     setUnit(unit);
     unitChanged(unit);
     unitChangedByUser(unit);

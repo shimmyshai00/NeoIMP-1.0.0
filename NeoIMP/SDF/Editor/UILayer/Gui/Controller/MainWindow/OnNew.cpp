@@ -24,7 +24,7 @@
 #include "OnNew.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnNew::OnNew(IViewManager<View::EViewType> *viewManager)
+  OnNew::OnNew(IViewManager<View::ViewType> *viewManager)
     : m_viewManager(viewManager)
   {
   }

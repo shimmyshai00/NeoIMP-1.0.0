@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Handle.hpp"
-#include "../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
+#include "../../UILayer/AbstractModel/Defs/FileFormat.hpp"
 #include "../../UILayer/AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../AbstractData/IImageFileInfoRequester.hpp"
 
@@ -44,7 +44,7 @@ namespace SDF::Editor::ModelLayer::Services {
     std::string
     getFileSpec(Common::Handle a_imageHandle);
 
-    UILayer::AbstractModel::Defs::EFileFormat
+    UILayer::AbstractModel::Defs::FileFormat
     getFileFormat(Common::Handle a_imageHandle);
   private:
     AbstractData::IImageFileInfoRequester<ImageT> *m_fileInfoRequester;

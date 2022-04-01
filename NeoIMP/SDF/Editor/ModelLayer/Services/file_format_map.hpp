@@ -24,11 +24,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
+#include "../../UILayer/AbstractModel/Defs/FileFormat.hpp"
 #include "../AbstractData/Format.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
-  static const UILayer::AbstractModel::Defs::EFileFormat
+  static const UILayer::AbstractModel::Defs::FileFormat
     g_fileFormatMapDLtoUL[AbstractData::FORMAT_MAX] = {
       UILayer::AbstractModel::Defs::FILE_FORMAT_PNG // AbstractData::FORMAT_PNG
     };

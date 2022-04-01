@@ -28,7 +28,7 @@
 #include "../../../AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../Support/Bundle.hpp"
 #include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
+#include "../ViewType.hpp"
 
 #include "ViewFactory.hpp"
 #include "MainWindow.hpp"
@@ -42,7 +42,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   // Class:      ViewManager
   // Purpose:    Defines the view manager for the Qt-based GUI.
   // Parameters: None.
-  class ViewManager : public IViewManager<EViewType> {
+  class ViewManager : public IViewManager<ViewType> {
   public:
     INJECT(ViewManager(
       AbstractModel::Editing::IGetDocumentNameService *documentNameService,
@@ -51,13 +51,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     ~ViewManager();
 
     Common::Handle
-    produceView(EViewType viewType, std::shared_ptr<Support::Bundle> argBundle);
+    produceView(ViewType viewType, std::shared_ptr<Support::Bundle> argBundle);
 
     void
     destroyView(Common::Handle viewHandle);
 
     void
-    destroyAllOfType(EViewType viewType);
+    destroyAllOfType(ViewType viewType);
 
     void
     destroyAll();

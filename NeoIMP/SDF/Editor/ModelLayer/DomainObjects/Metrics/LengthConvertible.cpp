@@ -31,9 +31,9 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   LengthConvertible::LengthConvertible(
     float a_quantity,
-    UILayer::AbstractModel::Defs::ELengthUnit a_unit,
+    UILayer::AbstractModel::Defs::LengthUnit a_unit,
     float a_resolution,
-    UILayer::AbstractModel::Defs::EResolutionUnit a_resUnit
+    UILayer::AbstractModel::Defs::ResolutionUnit a_resUnit
   )
     : m_quantityPixels(a_quantity),
       m_resolutionPpi(a_resolution * g_resolutionUnitSizes[a_resUnit])
@@ -53,7 +53,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   }
 
   float
-  LengthConvertible::in(UILayer::AbstractModel::Defs::ELengthUnit a_unit) {
+  LengthConvertible::in(UILayer::AbstractModel::Defs::LengthUnit a_unit) {
     using namespace UILayer::AbstractModel;
     if(a_unit >= Defs::LENGTH_UNIT_MAX) {
       throw InvalidLengthUnitException(a_unit);

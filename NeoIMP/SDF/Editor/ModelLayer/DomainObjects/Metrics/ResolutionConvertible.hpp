@@ -25,24 +25,24 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ResolutionUnit.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   // Class:      ResolutionConvertible
   // Purpose:    Defines a convertible resolution quantity.
   // Parameters: None.
   class ResolutionConvertible : public UILayer::AbstractModel::Defs::IUnitConvertible<
-                                  UILayer::AbstractModel::Defs::EResolutionUnit
+                                  UILayer::AbstractModel::Defs::ResolutionUnit
                                 >
   {
   public:
-    ResolutionConvertible(float quantity, UILayer::AbstractModel::Defs::EResolutionUnit a_unit);
+    ResolutionConvertible(float quantity, UILayer::AbstractModel::Defs::ResolutionUnit a_unit);
 
     float
-    in(UILayer::AbstractModel::Defs::EResolutionUnit a_unit);
+    in(UILayer::AbstractModel::Defs::ResolutionUnit a_unit);
   private:
     float m_quantity;
-    UILayer::AbstractModel::Defs::EResolutionUnit m_unit;
+    UILayer::AbstractModel::Defs::ResolutionUnit m_unit;
   };
 }
 

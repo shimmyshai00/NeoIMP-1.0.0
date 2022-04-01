@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ERESOLUTIONUNIT_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ERESOLUTIONUNIT_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLOR_SPACE_IDS_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLOR_SPACE_IDS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EResolutionUnit.hpp
- * PURPOSE: Defines the EResolutionUnit enum.
+ * FILE:    color_space_ids.hpp
+ * PURPOSE: Defines ID strings for the different kinds of color spaces in play.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::AbstractModel::Defs {
-  enum EResolutionUnit {
-    RESOLUTION_UNIT_PPI,
-    RESOLUTION_UNIT_PPCM,
-    RESOLUTION_UNIT_PPMM,
-    RESOLUTION_UNIT_MAX
-  };
+namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
+  // RGB
+  static constexpr const char *g_iec61966_2_1_sRGB = "sdf.neoimp.cs.IEC61996_2_1_sRGB";
 }
 
 #endif

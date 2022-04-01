@@ -26,7 +26,7 @@
 
 #include "../IApplication.hpp"
 #include "IViewManager.hpp"
-#include "View/EViewType.hpp"
+#include "View/ViewType.hpp"
 
 #include <fruit/fruit.h>
 
@@ -36,12 +36,12 @@ namespace SDF::Editor::UILayer::Gui {
   // Parameters: None.
   class QtApplication : public IApplication {
   public:
-    INJECT(QtApplication(IViewManager<View::EViewType> *viewManager));
+    INJECT(QtApplication(IViewManager<View::ViewType> *viewManager));
 
     int
     exec(int argc, char **argv);
   private:
-    IViewManager<View::EViewType> *m_viewManager;
+    IViewManager<View::ViewType> *m_viewManager;
   };
 }
 

@@ -25,7 +25,7 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/Color/IColor.hpp"
-#include "../../../UILayer/AbstractModel/Defs/Color/EColorFormat.hpp"
+#include "../../../UILayer/AbstractModel/Defs/Color/ColorFormat.hpp"
 #include "../Exceptions.hpp"
 
 #include <boost/gil/color_base.hpp>
@@ -39,7 +39,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   inline GilPixelT
   uiPixelToGilPixel3Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorFormat
+      UILayer::AbstractModel::Defs::Color::ColorFormat
     > &a_color
   ) {
 #ifndef NDEBUG
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   inline GilPixelT
   uiPixelToGilPixel4Component(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorFormat
+      UILayer::AbstractModel::Defs::Color::ColorFormat
     > &a_color
   ) {
 #ifndef NDEBUG

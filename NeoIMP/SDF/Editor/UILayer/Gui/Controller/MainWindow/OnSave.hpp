@@ -29,7 +29,7 @@
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 #include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
@@ -42,7 +42,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
       AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
       AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
       AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-      IViewManager<View::EViewType> *viewManager
+      IViewManager<View::ViewType> *viewManager
     );
 
     void
@@ -52,7 +52,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
     AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
 
-    IViewManager<View::EViewType> *m_viewManager;
+    IViewManager<View::ViewType> *m_viewManager;
   };
 }
 

@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
+#include "../../../UILayer/AbstractModel/Defs/FileFormat.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ISaveDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImagePersister.hpp"
@@ -48,7 +48,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     saveDocument(
       Common::Handle a_imageHandle,
       std::string a_fileSpec,
-      UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
+      UILayer::AbstractModel::Defs::FileFormat a_fileFormat
     );
   private:
     AbstractData::IImagePersister<DomainObjects::Engine::Gil::Any_Image> *m_imageRepository;

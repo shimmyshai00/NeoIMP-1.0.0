@@ -27,12 +27,12 @@
 #include "ServiceDeps.hpp"
 
 #include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
+#include "../ViewType.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  typedef fruit::Component<ServiceDeps, IViewManager<EViewType>> Component;
+  typedef fruit::Component<ServiceDeps, IViewManager<ViewType>> Component;
 
   Component
   getComponent();

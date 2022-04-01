@@ -65,7 +65,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   Common::Handle
-  ViewManager::produceView(EViewType viewType, std::shared_ptr<Support::Bundle> argBundle) {
+  ViewManager::produceView(ViewType viewType, std::shared_ptr<Support::Bundle> argBundle) {
     switch(viewType) {
       case VIEW_MAIN_WINDOW:
         return addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
@@ -122,7 +122,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   void
-  ViewManager::destroyAllOfType(EViewType viewType) {
+  ViewManager::destroyAllOfType(ViewType viewType) {
     // TBA
   }
 

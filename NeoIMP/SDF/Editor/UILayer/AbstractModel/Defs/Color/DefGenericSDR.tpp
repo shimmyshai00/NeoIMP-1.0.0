@@ -28,56 +28,56 @@
 #include <algorithm>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   DefGenericSDR<CF, ChannelBits...>::DefGenericSDR() {
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
-  EColorFormat
+  template<ColorFormat CF, std::size_t ... ChannelBits>
+  ColorFormat
   DefGenericSDR<CF, ChannelBits...>::getColorFormat() const {
     return CF;
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   std::size_t
   DefGenericSDR<CF, ChannelBits...>::getNumChannels() const {
     return pak_t::num_vals;
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   int
-  DefGenericSDR<CF, ChannelBits...>::getChannelMin(std::size_t channelIdx) const {
+  DefGenericSDR<CF, ChannelBits...>::getChannelMin(std::size_t a_channelIdx) const {
     return 0;
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   int
-  DefGenericSDR<CF, ChannelBits...>::getChannelMax(std::size_t channelIdx) const {
-    return (1 << pak_t::vals.at(channelIdx)) - 1;
+  DefGenericSDR<CF, ChannelBits...>::getChannelMax(std::size_t a_channelIdx) const {
+    return (1 << pak_t::vals.at(a_channelIdx)) - 1;
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   int
-  DefGenericSDR<CF, ChannelBits...>::getValue(std::size_t channelIdx) const {
-    return m_values.at(channelIdx);
+  DefGenericSDR<CF, ChannelBits...>::getValue(std::size_t a_channelIdx) const {
+    return m_values.at(a_channelIdx);
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   float
-  DefGenericSDR<CF, ChannelBits...>::getValueF(std::size_t channelIdx) const {
-    return (0.0f + m_values.at(channelIdx)) / getChannelMax(channelIdx);
+  DefGenericSDR<CF, ChannelBits...>::getValueF(std::size_t a_channelIdx) const {
+    return (0.0f + m_values.at(a_channelIdx)) / getChannelMax(a_channelIdx);
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   void
-  DefGenericSDR<CF, ChannelBits...>::setValue(std::size_t channelIdx, int value) {
-    m_values.at(channelIdx) = std::clamp(value, 0, getChannelMax(channelIdx));
+  DefGenericSDR<CF, ChannelBits...>::setValue(std::size_t a_channelIdx, int a_value) {
+    m_values.at(a_channelIdx) = std::clamp(a_value, 0, getChannelMax(a_channelIdx));
   }
 
-  template<EColorFormat CF, std::size_t ... ChannelBits>
+  template<ColorFormat CF, std::size_t ... ChannelBits>
   void
-  DefGenericSDR<CF, ChannelBits...>::setValueF(std::size_t channelIdx, float value) {
-    setValue(channelIdx, floor(value * getChannelMax(channelIdx) + 0.5f));
+  DefGenericSDR<CF, ChannelBits...>::setValueF(std::size_t a_channelIdx, float a_value) {
+    setValue(a_channelIdx, floor(a_value * getChannelMax(a_channelIdx) + 0.5f));
   }
 }
 

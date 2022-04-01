@@ -25,7 +25,7 @@
  */
 
 #include "../Defs/IUnitConvertible.hpp"
-#include "../Defs/EResolutionUnit.hpp"
+#include "../Defs/ResolutionUnit.hpp"
 
 #include <memory>
 
@@ -45,8 +45,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
     //                   resolutionUnit - The units it is given in.
     // Returns:          A convertible object that can give this resolution in any unit.
     // Throws (non-bug): InvalidUnitException
-    virtual std::shared_ptr<Defs::IUnitConvertible<Defs::EResolutionUnit>>
-    createConvertibleResolution(float resolution, Defs::EResolutionUnit resolutionUnit) = 0;
+    virtual std::shared_ptr<Defs::IUnitConvertible<Defs::ResolutionUnit>>
+    createConvertibleResolution(float a_resolution, Defs::ResolutionUnit a_resolutionUnit) = 0;
   };
 }
 

@@ -35,7 +35,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   SaveDocumentService::saveDocument(
     Common::Handle a_imageHandle,
     std::string a_fileSpec,
-    UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
+    UILayer::AbstractModel::Defs::FileFormat a_fileFormat
   ) {
     AbstractData::Format dataLayerFormat;
     switch(a_fileFormat) {

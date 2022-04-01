@@ -39,7 +39,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Editing {
     // Parameters: documentHandle - The handle of the document to set as active.
     // Returns:    None.
     virtual void
-    setActiveDocument(Common::Handle documentHandle) = 0;
+    setActiveDocument(Common::Handle a_documentHandle) = 0;
   };
 }
 

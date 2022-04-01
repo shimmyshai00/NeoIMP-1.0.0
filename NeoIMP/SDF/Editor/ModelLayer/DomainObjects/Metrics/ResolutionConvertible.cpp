@@ -30,7 +30,7 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   ResolutionConvertible::ResolutionConvertible(
     float a_quantity,
-    UILayer::AbstractModel::Defs::EResolutionUnit a_unit
+    UILayer::AbstractModel::Defs::ResolutionUnit a_unit
   )
     : m_quantity(a_quantity),
       m_unit(a_unit)
@@ -38,7 +38,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   }
 
   float
-  ResolutionConvertible::in(UILayer::AbstractModel::Defs::EResolutionUnit a_unit) {
+  ResolutionConvertible::in(UILayer::AbstractModel::Defs::ResolutionUnit a_unit) {
     if(a_unit >= UILayer::AbstractModel::Defs::RESOLUTION_UNIT_MAX) {
       throw InvalidLengthUnitException(a_unit);
     }

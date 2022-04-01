@@ -25,7 +25,7 @@
  */
 
 #include "../Defs/IUnitConvertible.hpp"
-#include "../Defs/ELengthUnit.hpp"
+#include "../Defs/LengthUnit.hpp"
 
 #include <memory>
 
@@ -46,11 +46,11 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
     //                   resolution - The resolution reference to convert from and to pixels.
     // Returns:          A convertible object that can give this length in any unit.
     // Throws (non-bug): InvalidUnitException
-    virtual std::shared_ptr<Defs::IUnitConvertible<Defs::ELengthUnit>>
+    virtual std::shared_ptr<Defs::IUnitConvertible<Defs::LengthUnit>>
     createConvertibleLength(
-      float length,
-      Defs::ELengthUnit lengthUnit,
-      Defs::IUnitConvertible<Defs::EResolutionUnit> *resolution
+      float a_length,
+      Defs::LengthUnit a_lengthUnit,
+      Defs::IUnitConvertible<Defs::ResolutionUnit> *a_resolution
     ) = 0;
   };
 }

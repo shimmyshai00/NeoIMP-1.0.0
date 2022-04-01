@@ -5,7 +5,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Bounds.hpp
+ * FILE:    bounds.hpp
  * PURPOSE: Defines various constants representing bounds of the editor model.
  */
 

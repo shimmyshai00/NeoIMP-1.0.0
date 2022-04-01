@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   float
   GetDocumentInfoService::getDocumentWidth(
     Common::Handle a_documentHandle,
-    UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
+    UILayer::AbstractModel::Defs::LengthUnit a_inUnit
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
@@ -57,7 +57,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   float
   GetDocumentInfoService::getDocumentHeight(
     Common::Handle a_documentHandle,
-    UILayer::AbstractModel::Defs::ELengthUnit a_inUnit
+    UILayer::AbstractModel::Defs::LengthUnit a_inUnit
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace DomainObjects::Engine;
@@ -69,7 +69,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       .in(a_inUnit);
   }
 
-  UILayer::AbstractModel::Defs::Color::EColorFormat
+  UILayer::AbstractModel::Defs::Color::ColorFormat
   GetDocumentInfoService::getColorFormatOf(Common::Handle a_documentHandle) const {
     using namespace UILayer::AbstractModel::Defs::Color;
 

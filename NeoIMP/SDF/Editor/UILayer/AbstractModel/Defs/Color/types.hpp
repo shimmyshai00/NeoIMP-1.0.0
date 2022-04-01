@@ -25,7 +25,7 @@
  */
 
 #include "DefRGB.hpp"
-#include "EColorFormat.hpp"
+#include "ColorFormat.hpp"
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   typedef DefRGB<COLOR_FMT_RGB24_888, 8, 8, 8> RGB24_888;

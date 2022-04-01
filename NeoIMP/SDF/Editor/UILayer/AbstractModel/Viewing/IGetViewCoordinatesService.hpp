@@ -49,7 +49,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     //             for.
     // Returns:    The X-coordinate of the viewing point of this image document.
     virtual float
-    getViewingPointX(Common::Handle viewHandle) const = 0;
+    getViewingPointX(Common::Handle a_viewHandle) const = 0;
 
     // Function:   getViewingPointY
     // Purpose:    Gets the Y-coordinate of the viewing point.
@@ -57,7 +57,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     //             for.
     // Returns:    The Y-coordinate of the viewing point of this image document.
     virtual float
-    getViewingPointY(Common::Handle viewHandle) const = 0;
+    getViewingPointY(Common::Handle a_viewHandle) const = 0;
 
     // Function:   getViewingPointMagnification
     // Purpose:    Gets the magnification factor around the viewing point.
@@ -65,7 +65,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     //             for.
     // Returns:    The magnification around this viewing point.
     virtual float
-    getViewingPointMagnification(Common::Handle viewHandle) const = 0;
+    getViewingPointMagnification(Common::Handle a_viewHandle) const = 0;
 
     // Function:   addViewingPointListener
     // Purpose:    Adds a listener to listen to changes in the viewing point for a given
@@ -76,8 +76,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     // Returns:    A connection object to the given listener.
     virtual Common::PIConnection
     addViewingPointListener(
-      Common::Handle viewHandle,
-      std::shared_ptr<Common::IListener<float, float, float>> listener
+      Common::Handle a_viewHandle,
+      std::shared_ptr<Common::IListener<float, float, float>> a_listener
     ) = 0;
   };
 }

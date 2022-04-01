@@ -25,7 +25,7 @@
  */
 
 #include "../../View/IController.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 #include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
@@ -34,12 +34,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnOpen : public View::IController<> {
   public:
-    OnOpen(IViewManager<View::EViewType> *viewManager);
+    OnOpen(IViewManager<View::ViewType> *viewManager);
 
     void
     onTrigger();
   private:
-    IViewManager<View::EViewType> *m_viewManager;
+    IViewManager<View::ViewType> *m_viewManager;
   };
 }
 

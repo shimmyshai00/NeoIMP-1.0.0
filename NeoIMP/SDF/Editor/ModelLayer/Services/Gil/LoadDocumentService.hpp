@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
+#include "../../../UILayer/AbstractModel/Defs/FileFormat.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ILoadDocumentService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../AbstractData/IImageLoader.hpp"
@@ -49,7 +49,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     Common::Handle
     loadDocument(
       std::string a_fileSpec,
-      UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
+      UILayer::AbstractModel::Defs::FileFormat a_fileFormat
     );
   private:
     AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *m_imageLoader;

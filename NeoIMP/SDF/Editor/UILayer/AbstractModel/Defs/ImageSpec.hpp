@@ -26,31 +26,31 @@
 
 #include "../../../../Common/Meta.hpp"
 
-#include "Color/EColorFormat.hpp"
+#include "Color/ColorFormat.hpp"
 #include "Color/IColor.hpp"
 #include "Color/types.hpp"
 
-#include "ELengthUnit.hpp"
-#include "EResolutionUnit.hpp"
-#include "EBackgroundPreset.hpp"
+#include "LengthUnit.hpp"
+#include "ResolutionUnit.hpp"
+#include "BackgroundPreset.hpp"
 
 #include <memory>
 
 namespace SDF::Editor::UILayer::AbstractModel::Defs {
   struct ImageSpec {
     float width;
-    ELengthUnit widthUnit;
+    LengthUnit widthUnit;
 
     float height;
-    ELengthUnit heightUnit;
+    LengthUnit heightUnit;
 
     float resolution;
-    EResolutionUnit resolutionUnit;
+    ResolutionUnit resolutionUnit;
 
-    Color::EColorFormat colorFormat;
+    Color::ColorFormat colorFormat;
 
-    EBackgroundPreset backgroundPreset;
-    std::shared_ptr<Color::IColor<Color::EColorFormat>> backgroundColor;
+    BackgroundPreset backgroundPreset;
+    std::shared_ptr<Color::IColor<Color::ColorFormat>> backgroundColor;
 
     ImageSpec()
       : width(320.0f),
@@ -67,14 +67,14 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs {
 
     ImageSpec(
       float width_,
-      ELengthUnit widthUnit_,
+      LengthUnit widthUnit_,
       float height_,
-      ELengthUnit heightUnit_,
+      LengthUnit heightUnit_,
       float resolution_,
-      EResolutionUnit resolutionUnit_,
-      Color::EColorFormat colorFormat_,
-      EBackgroundPreset backgroundPreset_,
-      std::shared_ptr<Color::IColor<Color::EColorFormat>> backgroundColor_
+      ResolutionUnit resolutionUnit_,
+      Color::ColorFormat colorFormat_,
+      BackgroundPreset backgroundPreset_,
+      std::shared_ptr<Color::IColor<Color::ColorFormat>> backgroundColor_
     )
       : width(width_),
         widthUnit(widthUnit_),

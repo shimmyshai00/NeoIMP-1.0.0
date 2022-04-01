@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLORSPACEIDS_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_COLORSPACEIDS_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTH_UNIT_LABELS_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_LENGTH_UNIT_LABELS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    colorSpaceIds.hpp
- * PURPOSE: Defines ID strings for the different kinds of color spaces in play.
+ * FILE:    length_unit_labels.hpp
+ * PURPOSE: Defines the labels for length units.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
-  // RGB
-  static constexpr const char *g_iec61966_2_1_sRGB = "sdf.neoimp.cs.IEC61996_2_1_sRGB";
+#include "LengthUnit.hpp"
+
+namespace SDF::Editor::UILayer::AbstractModel::Defs {
+  // NB: The labels and symbols should appear in the same order the units do in the enum
+  static const char *g_lengthUnitLabels[LENGTH_UNIT_MAX] = {
+    "pixels",
+    "points",
+    "millimeters",
+    "picas",
+    "centimeters",
+    "inches"
+  };
+
+  static const char *g_lengthUnitSymbols[LENGTH_UNIT_MAX] = {
+    "px",
+    "pt",
+    "mm",
+    "pica",
+    "cm",
+    "in"
+  };
 }
 
 #endif

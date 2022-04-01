@@ -25,7 +25,7 @@
 
 #include "Resources/ui_NewDocumentDialog.h"
 
-#include "../../../AbstractModel/Defs/Bounds.hpp"
+#include "../../../AbstractModel/Defs/bounds.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   static const std::string g_bkgPresetNames[AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
@@ -86,13 +86,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged,
       m_ui->widthSelector, &LengthQuantityEdit::setReferenceResolution);
     connect(m_ui->resolutionSelector,
-      QOverload<Defs::EResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged),
+      QOverload<Defs::ResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged),
       m_ui->widthSelector, &LengthQuantityEdit::setReferenceResolutionUnit);
 
     connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged,
       m_ui->heightSelector, &LengthQuantityEdit::setReferenceResolution);
     connect(m_ui->resolutionSelector,
-      QOverload<Defs::EResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged),
+      QOverload<Defs::ResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged),
       m_ui->heightSelector, &LengthQuantityEdit::setReferenceResolutionUnit);
 
     // Populate dropdown boxes.
@@ -143,10 +143,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       spec.heightUnit = m_ui->heightSelector->unit();
       spec.resolution = m_ui->resolutionSelector->quantity();
       spec.resolutionUnit = m_ui->resolutionSelector->unit();
-      spec.colorFormat = static_cast<Defs::Color::EColorFormat>(
+      spec.colorFormat = static_cast<Defs::Color::ColorFormat>(
         m_ui->colorModelSelector->currentIndex()); // NB: BAD STUB
       spec.backgroundPreset =
-        static_cast<Defs::EBackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
+        static_cast<Defs::BackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
       spec.backgroundColor = std::make_shared<Defs::Color::RGB24_888>(255, 255, 255);
 
       return spec;

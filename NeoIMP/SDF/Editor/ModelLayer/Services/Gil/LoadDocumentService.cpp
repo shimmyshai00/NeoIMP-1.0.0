@@ -41,7 +41,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   Common::Handle
   LoadDocumentService::loadDocument(
     std::string a_fileSpec,
-    UILayer::AbstractModel::Defs::EFileFormat a_fileFormat
+    UILayer::AbstractModel::Defs::FileFormat a_fileFormat
   ) {
     if(a_fileFormat >= UILayer::AbstractModel::Defs::FILE_FORMAT_MAX) {
       throw BadFileFormatException(a_fileFormat);

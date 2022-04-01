@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../Defs/EFileFormat.hpp"
+#include "../Defs/FileFormat.hpp"
 
 #include <string>
 
@@ -44,9 +44,9 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
     //             fileFormat - The file format to use for the save.
     // Returns:    None.
     virtual void saveDocument(
-      Common::Handle imageHandle,
-      std::string fileSpec,
-      Defs::EFileFormat fileFormat
+      Common::Handle a_imageHandle,
+      std::string a_fileSpec,
+      Defs::FileFormat a_fileFormat
     ) = 0;
   };
 }

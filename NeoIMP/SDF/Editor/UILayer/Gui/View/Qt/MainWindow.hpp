@@ -27,7 +27,7 @@
 #include "../../../../../Common/IConnection.hpp"
 #include "../../../../../Common/Handle.hpp"
 #include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
+#include "../ViewType.hpp"
 #include "../IController.hpp"
 #include "QtEvent.hpp"
 

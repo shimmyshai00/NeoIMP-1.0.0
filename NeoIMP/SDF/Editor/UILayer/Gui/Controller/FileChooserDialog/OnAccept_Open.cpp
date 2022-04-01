@@ -30,7 +30,7 @@
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   OnAccept_Open::OnAccept_Open(
     AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
-    IViewManager<View::EViewType> *viewManager
+    IViewManager<View::ViewType> *viewManager
   )
     : m_loadDocumentService(loadDocumentService),
       m_viewManager(viewManager)
@@ -42,7 +42,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
     if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
       Common::Handle loadedDocumentHandle;
       loadedDocumentHandle = m_loadDocumentService->loadDocument(fileSpec,
-        static_cast<AbstractModel::Defs::EFileFormat>(fileFormat));
+        static_cast<AbstractModel::Defs::FileFormat>(fileFormat));
 
       std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
       bundle->addHandle("document_handle", loadedDocumentHandle);

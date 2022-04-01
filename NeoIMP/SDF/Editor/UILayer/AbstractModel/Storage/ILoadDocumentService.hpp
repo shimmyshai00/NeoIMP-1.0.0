@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../Defs/EFileFormat.hpp"
+#include "../Defs/FileFormat.hpp"
 
 #include <string>
 
@@ -43,8 +43,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
     //             fileFormat - The file format to use for the load.
     // Returns:    A handle to the loaded document.
     virtual Common::Handle loadDocument(
-      std::string fileSpec,
-      Defs::EFileFormat fileFormat
+      std::string a_fileSpec,
+      Defs::FileFormat a_fileFormat
     ) = 0;
   };
 }

@@ -28,7 +28,7 @@
 #include "../../../AbstractModel/Create/ICreateDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 #include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
@@ -39,7 +39,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   public:
     OnAccept(
       AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
-      IViewManager<View::EViewType> *viewManager
+      IViewManager<View::ViewType> *viewManager
     );
 
     void
@@ -47,7 +47,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   private:
     AbstractModel::Create::ICreateDocumentService *m_createDocumentSerivce;
 
-    IViewManager<View::EViewType> *m_viewManager;
+    IViewManager<View::ViewType> *m_viewManager;
   };
 }
 

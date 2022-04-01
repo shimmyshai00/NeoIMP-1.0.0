@@ -43,7 +43,7 @@
 #include "../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
 #include "../../../AbstractModel/Editing/ISetActiveDocumentService.hpp"
 #include "../../IViewManager.hpp"
-#include "../EViewType.hpp"
+#include "../ViewType.hpp"
 
 #include "MainWindow.hpp"
 #include "NewDocumentDialog.hpp"
@@ -80,7 +80,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     ));
 
     void
-    setViewManager(IViewManager<EViewType> *viewManager);
+    setViewManager(IViewManager<ViewType> *viewManager);
 
     MainWindow *
     createMainWindow(QWidget *parent = nullptr);
@@ -115,7 +115,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
     AbstractModel::Editing::ISetActiveDocumentService *m_setActiveDocumentService;
 
-    IViewManager<EViewType> *m_viewManager;
+    IViewManager<ViewType> *m_viewManager;
   };
 }
 

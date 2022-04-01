@@ -26,7 +26,7 @@
 #include <QApplication>
 
 namespace SDF::Editor::UILayer::Gui {
-  QtApplication::QtApplication(IViewManager<View::EViewType> *viewManager)
+  QtApplication::QtApplication(IViewManager<View::ViewType> *viewManager)
     : m_viewManager(viewManager)
   {
   }

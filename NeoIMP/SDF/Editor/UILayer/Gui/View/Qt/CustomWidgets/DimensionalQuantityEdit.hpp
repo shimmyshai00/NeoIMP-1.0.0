@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../../AbstractModel/Defs/LengthUnit.hpp"
+#include "../../../../AbstractModel/Defs/ResolutionUnit.hpp"
 
 #include <QWidget>
 #include <QBoxLayout>
@@ -53,10 +53,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
       setQuantity(float quantity) {}
 
       virtual void
-      setUnit(AbstractModel::Defs::ELengthUnit unit) {}
+      setUnit(AbstractModel::Defs::LengthUnit unit) {}
 
       virtual void
-      setUnit(AbstractModel::Defs::EResolutionUnit unit) {}
+      setUnit(AbstractModel::Defs::ResolutionUnit unit) {}
     signals:
       void
       quantityTouched();
@@ -68,16 +68,16 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
       quantityChangedByUser(float quantity);
 
       void
-      unitChanged(AbstractModel::Defs::ELengthUnit unit);
+      unitChanged(AbstractModel::Defs::LengthUnit unit);
 
       void
-      unitChanged(AbstractModel::Defs::EResolutionUnit unit);
+      unitChanged(AbstractModel::Defs::ResolutionUnit unit);
 
       void
-      unitChangedByUser(AbstractModel::Defs::ELengthUnit unit);
+      unitChangedByUser(AbstractModel::Defs::LengthUnit unit);
 
       void
-      unitChangedByUser(AbstractModel::Defs::EResolutionUnit unit);
+      unitChangedByUser(AbstractModel::Defs::ResolutionUnit unit);
     };
   }
 

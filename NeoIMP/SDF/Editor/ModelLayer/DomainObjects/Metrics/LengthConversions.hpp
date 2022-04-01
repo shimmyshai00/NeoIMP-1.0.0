@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/LengthUnit.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   // Gives the sizes of the various units in inches.

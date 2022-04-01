@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILEFORMATNAMES_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILEFORMATNAMES_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILE_FORMAT_NAMES_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILE_FORMAT_NAMES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FileFormatNames.hpp
+ * FILE:    file_format_names.hpp
  * PURPOSE: Defines GUI-specific description texts for the file formats enumerated in
  *          AbstractModel::Defs::EFileFormat.
  */
@@ -25,7 +25,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../AbstractModel/Defs/EFileFormat.hpp"
+#include "../../../AbstractModel/Defs/FileFormat.hpp"
 
 #include <QString>
 

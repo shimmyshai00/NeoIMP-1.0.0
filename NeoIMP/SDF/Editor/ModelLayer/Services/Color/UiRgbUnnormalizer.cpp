@@ -27,7 +27,7 @@ namespace SDF::Editor::ModelLayer::Services::Color {
   void
   UiRgbUnnormalizer::unnormalize(
     const std::array<float, 3> &a_uniformRep,
-    UILayer::AbstractModel::Defs::Color::IColor<UILayer::AbstractModel::Defs::Color::EUiColorModel>
+    UILayer::AbstractModel::Defs::Color::IColor<UILayer::AbstractModel::Defs::Color::UiColorModel>
       &a_px
   ) const {
     a_px.setValueF(0, a_uniformRep[0]);

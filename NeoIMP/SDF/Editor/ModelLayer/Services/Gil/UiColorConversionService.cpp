@@ -43,10 +43,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   void
   UiColorConversionService::convertColor(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorFormat
+      UILayer::AbstractModel::Defs::Color::ColorFormat
     > &a_srcColor,
     UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EUiColorModel
+      UILayer::AbstractModel::Defs::Color::UiColorModel
     > &a_dstColor
   ) {
     using namespace UILayer::AbstractModel;
@@ -56,7 +56,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     // TBA if it isn't (also we should adjust to the document too - right now though we have only
     // sRGB docs, but we expect to expand the latter first).
 
-    // P.S. ugly - but we have to map EColorFormat to GIL formats SOMEWHERE ...
+    // P.S. ugly - but we have to map ColorFormat to GIL formats SOMEWHERE ...
     switch(a_srcColor.getColorFormat()) {
       case Defs::Color::COLOR_FMT_RGB24_888:
         doRgbPipeline<boost::gil::rgb8_pixel_t>(a_srcColor, a_dstColor); break;
@@ -72,10 +72,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   void
   UiColorConversionService::doRgbPipeline(
     const UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EColorFormat
+      UILayer::AbstractModel::Defs::Color::ColorFormat
     > &a_srcColor,
     UILayer::AbstractModel::Defs::Color::IColor<
-      UILayer::AbstractModel::Defs::Color::EUiColorModel
+      UILayer::AbstractModel::Defs::Color::UiColorModel
     > &a_dstColor
   ) {
     using namespace UILayer::AbstractModel;

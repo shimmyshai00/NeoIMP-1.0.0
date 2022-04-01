@@ -35,13 +35,13 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     virtual ~ISetViewCoordinatesService() = default;
 
     virtual void
-    setViewingPointMagnification(Common::Handle viewHandle, float mag) = 0;
+    setViewingPointMagnification(Common::Handle a_viewHandle, float a_mag) = 0;
 
     virtual void
-    setViewingPointPos(Common::Handle viewHandle, float x, float y) = 0;
+    setViewingPointPos(Common::Handle a_viewHandle, float a_x, float a_y) = 0;
 
     virtual void
-    setViewingPoint(Common::Handle viewHandle, float x, float y, float mag) = 0;
+    setViewingPoint(Common::Handle a_viewHandle, float a_x, float a_y, float a_mag) = 0;
   };
 }
 

@@ -26,7 +26,7 @@
 
 #include "../../../../Common/Handle.hpp"
 #include "../Defs/IUnitConvertible.hpp"
-#include "../Defs/ELengthUnit.hpp"
+#include "../Defs/LengthUnit.hpp"
 
 #include <memory>
 
@@ -47,8 +47,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
     //                   InvalidUnitException
     virtual float
     getDocumentWidth(
-      Common::Handle documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+      Common::Handle a_documentHandle,
+      UILayer::AbstractModel::Defs::LengthUnit a_inUnit
     ) const = 0;
 
     // Function:         getDocumentHeight
@@ -60,8 +60,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Metrics {
     //                   InvalidUnitException
     virtual float
     getDocumentHeight(
-      Common::Handle documentHandle,
-      UILayer::AbstractModel::Defs::ELengthUnit inUnit
+      Common::Handle a_documentHandle,
+      UILayer::AbstractModel::Defs::LengthUnit a_inUnit
     ) const = 0;
   };
 }

@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "EColorFormat.hpp"
+#include "ColorFormat.hpp"
 
 #include <cstddef>
 
@@ -58,21 +58,21 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     // Parameters: channelIdx - The index of the channel to get the minimum for.
     // Returns:    The channel's minimum value.
     virtual int
-    getChannelMin(std::size_t channelIdx) const = 0;
+    getChannelMin(std::size_t a_channelIdx) const = 0;
 
     // Function:   getChannelMax
     // Purpose:    Gets the maximum value of the indicated channel.
     // Parameters: channelIdx - The index of the channel to get the maximum for.
     // Returns:    The channel's maximum value.
     virtual int
-    getChannelMax(std::size_t channelIdx) const = 0;
+    getChannelMax(std::size_t a_channelIdx) const = 0;
 
     // Function:   getValue
     // Purpose:    Gets the value of a given channel.
     // Parameters: channelIdx - The index of the channel to get the value of.
     // Returns:    The value of this channel.
     virtual int
-    getValue(std::size_t channelIdx) const = 0;
+    getValue(std::size_t a_channelIdx) const = 0;
 
     // Function:   getValueF
     // Purpose:    Gets the value of a given channel as a float with a reference interval in [0..1]
@@ -80,7 +80,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     // Parameters: channelIdx - The index of the channel to get the value of.
     // Returns:    The value of this channel.
     virtual float
-    getValueF(std::size_t channelIdx) const = 0;
+    getValueF(std::size_t a_channelIdx) const = 0;
 
     // Function:   setValue
     // Purpose:    Sets the value of a given channel.
@@ -88,7 +88,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     //             value - The value to set it to.
     // Returns:    None.
     virtual void
-    setValue(std::size_t channelIdx, int value) = 0;
+    setValue(std::size_t a_channelIdx, int a_value) = 0;
 
     // Function:   setValueF
     // Purpose:    Sets the value of a given channel using floating point.
@@ -96,7 +96,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
     //             value - The value to set it to.
     // Returns:    None.
     virtual void
-    setValueF(std::size_t channelIdx, float value) = 0;
+    setValueF(std::size_t a_channelIdx, float a_value) = 0;
   };
 }
 

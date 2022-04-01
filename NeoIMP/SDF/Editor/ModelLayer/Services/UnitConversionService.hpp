@@ -24,9 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
 #include "../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
+#include "../../UILayer/AbstractModel/Defs/LengthUnit.hpp"
+#include "../../UILayer/AbstractModel/Defs/ResolutionUnit.hpp"
 #include "../../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
 
@@ -44,21 +44,21 @@ namespace SDF::Editor::ModelLayer::Services {
     INJECT(UnitConversionService());
 
     std::shared_ptr<
-      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ELengthUnit>
+      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::LengthUnit>
     >
     createConvertibleLength(
       float a_length,
-      UILayer::AbstractModel::Defs::ELengthUnit a_lengthUnit,
-      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
+      UILayer::AbstractModel::Defs::LengthUnit a_lengthUnit,
+      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ResolutionUnit>
         *a_resolution
     );
 
     std::shared_ptr<
-      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::EResolutionUnit>
+      UILayer::AbstractModel::Defs::IUnitConvertible<UILayer::AbstractModel::Defs::ResolutionUnit>
     >
     createConvertibleResolution(
       float a_resolution,
-      UILayer::AbstractModel::Defs::EResolutionUnit a_resolutionUnit
+      UILayer::AbstractModel::Defs::ResolutionUnit a_ResolutionUnit
     );
   };
 }

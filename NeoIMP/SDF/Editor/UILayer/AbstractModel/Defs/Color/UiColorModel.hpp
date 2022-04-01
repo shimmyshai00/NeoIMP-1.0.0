@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_EBACKGROUNDPRESET_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_EBACKGROUNDPRESET_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_UICOLORMODEL_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_COLOR_UICOLORMODEL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EBackgroundPreset.hpp
- * PURPOSE: Enumeration of the available preset backgrounds.
+ * FILE:    UiColorModel.hpp
+ * PURPOSE: Enumerates the available UI-specific color models.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer::AbstractModel::Defs {
-  enum EBackgroundPreset {
-    PRE_BACKGROUND_WHITE,
-    PRE_BACKGROUND_BLACK,
-    PRE_BACKGROUND_TRANSPARENT,
-    PRE_BACKGROUND_CUSTOM,
-    PRE_BACKGROUND_MAX
+namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
+  // We enumerate these separately for safety and also so that we aren't too presumptuous about
+  // what conversion parameters and formats the UI "wants". The relevant specs will be read off the
+  // resulting IColor object anyways.
+  enum UiColorModel {
+    UI_COLOR_MODEL_RGB,
+    UI_COLOR_MODEL_MAX
   };
 }
 

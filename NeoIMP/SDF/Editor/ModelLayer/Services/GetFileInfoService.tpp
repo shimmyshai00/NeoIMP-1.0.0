@@ -50,7 +50,7 @@ namespace SDF::Editor::ModelLayer::Services {
   }
 
   template<class ImageT>
-  UILayer::AbstractModel::Defs::EFileFormat
+  UILayer::AbstractModel::Defs::FileFormat
   GetFileInfoService<ImageT>::getFileFormat(Common::Handle a_imageHandle) {
     return g_fileFormatMapDLtoUL[m_fileInfoRequester->getFileFormatById(a_imageHandle)];
   }

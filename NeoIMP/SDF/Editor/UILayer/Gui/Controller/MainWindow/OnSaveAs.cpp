@@ -22,11 +22,11 @@
  */
 
 #include "OnSaveAs.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 #include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnSaveAs::OnSaveAs(IViewManager<View::EViewType> *viewManager)
+  OnSaveAs::OnSaveAs(IViewManager<View::ViewType> *viewManager)
     : m_viewManager(viewManager)
   {
   }

@@ -25,7 +25,7 @@
  */
 
 #include "../../../../Common/Handle.hpp"
-#include "../Defs/EFileFormat.hpp"
+#include "../Defs/FileFormat.hpp"
 
 #include <string>
 
@@ -44,21 +44,21 @@ namespace SDF::Editor::UILayer::AbstractModel::Storage {
     // Parameters: imageHandle - The handle of the document to check.
     // Returns:    Whether it has file spec.
     virtual bool
-    wasDocumentPreviouslySaved(Common::Handle imageHandle) = 0;
+    wasDocumentPreviouslySaved(Common::Handle a_imageHandle) = 0;
 
     // Function:   getFileSpec
     // Purpose:    Gets the standing file spec of a document.
     // Parameters: imageHandle - The handle of the document to get the file spec for.
     // Returns:    The file spec for this document.
     virtual std::string
-    getFileSpec(Common::Handle imageHandle) = 0;
+    getFileSpec(Common::Handle a_imageHandle) = 0;
 
     // Function:   getFileFormat
     // Purpose:    Gets the standing file format of a document.
     // Parameters: imageHandle - The handle of the document to get the file spec for.
     // Returns:    The file format for this document.
-    virtual Defs::EFileFormat
-    getFileFormat(Common::Handle imageHandle) = 0;
+    virtual Defs::FileFormat
+    getFileFormat(Common::Handle a_imageHandle) = 0;
   };
 }
 

@@ -47,7 +47,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     // Parameters: imageHandle - The handle to the image to render.
     // Returns:    A handle to the produced rendering.
     virtual Common::Handle
-    createStaticRendering(Common::Handle imageHandle) = 0;
+    createStaticRendering(Common::Handle a_imageHandle) = 0;
 
     // Function:   getRegion
     // Purpose:    Gets an accessor to the render data for a given region. The accessor
@@ -58,11 +58,11 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     // Returns:    The region accessor.
     virtual std::shared_ptr<Defs::IRenderRegion>
     getRegion(
-      Common::Handle renderHandle,
-      std::size_t x1,
-      std::size_t y1,
-      std::size_t x2,
-      std::size_t y2
+      Common::Handle a_renderHandle,
+      std::size_t a_x1,
+      std::size_t a_y1,
+      std::size_t a_x2,
+      std::size_t a_y2
     ) = 0;
 
     // Function:         deleteRendering
@@ -71,7 +71,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Viewing {
     // Returns:          None.
     // Throws (non-bug): RenderingNotFoundException
     virtual void
-    deleteRendering(Common::Handle renderHandle) = 0;
+    deleteRendering(Common::Handle a_renderHandle) = 0;
   };
 }
 

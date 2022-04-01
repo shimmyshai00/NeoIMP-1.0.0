@@ -41,7 +41,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Editing {
     // Parameters: handle - The document handle to get the name for.
     // Returns:    The name of the given document.
     virtual std::string
-    getDocumentName(Common::Handle handle) = 0;
+    getDocumentName(Common::Handle a_handle) = 0;
   };
 }
 

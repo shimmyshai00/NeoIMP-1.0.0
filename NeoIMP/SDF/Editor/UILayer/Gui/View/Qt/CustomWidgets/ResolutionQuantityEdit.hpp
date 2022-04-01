@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../../AbstractModel/Defs/ResolutionUnit.hpp"
 #include "../../../../AbstractModel/Defs/IUnitConvertible.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 
@@ -37,7 +37,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   // Purpose:    Defines a custom widget for entering resolution quantities.
   // Parameters: None.
   class ResolutionQuantityEdit
-    : public DimensionalQuantityEdit<AbstractModel::Defs::EResolutionUnit>
+    : public DimensionalQuantityEdit<AbstractModel::Defs::ResolutionUnit>
   {
     Q_OBJECT
   public:
@@ -52,46 +52,46 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
       AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
     );
 
-    std::pair<float, AbstractModel::Defs::EResolutionUnit>
+    std::pair<float, AbstractModel::Defs::ResolutionUnit>
     minLimit() const;
 
-    std::pair<float, AbstractModel::Defs::EResolutionUnit>
+    std::pair<float, AbstractModel::Defs::ResolutionUnit>
     maxLimit() const;
 
     float
     quantity() const;
 
-    AbstractModel::Defs::EResolutionUnit
+    AbstractModel::Defs::ResolutionUnit
     unit() const;
 
     void
-    setMinLimit(float minLimit, AbstractModel::Defs::EResolutionUnit unit);
+    setMinLimit(float minLimit, AbstractModel::Defs::ResolutionUnit unit);
 
     void
-    setMaxLimit(float maxLimit, AbstractModel::Defs::EResolutionUnit unit);
+    setMaxLimit(float maxLimit, AbstractModel::Defs::ResolutionUnit unit);
   public slots:
     void
     setQuantity(float quantity);
 
     void
-    setUnit(AbstractModel::Defs::EResolutionUnit unit);
+    setUnit(AbstractModel::Defs::ResolutionUnit unit);
   private:
     AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
 
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ResolutionUnit>>
       m_convertibleMinLimit;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ResolutionUnit>>
       m_convertibleMaxLimit;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ResolutionUnit>>
       m_convertibleQuantity;
 
-    AbstractModel::Defs::EResolutionUnit m_currentUnit;
+    AbstractModel::Defs::ResolutionUnit m_currentUnit;
   protected:
     void
     handleQuantityChangedByUser(float quantity);
 
     void
-    handleUnitChangedByUser(AbstractModel::Defs::EResolutionUnit unit);
+    handleUnitChangedByUser(AbstractModel::Defs::ResolutionUnit unit);
   };
 }
 

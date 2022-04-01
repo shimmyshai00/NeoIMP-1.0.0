@@ -26,7 +26,7 @@
 
 #include "../../../../../Common/Meta.hpp"
 #include "IColor.hpp"
-#include "EColorFormat.hpp"
+#include "ColorFormat.hpp"
 
 #include <array>
 
@@ -35,34 +35,34 @@ namespace SDF::Editor::UILayer::AbstractModel::Defs::Color {
   // Purpose:    Provides a generic template for defining short-dynamic range (SDR) color types.
   // Parameters: CF - The color format type being defined.
   //             ChannelBits - The bits in each channel.
-  template<EColorFormat CF, std::size_t ... ChannelBits>
-  class DefGenericSDR : public IColor<EColorFormat> {
+  template<ColorFormat CF, std::size_t ... ChannelBits>
+  class DefGenericSDR : public IColor<ColorFormat> {
   public:
     DefGenericSDR();
 
-    EColorFormat
+    ColorFormat
     getColorFormat() const;
 
     std::size_t
     getNumChannels() const;
 
     int
-    getChannelMin(std::size_t channelIdx) const;
+    getChannelMin(std::size_t a_channelIdx) const;
 
     int
-    getChannelMax(std::size_t channelIdx) const;
+    getChannelMax(std::size_t a_channelIdx) const;
 
     int
-    getValue(std::size_t channelIdx) const;
+    getValue(std::size_t a_channelIdx) const;
 
     float
-    getValueF(std::size_t channelIdx) const;
+    getValueF(std::size_t a_channelIdx) const;
 
     void
-    setValue(std::size_t channelIdx, int value);
+    setValue(std::size_t a_channelIdx, int a_value);
 
     void
-    setValueF(std::size_t channelIdx, float value);
+    setValueF(std::size_t a_channelIdx, float a_value);
   private:
     typedef Common::Meta::dynamic_pack<std::size_t, ChannelBits...> pak_t;
 

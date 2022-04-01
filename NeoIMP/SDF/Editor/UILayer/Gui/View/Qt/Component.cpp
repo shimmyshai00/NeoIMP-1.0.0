@@ -29,6 +29,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<IViewManager<EViewType>, ViewManager>();
+      .bind<IViewManager<ViewType>, ViewManager>();
   }
 }

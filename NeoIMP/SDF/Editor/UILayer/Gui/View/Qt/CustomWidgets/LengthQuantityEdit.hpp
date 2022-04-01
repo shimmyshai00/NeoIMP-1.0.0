@@ -24,8 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../../AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../../AbstractModel/Defs/LengthUnit.hpp"
+#include "../../../../AbstractModel/Defs/ResolutionUnit.hpp"
 #include "../../../../AbstractModel/Defs/IUnitConvertible.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
@@ -39,7 +39,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   // Purpose:    Defines a custom widget for entering resolution quantities.
   // Parameters: None.
   class LengthQuantityEdit
-    : public DimensionalQuantityEdit<AbstractModel::Defs::ELengthUnit>
+    : public DimensionalQuantityEdit<AbstractModel::Defs::LengthUnit>
   {
     Q_OBJECT
   public:
@@ -57,57 +57,57 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
       AbstractModel::Metrics::IConvertResolutionService *convertResolutionService
     );
 
-    std::pair<float, AbstractModel::Defs::ELengthUnit>
+    std::pair<float, AbstractModel::Defs::LengthUnit>
     minLimit() const;
 
-    std::pair<float, AbstractModel::Defs::ELengthUnit>
+    std::pair<float, AbstractModel::Defs::LengthUnit>
     maxLimit() const;
 
     float
     quantity() const;
 
-    AbstractModel::Defs::ELengthUnit
+    AbstractModel::Defs::LengthUnit
     unit() const;
 
     void
-    setMinLimit(float minLimit, AbstractModel::Defs::ELengthUnit unit);
+    setMinLimit(float minLimit, AbstractModel::Defs::LengthUnit unit);
 
     void
-    setMaxLimit(float maxLimit, AbstractModel::Defs::ELengthUnit unit);
+    setMaxLimit(float maxLimit, AbstractModel::Defs::LengthUnit unit);
 
     void
     setQuantity(float quantity);
 
     void
-    setUnit(AbstractModel::Defs::ELengthUnit unit);
+    setUnit(AbstractModel::Defs::LengthUnit unit);
   public slots:
     void
     setReferenceResolution(float resolution);
 
     void
-    setReferenceResolutionUnit(AbstractModel::Defs::EResolutionUnit unit);
+    setReferenceResolutionUnit(AbstractModel::Defs::ResolutionUnit unit);
   private:
     AbstractModel::Metrics::IConvertLengthService *m_convertLengthService;
     AbstractModel::Metrics::IConvertResolutionService *m_convertResolutionService;
 
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::LengthUnit>>
       m_convertibleMinLimit;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::LengthUnit>>
       m_convertibleMaxLimit;
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ELengthUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::LengthUnit>>
       m_convertibleQuantity;
 
-    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::EResolutionUnit>>
+    std::shared_ptr<AbstractModel::Defs::IUnitConvertible<AbstractModel::Defs::ResolutionUnit>>
       m_convertibleResolution;
 
-    AbstractModel::Defs::ELengthUnit m_currentUnit;
-    AbstractModel::Defs::EResolutionUnit m_currentResolutionUnit;
+    AbstractModel::Defs::LengthUnit m_currentUnit;
+    AbstractModel::Defs::ResolutionUnit m_currentResolutionUnit;
   protected:
     void
     handleQuantityChangedByUser(float quantity);
 
     void
-    handleUnitChangedByUser(AbstractModel::Defs::ELengthUnit unit);
+    handleUnitChangedByUser(AbstractModel::Defs::LengthUnit unit);
   };
 }
 

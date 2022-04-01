@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ELENGTHUNIT_HPP
-#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_ELENGTHUNIT_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTION_UNIT_LABELS_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DEFS_RESOLUTION_UNIT_LABELS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ELengthUnit.hpp
- * PURPOSE: Defines the ELengthUnit enum.
+ * FILE:    resolution_unit_labels.hpp
+ * PURPOSE: Defines the labels for resolution units.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "ResolutionUnit.hpp"
+
 namespace SDF::Editor::UILayer::AbstractModel::Defs {
-  enum ELengthUnit {
-    LENGTH_UNIT_PIXEL,
-    LENGTH_UNIT_POINT,
-    LENGTH_UNIT_MILLIMETER,
-    LENGTH_UNIT_PICA,
-    LENGTH_UNIT_CENTIMETER,
-    LENGTH_UNIT_INCH,
-    LENGTH_UNIT_MAX
+  // NB: The labels and symbols should appear in the same order the units do in the enum
+  static const char *g_resolutionUnitLabels[RESOLUTION_UNIT_MAX] = {
+    "per inch",
+    "per centimeter",
+    "per millimeter"
+  };
+
+  static const char *g_resolutionUnitSymbols[RESOLUTION_UNIT_MAX] = {
+    "ppi",
+    "px/mm",
+    "px/cm"
   };
 }
 

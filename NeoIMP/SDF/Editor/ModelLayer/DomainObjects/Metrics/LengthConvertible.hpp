@@ -25,27 +25,27 @@
  */
 
 #include "../../../UILayer/AbstractModel/Defs/IUnitConvertible.hpp"
-#include "../../../UILayer/AbstractModel/Defs/ELengthUnit.hpp"
-#include "../../../UILayer/AbstractModel/Defs/EResolutionUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/LengthUnit.hpp"
+#include "../../../UILayer/AbstractModel/Defs/ResolutionUnit.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Metrics {
   // Class:      LengthConvertible
   // Purpose:    Defines a convertible length quantity.
   // Parameters: None.
   class LengthConvertible : public UILayer::AbstractModel::Defs::IUnitConvertible<
-                              UILayer::AbstractModel::Defs::ELengthUnit
+                              UILayer::AbstractModel::Defs::LengthUnit
                             >
   {
   public:
     LengthConvertible(
       float a_quantity,
-      UILayer::AbstractModel::Defs::ELengthUnit a_unit,
+      UILayer::AbstractModel::Defs::LengthUnit a_unit,
       float a_resolution,
-      UILayer::AbstractModel::Defs::EResolutionUnit a_resUnit
+      UILayer::AbstractModel::Defs::ResolutionUnit a_resUnit
     );
 
     float
-    in(UILayer::AbstractModel::Defs::ELengthUnit a_unit);
+    in(UILayer::AbstractModel::Defs::LengthUnit a_unit);
   private:
     float m_quantityPixels;
     float m_resolutionPpi;

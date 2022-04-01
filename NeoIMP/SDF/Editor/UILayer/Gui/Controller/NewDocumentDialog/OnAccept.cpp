@@ -24,12 +24,12 @@
 #include "OnAccept.hpp"
 
 #include "../../../Support/Bundle.hpp"
-#include "../../View/EViewType.hpp"
+#include "../../View/ViewType.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   OnAccept::OnAccept(
     AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
-    IViewManager<View::EViewType> *viewManager
+    IViewManager<View::ViewType> *viewManager
   )
     : m_createDocumentSerivce(createDocumentSerivce),
       m_viewManager(viewManager)
