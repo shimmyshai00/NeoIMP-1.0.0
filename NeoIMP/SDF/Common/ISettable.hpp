@@ -34,7 +34,7 @@ namespace SDF::Common {
     virtual ~ISettable() = default;
 
     virtual void
-    set(ValueT val) = 0;
+    set(ValueT a_val) = 0;
   };
 }
 

@@ -1,9 +1,12 @@
+#ifndef SDF_COMMON_DATA_ADAPTERS_GETCOMPONENT_HPP
+#define SDF_COMMON_DATA_ADAPTERS_GETCOMPONENT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the database adapters.
+ * FILE:    getComponent.hpp
+ * PURPOSE: Defines the DI component for the database adapters.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,14 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "IFilesystemAdapter.hpp"
 
-#include "PosixFSAdapter.hpp"
+#include <fruit/fruit.h>
 
 namespace SDF::Common::Data::Adapters {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .bind<IFilesystemAdapter, PosixFSAdapter>();
-  }
+  typedef fruit::Component<IFilesystemAdapter> TComponent;
+
+  TComponent
+  getComponent();
 }
+
+#endif

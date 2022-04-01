@@ -40,7 +40,7 @@ namespace SDF::Common::Data {
     // Parameters: key - The key to retrieve data from.
     // Returns:    The object with the given key.
     virtual ObjT *
-    retrieve(KeyT key) = 0;
+    retrieve(KeyT a_key) = 0;
   };
 }
 

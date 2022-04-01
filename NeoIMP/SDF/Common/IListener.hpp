@@ -41,7 +41,7 @@ namespace SDF::Common {
     // Parmeters:  args - The arguments to notify with.
     // Returns:    None.
     virtual void
-    notify(Args... args) = 0;
+    notify(Args... as_args) = 0;
   };
 }
 

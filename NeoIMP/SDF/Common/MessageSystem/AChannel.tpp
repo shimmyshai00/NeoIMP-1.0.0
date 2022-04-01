@@ -28,11 +28,11 @@ namespace SDF::Common::MessageSystem::Impl {
   template<class MessageT>
   class Connection : public IConnection {
   public:
-    Connection(std::map<boost::uuids::uuid, ISubscriber<MessageT> *> *subscriberMap,
-               ISubscriber<MessageT> *subscriber
+    Connection(std::map<boost::uuids::uuid, ISubscriber<MessageT> *> *a_subscriberMap,
+               ISubscriber<MessageT> *a_subscriber
               )
-      : m_subscriberMap(subscriberMap),
-        m_subscriber(subscriber)
+      : m_subscriberMap(a_subscriberMap),
+        m_subscriber(a_subscriber)
     {
     }
 
@@ -57,9 +57,9 @@ namespace SDF::Common::MessageSystem {
   // Protected members.
   template<class MessageT>
   ISubscriber<MessageT> *
-  AChannel<MessageT>::getSubscriber(boost::uuids::uuid uuid) {
-    if(m_subscribers.find(uuid) != m_subscribers.end()) {
-      return m_subscribers[uuid];
+  AChannel<MessageT>::getSubscriber(boost::uuids::uuid a_uuid) {
+    if(m_subscribers.find(a_uuid) != m_subscribers.end()) {
+      return m_subscribers[a_uuid];
     } else {
       return nullptr;
     }
@@ -68,10 +68,10 @@ namespace SDF::Common::MessageSystem {
   template<class MessageT>
   void
   AChannel<MessageT>::forEachSubscriber(
-    std::function<void(std::pair<boost::uuids::uuid, ISubscriber<MessageT> *>)> func
+    std::function<void(std::pair<boost::uuids::uuid, ISubscriber<MessageT> *>)> a_func
   ) {
     for(std::pair<boost::uuids::uuid, ISubscriber<MessageT> *> kvp : m_subscribers) {
-      func(kvp);
+      a_func(kvp);
     }
   }
 }
@@ -79,9 +79,9 @@ namespace SDF::Common::MessageSystem {
 namespace SDF::Common::MessageSystem {
   template<class MessageT>
   PIConnection
-  AChannel<MessageT>::subscribe(ISubscriber<MessageT> *subscriber)
+  AChannel<MessageT>::subscribe(ISubscriber<MessageT> *a_subscriber)
   {
-    return PIConnection(new Impl::Connection<MessageT>(&m_subscribers, subscriber));
+    return PIConnection(new Impl::Connection<MessageT>(&m_subscribers, a_subscriber));
   }
 }
 

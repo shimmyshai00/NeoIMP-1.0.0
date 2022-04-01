@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_ALLTOALL_HPP
-#define SDF_COMMON_MESSAGESYSTEM_ALLTOALL_HPP
+#ifndef SDF_COMMON_THANDLE_HPP
+#define SDF_COMMON_THANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    AllToAll.hpp
- * PURPOSE: Defines the AllToAll template.
+ * FILE:    THandle.hpp
+ * PURPOSE: Defines the THandle type.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,31 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "AChannel.hpp"
+#include <limits>
 
-#include <boost/uuid/uuid.hpp>
+namespace SDF::Common {
+  typedef unsigned int THandle;
 
-#include <fruit/fruit.h>
-
-#include <map>
-
-namespace SDF::Common::MessageSystem {
-  // Class:      AllToAll
-  // Purpose:    Provides a very simple publish/subscribe service that provides all-to-all
-  //             messaging  of attached subscribers.
-  // Parameters: MessageT - The type of message handled.
-  template<class MessageT>
-  class AllToAll : public AChannel<MessageT> {
-  public:
-    INJECT(AllToAll());
-
-    void
-    dispatchMessage(boost::uuids::uuid senderUuid,
-                    const MessageT &message
-                   );
-  };
+  static const THandle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
 }
-
-#include "AllToAll.tpp"
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_DATA_IUPDATABLE_HPP
-#define SDF_COMMON_DATA_IUPDATABLE_HPP
+#ifndef SDF_COMMON_CFUNCTIONLISTENER_HPP
+#define SDF_COMMON_CFUNCTIONLISTENER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IUpdatable.hpp
- * PURPOSE: Defines the IUpdatable interface.
+ * FILE:    CFunctionListener.hpp
+ * PURPOSE: Defines the CFunctionListener template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common::Data {
-  // Class:      IUpdatable
-  // Purpose:    Defines an interface for objects supporting the "update" operation of persistent
-  //             storage.
-  // Parameters: KeyT - The type of key into the database.
-  //             ObjT - The type of object stored.
-  template<class KeyT, class ObjT>
-  class IUpdatable {
-  public:
-    virtual ~IUpdatable() = default;
+#include "IListener.hpp"
 
-    // Function:   update
-    // Purpose:    Updates an entry in the database.
-    // Parameters: key - The key to emplace data into.
-    //             obj - The object to emplace into the entry under that key.
-    // Returns:    None.
-    virtual void
-    update(KeyT a_key, const ObjT &a_obj) = 0;
+#include <functional>
+
+namespace SDF::Common {
+  // Class:      CFunctionListener
+  // Purpose:    Adapt a function to a listener object.
+  // Parameters: args - The listener arguments.
+  template<class ... Args>
+  class CFunctionListener : public IListener<Args...> {
+  public:
+    // Function:   CFunctionListener
+    // Purpose:    Construct the listener with a given function.
+    // Parameters: func - The function to wrap.
+    CFunctionListener(std::function<void (Args...)> a_func);
+
+    void
+    notify(Args... as_args);
+  private:
+    std::function<void (Args...)> m_func;
   };
 }
+
+#include "CFunctionListener.tpp"
 
 #endif

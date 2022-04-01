@@ -41,7 +41,7 @@ namespace SDF::Common::Data {
     //             obj - The initial data to add to this entry.
     // Returns:    None.
     virtual void
-    create(KeyT key, const ObjT &obj) = 0;
+    create(KeyT a_key, const ObjT &a_obj) = 0;
   };
 }
 

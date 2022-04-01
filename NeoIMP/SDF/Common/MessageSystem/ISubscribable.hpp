@@ -41,7 +41,7 @@ namespace SDF::Common::MessageSystem {
     // Parameters: subscriber - The object subscribing.
     // Returns:    A connection handle for the subscription.
     virtual PIConnection
-    subscribe(ISubscriber<MessageT> *subscriber) = 0;
+    subscribe(ISubscriber<MessageT> *a_subscriber) = 0;
   };
 }
 

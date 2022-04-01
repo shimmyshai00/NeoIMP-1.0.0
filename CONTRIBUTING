@@ -142,15 +142,23 @@ NOTE:
     also code files themselves. Generally speaking, general types should be named with
     EachWordCapitalized names. The exception to this rule is special traits structures, which should
     be named with all_lowercase_underscored_names_like_these. Methods, variables, and functions, of
-    course, should be named in camelCase. Classes that are interfaces should be prefixed with "I",
-    classes that are abstract bases with "A", generic classes with "C". Structs should be prefixed
-    with "S" and enums with "E". Files should be named after the only (or principal) object defined
-    or declared in them, e.g. a class CMyClass should have header CMyClass.hpp and implementation
-    CMyClass.cpp. Headers that declare only generic data or constants should be named like traits
-    structures. Likewise, variables should be prefixed according to where they come from: prefix
-    globals with "g_", pointers (including smart pointers) with "p_", constants with "c_", and
-    finally private members with "m_", in that order of precedence. All other variables should
-    remain unprefixed.
+    course, should be named in camelCase. There are also a few prefixing rules to be aware of. For
+    variable names, they should be prefixed by location:
+
+      - Private member variables should be prefixed with m_,
+      - Global variables should be prefixed with g_.
+
+    And two rules for class names:
+
+      - Interface classes should be prefixed with I.
+      - Abstract base classes should be prefixed with A.
+
+    There are no other prefixing requirements. The names carry over to the naming of source files as
+    well - generally each file should be named for the principal object it defines or implements,
+    e.g. if a header defines a class MyClass we should have MyClass.hpp as the header, and
+    MyClass.cpp (or MyClass.tpp if a template) as the implementation. Headers that are more like
+    general repositories of constants or otherwise have no specific principal object should just be
+    named with the all-lowercase-and-underscores convention, e.g. image_defs.hpp.
 
 Program Design
 --------------

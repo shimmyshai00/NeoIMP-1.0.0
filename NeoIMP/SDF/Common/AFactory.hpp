@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_IFACTORY_HPP
-#define SDF_COMMON_IFACTORY_HPP
+#ifndef SDF_COMMON_AFACTORY_HPP
+#define SDF_COMMON_AFACTORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IFactory.hpp
- * PURPOSE: Defines the IFactory interface.
+ * FILE:    AFactory.hpp
+ * PURPOSE: Defines the AFactory base class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -27,27 +27,27 @@
 #include <memory>
 
 namespace SDF::Common {
-  // Class:      IFactory
-  // Purpose:    Defines an interface for objects which construct other objects.
+  // Class:      AFactory
+  // Purpose:    Defines a base class for objects which construct other objects.
   // Parameters: ObjT - The type of object constructed.
   //             Args - The arguments required for the construction.
   template<class ObjT, class ... Args>
-  class IFactory {
+  class AFactory {
   public:
-    virtual ~IFactory() = default;
+    virtual ~AFactory() = default;
 
     // Function:   create
     // Purpose:    Create a new instance of the object.
     // Parameters: args - The arguments to use for the construction.
     // Returns:    A pointer to the new object.
     virtual ObjT *
-    create(Args... args) = 0;
+    create(Args... as_args) = 0;
 
     std::unique_ptr<ObjT>
-    createU(Args... args) { return std::unique_ptr<ObjT>(create(args...)); }
+    createU(Args... as_args) { return std::unique_ptr<ObjT>(create(as_args...)); }
 
     std::shared_ptr<ObjT>
-    createS(Args... args) { return std::shared_ptr<ObjT>(create(args...)); }
+    createS(Args... as_args) { return std::shared_ptr<ObjT>(create(as_args...)); }
   };
 }
 

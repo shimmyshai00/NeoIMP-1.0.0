@@ -43,9 +43,7 @@ namespace SDF::Common::MessageSystem {
     //             message - The message to publish.
     // Returns:    None.
     virtual void
-    dispatchMessage(boost::uuids::uuid senderUuid,
-                    const MessageT &message
-                   ) = 0;
+    dispatchMessage(boost::uuids::uuid a_senderUuid, const MessageT &a_message) = 0;
   };
 }
 

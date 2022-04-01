@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_FUNCTIONLISTENER_HPP
-#define SDF_COMMON_FUNCTIONLISTENER_HPP
+#ifndef SDF_COMMON_CFUNCTIONLISTENER_TPP
+#define SDF_COMMON_CFUNCTIONLISTENER_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FunctionListener.hpp
- * PURPOSE: Defines the FunctionListener template.
+ * FILE:    CFunctionListener.tpp
+ * PURPOSE: Implements the CFunctionListener template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IListener.hpp"
-
-#include <functional>
-
 namespace SDF::Common {
-  // Class:      FunctionListener
-  // Purpose:    Adapt a function to a listener object.
-  // Parameters: args - The listener arguments.
   template<class ... Args>
-  class FunctionListener : public IListener<Args...> {
-  public:
-    // Function:   FunctionListener
-    // Purpose:    Construct the listener with a given function.
-    // Parameters: func - The function to wrap.
-    FunctionListener(std::function<void (Args...)> func);
+  CFunctionListener<Args...>::FunctionListener(std::function<void (Args...)> a_func)
+    : m_func(a_func)
+  {
+  }
 
-    void
-    notify(Args... args);
-  private:
-    std::function<void (Args...)> m_func;
-  };
+  template<class ... Args>
+  void
+  CFunctionListener<Args...>::notify(Args... as_args) {
+    m_func(as_args...);
+  }
 }
-
-#include "FunctionListener.tpp"
 
 #endif

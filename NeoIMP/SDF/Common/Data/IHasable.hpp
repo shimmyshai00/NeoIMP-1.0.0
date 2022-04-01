@@ -40,7 +40,7 @@ namespace SDF::Common::Data {
     // Parameters: key - The key to check.
     // Returns:    Whether this key was found.
     virtual bool
-    has(KeyT key) = 0;
+    has(KeyT a_key) = 0;
   };
 }
 

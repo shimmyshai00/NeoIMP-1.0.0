@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_FUNCTIONLISTENER_TPP
-#define SDF_COMMON_FUNCTIONLISTENER_TPP
+#ifndef SDF_COMMON_MESSAGESYSTEM_CALLTOALL_TPP
+#define SDF_COMMON_MESSAGESYSTEM_CALLTOALL_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    FunctionListener.tpp
- * PURPOSE: Implements the FunctionListener template.
+ * FILE:    CAllToAll.tpp
+ * PURPOSE: Implements the CAllToAll template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common {
-  template<class ... Args>
-  FunctionListener<Args...>::FunctionListener(std::function<void (Args...)> func)
-    : m_func(func)
-  {
+namespace SDF::Common::MessageSystem {
+  template<class MessageT>
+  CAllToAll<MessageT>::CAllToAll() {
   }
 
-  template<class ... Args>
+  template<class MessageT>
   void
-  FunctionListener<Args...>::notify(Args... args) {
-    m_func(args...);
+  CAllToAll<MessageT>::dispatchMessage(boost::uuids::uuid a_senderUuid, const MessageT &a_message) {
+    this->forEachSubscriber([&](auto b_kvp) {
+      if(b_kvp.first != a_senderUuid) {
+        b_kvp.second->receiveMessage(a_senderUuid, a_message);
+      }
+    });
   }
 }
 

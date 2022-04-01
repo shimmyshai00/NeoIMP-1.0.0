@@ -42,9 +42,7 @@ namespace SDF::Common::MessageSystem {
     // Parameters: senderUuid - The UUID of the sending object.
     //             message - The message itself.
     virtual void
-    receiveMessage(const boost::uuids::uuid senderUuid,
-                   const MessageT &message
-                  ) = 0;
+    receiveMessage(const boost::uuids::uuid a_senderUuid, const MessageT &a_message) = 0;
   };
 }
 

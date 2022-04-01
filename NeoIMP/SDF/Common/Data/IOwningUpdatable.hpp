@@ -42,7 +42,7 @@ namespace SDF::Common::Data {
     // Parameters: key - The key to emplace data into.
     // Returns:    None.
     virtual void
-    update(KeyT key) = 0;
+    update(KeyT a_key) = 0;
   };
 }
 

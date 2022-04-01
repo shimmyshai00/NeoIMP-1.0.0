@@ -41,7 +41,7 @@ namespace SDF::Common::Data {
     //             obj - The object to hold the retrieved data.
     // Returns:    None.
     virtual void
-    retrieve(KeyT key, ObjT &obj) = 0;
+    retrieve(KeyT a_key, ObjT &a_obj) = 0;
   };
 }
 

@@ -40,7 +40,7 @@ namespace SDF::Common::Data {
     // Parameters: key - The key to delete.
     // Returns:    None.
     virtual void
-    deleteO(KeyT key) = 0;
+    deleteO(KeyT a_key) = 0;
   };
 }
 

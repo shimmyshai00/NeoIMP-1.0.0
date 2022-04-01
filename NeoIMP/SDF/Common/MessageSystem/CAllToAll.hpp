@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_HANDLE_HPP
-#define SDF_COMMON_HANDLE_HPP
+#ifndef SDF_COMMON_MESSAGESYSTEM_CALLTOALL_HPP
+#define SDF_COMMON_MESSAGESYSTEM_CALLTOALL_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Handle.hpp
- * PURPOSE: Defines the Handle type.
+ * FILE:    CAllToAll.hpp
+ * PURPOSE: Defines the CAllToAll template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <limits>
+#include "AChannel.hpp"
 
-namespace SDF::Common {
-  typedef unsigned int Handle;
+#include <boost/uuid/uuid.hpp>
 
-  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
+#include <fruit/fruit.h>
+
+#include <map>
+
+namespace SDF::Common::MessageSystem {
+  // Class:      CAllToAll
+  // Purpose:    Provides a very simple publish/subscribe service that provides all-to-all
+  //             messaging  of attached subscribers.
+  // Parameters: MessageT - The type of message handled.
+  template<class MessageT>
+  class CAllToAll : public AChannel<MessageT> {
+  public:
+    INJECT(CAllToAll());
+
+    void
+    dispatchMessage(boost::uuids::uuid a_senderUuid, const MessageT &a_message);
+  };
 }
+
+#include "CAllToAll.tpp"
 
 #endif

@@ -43,7 +43,7 @@ namespace SDF::Common {
     // Parameters: listener - The listener to add.
     // Returns:    A connection object to the listener.
     PIConnection
-    addListener(std::shared_ptr<IListener<Args...>> listener);
+    addListener(std::shared_ptr<IListener<Args...>> a_listener);
   };
 }
 

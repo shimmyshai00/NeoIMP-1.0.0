@@ -43,15 +43,15 @@ namespace SDF::Common::MessageSystem {
   {
   public:
     PIConnection
-    subscribe(ISubscriber<MessageT> *subscriber);
+    subscribe(ISubscriber<MessageT> *a_subscriber);
   protected:
     ISubscriber<MessageT> *
-    getSubscriber(boost::uuids::uuid uuid);
+    getSubscriber(boost::uuids::uuid a_uuid);
 
     void
-    forEachSubscriber(std::function<void(std::pair<boost::uuids::uuid, ISubscriber<MessageT> *>)>
-                        func
-                     );
+    forEachSubscriber(
+      std::function<void(std::pair<boost::uuids::uuid, ISubscriber<MessageT> *>)> a_func
+    );
   private:
     std::map<boost::uuids::uuid, ISubscriber<MessageT> *> m_subscribers;
   };

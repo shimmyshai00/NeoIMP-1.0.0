@@ -39,19 +39,19 @@ namespace SDF::Common::Data {
     virtual ~IAdapter() = default;
 
     virtual bool
-    exist(KeyT key) = 0;
+    exist(KeyT a_key) = 0;
 
     virtual void
-    create(KeyT key) = 0;
+    create(KeyT a_key) = 0;
 
     virtual void
-    writeData(KeyT key, const DataT &data) = 0;
+    writeData(KeyT key, const DataT &a_data) = 0;
 
     virtual void
-    readData(KeyT key, DataT &destination) = 0;
+    readData(KeyT a_key, DataT &a_destination) = 0;
 
     virtual void
-    erase(KeyT key) = 0;
+    erase(KeyT a_key) = 0;
   };
 }
 

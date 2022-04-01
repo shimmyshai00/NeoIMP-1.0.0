@@ -43,7 +43,7 @@ namespace SDF::Common::MessageSystem {
     // Parameters: messageDispatcher - The message dispatcher to set.
     // Returns:    None.
     virtual void
-    setDispatcher(IMessageDispatcher<MessageT> *messageDispatcher) = 0;
+    setDispatcher(IMessageDispatcher<MessageT> *a_messageDispatcher) = 0;
   };
 }
 

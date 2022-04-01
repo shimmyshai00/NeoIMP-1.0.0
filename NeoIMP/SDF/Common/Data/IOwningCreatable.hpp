@@ -43,7 +43,7 @@ namespace SDF::Common::Data {
     //             obj - The initial data to add to this entry.
     // Returns:    A non-owning reference to the added object.
     virtual ObjT *
-    create(KeyT key, std::unique_ptr<ObjT> obj) = 0;
+    create(KeyT a_key, std::unique_ptr<ObjT> a_obj) = 0;
   };
 }
 
