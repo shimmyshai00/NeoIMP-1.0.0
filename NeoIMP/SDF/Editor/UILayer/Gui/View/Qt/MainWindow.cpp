@@ -24,7 +24,7 @@
 #include "MainWindow.hpp"
 
 #include "../../Controller/MainWindow/OnExit.hpp"
-#include "../../StateKeys.hpp"
+#include "../../state_keys.hpp"
 #include "DocumentView.hpp"
 
 #include "Resources/ui_MainWindow.h"

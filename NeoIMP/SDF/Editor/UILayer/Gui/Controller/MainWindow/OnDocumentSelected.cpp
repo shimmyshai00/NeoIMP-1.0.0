@@ -23,7 +23,7 @@
 
 #include "OnDocumentSelected.hpp"
 
-#include "../../StateKeys.hpp"
+#include "../../state_keys.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   OnDocumentSelected::OnDocumentSelected(

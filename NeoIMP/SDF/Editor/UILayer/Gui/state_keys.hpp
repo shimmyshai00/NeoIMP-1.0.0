@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_STATEKEYS_HPP
-#define SDF_EDITOR_UILAYER_GUI_STATEKEYS_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_STATE_KEYS_HPP
+#define SDF_EDITOR_UILAYER_GUI_STATE_KEYS_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    StateKeys.hpp
+ * FILE:    state_keys.hpp
  * PURPOSE: Defines the various state keys used for registering state information in the model layer
  *          database.
  */
