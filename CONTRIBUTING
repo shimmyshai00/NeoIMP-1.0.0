@@ -146,7 +146,8 @@ NOTE:
     variable names, they should be prefixed by location:
 
       - Private member variables should be prefixed with m_,
-      - Global variables should be prefixed with g_.
+      - Global variables should be prefixed with g_,
+      - Function arguments should be prefixed with a_.
 
     And two rules for class names:
 
