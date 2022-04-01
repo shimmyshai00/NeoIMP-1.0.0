@@ -31,17 +31,20 @@
 
 namespace SDF::Editor::DataLayer::DataMappers {
   template<class Loader, class ImplSpecT>
-  void applyLoader(Loader pers, ModelLayer::DomainObjects::Engine::Image::Image<ImplSpecT> &image) {
-    pers(image);
+  void applyLoader(
+    Loader a_pers,
+    ModelLayer::DomainObjects::Engine::Image::Image<ImplSpecT> &a_image
+  ) {
+    a_pers(a_image);
   }
 
   template<class Loader, class ... ImplSpecTs>
   void applyLoader(
-    Loader pers,
-    ModelLayer::DomainObjects::Engine::Image::Variant<ImplSpecTs...> &image
+    Loader a_pers,
+    ModelLayer::DomainObjects::Engine::Image::Variant<ImplSpecTs...> &a_image
   ) {
     using namespace ModelLayer::DomainObjects;
-    Engine::Image::visit([&](auto &&rhs) { pers(rhs); }, image);
+    Engine::Image::visit([&](auto &&b_rhs) { a_pers(b_rhs); }, a_image);
   }
 }
 

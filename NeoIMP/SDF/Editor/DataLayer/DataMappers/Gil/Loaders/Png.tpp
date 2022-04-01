@@ -38,7 +38,7 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
   template<class GilSpecT>
   void
-  Png::operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image) {
+  Png::operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image) {
     using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 
@@ -64,7 +64,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
         read_view(m_fileSpec, c->getView(), png_tag());
 
         // Now check if the image already has a background layer.
-        if(image.getNumLayers() > 0) {
+        if(a_image.getNumLayers() > 0) {
           // TBA
           throw "NOT YET IMPLEMENTED";
         } else {
@@ -72,7 +72,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
           auto bkgLayer = std::make_unique<Engine::Image::Layer<GilSpecT>>();
           bkgLayer->setContentComponent(std::move(c));
 
-          image.addLayer(std::move(bkgLayer));
+          a_image.addLayer(std::move(bkgLayer));
         }
 
         // TBA: other ancillary info like resolution

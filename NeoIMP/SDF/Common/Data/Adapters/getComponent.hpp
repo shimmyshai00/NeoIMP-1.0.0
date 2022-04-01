@@ -29,9 +29,9 @@
 #include <fruit/fruit.h>
 
 namespace SDF::Common::Data::Adapters {
-  typedef fruit::Component<IFilesystemAdapter> TComponent;
+  typedef fruit::Component<IFilesystemAdapter> Component;
 
-  TComponent
+  Component
   getComponent();
 }
 

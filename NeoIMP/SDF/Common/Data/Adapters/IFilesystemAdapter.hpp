@@ -25,7 +25,7 @@
  */
 
 #include "../IAdapter.hpp"
-#include "SFilesystemKey.hpp"
+#include "FilesystemKey.hpp"
 
 #include <vector>
 
@@ -33,7 +33,7 @@ namespace SDF::Common::Data::Adapters {
   // Class:      IFilesystemAdapter
   // Purpose:    Provides a general interface for filesystem adapters.
   // Parameters: None.
-  class IFilesystemAdapter : public IAdapter<SFilesystemKey, std::vector<unsigned char>> {};
+  class IFilesystemAdapter : public IAdapter<FilesystemKey, std::vector<unsigned char>> {};
 }
 
 #endif

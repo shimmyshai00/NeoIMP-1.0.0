@@ -51,36 +51,36 @@ namespace SDF::Editor::DataLayer::Repositories {
   {
   public:
     INJECT(ImageRepository(
-      ANNOTATED(Formats::PNG, Common::Data::ICrudable<std::string, ImageT> *) pngImageMapper
+      ANNOTATED(Formats::PNG, Common::Data::ICrudable<std::string, ImageT> *) a_pngImageMapper
     ));
 
     Common::Handle
-    retainImageAtAutoID(std::unique_ptr<ImageT> image);
+    retainImageAtAutoID(std::unique_ptr<ImageT> a_image);
 
     ImageT *
-    retrieve(Common::Handle id);
+    retrieve(Common::Handle a_id);
 
     Common::Handle
-    loadImageFromFile(std::string fileSpec, ModelLayer::AbstractData::EFormat fileFormat);
+    loadImageFromFile(std::string a_fileSpec, ModelLayer::AbstractData::EFormat a_fileFormat);
 
     void
     registerFileSpec(
-      Common::Handle id,
-      std::string fileSpec,
-      ModelLayer::AbstractData::EFormat fileFormat
+      Common::Handle a_id,
+      std::string a_fileSpec,
+      ModelLayer::AbstractData::EFormat a_fileFormat
     );
 
     void
-    persistImage(Common::Handle id);
+    persistImage(Common::Handle a_id);
 
     bool
-    hasAssociatedFile(Common::Handle id) const;
+    hasAssociatedFile(Common::Handle a_id) const;
 
     std::string
-    getFileSpecById(Common::Handle id) const;
+    getFileSpecById(Common::Handle a_id) const;
 
     ModelLayer::AbstractData::EFormat
-    getFileFormatById(Common::Handle id) const;
+    getFileFormatById(Common::Handle a_id) const;
   private:
     Common::Data::ICrudable<std::string, ImageT> *m_pngImageMapper;
 

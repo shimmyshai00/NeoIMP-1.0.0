@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_COMPONENT_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_COMPONENT_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
- * PURPOSE: Defines the DI component for the whole data mapper subsystem.
+ * FILE:    getComponent.cpp
+ * PURPOSE: Implements the DI component for the whole data mapper subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,22 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../Common/Data/ICrudable.hpp"
-#include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
-#include "../Repositories/Formats.hpp"
+#include "getComponent.hpp"
 
-#include <fruit/fruit.h>
+#include "Gil/getComponent.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers {
-  typedef fruit::Component<
-    fruit::Annotated<
-      Repositories::Formats::PNG,
-      Common::Data::ICrudable<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
-    >
-  > Component;
-
   Component
-  getComponent();
+  getComponent() {
+    return fruit::createComponent()
+      .install(Gil::getComponent);
+  }
 }
-
-#endif

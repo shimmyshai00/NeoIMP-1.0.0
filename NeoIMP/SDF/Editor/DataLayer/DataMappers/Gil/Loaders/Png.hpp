@@ -33,14 +33,14 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
   struct Png {
     std::string m_fileSpec;
 
-    Png(std::string fileSpec)
-      : m_fileSpec(fileSpec)
+    Png(std::string a_fileSpec)
+      : m_fileSpec(a_fileSpec)
     {
     }
 
     template<class GilSpecT>
     void
-    operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image);
+    operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image);
   };
 }
 

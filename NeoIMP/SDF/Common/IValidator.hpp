@@ -43,7 +43,7 @@ namespace SDF::Common {
     //                      about the validation.
     // Returns:    Whether the object is valid.
     virtual bool
-    validate(const ObjT &obj, ReportT *report = nullptr) const = 0;
+    validate(const ObjT &a_obj, ReportT *a_report = nullptr) const = 0;
   };
 
   // Like the above, but returns no reports.
@@ -53,7 +53,7 @@ namespace SDF::Common {
     virtual ~IValidator() = default;
 
     virtual bool
-    validate(const ObjT &obj) const = 0;
+    validate(const ObjT &a_obj) const = 0;
   };
 }
 

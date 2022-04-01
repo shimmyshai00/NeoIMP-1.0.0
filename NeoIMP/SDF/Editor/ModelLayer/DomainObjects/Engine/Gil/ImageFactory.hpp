@@ -24,7 +24,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/IFactory.hpp"
+#include "../../../../../Common/AFactory.hpp"
 #include "../Image/Image.hpp"
 #include "ImageTypes.hpp"
 
@@ -33,7 +33,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil {
   // Purpose:    Provides a simple factory method for creating fresh images of a given type.
   // Parameters: GilSpecT - The image implementation spec traits.
   template<class GilSpecT>
-  class ImageFactory : public Common::IFactory<
+  class ImageFactory : public Common::AFactory<
     Image::Image<GilSpecT>,
     std::string,
     std::string,

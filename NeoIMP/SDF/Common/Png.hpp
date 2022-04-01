@@ -36,8 +36,8 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   struct Png {
     std::string m_fileSpec;
 
-    Png(std::string fileSpec)
-      : m_fileSpec(fileSpec)
+    Png(std::string a_fileSpec)
+      : m_fileSpec(a_fileSpec)
     {
     }
 

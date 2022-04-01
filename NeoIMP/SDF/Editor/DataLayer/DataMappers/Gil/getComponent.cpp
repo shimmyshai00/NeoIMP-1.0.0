@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
+ * FILE:    getComponent.cpp
  * PURPOSE: Implements the DI component for the Boost.GIL-based data mapper subsystem.
  */
 
@@ -21,14 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "getComponent.hpp"
 
-#include "../../../../Common/Data/Adapters/Component.hpp"
+#include "../../../../Common/Data/Adapters/getComponent.hpp"
 #include "../../../../Common/Data/ICrudable.hpp"
 
 #include "../ImageMapper.hpp"
 #include "../ImageVariantMapper.hpp"
-#include "SPng.hpp"
+#include "Png.hpp"
 
 namespace SDF::Editor::DataLayer::DataMappers::Gil {
   Component
@@ -41,14 +41,14 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil {
           Repositories::Formats::PNG,
           Common::Data::ICrudable<std::string, Engine::Gil::RGB24_888_Image>
         >,
-        ImageMapper<SPng, Engine::Gil::RGB24_888_Image>
+        ImageMapper<Png, Engine::Gil::RGB24_888_Image>
        >()
       .bind<
         fruit::Annotated<
           Repositories::Formats::PNG,
           Common::Data::ICrudable<std::string, Engine::Gil::Any_Image>
         >,
-        ImageVariantMapper<SPng, Engine::Gil::Any_Image>
+        ImageVariantMapper<Png, Engine::Gil::Any_Image>
        >()
       .install(Common::Data::Adapters::getComponent);
   };

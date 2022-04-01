@@ -1,4 +1,4 @@
 target_sources(neoimp PUBLIC
-  CPosixFSAdapter.cpp
+  PosixFSAdapter.cpp
   getComponent.cpp
 )

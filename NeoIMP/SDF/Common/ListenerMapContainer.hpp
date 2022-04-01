@@ -46,8 +46,8 @@ namespace SDF::Common {
     //             listener - The listener to add.
     // Returns:    A connection object to the listener.
     PIConnection
-    addListener(KeyT key,
-                std::shared_ptr<IListener<Args...>> listener
+    addListener(KeyT a_key,
+                std::shared_ptr<IListener<Args...>> a_listener
                );
 
     // Function:   notify
@@ -56,8 +56,8 @@ namespace SDF::Common {
     //             args - The arguments to pass to the listeners.
     // Returns:    None.
     void
-    notify(KeyT key,
-           Args... args
+    notify(KeyT a_key,
+           Args... a_args
           );
   private:
     std::map<KeyT, std::list<std::shared_ptr<IListener<Args...>>>> m_listenerMap;

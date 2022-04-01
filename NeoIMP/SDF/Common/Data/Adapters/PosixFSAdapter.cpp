@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CPosixFSAdapter.cpp
- * PURPOSE: Implements the CPosixFSAdapter class.
+ * FILE:    PosixFSAdapter.cpp
+ * PURPOSE: Implements the PosixFSAdapter class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "CPosixFSAdapter.hpp"
+#include "PosixFSAdapter.hpp"
 
 #include "../../../Error/DataException.hpp"
 
@@ -29,13 +29,13 @@
 #include <sys/stat.h>
 
 namespace SDF::Common::Data::Adapters {
-  CPosixFSAdapter::CPosixFSAdapter() {
+  PosixFSAdapter::PosixFSAdapter() {
   }
 
   bool
-  CPosixFSAdapter::exist(SFilesystemKey t_key) {
+  PosixFSAdapter::exist(FilesystemKey a_key) {
     struct ::stat fs;
-    if(::stat(key.fileSpec.c_str(), &fs) == -1) {
+    if(::stat(a_key.fileSpec.c_str(), &fs) == -1) {
       if(errno == ENOENT) {
         return false;
       } else {
@@ -47,7 +47,7 @@ namespace SDF::Common::Data::Adapters {
       if(fs.st_size == 0) {
         // user only cares if the file exists
         return true;
-      } else if(fs.st_size >= key.offset + key.length) {
+      } else if(fs.st_size >= a_key.offset + a_key.length) {
         return true;
       } else {
         return false;
@@ -56,22 +56,22 @@ namespace SDF::Common::Data::Adapters {
   }
 
   void
-  CPosixFSAdapter::create(SFilesystemKey t_key) {
+  PosixFSAdapter::create(FilesystemKey a_key) {
     throw "NOT YET IMPLEMENTED";
   }
 
   void
-  CPosixFSAdapter::writeData(SFilesystemKey t_key, const std::vector<unsigned char> &t_data) {
+  PosixFSAdapter::writeData(FilesystemKey a_key, const std::vector<unsigned char> &a_data) {
     throw "NOT YET IMPLEMENTED";
   }
 
   void
-  CPosixFSAdapter::readData(SFilesystemKey t_key, std::vector<unsigned char> &t_destination) {
+  PosixFSAdapter::readData(FilesystemKey a_key, std::vector<unsigned char> &a_destination) {
     throw "NOT YET IMPLEMENTED";
   }
 
   void
-  CPosixFSAdapter::erase(SFilesystemKey t_key) {
+  PosixFSAdapter::erase(FilesystemKey a_key) {
     throw "NOT YET IMPLEMENTED";
   }
 }

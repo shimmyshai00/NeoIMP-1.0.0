@@ -47,13 +47,13 @@ namespace SDF::Common {
     // Function:   ValueField
     // Purpose:    Constructs a new value field with a given default value.
     // Parameters: def - The default value.
-    ValueField(ValueT def);
+    ValueField(ValueT a_def);
 
     // Function:   ValueField
     // Purpose:    Copy constructor to avoid copying the listeners.
     // Parameters: rhs - The object to copy.
-    ValueField(const ValueField<ValueT> &rhs);
-    ValueField(ValueField<ValueT> &&rhs);
+    ValueField(const ValueField<ValueT> &a_rhs);
+    ValueField(ValueField<ValueT> &&a_rhs);
     ValueField<ValueT> &operator=(const ValueField<ValueT> &) = default;
     ValueField<ValueT> &operator=(ValueField<ValueT> &&) = default;
     virtual ~ValueField() {}
@@ -62,10 +62,10 @@ namespace SDF::Common {
     get() const;
 
     void
-    set(ValueT val);
+    set(ValueT a_val);
 
     PIConnection
-    addListener(std::shared_ptr<IListener<ValueT>> listener);
+    addListener(std::shared_ptr<IListener<ValueT>> a_listener);
   private:
     ValueT m_value;
     ListenerContainer<ValueT> m_listeners;

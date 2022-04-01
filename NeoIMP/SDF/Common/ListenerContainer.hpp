@@ -43,14 +43,14 @@ namespace SDF::Common {
     // Parameters: listener - The listener to add.
     // Returns:    A connection object to the listener.
     PIConnection
-    addListener(std::shared_ptr<IListener<Args...>> listener);
+    addListener(std::shared_ptr<IListener<Args...>> a_listener);
 
     // Function:   notify
     // Purpose:    Invoke the stored listeners with a notification.
     // Parameters: args - The arguments to pass to the listeners.
     // Returns:    None.
     void
-    notify(Args... args);
+    notify(Args... a_args);
   private:
     std::list<std::shared_ptr<IListener<Args...>>> m_listeners;
   };

@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020-2022 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.hpp
+ * FILE:    getComponent.hpp
  * PURPOSE: Implements the DI component for the repository subsystem.
  */
 
@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "getComponent.hpp"
 
 #include "../../../Common/Data/Repositories/MemoryOnlyRepository.hpp"
 #include "../../../Common/Data/Repositories/MemoryOnlyValueRepository.hpp"

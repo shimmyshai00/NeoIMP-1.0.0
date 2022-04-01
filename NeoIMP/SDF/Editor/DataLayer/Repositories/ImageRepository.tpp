@@ -30,21 +30,21 @@
 namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT>
   ImageRepository<ImageT>::ImageRepository(
-    Common::Data::ICrudable<std::string, ImageT> *pngImageMapper
+    Common::Data::ICrudable<std::string, ImageT> *a_pngImageMapper
   )
-    : m_pngImageMapper(pngImageMapper)
+    : m_pngImageMapper(a_pngImageMapper)
   {
   }
 
   template<class ImageT>
   Common::Handle
-  ImageRepository<ImageT>::retainImageAtAutoID(std::unique_ptr<ImageT> image) {
+  ImageRepository<ImageT>::retainImageAtAutoID(std::unique_ptr<ImageT> a_image) {
     Common::Handle candId(0);
     while(m_imageMap.find(candId) != m_imageMap.end()) {
       ++candId;
     }
 
-    m_imageMap[candId] = std::move(image);
+    m_imageMap[candId] = std::move(a_image);
 
     // NB: could add autosave here?
 
@@ -53,19 +53,19 @@ namespace SDF::Editor::DataLayer::Repositories {
 
   template<class ImageT>
   ImageT *
-  ImageRepository<ImageT>::retrieve(Common::Handle id) {
-    if(m_imageMap.find(id) != m_imageMap.end()) {
-      return m_imageMap[id].get();
+  ImageRepository<ImageT>::retrieve(Common::Handle a_id) {
+    if(m_imageMap.find(a_id) != m_imageMap.end()) {
+      return m_imageMap[a_id].get();
     } else {
-      throw Error::ObjectNotFoundException<Common::Handle>(id);
+      throw Error::ObjectNotFoundException<Common::Handle>(a_id);
     }
   }
 
   template<class ImageT>
   Common::Handle
   ImageRepository<ImageT>::loadImageFromFile(
-    std::string fileSpec,
-    ModelLayer::AbstractData::EFormat fileFormat
+    std::string a_fileSpec,
+    ModelLayer::AbstractData::EFormat a_fileFormat
   ) {
     // Construct a default image. NB: tailor to file info? How could we read that here? The
     // DataMapper lacks the requisite functionality and it is unknown how to best square this with
@@ -76,21 +76,21 @@ namespace SDF::Editor::DataLayer::Repositories {
     Common::Handle id(getFirstFreeId());
 
     // Read the image into the holder and inject it into the repository under this ID.
-    switch(fileFormat) {
+    switch(a_fileFormat) {
       case ModelLayer::AbstractData::FORMAT_PNG:
-        if(!m_pngImageMapper->has(fileSpec)) {
+        if(!m_pngImageMapper->has(a_fileSpec)) {
           // Oops! File not found!
-          throw Error::FileNotFoundException(fileSpec.c_str());
+          throw Error::FileNotFoundException(a_fileSpec.c_str());
         } else {
-          m_pngImageMapper->retrieve(fileSpec, *p);
+          m_pngImageMapper->retrieve(a_fileSpec, *p);
         }
         break;
       default:
-        throw UnsupportedFormatException(fileFormat);
+        throw UnsupportedFormatException(a_fileFormat);
     }
 
     m_imageMap[id] = std::move(p);
-    registerFileSpec(id, fileSpec, fileFormat);
+    registerFileSpec(id, a_fileSpec, a_fileFormat);
 
     return id;
   }
@@ -99,38 +99,38 @@ namespace SDF::Editor::DataLayer::Repositories {
   void
   ImageRepository<ImageT>::registerFileSpec(
     Common::Handle id,
-    std::string fileSpec,
-    ModelLayer::AbstractData::EFormat fileFormat
+    std::string a_fileSpec,
+    ModelLayer::AbstractData::EFormat a_fileFormat
   ) {
-    m_fileSpecMap[id] = fileSpec;
-    m_fileFormatMap[id] = fileFormat;
+    m_fileSpecMap[id] = a_fileSpec;
+    m_fileFormatMap[id] = a_fileFormat;
   }
 
   template<class ImageT>
   void
-  ImageRepository<ImageT>::persistImage(Common::Handle id) {
-    if(m_imageMap.find(id) == m_imageMap.end()) {
-      throw Error::ObjectNotFoundException<Common::Handle>(id);
+  ImageRepository<ImageT>::persistImage(Common::Handle a_id) {
+    if(m_imageMap.find(a_id) == m_imageMap.end()) {
+      throw Error::ObjectNotFoundException<Common::Handle>(a_id);
     } else {
-      if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
-        throw SaveParamsNotAssociatedException(id);
+      if(m_fileSpecMap.find(a_id) == m_fileSpecMap.end()) {
+        throw SaveParamsNotAssociatedException(a_id);
       } else {
-        if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
+        if(m_fileFormatMap.find(a_id) == m_fileFormatMap.end()) {
           // shouldn't happen but still ...
-          throw SaveParamsNotAssociatedException(id);
+          throw SaveParamsNotAssociatedException(a_id);
         }
 
-        switch(m_fileFormatMap[id]) {
+        switch(m_fileFormatMap[a_id]) {
           case ModelLayer::AbstractData::FORMAT_PNG:
-            if(!m_pngImageMapper->has(m_fileSpecMap[id])) {
-              m_pngImageMapper->create(m_fileSpecMap[id], *m_imageMap[id]);
+            if(!m_pngImageMapper->has(m_fileSpecMap[a_id])) {
+              m_pngImageMapper->create(m_fileSpecMap[a_id], *m_imageMap[a_id]);
             } else {
-              m_pngImageMapper->update(m_fileSpecMap[id], *m_imageMap[id]);
+              m_pngImageMapper->update(m_fileSpecMap[a_id], *m_imageMap[a_id]);
             }
             break;
           default:
             // shouldn't happen
-            throw UnsupportedFormatException(m_fileFormatMap[id]);
+            throw UnsupportedFormatException(m_fileFormatMap[a_id]);
         }
       }
     }
@@ -138,31 +138,31 @@ namespace SDF::Editor::DataLayer::Repositories {
 
   template<class ImageT>
   bool
-  ImageRepository<ImageT>::hasAssociatedFile(Common::Handle id) const {
-    if(m_imageMap.find(id) == m_imageMap.end()) {
-      throw Error::ObjectNotFoundException(id);
+  ImageRepository<ImageT>::hasAssociatedFile(Common::Handle a_id) const {
+    if(m_imageMap.find(a_id) == m_imageMap.end()) {
+      throw Error::ObjectNotFoundException(a_id);
     } else {
-      return (m_fileSpecMap.find(id) != m_fileSpecMap.end());
+      return (m_fileSpecMap.find(a_id) != m_fileSpecMap.end());
     }
   }
 
   template<class ImageT>
   std::string
-  ImageRepository<ImageT>::getFileSpecById(Common::Handle id) const {
-    if(m_fileSpecMap.find(id) == m_fileSpecMap.end()) {
-      throw SaveParamsNotAssociatedException(id);
+  ImageRepository<ImageT>::getFileSpecById(Common::Handle a_id) const {
+    if(m_fileSpecMap.find(a_id) == m_fileSpecMap.end()) {
+      throw SaveParamsNotAssociatedException(a_id);
     } else {
-      return m_fileSpecMap.at(id);
+      return m_fileSpecMap.at(a_id);
     }
   }
 
   template<class ImageT>
   ModelLayer::AbstractData::EFormat
-  ImageRepository<ImageT>::getFileFormatById(Common::Handle id) const {
-    if(m_fileFormatMap.find(id) == m_fileFormatMap.end()) {
-      throw SaveParamsNotAssociatedException(id);
+  ImageRepository<ImageT>::getFileFormatById(Common::Handle a_id) const {
+    if(m_fileFormatMap.find(a_id) == m_fileFormatMap.end()) {
+      throw SaveParamsNotAssociatedException(a_id);
     } else {
-      return m_fileFormatMap.at(id);
+      return m_fileFormatMap.at(a_id);
     }
   }
 }

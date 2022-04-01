@@ -23,7 +23,7 @@
 
 #include "Component.hpp"
 
-#include "../DataLayer/Component.hpp"
+#include "../DataLayer/getComponent.hpp"
 #include "Services/Component.hpp"
 
 namespace SDF::Editor::ModelLayer {

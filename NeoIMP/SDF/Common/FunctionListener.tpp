@@ -1,9 +1,12 @@
+#ifndef SDF_COMMON_FUNCTIONLISTENER_TPP
+#define SDF_COMMON_FUNCTIONLISTENER_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
- * (C) 2020-2022 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
+ * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    Component.cpp
- * PURPOSE: Implements the DI component for the whole data layer.
+ * FILE:    FunctionListener.tpp
+ * PURPOSE: Implements the FunctionListener template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+namespace SDF::Common {
+  template<class ... Args>
+  FunctionListener<Args...>::FunctionListener(std::function<void (Args...)> a_func)
+    : m_func(a_func)
+  {
+  }
 
-#include "DataMappers/Component.hpp"
-#include "Repositories/Component.hpp"
-
-#include <boost/gil/typedefs.hpp>
-
-namespace SDF::Editor::DataLayer {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .install(DataMappers::getComponent)
-      .install(Repositories::getComponent);
+  template<class ... Args>
+  void
+  FunctionListener<Args...>::notify(Args... a_args) {
+    m_func(a_args...);
   }
 }
+
+#endif

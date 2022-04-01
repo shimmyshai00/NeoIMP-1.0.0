@@ -26,14 +26,15 @@
 
 namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT, class IfaceT>
-  ImageAccessor<ImageT, IfaceT>::ImageAccessor(ImageRepository<ImageT> *imageRepository)
-    : m_imageRepository(imageRepository)
+  ImageAccessor<ImageT, IfaceT>::ImageAccessor(ImageRepository<ImageT> *a_imageRepository)
+    : m_imageRepository(a_imageRepository)
   {
   }
 
+  template<class ImageT, class IfaceT>
   IfaceT *
-  ImageAccessor<ImageT, IfaceT>::accessImage(Common::Handle imageHandle) {
-    return m_imageRepository->retrieve(imageHandle);
+  ImageAccessor<ImageT, IfaceT>::accessImage(Common::Handle a_imageHandle) {
+    return m_imageRepository->retrieve(a_imageHandle);
   }
 }
 

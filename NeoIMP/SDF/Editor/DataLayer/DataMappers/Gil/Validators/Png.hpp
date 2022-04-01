@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_PNG_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_PNG_HPP
+#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_VALIDATORS_PNG_HPP
+#define SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_VALIDATORS_PNG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -40,7 +40,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Validators {
   struct Png {
     std::string m_fileSpec;
 
-    Png(std::string fileSpec) : m_fileSpec(fileSpec) {}
+    Png(std::string a_fileSpec) : m_fileSpec(a_fileSpec) {}
 
     template<class GilSpecT>
     bool

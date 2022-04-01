@@ -38,10 +38,10 @@ namespace SDF::Common {
     // Parameters: visitor - The visitor to accept.
     // Returns:    None.
     virtual void
-    accept(VisitorT &visitor) = 0;
+    accept(VisitorT &a_visitor) = 0;
 
     virtual void
-    accept(VisitorT &visitor) const = 0;
+    accept(VisitorT &a_visitor) const = 0;
   };
 }
 

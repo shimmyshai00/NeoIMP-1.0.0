@@ -33,57 +33,57 @@
 namespace SDF::Editor::DataLayer::DataMappers {
   template<class FormatT, class ImageT>
   ImageMapper<FormatT, ImageT>::ImageMapper(
-    Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter
+    Common::Data::Adapters::IFilesystemAdapter *a_filesystemAdapter
   )
-    : m_filesystemAdapter(filesystemAdapter)
+    : m_filesystemAdapter(a_filesystemAdapter)
   {
   }
 
   template<class FormatT, class ImageT>
   bool
-  ImageMapper<FormatT, ImageT>::has(std::string fileSpec) {
-    Common::Data::Adapters::FilesystemKey fsk(fileSpec, 0, 0);
+  ImageMapper<FormatT, ImageT>::has(std::string a_fileSpec) {
+    Common::Data::Adapters::FilesystemKey fsk(a_fileSpec, 0, 0);
     return m_filesystemAdapter->exist(fsk);
   }
 
   template<class FormatT, class ImageT>
   void
-  ImageMapper<FormatT, ImageT>::create(std::string fileSpec, const ImageT &obj) {
-    if(has(fileSpec)) {
-      throw Error::ObjectAlreadyExistsException<Error::SafeString>(fileSpec.c_str());
+  ImageMapper<FormatT, ImageT>::create(std::string a_fileSpec, const ImageT &a_obj) {
+    if(has(a_fileSpec)) {
+      throw Error::ObjectAlreadyExistsException<Error::SafeString>(a_fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
-    typename FormatT::persister_t persister(fileSpec);
-    applyPersister(persister, obj);
+    typename FormatT::persister_t persister(a_fileSpec);
+    applyPersister(persister, a_obj);
   }
 
   template<class FormatT, class ImageT>
   void
-  ImageMapper<FormatT, ImageT>::retrieve(std::string fileSpec, ImageT &obj) {
-    if(!has(fileSpec)) {
-      throw Error::FileNotFoundException(fileSpec.c_str());
+  ImageMapper<FormatT, ImageT>::retrieve(std::string a_fileSpec, ImageT &a_obj) {
+    if(!has(a_fileSpec)) {
+      throw Error::FileNotFoundException(a_fileSpec.c_str());
     }
 
-    typename FormatT::loader_t loader(fileSpec);
-    applyLoader(loader, obj);
+    typename FormatT::loader_t loader(a_fileSpec);
+    applyLoader(loader, a_obj);
   }
 
   template<class FormatT, class ImageT>
   void
-  ImageMapper<FormatT, ImageT>::update(std::string fileSpec, const ImageT &obj) {
-    if(!has(fileSpec)) {
-      throw Error::ObjectNotFoundException<Error::SafeString>(fileSpec.c_str());
+  ImageMapper<FormatT, ImageT>::update(std::string a_fileSpec, const ImageT &a_obj) {
+    if(!has(a_fileSpec)) {
+      throw Error::ObjectNotFoundException<Error::SafeString>(a_fileSpec.c_str());
     }
 
     // Boost.GIL does not require direct interaction with the file system by us
-    typename FormatT::persister_t persister(fileSpec);
-    applyPersister(persister, obj);
+    typename FormatT::persister_t persister(a_fileSpec);
+    applyPersister(persister, a_obj);
   }
 
   template<class FormatT, class ImageT>
   void
-  ImageMapper<FormatT, ImageT>::deleteO(std::string fileSpec) {
+  ImageMapper<FormatT, ImageT>::deleteO(std::string a_fileSpec) {
     // NB: delete a file??? May be dangerous! what this should do, if anything, TBA
     throw "NOT YET IMPLEMENTED";
   }

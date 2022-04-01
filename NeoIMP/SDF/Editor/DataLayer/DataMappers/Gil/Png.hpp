@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_CFUNCTIONLISTENER_HPP
-#define SDF_COMMON_CFUNCTIONLISTENER_HPP
+#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_PNG_HPP
+#define SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_PNG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CFunctionListener.hpp
- * PURPOSE: Defines the CFunctionListener template.
+ * FILE:    Png.hpp
+ * PURPOSE: Defines a traits struct for the PNG format as implemeted in the Boost.GIL subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IListener.hpp"
+#include "Persisters/Png.hpp"
+#include "Validators/Png.hpp"
+#include "Loaders/Png.hpp"
 
-#include <functional>
-
-namespace SDF::Common {
-  // Class:      CFunctionListener
-  // Purpose:    Adapt a function to a listener object.
-  // Parameters: args - The listener arguments.
-  template<class ... Args>
-  class CFunctionListener : public IListener<Args...> {
-  public:
-    // Function:   CFunctionListener
-    // Purpose:    Construct the listener with a given function.
-    // Parameters: func - The function to wrap.
-    CFunctionListener(std::function<void (Args...)> a_func);
-
-    void
-    notify(Args... as_args);
-  private:
-    std::function<void (Args...)> m_func;
+namespace SDF::Editor::DataLayer::DataMappers::Gil {
+  struct Png {
+    typedef Persisters::Png persister_t;
+    typedef Validators::Png validator_t;
+    typedef Loaders::Png loader_t;
   };
 }
-
-#include "CFunctionListener.tpp"
 
 #endif

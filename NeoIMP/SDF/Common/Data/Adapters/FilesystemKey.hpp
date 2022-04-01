@@ -1,11 +1,11 @@
-#ifndef SDF_COMMON_DATA_ADAPTERS_SFILESYSTEMKEY_HPP
-#define SDF_COMMON_DATA_ADAPTERS_SFILESYSTEMKEY_HPP
+#ifndef SDF_COMMON_DATA_ADAPTERS_FILESYSTEMKEY_HPP
+#define SDF_COMMON_DATA_ADAPTERS_FILESYSTEMKEY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    SFilesystemKey.hpp
+ * FILE:    FilesystemKey.hpp
  * PURPOSE: Defines the FilesystemKey structure.
  */
 
@@ -31,15 +31,15 @@ namespace SDF::Common::Data::Adapters {
   // A low-level key into a filesystem. This "key" relates the idea of a filesystem to that of a
   // database by considering it as a collection of byte strings stored by the file containing them,
   // the offset into that file where the string begins, and the length of the byte string requested.
-  struct SFilesystemKey {
+  struct FilesystemKey {
     std::string fileSpec;
     std::size_t offset; // bytes since the file beginning at which the desired data starts
     std::size_t length; // note: if 0, denotes the whole file, not an empty buffer!
 
-    SFilesystemKey(std::string a_fileSpec,
-                   std::size_t a_offset,
-                   std::size_t a_length
-                  )
+    FilesystemKey(std::string a_fileSpec,
+                  std::size_t a_offset,
+                  std::size_t a_length
+                 )
       : fileSpec(a_fileSpec),
         offset(a_offset),
         length(a_length)

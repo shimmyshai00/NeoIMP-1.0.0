@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_SPNG_HPP
-#define SDF_EDITOR_DATALAYER_DATAMAPPERS_GIL_SPNG_HPP
+#ifndef SDF_COMMON_MESSAGESYSTEM_ALLTOALL_TPP
+#define SDF_COMMON_MESSAGESYSTEM_ALLTOALL_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    SPng.hpp
- * PURPOSE: Defines a traits struct for the PNG format as implemeted in the Boost.GIL subsystem.
+ * FILE:    AllToAll.tpp
+ * PURPOSE: Implements the AllToAll template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Persisters/Png.hpp"
-#include "Validators/Png.hpp"
-#include "Loaders/Png.hpp"
+namespace SDF::Common::MessageSystem {
+  template<class MessageT>
+  AllToAll<MessageT>::AllToAll() {
+  }
 
-namespace SDF::Editor::DataLayer::DataMappers::Gil {
-  struct SPng {
-    typedef Persisters::Png persister_t;
-    typedef Validators::Png validator_t;
-    typedef Loaders::Png loader_t;
-  };
+  template<class MessageT>
+  void
+  AllToAll<MessageT>::dispatchMessage(boost::uuids::uuid a_senderUuid, const MessageT &a_message) {
+    this->forEachSubscriber([&](auto b_kvp) {
+      if(b_kvp.first != a_senderUuid) {
+        b_kvp.second->receiveMessage(a_senderUuid, a_message);
+      }
+    });
+  }
 }
 
 #endif

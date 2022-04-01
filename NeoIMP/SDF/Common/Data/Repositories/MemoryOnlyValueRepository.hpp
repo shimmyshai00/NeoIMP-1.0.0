@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_DATA_REPOSITORIES_CMEMORYONLYREPOSITORY_HPP
-#define SDF_COMMON_DATA_REPOSITORIES_CMEMORYONLYREPOSITORY_HPP
+#ifndef SDF_COMMON_DATA_REPOSITORIES_MEMORYONLYVALUEREPOSITORY_HPP
+#define SDF_COMMON_DATA_REPOSITORIES_MEMORYONLYVALUEREPOSITORY_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CMemoryOnlyRepository.hpp
- * PURPOSE: Defines the CMemoryOnlyRepository template.
+ * FILE:    MemoryOnlyValueRepository.hpp
+ * PURPOSE: Defines the MemoryOnlyValueRepository template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,43 +24,42 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IOwningCrudable.hpp"
+#include "../ICrudable.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>
 #include <map>
 
 namespace SDF::Common::Data::Repositories {
-  // Class:      CMemoryOnlyRepository
-  // Purpose:    Defines a purely in-memory repository of domain objects that is not backed by
-  //             persistent storage. Basically adapts an std::map to a repository interface. Also is
-  //             Fruit-injectable and should be provided by data layer DI components.
+  // Class:      MemoryOnlyValueRepository
+  // Purpose:    A version of the MemoryOnlyRepository that does not take ownership of its inputs
+  //             but only records their values.
   // Parameters: KeyT - The type of "database" key involved.
   //             ObjT - The domain object type held.
   template<class KeyT, class ObjT>
-  class CMemoryOnlyRepository : public IOwningCrudable<KeyT, ObjT> {
+  class MemoryOnlyValueRepository : public ICrudable<KeyT, ObjT> {
   public:
-    INJECT(CMemoryOnlyRepository());
+    INJECT(MemoryOnlyValueRepository());
 
     bool
     has(KeyT a_key);
 
-    ObjT *
-    create(KeyT a_key, std::unique_ptr<ObjT> a_obj);
-
-    ObjT *
-    retrieve(KeyT a_key);
+    void
+    create(KeyT a_key, const ObjT &a_obj);
 
     void
-    update(KeyT a_key);
+    retrieve(KeyT a_key, ObjT &a_obj);
+
+    void
+    update(KeyT a_key, const ObjT &a_obj);
 
     void
     deleteO(KeyT a_key);
   private:
-    std::map<KeyT, std::unique_ptr<ObjT>> m_objMap;
+    std::map<KeyT, ObjT> m_objMap;
   };
 }
 
-#include "CMemoryOnlyRepository.tpp"
+#include "MemoryOnlyValueRepository.tpp"
 
 #endif

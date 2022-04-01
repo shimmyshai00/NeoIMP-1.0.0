@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_CFUNCTIONLISTENER_TPP
-#define SDF_COMMON_CFUNCTIONLISTENER_TPP
+#ifndef SDF_COMMON_HANDLE_HPP
+#define SDF_COMMON_HANDLE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CFunctionListener.tpp
- * PURPOSE: Implements the CFunctionListener template.
+ * FILE:    Handle.hpp
+ * PURPOSE: Defines the Handle type.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Common {
-  template<class ... Args>
-  CFunctionListener<Args...>::FunctionListener(std::function<void (Args...)> a_func)
-    : m_func(a_func)
-  {
-  }
+#include <limits>
 
-  template<class ... Args>
-  void
-  CFunctionListener<Args...>::notify(Args... as_args) {
-    m_func(as_args...);
-  }
+namespace SDF::Common {
+  typedef unsigned int Handle;
+
+  static const Handle HANDLE_INVALID = std::numeric_limits<unsigned int>::max();
 }
 
 #endif

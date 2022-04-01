@@ -39,10 +39,10 @@ namespace SDF::Editor::DataLayer::Repositories {
   template<class ImageT, class IfaceT>
   class ImageAccessor : public ModelLayer::AbstractData::IImageAccessor<IfaceT> {
   public:
-    INJECT(ImageAccessor(ImageRepository<ImageT> *imageRepository));
+    INJECT(ImageAccessor(ImageRepository<ImageT> *a_imageRepository));
 
     IfaceT *
-    accessImage(Common::Handle imageHandle);
+    accessImage(Common::Handle a_imageHandle);
   private:
     ImageRepository<ImageT> *m_imageRepository;
   };

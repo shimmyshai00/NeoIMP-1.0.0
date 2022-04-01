@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_MESSAGESYSTEM_CALLTOALL_HPP
-#define SDF_COMMON_MESSAGESYSTEM_CALLTOALL_HPP
+#ifndef SDF_EDITOR_DATALAYER_DATAMAPPERS_GETCOMPONENT_HPP
+#define SDF_EDITOR_DATALAYER_DATAMAPPERS_GETCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CAllToAll.hpp
- * PURPOSE: Defines the CAllToAll template.
+ * FILE:    getComponent.hpp
+ * PURPOSE: Defines the DI component for the whole data mapper subsystem.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,29 +24,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "AChannel.hpp"
-
-#include <boost/uuid/uuid.hpp>
+#include "../../../Common/Data/ICrudable.hpp"
+#include "../../ModelLayer/DomainObjects/Engine/Gil/ImageTypes.hpp"
+#include "../Repositories/Formats.hpp"
 
 #include <fruit/fruit.h>
 
-#include <map>
+namespace SDF::Editor::DataLayer::DataMappers {
+  typedef fruit::Component<
+    fruit::Annotated<
+      Repositories::Formats::PNG,
+      Common::Data::ICrudable<std::string, ModelLayer::DomainObjects::Engine::Gil::Any_Image>
+    >
+  > Component;
 
-namespace SDF::Common::MessageSystem {
-  // Class:      CAllToAll
-  // Purpose:    Provides a very simple publish/subscribe service that provides all-to-all
-  //             messaging  of attached subscribers.
-  // Parameters: MessageT - The type of message handled.
-  template<class MessageT>
-  class CAllToAll : public AChannel<MessageT> {
-  public:
-    INJECT(CAllToAll());
-
-    void
-    dispatchMessage(boost::uuids::uuid a_senderUuid, const MessageT &a_message);
-  };
+  Component
+  getComponent();
 }
-
-#include "CAllToAll.tpp"
 
 #endif

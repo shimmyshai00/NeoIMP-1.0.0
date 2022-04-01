@@ -29,12 +29,12 @@ namespace SDF::Common {
     template<class ... Args>
     class Connection : public IConnection {
     public:
-      Connection(std::list<std::shared_ptr<IListener<Args...>>> *list,
-                 std::shared_ptr<IListener<Args...>> listener
+      Connection(std::list<std::shared_ptr<IListener<Args...>>> *a_list,
+                 std::shared_ptr<IListener<Args...>> a_listener
                 )
         : m_connected(false),
-          m_list(list),
-          m_listener(listener)
+          m_list(a_list),
+          m_listener(a_listener)
       {
       }
 
@@ -64,15 +64,15 @@ namespace SDF::Common {
 
   template<class ... Args>
   PIConnection
-  ListenerContainer<Args...>::addListener(std::shared_ptr<IListener<Args...>> listener) {
-    return PIConnection(new Impl::Connection<Args...>(&m_listeners, listener));
+  ListenerContainer<Args...>::addListener(std::shared_ptr<IListener<Args...>> a_listener) {
+    return PIConnection(new Impl::Connection<Args...>(&m_listeners, a_listener));
   }
 
   template<class ... Args>
   void
-  ListenerContainer<Args...>::notify(Args... args) {
+  ListenerContainer<Args...>::notify(Args... a_args) {
     for(const auto &listener : m_listeners) {
-      listener->notify(args...);
+      listener->notify(a_args...);
     }
   }
 }

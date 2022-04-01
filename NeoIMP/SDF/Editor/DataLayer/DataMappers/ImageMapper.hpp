@@ -39,22 +39,22 @@ namespace SDF::Editor::DataLayer::DataMappers {
     // Function:   ImageMapper
     // Purpose:    Construct the new data mapper.
     // Parameters: filesystemAdapter - The filesystem adapter to use.
-    INJECT(ImageMapper(Common::Data::Adapters::IFilesystemAdapter *filesystemAdapter));
+    INJECT(ImageMapper(Common::Data::Adapters::IFilesystemAdapter *a_filesystemAdapter));
 
     bool
-    has(std::string fileSpec);
+    has(std::string a_fileSpec);
 
     void
-    create(std::string fileSpec, const ImageT &obj);
+    create(std::string a_fileSpec, const ImageT &a_obj);
 
     void
-    retrieve(std::string fileSpec, ImageT &obj);
+    retrieve(std::string a_fileSpec, ImageT &a_obj);
 
     void
-    update(std::string fileSpec, const ImageT &obj);
+    update(std::string a_fileSpec, const ImageT &a_obj);
 
     void
-    deleteO(std::string fileSpec);
+    deleteO(std::string a_fileSpec);
   private:
     Common::Data::Adapters::IFilesystemAdapter *m_filesystemAdapter;
   };

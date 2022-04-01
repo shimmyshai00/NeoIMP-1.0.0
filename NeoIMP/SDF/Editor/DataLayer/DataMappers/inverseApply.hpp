@@ -37,11 +37,11 @@ namespace SDF::Editor::DataLayer::DataMappers {
     template<class ImplSpecT, class ... ImplSpecTs>
     struct App {
       template<class Op>
-      bool operator()(Op op) {
-        if(op.template apply<ImplSpecT>()) {
+      bool operator()(Op a_op) {
+        if(a_op.template apply<ImplSpecT>()) {
           return true;
         } else {
-          return App<ImplSpecTs...>(op);
+          return App<ImplSpecTs...>(a_op);
         }
       }
     };
@@ -49,16 +49,16 @@ namespace SDF::Editor::DataLayer::DataMappers {
     template<class ImplSpecT>
     struct App<ImplSpecT> {
       template<class Op>
-      bool operator()(Op op) {
-        return op.template apply<ImplSpecT>();
+      bool operator()(Op a_op) {
+        return a_op.template apply<ImplSpecT>();
       }
     };
   }
 
   template<class Op, class ImageT>
-  bool inverseApply(Op op) {
+  bool inverseApply(Op a_op) {
     boost::mp11::mp_apply<Impl::App, ImageT> implOpp;
-    return implOpp(op);
+    return implOpp(a_op);
   }
 }
 

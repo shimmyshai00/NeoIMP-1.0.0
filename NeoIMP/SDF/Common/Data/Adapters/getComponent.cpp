@@ -21,14 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "Component.hpp"
+#include "getComponent.hpp"
 
-#include "CPosixFSAdapter.hpp"
+#include "PosixFSAdapter.hpp"
 
 namespace SDF::Common::Data::Adapters {
-  TComponent
+  Component
   getComponent() {
     return fruit::createComponent()
-      .bind<IFilesystemAdapter, CPosixFSAdapter>();
+      .bind<IFilesystemAdapter, PosixFSAdapter>();
   }
 }

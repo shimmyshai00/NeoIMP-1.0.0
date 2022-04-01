@@ -38,19 +38,19 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   template<class GilSpecT>
   void
-  Png::operator()(const ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image) {
+  Png::operator()(const ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image) {
     using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 
     const Engine::Gil::Components::Content::Background<GilSpecT> *bkgComponent(nullptr);
 
     // Sanity check
-    if(image.getNumLayers() == 0) {
+    if(a_image.getNumLayers() == 0) {
       throw ImageMissingLayersException();
     } else {
       // Validate the background layer structure.
       try {
-        bkgComponent = image
+        bkgComponent = a_image
           .getLayer(0)
           .template getContentComponentAs<Engine::Gil::Components::Content::Background<GilSpecT>>();
 

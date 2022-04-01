@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_DATA_ADAPTERS_CPOSIXFSADAPTER_HPP
-#define SDF_COMMON_DATA_ADAPTERS_CPOSIXFSADAPTER_HPP
+#ifndef SDF_COMMON_DATA_ADAPTERS_POSIXFSADAPTER_HPP
+#define SDF_COMMON_DATA_ADAPTERS_POSIXFSADAPTER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CPosixFSAdapter.hpp
- * PURPOSE: Defines the CPosixFSAdapter class.
+ * FILE:    PosixFSAdapter.hpp
+ * PURPOSE: Defines the PosixFSAdapter class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,35 +25,35 @@
  */
 
 #include "IFilesystemAdapter.hpp"
-#include "SFilesystemKey.hpp"
+#include "FilesystemKey.hpp"
 
 #include <fruit/fruit.h>
 #include <string>
 #include <vector>
 
 namespace SDF::Common::Data::Adapters {
-  // Class:      CPosixFSAdapter
+  // Class:      PosixFSAdapter
   // Purpose:    Adapter for file system implementation on POSIX-compatible operating systems (e.g.
   //             GNU/Linux, BSD, other *nix systems).
   // Parameters: None.
-  class CPosixFSAdapter : public IFilesystemAdapter {
+  class PosixFSAdapter : public IFilesystemAdapter {
   public:
-    INJECT(CPosixFSAdapter());
+    INJECT(PosixFSAdapter());
 
     bool
-    exist(SFilesystemKey a_key);
+    exist(FilesystemKey a_key);
 
     void
-    create(SFilesystemKey a_key);
+    create(FilesystemKey a_key);
 
     void
-    writeData(SFilesystemKey a_key, const std::vector<unsigned char> &a_data);
+    writeData(FilesystemKey a_key, const std::vector<unsigned char> &a_data);
 
     void
-    readData(SFilesystemKey a_key, std::vector<unsigned char> &a_destination);
+    readData(FilesystemKey a_key, std::vector<unsigned char> &a_destination);
 
     void
-    erase(SFilesystemKey a_key);
+    erase(FilesystemKey a_key);
   };
 }
 

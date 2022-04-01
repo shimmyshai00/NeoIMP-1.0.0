@@ -29,14 +29,14 @@ namespace SDF::Common {
     template<class KeyT, class ... Args>
     class MapConnection : public IConnection {
     public:
-      MapConnection(std::map<KeyT, std::list<std::shared_ptr<IListener<Args...>>>> *listenerMap,
-                    KeyT key,
-                    std::shared_ptr<IListener<Args...>> listener
+      MapConnection(std::map<KeyT, std::list<std::shared_ptr<IListener<Args...>>>> *a_listenerMap,
+                    KeyT a_key,
+                    std::shared_ptr<IListener<Args...>> a_listener
                    )
         : m_connected(false),
-          m_listenerMap(listenerMap),
-          m_key(key),
-          m_listener(listener)
+          m_listenerMap(a_listenerMap),
+          m_key(a_key),
+          m_listener(a_listener)
       {
       }
 
@@ -72,22 +72,22 @@ namespace SDF::Common {
 
   template<class KeyT, class ... Args>
   PIConnection
-  ListenerMapContainer<KeyT, Args...>::addListener(KeyT key,
-                                                   std::shared_ptr<IListener<Args...>> listener
+  ListenerMapContainer<KeyT, Args...>::addListener(KeyT a_key,
+                                                   std::shared_ptr<IListener<Args...>> a_listener
                                                   )
   {
-    return PIConnection(new Impl::MapConnection<KeyT, Args...>(&m_listenerMap, key, listener));
+    return PIConnection(new Impl::MapConnection<KeyT, Args...>(&m_listenerMap, a_key, a_listener));
   }
 
   template<class KeyT, class ... Args>
   void
-  ListenerMapContainer<KeyT, Args...>::notify(KeyT key,
-                                              Args... args
+  ListenerMapContainer<KeyT, Args...>::notify(KeyT a_key,
+                                              Args... a_args
                                              )
   {
-    if(m_listenerMap.find(key) != m_listenerMap.end()) {
-      for(const auto &lis : m_listenerMap[key]) {
-        lis->notify(args...);
+    if(m_listenerMap.find(a_key) != m_listenerMap.end()) {
+      for(const auto &lis : m_listenerMap[a_key]) {
+        lis->notify(a_args...);
       }
     }
   }

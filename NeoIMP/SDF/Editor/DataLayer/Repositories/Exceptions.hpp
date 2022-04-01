@@ -31,14 +31,14 @@
 namespace SDF::Editor::DataLayer::Repositories {
   struct SaveParamsNotAssociatedException : public Error::LikelyBug<Error::DataException> {
     Common::Handle m_id;
-    SaveParamsNotAssociatedException(Common::Handle id) : m_id(id) {
+    SaveParamsNotAssociatedException(Common::Handle a_id) : m_id(a_id) {
       whatPrintf("Save parameters (file format/spec) were not associated with this image.");
     }
   };
 
   struct UnsupportedFormatException : public Error::LikelyBug<Error::DataException> {
     int m_formatIdx;
-    UnsupportedFormatException(int formatIdx) : m_formatIdx(formatIdx) {
+    UnsupportedFormatException(int a_formatIdx) : m_formatIdx(a_formatIdx) {
       whatPrintf("Tried to load a file using an unrecognized or unsupported file format '%d'.",
         m_formatIdx);
     }

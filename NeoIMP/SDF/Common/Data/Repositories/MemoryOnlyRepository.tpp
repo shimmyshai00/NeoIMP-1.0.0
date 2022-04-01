@@ -1,12 +1,12 @@
-#ifndef SDF_COMMON_DATA_REPOSITORIES_CMEMORYONLYVALUEREPOSITORY_TPP
-#define SDF_COMMON_DATA_REPOSITORIES_CMEMORYONLYVALUEREPOSITORY_TPP
+#ifndef SDF_COMMON_DATA_REPOSITORIES_MEMORYONLYREPOSITORY_TPP
+#define SDF_COMMON_DATA_REPOSITORIES_MEMORYONLYREPOSITORY_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CMemoryOnlyValueRepository.tpp
- * PURPOSE: Implements the CMemoryOnlyValueRepository template.
+ * FILE:    MemoryOnlyRepository.tpp
+ * PURPOSE: Implements the MemoryOnlyRepository template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -28,48 +28,46 @@
 
 namespace SDF::Common::Data::Repositories {
   template<class KeyT, class ObjT>
-  CMemoryOnlyValueRepository<KeyT, ObjT>::MemoryOnlyValueRepository() {
+  MemoryOnlyRepository<KeyT, ObjT>::MemoryOnlyRepository() {
   }
 
   template<class KeyT, class ObjT>
   bool
-  CMemoryOnlyValueRepository<KeyT, ObjT>::has(KeyT a_key) {
+  MemoryOnlyRepository<KeyT, ObjT>::has(KeyT a_key) {
     return (m_objMap.find(a_key) != m_objMap.end());
   }
 
   template<class KeyT, class ObjT>
-  void
-  CMemoryOnlyValueRepository<KeyT, ObjT>::create(KeyT a_key, const ObjT &a_obj) {
-    if(m_objMap.find(key) != m_objMap.end()) {
+  ObjT *
+  MemoryOnlyRepository<KeyT, ObjT>::create(KeyT a_key, std::unique_ptr<ObjT> a_obj) {
+    if(m_objMap.find(a_key) != m_objMap.end()) {
       throw Error::ObjectAlreadyExistsException(a_key);
     } else {
-      m_objMap[key] = a_obj;
+      ObjT *rv = a_obj.get();
+      m_objMap[a_key] = std::move(a_obj);
+      return rv;
     }
   }
 
   template<class KeyT, class ObjT>
-  void
-  CMemoryOnlyValueRepository<KeyT, ObjT>::retrieve(KeyT a_key, ObjT &a_obj) {
-    if(m_objMap.find(key) == m_objMap.end()) {
-      throw Error::ObjectNotFoundException(a_key);
-    } else {
-      a_obj = m_objMap[a_key];
-    }
-  }
-
-  template<class KeyT, class ObjT>
-  void
-  CMemoryOnlyValueRepository<KeyT, ObjT>::update(KeyT a_key, const ObjT &a_obj) {
+  ObjT *
+  MemoryOnlyRepository<KeyT, ObjT>::retrieve(KeyT a_key) {
     if(m_objMap.find(a_key) == m_objMap.end()) {
       throw Error::ObjectNotFoundException(a_key);
     } else {
-      m_objMap[a_key] = a_obj;
+      return m_objMap[a_key].get();
     }
   }
 
   template<class KeyT, class ObjT>
   void
-  CMemoryOnlyValueRepository<KeyT, ObjT>::deleteO(KeyT a_key) {
+  MemoryOnlyRepository<KeyT, ObjT>::update(KeyT a_key) {
+    // N/A
+  }
+
+  template<class KeyT, class ObjT>
+  void
+  MemoryOnlyRepository<KeyT, ObjT>::deleteO(KeyT a_key) {
     m_objMap.erase(a_key);
   }
 }

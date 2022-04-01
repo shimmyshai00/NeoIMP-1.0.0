@@ -38,7 +38,7 @@
 namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   template<class GilSpecT>
   void
-  Png::operator()(const ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &image) {
+  Png::operator()(const ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image) {
     using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 

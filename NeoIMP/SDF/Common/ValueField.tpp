@@ -26,24 +26,24 @@
 
 namespace SDF::Common {
   template<class ValueT>
-  ValueField<ValueT>::ValueField(ValueT def)
-    : m_value(def)
+  ValueField<ValueT>::ValueField(ValueT a_def)
+    : m_value(a_def)
   {
   }
 
   template<class ValueT>
-  ValueField<ValueT>::ValueField(const ValueField<ValueT> &rhs)
-    : m_value(rhs.m_value)
+  ValueField<ValueT>::ValueField(const ValueField<ValueT> &a_rhs)
+    : m_value(a_rhs.m_value)
   {
   }
 
   template<class ValueT>
-  ValueField<ValueT>::ValueField(ValueField<ValueT> &&rhs)
-    : m_value(rhs.m_value),
-      m_listeners(rhs.m_listeners)
+  ValueField<ValueT>::ValueField(ValueField<ValueT> &&a_rhs)
+    : m_value(a_rhs.m_value),
+      m_listeners(a_rhs.m_listeners)
   {
-    rhs.m_value = ValueT();
-    rhs.m_listeners = ListenerContainer<ValueT>();
+    a_rhs.m_value = ValueT();
+    a_rhs.m_listeners = ListenerContainer<ValueT>();
   }
 
   template<class ValueT>
@@ -54,15 +54,15 @@ namespace SDF::Common {
 
   template<class ValueT>
   void
-  ValueField<ValueT>::set(ValueT val) {
-    m_value = val;
-    m_listeners.notify(val);
+  ValueField<ValueT>::set(ValueT a_val) {
+    m_value = a_val;
+    m_listeners.notify(a_val);
   }
 
   template<class ValueT>
   PIConnection
-  ValueField<ValueT>::addListener(std::shared_ptr<IListener<ValueT>> listener) {
-    return m_listeners.addListener(listener);
+  ValueField<ValueT>::addListener(std::shared_ptr<IListener<ValueT>> a_listener) {
+    return m_listeners.addListener(a_listener);
   }
 }
 
