@@ -54,10 +54,10 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     //             dstColorSpace - The color space for the destination pixels.
     //             dstNormalizer - The normalizer for the destination pixels.
     Pipeline(
-      IFwdNormalizer<SrcColorModelT, SrcPixelT> *srcNormalizer,
-      IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *srcColorSpace,
-      IRevColorSpace<DstColorModelT, FundamentalSpaceT> *dstColorSpace,
-      IRevNormalizer<DstColorModelT, DstPixelT> *dstNormalizer
+      IFwdNormalizer<SrcColorModelT, SrcPixelT> *a_srcNormalizer,
+      IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *a_srcColorSpace,
+      IRevColorSpace<DstColorModelT, FundamentalSpaceT> *a_dstColorSpace,
+      IRevNormalizer<DstColorModelT, DstPixelT> *a_dstNormalizer
     );
 
     // Function:   convertPixel
@@ -66,7 +66,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     //             dstPx - The pixel to receive the result.
     // Returns:    The converted pixel.
     void
-    convertPixel(const SrcPixelT &srcPx, DstPixelT &dstPx);
+    convertPixel(const SrcPixelT &a_srcPx, DstPixelT &a_dstPx);
   private:
     IFwdNormalizer<SrcColorModelT, SrcPixelT> *m_srcNormalizer;
     IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *m_srcColorSpace;

@@ -43,7 +43,7 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     // Parameters: imageHandle - The handle to the image to access.
     // Returns:    A pointer to the image interface.
     virtual IfaceT *
-    accessImage(Common::Handle imageHandle) = 0;
+    accessImage(Common::Handle a_imageHandle) = 0;
   };
 }
 

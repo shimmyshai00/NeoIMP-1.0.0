@@ -50,7 +50,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     // Parameters: outBuffer - The buffer to dispense.
     // Returns:    None.
     void
-    readyOutput(std::unique_ptr<OutBufferT> outBuffer);
+    readyOutput(std::unique_ptr<OutBufferT> a_outBuffer);
   private:
     std::unique_ptr<OutBufferT> m_waitingBuffer;
   };

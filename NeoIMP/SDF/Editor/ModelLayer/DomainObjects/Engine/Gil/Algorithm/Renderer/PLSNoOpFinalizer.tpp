@@ -27,8 +27,8 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
   template<class InBufferT>
   void
-  PLSNoOpFinalizer<InBufferT>::process(std::unique_ptr<InBufferT> buffer, RenderCtx &ctx) {
-    this->readyOutput(std::move(buffer));
+  PLSNoOpFinalizer<InBufferT>::process(std::unique_ptr<InBufferT> a_buffer, RenderCtx &a_ctx) {
+    this->readyOutput(std::move(a_buffer));
   }
 }
 

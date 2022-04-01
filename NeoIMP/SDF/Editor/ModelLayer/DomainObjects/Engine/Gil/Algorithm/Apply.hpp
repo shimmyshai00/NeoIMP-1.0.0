@@ -30,13 +30,13 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // Applies the algorithm passed to the given image.
   template<class Alg, class GilImplT>
-  void apply(Alg alg, Image::Image<GilImplT> &image) {
-    alg(image);
+  void apply(Alg a_alg, Image::Image<GilImplT> &a_image) {
+    a_alg(a_image);
   }
 
   template<class Alg, class ... GilImplTs>
-  void apply(Alg alg, Image::Variant<GilImplTs...> &imageVariant) {
-    Image::visit([&](auto &&image) { alg(image); }, imageVariant);
+  void apply(Alg a_alg, Image::Variant<GilImplTs...> &a_imageVariant) {
+    Image::visit([&](auto &&b_image) { a_alg(b_image); }, a_imageVariant);
   }
 }
 

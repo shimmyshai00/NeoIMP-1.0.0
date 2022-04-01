@@ -47,7 +47,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       throw BadFileFormatException(fileFormat);
     }
 
-    AbstractData::EFormat dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
+    AbstractData::Format dataLayerFormat = g_fileFormatMapULtoDL[fileFormat];
 
     Common::Handle rv(m_imageLoader->loadImageFromFile(fileSpec, dataLayerFormat));
 

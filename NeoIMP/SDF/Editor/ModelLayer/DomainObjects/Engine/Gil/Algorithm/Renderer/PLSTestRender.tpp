@@ -27,7 +27,7 @@
 #include "../../../../Exceptions.hpp"
 #include "../../../Dimensions.hpp"
 #include "../../Components/Content/Background.hpp"
-#include "CellRender.hpp"
+#include "renderOntoCell.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
   template<class GilSpecT>
@@ -36,24 +36,24 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
 
   template<class GilSpecT>
   void
-  PLSTestRender<GilSpecT>::beginProcessing(const Image::Image<GilSpecT> &inputData) {
+  PLSTestRender<GilSpecT>::beginProcessing(const Image::Image<GilSpecT> &a_inputData) {
     // Just render the entirety of the background layer to one cell.
     std::unique_ptr<Buffers::GridRendering> gridBuffer(new Buffers::GridRendering(1, 1,
-      inputData.getWidthPx(), inputData.getHeightPx(), RENDERFMT_RGB32));
+      a_inputData.getWidthPx(), a_inputData.getHeightPx(), RENDERFMT_RGB32));
 
     // Adapted old code from the previous rendering system without pipeline. This contains a stub
     // for a more localized render that may be useful later on.
-    if((inputData.getWidthPx() < 0) || (inputData.getHeightPx() < 0)) {
+    if((a_inputData.getWidthPx() < 0) || (a_inputData.getHeightPx() < 0)) {
       // Shouldn't happen
-      throw InvalidDimensionsException(inputData.getWidthPx(), inputData.getHeightPx());
+      throw InvalidDimensionsException(a_inputData.getWidthPx(), a_inputData.getHeightPx());
     }
 
-    Math::Rect<std::size_t> dstRect(0, 0, inputData.getWidthPx(), inputData.getHeightPx());
-    ImageRect srcRect(0, 0, inputData.getWidthPx(), inputData.getHeightPx());
+    Math::Rect<std::size_t> dstRect(0, 0, a_inputData.getWidthPx(), a_inputData.getHeightPx());
+    ImageRect srcRect(0, 0, a_inputData.getWidthPx(), a_inputData.getHeightPx());
 
     // For now, only render the background layer.
     typedef typename GilSpecT::bkg_view_t View;
-    auto contentComponent = inputData.getLayer(0)
+    auto contentComponent = a_inputData.getLayer(0)
       .template getContentComponentAs<Components::Content::Background<GilSpecT>>();
 
     if(contentComponent == nullptr) {

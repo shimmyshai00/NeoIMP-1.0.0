@@ -65,7 +65,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   Common::Handle
   ImageRepository<ImageT>::loadImageFromFile(
     std::string a_fileSpec,
-    ModelLayer::AbstractData::EFormat a_fileFormat
+    ModelLayer::AbstractData::Format a_fileFormat
   ) {
     // Construct a default image. NB: tailor to file info? How could we read that here? The
     // DataMapper lacks the requisite functionality and it is unknown how to best square this with
@@ -100,7 +100,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   ImageRepository<ImageT>::registerFileSpec(
     Common::Handle id,
     std::string a_fileSpec,
-    ModelLayer::AbstractData::EFormat a_fileFormat
+    ModelLayer::AbstractData::Format a_fileFormat
   ) {
     m_fileSpecMap[id] = a_fileSpec;
     m_fileFormatMap[id] = a_fileFormat;
@@ -157,7 +157,7 @@ namespace SDF::Editor::DataLayer::Repositories {
   }
 
   template<class ImageT>
-  ModelLayer::AbstractData::EFormat
+  ModelLayer::AbstractData::Format
   ImageRepository<ImageT>::getFileFormatById(Common::Handle a_id) const {
     if(m_fileFormatMap.find(a_id) == m_fileFormatMap.end()) {
       throw SaveParamsNotAssociatedException(a_id);

@@ -1,3 +1,3 @@
 target_sources(neoimp PUBLIC
-  CellRender.cpp
+  renderOntoCell.cpp
 )

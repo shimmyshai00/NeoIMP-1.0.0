@@ -44,8 +44,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::ColorSpaces {
   public:
     void
     nrmlToFundamental(
-      const std::array<float, 3> &uniformRep,
-      std::array<float, 3> &fs
+      const std::array<float, 3> &a_uniformRep,
+      std::array<float, 3> &a_fs
     ) const {
       // This is the matrix inverse of the matrix below. The 4-digits is not an accident; it
       // appears the matrix given in the pdf was obtained by inverting an original defined to 4
@@ -55,56 +55,56 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::ColorSpaces {
 
       float RL, GL, BL;
 
-      if(uniformRep[0] <= 0.04045f) {
-        RL = uniformRep[0] / 12.92f;
+      if(a_uniformRep[0] <= 0.04045f) {
+        RL = a_uniformRep[0] / 12.92f;
       } else {
-        RL = pow((uniformRep[0] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
+        RL = pow((a_uniformRep[0] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
       }
 
-      if(uniformRep[1] <= 0.04045f) {
-        GL = uniformRep[1] / 12.92f;
+      if(a_uniformRep[1] <= 0.04045f) {
+        GL = a_uniformRep[1] / 12.92f;
       } else {
-        GL = pow((uniformRep[1] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
+        GL = pow((a_uniformRep[1] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
       }
 
-      if(uniformRep[2] <= 0.04045f) {
-        BL = uniformRep[2] / 12.92f;
+      if(a_uniformRep[2] <= 0.04045f) {
+        BL = a_uniformRep[2] / 12.92f;
       } else {
-        BL = pow((uniformRep[2] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
+        BL = pow((a_uniformRep[2] + 0.055f) / 1.055f, 2.4f); // NB: pow is slow
       }
 
-      fs[0] = 0.4124f*RL + 0.3576f*GL + 0.1805f*BL;
-      fs[1] = 0.2126f*RL + 0.7152f*GL + 0.0722f*BL;
-      fs[2] = 0.0193f*RL + 0.1192f*GL + 0.9505f*BL;
+      a_fs[0] = 0.4124f*RL + 0.3576f*GL + 0.1805f*BL;
+      a_fs[1] = 0.2126f*RL + 0.7152f*GL + 0.0722f*BL;
+      a_fs[2] = 0.0193f*RL + 0.1192f*GL + 0.9505f*BL;
     }
 
     void
     fundamentalToNrml(
-      const std::array<float, 3> &fs,
-      std::array<float, 3> &uniformRep
+      const std::array<float, 3> &a_fs,
+      std::array<float, 3> &a_uniformRep
     ) const {
       // This function was actually coded first.
-      float RL = std::clamp<float>(3.2406255f*fs[0] - 1.537208f*fs[1] - 0.4986286f*fs[2], 0.0f, 1.0f);
-      float GL = std::clamp<float>(-0.9689307f*fs[0] + 1.8757561f*fs[1] + 0.0415175f*fs[2], 0.0f, 1.0f);
-      float BL = std::clamp<float>(0.0557101f*fs[0] - 0.2040211f*fs[1] + 1.0569959f*fs[2], 0.0f, 1.0f);
+      float RL = std::clamp<float>(3.2406255f*a_fs[0] - 1.537208f*a_fs[1] - 0.4986286f*a_fs[2], 0.0f, 1.0f);
+      float GL = std::clamp<float>(-0.9689307f*a_fs[0] + 1.8757561f*a_fs[1] + 0.0415175f*a_fs[2], 0.0f, 1.0f);
+      float BL = std::clamp<float>(0.0557101f*a_fs[0] - 0.2040211f*a_fs[1] + 1.0569959f*a_fs[2], 0.0f, 1.0f);
 
       // Standardized gamma correction
       if(RL <= 0.0031308) {
-        uniformRep[0] = 12.92f * RL;
+        a_uniformRep[0] = 12.92f * RL;
       } else {
-        uniformRep[0] = 1.055f * pow(RL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
+        a_uniformRep[0] = 1.055f * pow(RL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
       }
 
       if(GL <= 0.0031308) {
-        uniformRep[1] = 12.92f * GL;
+        a_uniformRep[1] = 12.92f * GL;
       } else {
-        uniformRep[1] = 1.055f * pow(GL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
+        a_uniformRep[1] = 1.055f * pow(GL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
       }
 
       if(BL <= 0.0031308) {
-        uniformRep[2] = 12.92f * BL;
+        a_uniformRep[2] = 12.92f * BL;
       } else {
-        uniformRep[2] = 1.055f * pow(BL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
+        a_uniformRep[2] = 1.055f * pow(BL, 1.0f/2.4f) - 0.055f; // NB: pow is slow
       }
     }
   };

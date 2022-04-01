@@ -45,11 +45,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             cellHeight - The height of a single cell in pixels.
     //             pixelFormat - The pixel format to use.
     GridRendering(
-      std::size_t numCellsX,
-      std::size_t numCellsY,
-      std::size_t cellWidth,
-      std::size_t cellHeight,
-      ERenderPixelFormat pixelFormat
+      std::size_t a_numCellsX,
+      std::size_t a_numCellsY,
+      std::size_t a_cellWidth,
+      std::size_t a_cellHeight,
+      ERenderPixelFormat a_pixelFormat
     );
 
     ~GridRendering();
@@ -110,7 +110,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             cellY - The cell's grid Y-coordinate.
     // Returns:    None.
     void
-    allocateCell(std::size_t cellX, std::size_t cellY);
+    allocateCell(std::size_t a_cellX, std::size_t a_cellY);
 
     // Function:   freeCell
     // Purpose:    Frees the memory associated with a cell at the given position, i.e. deallocates
@@ -119,7 +119,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             cellY - The cell's grid Y-coordinate.
     // Returns:    None.
     void
-    freeCell(std::size_t cellX, std::size_t cellY);
+    freeCell(std::size_t a_cellX, std::size_t a_cellY);
 
     // Function:   isCellAllocated
     // Purpose:    Returns if the cell at a given position is allocated. Same as
@@ -128,7 +128,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             cellY - The cell's grid Y-coordinate.
     // Returns:    None.
     bool
-    isCellAllocated(std::size_t cellX, std::size_t cellY);
+    isCellAllocated(std::size_t a_cellX, std::size_t a_cellY);
 
     // Function:   findCell
     // Purpose:    Finds the cell containing a given pixel coordinate.
@@ -136,7 +136,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             y - The Y-coordinate of the pixel.
     // Returns:    The cell so found (or nullptr if none).
     RenderCell *
-    findCell(std::size_t x, std::size_t y);
+    findCell(std::size_t a_x, std::size_t a_y);
 
     // Function:   getCellRect
     // Purpose:    Gets the bounding rectangle for a given cell.
@@ -144,7 +144,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             cellY - The cell's grid Y-coordinate.
     // Returns:    The bounding rectangle.
     Math::Rect<std::size_t>
-    getCellRect(std::size_t cellX, std::size_t cellY) const;
+    getCellRect(std::size_t a_cellX, std::size_t a_cellY) const;
 
     // Function:   arePointsInSameCell
     // Purpose:    Finds if two points are in the same cell.
@@ -152,14 +152,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     //             x2, y2 - The coordinates of the second point.
     // Returns:    Whether (x1, y1) and (x2, y2) are in the same cell.
     bool
-    arePointsInSameCell(std::size_t x1, std::size_t y1, std::size_t x2, std::size_t y2) const;
+    arePointsInSameCell(std::size_t a_x1, std::size_t a_y1, std::size_t a_x2, std::size_t a_y2)
+      const;
 
     // Function:   getCell
     // Purpose:    Get a pointer to the cell data for a given cell.
     // Parameters: cellX - The cell's grid X-coordinate.
     //             cellY - The cell's grid Y-coordinate.
     RenderCell *
-    getCell(std::size_t cellX, std::size_t cellY);
+    getCell(std::size_t a_cellX, std::size_t a_cellY);
   private:
     std::size_t m_numCellsX;
     std::size_t m_numCellsY;

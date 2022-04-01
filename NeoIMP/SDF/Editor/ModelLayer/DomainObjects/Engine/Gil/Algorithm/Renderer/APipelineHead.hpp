@@ -42,14 +42,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     // Parameters: next - The next pipeline stage to attach.
     // Returns:    A non-owning reference to the attached stage.
     IPipelineBufferReceiver<OutBufferT> *
-    attachNext(std::unique_ptr<IPipelineBufferReceiver<OutBufferT>> next);
+    attachNext(std::unique_ptr<IPipelineBufferReceiver<OutBufferT>> a_next);
 
     // Function:   beginProcessing
     // Purpose:    Initiates the render pipeline, beginning the processing of an input buffer.
     // Parameters: inputData - The buffer to be rendered.
     // Returns:    None.
     virtual void
-    beginProcessing(const InBufferT &inputData) = 0;
+    beginProcessing(const InBufferT &a_inputData) = 0;
   protected:
     // Function:   activateNextStage
     // Purpose:    Triggers the next stage in the pipeline.
@@ -57,7 +57,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     //             renderCtx - The rendering context.
     // Returns:    None.
     void
-    activateNextStage(std::unique_ptr<OutBufferT> outBuffer, RenderCtx &renderCtx);
+    activateNextStage(std::unique_ptr<OutBufferT> a_outBuffer, RenderCtx &a_renderCtx);
   private:
     std::unique_ptr<IPipelineBufferReceiver<OutBufferT>> m_next;
   };

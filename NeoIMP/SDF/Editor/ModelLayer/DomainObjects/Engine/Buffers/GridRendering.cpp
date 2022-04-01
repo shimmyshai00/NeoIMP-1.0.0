@@ -27,17 +27,17 @@
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   GridRendering::GridRendering(
-    std::size_t numCellsX,
-    std::size_t numCellsY,
-    std::size_t cellWidth,
-    std::size_t cellHeight,
-    ERenderPixelFormat pixelFormat
+    std::size_t a_numCellsX,
+    std::size_t a_numCellsY,
+    std::size_t a_cellWidth,
+    std::size_t a_cellHeight,
+    ERenderPixelFormat a_pixelFormat
   )
-    : m_numCellsX(numCellsX),
-      m_numCellsY(numCellsY),
-      m_cellWidth(cellWidth),
-      m_cellHeight(cellHeight),
-      m_pixelFormat(pixelFormat),
+    : m_numCellsX(a_numCellsX),
+      m_numCellsY(a_numCellsY),
+      m_cellWidth(a_cellWidth),
+      m_cellHeight(a_cellHeight),
+      m_pixelFormat(a_pixelFormat),
       m_cells(nullptr)
   {
     m_cells = new RenderCell *[m_cellWidth*m_cellHeight];
@@ -94,9 +94,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   }
 
   void
-  GridRendering::allocateCell(std::size_t cellX, std::size_t cellY) {
-    if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
-      std::size_t offs = cellY*m_numCellsX + cellX;
+  GridRendering::allocateCell(std::size_t a_cellX, std::size_t a_cellY) {
+    if((a_cellX < m_numCellsX) && (a_cellY < m_numCellsY)) {
+      std::size_t offs = a_cellY*m_numCellsX + a_cellX;
       if(m_cells[offs] == nullptr) {
         // NB: probably should use some kind of pool allocator here to make these more efficient
         m_cells[offs] = new RenderCell(m_cellWidth, m_cellHeight, m_pixelFormat);
@@ -107,9 +107,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   }
 
   void
-  GridRendering::freeCell(std::size_t cellX, std::size_t cellY) {
-    if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
-      std::size_t offs = cellY*m_numCellsX + cellX;
+  GridRendering::freeCell(std::size_t a_cellX, std::size_t a_cellY) {
+    if((a_cellX < m_numCellsX) && (a_cellY < m_numCellsY)) {
+      std::size_t offs = a_cellY*m_numCellsX + a_cellX;
       if(m_cells[offs] != nullptr) {
         // NB: probably should use some kind of pool allocator here to make these more efficient
         delete m_cells[offs];
@@ -121,9 +121,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   }
 
   bool
-  GridRendering::isCellAllocated(std::size_t cellX, std::size_t cellY) {
-    if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
-      std::size_t offs = cellY*m_numCellsX + cellX;
+  GridRendering::isCellAllocated(std::size_t a_cellX, std::size_t a_cellY) {
+    if((a_cellX < m_numCellsX) && (a_cellY < m_numCellsY)) {
+      std::size_t offs = a_cellY*m_numCellsX + a_cellX;
       return (m_cells[offs] != nullptr);
     } else {
       throw Error::OutOfBoundsException();
@@ -131,14 +131,14 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   }
 
   RenderCell *
-  GridRendering::findCell(std::size_t x, std::size_t y) {
-    return getCell(x / m_cellWidth, y / m_cellHeight);
+  GridRendering::findCell(std::size_t a_x, std::size_t a_y) {
+    return getCell(a_x / m_cellWidth, a_y / m_cellHeight);
   }
 
   Math::Rect<std::size_t>
-  GridRendering::getCellRect(std::size_t cellX, std::size_t cellY) const{
-    std::size_t cellRectX1(cellX * m_cellWidth);
-    std::size_t cellRectY1(cellY * m_cellHeight);
+  GridRendering::getCellRect(std::size_t a_cellX, std::size_t a_cellY) const{
+    std::size_t cellRectX1(a_cellX * m_cellWidth);
+    std::size_t cellRectY1(a_cellY * m_cellHeight);
 
     Math::Rect<std::size_t> rect(cellRectX1, cellRectY1,
       cellRectX1 + m_cellWidth, cellRectY1 + m_cellHeight);
@@ -147,17 +147,20 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
   }
 
   bool
-  GridRendering::arePointsInSameCell(std::size_t x1, std::size_t y1, std::size_t x2, std::size_t y2)
-    const
-  {
-    return ((x1 / m_cellWidth) == (x2 / m_cellWidth)) &&
-           ((y1 / m_cellHeight) == (y2 / m_cellHeight));
+  GridRendering::arePointsInSameCell(
+    std::size_t a_x1,
+    std::size_t a_y1,
+    std::size_t a_x2,
+    std::size_t a_y2
+  ) const {
+    return ((a_x1 / m_cellWidth) == (a_x2 / m_cellWidth)) &&
+           ((a_y1 / m_cellHeight) == (a_y2 / m_cellHeight));
   }
 
   RenderCell *
-  GridRendering::getCell(std::size_t cellX, std::size_t cellY) {
-    if((cellX < m_numCellsX) && (cellY < m_numCellsY)) {
-      std::size_t offs = cellY*m_numCellsX + cellX;
+  GridRendering::getCell(std::size_t a_cellX, std::size_t a_cellY) {
+    if((a_cellX < m_numCellsX) && (a_cellY < m_numCellsY)) {
+      std::size_t offs = a_cellY*m_numCellsX + a_cellX;
       return m_cells[offs];
     } else {
       throw Error::OutOfBoundsException();

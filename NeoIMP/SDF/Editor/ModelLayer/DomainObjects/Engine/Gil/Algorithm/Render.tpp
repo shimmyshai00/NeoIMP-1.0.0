@@ -30,14 +30,14 @@
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   template<class GilSpecT>
   void
-  Render::operator()(const Image::Image<GilSpecT> &image) {
+  Render::operator()(const Image::Image<GilSpecT> &a_image) {
     // Create a render pipeline for rendering this image.
     Renderer::PLSTestRender<GilSpecT> head;
     Renderer::PLSNoOpFinalizer<Engine::Buffers::GridRendering> *tail =
     static_cast<Renderer::PLSNoOpFinalizer<Engine::Buffers::GridRendering> *>(head.attachNext(
       std::make_unique<Renderer::PLSNoOpFinalizer<Engine::Buffers::GridRendering>>()));
 
-    head.beginProcessing(image);
+    head.beginProcessing(a_image);
 
     (*m_resultRecvPtr) = tail->dispenseOutput();
   }

@@ -24,8 +24,8 @@
 #include "Render.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
-  Render::Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr)
-    : m_resultRecvPtr(resultRecvPtr)
+  Render::Render(std::unique_ptr<Buffers::GridRendering> *a_resultRecvPtr)
+    : m_resultRecvPtr(a_resultRecvPtr)
   {
   }
 }

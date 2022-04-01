@@ -61,13 +61,13 @@ namespace SDF::Editor::DataLayer::Repositories {
     retrieve(Common::Handle a_id);
 
     Common::Handle
-    loadImageFromFile(std::string a_fileSpec, ModelLayer::AbstractData::EFormat a_fileFormat);
+    loadImageFromFile(std::string a_fileSpec, ModelLayer::AbstractData::Format a_fileFormat);
 
     void
     registerFileSpec(
       Common::Handle a_id,
       std::string a_fileSpec,
-      ModelLayer::AbstractData::EFormat a_fileFormat
+      ModelLayer::AbstractData::Format a_fileFormat
     );
 
     void
@@ -79,14 +79,14 @@ namespace SDF::Editor::DataLayer::Repositories {
     std::string
     getFileSpecById(Common::Handle a_id) const;
 
-    ModelLayer::AbstractData::EFormat
+    ModelLayer::AbstractData::Format
     getFileFormatById(Common::Handle a_id) const;
   private:
     Common::Data::ICrudable<std::string, ImageT> *m_pngImageMapper;
 
     std::map<Common::Handle, std::unique_ptr<ImageT>> m_imageMap;
     std::map<Common::Handle, std::string> m_fileSpecMap;
-    std::map<Common::Handle, ModelLayer::AbstractData::EFormat> m_fileFormatMap;
+    std::map<Common::Handle, ModelLayer::AbstractData::Format> m_fileFormatMap;
 
     Common::Handle
     getFirstFreeId() const;

@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Handle.hpp"
-#include "EFormat.hpp"
+#include "Format.hpp"
 
 #include <string>
 
@@ -46,7 +46,7 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     //             fileSpec - The file spec to register.
     //             fileFormat - The file format to use for persistence.
     virtual void
-    registerFileSpec(Common::Handle id, std::string fileSpec, EFormat fileFormat) = 0;
+    registerFileSpec(Common::Handle a_id, std::string a_fileSpec, Format a_fileFormat) = 0;
 
     // Function:   persistImage
     // Purpose:    Forces persistence of an image. Note: either this image must have already
@@ -55,7 +55,7 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     // Parameters: id - The ID of the image to persist.
     // Returns:    None.
     virtual void
-    persistImage(Common::Handle id) = 0;
+    persistImage(Common::Handle a_id) = 0;
   };
 }
 

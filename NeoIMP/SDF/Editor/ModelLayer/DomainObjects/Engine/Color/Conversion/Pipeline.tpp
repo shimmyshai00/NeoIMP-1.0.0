@@ -35,15 +35,15 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
     class DstPixelT
   >
   Pipeline<SrcPixelT, SrcColorModelT, FundamentalSpaceT, DstColorModelT, DstPixelT>::Pipeline(
-    IFwdNormalizer<SrcColorModelT, SrcPixelT> *srcNormalizer,
-    IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *srcColorSpace,
-    IRevColorSpace<DstColorModelT, FundamentalSpaceT> *dstColorSpace,
-    IRevNormalizer<DstColorModelT, DstPixelT> *dstNormalizer
+    IFwdNormalizer<SrcColorModelT, SrcPixelT> *a_srcNormalizer,
+    IFwdColorSpace<SrcColorModelT, FundamentalSpaceT> *a_srcColorSpace,
+    IRevColorSpace<DstColorModelT, FundamentalSpaceT> *a_dstColorSpace,
+    IRevNormalizer<DstColorModelT, DstPixelT> *a_dstNormalizer
   )
-    : m_srcNormalizer(srcNormalizer),
-      m_srcColorSpace(srcColorSpace),
-      m_dstColorSpace(dstColorSpace),
-      m_dstNormalizer(dstNormalizer)
+    : m_srcNormalizer(a_srcNormalizer),
+      m_srcColorSpace(a_srcColorSpace),
+      m_dstColorSpace(a_dstColorSpace),
+      m_dstNormalizer(a_dstNormalizer)
   {
   }
 
@@ -56,17 +56,17 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color::Conversion {
   >
   void
   Pipeline<SrcPixelT, SrcColorModelT, FundamentalSpaceT, DstColorModelT, DstPixelT>::convertPixel(
-    const SrcPixelT &srcPx,
-    DstPixelT &dstPx
+    const SrcPixelT &a_srcPx,
+    DstPixelT &a_dstPx
   ) {
     std::array<float, SrcColorModelT::num_channels> srcNrmlRep;
     std::array<float, FundamentalSpaceT::num_channels> fundamentalRep;
     std::array<float, DstColorModelT::num_channels> dstNrmlRep;
 
-    m_srcNormalizer->normalize(srcPx, srcNrmlRep);
+    m_srcNormalizer->normalize(a_srcPx, srcNrmlRep);
     m_srcColorSpace->nrmlToFundamental(srcNrmlRep, fundamentalRep);
     m_dstColorSpace->fundamentalToNrml(fundamentalRep, dstNrmlRep);
-    m_dstNormalizer->unnormalize(dstNrmlRep, dstPx);
+    m_dstNormalizer->unnormalize(dstNrmlRep, a_dstPx);
   }
 }
 

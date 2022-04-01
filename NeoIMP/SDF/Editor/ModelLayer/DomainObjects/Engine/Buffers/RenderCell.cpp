@@ -24,10 +24,10 @@
 #include "RenderCell.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
-  RenderCell::RenderCell(std::size_t width, std::size_t height, ERenderPixelFormat pixelFormat)
-    : m_width(width),
-      m_height(height),
-      m_pixelFormat(pixelFormat),
+  RenderCell::RenderCell(std::size_t a_width, std::size_t a_height, ERenderPixelFormat a_pixelFormat)
+    : m_width(a_width),
+      m_height(a_height),
+      m_pixelFormat(a_pixelFormat),
       m_data(nullptr)
   {
     // TBA: check to make sure someone didn't pass RENDERFMT_MAX for a pixel format, and throw if

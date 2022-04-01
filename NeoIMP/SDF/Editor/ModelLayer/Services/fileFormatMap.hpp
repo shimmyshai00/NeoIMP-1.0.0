@@ -25,7 +25,7 @@
  */
 
 #include "../../UILayer/AbstractModel/Defs/EFileFormat.hpp"
-#include "../AbstractData/EFormat.hpp"
+#include "../AbstractData/Format.hpp"
 
 namespace SDF::Editor::ModelLayer::Services {
   static const UILayer::AbstractModel::Defs::EFileFormat
@@ -33,7 +33,7 @@ namespace SDF::Editor::ModelLayer::Services {
       UILayer::AbstractModel::Defs::FILE_FORMAT_PNG // AbstractData::FORMAT_PNG
     };
 
-  static const AbstractData::EFormat
+  static const AbstractData::Format
     g_fileFormatMapULtoDL[UILayer::AbstractModel::Defs::FILE_FORMAT_MAX] = {
       AbstractData::FORMAT_PNG // AbstractModel::Defs::FILE_FORMAT_PNG
     };

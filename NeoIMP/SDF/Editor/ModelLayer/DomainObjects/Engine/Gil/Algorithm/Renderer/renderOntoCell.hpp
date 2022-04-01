@@ -5,8 +5,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    CellRender.hpp
- * PURPOSE: Defines the CellRender algorithm.
+ * FILE:    renderOntoCell.hpp
+ * PURPOSE: Provides implementation detail for rendering onto a single buffer cell.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -29,12 +29,11 @@
 #include "../../../Dimensions.hpp"
 
 namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Renderer {
-  // Provides implementation detail for rendering onto a single buffer cell.
   template<class View>
   void renderOntoCell(
-    Engine::Buffers::RenderCell *dstCell,
-    Math::Rect<std::size_t> dstRect,
-    View &view
+    Engine::Buffers::RenderCell *a_dstCell,
+    Math::Rect<std::size_t> a_dstRect,
+    View &a_view
   );
 }
 

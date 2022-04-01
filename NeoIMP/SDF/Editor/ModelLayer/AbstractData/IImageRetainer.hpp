@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     // Parameters: image - The image to store.
     // Returns:    The ID where the image is stored at.
     virtual Common::Handle
-    retainImageAtAutoID(std::unique_ptr<ImageT> image) = 0;
+    retainImageAtAutoID(std::unique_ptr<ImageT> a_image) = 0;
   };
 }
 

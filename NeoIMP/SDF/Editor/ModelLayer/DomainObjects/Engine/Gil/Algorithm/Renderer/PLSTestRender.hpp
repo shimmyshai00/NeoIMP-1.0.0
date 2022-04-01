@@ -45,7 +45,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     PLSTestRender();
 
     void
-    beginProcessing(const Image::Image<GilSpecT> &inputData);
+    beginProcessing(const Image::Image<GilSpecT> &a_inputData);
   private:
     RenderCtx m_ctx;
   };

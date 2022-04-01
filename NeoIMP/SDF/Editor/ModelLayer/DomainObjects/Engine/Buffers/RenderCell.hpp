@@ -41,7 +41,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Buffers {
     // Parameters: width - The width in pixels.
     //             height - The height of the cell in pixels.
     //             pixelFormat - The pixel format the cell is presumed to carry.
-    RenderCell(std::size_t width, std::size_t height, ERenderPixelFormat pixelFormat);
+    RenderCell(std::size_t a_width, std::size_t a_height, ERenderPixelFormat a_pixelFormat);
 
     ~RenderCell();
 

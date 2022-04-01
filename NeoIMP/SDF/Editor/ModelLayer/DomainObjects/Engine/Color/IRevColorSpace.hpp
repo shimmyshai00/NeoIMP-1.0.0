@@ -48,8 +48,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color {
     // Returns:    None.
     virtual void
     fundamentalToNrml(
-      const std::array<float, FundamentalTraitsT::num_channels> &fs,
-      std::array<float, ColorModelT::num_channels> &uniformRep
+      const std::array<float, FundamentalTraitsT::num_channels> &a_fs,
+      std::array<float, ColorModelT::num_channels> &a_uniformRep
     ) const = 0;
   };
 }

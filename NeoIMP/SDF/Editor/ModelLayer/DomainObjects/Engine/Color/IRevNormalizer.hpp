@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color {
     //             px - The object to receive the output pixel data.
     // Returns:    None.
     virtual void
-    unnormalize(const std::array<float, ColorModelT::num_channels> &uniformRep, PixelDataT &px)
+    unnormalize(const std::array<float, ColorModelT::num_channels> &a_uniformRep, PixelDataT &a_px)
       const = 0;
   };
 }

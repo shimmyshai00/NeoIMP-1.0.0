@@ -39,11 +39,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm {
   // good faith and the programmer is expected to supply a template operator() that applies the
   // algorithm to an image.
   struct Render {
-    Render(std::unique_ptr<Buffers::GridRendering> *resultRecvPtr);
+    Render(std::unique_ptr<Buffers::GridRendering> *a_resultRecvPtr);
 
     template<class GilSpecT>
     void
-    operator()(const Image::Image<GilSpecT> &image);
+    operator()(const Image::Image<GilSpecT> &a_image);
   private:
     std::unique_ptr<Buffers::GridRendering> *m_resultRecvPtr;
   };

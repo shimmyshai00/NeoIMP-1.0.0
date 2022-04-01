@@ -36,7 +36,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
   class PLSNoOpFinalizer : public APipelineFinal<InBufferT, InBufferT> {
   public:
     void
-    process(std::unique_ptr<InBufferT> buffer, RenderCtx &ctx);
+    process(std::unique_ptr<InBufferT> a_buffer, RenderCtx &a_ctx);
   };
 }
 

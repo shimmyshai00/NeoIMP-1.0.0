@@ -42,7 +42,7 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
     //             ctx - The renedering context to pass through the whole process.
     // Returns:    None.
     virtual void
-    process(std::unique_ptr<InBufferT> buffer, RenderCtx &ctx) = 0;
+    process(std::unique_ptr<InBufferT> a_buffer, RenderCtx &a_ctx) = 0;
   };
 }
 

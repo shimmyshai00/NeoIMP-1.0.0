@@ -37,7 +37,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     std::string fileSpec,
     UILayer::AbstractModel::Defs::EFileFormat fileFormat
   ) {
-    AbstractData::EFormat dataLayerFormat;
+    AbstractData::Format dataLayerFormat;
     switch(fileFormat) {
       case UILayer::AbstractModel::Defs::FILE_FORMAT_PNG:
         dataLayerFormat = AbstractData::FORMAT_PNG;

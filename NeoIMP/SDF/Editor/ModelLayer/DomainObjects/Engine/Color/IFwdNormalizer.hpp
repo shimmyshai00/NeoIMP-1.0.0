@@ -44,8 +44,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Color {
     //                          and in the semantic ordering of the color model.
     // Returns:    None.
     virtual void
-    normalize(const PixelDataT &px, std::array<float, ColorModelT::num_channels> &uniformRep) const
-      = 0;
+    normalize(const PixelDataT &a_px, std::array<float, ColorModelT::num_channels> &a_uniformRep)
+      const = 0;
   };
 }
 

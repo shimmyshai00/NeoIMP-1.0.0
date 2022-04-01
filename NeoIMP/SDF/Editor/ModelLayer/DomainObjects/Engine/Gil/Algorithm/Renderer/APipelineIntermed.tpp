@@ -30,9 +30,9 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
   template<class InBufferT, class OutBufferT>
   IPipelineBufferReceiver<OutBufferT> *
   APipelineIntermed<InBufferT, OutBufferT>::attachNext(
-    std::unique_ptr<IPipelineBufferReceiver<OutBufferT>> next
+    std::unique_ptr<IPipelineBufferReceiver<OutBufferT>> a_next
   ) {
-    m_next = std::move(next);
+    m_next = std::move(a_next);
 
     return m_next.get();
   }
@@ -40,11 +40,11 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
   template<class InBufferT, class OutBufferT>
   void
   APipelineIntermed<InBufferT, OutBufferT>::activateNextStage(
-    std::unique_ptr<OutBufferT> outBuffer,
-    RenderCtx &renderCtx
+    std::unique_ptr<OutBufferT> a_outBuffer,
+    RenderCtx &a_renderCtx
   ) {
     if(m_next) {
-      m_next->process(std::move(outBuffer), renderCtx);
+      m_next->process(std::move(a_outBuffer), a_renderCtx);
     } else {
       throw BrokenPipelineException();
     }

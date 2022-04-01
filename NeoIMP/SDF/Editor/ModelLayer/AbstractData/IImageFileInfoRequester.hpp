@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Handle.hpp"
-#include "EFormat.hpp"
+#include "Format.hpp"
 
 #include <string>
 
@@ -44,21 +44,21 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     // Parameters: id - The image document ID to check.
     // Returns:    Whether a file is associated to this ID.
     virtual bool
-    hasAssociatedFile(Common::Handle id) const = 0;
+    hasAssociatedFile(Common::Handle a_id) const = 0;
 
     // Function:   getFileSpecById
     // Purpose:    Obtains the file spec associated to the given id.
     // Parameters: id - The image document ID to check.
     // Returns:    The desired file spec.
     virtual std::string
-    getFileSpecById(Common::Handle id) const = 0;
+    getFileSpecById(Common::Handle a_id) const = 0;
 
     // Function:   getFileFormatById
     // Purpose:    Obtains the file format associated to the given id.
     // Parameters: id - The image document ID to check.
     // Returns:    The desired file format.
-    virtual EFormat
-    getFileFormatById(Common::Handle id) const = 0;
+    virtual Format
+    getFileFormatById(Common::Handle a_id) const = 0;
   };
 }
 

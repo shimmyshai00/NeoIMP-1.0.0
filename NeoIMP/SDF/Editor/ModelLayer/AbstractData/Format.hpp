@@ -1,11 +1,11 @@
-#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_EFORMAT_HPP
-#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_EFORMAT_HPP
+#ifndef SDF_EDITOR_MODELLAYER_ABSTRACTDATA_FORMAT_HPP
+#define SDF_EDITOR_MODELLAYER_ABSTRACTDATA_FORMAT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    EFormat.hpp
+ * FILE:    Format.hpp
  * PURPOSE: Enumerates image file formats.
  */
 
@@ -25,7 +25,7 @@
  */
 
 namespace SDF::Editor::ModelLayer::AbstractData {
-  enum EFormat {
+  enum Format {
     FORMAT_PNG,
     FORMAT_MAX
   };

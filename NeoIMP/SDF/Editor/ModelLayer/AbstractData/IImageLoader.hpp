@@ -25,7 +25,7 @@
  */
 
 #include "../../../Common/Handle.hpp"
-#include "EFormat.hpp"
+#include "Format.hpp"
 
 #include <string>
 
@@ -45,7 +45,7 @@ namespace SDF::Editor::ModelLayer::AbstractData {
     //             fileFormat - The format to attempt interpretation of the image as.
     // Returns:    The ID of the loaded image, or Common::HANDLE_INVALID if failed.
     virtual Common::Handle
-    loadImageFromFile(std::string fileSpec, EFormat fileFormat) = 0;
+    loadImageFromFile(std::string a_fileSpec, Format a_fileFormat) = 0;
   };
 }
 

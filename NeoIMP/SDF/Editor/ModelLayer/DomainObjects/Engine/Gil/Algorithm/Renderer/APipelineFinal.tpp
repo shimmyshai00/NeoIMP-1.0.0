@@ -35,8 +35,8 @@ namespace SDF::Editor::ModelLayer::DomainObjects::Engine::Gil::Algorithm::Render
 
   template<class InBufferT, class OutBufferT>
   void
-  APipelineFinal<InBufferT, OutBufferT>::readyOutput(std::unique_ptr<OutBufferT> outBuffer) {
-    m_waitingBuffer = std::move(outBuffer);
+  APipelineFinal<InBufferT, OutBufferT>::readyOutput(std::unique_ptr<OutBufferT> a_outBuffer) {
+    m_waitingBuffer = std::move(a_outBuffer);
   }
 }
 
