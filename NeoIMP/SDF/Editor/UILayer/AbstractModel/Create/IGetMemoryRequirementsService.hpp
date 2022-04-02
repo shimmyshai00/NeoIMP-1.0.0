@@ -41,7 +41,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
     // Parameters: spec - The document spec to use.
     // Returns:    The memory requirement in bytes.
     virtual std::size_t
-    getMemoryRequiredForOneLayer(const Defs::ImageSpec &spec) const = 0;
+    getMemoryRequiredForOneLayer(const Defs::ImageSpec &a_spec) const = 0;
   };
 }
 

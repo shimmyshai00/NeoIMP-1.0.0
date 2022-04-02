@@ -43,8 +43,8 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
     // Returns:    None.
     virtual void
     convertColor(
-      const Defs::Color::IColor<Defs::Color::ColorFormat> &srcColor,
-      Defs::Color::IColor<Defs::Color::UiColorModel> &dstColor
+      const Defs::Color::IColor<Defs::Color::ColorFormat> &a_srcColor,
+      Defs::Color::IColor<Defs::Color::UiColorModel> &a_dstColor
     ) = 0;
   };
 }

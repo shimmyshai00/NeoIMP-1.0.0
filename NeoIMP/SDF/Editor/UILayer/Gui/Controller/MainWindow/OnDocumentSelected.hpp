@@ -34,10 +34,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnDocumentSelected : public View::IController<Common::Handle> {
   public:
-    OnDocumentSelected(AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService);
+    OnDocumentSelected(
+      AbstractModel::Editing::ISetActiveDocumentService *a_setActiveDocumentService
+    );
 
     void
-    onTrigger(Common::Handle documentHandle);
+    onTrigger(Common::Handle a_documentHandle);
   private:
     AbstractModel::Editing::ISetActiveDocumentService *m_setActiveDocumentService;
   };

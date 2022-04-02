@@ -50,14 +50,14 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
     // Parameters: handle - The handle of the prefab to get the name of.
     // Returns:    The name of the prefab.
     virtual std::string
-    getPrefabName(Common::Handle handle) const = 0;
+    getPrefabName(Common::Handle a_handle) const = 0;
 
     // Function:   getPrefabSpec
     // Purpose:    Gets the complete document spec given by a prefab.
     // Parameters: handle - The handle of the prefab to get the spec for.
     // Returns:    The spec for a document to be made to this prefab.
     virtual Defs::ImageSpec
-    getPrefabSpec(Common::Handle handle) const = 0;
+    getPrefabSpec(Common::Handle a_handle) const = 0;
   };
 }
 

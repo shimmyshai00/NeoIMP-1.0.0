@@ -42,7 +42,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Create {
     // Parameters: spec - The spec to create the document from.
     // Returns:    The handle to the new document.
     virtual Common::Handle
-    createFromSpec(const Defs::ImageSpec &spec) = 0;
+    createFromSpec(const Defs::ImageSpec &a_spec) = 0;
   };
 }
 

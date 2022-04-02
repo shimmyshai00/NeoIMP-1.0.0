@@ -40,12 +40,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   class OnAccept_Save : public View::IController<std::string, std::size_t> {
   public:
     OnAccept_Save(
-      AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-      AbstractModel::Storage::ISaveDocumentService *saveDocumentService
+      AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+      AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService
     );
 
     void
-    onTrigger(std::string fileSpec, std::size_t fileFormat);
+    onTrigger(std::string a_fileSpec, std::size_t a_fileFormat);
   private:
     AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;

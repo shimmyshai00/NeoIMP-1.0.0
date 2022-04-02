@@ -35,14 +35,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  Common::Handle ViewManager::addViewIfNotPresent(Common::Handle handle, QWidget *view) {
-    if(m_views.find(handle) == m_views.end()) {
-      m_views[handle] = view;
-      m_views[handle]->show();
+  Common::Handle ViewManager::addViewIfNotPresent(Common::Handle a_handle, QWidget *a_view) {
+    if(m_views.find(a_handle) == m_views.end()) {
+      m_views[a_handle] = a_view;
+      m_views[a_handle]->show();
 
-      QObject::connect(view, &QObject::destroyed, [=]() { m_views.erase(handle); });
+      QObject::connect(a_view, &QObject::destroyed, [=]() { m_views.erase(a_handle); });
 
-      return handle;
+      return a_handle;
     } else {
       return Common::HANDLE_INVALID;
     }
@@ -51,11 +51,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewManager::ViewManager(
-    AbstractModel::Editing::IGetDocumentNameService *documentNameService,
-    ViewFactory *viewFactory
+    AbstractModel::Editing::IGetDocumentNameService *a_documentNameService,
+    ViewFactory *a_viewFactory
   )
-    : m_documentNameService(documentNameService),
-      m_viewFactory(viewFactory),
+    : m_documentNameService(a_documentNameService),
+      m_viewFactory(a_viewFactory),
       m_nextDocumentViewHandle(Impl::HANDLE_DOCUMENT_VIEW_ORIGIN)
   {
     m_viewFactory->setViewManager(this);
@@ -65,8 +65,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   Common::Handle
-  ViewManager::produceView(ViewType viewType, std::shared_ptr<Support::Bundle> argBundle) {
-    switch(viewType) {
+  ViewManager::produceView(ViewType a_viewType, std::shared_ptr<Support::Bundle> a_argBundle) {
+    switch(a_viewType) {
       case VIEW_MAIN_WINDOW:
         return addViewIfNotPresent(Impl::HANDLE_MAIN_WINDOW, m_viewFactory->createMainWindow());
       case VIEW_NEW_DOCUMENT_DIALOG:
@@ -81,7 +81,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       case VIEW_DOCUMENT_VIEW:
       {
         Common::Handle documentHandle =
-          argBundle->getHandle("document_handle", Common::HANDLE_INVALID);
+          a_argBundle->getHandle("document_handle", Common::HANDLE_INVALID);
 
         printf("Handle: %u\n", documentHandle);
 
@@ -114,15 +114,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   void
-  ViewManager::destroyView(Common::Handle viewHandle) {
-    if(m_views.find(viewHandle) != m_views.end()) {
-      m_views[viewHandle]->close();
-      m_views.erase(viewHandle);
+  ViewManager::destroyView(Common::Handle a_viewHandle) {
+    if(m_views.find(a_viewHandle) != m_views.end()) {
+      m_views[a_viewHandle]->close();
+      m_views.erase(a_viewHandle);
     }
   }
 
   void
-  ViewManager::destroyAllOfType(ViewType viewType) {
+  ViewManager::destroyAllOfType(ViewType a_viewType) {
     // TBA
   }
 

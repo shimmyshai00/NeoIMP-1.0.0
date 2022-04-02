@@ -38,11 +38,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   class QtEventConn : public Common::IConnection {
   public:
     QtEventConn(
-      std::list<std::unique_ptr<IController<ControllerArgs...>>> *controllerList,
-      std::unique_ptr<IController<ControllerArgs...>> controller
+      std::list<std::unique_ptr<IController<ControllerArgs...>>> *a_controllerList,
+      std::unique_ptr<IController<ControllerArgs...>> a_controller
     )
-      : m_controllerList(controllerList),
-        m_controller(std::move(controller)),
+      : m_controllerList(a_controllerList),
+        m_controller(std::move(a_controller)),
         m_controllerPtr(nullptr)
     {
     }
@@ -84,14 +84,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
 
   template<class ... ControllerArgs>
   Common::PIConnection
-  QtEvent<ControllerArgs...>::hook(std::unique_ptr<IController<ControllerArgs...>> controller) {
+  QtEvent<ControllerArgs...>::hook(std::unique_ptr<IController<ControllerArgs...>> a_controller) {
     return Common::PIConnection(new Impl::QtEventConn<ControllerArgs...>(
-      &m_controllers, std::move(controller)));
+      &m_controllers, std::move(a_controller)));
   }
 
   template<class ... ControllerArgs>
   void
-  QtEvent<ControllerArgs...>::trigger(ControllerArgs... args) {
+  QtEvent<ControllerArgs...>::trigger(ControllerArgs... a_args) {
     for(typename std::list<std::unique_ptr<IController<ControllerArgs...>>>::iterator
       it(m_controllers.begin()); it != m_controllers.end(); ++it)
     {
@@ -102,7 +102,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
       QString likelyBugMessage = QString("\nThis likely means there is a bug in the program!");
 
       try {
-        (*it)->onTrigger(args...);
+        (*it)->onTrigger(a_args...);
       } catch(General<DataException> e) { // nb: seems a lot of duplication
         guiErrorMessage += QString(e.what());
         caughtError = true;

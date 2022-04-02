@@ -2,7 +2,7 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.cpp
+ * FILE:    getQtComponent.cpp
  * PURPOSE: Implements the DI component for the Qt-based GUI subsystem.
  */
 
@@ -21,9 +21,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "QtComponent.hpp"
+#include "getQtComponent.hpp"
 
-#include "View/Qt/Component.hpp"
+#include "View/Qt/getComponent.hpp"
 #include "QtApplication.hpp"
 
 namespace SDF::Editor::UILayer::Gui {

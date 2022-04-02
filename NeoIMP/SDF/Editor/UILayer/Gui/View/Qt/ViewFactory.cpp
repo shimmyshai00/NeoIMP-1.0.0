@@ -39,53 +39,53 @@
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   ViewFactory::ViewFactory(
-    AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
-    AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
-    AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
-    AbstractModel::Metrics::IConvertLengthService *convertLengthService,
-    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
-    AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
-    AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
-    AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-    AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
-    AbstractModel::Viewing::IAddViewService *addViewService,
-    AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
-    AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
-    AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService,
-    AbstractModel::Viewing::ISetViewCoordinatesService *setViewCoordinatesService,
-    AbstractModel::Viewing::IRenderingService *renderingService,
-    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-    AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService
+    AbstractModel::Create::IGetDocumentPrefabService *a_getDocumentPrefabService,
+    AbstractModel::Create::IGetMemoryRequirementsService *a_getMemoryRequirementsService,
+    AbstractModel::Create::ICreateDocumentService *a_createDocumentSerivce,
+    AbstractModel::Metrics::IConvertLengthService *a_convertLengthService,
+    AbstractModel::Metrics::IConvertResolutionService *a_convertResolutionService,
+    AbstractModel::Metrics::IGetDocumentDimensionsService *a_getDocumentDimensionsService,
+    AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
+    AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
+    AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
+    AbstractModel::Viewing::IAddViewService *a_addViewService,
+    AbstractModel::Viewing::IGetViewCoordinatesService *a_getViewCoordinatesService,
+    AbstractModel::Viewing::ISetViewXCoordinateService *a_setViewXCoordinateService,
+    AbstractModel::Viewing::ISetViewYCoordinateService *a_setViewYCoordinateService,
+    AbstractModel::Viewing::ISetViewCoordinatesService *a_setViewCoordinatesService,
+    AbstractModel::Viewing::IRenderingService *a_renderingService,
+    AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+    AbstractModel::Editing::ISetActiveDocumentService *a_setActiveDocumentService
   )
-    : m_getDocumentPrefabService(getDocumentPrefabService),
-      m_getMemoryRequirementsService(getMemoryRequirementsService),
-      m_createDocumentService(createDocumentSerivce),
-      m_convertLengthService(convertLengthService),
-      m_convertResolutionService(convertResolutionService),
-      m_getDocumentDimensionsService(getDocumentDimensionsService),
-      m_getDocumentFileInfoService(getDocumentFileInfoService),
-      m_saveDocumentService(saveDocumentService),
-      m_loadDocumentService(loadDocumentService),
-      m_addViewService(addViewService),
-      m_getViewCoordinatesService(getViewCoordinatesService),
-      m_setViewXCoordinateService(setViewXCoordinateService),
-      m_setViewYCoordinateService(setViewYCoordinateService),
-      m_setViewCoordinatesService(setViewCoordinatesService),
-      m_renderingService(renderingService),
-      m_getActiveDocumentService(getActiveDocumentService),
-      m_setActiveDocumentService(setActiveDocumentService),
+    : m_getDocumentPrefabService(a_getDocumentPrefabService),
+      m_getMemoryRequirementsService(a_getMemoryRequirementsService),
+      m_createDocumentService(a_createDocumentSerivce),
+      m_convertLengthService(a_convertLengthService),
+      m_convertResolutionService(a_convertResolutionService),
+      m_getDocumentDimensionsService(a_getDocumentDimensionsService),
+      m_getDocumentFileInfoService(a_getDocumentFileInfoService),
+      m_saveDocumentService(a_saveDocumentService),
+      m_loadDocumentService(a_loadDocumentService),
+      m_addViewService(a_addViewService),
+      m_getViewCoordinatesService(a_getViewCoordinatesService),
+      m_setViewXCoordinateService(a_setViewXCoordinateService),
+      m_setViewYCoordinateService(a_setViewYCoordinateService),
+      m_setViewCoordinatesService(a_setViewCoordinatesService),
+      m_renderingService(a_renderingService),
+      m_getActiveDocumentService(a_getActiveDocumentService),
+      m_setActiveDocumentService(a_setActiveDocumentService),
       m_viewManager(nullptr)
   {
   }
 
   void
-  ViewFactory::setViewManager(IViewManager<ViewType> *viewManager) {
-    m_viewManager = viewManager;
+  ViewFactory::setViewManager(IViewManager<ViewType> *a_viewManager) {
+    m_viewManager = a_viewManager;
   }
 
   MainWindow *
-  ViewFactory::createMainWindow(QWidget *parent) {
-    MainWindow *rv = new MainWindow(parent);
+  ViewFactory::createMainWindow(QWidget *a_parent) {
+    MainWindow *rv = new MainWindow(a_parent);
 
     auto onDocumentSelected = std::make_unique<Controller::MainWindow::OnDocumentSelected>(
       m_setActiveDocumentService);
@@ -111,10 +111,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   NewDocumentDialog *
-  ViewFactory::createNewDocumentDialog(QWidget *parent) {
+  ViewFactory::createNewDocumentDialog(QWidget *a_parent) {
     NewDocumentDialog *rv = new NewDocumentDialog(m_convertLengthService,
       m_convertResolutionService, m_getDocumentPrefabService, m_getMemoryRequirementsService,
-      parent);
+      a_parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     auto onAccept = std::make_unique<Controller::NewDocumentDialog::OnAccept>(
@@ -125,8 +125,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   FileChooserDialog *
-  ViewFactory::createOpenDocumentDialog(QWidget *parent) {
-    FileChooserDialog *rv = new FileChooserDialog(parent);
+  ViewFactory::createOpenDocumentDialog(QWidget *a_parent) {
+    FileChooserDialog *rv = new FileChooserDialog(a_parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
     rv->setAcceptMode(QFileDialog::AcceptOpen);
     rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
@@ -140,8 +140,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   FileChooserDialog *
-  ViewFactory::createSaveDocumentDialog(QWidget *parent) {
-    FileChooserDialog *rv = new FileChooserDialog(parent);
+  ViewFactory::createSaveDocumentDialog(QWidget *a_parent) {
+    FileChooserDialog *rv = new FileChooserDialog(a_parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
     rv->setAcceptMode(QFileDialog::AcceptSave);
     rv->setNameFilters(makeFileFilterList(g_fileFormatNames, g_fileExtensionFilters,
@@ -155,9 +155,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 
   DocumentView *
-  ViewFactory::createDocumentView(Common::Handle documentHandle, QWidget *parent) {
+  ViewFactory::createDocumentView(Common::Handle a_documentHandle, QWidget *a_parent) {
     DocumentView *rv = new DocumentView(m_getDocumentDimensionsService, m_addViewService,
-      m_getViewCoordinatesService, m_renderingService, documentHandle, parent);
+      m_getViewCoordinatesService, m_renderingService, a_documentHandle, a_parent);
     rv->setAttribute(::Qt::WA_DeleteOnClose);
 
     auto onHScroll = std::make_unique<Controller::DocumentView::OnHScroll>(

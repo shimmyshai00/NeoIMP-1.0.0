@@ -21,7 +21,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/Component.hpp"
+#include "SDF/Editor/UILayer/getComponent.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>

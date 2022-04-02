@@ -34,7 +34,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnSaveAs : public View::IController<> {
   public:
-    OnSaveAs(IViewManager<View::ViewType> *viewManager);
+    OnSaveAs(IViewManager<View::ViewType> *a_viewManager);
 
     void
     onTrigger();

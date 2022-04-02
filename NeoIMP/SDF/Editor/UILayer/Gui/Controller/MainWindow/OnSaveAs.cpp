@@ -26,8 +26,8 @@
 #include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnSaveAs::OnSaveAs(IViewManager<View::ViewType> *viewManager)
-    : m_viewManager(viewManager)
+  OnSaveAs::OnSaveAs(IViewManager<View::ViewType> *a_viewManager)
+    : m_viewManager(a_viewManager)
   {
   }
 

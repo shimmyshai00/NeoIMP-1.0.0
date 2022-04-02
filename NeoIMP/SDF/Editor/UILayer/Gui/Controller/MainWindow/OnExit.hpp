@@ -34,7 +34,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnExit : public View::IController<> {
   public:
-    OnExit(IViewManager<View::ViewType> *viewManager);
+    OnExit(IViewManager<View::ViewType> *a_viewManager);
 
     void
     onTrigger();

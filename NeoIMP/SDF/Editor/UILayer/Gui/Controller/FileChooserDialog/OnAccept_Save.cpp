@@ -30,21 +30,21 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   OnAccept_Save::OnAccept_Save(
-    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-    AbstractModel::Storage::ISaveDocumentService *saveDocumentService
+    AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+    AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService
   )
-    : m_getActiveDocumentService(getActiveDocumentService),
-      m_saveDocumentService(saveDocumentService)
+    : m_getActiveDocumentService(a_getActiveDocumentService),
+      m_saveDocumentService(a_saveDocumentService)
   {
   }
 
   void
-  OnAccept_Save::onTrigger(std::string fileSpec, std::size_t fileFormat) {
+  OnAccept_Save::onTrigger(std::string a_fileSpec, std::size_t a_fileFormat) {
     Common::Handle curSelectedDocument(m_getActiveDocumentService->getActiveDocument());
 
-    if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
-      m_saveDocumentService->saveDocument(curSelectedDocument, fileSpec,
-        static_cast<AbstractModel::Defs::FileFormat>(fileFormat));
+    if(a_fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
+      m_saveDocumentService->saveDocument(curSelectedDocument, a_fileSpec,
+        static_cast<AbstractModel::Defs::FileFormat>(a_fileFormat));
     } else {
       throw Error::ErrMsgException("Unknown file format specified! Cannot save to that.");
     }

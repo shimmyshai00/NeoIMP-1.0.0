@@ -35,10 +35,10 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnHScroll : public View::IController<Common::Handle, float> {
   public:
-    OnHScroll(AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService);
+    OnHScroll(AbstractModel::Viewing::ISetViewXCoordinateService *a_setViewXCoordinateService);
 
     void
-    onTrigger(Common::Handle documentHandle, float scrollPos);
+    onTrigger(Common::Handle a_documentHandle, float a_scrollPos);
   private:
     AbstractModel::Viewing::ISetViewXCoordinateService *m_setViewXCoordinateService;
   };
@@ -50,10 +50,10 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnVScroll : public View::IController<Common::Handle, float> {
   public:
-    OnVScroll(AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService);
+    OnVScroll(AbstractModel::Viewing::ISetViewYCoordinateService *a_setViewYCoordinateService);
 
     void
-    onTrigger(Common::Handle documentHandle, float scrollPos);
+    onTrigger(Common::Handle a_documentHandle, float a_scrollPos);
   private:
     AbstractModel::Viewing::ISetViewYCoordinateService *m_setViewYCoordinateService;
   };

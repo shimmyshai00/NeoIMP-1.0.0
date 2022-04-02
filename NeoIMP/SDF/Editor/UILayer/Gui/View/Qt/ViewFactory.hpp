@@ -60,42 +60,42 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class ViewFactory {
   public:
     INJECT(ViewFactory(
-      AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
-      AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
-      AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
-      AbstractModel::Metrics::IConvertLengthService *convertLengthService,
-      AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
-      AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
-      AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
-      AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-      AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
-      AbstractModel::Viewing::IAddViewService *addViewService,
-      AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
-      AbstractModel::Viewing::ISetViewXCoordinateService *setViewXCoordinateService,
-      AbstractModel::Viewing::ISetViewYCoordinateService *setViewYCoordinateService,
-      AbstractModel::Viewing::ISetViewCoordinatesService *setViewCoordinatesService,
-      AbstractModel::Viewing::IRenderingService *renderingService,
-      AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-      AbstractModel::Editing::ISetActiveDocumentService *setActiveDocumentService
+      AbstractModel::Create::IGetDocumentPrefabService *a_getDocumentPrefabService,
+      AbstractModel::Create::IGetMemoryRequirementsService *a_getMemoryRequirementsService,
+      AbstractModel::Create::ICreateDocumentService *a_createDocumentSerivce,
+      AbstractModel::Metrics::IConvertLengthService *a_convertLengthService,
+      AbstractModel::Metrics::IConvertResolutionService *a_convertResolutionService,
+      AbstractModel::Metrics::IGetDocumentDimensionsService *a_getDocumentDimensionsService,
+      AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
+      AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
+      AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
+      AbstractModel::Viewing::IAddViewService *a_addViewService,
+      AbstractModel::Viewing::IGetViewCoordinatesService *a_getViewCoordinatesService,
+      AbstractModel::Viewing::ISetViewXCoordinateService *a_setViewXCoordinateService,
+      AbstractModel::Viewing::ISetViewYCoordinateService *a_setViewYCoordinateService,
+      AbstractModel::Viewing::ISetViewCoordinatesService *a_setViewCoordinatesService,
+      AbstractModel::Viewing::IRenderingService *a_renderingService,
+      AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+      AbstractModel::Editing::ISetActiveDocumentService *a_setActiveDocumentService
     ));
 
     void
-    setViewManager(IViewManager<ViewType> *viewManager);
+    setViewManager(IViewManager<ViewType> *a_viewManager);
 
     MainWindow *
-    createMainWindow(QWidget *parent = nullptr);
+    createMainWindow(QWidget *a_parent = nullptr);
 
     NewDocumentDialog *
-    createNewDocumentDialog(QWidget *parent = nullptr);
+    createNewDocumentDialog(QWidget *a_parent = nullptr);
 
     FileChooserDialog *
-    createOpenDocumentDialog(QWidget *parent = nullptr);
+    createOpenDocumentDialog(QWidget *a_parent = nullptr);
 
     FileChooserDialog *
-    createSaveDocumentDialog(QWidget *parent = nullptr);
+    createSaveDocumentDialog(QWidget *a_parent = nullptr);
 
     DocumentView *
-    createDocumentView(Common::Handle documentHandle, QWidget *parent = nullptr);
+    createDocumentView(Common::Handle a_documentHandle, QWidget *a_parent = nullptr);
   private:
     AbstractModel::Create::IGetDocumentPrefabService *m_getDocumentPrefabService;
     AbstractModel::Create::IGetMemoryRequirementsService *m_getMemoryRequirementsService;

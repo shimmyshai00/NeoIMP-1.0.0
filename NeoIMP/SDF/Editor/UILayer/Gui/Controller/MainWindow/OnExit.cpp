@@ -24,8 +24,8 @@
 #include "OnExit.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnExit::OnExit(IViewManager<View::ViewType> *viewManager)
-    : m_viewManager(viewManager)
+  OnExit::OnExit(IViewManager<View::ViewType> *a_viewManager)
+    : m_viewManager(a_viewManager)
   {
   }
 

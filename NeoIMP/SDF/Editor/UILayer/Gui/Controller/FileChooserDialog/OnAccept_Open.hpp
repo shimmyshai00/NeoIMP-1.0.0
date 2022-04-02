@@ -40,12 +40,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   class OnAccept_Open : public View::IController<std::string, std::size_t> {
   public:
     OnAccept_Open(
-      AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
-      IViewManager<View::ViewType> *viewManager
+      AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
+      IViewManager<View::ViewType> *a_viewManager
     );
 
     void
-    onTrigger(std::string fileSpec, std::size_t fileFormat);
+    onTrigger(std::string a_fileSpec, std::size_t a_fileFormat);
   private:
     AbstractModel::Storage::ILoadDocumentService *m_loadDocumentService;
 

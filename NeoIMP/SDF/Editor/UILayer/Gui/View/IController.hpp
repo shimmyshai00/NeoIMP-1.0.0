@@ -38,7 +38,7 @@ namespace SDF::Editor::UILayer::Gui::View {
     // Parameters: args - The arguments to pass.
     // Returns:    None.
     virtual void
-    onTrigger(TriggerArgs... args) = 0;
+    onTrigger(TriggerArgs... a_args) = 0;
   };
 }
 

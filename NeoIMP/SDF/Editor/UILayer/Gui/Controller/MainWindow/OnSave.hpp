@@ -39,10 +39,10 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   class OnSave : public View::IController<> {
   public:
     OnSave(
-      AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-      AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
-      AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-      IViewManager<View::ViewType> *viewManager
+      AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+      AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
+      AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
+      IViewManager<View::ViewType> *a_viewManager
     );
 
     void

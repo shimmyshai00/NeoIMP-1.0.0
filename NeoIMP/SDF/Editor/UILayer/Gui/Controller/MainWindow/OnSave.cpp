@@ -27,15 +27,15 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   OnSave::OnSave(
-    AbstractModel::Editing::IGetActiveDocumentService *getActiveDocumentService,
-    AbstractModel::Storage::IGetDocumentFileInfoService *getDocumentFileInfoService,
-    AbstractModel::Storage::ISaveDocumentService *saveDocumentService,
-    IViewManager<View::ViewType> *viewManager
+    AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
+    AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
+    AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
+    IViewManager<View::ViewType> *a_viewManager
   )
-    : m_getActiveDocumentService(getActiveDocumentService),
-      m_getDocumentFileInfoService(getDocumentFileInfoService),
-      m_saveDocumentService(saveDocumentService),
-      m_viewManager(viewManager)
+    : m_getActiveDocumentService(a_getActiveDocumentService),
+      m_getDocumentFileInfoService(a_getDocumentFileInfoService),
+      m_saveDocumentService(a_saveDocumentService),
+      m_viewManager(a_viewManager)
   {
   }
 

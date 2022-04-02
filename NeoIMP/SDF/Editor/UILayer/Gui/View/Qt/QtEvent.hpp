@@ -41,10 +41,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
     QtEvent();
 
     Common::PIConnection
-    hook(std::unique_ptr<IController<ControllerArgs...>> controller);
+    hook(std::unique_ptr<IController<ControllerArgs...>> a_controller);
 
     void
-    trigger(ControllerArgs... args);
+    trigger(ControllerArgs... a_args);
   private:
     std::list<std::unique_ptr<IController<ControllerArgs...>>> m_controllers;
   };

@@ -8,5 +8,5 @@ target_sources(neoimp PUBLIC
   DocumentView.cpp
   ViewFactory.cpp
   ViewManager.cpp
-  Component.cpp
+  getComponent.cpp
 )

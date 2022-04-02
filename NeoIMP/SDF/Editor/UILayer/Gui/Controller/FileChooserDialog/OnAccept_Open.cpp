@@ -29,20 +29,20 @@
 
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   OnAccept_Open::OnAccept_Open(
-    AbstractModel::Storage::ILoadDocumentService *loadDocumentService,
-    IViewManager<View::ViewType> *viewManager
+    AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
+    IViewManager<View::ViewType> *a_viewManager
   )
-    : m_loadDocumentService(loadDocumentService),
-      m_viewManager(viewManager)
+    : m_loadDocumentService(a_loadDocumentService),
+      m_viewManager(a_viewManager)
   {
   }
 
   void
-  OnAccept_Open::onTrigger(std::string fileSpec, std::size_t fileFormat) {
-    if(fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
+  OnAccept_Open::onTrigger(std::string a_fileSpec, std::size_t a_fileFormat) {
+    if(a_fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
       Common::Handle loadedDocumentHandle;
-      loadedDocumentHandle = m_loadDocumentService->loadDocument(fileSpec,
-        static_cast<AbstractModel::Defs::FileFormat>(fileFormat));
+      loadedDocumentHandle = m_loadDocumentService->loadDocument(a_fileSpec,
+        static_cast<AbstractModel::Defs::FileFormat>(a_fileFormat));
 
       std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
       bundle->addHandle("document_handle", loadedDocumentHandle);

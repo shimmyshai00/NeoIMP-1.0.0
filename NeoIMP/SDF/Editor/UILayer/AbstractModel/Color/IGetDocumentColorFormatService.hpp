@@ -40,7 +40,7 @@ namespace SDF::Editor::UILayer::AbstractModel::Color {
     // Parameters: documentHandle - The handle of the document to get the color model for.
     // Returns:    The document's color format.
     virtual Defs::Color::ColorFormat
-    getColorFormatOf(Common::Handle documentHandle) const = 0;
+    getColorFormatOf(Common::Handle a_documentHandle) const = 0;
   };
 }
 

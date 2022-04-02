@@ -45,19 +45,19 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   class ViewManager : public IViewManager<ViewType> {
   public:
     INJECT(ViewManager(
-      AbstractModel::Editing::IGetDocumentNameService *documentNameService,
-      ViewFactory *viewFactory
+      AbstractModel::Editing::IGetDocumentNameService *a_documentNameService,
+      ViewFactory *a_viewFactory
     ));
     ~ViewManager();
 
     Common::Handle
-    produceView(ViewType viewType, std::shared_ptr<Support::Bundle> argBundle);
+    produceView(ViewType a_viewType, std::shared_ptr<Support::Bundle> a_argBundle);
 
     void
-    destroyView(Common::Handle viewHandle);
+    destroyView(Common::Handle a_viewHandle);
 
     void
-    destroyAllOfType(ViewType viewType);
+    destroyAllOfType(ViewType a_viewType);
 
     void
     destroyAll();

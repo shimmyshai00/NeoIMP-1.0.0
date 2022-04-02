@@ -24,8 +24,8 @@
 #include "OnOpen.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnOpen::OnOpen(IViewManager<View::ViewType> *viewManager)
-    : m_viewManager(viewManager)
+  OnOpen::OnOpen(IViewManager<View::ViewType> *a_viewManager)
+    : m_viewManager(a_viewManager)
   {
   }
 

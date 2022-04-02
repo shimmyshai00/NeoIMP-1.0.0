@@ -34,7 +34,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnOpen : public View::IController<> {
   public:
-    OnOpen(IViewManager<View::ViewType> *viewManager);
+    OnOpen(IViewManager<View::ViewType> *a_viewManager);
 
     void
     onTrigger();

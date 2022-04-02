@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_QTCOMPONENT_HPP
-#define SDF_EDITOR_UILAYER_GUI_QTCOMPONENT_HPP
+#ifndef SDF_EDITOR_UILAYER_GETCOMPONENT_HPP
+#define SDF_EDITOR_UILAYER_GETCOMPONENT_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtComponent.hpp
- * PURPOSE: Defines the DI component for the Qt-based GUI subsystem.
+ * FILE:    getComponent.hpp
+ * PURPOSE: Defines the DI component for the UI layer.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "View/Qt/ServiceDeps.hpp"
-
-#include "../IApplication.hpp"
+#include "IApplication.hpp"
 
 #include <fruit/fruit.h>
 
-namespace SDF::Editor::UILayer::Gui {
-  typedef fruit::Component<View::Qt::ServiceDeps, IApplication> Component;
+namespace SDF::Editor::UILayer {
+  typedef fruit::Component<IApplication> Component;
 
   Component
-  getQtComponent();
+  getComponent();
 }
 
 #endif

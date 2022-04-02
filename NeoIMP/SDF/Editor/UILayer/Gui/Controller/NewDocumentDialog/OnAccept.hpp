@@ -38,12 +38,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   class OnAccept : public View::IController<AbstractModel::Defs::ImageSpec> {
   public:
     OnAccept(
-      AbstractModel::Create::ICreateDocumentService *createDocumentSerivce,
-      IViewManager<View::ViewType> *viewManager
+      AbstractModel::Create::ICreateDocumentService *a_createDocumentSerivce,
+      IViewManager<View::ViewType> *a_viewManager
     );
 
     void
-    onTrigger(AbstractModel::Defs::ImageSpec imageSpec);
+    onTrigger(AbstractModel::Defs::ImageSpec a_imageSpec);
   private:
     AbstractModel::Create::ICreateDocumentService *m_createDocumentSerivce;
 
