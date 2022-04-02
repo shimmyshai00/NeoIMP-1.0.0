@@ -23,13 +23,22 @@
 
 #include "MainWindowProducer.hpp"
 
+#include "../../../Controller/MainWindow/OnExit.hpp"
+
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   MainWindowProducer::MainWindowProducer() {
   }
 
   void
   MainWindowProducer::produceView() {
+    using namespace Controller::MainWindow;
+
     m_mainWindow = new Views::MainWindow();
+
+    auto onExitController = std::make_unique<OnExit>(this);
+
+    m_mainWindow->hookOnExit(std::move(onExitController))->connect();
+
     m_mainWindow->show();
   }
 
