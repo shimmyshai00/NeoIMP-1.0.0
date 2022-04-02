@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_MAINWINDOW_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAINWINDOW_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAINWINDOW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,12 +24,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/IConnection.hpp"
-#include "../../../../../Common/Handle.hpp"
-#include "../../IViewManager.hpp"
-#include "../ViewType.hpp"
-#include "../IController.hpp"
-#include "QtEvent.hpp"
+#include "../../../../../../Common/IConnection.hpp"
+#include "../../../../../../Common/Handle.hpp"
+#include "../../IController.hpp"
+#include "../QtEvent.hpp"
 
 #include <QMainWindow>
 #include <QTabWidget>
@@ -42,7 +40,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   // Class:      MainWindow
   // Purpose:    Implements the Qt GUI's main window.
   // Parameters: None.

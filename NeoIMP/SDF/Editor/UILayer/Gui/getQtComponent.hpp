@@ -24,14 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "View/Qt/ServiceDeps.hpp"
-
-#include "../IApplication.hpp"
+#include "../../../Common/Ui/IEntryPoint.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer::Gui {
-  typedef fruit::Component<View::Qt::ServiceDeps, IApplication> Component;
+  typedef fruit::Component<Common::Ui::IEntryPoint> Component;
 
   Component
   getQtComponent();

@@ -22,20 +22,17 @@
  */
 
 #include "OnSaveAs.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnSaveAs::OnSaveAs(IViewManager<View::ViewType> *a_viewManager)
-    : m_viewManager(a_viewManager)
+  OnSaveAs::OnSaveAs(IViewProducer<> *a_filePromptProducer)
+    : m_filePromptProducer(a_filePromptProducer)
   {
   }
 
   void
   OnSaveAs::onTrigger() {
-    if(m_viewManager != nullptr) {
-      m_viewManager->produceView(View::VIEW_SAVE_DOCUMENT_DIALOG,
-        std::shared_ptr<Support::Bundle>());
+    if(m_filePromptProducer != nullptr) {
+      m_filePromptProducer->produceView();
     }
   }
 }

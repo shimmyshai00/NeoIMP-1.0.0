@@ -24,13 +24,14 @@
 #include "getQtComponent.hpp"
 
 #include "View/Qt/getComponent.hpp"
-#include "QtApplication.hpp"
+
+#include "EntryPoint.hpp"
 
 namespace SDF::Editor::UILayer::Gui {
   Component
   getQtComponent() {
     return fruit::createComponent()
-      .bind<IApplication, QtApplication>()
+      .bind<Common::Ui::IEntryPoint, EntryPoint>()
       .install(View::Qt::getComponent);
   }
 }

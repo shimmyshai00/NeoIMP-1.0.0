@@ -1,13 +1,9 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_MAKEFILEFILTERLIST_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_MAKEFILEFILTERLIST_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    makeFileFilterList.hpp
- * PURPOSE: Defines a helper method to make a Qt-usable list of file filters out of separately-
- *          defined name and wildcard strings.
+ * FILE:    getComponent.cpp
+ * PURPOSE: Implements the master DI component for the entire program.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,21 +21,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <QStringList>
-#include <QString>
+#include "getComponent.hpp"
 
-#include <cstddef>
+#include "Editor/Application/getQtComponent.hpp"
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
-  static QStringList
-  makeFileFilterList(QString *descriptions, QString *wildcards, std::size_t numElements) {
-    QStringList rv;
-    for(std::size_t i(0); i < numElements; ++i) {
-      rv.push_back(descriptions[i] + QString(" (") + wildcards + QString(")"));
-    }
-
-    return rv;
+namespace SDF {
+  Component
+  getComponent() {
+    return fruit::createComponent()
+      .install(Editor::Application::getQtComponent);
   }
 }
-
-#endif

@@ -24,16 +24,15 @@
 #include "OnOpen.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnOpen::OnOpen(IViewManager<View::ViewType> *a_viewManager)
-    : m_viewManager(a_viewManager)
+  OnOpen::OnOpen(IViewProducer<> *a_filePromptProducer)
+    : m_filePromptProducer(a_filePromptProducer)
   {
   }
 
   void
   OnOpen::onTrigger() {
-    if(m_viewManager != nullptr) {
-      m_viewManager->produceView(View::VIEW_OPEN_DOCUMENT_DIALOG,
-        std::shared_ptr<Support::Bundle>());
+    if(m_filePromptProducer != nullptr) {
+      m_filePromptProducer->produceView();
     }
   }
 }

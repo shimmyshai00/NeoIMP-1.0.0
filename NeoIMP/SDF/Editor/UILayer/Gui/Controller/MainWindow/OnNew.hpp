@@ -25,8 +25,7 @@
  */
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IViewProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Class:      OnNew
@@ -34,12 +33,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnNew : public View::IController<> {
   public:
-    OnNew(IViewManager<View::ViewType> *a_viewManager);
+    OnNew(IViewProducer<> *a_newPromptProducer);
 
     void
     onTrigger();
   private:
-    IViewManager<View::ViewType> *m_viewManager;
+    IViewProducer<> *m_newPromptProducer;
   };
 }
 

@@ -1,9 +1,12 @@
+#ifndef SDF_IAPPLICATION_HPP
+#define SDF_IAPPLICATION_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnNew.cpp
- * PURPOSE: Implements the OnNew class.
+ * FILE:    IApplication.hpp
+ * PURPOSE: Defines the IApplication interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "OnNew.hpp"
+namespace SDF {
+  // Class:      IApplication
+  // Purpose:    Defines the interface for the top-level application object. Different UI packages
+  //             (Qt, wxWidgets, etc.) may require their own special initialization, thus we may
+  //             need a different application object for each.
+  // Parameters: None.
+  class IApplication {
+  public:
+    virtual ~IApplication() = default;
 
-namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnNew::OnNew(IViewProducer<> *a_newPromptProducer)
-    : m_newPromptProducer(a_newPromptProducer)
-  {
-  }
-
-  void
-  OnNew::onTrigger() {
-    if(m_newPromptProducer != nullptr) {
-      m_newPromptProducer->produceView();
-    }
-  }
+    // Function:   exec
+    // Purpose:    Execute the application.
+    // Parameters: argc - Same as the parameter passed to main().
+    //             argv - Same as the parameter passed to main().
+    // Returns:    The program exit code.
+    virtual int
+    exec(int argc, char **argv) = 0;
+  };
 }
+
+#endif

@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_DOCUMENTVIEW_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_DOCUMENTVIEW_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_DOCUMENTVIEW_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_DOCUMENTVIEW_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,17 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/Handle.hpp"
-#include "../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
-#include "../../../AbstractModel/Viewing/IAddViewService.hpp"
-#include "../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
-#include "../../../AbstractModel/Viewing/IRenderingService.hpp"
-#include "CustomWidgets/ImageEditor/Widget.hpp"
+#include "../../../../../../Common/Handle.hpp"
+#include "../../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../../AbstractModel/Viewing/IAddViewService.hpp"
+#include "../../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../../../AbstractModel/Viewing/IRenderingService.hpp"
+#include "../CustomWidgets/ImageEditor/Widget.hpp"
 
 #include <QWidget>
 #include <QGridLayout>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   // Class:      DocumentView
   // Purpose:    Implements the Qt GUI's document view.
   // Parameters: None.

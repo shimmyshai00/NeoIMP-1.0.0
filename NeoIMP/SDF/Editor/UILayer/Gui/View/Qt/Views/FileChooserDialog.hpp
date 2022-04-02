@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILECHOOSERDIALOG_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_FILECHOOSERDIALOG_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_FILECHOOSERDIALOG_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_FILECHOOSERDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,17 +24,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/IConnection.hpp"
-#include "../IController.hpp"
+#include "../../../../../../Common/IConnection.hpp"
+#include "../../IController.hpp"
 
-#include "QtEvent.hpp"
+#include "../QtEvent.hpp"
 
 #include <QFileDialog>
 
 #include <cstddef>
 #include <string>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   // Class:      FileChooserDialog
   // Purpose:    Defines a Qt view to integrate the standard file load/save dialogs into the MVC
   //             system.

@@ -29,8 +29,7 @@
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IViewProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Class:      OnSave
@@ -42,7 +41,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
       AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
       AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
       AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
-      IViewManager<View::ViewType> *a_viewManager
+      IViewProducer<> *a_filePromptProducer
     );
 
     void
@@ -52,7 +51,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
     AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
     AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
 
-    IViewManager<View::ViewType> *m_viewManager;
+    IViewProducer<> *m_filePromptProducer;
   };
 }
 

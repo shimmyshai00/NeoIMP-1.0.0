@@ -25,8 +25,7 @@
  */
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IGuiDismisser.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Class:      OnExit
@@ -34,12 +33,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnExit : public View::IController<> {
   public:
-    OnExit(IViewManager<View::ViewType> *a_viewManager);
+    OnExit(IGuiDismisser *a_guiDismisser);
 
     void
     onTrigger();
   private:
-    IViewManager<View::ViewType> *m_viewManager;
+    IGuiDismisser *m_guiDismisser;
   };
 }
 

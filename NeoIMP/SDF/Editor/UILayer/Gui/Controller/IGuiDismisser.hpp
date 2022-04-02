@@ -1,9 +1,12 @@
+#ifndef SDF_EDITOR_UILAYER_GUI_CONTROLLER_IGUIDISMISSER_HPP
+#define SDF_EDITOR_UILAYER_GUI_CONTROLLER_IGUIDISMISSER_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.cpp
- * PURPOSE: Implements the QtApplication class.
+ * FILE:    IGuiDismisser.hpp
+ * PURPOSE: Defines the IGuiDismisser interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,20 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "QtApplication.hpp"
+namespace SDF::Editor::UILayer::Gui::Controller {
+  // Class:      IGuiDismisser
+  // Purpose:    Defines an interface to dismiss the GUI.
+  // Parameters: None.
+  class IGuiDismisser {
+  public:
+    virtual ~IGuiDismisser() = default;
 
-#include <QApplication>
-
-namespace SDF::Editor::UILayer::Gui {
-  QtApplication::QtApplication(IViewManager<View::ViewType> *a_viewManager)
-    : m_viewManager(a_viewManager)
-  {
-  }
-
-  int
-  QtApplication::exec(int argc, char **argv) {
-    QApplication qa(argc, argv);
-    m_viewManager->produceView(View::VIEW_MAIN_WINDOW, std::shared_ptr<Support::Bundle>());
-    return qa.exec();
-  }
+    // Function:   produceView
+    // Purpose:    Dismisses the GUI, shutting it down (and the rest of the program as well).
+    // Parameters: None.
+    // Returns:    None.
+    virtual void
+    dismissGui() = 0;
+  };
 }
+
+#endif

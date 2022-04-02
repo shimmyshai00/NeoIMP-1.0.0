@@ -23,7 +23,7 @@
 
 #include "FileChooserDialog.hpp"
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   FileChooserDialog::FileChooserDialog(
     QWidget *parent,
     const QString &caption,

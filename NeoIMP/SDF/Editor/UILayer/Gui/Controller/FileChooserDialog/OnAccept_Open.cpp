@@ -30,10 +30,10 @@
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   OnAccept_Open::OnAccept_Open(
     AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
-    IViewManager<View::ViewType> *a_viewManager
+    IViewProducer<Common::Handle> *a_documentViewProducer
   )
     : m_loadDocumentService(a_loadDocumentService),
-      m_viewManager(a_viewManager)
+      m_documentViewProducer(a_documentViewProducer)
   {
   }
 
@@ -44,9 +44,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
       loadedDocumentHandle = m_loadDocumentService->loadDocument(a_fileSpec,
         static_cast<AbstractModel::Defs::FileFormat>(a_fileFormat));
 
-      std::shared_ptr<Support::Bundle> bundle(new Support::Bundle());
-      bundle->addHandle("document_handle", loadedDocumentHandle);
-      m_viewManager->produceView(View::VIEW_DOCUMENT_VIEW, bundle);
+      m_documentViewProducer->produceView(loadedDocumentHandle);
     } else {
       throw Error::ErrMsgException("Unknown file format specified! Cannot save to that.");
     }

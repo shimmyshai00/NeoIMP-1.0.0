@@ -24,12 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Handle.hpp"
+
 #include "../../../AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../AbstractModel/Create/ICreateDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IViewProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   // Class:      OnAccept
@@ -38,16 +39,15 @@ namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
   class OnAccept : public View::IController<AbstractModel::Defs::ImageSpec> {
   public:
     OnAccept(
-      AbstractModel::Create::ICreateDocumentService *a_createDocumentSerivce,
-      IViewManager<View::ViewType> *a_viewManager
+      AbstractModel::Create::ICreateDocumentService *a_createDocumentService,
+      IViewProducer<Common::Handle> *a_documentViewProducer
     );
 
     void
     onTrigger(AbstractModel::Defs::ImageSpec a_imageSpec);
   private:
-    AbstractModel::Create::ICreateDocumentService *m_createDocumentSerivce;
-
-    IViewManager<View::ViewType> *m_viewManager;
+    AbstractModel::Create::ICreateDocumentService *m_createDocumentService;
+    IViewProducer<Common::Handle> *m_documentViewProducer;
   };
 }
 

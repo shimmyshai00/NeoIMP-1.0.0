@@ -24,12 +24,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "IApplication.hpp"
+#include "../../Common/Ui/IEntryPoint.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer {
-  typedef fruit::Component<IApplication> Component;
+  typedef fruit::Component<Common::Ui::IEntryPoint> Component;
 
   Component
   getComponent();

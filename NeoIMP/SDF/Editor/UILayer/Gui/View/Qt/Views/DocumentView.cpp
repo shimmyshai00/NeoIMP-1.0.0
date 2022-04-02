@@ -23,7 +23,7 @@
 
 #include "DocumentView.hpp"
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   DocumentView::DocumentView(
     AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
     AbstractModel::Viewing::IAddViewService *addViewService,

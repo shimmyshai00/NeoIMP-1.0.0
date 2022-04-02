@@ -23,15 +23,13 @@
 
 #include "MainWindow.hpp"
 
-#include "../../Controller/MainWindow/OnExit.hpp"
-#include "../../state_keys.hpp"
 #include "DocumentView.hpp"
 
-#include "Resources/ui_MainWindow.h"
+#include "../Resources/ui_MainWindow.h"
 
 #include <QGridLayout>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       m_ui(new Ui::MainWindow)
@@ -123,7 +121,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt {
   }
 }
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   // Private members.
   void
   MainWindow::enableDocumentRequiringFeatures() {

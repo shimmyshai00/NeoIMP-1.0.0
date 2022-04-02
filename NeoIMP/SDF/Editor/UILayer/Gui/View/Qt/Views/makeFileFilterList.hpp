@@ -1,12 +1,13 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_QTAPPLICATION_HPP
-#define SDF_EDITOR_UILAYER_GUI_QTAPPLICATION_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAKEFILEFILTERLIST_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAKEFILEFILTERLIST_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    QtApplication.hpp
- * PURPOSE: Defines the QtApplication class.
+ * FILE:    makeFileFilterList.hpp
+ * PURPOSE: Defines a helper method to make a Qt-usable list of file filters out of separately-
+ *          defined name and wildcard strings.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,25 +25,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../IApplication.hpp"
-#include "IViewManager.hpp"
-#include "View/ViewType.hpp"
+#include <QStringList>
+#include <QString>
 
-#include <fruit/fruit.h>
+#include <cstddef>
 
-namespace SDF::Editor::UILayer::Gui {
-  // Class:      QtApplication
-  // Purpose:    Defines the application object for the Qt widget system.
-  // Parameters: None.
-  class QtApplication : public IApplication {
-  public:
-    INJECT(QtApplication(IViewManager<View::ViewType> *a_viewManager));
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
+  static QStringList
+  makeFileFilterList(QString *descriptions, QString *wildcards, std::size_t numElements) {
+    QStringList rv;
+    for(std::size_t i(0); i < numElements; ++i) {
+      rv.push_back(descriptions[i] + QString(" (") + wildcards + QString(")"));
+    }
 
-    int
-    exec(int argc, char **argv);
-  private:
-    IViewManager<View::ViewType> *m_viewManager;
-  };
+    return rv;
+  }
 }
 
 #endif

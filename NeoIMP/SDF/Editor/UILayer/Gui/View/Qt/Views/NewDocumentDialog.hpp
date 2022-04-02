@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_NEWDOCUMENTDIALOG_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_NEWDOCUMENTDIALOG_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_NEWDOCUMENTDIALOG_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_NEWDOCUMENTDIALOG_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -24,16 +24,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/IConnection.hpp"
-#include "../IController.hpp"
+#include "../../../../../../Common/IConnection.hpp"
+#include "../../IController.hpp"
 
-#include "../../../AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../AbstractModel/Metrics/IConvertLengthService.hpp"
-#include "../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
-#include "../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
-#include "../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
+#include "../../../../AbstractModel/Defs/ImageSpec.hpp"
+#include "../../../../AbstractModel/Metrics/IConvertLengthService.hpp"
+#include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
+#include "../../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
+#include "../../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 //#include "../../Controller/NewDocumentDialog/Accept.hpp"
-#include "QtEvent.hpp"
+#include "../QtEvent.hpp"
 
 #include <QDialog>
 
@@ -41,7 +41,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
 QT_END_NAMESPACE
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   // Class:      NewDocumentDialog
   // Purpose:    Implements the new-document dialog using Qt.
   // Parameters: None.

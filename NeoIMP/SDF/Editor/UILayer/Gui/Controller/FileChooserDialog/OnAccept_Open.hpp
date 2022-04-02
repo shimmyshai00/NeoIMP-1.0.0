@@ -27,8 +27,7 @@
 #include "../../../AbstractModel/Storage/ILoadDocumentService.hpp"
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IViewProducer.hpp"
 
 #include <cstddef>
 #include <string>
@@ -41,7 +40,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   public:
     OnAccept_Open(
       AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
-      IViewManager<View::ViewType> *a_viewManager
+      IViewProducer<Common::Handle> *a_documentViewProducer
     );
 
     void
@@ -49,7 +48,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   private:
     AbstractModel::Storage::ILoadDocumentService *m_loadDocumentService;
 
-    IViewManager<View::ViewType> *m_viewManager;
+    IViewProducer<Common::Handle> *m_documentViewProducer;
   };
 }
 

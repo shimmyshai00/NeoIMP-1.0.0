@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnNew.cpp
- * PURPOSE: Implements the OnNew class.
+ * FILE:    QtApplication.cpp
+ * PURPOSE: Implements the QtApplication class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +21,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "OnNew.hpp"
+#include "QtApplication.hpp"
 
-namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnNew::OnNew(IViewProducer<> *a_newPromptProducer)
-    : m_newPromptProducer(a_newPromptProducer)
+#include <QApplication>
+
+namespace SDF::Editor::Application {
+  QtApplication::QtApplication(Common::Ui::IEntryPoint *a_uiEntryPoint)
+    : m_uiEntryPoint(a_uiEntryPoint)
   {
   }
 
-  void
-  OnNew::onTrigger() {
-    if(m_newPromptProducer != nullptr) {
-      m_newPromptProducer->produceView();
-    }
+  int
+  QtApplication::exec(int argc, char **argv) {
+    QApplication qa(argc, argv);
+    m_uiEntryPoint->enterUi();
+    return qa.exec();
   }
 }

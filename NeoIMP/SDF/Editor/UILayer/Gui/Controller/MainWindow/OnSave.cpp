@@ -30,12 +30,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
     AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
     AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
     AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
-    IViewManager<View::ViewType> *a_viewManager
+    IViewProducer<> *a_filePromptProducer
   )
     : m_getActiveDocumentService(a_getActiveDocumentService),
       m_getDocumentFileInfoService(a_getDocumentFileInfoService),
       m_saveDocumentService(a_saveDocumentService),
-      m_viewManager(a_viewManager)
+      m_filePromptProducer(a_filePromptProducer)
   {
   }
 
@@ -56,8 +56,7 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
       m_saveDocumentService->saveDocument(activeDocumentHandle, fileSpec, fileFormat);
     } else {
       // Do like "save as" and open a save dialog.
-      m_viewManager->produceView(View::VIEW_SAVE_DOCUMENT_DIALOG,
-        std::shared_ptr<Support::Bundle>());
+      m_filePromptProducer->produceView();
     }
   }
 }

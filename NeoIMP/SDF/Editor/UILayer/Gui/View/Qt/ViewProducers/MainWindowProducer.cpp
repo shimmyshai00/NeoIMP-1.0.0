@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnNew.cpp
- * PURPOSE: Implements the OnNew class.
+ * FILE:    MainWindowProducer.cpp
+ * PURPOSE: Implements the MainWindowProducer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +21,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "OnNew.hpp"
+#include "MainWindowProducer.hpp"
 
-namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnNew::OnNew(IViewProducer<> *a_newPromptProducer)
-    : m_newPromptProducer(a_newPromptProducer)
-  {
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
+  MainWindowProducer::MainWindowProducer() {
   }
 
   void
-  OnNew::onTrigger() {
-    if(m_newPromptProducer != nullptr) {
-      m_newPromptProducer->produceView();
-    }
+  MainWindowProducer::produceView() {
+    m_mainWindow = new Views::MainWindow();
+    m_mainWindow->show();
+  }
+
+  void
+  MainWindowProducer::dismissGui() {
+    m_mainWindow->close();
   }
 }

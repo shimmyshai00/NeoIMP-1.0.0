@@ -21,17 +21,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "SDF/Editor/UILayer/getComponent.hpp"
+#include "SDF/getComponent.hpp"
 
 #include <fruit/fruit.h>
 #include <memory>
 
 int
 main(int argc, char **argv) {
-  fruit::Injector<SDF::Editor::UILayer::IApplication> appInjector(
-    SDF::Editor::UILayer::getComponent);
-  SDF::Editor::UILayer::IApplication *application(
-    appInjector.get<SDF::Editor::UILayer::IApplication *>());
+  fruit::Injector<SDF::IApplication> appInjector(SDF::getComponent);
+  SDF::IApplication *application(appInjector.get<SDF::IApplication *>());
 
   return application->exec(argc, argv);
 }

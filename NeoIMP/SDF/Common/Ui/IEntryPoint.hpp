@@ -1,9 +1,12 @@
+#ifndef SDF_COMMON_UI_IENTRYPOINT_HPP
+#define SDF_COMMON_UI_IENTRYPOINT_HPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnNew.cpp
- * PURPOSE: Implements the OnNew class.
+ * FILE:    IEntryPoint.hpp
+ * PURPOSE: Defines the IEntryPoint interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,18 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "OnNew.hpp"
+namespace SDF::Common::Ui {
+  // Class:      IEntryPoint
+  // Purpose:    Defines the entry point to a UI layer.
+  // Parameters: None.
+  class IEntryPoint {
+  public:
+    virtual ~IEntryPoint() = default;
 
-namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnNew::OnNew(IViewProducer<> *a_newPromptProducer)
-    : m_newPromptProducer(a_newPromptProducer)
-  {
-  }
-
-  void
-  OnNew::onTrigger() {
-    if(m_newPromptProducer != nullptr) {
-      m_newPromptProducer->produceView();
-    }
-  }
+    // Function:   enterUi
+    // Purpose:    Enters the UI for the program module.
+    // Parameters: None.
+    // Returns:    None.
+    virtual void
+    enterUi() = 0;
+  };
 }
+
+#endif

@@ -23,9 +23,9 @@
 
 #include "NewDocumentDialog.hpp"
 
-#include "Resources/ui_NewDocumentDialog.h"
+#include "../../../../AbstractModel/Defs/bounds.hpp"
 
-#include "../../../AbstractModel/Defs/bounds.hpp"
+#include "../Resources/ui_NewDocumentDialog.h"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
   static const std::string g_bkgPresetNames[AbstractModel::Defs::PRE_BACKGROUND_MAX] = {
@@ -47,7 +47,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
     };
 }
 
-namespace SDF::Editor::UILayer::Gui::View::Qt {
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   NewDocumentDialog::NewDocumentDialog(
     AbstractModel::Metrics::IConvertLengthService *convertLengthService,
     AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,

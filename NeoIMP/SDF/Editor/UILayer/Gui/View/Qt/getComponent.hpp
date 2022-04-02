@@ -24,15 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "ServiceDeps.hpp"
-
-#include "../../IViewManager.hpp"
+#include "../../Controller/IViewProducer.hpp"
 #include "../ViewType.hpp"
 
 #include <fruit/fruit.h>
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
-  typedef fruit::Component<ServiceDeps, IViewManager<ViewType>> Component;
+  typedef fruit::Component<Controller::IViewProducer<>> Component;
 
   Component
   getComponent();

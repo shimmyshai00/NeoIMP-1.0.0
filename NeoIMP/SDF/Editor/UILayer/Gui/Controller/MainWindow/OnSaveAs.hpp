@@ -25,8 +25,7 @@
  */
 
 #include "../../View/IController.hpp"
-#include "../../View/ViewType.hpp"
-#include "../../IViewManager.hpp"
+#include "../IViewProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Class:      OnSaveAs
@@ -34,12 +33,12 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnSaveAs : public View::IController<> {
   public:
-    OnSaveAs(IViewManager<View::ViewType> *a_viewManager);
+    OnSaveAs(IViewProducer<> *a_filePromptProducer);
 
     void
     onTrigger();
   private:
-    IViewManager<View::ViewType> *m_viewManager;
+    IViewProducer<> *m_filePromptProducer;
   };
 }
 

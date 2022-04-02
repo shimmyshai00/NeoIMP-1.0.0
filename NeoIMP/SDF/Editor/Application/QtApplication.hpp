@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_IAPPLICATION_HPP
-#define SDF_EDITOR_UILAYER_IAPPLICATION_HPP
+#ifndef SDF_EDITOR_APPLICATION_QTAPPLICATION_HPP
+#define SDF_EDITOR_APPLICATION_QTAPPLICATION_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    IApplication.hpp
- * PURPOSE: Defines the IApplication interface.
+ * FILE:    QtApplication.hpp
+ * PURPOSE: Defines the QtApplication class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,23 +24,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SDF::Editor::UILayer {
-  // Class:      IApplication
-  // Purpose:    Defines the interface for the top-level application object. Different UI packages
-  //             (Qt, wxWidgets, etc.) may require their own special initialization, thus we may
-  //             need a different application object for each.
-  // Parameters: None.
-  class IApplication {
-  public:
-    virtual ~IApplication() = default;
+#include "../../Common/Ui/IEntryPoint.hpp"
+#include "../../IApplication.hpp"
 
-    // Function:   exec
-    // Purpose:    Execute the application.
-    // Parameters: argc - Same as the parameter passed to main().
-    //             argv - Same as the parameter passed to main().
-    // Returns:    The program exit code.
-    virtual int
-    exec(int argc, char **argv) = 0;
+#include <fruit/fruit.h>
+
+namespace SDF::Editor::Application {
+  // Class:      QtApplication
+  // Purpose:    Defines the application object for the Qt widget system. Note that this cannot
+  //             accept a different IEntryPoint than the one matched for it; unfortunately this
+  //             structure of the 3rd party libraries is where the try-to-be-tidy abstraction system
+  //             we make breaks down a bit.
+  // Parameters: None.
+  class QtApplication : public IApplication {
+  public:
+    INJECT(QtApplication(Common::Ui::IEntryPoint *a_uiEntryPoint));
+
+    int
+    exec(int argc, char **argv);
+  private:
+    Common::Ui::IEntryPoint *m_uiEntryPoint;
   };
 }
 

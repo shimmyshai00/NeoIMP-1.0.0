@@ -23,12 +23,15 @@
 
 #include "getComponent.hpp"
 
-#include "ViewManager.hpp"
+#include "../../../../ModelLayer/getComponent.hpp"
+
+#include "ViewProducers/MainWindowProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   Component
   getComponent() {
     return fruit::createComponent()
-      .bind<IViewManager<ViewType>, ViewManager>();
+      .bind<Controller::IViewProducer<>, ViewProducers::MainWindowProducer>()
+      .install(ModelLayer::getComponent);
   }
 }
