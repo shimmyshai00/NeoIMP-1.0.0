@@ -2,8 +2,8 @@
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    getComponent.cpp
- * PURPOSE: Implements the DI component for the Qt-based view subsystem.
+ * FILE:    NewDocumentDialogProducer.cpp
+ * PURPOSE: Implements the NewDocumentDialogProducer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "getComponent.hpp"
+#include "NewDocumentDialogProducer.hpp"
 
-#include "../../../../ModelLayer/getComponent.hpp"
+#include "../Views/NewDocumentDialog.hpp"
 
-#include "ViewProducers/ProducerFactory.hpp"
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
+  NewDocumentDialogProducer::NewDocumentDialogProducer(deps_t a_deps, QPointer<QWidget> a_parent)
+    : m_services(a_deps),
+      m_parent(a_parent)
+  {
+  }
 
-#include "ViewProducers/MainWindowProducer.hpp"
-#include "ViewProducers/NewDocumentDialogProducer.hpp"
-
-namespace SDF::Editor::UILayer::Gui::View::Qt {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IViewProducer<>, ViewProducers::MainWindowProducer>()
-      .registerFactory<
-        ViewProducers::ProducerFactorySig<ViewProducers::NewDocumentDialogProducer, QWidget *>
-       >([](ViewProducers::NewDocumentDialogProducer::deps_t b_deps, QWidget *b_parent) {
-         return std::make_unique<ViewProducers::NewDocumentDialogProducer>(b_deps, b_parent);
-       })
-      .install(ModelLayer::getComponent);
+  void
+  NewDocumentDialogProducer::produceView() {
+    if(!m_newDocumentDialog) {
+      m_newDocumentDialog = new Views::NewDocumentDialog(m_services, m_parent);
+      m_newDocumentDialog->setAttribute(::Qt::WA_DeleteOnClose);
+      m_newDocumentDialog->show();
+    }
   }
 }

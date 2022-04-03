@@ -26,6 +26,7 @@
 
 #include "../Defs/IUnitConvertible.hpp"
 #include "../Defs/LengthUnit.hpp"
+#include "../Defs/ResolutionUnit.hpp"
 
 #include <memory>
 

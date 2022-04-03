@@ -27,12 +27,43 @@
 #include <memory>
 
 namespace SDF::Common {
+  // Interfaces based on return type
+  template<class ObjT, class ... Args>
+  class IFactoryP {
+  public:
+    virtual ~IFactoryP() = default;
+
+    virtual ObjT *
+    create(Args... a_args) = 0;
+  };
+
+  template<class ObjT, class ... Args>
+  class IFactoryU {
+  public:
+    virtual ~IFactoryU() = default;
+
+    virtual std::unique_ptr<ObjT>
+    createU(Args... a_args) = 0;
+  };
+
+  template<class ObjT, class ... Args>
+  class IFactoryS {
+  public:
+    virtual ~IFactoryS() = default;
+
+    virtual std::shared_ptr<ObjT>
+    createS(Args... a_args) = 0;
+  };
+
   // Class:      AFactory
   // Purpose:    Defines a base class for objects which construct other objects.
   // Parameters: ObjT - The type of object constructed.
   //             Args - The arguments required for the construction.
   template<class ObjT, class ... Args>
-  class AFactory {
+  class AFactory : public IFactoryP<ObjT, Args...>,
+                   public IFactoryU<ObjT, Args...>,
+                   public IFactoryS<ObjT, Args...>
+  {
   public:
     virtual ~AFactory() = default;
 

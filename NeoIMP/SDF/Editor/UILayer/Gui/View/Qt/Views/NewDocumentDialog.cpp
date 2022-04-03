@@ -48,19 +48,10 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Impl {
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
-  NewDocumentDialog::NewDocumentDialog(
-    AbstractModel::Metrics::IConvertLengthService *convertLengthService,
-    AbstractModel::Metrics::IConvertResolutionService *convertResolutionService,
-    AbstractModel::Create::IGetDocumentPrefabService *getDocumentPrefabService,
-    AbstractModel::Create::IGetMemoryRequirementsService *getMemoryRequirementsService,
-    QWidget *parent
-  )
+  NewDocumentDialog::NewDocumentDialog(deps_t deps, QWidget *parent)
     : QDialog(parent),
       m_ui(new Ui::NewDocumentDialog),
-      m_convertLengthService(convertLengthService),
-      m_convertResolutionService(convertResolutionService),
-      m_getDocumentPrefabService(getDocumentPrefabService),
-      m_getMemoryRequirementsService(getMemoryRequirementsService)
+      m_services(deps)
   {
     using namespace AbstractModel;
     using namespace CustomWidgets;
@@ -68,9 +59,12 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     m_ui->setupUi(this);
 
     // Inject service into widgets.
-    m_ui->widthSelector->setConversionServices(m_convertLengthService, m_convertResolutionService);
-    m_ui->heightSelector->setConversionServices(m_convertLengthService, m_convertResolutionService);
-    m_ui->resolutionSelector->setConversionService(m_convertResolutionService);
+    m_ui->widthSelector->setConversionServices(m_services.get<Metrics::IConvertLengthService>(),
+      m_services.get<Metrics::IConvertResolutionService>());
+    m_ui->heightSelector->setConversionServices(m_services.get<Metrics::IConvertLengthService>(),
+      m_services.get<Metrics::IConvertResolutionService>());
+    m_ui->resolutionSelector->setConversionService(
+      m_services.get<Metrics::IConvertResolutionService>());
 
     // Set constraints
     m_ui->widthSelector->setMinLimit(1.0f, Defs::LENGTH_UNIT_PIXEL);
@@ -124,11 +118,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), showSubFormats);
 
     // Preset selection.
-    std::vector<Common::Handle> prefabHandles(m_getDocumentPrefabService->getAvailablePrefabs());
+    std::vector<Common::Handle> prefabHandles(m_services.get<Create::IGetDocumentPrefabService>()->
+      getAvailablePrefabs());
     for(const auto &h : prefabHandles) {
       // NB: unsafe cast? e.g. if def'n of SDF::Common::Handle changes
       m_ui->presetSelector->addItem(
-        QString::fromStdString(m_getDocumentPrefabService->getPrefabName(h)), (unsigned int)h);
+        QString::fromStdString(m_services.get<Create::IGetDocumentPrefabService>()->getPrefabName(
+          h)), (unsigned int)h);
     }
 
     // NB: definitely unsafe
@@ -154,8 +150,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
 
     // Size calculator.
     auto recalculateSize = [&, createSpec]() {
-      std::size_t memReq = m_getMemoryRequirementsService->getMemoryRequiredForOneLayer(
-        createSpec());
+      std::size_t memReq = m_services.get<Create::IGetMemoryRequirementsService>()->
+        getMemoryRequiredForOneLayer(createSpec());
       double memReqMiB = (0.0 + memReq) / 1048576.0;
 
       m_ui->memoryReqIndicator->setText(
@@ -170,8 +166,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     auto presetSelHandler = [&, recalculateSize](int index) {
       Common::Handle handle(m_ui->presetSelector->itemData(index).toUInt());
       if(handle != Common::HANDLE_INVALID) { // checks for the custom spot, i.e. no prefab
-        AbstractModel::Defs::ImageSpec presetSpec(m_getDocumentPrefabService->getPrefabSpec(
-          handle));
+        AbstractModel::Defs::ImageSpec presetSpec(
+          m_services.get<Create::IGetDocumentPrefabService>()->getPrefabSpec(handle)
+        );
 
         m_ui->widthSelector->setReferenceResolutionUnit(presetSpec.resolutionUnit);
         m_ui->widthSelector->setReferenceResolution(presetSpec.resolution);

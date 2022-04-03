@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_NEWDOCUMENTDIALOG_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_NEWDOCUMENTDIALOG_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_NEWDOCUMENTDIALOGPRODUCER_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_NEWDOCUMENTDIALOGPRODUCER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    NewDocumentDialog.hpp
- * PURPOSE: Defines the NewDocumentDialog class.
+ * FILE:    NewDocumentDialogProducer.hpp
+ * PURPOSE: Defines the NewDocumentDialogProducer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -25,29 +25,23 @@
  */
 
 #include "../../../../../../Common/Model/ServicePack.hpp"
-#include "../../../../../../Common/IConnection.hpp"
-#include "../../IController.hpp"
 
-#include "../../../../AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 #include "../../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
 #include "../../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
-//#include "../../Controller/NewDocumentDialog/Accept.hpp"
-#include "../QtEvent.hpp"
 
-#include <QDialog>
+#include "../../../Controller/IViewProducer.hpp"
+#include "../Views/NewDocumentDialog.hpp"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class NewDocumentDialog; }
-QT_END_NAMESPACE
+#include <QPointer>
+#include <QWidget>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
-  // Class:      NewDocumentDialog
-  // Purpose:    Implements the new-document dialog using Qt.
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
+  // Class:      NewDocumentDialogProducer
+  // Purpose:    Produces a new-document dialog.
   // Parameters: None.
-  class NewDocumentDialog : public QDialog {
-    Q_OBJECT
+  class NewDocumentDialogProducer : public Controller::IViewProducer<> {
   public:
     typedef Common::Model::ServicePack<
       AbstractModel::Metrics::IConvertLengthService,
@@ -56,21 +50,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
       AbstractModel::Create::IGetMemoryRequirementsService
     > deps_t;
   public:
-    NewDocumentDialog(deps_t deps, QWidget *parent = nullptr);
-    ~NewDocumentDialog();
+    INJECT(NewDocumentDialogProducer(deps_t a_deps, QPointer<QWidget> a_parent));
 
-    Common::PIConnection
-    hookOnAccept(std::unique_ptr<IController<AbstractModel::Defs::ImageSpec>> controller);
-
-    Common::PIConnection
-    hookOnReject(std::unique_ptr<IController<>> controller);
+    void
+    produceView();
   private:
-    Ui::NewDocumentDialog *m_ui;
-
-    QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
-    QtEvent<> m_onRejectEvent;
-
     deps_t m_services;
+
+    QPointer<QWidget> m_parent;
+    QPointer<Views::NewDocumentDialog> m_newDocumentDialog;
   };
 }
 

@@ -1,9 +1,12 @@
+#ifndef SDF_COMMON_MODEL_SERVICEPACK_TPP
+#define SDF_COMMON_MODEL_SERVICEPACK_TPP
+
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    getComponent.cpp
- * PURPOSE: Implements the DI component for the Qt-based view subsystem.
+ * FILE:    ServicePack.tpp
+ * PURPOSE: Implements the ServicePack template.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -21,25 +24,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "getComponent.hpp"
+#include <boost/mp11/integral.hpp>
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/algorithm.hpp>
 
-#include "../../../../ModelLayer/getComponent.hpp"
+namespace SDF::Common::Model {
+  template<class ... Ss>
+  ServicePack<Ss...>::ServicePack(Ss *... as_services)
+    : m_serviceTuple(as_services...)
+  {
+  }
 
-#include "ViewProducers/ProducerFactory.hpp"
+  template<class ... Ss>
+  template<class ... Supers>
+  ServicePack<Ss...>::ServicePack(const ServicePack<Supers...> &superPack)
+    : m_serviceTuple(
+        std::get<boost::mp11::mp_find<tuple_t, Ss *>::value>(superPack.m_serviceTuple)...
+      )
+  {
+  }
 
-#include "ViewProducers/MainWindowProducer.hpp"
-#include "ViewProducers/NewDocumentDialogProducer.hpp"
-
-namespace SDF::Editor::UILayer::Gui::View::Qt {
-  Component
-  getComponent() {
-    return fruit::createComponent()
-      .bind<Controller::IViewProducer<>, ViewProducers::MainWindowProducer>()
-      .registerFactory<
-        ViewProducers::ProducerFactorySig<ViewProducers::NewDocumentDialogProducer, QWidget *>
-       >([](ViewProducers::NewDocumentDialogProducer::deps_t b_deps, QWidget *b_parent) {
-         return std::make_unique<ViewProducers::NewDocumentDialogProducer>(b_deps, b_parent);
-       })
-      .install(ModelLayer::getComponent);
+  template<class... Ss>
+  template<class S>
+  S *
+  ServicePack<Ss...>::get() const {
+    return std::get<boost::mp11::mp_find<tuple_t, S *>::value>(m_serviceTuple);
   }
 }
+
+#endif

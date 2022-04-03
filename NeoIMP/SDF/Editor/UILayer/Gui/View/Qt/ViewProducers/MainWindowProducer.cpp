@@ -23,23 +23,34 @@
 
 #include "MainWindowProducer.hpp"
 
+#include "../../../Controller/MainWindow/OnNew.hpp"
 #include "../../../Controller/MainWindow/OnExit.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
-  MainWindowProducer::MainWindowProducer() {
+  MainWindowProducer::MainWindowProducer(
+    ProducerFactory<NewDocumentDialogProducer, QWidget *> a_newDocumentDialogProducerFactory
+  )
+    : m_newDocumentDialogProducerFactory(a_newDocumentDialogProducerFactory)
+  {
   }
 
   void
   MainWindowProducer::produceView() {
     using namespace Controller::MainWindow;
 
-    m_mainWindow = new Views::MainWindow();
+    if(!m_mainWindow) {
+      m_mainWindow = new Views::MainWindow();
 
-    auto onExitController = std::make_unique<OnExit>(this);
+      m_newDocumentDialogProducer = m_newDocumentDialogProducerFactory(m_mainWindow);
 
-    m_mainWindow->hookOnExit(std::move(onExitController))->connect();
+      auto onNewController = std::make_unique<OnNew>(m_newDocumentDialogProducer.get());
+      auto onExitController = std::make_unique<OnExit>(this);
 
-    m_mainWindow->show();
+      m_mainWindow->hookOnNew(std::move(onNewController))->connect();
+      m_mainWindow->hookOnExit(std::move(onExitController))->connect();
+
+      m_mainWindow->show();
+    }
   }
 
   void

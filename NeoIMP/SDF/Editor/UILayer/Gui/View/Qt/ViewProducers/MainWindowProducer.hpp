@@ -29,6 +29,9 @@
 
 #include "../Views/MainWindow.hpp"
 
+#include "ProducerFactory.hpp"
+#include "NewDocumentDialogProducer.hpp"
+
 #include <fruit/fruit.h>
 
 #include <QPointer>
@@ -37,19 +40,17 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   // Class:      MainWindowProducer
   // Purpose:    Produces the main window. The view producers form a hierarchical structure which
   //             mirrors and encodes the compositional layout of the GUI, because each producer
-  //             will need to satisfy the requirements of its dependent's controllers and such and
-  //             thus the children producers which those controllers want must ultimately be spawned
-  //             by the parent producer as well. The producer for the main window sits at the root
-  //             of the hierarchy and thus must receive *all* the services the lower downs depend
-  //             on in its INJECT constructor as well so they can percolate down as needed to ensure
-  //             all those dependencies are satisfied. Generally, higher-up producers thus should
-  //             expect more service dependencies than lower-down ones.
+  //             will need to satisfy the requirements of its dependent's controllers - most notably
+  //             the parent view - and thus the children producers which those controllers want must
+  //             ultimately be spawned by the parent producer as well.
   // Parameters: None.
   class MainWindowProducer : public Controller::IViewProducer<>,
                              public Controller::IGuiDismisser
   {
   public:
-    INJECT(MainWindowProducer());
+    INJECT(MainWindowProducer(
+      ProducerFactory<NewDocumentDialogProducer, QWidget *> a_newDocumentDialogProducerFactory
+    ));
 
     void
     produceView();
@@ -57,7 +58,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
     void
     dismissGui();
   private:
+    ProducerFactory<NewDocumentDialogProducer, QWidget *> m_newDocumentDialogProducerFactory;
+
     QPointer<Views::MainWindow> m_mainWindow;
+
+    std::unique_ptr<NewDocumentDialogProducer> m_newDocumentDialogProducer;
   };
 }
 
