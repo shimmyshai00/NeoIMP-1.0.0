@@ -63,8 +63,6 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     using namespace CustomWidgets;
 
     m_ui->setupUi(this);
-    m_backgroundSwatch = new Color::ColorSwatch(m_services.get<IUiColorConversionService>(), this);
-    m_backgroundSwatch->hide();
 
     // Inject service into widgets.
     m_ui->widthSelector->setConversionServices(m_services.get<Metrics::IConvertLengthService>(),
@@ -128,29 +126,47 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     // Connect widgets to either view adjustment or else to controllers.
     connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChangedByUser, [&](float quantity) {
       m_protoSpec.width = quantity;
+
+      onDeviatedFromPreset();
+      calculateSizeRequired();
     });
     connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser),
     [&](LengthUnit unit) {
       m_protoSpec.width = m_ui->widthSelector->quantity();
       m_protoSpec.widthUnit = unit;
+
+      onDeviatedFromPreset();
+      calculateSizeRequired();
     });
     connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChangedByUser, [&](float quantity) {
       m_protoSpec.height = quantity;
+
+      onDeviatedFromPreset();
+      calculateSizeRequired();
     });
     connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser),
     [&](LengthUnit unit) {
-      m_protoSpec.height = m_ui->widthSelector->quantity();
+      m_protoSpec.height = m_ui->heightSelector->quantity();
       m_protoSpec.heightUnit = unit;
+
+      onDeviatedFromPreset();
+      calculateSizeRequired();
     });
     connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChangedByUser,
     [&](float quantity) {
       m_protoSpec.resolution = quantity;
+
+      onDeviatedFromPreset();
+      calculateSizeRequired();
     });
     connect(m_ui->resolutionSelector,
       QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChangedByUser),
       [&](ResolutionUnit unit) {
         m_protoSpec.resolution = m_ui->resolutionSelector->quantity();
         m_protoSpec.resolutionUnit = unit;
+
+        onDeviatedFromPreset();
+        calculateSizeRequired();
       });
 
     connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), this,
@@ -170,44 +186,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     connect(m_ui->presetSelector, QOverload<int>::of(&QComboBox::activated), this,
       &NewDocumentDialog::adjustSettingsToPreset);
 
-    connect(this, &NewDocumentDialog::accepted, [&]() { m_onAcceptEvent.trigger(m_protoSpec); });
-    connect(this, &NewDocumentDialog::rejected, [&]() { m_onRejectEvent.trigger(); });
-
-    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChangedByUser, this,
-      &NewDocumentDialog::onDeviatedFromPreset);
-    connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser), this,
-      &NewDocumentDialog::onDeviatedFromPreset);
-    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChangedByUser, this,
-      &NewDocumentDialog::onDeviatedFromPreset);
-    connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser), this,
-      &NewDocumentDialog::onDeviatedFromPreset);
-    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChangedByUser, this,
-      &NewDocumentDialog::onDeviatedFromPreset);
-    connect(m_ui->resolutionSelector,
-      QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChangedByUser), this,
-      &NewDocumentDialog::onDeviatedFromPreset);
     connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), this,
       &NewDocumentDialog::onDeviatedFromPreset);
     connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::activated), this,
       &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->initialBackgroundSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
 
-    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChanged, this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChanged), this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChanged, this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChanged), this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged, this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->resolutionSelector,
-      QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged), this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-      &NewDocumentDialog::calculateSizeRequired);
-    connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-      &NewDocumentDialog::calculateSizeRequired);
+    connect(this, &NewDocumentDialog::accepted, [&]() { m_onAcceptEvent.trigger(m_protoSpec); });
+    connect(this, &NewDocumentDialog::rejected, [&]() { m_onRejectEvent.trigger(); });
 
     // Set default values.
     m_ui->presetSelector->setCurrentIndex(0);
