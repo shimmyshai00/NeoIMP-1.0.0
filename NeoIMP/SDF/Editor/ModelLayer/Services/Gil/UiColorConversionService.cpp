@@ -49,6 +49,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       UILayer::AbstractModel::Defs::Color::UiColorModel
     > &a_dstColor
   ) {
+    using namespace UILayer::AbstractModel::Defs::Color;
     using namespace UILayer::AbstractModel;
     using namespace DomainObjects;
 
@@ -58,7 +59,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
     // P.S. ugly - but we have to map ColorFormat to GIL formats SOMEWHERE ...
     switch(a_srcColor.getColorFormat()) {
-      case Defs::Color::COLOR_FMT_RGB24_888:
+      case COLOR_FMT_RGB24_888:
         doRgbPipeline<boost::gil::rgb8_pixel_t>(a_srcColor, a_dstColor); break;
       default:
         throw BadColorFormatException(a_srcColor.getColorFormat());

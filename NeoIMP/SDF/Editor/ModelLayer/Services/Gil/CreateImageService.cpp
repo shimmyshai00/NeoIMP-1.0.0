@@ -75,6 +75,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   ) const {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
+    using namespace DomainObjects::Engine::Gil;
     using namespace DomainObjects::Metrics;
     using namespace DomainObjects;
 
@@ -93,8 +94,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
 
       // What type to use depends on the color format.
       if(a_spec.colorFormat == COLOR_FMT_RGB24_888) {
-        return Engine::Gil::MemoryEstimator<Engine::Gil::RGB24_888_Image_Impl>::singleLayerEstimate(
-          widthPx, heightPx);
+        return MemoryEstimator<RGB24_888_Image_Impl>::singleLayerEstimate(widthPx, heightPx);
       } else {
         throw "NOT YET IMPLEMENTED";
       }
@@ -108,6 +108,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   CreateImageService::createFromSpec(const UILayer::AbstractModel::Defs::ImageSpec &a_spec) {
     using namespace UILayer::AbstractModel::Defs;
     using namespace UILayer::AbstractModel::Defs::Color;
+    using namespace DomainObjects::Engine::Gil;
     using namespace DomainObjects::Metrics;
     using namespace DomainObjects;
 
@@ -116,9 +117,9 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     Validators::SImageSpecValidationReport report;
     if(val.validate(a_spec, &report)) {
       // What type to use depends on the color format.
-      std::unique_ptr<Engine::Gil::Any_Image> image;
+      std::unique_ptr<Any_Image> image;
       if(a_spec.colorFormat == COLOR_FMT_RGB24_888) {
-        image = doConstructFromSpec<Engine::Gil::RGB24_888_Image_Impl>(a_spec);
+        image = doConstructFromSpec<RGB24_888_Image_Impl>(a_spec);
       } else {
         throw "NOT YET IMPLEMENTED";
       }

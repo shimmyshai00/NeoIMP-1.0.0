@@ -39,7 +39,8 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
   template<class GilSpecT>
   void
   Png::operator()(ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image) {
-    using namespace ModelLayer::DomainObjects;
+    using namespace ModelLayer::DomainObjects::Engine::Gil::Components::Content;
+    using namespace ModelLayer::DomainObjects::Engine::Image;
     using namespace boost::gil;
 
     // That potentially problematic domain-object creation business ...
@@ -58,8 +59,8 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
          (GilSpecT::bits_per_channel == backend._info._bit_depth))
       {
         // This format is congruent. Finish the loading process.
-        auto c = std::make_unique<Engine::Gil::Components::Content::Background<GilSpecT>>(
-          backend._info._width, backend._info._height, typename GilSpecT::bkg_pixel_t());
+        auto c = std::make_unique<Background<GilSpecT>>(backend._info._width, backend._info._height,
+          typename GilSpecT::bkg_pixel_t());
 
         read_view(m_fileSpec, c->getView(), png_tag());
 
@@ -69,7 +70,7 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Loaders {
           throw "NOT YET IMPLEMENTED";
         } else {
           // Create a new layer.
-          auto bkgLayer = std::make_unique<Engine::Image::Layer<GilSpecT>>();
+          auto bkgLayer = std::make_unique<Layer<GilSpecT>>();
           bkgLayer->setContentComponent(std::move(c));
 
           a_image.addLayer(std::move(bkgLayer));

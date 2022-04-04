@@ -39,10 +39,11 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
   template<class GilSpecT>
   void
   Png::operator()(const ModelLayer::DomainObjects::Engine::Image::Image<GilSpecT> &a_image) {
+    using namespace ModelLayer::DomainObjects::Engine::Gil::Components::Content;
     using namespace ModelLayer::DomainObjects;
     using namespace boost::gil;
 
-    const Engine::Gil::Components::Content::Background<GilSpecT> *bkgComponent(nullptr);
+    Background<GilSpecT> *bkgComponent(nullptr);
 
     // Sanity check
     if(image.getNumLayers() == 0) {
@@ -50,14 +51,12 @@ namespace SDF::Editor::DataLayer::DataMappers::Gil::Persisters {
     } else {
       // Validate the background layer structure.
       try {
-        bkgComponent = image
-          .getLayer(0)
-          .template getContentComponentAs<Engine::Gil::Components::Content::Background<GilSpecT>>();
+        bkgComponent = image.getLayer(0).template getContentComponentAs<Background<GilSpecT>>();
 
         if(bkgComponent == nullptr) {
           throw ImageLayerMissingContentException();
         }
-      } catch(ModelLayer::DomainObjects::BadComponentCastException) {
+      } catch(BadComponentCastException) {
         throw ImageMissingBackgroundLayerException();
       }
     }
