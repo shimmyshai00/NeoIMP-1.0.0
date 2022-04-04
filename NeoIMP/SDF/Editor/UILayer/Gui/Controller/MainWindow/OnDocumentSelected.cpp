@@ -26,17 +26,15 @@
 #include "../../state_keys.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnDocumentSelected::OnDocumentSelected(
-    AbstractModel::Editing::ISetActiveDocumentService *a_setActiveDocumentService
-  )
-    : m_setActiveDocumentService(a_setActiveDocumentService)
+  OnDocumentSelected::OnDocumentSelected(deps_t a_deps)
+    : m_services(a_deps)
   {
   }
 
   void
   OnDocumentSelected::onTrigger(Common::Handle a_documentHandle) {
-    if(m_setActiveDocumentService != nullptr) {
-      m_setActiveDocumentService->setActiveDocument(a_documentHandle);
-    }
+    using namespace AbstractModel::Editing;
+
+    m_services.get<ISetActiveDocumentService>()->setActiveDocument(a_documentHandle);
   }
 }

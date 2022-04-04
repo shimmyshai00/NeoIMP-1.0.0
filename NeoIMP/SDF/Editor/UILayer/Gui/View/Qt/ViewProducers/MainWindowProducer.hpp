@@ -29,6 +29,8 @@
 
 #include "../../../../AbstractModel/DocumentMgmt/IDocumentAddedService.hpp"
 #include "../../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
+#include "../../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
+#include "../../../../AbstractModel/Editing/ISetActiveDocumentService.hpp"
 
 #include "../../../Controller/IViewProducer.hpp"
 #include "../../../Controller/IGuiDismisser.hpp"
@@ -63,7 +65,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
       typename FileDialogProducer::deps_t,
       Common::Model::ServicePack< // our own dependencies
         AbstractModel::DocumentMgmt::IDocumentAddedService,
-        AbstractModel::Storage::IGetDocumentFileInfoService
+        AbstractModel::Storage::IGetDocumentFileInfoService,
+        AbstractModel::Editing::IGetActiveDocumentService,
+        AbstractModel::Editing::ISetActiveDocumentService
       >
     > deps_t;
   public:

@@ -25,6 +25,7 @@
 
 #include "producer_ids.hpp"
 
+#include "../../../Controller/MainWindow/OnDocumentSelected.hpp"
 #include "../../../Controller/MainWindow/OnNew.hpp"
 #include "../../../Controller/MainWindow/OnOpen.hpp"
 #include "../../../Controller/MainWindow/OnSaveAs.hpp"
@@ -94,12 +95,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
       auto *fileSaveAsDialogProducer = findChildById<FileDialogProducer>(
         MAIN_WINDOW_SAVE_AS_DIALOG_PRODUCER);
 
+      auto onDocumentSelectedController = std::make_unique<OnDocumentSelected>(m_services);
       auto onNewController = std::make_unique<OnNew>(newDocumentDialogProducer);
       auto onOpenController = std::make_unique<OnOpen>(fileOpenDialogProducer);
       auto onSaveAsController = std::make_unique<OnSaveAs>(fileSaveAsDialogProducer);
       auto onSaveController = std::make_unique<OnSave>(m_services, fileSaveAsDialogProducer);
       auto onExitController = std::make_unique<OnExit>(this);
 
+      m_mainWindow->hookOnDocumentSelected(std::move(onDocumentSelectedController))->connect();
       m_mainWindow->hookOnNew(std::move(onNewController))->connect();
       m_mainWindow->hookOnOpen(std::move(onOpenController))->connect();
       m_mainWindow->hookOnSaveAs(std::move(onSaveAsController))->connect();

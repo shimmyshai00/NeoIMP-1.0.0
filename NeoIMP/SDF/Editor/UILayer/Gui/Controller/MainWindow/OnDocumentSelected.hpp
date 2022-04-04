@@ -24,7 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Model/ServicePack.hpp"
 #include "../../../../../Common/Handle.hpp"
+
 #include "../../../AbstractModel/Editing/ISetActiveDocumentService.hpp"
 #include "../../View/IController.hpp"
 
@@ -34,14 +36,14 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnDocumentSelected : public View::IController<Common::Handle> {
   public:
-    OnDocumentSelected(
-      AbstractModel::Editing::ISetActiveDocumentService *a_setActiveDocumentService
-    );
+    typedef Common::Model::ServicePack<AbstractModel::Editing::ISetActiveDocumentService> deps_t;
+  public:
+    OnDocumentSelected(deps_t a_deps);
 
     void
     onTrigger(Common::Handle a_documentHandle);
   private:
-    AbstractModel::Editing::ISetActiveDocumentService *m_setActiveDocumentService;
+    deps_t m_services;
   };
 }
 
