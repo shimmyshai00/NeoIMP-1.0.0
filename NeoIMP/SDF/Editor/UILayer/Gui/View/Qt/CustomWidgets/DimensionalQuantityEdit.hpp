@@ -35,6 +35,9 @@
 
 #include <memory>
 
+Q_DECLARE_METATYPE(SDF::Editor::UILayer::AbstractModel::Defs::LengthUnit)
+Q_DECLARE_METATYPE(SDF::Editor::UILayer::AbstractModel::Defs::ResolutionUnit)
+
 namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
   namespace Impl {
     // Class:      DQESignalsSlots
@@ -67,17 +70,18 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets {
       void
       quantityChangedByUser(float quantity);
 
+      // Grr ... Qt MOC needs these fully expanded!
       void
-      unitChanged(AbstractModel::Defs::LengthUnit unit);
+      unitChanged(SDF::Editor::UILayer::AbstractModel::Defs::LengthUnit unit);
 
       void
-      unitChanged(AbstractModel::Defs::ResolutionUnit unit);
+      unitChanged(SDF::Editor::UILayer::AbstractModel::Defs::ResolutionUnit unit);
 
       void
-      unitChangedByUser(AbstractModel::Defs::LengthUnit unit);
+      unitChangedByUser(SDF::Editor::UILayer::AbstractModel::Defs::LengthUnit unit);
 
       void
-      unitChangedByUser(AbstractModel::Defs::ResolutionUnit unit);
+      unitChangedByUser(SDF::Editor::UILayer::AbstractModel::Defs::ResolutionUnit unit);
     };
   }
 

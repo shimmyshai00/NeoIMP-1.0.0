@@ -51,12 +51,20 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   NewDocumentDialog::NewDocumentDialog(deps_t deps, QWidget *parent)
     : QDialog(parent),
       m_ui(new Ui::NewDocumentDialog),
+      m_colorPickerLabel(nullptr),
+      m_backgroundSwatch(nullptr),
       m_services(deps)
   {
+    using namespace AbstractModel::Defs::Bounds;
+    using namespace AbstractModel::Defs::Color;
+    using namespace AbstractModel::Defs;
+    using namespace AbstractModel::Color;
     using namespace AbstractModel;
     using namespace CustomWidgets;
 
     m_ui->setupUi(this);
+    m_backgroundSwatch = new Color::ColorSwatch(m_services.get<IUiColorConversionService>(), this);
+    m_backgroundSwatch->hide();
 
     // Inject service into widgets.
     m_ui->widthSelector->setConversionServices(m_services.get<Metrics::IConvertLengthService>(),
@@ -67,14 +75,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
       m_services.get<Metrics::IConvertResolutionService>());
 
     // Set constraints
-    m_ui->widthSelector->setMinLimit(1.0f, Defs::LENGTH_UNIT_PIXEL);
-    m_ui->widthSelector->setMaxLimit(Defs::Bounds::MAX_IMAGE_WIDTH, Defs::LENGTH_UNIT_PIXEL);
+    m_ui->widthSelector->setMinLimit(1.0f, LENGTH_UNIT_PIXEL);
+    m_ui->widthSelector->setMaxLimit(MAX_IMAGE_WIDTH, LENGTH_UNIT_PIXEL);
 
-    m_ui->heightSelector->setMinLimit(1.0f, Defs::LENGTH_UNIT_PIXEL);
-    m_ui->heightSelector->setMaxLimit(Defs::Bounds::MAX_IMAGE_HEIGHT, Defs::LENGTH_UNIT_PIXEL);
+    m_ui->heightSelector->setMinLimit(1.0f, LENGTH_UNIT_PIXEL);
+    m_ui->heightSelector->setMaxLimit(MAX_IMAGE_HEIGHT, LENGTH_UNIT_PIXEL);
 
-    m_ui->resolutionSelector->setMinLimit(1.0f, Defs::RESOLUTION_UNIT_PPI);
-    m_ui->resolutionSelector->setMaxLimit(1000.0f, Defs::RESOLUTION_UNIT_PPI);
+    m_ui->resolutionSelector->setMinLimit(1.0f, RESOLUTION_UNIT_PPI);
+    m_ui->resolutionSelector->setMaxLimit(1000.0f, RESOLUTION_UNIT_PPI);
 
     // Connect resolution widget to width/height widgets.
     connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged,
@@ -90,32 +98,19 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
       m_ui->heightSelector, &LengthQuantityEdit::setReferenceResolutionUnit);
 
     // Populate dropdown boxes.
-    for(std::size_t i(0); i < AbstractModel::Defs::Color::COLOR_MODEL_MAX; ++i) {
+    for(std::size_t i(0); i < COLOR_MODEL_MAX; ++i) {
       m_ui->colorModelSelector->addItem(QString::fromStdString(
         View::Qt::Impl::g_colorModelNames[i]));
     }
 
-    for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
+    for(std::size_t i(0); i < NUM_RGB_FORMATS; ++i) {
       m_ui->bitDepthSelector->addItem(QString::fromStdString(View::Qt::Impl::g_rgbFamilyNames[i]));
     }
 
-    for(std::size_t i(0); i < AbstractModel::Defs::PRE_BACKGROUND_MAX; ++i) {
+    for(std::size_t i(0); i < PRE_BACKGROUND_MAX; ++i) {
       m_ui->initialBackgroundSelector->addItem(QString::fromStdString(
         View::Qt::Impl::g_bkgPresetNames[i]));
     }
-
-    // Color model selection.
-    auto showSubFormats = [&](int familyIndex) {
-      if(familyIndex == Defs::Color::COLOR_MODEL_RGB) {
-        m_ui->bitDepthSelector->clear();
-        for(std::size_t i(0); i < AbstractModel::Defs::Color::NUM_RGB_FORMATS; ++i) {
-          m_ui->bitDepthSelector->addItem(QString::fromStdString(
-            View::Qt::Impl::g_rgbFamilyNames[i]));
-        }
-      }
-    };
-
-    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), showSubFormats);
 
     // Preset selection.
     std::vector<Common::Handle> prefabHandles(m_services.get<Create::IGetDocumentPrefabService>()->
@@ -130,87 +125,93 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
     // NB: definitely unsafe
     m_ui->presetSelector->addItem("Custom", (unsigned int)Common::HANDLE_INVALID);
 
-    // Output synthesis.
-    auto createSpec = [&]() {
-      Defs::ImageSpec spec;
-      spec.width = m_ui->widthSelector->quantity();
-      spec.widthUnit = m_ui->widthSelector->unit();
-      spec.height = m_ui->heightSelector->quantity();
-      spec.heightUnit = m_ui->heightSelector->unit();
-      spec.resolution = m_ui->resolutionSelector->quantity();
-      spec.resolutionUnit = m_ui->resolutionSelector->unit();
-      spec.colorFormat = static_cast<Defs::Color::ColorFormat>(
-        m_ui->colorModelSelector->currentIndex()); // NB: BAD STUB
-      spec.backgroundPreset =
-        static_cast<Defs::BackgroundPreset>(m_ui->initialBackgroundSelector->currentIndex());
-      spec.backgroundColor = std::make_shared<Defs::Color::RGB24_888>(255, 255, 255);
-
-      return spec;
-    };
-
-    // Size calculator.
-    auto recalculateSize = [&, createSpec]() {
-      std::size_t memReq = m_services.get<Create::IGetMemoryRequirementsService>()->
-        getMemoryRequiredForOneLayer(createSpec());
-      double memReqMiB = (0.0 + memReq) / 1048576.0;
-
-      m_ui->memoryReqIndicator->setText(
-        QString::number(memReqMiB, 'f', 2) + QString(" ") + QString("MiB"));
-    };
-
-    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChanged, recalculateSize);
-    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChanged, recalculateSize);
-    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged, recalculateSize);
-
-    // Preset selection responder.
-    auto presetSelHandler = [&, recalculateSize](int index) {
-      Common::Handle handle(m_ui->presetSelector->itemData(index).toUInt());
-      if(handle != Common::HANDLE_INVALID) { // checks for the custom spot, i.e. no prefab
-        AbstractModel::Defs::ImageSpec presetSpec(
-          m_services.get<Create::IGetDocumentPrefabService>()->getPrefabSpec(handle)
-        );
-
-        m_ui->widthSelector->setReferenceResolutionUnit(presetSpec.resolutionUnit);
-        m_ui->widthSelector->setReferenceResolution(presetSpec.resolution);
-        m_ui->heightSelector->setReferenceResolutionUnit(presetSpec.resolutionUnit);
-        m_ui->heightSelector->setReferenceResolution(presetSpec.resolution);
-
-        m_ui->widthSelector->setUnit(presetSpec.widthUnit);
-        m_ui->widthSelector->setQuantity(presetSpec.width);
-        m_ui->heightSelector->setUnit(presetSpec.heightUnit);
-        m_ui->heightSelector->setQuantity(presetSpec.height);
-        m_ui->resolutionSelector->setUnit(presetSpec.resolutionUnit);
-        m_ui->resolutionSelector->setQuantity(presetSpec.resolution);
-        m_ui->colorModelSelector->setCurrentIndex(presetSpec.colorFormat); // NB: BAD STUB
-        m_ui->initialBackgroundSelector->setCurrentIndex(presetSpec.backgroundPreset);
-
-        recalculateSize();
-      }
-    };
-
-    connect(m_ui->presetSelector, QOverload<int>::of(&QComboBox::activated), presetSelHandler);
-
-    // Preset deselectors.
-    auto toCustom = [&]() {
-      m_ui->presetSelector->setCurrentIndex(m_ui->presetSelector->count()-1);
-    };
-
-    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChangedByUser, toCustom);
-    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChangedByUser, toCustom);
-    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChangedByUser, toCustom);
-    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), toCustom);
-    connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::activated), toCustom);
-
-    // Output command
-    connect(this, &NewDocumentDialog::accepted, [&, createSpec]() {
-      m_onAcceptEvent.trigger(createSpec());
+    // Connect widgets to either view adjustment or else to controllers.
+    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChangedByUser, [&](float quantity) {
+      m_protoSpec.width = quantity;
     });
+    connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser),
+    [&](LengthUnit unit) {
+      m_protoSpec.width = m_ui->widthSelector->quantity();
+      m_protoSpec.widthUnit = unit;
+    });
+    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChangedByUser, [&](float quantity) {
+      m_protoSpec.height = quantity;
+    });
+    connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser),
+    [&](LengthUnit unit) {
+      m_protoSpec.height = m_ui->widthSelector->quantity();
+      m_protoSpec.heightUnit = unit;
+    });
+    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChangedByUser,
+    [&](float quantity) {
+      m_protoSpec.resolution = quantity;
+    });
+    connect(m_ui->resolutionSelector,
+      QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChangedByUser),
+      [&](ResolutionUnit unit) {
+        m_protoSpec.resolution = m_ui->resolutionSelector->quantity();
+        m_protoSpec.resolutionUnit = unit;
+      });
 
+    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::setColorSubFormatsShown);
+    connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::getColorFormatFromBoxes);
+    connect(m_ui->initialBackgroundSelector, QOverload<int>::of(&QComboBox::activated),
+      [&](int index) {
+        m_protoSpec.backgroundPreset = static_cast<BackgroundPreset>(index);
+        if(index == PRE_BACKGROUND_CUSTOM) {
+          showColorSelector();
+        } else {
+          hideColorSelector();
+        }
+      }
+    );
+    connect(m_ui->presetSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::adjustSettingsToPreset);
+
+    connect(this, &NewDocumentDialog::accepted, [&]() { m_onAcceptEvent.trigger(m_protoSpec); });
     connect(this, &NewDocumentDialog::rejected, [&]() { m_onRejectEvent.trigger(); });
+
+    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChangedByUser, this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChangedByUser, this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChangedByUser), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChangedByUser, this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->resolutionSelector,
+      QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChangedByUser), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+    connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::activated), this,
+      &NewDocumentDialog::onDeviatedFromPreset);
+
+    connect(m_ui->widthSelector, &LengthQuantityEdit::quantityChanged, this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->widthSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChanged), this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->heightSelector, &LengthQuantityEdit::quantityChanged, this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->heightSelector, QOverload<LengthUnit>::of(&LengthQuantityEdit::unitChanged), this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->resolutionSelector, &ResolutionQuantityEdit::quantityChanged, this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->resolutionSelector,
+      QOverload<ResolutionUnit>::of(&ResolutionQuantityEdit::unitChanged), this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->colorModelSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+      &NewDocumentDialog::calculateSizeRequired);
+    connect(m_ui->bitDepthSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+      &NewDocumentDialog::calculateSizeRequired);
 
     // Set default values.
     m_ui->presetSelector->setCurrentIndex(0);
-    presetSelHandler(0);
+    m_ui->presetSelector->activated(0);
   }
 
   NewDocumentDialog::~NewDocumentDialog() {
@@ -227,5 +228,132 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   Common::PIConnection
   NewDocumentDialog::hookOnReject(std::unique_ptr<IController<>> controller) {
     return m_onRejectEvent.hook(std::move(controller));
+  }
+}
+
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
+  int
+  NewDocumentDialog::colorIndexIn(
+    const AbstractModel::Defs::Color::ColorFormat *a_formats,
+    int a_numFormats,
+    AbstractModel::Defs::Color::ColorFormat a_format
+  ) {
+    for(int i(0); i < a_numFormats; ++i) {
+      if(a_formats[i] == a_format) {
+        return i;
+      }
+    }
+
+    return a_numFormats;
+  }
+
+  void
+  NewDocumentDialog::setBoxesFromColorFormat(AbstractModel::Defs::Color::ColorFormat colorFormat) {
+    using namespace AbstractModel::Defs::Color;
+
+    if(colorFormat == COLOR_FMT_RGB24_888) { // TBA: || (... == COLOR_FMT_RGB36_121212), etc.
+      m_ui->bitDepthSelector->setCurrentIndex(colorIndexIn(g_colorFormatsByModel_Rgb,
+        NUM_RGB_FORMATS, colorFormat));
+    }
+  }
+}
+
+namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
+  void
+  NewDocumentDialog::setColorSubFormatsShown(int familyIndex) {
+    using namespace AbstractModel::Defs::Color;
+    using namespace Impl;
+
+    if(familyIndex == COLOR_MODEL_RGB) {
+      m_ui->bitDepthSelector->clear();
+      for(std::size_t i(0); i < NUM_RGB_FORMATS; ++i) {
+        m_ui->bitDepthSelector->addItem(QString::fromStdString(g_rgbFamilyNames[i]));
+      }
+    }
+  }
+
+  void
+  NewDocumentDialog::getColorFormatFromBoxes() {
+    using namespace AbstractModel::Defs::Color;
+
+    int familyIndex = m_ui->colorModelSelector->currentIndex();
+    int subFamilyIndex = m_ui->bitDepthSelector->currentIndex();
+
+    if(familyIndex == COLOR_MODEL_RGB) {
+      m_protoSpec.colorFormat = g_colorFormatsByModel_Rgb[subFamilyIndex];
+    }
+  }
+
+  void
+  NewDocumentDialog::calculateSizeRequired() {
+    using namespace AbstractModel::Create;
+
+    std::size_t memReq = m_services.get<IGetMemoryRequirementsService>()->
+      getMemoryRequiredForOneLayer(m_protoSpec);
+    double memReqMiB = (0.0 + memReq) / 1048576.0;
+
+    m_ui->memoryReqIndicator->setText(
+      QString::number(memReqMiB, 'f', 2) + QString(" ") + QString("MiB"));
+  }
+
+  void
+  NewDocumentDialog::showColorSelector() {
+    using namespace AbstractModel::Color;
+    using namespace CustomWidgets;
+
+    m_colorPickerLabel = new QLabel("Color:");
+    m_colorPickerLabel->setAlignment(::Qt::AlignCenter);
+
+    m_ui->horizontalLayout_4->insertWidget(1, m_colorPickerLabel);
+
+    m_backgroundSwatch = new Color::ColorSwatch(m_services.get<IUiColorConversionService>());
+    m_ui->horizontalLayout_4->insertWidget(2, m_backgroundSwatch);
+  }
+
+  void
+  NewDocumentDialog::hideColorSelector() {
+    if(m_backgroundSwatch != nullptr) {
+      m_ui->horizontalLayout_4->removeWidget(m_backgroundSwatch);
+      m_ui->horizontalLayout_4->removeWidget(m_colorPickerLabel);
+
+      delete m_backgroundSwatch;
+      delete m_colorPickerLabel;
+
+      m_backgroundSwatch = nullptr;
+      m_colorPickerLabel = nullptr;
+    }
+  }
+
+  void
+  NewDocumentDialog::onDeviatedFromPreset() {
+    // Select "custom" in the preset box.
+    m_ui->presetSelector->setCurrentIndex(m_ui->presetSelector->count()-1);
+  }
+
+  void
+  NewDocumentDialog::adjustSettingsToPreset(int which) {
+    using namespace AbstractModel::Create;
+    using namespace Common;
+
+    Handle handle(m_ui->presetSelector->itemData(which).toUInt());
+    if(handle != HANDLE_INVALID) { // checks for the custom spot, i.e. no prefab
+      m_protoSpec = m_services.get<IGetDocumentPrefabService>()->getPrefabSpec(handle);
+
+      m_ui->widthSelector->setReferenceResolutionUnit(m_protoSpec.resolutionUnit);
+      m_ui->widthSelector->setReferenceResolution(m_protoSpec.resolution);
+      m_ui->heightSelector->setReferenceResolutionUnit(m_protoSpec.resolutionUnit);
+      m_ui->heightSelector->setReferenceResolution(m_protoSpec.resolution);
+
+      m_ui->widthSelector->setUnit(m_protoSpec.widthUnit);
+      m_ui->widthSelector->setQuantity(m_protoSpec.width);
+      m_ui->heightSelector->setUnit(m_protoSpec.heightUnit);
+      m_ui->heightSelector->setQuantity(m_protoSpec.height);
+      m_ui->resolutionSelector->setUnit(m_protoSpec.resolutionUnit);
+      m_ui->resolutionSelector->setQuantity(m_protoSpec.resolution);
+      setBoxesFromColorFormat(m_protoSpec.colorFormat);
+      m_ui->initialBackgroundSelector->setCurrentIndex(m_protoSpec.backgroundPreset);
+
+      calculateSizeRequired();
+    }
   }
 }

@@ -59,7 +59,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::LengthQuantityEdit" name="widthSelector" native="true">
+      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::LengthQuantityEdit" name="widthSelector">
        <property name="toolTip">
         <string/>
        </property>
@@ -73,7 +73,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::LengthQuantityEdit" name="heightSelector" native="true">
+      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::LengthQuantityEdit" name="heightSelector">
        <property name="toolTip">
         <string/>
        </property>
@@ -87,7 +87,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ResolutionQuantityEdit" name="resolutionSelector" native="true">
+      <widget class="SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::ResolutionQuantityEdit" name="resolutionSelector">
        <property name="toolTip">
         <string/>
        </property>
@@ -139,7 +139,11 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QComboBox" name="initialBackgroundSelector"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QComboBox" name="initialBackgroundSelector"/>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>

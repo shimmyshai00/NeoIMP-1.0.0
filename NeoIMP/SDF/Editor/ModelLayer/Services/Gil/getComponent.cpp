@@ -30,6 +30,7 @@
 #include "RenderingService.hpp"
 #include "SaveDocumentService.hpp"
 #include "LoadDocumentService.hpp"
+#include "UiColorConversionService.hpp"
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   Component
@@ -45,6 +46,7 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       .bind<UILayer::AbstractModel::Storage::ILoadDocumentService, LoadDocumentService>()
       .bind<UILayer::AbstractModel::Editing::IGetDocumentNameService, GetDocumentInfoService>()
       .bind<UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService, GetDocumentInfoService>()
-      .bind<UILayer::AbstractModel::Viewing::IRenderingService, RenderingService>();
+      .bind<UILayer::AbstractModel::Viewing::IRenderingService, RenderingService>()
+      .bind<UILayer::AbstractModel::Color::IUiColorConversionService, UiColorConversionService>();
   }
 }

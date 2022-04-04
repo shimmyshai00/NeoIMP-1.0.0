@@ -40,6 +40,7 @@
 #include "../UILayer/AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
 #include "../UILayer/AbstractModel/Viewing/ISetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
+#include "../UILayer/AbstractModel/Color/IUiColorConversionService.hpp"
 #include "../UILayer/AbstractModel/Editing/IGetActiveDocumentService.hpp"
 #include "../UILayer/AbstractModel/Editing/ISetActiveDocumentService.hpp"
 #include "../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
@@ -64,6 +65,7 @@ namespace SDF::Editor::ModelLayer {
     UILayer::AbstractModel::Viewing::ISetViewYCoordinateService,
     UILayer::AbstractModel::Viewing::ISetViewCoordinatesService,
     UILayer::AbstractModel::Viewing::IRenderingService,
+    UILayer::AbstractModel::Color::IUiColorConversionService,
     UILayer::AbstractModel::Editing::IGetActiveDocumentService,
     UILayer::AbstractModel::Editing::ISetActiveDocumentService,
     UILayer::AbstractModel::Editing::IGetDocumentNameService

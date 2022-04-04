@@ -28,15 +28,20 @@
 #include "../../../../../../Common/IConnection.hpp"
 #include "../../IController.hpp"
 
+#include "../../../../AbstractModel/Defs/Color/ColorFormat.hpp"
 #include "../../../../AbstractModel/Defs/ImageSpec.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../../../../AbstractModel/Metrics/IConvertResolutionService.hpp"
 #include "../../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
 #include "../../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
+#include "../../../../AbstractModel/Color/IUiColorConversionService.hpp"
 //#include "../../Controller/NewDocumentDialog/Accept.hpp"
 #include "../QtEvent.hpp"
 
+#include "../CustomWidgets/Color/ColorSwatch.hpp"
+
 #include <QDialog>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NewDocumentDialog; }
@@ -53,7 +58,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
       AbstractModel::Metrics::IConvertLengthService,
       AbstractModel::Metrics::IConvertResolutionService,
       AbstractModel::Create::IGetDocumentPrefabService,
-      AbstractModel::Create::IGetMemoryRequirementsService
+      AbstractModel::Create::IGetMemoryRequirementsService,
+      AbstractModel::Color::IUiColorConversionService
     > deps_t;
   public:
     NewDocumentDialog(deps_t deps, QWidget *parent = nullptr);
@@ -67,10 +73,46 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   private:
     Ui::NewDocumentDialog *m_ui;
 
+    QLabel *m_colorPickerLabel;
+    CustomWidgets::Color::ColorSwatch *m_backgroundSwatch;
+
     QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
     QtEvent<> m_onRejectEvent;
 
     deps_t m_services;
+    AbstractModel::Defs::ImageSpec m_protoSpec;
+
+  private:
+    int
+    colorIndexIn(
+      const AbstractModel::Defs::Color::ColorFormat *a_formats,
+      int a_numFormats,
+      AbstractModel::Defs::Color::ColorFormat a_format
+    );
+
+    void
+    setBoxesFromColorFormat(AbstractModel::Defs::Color::ColorFormat colorFormat);
+  private slots:
+    void
+    setColorSubFormatsShown(int familyIndex);
+
+    void
+    getColorFormatFromBoxes();
+
+    void
+    calculateSizeRequired();
+
+    void
+    showColorSelector();
+
+    void
+    hideColorSelector();
+
+    void
+    onDeviatedFromPreset();
+
+    void
+    adjustSettingsToPreset(int which);
   };
 }
 

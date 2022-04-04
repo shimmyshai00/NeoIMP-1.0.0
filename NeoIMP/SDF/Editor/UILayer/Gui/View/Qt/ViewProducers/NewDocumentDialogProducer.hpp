@@ -33,6 +33,7 @@
 #include "../../../../AbstractModel/Create/IGetDocumentPrefabService.hpp"
 #include "../../../../AbstractModel/Create/IGetMemoryRequirementsService.hpp"
 #include "../../../../AbstractModel/Create/ICreateDocumentService.hpp"
+#include "../../../../AbstractModel/Color/IUiColorConversionService.hpp"
 
 #include "../../../Controller/IViewProducer.hpp"
 #include "../Views/NewDocumentDialog.hpp"
@@ -52,12 +53,14 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
                                     public Controller::IViewProducer<>
   {
   public:
+    // NB: just make union w/NewDocumentDialog itself
     typedef Common::Model::ServicePack<
       AbstractModel::Metrics::IConvertLengthService,
       AbstractModel::Metrics::IConvertResolutionService,
       AbstractModel::Create::IGetDocumentPrefabService,
       AbstractModel::Create::IGetMemoryRequirementsService,
-      AbstractModel::Create::ICreateDocumentService
+      AbstractModel::Create::ICreateDocumentService,
+      AbstractModel::Color::IUiColorConversionService
     > deps_t;
   public:
     NewDocumentDialogProducer(deps_t a_deps, Common::Handle a_id, AProducerNode *a_parent);

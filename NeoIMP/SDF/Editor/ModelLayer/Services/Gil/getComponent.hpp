@@ -34,6 +34,7 @@
 #include "../../../UILayer/AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
 #include "../../../UILayer/AbstractModel/Viewing/IRenderingService.hpp"
+#include "../../../UILayer/AbstractModel/Color/IUiColorConversionService.hpp"
 #include "../../DomainObjects/Engine/Gil/ImageTypes.hpp"
 #include "../../DomainObjects/Engine/Buffers/GridRendering.hpp"
 #include "../../AbstractData/IImageRetainer.hpp"
@@ -64,7 +65,8 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     UILayer::AbstractModel::Storage::ILoadDocumentService,
     UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
     UILayer::AbstractModel::Editing::IGetDocumentNameService,
-    UILayer::AbstractModel::Viewing::IRenderingService
+    UILayer::AbstractModel::Viewing::IRenderingService,
+    UILayer::AbstractModel::Color::IUiColorConversionService
   > Component;
 
   Component
