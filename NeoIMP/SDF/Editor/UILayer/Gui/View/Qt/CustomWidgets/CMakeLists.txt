@@ -1,4 +1,5 @@
 add_subdirectory(ImageEditor)
+add_subdirectory(Color)
 
 target_sources(neoimp PUBLIC
   DimensionalQuantityEdit.hpp
