@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Model/ServicePack.hpp"
+
 #include "../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
 
@@ -39,16 +41,17 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   // Parameters: None.
   class OnAccept_Save : public View::IController<std::string, std::size_t> {
   public:
-    OnAccept_Save(
-      AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
-      AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService
-    );
+    typedef Common::Model::ServicePack<
+      AbstractModel::Editing::IGetActiveDocumentService,
+      AbstractModel::Storage::ISaveDocumentService
+    > deps_t;
+  public:
+    OnAccept_Save(deps_t a_deps);
 
     void
     onTrigger(std::string a_fileSpec, std::size_t a_fileFormat);
   private:
-    AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
-    AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
+    deps_t m_services;
   };
 }
 

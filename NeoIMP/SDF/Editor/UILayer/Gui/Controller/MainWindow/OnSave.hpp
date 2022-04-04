@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Model/ServicePack.hpp"
+
 #include "../../../AbstractModel/Editing/IGetActiveDocumentService.hpp"
 #include "../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
 #include "../../../AbstractModel/Storage/ISaveDocumentService.hpp"
@@ -37,19 +39,18 @@ namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
   // Parameters: None.
   class OnSave : public View::IController<> {
   public:
-    OnSave(
-      AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
-      AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
-      AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
-      IViewProducer<> *a_filePromptProducer
-    );
+    typedef Common::Model::ServicePack<
+      AbstractModel::Editing::IGetActiveDocumentService,
+      AbstractModel::Storage::IGetDocumentFileInfoService,
+      AbstractModel::Storage::ISaveDocumentService
+    > deps_t;
+  public:
+    OnSave(deps_t a_deps, IViewProducer<> *a_filePromptProducer);
 
     void
     onTrigger();
   private:
-    AbstractModel::Editing::IGetActiveDocumentService *m_getActiveDocumentService;
-    AbstractModel::Storage::IGetDocumentFileInfoService *m_getDocumentFileInfoService;
-    AbstractModel::Storage::ISaveDocumentService *m_saveDocumentService;
+    deps_t m_services;
 
     IViewProducer<> *m_filePromptProducer;
   };

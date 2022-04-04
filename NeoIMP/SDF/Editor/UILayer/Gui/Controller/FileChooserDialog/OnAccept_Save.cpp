@@ -29,22 +29,23 @@
 #include "../../state_keys.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
-  OnAccept_Save::OnAccept_Save(
-    AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
-    AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService
-  )
-    : m_getActiveDocumentService(a_getActiveDocumentService),
-      m_saveDocumentService(a_saveDocumentService)
+  OnAccept_Save::OnAccept_Save(deps_t a_deps)
+    : m_services(a_deps)
   {
   }
 
   void
   OnAccept_Save::onTrigger(std::string a_fileSpec, std::size_t a_fileFormat) {
-    Common::Handle curSelectedDocument(m_getActiveDocumentService->getActiveDocument());
+    using namespace AbstractModel::Defs;
+    using namespace AbstractModel::Editing;
+    using namespace AbstractModel::Storage;
+    using namespace Common;
 
-    if(a_fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
-      m_saveDocumentService->saveDocument(curSelectedDocument, a_fileSpec,
-        static_cast<AbstractModel::Defs::FileFormat>(a_fileFormat));
+    Handle curSelectedDocument(m_services.get<IGetActiveDocumentService>()->getActiveDocument());
+
+    if(a_fileFormat < FILE_FORMAT_MAX) {
+      m_services.get<ISaveDocumentService>()->saveDocument(curSelectedDocument, a_fileSpec,
+        static_cast<FileFormat>(a_fileFormat));
     } else {
       throw Error::ErrMsgException("Unknown file format specified! Cannot save to that.");
     }

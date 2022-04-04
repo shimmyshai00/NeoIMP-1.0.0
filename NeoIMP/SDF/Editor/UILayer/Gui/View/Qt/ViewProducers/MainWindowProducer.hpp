@@ -24,13 +24,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../../Common/Model/ServicePack.hpp"
+#include "../../../../../../Common/IConnection.hpp"
+
+#include "../../../../AbstractModel/DocumentMgmt/IDocumentAddedService.hpp"
+#include "../../../../AbstractModel/Storage/IGetDocumentFileInfoService.hpp"
+
 #include "../../../Controller/IViewProducer.hpp"
 #include "../../../Controller/IGuiDismisser.hpp"
 
 #include "../Views/MainWindow.hpp"
 
-#include "ProducerFactory.hpp"
+#include "AProducerNode.hpp"
 #include "NewDocumentDialogProducer.hpp"
+#include "DocumentViewProducer.hpp"
+#include "FileDialogProducer.hpp"
 
 #include <fruit/fruit.h>
 
@@ -44,13 +52,32 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   //             the parent view - and thus the children producers which those controllers want must
   //             ultimately be spawned by the parent producer as well.
   // Parameters: None.
-  class MainWindowProducer : public Controller::IViewProducer<>,
+  class MainWindowProducer : public AProducerNode,
+                             public Controller::IViewProducer<>,
                              public Controller::IGuiDismisser
   {
   public:
-    INJECT(MainWindowProducer(
-      ProducerFactory<NewDocumentDialogProducer, QWidget *> a_newDocumentDialogProducerFactory
-    ));
+    typedef Common::Model::UnionPack<
+      typename NewDocumentDialogProducer::deps_t,
+      typename DocumentViewProducer::deps_t,
+      typename FileDialogProducer::deps_t,
+      Common::Model::ServicePack< // our own dependencies
+        AbstractModel::DocumentMgmt::IDocumentAddedService,
+        AbstractModel::Storage::IGetDocumentFileInfoService
+      >
+    > deps_t;
+  public:
+    INJECT(MainWindowProducer(deps_t a_deps));
+
+    MainWindowProducer(const MainWindowProducer &) = delete;
+    MainWindowProducer(MainWindowProducer &&) = delete;
+    MainWindowProducer &operator=(const MainWindowProducer &) = delete;
+    MainWindowProducer &operator=(MainWindowProducer &&) = delete;
+
+    ~MainWindowProducer();
+
+    QWidget *
+    getViewWidget();
 
     void
     produceView();
@@ -58,11 +85,13 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
     void
     dismissGui();
   private:
-    ProducerFactory<NewDocumentDialogProducer, QWidget *> m_newDocumentDialogProducerFactory;
+    deps_t m_services;
 
     QPointer<Views::MainWindow> m_mainWindow;
 
-    std::unique_ptr<NewDocumentDialogProducer> m_newDocumentDialogProducer;
+    Common::PIConnection m_documentAddedListenerConn;
+
+    class DocumentAddedListener;
   };
 }
 

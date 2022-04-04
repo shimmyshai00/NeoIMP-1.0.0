@@ -24,37 +24,40 @@
 #include "DocumentView.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
-  DocumentView::DocumentView(
-    AbstractModel::Metrics::IGetDocumentDimensionsService *getDocumentDimensionsService,
-    AbstractModel::Viewing::IAddViewService *addViewService,
-    AbstractModel::Viewing::IGetViewCoordinatesService *getViewCoordinatesService,
-    AbstractModel::Viewing::IRenderingService *renderingService,
-    Common::Handle documentHandle,
-    QWidget *parent
-  )
-    : QWidget(parent),
-      m_renderingService(renderingService),
-      m_documentHandle(documentHandle),
+  using namespace Common;
+  using namespace CustomWidgets;
+  using namespace AbstractModel::Metrics;
+  using namespace AbstractModel::Viewing;
+
+  DocumentView::DocumentView(deps_t a_deps, Handle a_documentHandle, QWidget *a_parent)
+    : QWidget(a_parent),
+      m_renderingService(a_deps.get<IRenderingService>()),
+      m_documentHandle(a_documentHandle),
       m_layout(new QGridLayout(this)),
-      m_imageEditorWidget(new CustomWidgets::ImageEditor::Widget(getDocumentDimensionsService,
-        addViewService, getViewCoordinatesService, renderingService, this))
+      m_imageEditorWidget(new ImageEditor::Widget(
+        a_deps.get<IGetDocumentDimensionsService>(),
+        a_deps.get<IAddViewService>(),
+        a_deps.get<IGetViewCoordinatesService>(),
+        a_deps.get<IRenderingService>(),
+        this
+      ))
   {
     m_layout->addWidget(m_imageEditorWidget, 0, 0);
-    m_imageEditorWidget->setEditedImage(documentHandle);
+    m_imageEditorWidget->setEditedImage(a_documentHandle);
   }
 
-  Common::Handle
+  Handle
   DocumentView::getDocumentHandle() const {
     return m_documentHandle;
   }
 
-  Common::PIConnection
-  DocumentView::hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> controller) {
-    return m_imageEditorWidget->hookOnHScroll(std::move(controller));
+  PIConnection
+  DocumentView::hookOnHScroll(std::unique_ptr<IController<Handle, float>> a_controller) {
+    return m_imageEditorWidget->hookOnHScroll(std::move(a_controller));
   }
 
-  Common::PIConnection
-  DocumentView::hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> controller) {
-    return m_imageEditorWidget->hookOnVScroll(std::move(controller));
+  PIConnection
+  DocumentView::hookOnVScroll(std::unique_ptr<IController<Handle, float>> a_controller) {
+    return m_imageEditorWidget->hookOnVScroll(std::move(a_controller));
   }
 }

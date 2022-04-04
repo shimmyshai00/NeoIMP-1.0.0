@@ -36,6 +36,14 @@ namespace SDF::Editor::ModelLayer::Services {
       .bind<
         Common::MessageSystem::IMessageDispatcher<Messages::ImageRemoved>,
         Common::MessageSystem::AllToAll<Messages::ImageRemoved>
+       >()
+      .bind<
+        Common::MessageSystem::ISubscribable<Messages::ImageAdded>,
+        Common::MessageSystem::AllToAll<Messages::ImageAdded>
+       >()
+      .bind<
+        Common::MessageSystem::ISubscribable<Messages::ImageRemoved>,
+        Common::MessageSystem::AllToAll<Messages::ImageRemoved>
        >();
   }
 }

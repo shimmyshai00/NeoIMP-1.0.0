@@ -23,15 +23,61 @@
 
 #include "MainWindowProducer.hpp"
 
+#include "producer_ids.hpp"
+
 #include "../../../Controller/MainWindow/OnNew.hpp"
+#include "../../../Controller/MainWindow/OnOpen.hpp"
+#include "../../../Controller/MainWindow/OnSaveAs.hpp"
+#include "../../../Controller/MainWindow/OnSave.hpp"
 #include "../../../Controller/MainWindow/OnExit.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
-  MainWindowProducer::MainWindowProducer(
-    ProducerFactory<NewDocumentDialogProducer, QWidget *> a_newDocumentDialogProducerFactory
-  )
-    : m_newDocumentDialogProducerFactory(a_newDocumentDialogProducerFactory)
+  // Listening facilities.
+  class MainWindowProducer::DocumentAddedListener : public Common::IListener<Common::Handle> {
+  public:
+    DocumentAddedListener(MainWindowProducer *a_outer) : m_outer(a_outer) {}
+
+    void
+    notify(Common::Handle a_handle) {
+      if(a_handle != Common::HANDLE_INVALID) {
+        auto documentViewProducer = new DocumentViewProducer(m_outer->m_services,
+          MAIN_WINDOW_DOCUMENT_VIEW_PRODUCERS_BEGIN + a_handle, m_outer, a_handle);
+
+        documentViewProducer->produceView();
+      }
+    }
+  private:
+    MainWindowProducer *m_outer;
+  };
+}
+
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
+  MainWindowProducer::MainWindowProducer(deps_t a_deps)
+    : AProducerNode(MAIN_WINDOW_PRODUCER, nullptr),
+      m_services(a_deps)
   {
+    using namespace AbstractModel::DocumentMgmt;
+
+    // Create producers for the new-document dialog, document views
+    auto *newDocumentDialogProducer = new NewDocumentDialogProducer(m_services,
+      MAIN_WINDOW_NEW_DOCUMENT_DIALOG_PRODUCER, this);
+    auto *fileOpenDialogProducer = new FileDialogProducer(m_services,
+      MAIN_WINDOW_OPEN_DIALOG_PRODUCER, this, FileDialogProducer::MODE_OPEN);
+    auto *fileSaveAsDialogProducer = new FileDialogProducer(m_services,
+      MAIN_WINDOW_SAVE_AS_DIALOG_PRODUCER, this, FileDialogProducer::MODE_SAVE);
+
+    m_documentAddedListenerConn = m_services.get<IDocumentAddedService>()->addListener(
+      std::make_unique<DocumentAddedListener>(this));
+    m_documentAddedListenerConn->connect();
+  }
+
+  MainWindowProducer::~MainWindowProducer() {
+    m_documentAddedListenerConn->disconnect();
+  }
+
+  QWidget *
+  MainWindowProducer::getViewWidget() {
+    return m_mainWindow;
   }
 
   void
@@ -41,12 +87,23 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
     if(!m_mainWindow) {
       m_mainWindow = new Views::MainWindow();
 
-      m_newDocumentDialogProducer = m_newDocumentDialogProducerFactory(m_mainWindow);
+      auto *newDocumentDialogProducer = findChildById<NewDocumentDialogProducer>(
+        MAIN_WINDOW_NEW_DOCUMENT_DIALOG_PRODUCER);
+      auto *fileOpenDialogProducer = findChildById<FileDialogProducer>(
+        MAIN_WINDOW_OPEN_DIALOG_PRODUCER);
+      auto *fileSaveAsDialogProducer = findChildById<FileDialogProducer>(
+        MAIN_WINDOW_SAVE_AS_DIALOG_PRODUCER);
 
-      auto onNewController = std::make_unique<OnNew>(m_newDocumentDialogProducer.get());
+      auto onNewController = std::make_unique<OnNew>(newDocumentDialogProducer);
+      auto onOpenController = std::make_unique<OnOpen>(fileOpenDialogProducer);
+      auto onSaveAsController = std::make_unique<OnSaveAs>(fileSaveAsDialogProducer);
+      auto onSaveController = std::make_unique<OnSave>(m_services, fileSaveAsDialogProducer);
       auto onExitController = std::make_unique<OnExit>(this);
 
       m_mainWindow->hookOnNew(std::move(onNewController))->connect();
+      m_mainWindow->hookOnOpen(std::move(onOpenController))->connect();
+      m_mainWindow->hookOnSaveAs(std::move(onSaveAsController))->connect();
+      m_mainWindow->hookOnSave(std::move(onSaveController))->connect();
       m_mainWindow->hookOnExit(std::move(onExitController))->connect();
 
       m_mainWindow->show();

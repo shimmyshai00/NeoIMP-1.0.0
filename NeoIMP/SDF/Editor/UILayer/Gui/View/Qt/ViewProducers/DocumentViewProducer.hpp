@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_DOCUMENTVIEW_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_DOCUMENTVIEW_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_DOCUMENTVIEWPRODUCER_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_DOCUMENTVIEWPRODUCER_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    DocumentView.hpp
- * PURPOSE: Defines the DocumentView class.
+ * FILE:    DocumentViewProducer.hpp
+ * PURPOSE: Defines the DocumentViewProducer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -26,45 +26,60 @@
 
 #include "../../../../../../Common/Model/ServicePack.hpp"
 #include "../../../../../../Common/Handle.hpp"
+
 #include "../../../../AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../../../../AbstractModel/Editing/IGetDocumentNameService.hpp"
 #include "../../../../AbstractModel/Viewing/IAddViewService.hpp"
 #include "../../../../AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
+#include "../../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
+#include "../../../../AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
 #include "../../../../AbstractModel/Viewing/IRenderingService.hpp"
-#include "../CustomWidgets/ImageEditor/Widget.hpp"
 
-#include <QWidget>
-#include <QGridLayout>
+#include "../../../Controller/IViewProducer.hpp"
 
-namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
-  // Class:      DocumentView
-  // Purpose:    Implements the Qt GUI's document view.
+#include "../Views/DocumentView.hpp"
+
+#include "AProducerNode.hpp"
+
+#include <QPointer>
+
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
+  // Class:      DocumentViewProducer
+  // Purpose:    Produces an editor view on an image document. Note that the parent must have a
+  //             Views::MainWindow view widget.
   // Parameters: None.
-  class DocumentView : public QWidget {
-    Q_OBJECT;
+  class DocumentViewProducer : public AProducerNode,
+                               public Controller::IViewProducer<>
+  {
   public:
     typedef Common::Model::ServicePack<
       AbstractModel::Metrics::IGetDocumentDimensionsService,
+      AbstractModel::Editing::IGetDocumentNameService,
       AbstractModel::Viewing::IAddViewService,
       AbstractModel::Viewing::IGetViewCoordinatesService,
+      AbstractModel::Viewing::ISetViewXCoordinateService,
+      AbstractModel::Viewing::ISetViewYCoordinateService,
       AbstractModel::Viewing::IRenderingService
     > deps_t;
   public:
-    DocumentView(deps_t a_deps, Common::Handle a_documentHandle, QWidget *a_parent = nullptr);
+    DocumentViewProducer(
+      deps_t a_deps,
+      Common::Handle a_id,
+      AProducerNode *a_parent,
+      Common::Handle a_documentHandle
+    );
 
-    Common::Handle
-    getDocumentHandle() const;
+    QWidget *
+    getViewWidget();
 
-    Common::PIConnection
-    hookOnHScroll(std::unique_ptr<IController<Common::Handle, float>> a_controller);
-
-    Common::PIConnection
-    hookOnVScroll(std::unique_ptr<IController<Common::Handle, float>> a_controller);
+    void
+    produceView();
   private:
-    AbstractModel::Viewing::IRenderingService *m_renderingService;
+    deps_t m_services;
+
     Common::Handle m_documentHandle;
 
-    QGridLayout *m_layout;
-    CustomWidgets::ImageEditor::Widget *m_imageEditorWidget;
+    QPointer<Views::DocumentView> m_documentView;
   };
 }
 

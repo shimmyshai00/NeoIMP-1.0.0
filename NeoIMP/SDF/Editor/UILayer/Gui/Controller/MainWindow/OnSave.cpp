@@ -26,34 +26,36 @@
 #include "../../../../../Error/UiException.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::MainWindow {
-  OnSave::OnSave(
-    AbstractModel::Editing::IGetActiveDocumentService *a_getActiveDocumentService,
-    AbstractModel::Storage::IGetDocumentFileInfoService *a_getDocumentFileInfoService,
-    AbstractModel::Storage::ISaveDocumentService *a_saveDocumentService,
-    IViewProducer<> *a_filePromptProducer
-  )
-    : m_getActiveDocumentService(a_getActiveDocumentService),
-      m_getDocumentFileInfoService(a_getDocumentFileInfoService),
-      m_saveDocumentService(a_saveDocumentService),
+  OnSave::OnSave(deps_t a_deps, IViewProducer<> *a_filePromptProducer)
+    : m_services(a_deps),
       m_filePromptProducer(a_filePromptProducer)
   {
   }
 
   void
   OnSave::onTrigger() {
-    Common::Handle activeDocumentHandle = m_getActiveDocumentService->getActiveDocument();
-    if(activeDocumentHandle == Common::HANDLE_INVALID) {
+    using namespace AbstractModel::Editing;
+    using namespace AbstractModel::Storage;
+    using namespace Common;
+
+    Handle activeDocumentHandle = m_services.get<IGetActiveDocumentService>()->getActiveDocument();
+    if(activeDocumentHandle == HANDLE_INVALID) {
       throw Error::ErrMsgException("Tried to save a document when no document was selected by the "
       "user.");
     }
 
-    if(m_getDocumentFileInfoService->wasDocumentPreviouslySaved(activeDocumentHandle)) {
+    if(m_services.get<IGetDocumentFileInfoService>()->wasDocumentPreviouslySaved(
+      activeDocumentHandle))
+    {
       using namespace AbstractModel::Defs;
 
       // Just save with this file spec.
-      std::string fileSpec = m_getDocumentFileInfoService->getFileSpec(activeDocumentHandle);
-      FileFormat fileFormat = m_getDocumentFileInfoService->getFileFormat(activeDocumentHandle);
-      m_saveDocumentService->saveDocument(activeDocumentHandle, fileSpec, fileFormat);
+      std::string fileSpec = m_services.get<IGetDocumentFileInfoService>()->getFileSpec(
+        activeDocumentHandle);
+      FileFormat fileFormat = m_services.get<IGetDocumentFileInfoService>()->getFileFormat(
+        activeDocumentHandle);
+      m_services.get<ISaveDocumentService>()->saveDocument(activeDocumentHandle, fileSpec,
+        fileFormat);
     } else {
       // Do like "save as" and open a save dialog.
       m_filePromptProducer->produceView();

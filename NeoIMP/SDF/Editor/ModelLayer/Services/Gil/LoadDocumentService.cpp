@@ -26,16 +26,27 @@
 #include "../file_format_map.hpp"
 #include "../Exceptions.hpp"
 
+#include <boost/uuid/uuid_generators.hpp>
+
 #include <filesystem>
 
 namespace SDF::Editor::ModelLayer::Services::Gil {
   LoadDocumentService::LoadDocumentService(
     AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *a_imageLoader,
-    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever
+    AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever,
+    Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *
+      a_imageAddedMessageDispatcher
   )
-    : m_imageLoader(a_imageLoader),
-      m_imageRetriever(a_imageRetriever)
+    : m_uuid(boost::uuids::random_generator()()),
+      m_imageLoader(a_imageLoader),
+      m_imageRetriever(a_imageRetriever),
+      m_imageAddedMessageDispatcher(a_imageAddedMessageDispatcher)
   {
+  }
+
+  boost::uuids::uuid
+  LoadDocumentService::getUuid() const {
+    return m_uuid;
   }
 
   Common::Handle
@@ -54,6 +65,10 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
     // Name the image after its filename. NB: should this go in this layer?
     std::string name(std::filesystem::path(a_fileSpec).filename());
     m_imageRetriever->retrieve(rv)->setName(name);
+
+    // Notify of the new image.
+    Messages::ImageAdded msg(rv);
+    m_imageAddedMessageDispatcher->dispatchMessage(getUuid(), msg);
 
     return rv;
   }

@@ -33,6 +33,7 @@
 #include "../UILayer/AbstractModel/Metrics/IConvertLengthService.hpp"
 #include "../UILayer/AbstractModel/Metrics/IConvertResolutionService.hpp"
 #include "../UILayer/AbstractModel/Metrics/IGetDocumentDimensionsService.hpp"
+#include "../UILayer/AbstractModel/DocumentMgmt/IDocumentAddedService.hpp"
 #include "../UILayer/AbstractModel/Viewing/IAddViewService.hpp"
 #include "../UILayer/AbstractModel/Viewing/IGetViewCoordinatesService.hpp"
 #include "../UILayer/AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
@@ -56,6 +57,7 @@ namespace SDF::Editor::ModelLayer {
     UILayer::AbstractModel::Metrics::IConvertLengthService,
     UILayer::AbstractModel::Metrics::IConvertResolutionService,
     UILayer::AbstractModel::Metrics::IGetDocumentDimensionsService,
+    UILayer::AbstractModel::DocumentMgmt::IDocumentAddedService,
     UILayer::AbstractModel::Viewing::IAddViewService,
     UILayer::AbstractModel::Viewing::IGetViewCoordinatesService,
     UILayer::AbstractModel::Viewing::ISetViewXCoordinateService,

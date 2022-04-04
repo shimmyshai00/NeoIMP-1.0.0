@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../../Common/Model/ServicePack.hpp"
+
 #include "../../../AbstractModel/Storage/ILoadDocumentService.hpp"
 
 #include "../../View/IController.hpp"
@@ -38,17 +40,14 @@ namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
   // Parameters: None.
   class OnAccept_Open : public View::IController<std::string, std::size_t> {
   public:
-    OnAccept_Open(
-      AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
-      IViewProducer<Common::Handle> *a_documentViewProducer
-    );
+    typedef Common::Model::ServicePack<AbstractModel::Storage::ILoadDocumentService> deps_t;
+  public:
+    OnAccept_Open(deps_t a_deps);
 
     void
     onTrigger(std::string a_fileSpec, std::size_t a_fileFormat);
   private:
-    AbstractModel::Storage::ILoadDocumentService *m_loadDocumentService;
-
-    IViewProducer<Common::Handle> *m_documentViewProducer;
+    deps_t m_services;
   };
 }
 

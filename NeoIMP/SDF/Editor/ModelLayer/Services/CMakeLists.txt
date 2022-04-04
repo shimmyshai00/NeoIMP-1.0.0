@@ -6,6 +6,7 @@ target_sources(neoimp PUBLIC
                DocumentPrefabsService.cpp
                EditorStateModelService.cpp
                DocumentViewStateService.cpp
+               DocumentNotificationService.cpp
                UnitConversionService.cpp
                getMessageComponent.cpp
                getComponent.cpp

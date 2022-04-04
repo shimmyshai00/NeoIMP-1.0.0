@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAKEFILEFILTERLIST_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_MAKEFILEFILTERLIST_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_MAKEFILEFILTERLIST_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_MAKEFILEFILTERLIST_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -30,7 +30,7 @@
 
 #include <cstddef>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   static QStringList
   makeFileFilterList(QString *descriptions, QString *wildcards, std::size_t numElements) {
     QStringList rv;

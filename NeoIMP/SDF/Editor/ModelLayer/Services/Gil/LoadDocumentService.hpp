@@ -24,6 +24,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "../../../../Common/MessageSystem/IMessageDispatcher.hpp"
+#include "../../../../Common/IUUIDable.hpp"
 #include "../../../../Common/Handle.hpp"
 #include "../../../UILayer/AbstractModel/Defs/FileFormat.hpp"
 #include "../../../UILayer/AbstractModel/Storage/ILoadDocumentService.hpp"
@@ -31,6 +33,9 @@
 #include "../../AbstractData/IImageLoader.hpp"
 #include "../../AbstractData/IImageRetriever.hpp"
 
+#include "../Messages/ObjectChanges.hpp"
+
+#include <boost/uuid/uuid.hpp>
 #include <fruit/fruit.h>
 
 #include <string>
@@ -39,12 +44,19 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
   // Class:      LoadDocumentService
   // Purpose:    Implements the ILoadDocumentService interface for the Boost.GIL framework.
   // Parameters: None.
-  class LoadDocumentService : public UILayer::AbstractModel::Storage::ILoadDocumentService {
+  class LoadDocumentService : public UILayer::AbstractModel::Storage::ILoadDocumentService,
+                              public Common::IUUIDable
+  {
   public:
     INJECT(LoadDocumentService(
       AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *a_imageLoader,
-      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever
+      AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *a_imageRetriever,
+      Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *
+        a_imageAddedMessageDispatcher
     ));
+
+    boost::uuids::uuid
+    getUuid() const;
 
     Common::Handle
     loadDocument(
@@ -52,8 +64,12 @@ namespace SDF::Editor::ModelLayer::Services::Gil {
       UILayer::AbstractModel::Defs::FileFormat a_fileFormat
     );
   private:
+    boost::uuids::uuid m_uuid;
+
     AbstractData::IImageLoader<DomainObjects::Engine::Gil::Any_Image> *m_imageLoader;
     AbstractData::IImageRetriever<DomainObjects::Engine::Gil::Any_Image> *m_imageRetriever;
+
+    Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded> *m_imageAddedMessageDispatcher;
   };
 }
 

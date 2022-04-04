@@ -25,21 +25,13 @@
 
 #include "../../../../ModelLayer/getComponent.hpp"
 
-#include "ViewProducers/ProducerFactory.hpp"
-
 #include "ViewProducers/MainWindowProducer.hpp"
-#include "ViewProducers/NewDocumentDialogProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt {
   Component
   getComponent() {
     return fruit::createComponent()
       .bind<Controller::IViewProducer<>, ViewProducers::MainWindowProducer>()
-      .registerFactory<
-        ViewProducers::ProducerFactorySig<ViewProducers::NewDocumentDialogProducer, QWidget *>
-       >([](ViewProducers::NewDocumentDialogProducer::deps_t b_deps, QWidget *b_parent) {
-         return std::make_unique<ViewProducers::NewDocumentDialogProducer>(b_deps, b_parent);
-       })
       .install(ModelLayer::getComponent);
   }
 }

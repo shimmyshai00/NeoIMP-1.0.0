@@ -24,9 +24,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+
+#include "../../../../../Common/Model/ServicePack.hpp"
 #include "../../../../../Common/Handle.hpp"
+
 #include "../../../AbstractModel/Viewing/ISetViewXCoordinateService.hpp"
 #include "../../../AbstractModel/Viewing/ISetViewYCoordinateService.hpp"
+
 #include "../../View/IController.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
@@ -35,12 +39,14 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnHScroll : public View::IController<Common::Handle, float> {
   public:
-    OnHScroll(AbstractModel::Viewing::ISetViewXCoordinateService *a_setViewXCoordinateService);
+    typedef Common::Model::ServicePack<AbstractModel::Viewing::ISetViewXCoordinateService> deps_t;
+  public:
+    OnHScroll(deps_t a_deps);
 
     void
     onTrigger(Common::Handle a_documentHandle, float a_scrollPos);
   private:
-    AbstractModel::Viewing::ISetViewXCoordinateService *m_setViewXCoordinateService;
+    deps_t m_services;
   };
 }
 
@@ -50,12 +56,14 @@ namespace SDF::Editor::UILayer::Gui::Controller::DocumentView {
   // Parameters: None.
   class OnVScroll : public View::IController<Common::Handle, float> {
   public:
-    OnVScroll(AbstractModel::Viewing::ISetViewYCoordinateService *a_setViewYCoordinateService);
+    typedef Common::Model::ServicePack<AbstractModel::Viewing::ISetViewYCoordinateService> deps_t;
+  public:
+    OnVScroll(deps_t a_deps);
 
     void
     onTrigger(Common::Handle a_documentHandle, float a_scrollPos);
   private:
-    AbstractModel::Viewing::ISetViewYCoordinateService *m_setViewYCoordinateService;
+    deps_t m_services;
   };
 }
 

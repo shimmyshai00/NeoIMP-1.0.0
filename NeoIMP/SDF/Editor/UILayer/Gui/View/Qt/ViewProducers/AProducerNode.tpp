@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_PRODUCERFACTORY_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_PRODUCERFACTORY_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_APRODUCERNODE_TPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_APRODUCERNODE_TPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    ProducerFactory.hpp
- * PURPOSE: Defines some helpers to shorten DI references for model service factory dependencies.
+ * FILE:    AProducerNode.tpp
+ * PURPOSE: Implements the AProducerNode template portions.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <fruit/fruit.h>
-
-#include <functional>
-#include <memory>
-
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
-  // Note: each producer must take its services in the form of a Common::Model::ServicePack
-  //       defined under deps_t.
-  template<class P, class ... Args>
-  using ProducerFactory = std::function<std::unique_ptr<P>(Args...)>;
+  template<class U>
+  U *
+  AProducerNode::findChildById(Common::Handle id) {
+    if(m_firstChild->m_id == id) {
+      return dynamic_cast<U *>(m_firstChild.get());
+    } else {
+      AProducerNode *curChild(m_firstChild.get());
+      while(curChild != nullptr) {
+        if(curChild->m_id == id) {
+          return dynamic_cast<U *>(curChild);
+        }
 
-  template<class P, class ... Args>
-  using ProducerFactorySig = std::unique_ptr<P>(typename P::deps_t, fruit::Assisted<Args>...);
+        curChild = curChild->m_nextSibling.get();
+      }
+
+      return nullptr;
+    }
+  }
 }
 
 #endif

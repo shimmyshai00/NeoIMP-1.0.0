@@ -30,6 +30,7 @@
 #include "DocumentPrefabsService.hpp"
 #include "EditorStateModelService.hpp"
 #include "DocumentViewStateService.hpp"
+#include "DocumentNotificationService.hpp"
 
 #include "getMessageComponent.hpp"
 
@@ -42,6 +43,7 @@ namespace SDF::Editor::ModelLayer::Services {
       .bind<UILayer::AbstractModel::Metrics::IConvertResolutionService, Services::UnitConversionService>()
       .bind<UILayer::AbstractModel::Editing::IGetActiveDocumentService, Services::EditorStateModelService>()
       .bind<UILayer::AbstractModel::Editing::ISetActiveDocumentService, Services::EditorStateModelService>()
+      .bind<UILayer::AbstractModel::DocumentMgmt::IDocumentAddedService, Services::DocumentNotificationService>()
       .bind<UILayer::AbstractModel::Viewing::IAddViewService, Services::DocumentViewStateService>()
       .bind<UILayer::AbstractModel::Viewing::IGetViewCoordinatesService, Services::DocumentViewStateService>()
       .bind<UILayer::AbstractModel::Viewing::ISetViewXCoordinateService, Services::DocumentViewStateService>()

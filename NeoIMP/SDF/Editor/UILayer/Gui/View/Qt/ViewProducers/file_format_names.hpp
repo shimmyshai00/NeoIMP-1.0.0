@@ -1,5 +1,5 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_FILE_FORMAT_NAMES_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWS_FILE_FORMAT_NAMES_HPP
+#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_FILE_FORMAT_NAMES_HPP
+#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_FILE_FORMAT_NAMES_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
@@ -29,7 +29,7 @@
 
 #include <QString>
 
-namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
+namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   // These must be in the order in which they are enumerated. Keeping these separate from the
   // extension list, makes it slightly easier to change format names in the future (e.g. with
   // possible implementation of multi-language support) while keeping these changes separate from

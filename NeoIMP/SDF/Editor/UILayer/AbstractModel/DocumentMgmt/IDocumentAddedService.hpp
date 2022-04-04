@@ -1,12 +1,12 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ONACCEPT_HPP
-#define SDF_EDITOR_UILAYER_GUI_CONTROLLER_NEWDOCUMENTDIALOG_ONACCEPT_HPP
+#ifndef SDF_EDITOR_UILAYER_ABSTRACTMODEL_DOCUMENTMGMT_IDOCUMENTADDEDSERVICE_HPP
+#define SDF_EDITOR_UILAYER_ABSTRACTMODEL_DOCUMENTMGMT_IDOCUMENTADDEDSERVICE_HPP
 
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    OnAccept.hpp
- * PURPOSE: Defines the OnAccept class.
+ * FILE:    IDocumentAddedService.hpp
+ * PURPOSE: Defines the IDocumentAddedService interface.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,27 +24,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../Common/Model/ServicePack.hpp"
+#include "../../../../Common/Handle.hpp"
+#include "../../../../Common/IListenable.hpp"
+#include "../../../../Common/IListener.hpp"
+#include "../../../../Common/IConnection.hpp"
 
-#include "../../../AbstractModel/Defs/ImageSpec.hpp"
-#include "../../../AbstractModel/Create/ICreateDocumentService.hpp"
+#include <memory>
 
-#include "../../View/IController.hpp"
-
-namespace SDF::Editor::UILayer::Gui::Controller::NewDocumentDialog {
-  // Class:      OnAccept
-  // Purpose:    Handles the acceptance of a document specification.
+namespace SDF::Editor::UILayer::AbstractModel::DocumentMgmt {
+  // Class:      IDocumentAddedService
+  // Purpose:    Defines a service interface for listening for the addition of new documents to the
+  //             editor.
   // Parameters: None.
-  class OnAccept : public View::IController<AbstractModel::Defs::ImageSpec> {
+  class IDocumentAddedService : public Common::IListenable<Common::Handle> {
   public:
-    typedef Common::Model::ServicePack<AbstractModel::Create::ICreateDocumentService> deps_t;
-  public:
-    OnAccept(deps_t a_deps);
+    virtual ~IDocumentAddedService() = default;
 
-    void
-    onTrigger(AbstractModel::Defs::ImageSpec a_imageSpec);
-  private:
-    deps_t m_services;
+    virtual Common::PIConnection
+    addListener(std::shared_ptr<Common::IListener<Common::Handle>> a_listener) = 0;
   };
 }
 

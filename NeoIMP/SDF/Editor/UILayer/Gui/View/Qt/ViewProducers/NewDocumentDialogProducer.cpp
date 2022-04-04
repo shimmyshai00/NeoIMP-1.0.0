@@ -23,21 +23,40 @@
 
 #include "NewDocumentDialogProducer.hpp"
 
+#include "../../../Controller/NewDocumentDialog/OnAccept.hpp"
+
 #include "../Views/NewDocumentDialog.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
-  NewDocumentDialogProducer::NewDocumentDialogProducer(deps_t a_deps, QPointer<QWidget> a_parent)
-    : m_services(a_deps),
-      m_parent(a_parent)
+  NewDocumentDialogProducer::NewDocumentDialogProducer(
+    deps_t a_deps,
+    Common::Handle a_id,
+    AProducerNode *a_parent
+  )
+    : AProducerNode(a_id, a_parent),
+      m_services(a_deps)
   {
+  }
+
+  QWidget *
+  NewDocumentDialogProducer::getViewWidget() {
+    return m_newDocumentDialog;
   }
 
   void
   NewDocumentDialogProducer::produceView() {
+    using namespace Controller::NewDocumentDialog;
+    using namespace Views;
+
     if(!m_newDocumentDialog) {
-      m_newDocumentDialog = new Views::NewDocumentDialog(m_services, m_parent);
+      m_newDocumentDialog = new NewDocumentDialog(m_services, getParent()->getViewWidget());
       m_newDocumentDialog->setAttribute(::Qt::WA_DeleteOnClose);
-      m_newDocumentDialog->show();
+
+      auto onAcceptController = std::make_unique<OnAccept>(m_services);
+
+      m_newDocumentDialog->hookOnAccept(std::move(onAcceptController))->connect();
+
+      m_newDocumentDialog->exec();
     }
   }
 }

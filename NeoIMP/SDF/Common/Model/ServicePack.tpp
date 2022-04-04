@@ -39,7 +39,8 @@ namespace SDF::Common::Model {
   template<class ... Supers>
   ServicePack<Ss...>::ServicePack(const ServicePack<Supers...> &superPack)
     : m_serviceTuple(
-        std::get<boost::mp11::mp_find<tuple_t, Ss *>::value>(superPack.m_serviceTuple)...
+        std::get<boost::mp11::mp_find<typename ServicePack<Supers...>::tuple_t, Ss *>::value>
+          (superPack.m_serviceTuple)...
       )
   {
   }

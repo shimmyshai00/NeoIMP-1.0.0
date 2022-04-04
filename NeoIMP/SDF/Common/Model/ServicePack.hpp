@@ -24,6 +24,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <boost/mp11/list.hpp>
+#include <boost/mp11/set.hpp>
+
 #include <fruit/fruit.h>
 
 #include <tuple>
@@ -50,7 +53,14 @@ namespace SDF::Common::Model {
   private:
     typedef std::tuple<Ss *...> tuple_t;
     tuple_t m_serviceTuple;
+
+    template<class ... Ts>
+    friend class ServicePack; // nb: hackish
   };
+
+  // ... aaaaaand for pooling dependencies, I found Boost::Mp11 to have some real gems!
+  template<class ... Packs>
+  using UnionPack = boost::mp11::mp_apply<ServicePack, boost::mp11::mp_set_union<Packs...>>;
 }
 
 #include "ServicePack.tpp"

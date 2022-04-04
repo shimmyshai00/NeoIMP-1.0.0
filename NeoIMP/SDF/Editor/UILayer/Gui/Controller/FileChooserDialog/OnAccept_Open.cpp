@@ -28,23 +28,20 @@
 #include "../../state_keys.hpp"
 
 namespace SDF::Editor::UILayer::Gui::Controller::FileChooserDialog {
-  OnAccept_Open::OnAccept_Open(
-    AbstractModel::Storage::ILoadDocumentService *a_loadDocumentService,
-    IViewProducer<Common::Handle> *a_documentViewProducer
-  )
-    : m_loadDocumentService(a_loadDocumentService),
-      m_documentViewProducer(a_documentViewProducer)
+  OnAccept_Open::OnAccept_Open(deps_t a_deps)
+    : m_services(a_deps)
   {
   }
 
   void
   OnAccept_Open::onTrigger(std::string a_fileSpec, std::size_t a_fileFormat) {
-    if(a_fileFormat < AbstractModel::Defs::FILE_FORMAT_MAX) {
-      Common::Handle loadedDocumentHandle;
-      loadedDocumentHandle = m_loadDocumentService->loadDocument(a_fileSpec,
-        static_cast<AbstractModel::Defs::FileFormat>(a_fileFormat));
+    using namespace AbstractModel::Defs;
+    using namespace AbstractModel::Storage;
 
-      m_documentViewProducer->produceView(loadedDocumentHandle);
+    if(a_fileFormat < FILE_FORMAT_MAX) {
+      Common::Handle loadedDocumentHandle;
+      loadedDocumentHandle = m_services.get<ILoadDocumentService>()->loadDocument(a_fileSpec,
+        static_cast<FileFormat>(a_fileFormat));
     } else {
       throw Error::ErrMsgException("Unknown file format specified! Cannot save to that.");
     }

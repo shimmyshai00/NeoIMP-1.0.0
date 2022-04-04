@@ -25,6 +25,7 @@
  */
 
 #include "../../../Common/MessageSystem/IMessageDispatcher.hpp"
+#include "../../../Common/MessageSystem/ISubscribable.hpp"
 #include "Messages/ObjectChanges.hpp"
 
 #include <fruit/fruit.h>
@@ -32,7 +33,9 @@
 namespace SDF::Editor::ModelLayer::Services {
   typedef fruit::Component<
     Common::MessageSystem::IMessageDispatcher<Messages::ImageAdded>,
-    Common::MessageSystem::IMessageDispatcher<Messages::ImageRemoved>
+    Common::MessageSystem::IMessageDispatcher<Messages::ImageRemoved>,
+    Common::MessageSystem::ISubscribable<Messages::ImageAdded>,
+    Common::MessageSystem::ISubscribable<Messages::ImageRemoved>
   > MessageComponent;
 
   MessageComponent
