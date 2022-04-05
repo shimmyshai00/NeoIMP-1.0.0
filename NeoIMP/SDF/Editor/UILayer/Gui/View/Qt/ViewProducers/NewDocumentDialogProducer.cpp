@@ -24,8 +24,12 @@
 #include "NewDocumentDialogProducer.hpp"
 
 #include "../../../Controller/NewDocumentDialog/OnAccept.hpp"
+#include "../../../Controller/NewDocumentDialog/OnColorRequest.hpp"
 
 #include "../Views/NewDocumentDialog.hpp"
+
+#include "producer_ids.hpp"
+#include "ColorChooserDialogProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
   NewDocumentDialogProducer::NewDocumentDialogProducer(
@@ -36,6 +40,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
     : AProducerNode(a_id, a_parent),
       m_services(a_deps)
   {
+    auto colorChooserDialogProducer = new ColorChooserDialogProducer(m_services,
+      NEW_DOCUMENT_COLOR_CHOOSER_DIALOG_PRODUCER, this);
   }
 
   QWidget *
@@ -53,8 +59,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
       m_newDocumentDialog->setAttribute(::Qt::WA_DeleteOnClose);
 
       auto onAcceptController = std::make_unique<OnAccept>(m_services);
+      auto onColorRequestController = std::make_unique<OnColorRequest>(m_services,
+        findChildById<ColorChooserDialogProducer>(NEW_DOCUMENT_COLOR_CHOOSER_DIALOG_PRODUCER));
 
       m_newDocumentDialog->hookOnAccept(std::move(onAcceptController))->connect();
+      m_newDocumentDialog->hookOnColorRequest(std::move(onColorRequestController))->connect();
 
       m_newDocumentDialog->exec();
     }

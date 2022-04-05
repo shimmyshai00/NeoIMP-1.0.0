@@ -135,4 +135,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::Color {
       }
     }
   }
+
+  void
+  ColorSwatch::mouseReleaseEvent(QMouseEvent *a_event) {
+    clicked();
+  }
 }

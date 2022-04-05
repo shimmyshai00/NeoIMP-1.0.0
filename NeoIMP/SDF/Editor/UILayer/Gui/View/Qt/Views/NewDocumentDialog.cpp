@@ -216,6 +216,11 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   NewDocumentDialog::hookOnReject(std::unique_ptr<IController<>> controller) {
     return m_onRejectEvent.hook(std::move(controller));
   }
+
+  Common::PIConnection
+  NewDocumentDialog::hookOnColorRequest(std::unique_ptr<IController<>> controller) {
+    return m_onColorRequestEvent.hook(std::move(controller));
+  }
 }
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
@@ -286,6 +291,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
   void
   NewDocumentDialog::showColorSelector() {
     using namespace AbstractModel::Color;
+    using namespace CustomWidgets::Color;
     using namespace CustomWidgets;
 
     m_colorPickerLabel = new QLabel("Color:");
@@ -295,6 +301,8 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
 
     m_backgroundSwatch = new Color::ColorSwatch(m_services.get<IUiColorConversionService>());
     m_ui->horizontalLayout_4->insertWidget(2, m_backgroundSwatch);
+
+    connect(m_backgroundSwatch, &ColorSwatch::clicked, [&]() { m_onColorRequestEvent.trigger(); });
   }
 
   void

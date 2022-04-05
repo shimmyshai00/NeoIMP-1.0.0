@@ -3,5 +3,7 @@ target_sources(neoimp PUBLIC
   Icons.qrc
   MainWindow.ui
   NewDocumentDialog.ui
+  ColorChooserDialog.ui
+  ColorChooserAdvancedDialog.ui
   Toolbox.ui
 )

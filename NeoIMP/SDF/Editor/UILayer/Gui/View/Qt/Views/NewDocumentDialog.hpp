@@ -70,6 +70,9 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
 
     Common::PIConnection
     hookOnReject(std::unique_ptr<IController<>> controller);
+
+    Common::PIConnection
+    hookOnColorRequest(std::unique_ptr<IController<>> controller);
   private:
     Ui::NewDocumentDialog *m_ui;
 
@@ -78,6 +81,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::Views {
 
     QtEvent<AbstractModel::Defs::ImageSpec> m_onAcceptEvent;
     QtEvent<> m_onRejectEvent;
+    QtEvent<> m_onColorRequestEvent;
 
     deps_t m_services;
     AbstractModel::Defs::ImageSpec m_protoSpec;

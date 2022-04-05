@@ -1,12 +1,9 @@
-#ifndef SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_PRODUCER_IDS_HPP
-#define SDF_EDITOR_UILAYER_GUI_VIEW_QT_VIEWPRODUCERS_PRODUCER_IDS_HPP
-
 /*
  * NeoIMP version 1.0.0 (STUB) - toward an easier-to-maintain GIMP alternative.
  * (C) 2020 Shimrra Shai. Distributed under both GPLv3 and MPL licenses.
  *
- * FILE:    producer_ids.hpp
- * PURPOSE: Defines unique ID codes for the view producers in the producer hierarchy.
+ * FILE:    ColorChooserAdvancedDialogProducer.cpp
+ * PURPOSE: Implements the ColorChooserAdvancedDialogProducer class.
  */
 
 /* This program is free software: you can redistribute it and/or modify
@@ -24,19 +21,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "../../../../../../Common/Handle.hpp"
+#include "ColorChooserAdvancedDialogProducer.hpp"
 
 namespace SDF::Editor::UILayer::Gui::View::Qt::ViewProducers {
-  static const Common::Handle MAIN_WINDOW_PRODUCER = 0;
-  static const Common::Handle MAIN_WINDOW_NEW_DOCUMENT_DIALOG_PRODUCER = 1;
-  static const Common::Handle MAIN_WINDOW_OPEN_DIALOG_PRODUCER = 2;
-  static const Common::Handle MAIN_WINDOW_SAVE_AS_DIALOG_PRODUCER = 3;
+  ColorChooserAdvancedDialogProducer::ColorChooserAdvancedDialogProducer(
+    deps_t a_deps,
+    Common::Handle a_id,
+    AProducerNode *a_parent
+  )
+    : AProducerNode(a_id, a_parent),
+      m_services(a_deps)
+  {
+  }
 
-  static const Common::Handle NEW_DOCUMENT_COLOR_CHOOSER_DIALOG_PRODUCER = 4;
+  QWidget *
+  ColorChooserAdvancedDialogProducer::getViewWidget() {
+    return m_colorChooserAdvancedDialog;
+  }
 
-  static const Common::Handle COLOR_CHOOSER_CC_ADVANCED_DIALOG_PRODUCER = 5;
+  void
+  ColorChooserAdvancedDialogProducer::produceView() {
+    using namespace Views;
 
-  static const Common::Handle MAIN_WINDOW_DOCUMENT_VIEW_PRODUCERS_BEGIN = 10000;
+    if(!m_colorChooserAdvancedDialog) {
+      m_colorChooserAdvancedDialog = new ColorChooserAdvancedDialog(getParent()->getViewWidget());
+      m_colorChooserAdvancedDialog->setAttribute(::Qt::WA_DeleteOnClose);
+
+      m_colorChooserAdvancedDialog->exec();
+    }
+  }
 }
-
-#endif

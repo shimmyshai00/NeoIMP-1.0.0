@@ -4,4 +4,6 @@ target_sources(neoimp PUBLIC
   NewDocumentDialogProducer.cpp
   DocumentViewProducer.cpp
   FileDialogProducer.cpp
+  ColorChooserDialogProducer.cpp
+  ColorChooserAdvancedDialogProducer.cpp
 )

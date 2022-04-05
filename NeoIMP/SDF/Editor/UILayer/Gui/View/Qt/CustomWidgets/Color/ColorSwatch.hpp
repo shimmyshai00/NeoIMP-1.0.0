@@ -39,6 +39,7 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::Color {
   //             scheme.
   // Parameters: None.
   class ColorSwatch : public QWidget {
+    Q_OBJECT
   public:
     ColorSwatch(
       AbstractModel::Color::IUiColorConversionService *a_uiColorConversionService,
@@ -79,9 +80,15 @@ namespace SDF::Editor::UILayer::Gui::View::Qt::CustomWidgets::Color {
       std::shared_ptr<AbstractModel::Defs::Color::IColor<AbstractModel::Defs::Color::ColorFormat>>
         a_color
     );
+  signals:
+    void
+    clicked();
   protected:
     void
     paintEvent(QPaintEvent *a_event) override;
+
+    void
+    mouseReleaseEvent(QMouseEvent *a_event) override;
   private:
     AbstractModel::Color::IUiColorConversionService *m_uiColorConversionService;
 
