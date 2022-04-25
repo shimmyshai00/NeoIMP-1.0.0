@@ -1,3 +1,10 @@
+NOTE (2022-04-25): THIS ARCHIVE IS NOW RETIRED. The NeoIMP project continues but this one
+is a bit of a mess and we're doing another go-over of the program (yess ... but this author
+keeps learning more and more about how to interpret the "good code" principles) but also
+because this repository is full of sloppy past commits and stuff, and it's also kind of
+presumptive to have called this a "version 1.0.0"; seems like "0.0.1" is more appropriate.
+Head over our new github folder for more! -SS
+
 NeoIMP STUB version 1.0.0. The seed of a (hopefully) more maintainable GIMP alternative.
 (C) 2020-2021 Shimrra Shai. Distributed under GPLv3 and MPL licenses - see COPYING for more.
 
